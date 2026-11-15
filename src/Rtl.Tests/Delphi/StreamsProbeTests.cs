@@ -7,8 +7,8 @@ public sealed class StreamsProbeTests
     [ProbeFact("streams")]
     public void StreamsFixture()
     {
-        using var directory = new ProbeDirectory();
-        var p = new ProbeLines("streams");
+        using ProbeDirectory directory = new();
+        ProbeLines p = new("streams");
         void State(string tag, Stream s)
         {
             p.Fact(tag + "_position", s.Position);
@@ -138,7 +138,7 @@ public sealed class StreamsProbeTests
             State(tag + "_shrink2", s);
         }
 
-        using (var m = new MemoryStream())
+        using (MemoryStream m = new())
         {
             p.Fact("memory_capacity_initial", m.Capacity);
             Exercise("memory", m);
@@ -155,13 +155,13 @@ public sealed class StreamsProbeTests
             p.Fact("memory_capacity8193", m.Capacity);
         }
 
-        using (var f = OpenFile("probe-stream.bin", fmCreate))
+        using (Stream f = OpenFile("probe-stream.bin", fmCreate))
         {
             Exercise("file", f);
         }
 
         byte[] buffer = new byte[61457];
-        using (var f = OpenFile("probe-stream.bin", fmOpenRead | fmShareDenyWrite))
+        using (Stream f = OpenFile("probe-stream.bin", fmOpenRead | fmShareDenyWrite))
         {
             State("file_reopened", f);
             p.Fact("file_readonly_write", Written(f, buffer.AsSpan(0, 1)));
@@ -171,8 +171,8 @@ public sealed class StreamsProbeTests
         }
 
         p.Fact("file_deleted", Ord(DeleteFile("probe-stream.bin")));
-        using var source = new MemoryStream();
-        using var destination = new MemoryStream();
+        using MemoryStream source = new();
+        using MemoryStream destination = new();
         void Both(string tag)
         {
             State(tag + "_source", source);

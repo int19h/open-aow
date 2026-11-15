@@ -72,7 +72,7 @@ public static class DocumentValidation
                 { File = file, Span = rootValue.Span, Path = "root" });
             }
 
-            var schema = GameFiles.Schema;
+            FormatSchema schema = GameFiles.Schema;
             SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default, ExportOptions.Default), root: root);
             JsonObject body = root;
             if (profile.RootHasClass)
@@ -80,7 +80,7 @@ public static class DocumentValidation
                 // The copy drops $class, which is not a member of the class. The member objects
                 // stay, so a refusal of a root member still names the line and column.
                 body = new JsonObject { Span = root.Span };
-                foreach (var member in root.Members)
+                foreach (JsonMember member in root.Members)
                 {
                     if (member.Name != "$class")
                     {
@@ -92,7 +92,7 @@ public static class DocumentValidation
         }
         catch (ConversionException error)
         {
-            var diagnostic = error.Diagnostic;
+            FormatDiagnostic diagnostic = error.Diagnostic;
             if (diagnostic.File is null && file is not null)
             {
                 diagnostic = diagnostic with { File = file };
@@ -100,9 +100,9 @@ public static class DocumentValidation
 
             return new DocumentCheck(Findings: [diagnostic]);
         }
-        var findings = new List<FormatDiagnostic>();
-        var context = new ValidationContext(document, profile, kind, file);
-        foreach (var validator in validators)
+        List<FormatDiagnostic> findings = new();
+        ValidationContext context = new(document, profile, kind, file);
+        foreach (IDocumentValidator validator in validators)
         {
             findings.AddRange(validator.Validate(context));
         }

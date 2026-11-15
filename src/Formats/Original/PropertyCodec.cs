@@ -257,7 +257,7 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
             throw Mismatch(context, start, site, $"An integer of {width} bytes is stored in {end - start} bytes.");
         }
 
-        var bytes = context.Data.AsSpan(start, width);
+        Span<byte> bytes = context.Data.AsSpan(start, width);
         long value = width switch
         {
             1 => signed ? (sbyte)bytes[0] : bytes[0],
@@ -404,7 +404,7 @@ internal sealed partial class StringCodec : PropertyCodec
             throw context.Fail(Codes.Type, $"{site.Property.Name} is a string.", value, site.Path, value.KindName);
         }
 
-        var bytes = TextCodec.Encode(context, s.Value, value, site.Path);
+        byte[] bytes = TextCodec.Encode(context, s.Value, value, site.Path);
         if (bytes.Length >= 255 || site.Reader?.Prefixes.Contains(site.Id) == true)
         {
             data.Byte(255);
@@ -454,8 +454,8 @@ internal partial class StringsCodec : PropertyCodec
             return null;
         }
 
-        var lines = text[..^2].Split("\r\n");
-        foreach (var line in lines)
+        string[] lines = text[..^2].Split("\r\n");
+        foreach (string line in lines)
         {
             if (line.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
             {
@@ -493,14 +493,14 @@ internal partial class StringsCodec : PropertyCodec
 
     internal static JsonValue TextValue(string text)
     {
-        var lines = Lines(text);
+        List<string>? lines = Lines(text);
         if (lines is null)
         {
             return new JsonObject().Add("$text", new JsonString(text));
         }
 
-        var array = new JsonArray();
-        foreach (var line in lines)
+        JsonArray array = new();
+        foreach (string line in lines)
         {
             array.Add(new JsonString(line));
         }
@@ -512,7 +512,7 @@ internal partial class StringsCodec : PropertyCodec
     {
         if (value is JsonArray array)
         {
-            var parts = new string[array.Items.Count];
+            string[] parts = new string[array.Items.Count];
             for (int i = 0; i < array.Items.Count; i++)
             {
                 if (array.Items[i] is not JsonString line)
@@ -540,7 +540,7 @@ internal partial class StringsCodec : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var (text, after) = Block(context, start, end, site);
+        (string? text, int after) = Block(context, start, end, site);
         if (after != end)
         {
             throw Mismatch(context, start, site, "Bytes follow the text block.");
@@ -556,14 +556,14 @@ internal partial class StringsCodec : PropertyCodec
             CheckOnly(context, objectValue, site.Path, "$text");
         }
 
-        var bytes = TextCodec.Encode(context, TextOf(context, value, site.Path, out _), value, site.Path);
+        byte[] bytes = TextCodec.Encode(context, TextOf(context, value, site.Path, out _), value, site.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
     }
 
     protected static void CheckOnly(EncodeContext context, JsonObject objectValue, DocumentNodePath path, params string[] names)
     {
-        foreach (var m in objectValue.Members)
+        foreach (JsonMember m in objectValue.Members)
         {
             if (Array.IndexOf(names, m.Name) < 0)
             {
@@ -580,7 +580,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
 {
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var (text, after) = Block(context, start, end, site);
+        (string? text, int after) = Block(context, start, end, site);
         if ((end - after) % 4 != 0)
         {
             throw Mismatch(context, start, site, "The object values are not whole 32-bit integers.");
@@ -592,20 +592,20 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
             throw Mismatch(context, start, site, $"The text has {LineCount(text)} lines and {count} object values.");
         }
 
-        var objects = new JsonArray();
+        JsonArray objects = new();
         for (int i = 0; i < count; i++)
         {
             objects.Add(new JsonInteger(context.Int32(after + (4 * i))));
         }
 
-        var lines = Lines(text);
+        List<string>? lines = Lines(text);
         if (lines is null)
         {
             return new JsonObject().Add("$text", new JsonString(text)).Add("objects", objects);
         }
 
-        var array = new JsonArray();
-        foreach (var line in lines)
+        JsonArray array = new();
+        foreach (string line in lines)
         {
             array.Add(new JsonString(line));
         }
@@ -620,11 +620,11 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
             throw context.Fail(Codes.Type, $"{site.Property.Name} is an object with lines or $text, and objects.", value, site.Path, value.KindName);
         }
 
-        var (text, ids) = ReadMembers(context, objectValue, site.Path);
-        var bytes = TextCodec.Encode(context, text, value, site.Path);
+        (string? text, List<int>? ids) = ReadMembers(context, objectValue, site.Path);
+        byte[] bytes = TextCodec.Encode(context, text, value, site.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
-        foreach (var id in ids)
+        foreach (int id in ids)
         {
             data.Int32(id);
         }
@@ -634,15 +634,15 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
     {
         bool hasText = objectValue.Find("$text") is not null;
         CheckOnly(context, objectValue, path, hasText ? "$text" : "lines", "objects");
-        var textValue = hasText ? objectValue : objectValue["lines"] ?? throw context.Fail(Codes.MissingMember, "lines or $text is required.", objectValue, path);
+        JsonValue textValue = hasText ? objectValue : objectValue["lines"] ?? throw context.Fail(Codes.MissingMember, "lines or $text is required.", objectValue, path);
         string text = TextOf(context, textValue, path.Member(hasText ? "$text" : "lines"), out int lines);
-        var objects = objectValue["objects"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "objects is an array of integers.", objectValue, path);
+        JsonArray objects = objectValue["objects"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "objects is an array of integers.", objectValue, path);
         if (objects.Items.Count != lines)
         {
             throw context.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects, path.Member("objects"));
         }
 
-        var ids = new List<int>(objects.Items.Count);
+        List<int> ids = new(objects.Items.Count);
         for (int i = 0; i < objects.Items.Count; i++)
         {
             if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
@@ -674,7 +674,7 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        var bytes = HexValue(context, value, site);
+        byte[] bytes = HexValue(context, value, site);
         if (size is int n && bytes.Length != n)
         {
             throw context.Fail(Codes.Range, $"{site.Property.Name} holds exactly {n} bytes.", value, site.Path, Text(bytes.Length), $"{n} bytes");
@@ -725,7 +725,7 @@ internal sealed class FloatCodec(int width) : PropertyCodec
             throw context.Fail(Codes.Type, $"{site.Property.Name} is {{ \"$bits\": ... }}.", value, site.Path, value.KindName);
         }
 
-        var bytes = DataCodec.HexValue(context, objectValue["$bits"]!, site);
+        byte[] bytes = DataCodec.HexValue(context, objectValue["$bits"]!, site);
         if (bytes.Length != width)
         {
             throw context.Fail(Codes.Range, $"$bits holds {width} bytes.", objectValue["$bits"], site.Path.Member("$bits"));

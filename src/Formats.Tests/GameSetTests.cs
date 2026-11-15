@@ -36,13 +36,13 @@ public sealed class GameSetTests : FormatsTest
     [MemberData(nameof(Files))]
     public void AGameSetFileRoundTripsOnBothBackends(string relative, string rootClass, string engine)
     {
-        var bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
-        var profile = new WrittenObjectProfile("pfs", ["pfs"], rootClass, engine);
-        var body = bytes[4..^4];
-        var imported = GameFiles.Import(body, profile, "pfs", relative);
+        byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
+        WrittenObjectProfile profile = new("pfs", ["pfs"], rootClass, engine);
+        byte[] body = bytes[4..^4];
+        ImportResult imported = GameFiles.Import(body, profile, "pfs", relative);
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
-        var container = (JsonObject)imported.Document["$container"]!;
-        var root = (JsonObject)imported.Document["root"]!;
+        JsonObject container = (JsonObject)imported.Document["$container"]!;
+        JsonObject root = (JsonObject)imported.Document["root"]!;
         Assert.Equal(body, profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default, ExportOptions.Default), container: container, root: root));
         Prove(root, FormatSchema.Current.Get(rootClass), engine, relative);
     }
@@ -51,21 +51,21 @@ public sealed class GameSetTests : FormatsTest
     public void TheScenarioSetRoundTripsOnBothBackends()
     {
         const string relative = "Release/Release.hss";
-        var bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
-        var profile = FileProfile.Find("scenario-set")!;
-        var imported = GameFiles.Import(bytes, profile, "scenario-set", relative);
-        var exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), relative).Document, null, relative);
+        byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
+        FileProfile profile = FileProfile.Find("scenario-set")!;
+        ImportResult imported = GameFiles.Import(bytes, profile, "scenario-set", relative);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), relative).Document, null, relative);
         Assert.Equal(bytes, exported.Bytes);
         Prove((JsonObject)imported.Document["root"]!, FormatSchema.Current.Get(profile.RootFamily), profile.Engine, relative);
     }
 
     private static void Prove(JsonObject root, SchemaClass classValue, string engine, string label)
     {
-        var schema = FormatSchema.Current;
-        var image = PilotImage.Encode(root, classValue.Name, engine);
-        var tree = OriginalBackend.Read(image, classValue, schema, engine);
-        var direct = OriginalBackend.Write(tree, classValue, schema, engine);
-        var expected = PilotImage.Decode(direct, classValue.Name, engine);
+        FormatSchema schema = FormatSchema.Current;
+        byte[] image = PilotImage.Encode(root, classValue.Name, engine);
+        ObjectNode tree = OriginalBackend.Read(image, classValue, schema, engine);
+        byte[] direct = OriginalBackend.Write(tree, classValue, schema, engine);
+        JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
         Assert.True(Same(WithoutLayout(PilotImage.Decode(image, classValue.Name, engine)), expected), label + " direct read");
         Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, classValue.Name, engine)), label + " direct canonical");
         Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), label + " direct document");
@@ -77,7 +77,7 @@ public sealed class GameSetTests : FormatsTest
     private static JsonObject WithoutLayout(JsonObject objectValue)
     {
         objectValue.Members.RemoveAll(member => member.Name == "$layout");
-        foreach (var member in objectValue.Members)
+        foreach (JsonMember member in objectValue.Members)
         {
             WithoutLayout(member.Value);
         }
@@ -93,7 +93,7 @@ public sealed class GameSetTests : FormatsTest
         }
         else if (value is JsonArray array)
         {
-            foreach (var item in array.Items)
+            foreach (JsonValue item in array.Items)
             {
                 WithoutLayout(item);
             }

@@ -51,10 +51,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         VideoDialog.DesktopSize = () => host.DesktopSize;
         VideoDialog.FullscreenSizes = () => host.FullscreenSizes;
         Startup.InitializeAll();
-        var engine = Startup.CreateEngine();
+        GameEngine engine = Startup.CreateEngine();
         SdlSoundSystem.Install(mute, audioOutput);
-        var layouts = new LayoutSession();
-        var ui = new UIContext(engine);
+        LayoutSession layouts = new();
+        UIContext ui = new(engine);
         try
         {
             GameLayouts.Initialize(layouts, ui: ui);
@@ -68,7 +68,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             ui.Dispose();
             throw;
         }
-        MainForm form = new MainForm(host, layouts: layouts, ui: ui);
+        MainForm form = new(host, layouts: layouts, ui: ui);
         try { form.Initialize(argument); return form; }
         catch { form.Dispose(); throw; }
     }
@@ -96,23 +96,23 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         _windowState = UI.Engine.Registry.GetMainWindowState();
         UI.SoundDialog.MusicVolumeSlider.Position = UI.Engine.Registry.GetMusicVolume();
         UI.SoundDialog.EffectsVolumeSlider.Position = UI.Engine.Registry.GetSfxVolume();
-        var settings = UI.SoundDialog.Settings;
+        SoundSettings settings = UI.SoundDialog.Settings;
         settings.MusicEnabled = UI.Engine.Registry.GetMusicEnabled();
         UI.SoundDialog.Settings = settings;
-        var settings2 = UI.SoundDialog.Settings;
+        SoundSettings settings2 = UI.SoundDialog.Settings;
         settings2.SfxEnabled = UI.Engine.Registry.GetSfxEnabled();
         UI.SoundDialog.Settings = settings2;
-        var settings3 = UI.SoundDialog.Settings;
+        SoundSettings settings3 = UI.SoundDialog.Settings;
         settings3.UseDirectSound = UI.Engine.Registry.GetUseDirectSound();
         UI.SoundDialog.Settings = settings3;
         UI.SoundDialog.SoundQuality = UI.Engine.Registry.GetSoundQuality();
-        var settings4 = UI.SoundDialog.Settings;
+        SoundSettings settings4 = UI.SoundDialog.Settings;
         settings4.SampleVoices = 16;
         UI.SoundDialog.Settings = settings4;
-        var settings5 = UI.SoundDialog.Settings;
+        SoundSettings settings5 = UI.SoundDialog.Settings;
         settings5.SampleRate = UI.SoundDialog.SoundQuality == 1 ? 22050 : 44100;
         UI.SoundDialog.Settings = settings5;
-        var settings6 = UI.SoundDialog.Settings;
+        SoundSettings settings6 = UI.SoundDialog.Settings;
         settings6.OutputMode = UI.SoundDialog.SoundQuality switch
         {
             1 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8),
@@ -132,9 +132,9 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         UI.General.Manager.WinWidth = Display.BackSurfaceWidth;
         UI.General.Manager.WinHeight = Display.BackSurfaceHeight;
         UI.General.Manager.Aligned = false;
-        var name = UI.Engine.Registry.GetString(0);
+        string name = UI.Engine.Registry.GetString(0);
         if (!RtlUnit.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
-        var address = UI.Engine.Registry.GetString(1);
+        string address = UI.Engine.Registry.GetString(1);
         if (!RtlUnit.IsEmpty(address))
         {
             UI.MultiWindow.IPAddressEdit.Text = address;
@@ -289,7 +289,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
-            var image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
+            LibraryImage image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
             if (image is null)
             {
                 return;
@@ -297,7 +297,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
             if (StrategicMap.Current.SeatedPlayer != -1 && StrategicMap.Current.CombatMap is null)
             {
-                var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
                     image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));
@@ -403,7 +403,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (_created)
         {
             UI.General.SaveLayout();
-            var registry = UI.Engine.Registry;
+            GameSettings registry = UI.Engine.Registry;
             registry.SetMainWindowState(_windowState);
             registry.SetString(0, UI.MultiWindow.TcpNameEdit.Text);
             registry.SetString(1, UI.MultiWindow.IPAddressEdit.Text);

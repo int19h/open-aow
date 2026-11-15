@@ -31,7 +31,7 @@ public sealed class JsonReader
     /// <summary>Decodes strict UTF-8 and parses it. The bytes are never retried as another format.</summary>
     public static JsonValue Parse(ReadOnlySpan<byte> utf8, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
-        var encoding = new UTF8Encoding(false, true);
+        UTF8Encoding encoding = new(false, true);
         string text;
         try
         {
@@ -51,14 +51,14 @@ public sealed class JsonReader
 
     public static JsonValue Parse(string text, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
-        var reader = new JsonReader(text, file, decompressed, limits ?? FormatLimits.Default);
+        JsonReader reader = new(text, file, decompressed, limits ?? FormatLimits.Default);
         if (reader.Peek() == '\uFEFF')
         {
             reader._position++;
         }
 
         reader.SkipWhitespace();
-        var value = reader.ReadValue(0);
+        JsonValue value = reader.ReadValue(0);
         reader.SkipWhitespace();
         if (reader._position < text.Length)
         {
@@ -142,7 +142,7 @@ public sealed class JsonReader
             throw Error(Codes.Syntax, "The document ends where a value is expected.");
         }
 
-        var span = Here;
+        TextSpan span = Here;
         CountNode(span);
         char c = _text[_position];
         JsonValue value;
@@ -208,7 +208,7 @@ public sealed class JsonReader
     private JsonObject ReadObject(int depth)
     {
         CheckDepth(depth);
-        var result = new JsonObject();
+        JsonObject result = new();
         _position++;
         SkipWhitespace();
         if (Peek() == '}')
@@ -216,7 +216,7 @@ public sealed class JsonReader
             _position++;
             return result;
         }
-        var names = new Dictionary<string, TextSpan>(StringComparer.Ordinal);
+        Dictionary<string, TextSpan> names = new(StringComparer.Ordinal);
         while (true)
         {
             SkipWhitespace();
@@ -225,9 +225,9 @@ public sealed class JsonReader
                 throw Error(Codes.Syntax, Peek() == '}' ? "A trailing comma precedes '}'." : "A member name is expected.");
             }
 
-            var nameSpan = Here;
+            TextSpan nameSpan = Here;
             string name = ReadString();
-            if (names.TryGetValue(name, out var first))
+            if (names.TryGetValue(name, out TextSpan first))
             {
                 throw Error(Codes.Duplicate, $"Member \"{name}\" is declared twice, first at {first.Line}:{first.Column}.", nameSpan, name);
             }
@@ -241,7 +241,7 @@ public sealed class JsonReader
 
             _position++;
             SkipWhitespace();
-            var value = ReadValue(depth);
+            JsonValue value = ReadValue(depth);
             result.Members.Add(new JsonMember(name, value) { NameSpan = nameSpan });
             if (result.Members.Count > _limits.CollectionItems)
             {
@@ -267,7 +267,7 @@ public sealed class JsonReader
     private JsonArray ReadArray(int depth)
     {
         CheckDepth(depth);
-        var result = new JsonArray();
+        JsonArray result = new();
         _position++;
         SkipWhitespace();
         if (Peek() == ']')
@@ -307,9 +307,9 @@ public sealed class JsonReader
 
     private string ReadString()
     {
-        var start = Here;
+        TextSpan start = Here;
         _position++;
-        var builder = new StringBuilder();
+        StringBuilder builder = new();
         while (true)
         {
             if (_position >= _text.Length)
@@ -384,7 +384,7 @@ public sealed class JsonReader
 
     private JsonValue ReadNumber()
     {
-        var start = Here;
+        TextSpan start = Here;
         int begin = _position;
         if (Peek() == '-')
         {
@@ -443,7 +443,7 @@ public sealed class JsonReader
             }
             return new JsonNumber(_text[begin.._position]);
         }
-        var digits = _text.AsSpan(begin, _position - begin);
+        ReadOnlySpan<char> digits = _text.AsSpan(begin, _position - begin);
         if (!long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value))
         {
             throw Error(Codes.Range, "The integer is outside the 64-bit range.", start, digits.ToString());

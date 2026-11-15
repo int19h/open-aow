@@ -19,7 +19,7 @@ internal static class Program
             if (Value(arguments, "--file-log") is { } fileLogPath)
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
-                var log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
+                StreamWriter log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
                 Game.Saves.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
             }
             string root = Value(arguments, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
@@ -83,7 +83,7 @@ internal static class Program
                 throw new ArgumentOutOfRangeException(nameof(frames));
             }
 
-            using var host = new SdlHost(root, single ?? Value(arguments, "--user-data"), scale, arguments.Contains("--fullscreen") ? true : null, vsync: arguments.Contains("--no-vsync") ? false : null);
+            using SdlHost host = new(root, single ?? Value(arguments, "--user-data"), scale, arguments.Contains("--fullscreen") ? true : null, vsync: arguments.Contains("--no-vsync") ? false : null);
             Rtl.RtlUnit.InstallHost(host);
             using MainForm form = MainForm.Create(host.Display, arguments.FirstOrDefault(MainForm.IsSaveName) ?? "", arguments.Contains("--mute"), audioOutput: true);
             form.Run(frames);

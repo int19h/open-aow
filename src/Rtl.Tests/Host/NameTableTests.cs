@@ -19,13 +19,13 @@ public sealed class NameTableTests
         string path = Path.Combine(Path.GetTempPath(), "aow-names-" + Guid.NewGuid().ToString("N"));
         try
         {
-            using (var stream = File.Create(path))
-            using (var writer = new BinaryWriter(stream))
+            using (FileStream stream = File.Create(path))
+            using (BinaryWriter writer = new(stream))
             {
                 WriteHeader(writer, 2);
                 void Text(string value)
                 {
-                    var bytes = Encoding.ASCII.GetBytes(value);
+                    byte[] bytes = Encoding.ASCII.GetBytes(value);
                     writer.Write((ushort)bytes.Length);
                     writer.Write(bytes);
                 }
@@ -40,7 +40,7 @@ public sealed class NameTableTests
                 Entry("Hello", "TDelphiForm", "from delphi");
                 Entry("Hello", "RenamedForm", "from current");
             }
-            var dictionary = new MldDictionary();
+            MldDictionary dictionary = new();
             dictionary.Open(path);
             using (NameTable.Install(table))
             {
@@ -49,8 +49,8 @@ public sealed class NameTableTests
                 Assert.Equal("from delphi", dictionary.TranslateContext("Hello", NameTable.Delphi(typeof(RenamedForm)), ""));
                 Assert.Equal("from current", dictionary.TranslateContext("Hello", NameTable.Stored(typeof(RenamedForm)), ""));
 
-                var form = new RenamedForm { Caption = "Hello" };
-                var translator = new IvCustomTranslator(form) { Dictionary = dictionary, Language = 1 };
+                RenamedForm form = new() { Caption = "Hello" };
+                IvCustomTranslator translator = new(form) { Dictionary = dictionary, Language = 1 };
                 translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(RenamedForm)), "Caption"));
                 translator.Translate(form);
                 Assert.Equal("from delphi", form.Caption);
@@ -88,7 +88,7 @@ public sealed class NameTableTests
 
     private static void WriteHeader(BinaryWriter writer, ushort count)
     {
-        var header = new byte[42];
+        byte[] header = new byte[42];
         "MLD\x03"u8.CopyTo(header);
         header[4] = header[5] = header[6] = 1;
         System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);

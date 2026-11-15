@@ -18,7 +18,7 @@ public sealed class NameTableTests : FormatsTest
     {
         int types = 0;
         int members = 0;
-        foreach (var row in NameTable.Rows)
+        foreach (NameRow row in NameTable.Rows)
         {
             Assert.False(string.IsNullOrEmpty(row.Delphi), row.Current);
             Assert.False(string.IsNullOrEmpty(row.Current), row.Delphi);
@@ -36,8 +36,8 @@ public sealed class NameTableTests : FormatsTest
         Assert.Contains(NameTable.Rows, row => row.Kind == "type" && row.Delphi == "TPersistent"
             && row.Current == NameTable.QualifiedName(typeof(Persistent)));
 
-        var counts = EngineClass.All.GroupBy(engineClass => engineClass.StorageKey).ToDictionary(group => group.Key, group => group.Count());
-        foreach (var engineClass in EngineClass.All)
+        Dictionary<string, int> counts = EngineClass.All.GroupBy(engineClass => engineClass.StorageKey).ToDictionary(group => group.Key, group => group.Count());
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
             Assert.Equal(NameTable.Stored(engineClass.Type), engineClass.StorageKey);
             Assert.Equal(engineClass.StorageKey, NameTable.ResolveStored(NameTable.Delphi(engineClass.Type)));
@@ -51,7 +51,7 @@ public sealed class NameTableTests : FormatsTest
             }
         }
 
-        foreach (var classValue in FormatSchema.Current.Classes)
+        foreach (SchemaClass classValue in FormatSchema.Current.Classes)
         {
             Assert.Equal(classValue.Name, NameTable.ResolveStored(classValue.Name));
             if (classValue.Parent is not null)
@@ -64,7 +64,7 @@ public sealed class NameTableTests : FormatsTest
                 Assert.Equal(classValue.FieldClassName, NameTable.ResolveStored(classValue.FieldClassName));
             }
 
-            foreach (var property in classValue.Own)
+            foreach (SchemaProperty property in classValue.Own)
             {
                 Check(property.Codec, property.Name);
             }
@@ -81,8 +81,8 @@ public sealed class NameTableTests : FormatsTest
             + "type,OldBox," + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
             + "type,TSampleRank," + NameTable.QualifiedName(typeof(SampleRank)) + "\n"
             + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(SampleRank)) + ".Gold\n";
-        var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
-        var holder = schema.Get("Holder");
+        FormatSchema schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
+        SchemaClass holder = schema.Get("Holder");
         using (NameTable.Install(table))
         {
             Assert.Equal("OldNameBox", schema.Find("OldBox")!.Name);
@@ -92,21 +92,21 @@ public sealed class NameTableTests : FormatsTest
             Assert.Equal(nameof(OldNameBox), NameTable.Stored(typeof(OldNameBox)));
             Assert.Equal("oldGold", NameTable.DelphiMember(typeof(SampleRank), "Gold"));
             Assert.Equal("Gold", NameTable.StoredMember(typeof(SampleRank), "oldGold"));
-            var loaded = DocumentBackend.Read(new JsonObject()
+            ObjectNode loaded = DocumentBackend.Read(new JsonObject()
                 .Add("Rank", new JsonString("oldGold"))
                 .Add("Child", new JsonObject().Add("$class", new JsonString("OldBox"))), classValue: holder, schema: schema, engine: "game");
             Assert.Equal(1, ((EnumNode)loaded.Find("Rank")!).Value);
             Assert.Equal("OldBox", ((ObjectNode)loaded.Find("Child")!).ClassName);
-            var again = DocumentBackend.Read(new JsonObject()
+            ObjectNode again = DocumentBackend.Read(new JsonObject()
                 .Add("Rank", new JsonString("Gold"))
                 .Add("Child", new JsonObject().Add("$class", new JsonString("OldNameBox"))), classValue: holder, schema: schema, engine: "game");
             Assert.Equal(1, ((EnumNode)again.Find("Rank")!).Value);
             Assert.Equal(nameof(OldNameBox), ((ObjectNode)again.Find("Child")!).ClassName);
 
-            var live = new ObjectNode(null, null);
+            ObjectNode live = new(null, null);
             live.Add("Rank", new EnumNode(NameTable.Stored(typeof(SampleRank)), 1, false, 1));
             live.Add("Child", new ObjectNode(NameTable.Stored(typeof(OldNameBox)), null));
-            var written = DocumentBackend.Write(live, holder, schema, "game");
+            JsonObject written = DocumentBackend.Write(live, holder, schema, "game");
             Assert.Equal("Gold", ((JsonString)written["Rank"]!).Value);
             Assert.Equal(nameof(OldNameBox), ((JsonString)((JsonObject)written["Child"]!)["$class"]!).Value);
         }
@@ -124,9 +124,9 @@ public sealed class NameTableTests : FormatsTest
                 break;
             case CatalogRecordCodec record:
                 Assert.Equal(record.TypeName, NameTable.ResolveStored(record.TypeName));
-                var info = RecordCatalog.Find(record.TypeName);
+                RecordTypeInfo? info = RecordCatalog.Find(record.TypeName);
                 Assert.NotNull(info);
-                foreach (var field in info.Fields)
+                foreach (RecordFieldInfo field in info.Fields)
                 {
                     if (field.TypeName is not string element)
                     {
@@ -152,9 +152,9 @@ public sealed class NameTableTests : FormatsTest
     private static void RoundTripEnum(string typeName, string path, Type? color = null)
     {
         Assert.Equal(typeName, NameTable.ResolveStored(typeName));
-        var info = EnumCatalog.Require(typeName, null, path);
+        EnumTypeInfo info = EnumCatalog.Require(typeName, null, path);
         color ??= info.Color;
-        foreach (var member in info.ByName.Keys)
+        foreach (string member in info.ByName.Keys)
         {
             Assert.True(info.TryNumber(member, out long number));
             Assert.Equal(info.ByName[member], number);
@@ -169,17 +169,17 @@ public sealed class NameTableTests : FormatsTest
     [Fact]
     public void ADocumentFromBeforeTheRenameLoads()
     {
-        var schema = FormatSchema.Current;
-        var bridge = schema.Get("TBridge");
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass bridge = schema.Get("TBridge");
         Assert.Equal(NameTable.ResolveStored("TBridge"), bridge.Name);
-        var loadedBridge = DocumentBackend.Read(new JsonObject(), bridge, schema, "game");
+        ObjectNode loadedBridge = DocumentBackend.Read(new JsonObject(), bridge, schema, "game");
         Assert.Empty(loadedBridge.Members);
 
-        var group = schema.Get("TAIGroup");
-        var loaded = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("gtsIdle")), classValue: group, schema: schema, engine: "game");
-        var status = Assert.IsType<EnumNode>(loaded.Find("TargetType"));
-        var current = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("Idle")), group, schema, "game");
-        var again = Assert.IsType<EnumNode>(current.Find("TargetType"));
+        SchemaClass group = schema.Get("TAIGroup");
+        ObjectNode loaded = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("gtsIdle")), classValue: group, schema: schema, engine: "game");
+        EnumNode status = Assert.IsType<EnumNode>(loaded.Find("TargetType"));
+        ObjectNode current = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("Idle")), group, schema, "game");
+        EnumNode again = Assert.IsType<EnumNode>(current.Find("TargetType"));
         Assert.Equal(again.Value, status.Value);
         Assert.Equal(NameTable.ResolveStored("TBridge"), schema.Find("TBridge")!.Name);
     }
@@ -187,35 +187,35 @@ public sealed class NameTableTests : FormatsTest
     [Fact]
     public void AnOldEngineBattleOrMovedEnumNameLoads()
     {
-        var schema = FormatSchema.Current;
+        FormatSchema schema = FormatSchema.Current;
         Assert.Equal("GameEngine", schema.Find("TAoWEngine")!.Name);
         Assert.Equal("GameEngine", schema.Find("TEngine")!.Name);
         Assert.Equal("GameEngine", schema.Find("THSEngine")!.Name);
         Assert.Equal("Battle", schema.Find("TCombat")!.Name);
         Assert.Equal("FastBattle", schema.Find("TFastCombat")!.Name);
         Assert.Equal("TacticalBattle", schema.Find("TTacticalCombat")!.Name);
-        var engine = DocumentBackend.Read(new JsonObject(), schema.Find("TAoWEngine")!, schema, "game");
+        ObjectNode engine = DocumentBackend.Read(new JsonObject(), schema.Find("TAoWEngine")!, schema, "game");
         Assert.Empty(engine.Members);
-        var battle = DocumentBackend.Read(new JsonObject(), schema.Find("TCombat")!, schema, "game");
+        ObjectNode battle = DocumentBackend.Read(new JsonObject(), schema.Find("TCombat")!, schema, "game");
         Assert.Empty(battle.Members);
 
-        var hero = schema.Get("HeroResource");
-        var old = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("alGood")), hero, schema, "game");
-        var current = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("Good")), hero, schema, "game");
+        SchemaClass hero = schema.Get("HeroResource");
+        ObjectNode old = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("alGood")), hero, schema, "game");
+        ObjectNode current = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("Good")), hero, schema, "game");
         Assert.Equal(((EnumNode)current.Find("Alignment")!).Value, ((EnumNode)old.Find("Alignment")!).Value);
     }
 
     [Fact]
     public void AnOwnDocumentFromBeforeThisRenameLoads()
     {
-        var schema = FormatSchema.Current;
+        FormatSchema schema = FormatSchema.Current;
         Assert.Equal("EngineObject", schema.Find("TEObject")!.Name);
         Assert.Equal("EngineObject", schema.Find("EObject")!.Name);
         Assert.Equal("Campaign", schema.Find("TAoWCampaign")!.Name);
         Assert.Equal("Campaign", schema.Find("AoWCampaign")!.Name);
-        var engineObject = DocumentBackend.Read(new JsonObject(), schema.Find("TEObject")!, schema, "game");
+        ObjectNode engineObject = DocumentBackend.Read(new JsonObject(), schema.Find("TEObject")!, schema, "game");
         Assert.Empty(engineObject.Members);
-        var campaign = DocumentBackend.Read(new JsonObject(), schema.Find("AoWCampaign")!, schema, "game");
+        ObjectNode campaign = DocumentBackend.Read(new JsonObject(), schema.Find("AoWCampaign")!, schema, "game");
         Assert.Empty(campaign.Members);
     }
 

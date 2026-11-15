@@ -90,8 +90,8 @@ public static class ExceptionCensus
             throw new ArgumentException("one count per kind", nameof(values));
         }
 
-        using var buffer = new MemoryStream();
-        using (var writer = new Utf8JsonWriter(buffer))
+        using MemoryStream buffer = new();
+        using (Utf8JsonWriter writer = new(buffer))
         {
             writer.WriteStartObject();
             writer.WriteString("host", hostName);
@@ -123,7 +123,7 @@ public static class ExceptionCensus
         {
             try
             {
-                using var stream = new FileStream(file, FileMode.Append, FileAccess.Write, FileShare.None);
+                using FileStream stream = new(file, FileMode.Append, FileAccess.Write, FileShare.None);
                 stream.Write(bytes);
                 return;
             }

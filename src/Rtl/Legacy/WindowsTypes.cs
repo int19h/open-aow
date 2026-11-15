@@ -9,7 +9,7 @@ public struct GUID
 
     public static implicit operator GUID(string value)
     {
-        var bytes = Guid.Parse(value).ToByteArray();
+        byte[] bytes = Guid.Parse(value).ToByteArray();
         return new GUID { D1 = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes), D2 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(4)), D3 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(6)), D4 = bytes[8..] };
     }
 }

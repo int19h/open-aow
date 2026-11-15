@@ -26,7 +26,7 @@ public static class LayoutResidue
     /// </summary>
     public static string Fingerprint(JsonValue value, string profile)
     {
-        var builder = new StringBuilder();
+        StringBuilder builder = new();
         builder.Append(Codec).Append('\n').Append(profile).Append('\n');
         Append(builder, value);
         return Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(builder.ToString())));
@@ -39,7 +39,7 @@ public static class LayoutResidue
             case JsonObject objectValue:
                 builder.Append('{');
                 bool first = true;
-                foreach (var m in objectValue.Members.Where(m => m.Name != "$layout").OrderBy(m => m.Name, StringComparer.Ordinal))
+                foreach (JsonMember? m in objectValue.Members.Where(m => m.Name != "$layout").OrderBy(m => m.Name, StringComparer.Ordinal))
                 {
                     if (!first)
                     {
@@ -82,14 +82,14 @@ internal sealed class LayoutBuilder
 
     public void Table(IReadOnlyList<TableEntry> entries, bool emptyLongMarker, int? property)
     {
-        var part = new JsonObject().Add("category", new JsonString(LayoutResidue.TableFormOrder));
+        JsonObject part = new JsonObject().Add("category", new JsonString(LayoutResidue.TableFormOrder));
         if (property is int p)
         {
             part.Add("property", new JsonInteger(p));
         }
 
-        var list = new JsonArray();
-        foreach (var e in entries)
+        JsonArray list = new();
+        foreach (TableEntry e in entries)
         {
             list.Add(new JsonArray().Add(new JsonInteger(e.Id)).Add(new JsonInteger(e.Offset)).Add(new JsonInteger(e.Long ? 1 : 0)));
         }
@@ -105,7 +105,7 @@ internal sealed class LayoutBuilder
 
     public void Gap(int offset, ReadOnlySpan<byte> bytes, int? property)
     {
-        var part = new JsonObject().Add("category", new JsonString(LayoutResidue.Gaps));
+        JsonObject part = new JsonObject().Add("category", new JsonString(LayoutResidue.Gaps));
         if (property is int p)
         {
             part.Add("property", new JsonInteger(p));
@@ -138,14 +138,14 @@ internal sealed class LayoutBuilder
             return;
         }
 
-        var parts = new JsonArray();
-        foreach (var p in Parts)
+        JsonArray parts = new();
+        foreach (JsonObject p in Parts)
         {
             parts.Add(p);
             counts.Add(((JsonString)p["category"]!).Value);
         }
         counts.Objects++;
-        var layout = new JsonObject()
+        JsonObject layout = new JsonObject()
             .Add("codec", new JsonString(LayoutResidue.Codec))
             .Add("fingerprint", new JsonString(LayoutResidue.Fingerprint(target, profile)))
             .Add("parts", parts);
@@ -171,7 +171,7 @@ internal sealed class LayoutReader
 
     public (List<TableEntry> Entries, bool LongMarker, JsonValue At)? Table(int? property)
     {
-        foreach (var t in Tables)
+        foreach ((int? Property, List<TableEntry> Entries, bool LongMarker, JsonValue At) t in Tables)
         {
             if (t.Property == property)
             {
@@ -191,13 +191,13 @@ internal sealed class LayoutReader
     /// </summary>
     public static LayoutReader? Read(EncodeContext context, JsonObject owner, DocumentNodePath path)
     {
-        var member = owner.Find("$layout");
+        JsonMember? member = owner.Find("$layout");
         if (member is null)
         {
             return null;
         }
 
-        var at = path.Member("$layout");
+        DocumentNodePath at = path.Member("$layout");
         if (member.Value is not JsonObject layout)
         {
             throw context.Fail(Codes.Type, "$layout is not an object.", member.Value, at);
@@ -205,7 +205,7 @@ internal sealed class LayoutReader
 
         string? fingerprint = null;
         JsonArray? parts = null;
-        foreach (var m in layout.Members)
+        foreach (JsonMember m in layout.Members)
         {
             switch (m.Name)
             {
@@ -232,7 +232,7 @@ internal sealed class LayoutReader
             throw context.Fail(Codes.MissingMember, "$layout needs codec, fingerprint and parts.", layout, at);
         }
 
-        var result = new LayoutReader();
+        LayoutReader result = new();
         for (int i = 0; i < parts.Items.Count; i++)
         {
             result.ReadPart(context, parts.Items[i], at.Member("parts").Item(i));
@@ -241,7 +241,7 @@ internal sealed class LayoutReader
         string actual = LayoutResidue.Fingerprint(owner, context.Profile);
         if (actual != fingerprint)
         {
-            var diagnostic = new FormatDiagnostic(Codes.Layout, "The retained layout no longer matches the edited content and is rebuilt.")
+            FormatDiagnostic diagnostic = new(Codes.Layout, "The retained layout no longer matches the edited content and is rebuilt.")
             {
                 File = context.File,
                 Span = layout.Span,
@@ -312,12 +312,12 @@ internal sealed class LayoutReader
             case LayoutResidue.TableFormOrder:
                 {
                     allowed = ["category", "property", "entries", "longMarker"];
-                    var list = part["entries"] as JsonArray ?? throw context.Fail(Codes.Layout, "A table part needs entries.", part, path);
-                    var entries = new List<TableEntry>();
+                    JsonArray list = part["entries"] as JsonArray ?? throw context.Fail(Codes.Layout, "A table part needs entries.", part, path);
+                    List<TableEntry> entries = new();
                     for (int i = 0; i < list.Items.Count; i++)
                     {
-                        var e = list.Items[i] as JsonArray;
-                        var ep = path.Member("entries").Item(i);
+                        JsonArray? e = list.Items[i] as JsonArray;
+                        DocumentNodePath ep = path.Member("entries").Item(i);
                         if (e is null || e.Items.Count != 3)
                         {
                             throw context.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
@@ -376,7 +376,7 @@ internal sealed class LayoutReader
             default:
                 throw context.Fail(Codes.Layout, $"Unknown layout category \"{category}\".", part, path.Member("category"));
         }
-        foreach (var m in part.Members)
+        foreach (JsonMember m in part.Members)
         {
             if (Array.IndexOf(allowed, m.Name) < 0)
             {

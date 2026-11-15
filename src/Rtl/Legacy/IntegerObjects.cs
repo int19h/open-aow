@@ -24,7 +24,7 @@ public static partial class RtlUnit
 
         lock (integerObjects)
         {
-            if (!integerObjects.TryGetValue(value, out var box))
+            if (!integerObjects.TryGetValue(value, out object? box))
             {
                 integerObjects.Add(value, box = new IntegerObject(value));
             }

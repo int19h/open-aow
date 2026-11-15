@@ -26,7 +26,7 @@ internal sealed partial class RecordTypeInfo
         get
         {
             int n = 0;
-            foreach (var (_, length) in Residue)
+            foreach ((int _, int length) in Residue)
             {
                 n += length;
             }
@@ -49,9 +49,9 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
 
     public DictionaryRecordCatalog(params Type[] records)
     {
-        foreach (var type in records)
+        foreach (Type type in records)
         {
-            var info = RecordTypeInfo.Describe(type);
+            RecordTypeInfo info = RecordTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
             {
                 throw new InvalidOperationException("The record " + info.Name + " is registered twice.");
@@ -102,13 +102,13 @@ public static class RecordCatalog
     {
         lock (s_gate)
         {
-            var found = Lookup(typeName);
+            RecordTypeInfo? found = Lookup(typeName);
             if (found is not null)
             {
                 return found;
             }
 
-            var resolved = NameTable.ResolveStored(typeName);
+            string? resolved = NameTable.ResolveStored(typeName);
             if (resolved is null || resolved == typeName)
             {
                 return null;
@@ -121,9 +121,9 @@ public static class RecordCatalog
     private static RecordTypeInfo? Lookup(string typeName)
     {
         RecordTypeInfo? found = null;
-        foreach (var catalog in s_catalogs)
+        foreach (IRecordCatalog catalog in s_catalogs)
         {
-            if (!catalog.TryGet(typeName, out var type))
+            if (!catalog.TryGet(typeName, out RecordTypeInfo? type))
             {
                 continue;
             }
@@ -159,7 +159,7 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
         {
             found = error.Types.Where(type => type is not null).Cast<Type>().ToArray();
         }
-        foreach (var type in found)
+        foreach (Type? type in found)
         {
             if (type is null || !type.IsValueType || type.IsEnum || type.IsGenericType)
             {
@@ -172,7 +172,7 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
             }
 
             string stored = binding.Name;
-            if (!_types.TryGetValue(stored, out var list))
+            if (!_types.TryGetValue(stored, out List<Type>? list))
             {
                 list = [];
                 _types.Add(stored, list);
@@ -188,7 +188,7 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
             return true;
         }
 
-        if (!_types.TryGetValue(typeName, out var list))
+        if (!_types.TryGetValue(typeName, out List<Type>? list))
         {
             type = null!;
             return false;
@@ -211,28 +211,28 @@ internal sealed partial class RecordTypeInfo
 
     internal static RecordTypeInfo Describe(Type type)
     {
-        var layout = type.StructLayoutAttribute;
+        StructLayoutAttribute? layout = type.StructLayoutAttribute;
         if (type is not { IsValueType: true, IsEnum: false } || layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0)
         {
             throw new InvalidOperationException(type.Name + " is not an explicit record.");
         }
 
         int size = layout.Size;
-        var raw = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+        List<(FieldInfo Field, FieldOffsetAttribute? Offset)> raw = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Select(field => (Field: field, Offset: field.GetCustomAttribute<FieldOffsetAttribute>()))
             .Where(field => field.Offset is not null)
             .ToList();
-        var consumed = new HashSet<FieldInfo>();
-        var named = new List<RecordFieldInfo>();
-        var residue = new List<(int Offset, int Length)>();
-        foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        HashSet<FieldInfo> consumed = new();
+        List<RecordFieldInfo> named = new();
+        List<(int Offset, int Length)> residue = new();
+        foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>))
             {
                 continue;
             }
 
-            var image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
+            FieldInfo image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
                 ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
             consumed.Add(image);
             int offset = image.GetCustomAttribute<FieldOffsetAttribute>()!.Value;
@@ -243,7 +243,7 @@ internal sealed partial class RecordTypeInfo
                 throw new InvalidOperationException(type.Name + "." + property.Name + " stores " + storage + " bytes in a " + fieldSize + " byte field.");
             }
 
-            var element = property.PropertyType.GetGenericArguments()[0];
+            Type element = property.PropertyType.GetGenericArguments()[0];
             named.Add(new SetRecordField
             {
                 Name = property.Name,
@@ -254,7 +254,7 @@ internal sealed partial class RecordTypeInfo
                 ElementColor = element,
             });
         }
-        foreach (var (field, offset) in raw)
+        foreach ((FieldInfo? field, FieldOffsetAttribute? offset) in raw)
         {
             if (consumed.Contains(field))
             {
@@ -270,7 +270,7 @@ internal sealed partial class RecordTypeInfo
             }
             named.Add(DescribeField(type, field, at, fieldSize));
         }
-        var cover = new bool[size];
+        bool[] cover = new bool[size];
         void Cover(int offset, int length, string name)
         {
             if (offset < 0 || length < 0 || offset + length > size)
@@ -290,12 +290,12 @@ internal sealed partial class RecordTypeInfo
         }
         // A record stores each byte once (own-formats.md 2.3): a field that overlaps another is refused.
         named.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
-        foreach (var field in named)
+        foreach (RecordFieldInfo field in named)
         {
             Cover(field.Offset, field.Size, field.Name);
         }
 
-        foreach (var (offset, length) in residue)
+        foreach ((int offset, int length) in residue)
         {
             Cover(offset, length, "Reserved");
         }
@@ -322,12 +322,12 @@ internal sealed partial class RecordTypeInfo
 
     private static RecordFieldInfo DescribeField(Type owner, FieldInfo field, int offset, int size)
     {
-        var inline = field.FieldType.GetCustomAttribute<InlineArrayAttribute>();
+        InlineArrayAttribute? inline = field.FieldType.GetCustomAttribute<InlineArrayAttribute>();
         if (inline is not null)
         {
-            var element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
+            FieldInfo element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
                 ?? throw new InvalidOperationException(owner.Name + "." + field.Name + " has no element.");
-            var (width, signed) = IntegerLayout(element.FieldType, owner.Name + "." + field.Name);
+            (int width, bool signed) = IntegerLayout(element.FieldType, owner.Name + "." + field.Name);
             return new ArrayRecordField
             {
                 Name = field.Name,
@@ -341,7 +341,7 @@ internal sealed partial class RecordTypeInfo
         }
         if (field.FieldType.IsEnum)
         {
-            var (width, signed) = EnumTypeInfo.Layout(field.FieldType);
+            (int width, bool signed) = EnumTypeInfo.Layout(field.FieldType);
             return new EnumRecordField
             {
                 Name = field.Name,
@@ -358,7 +358,7 @@ internal sealed partial class RecordTypeInfo
             return new BooleanRecordField { Name = field.Name, Offset = offset, Size = size };
         }
 
-        var nested = field.FieldType.StructLayoutAttribute;
+        StructLayoutAttribute? nested = field.FieldType.StructLayoutAttribute;
         if (nested is { Value: LayoutKind.Explicit, Size: > 0 })
         {
             return new NestedRecordField
@@ -371,7 +371,7 @@ internal sealed partial class RecordTypeInfo
             };
         }
 
-        var (integerWidth, integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);
+        (int integerWidth, bool integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);
         return new IntegerRecordField
         {
             Name = field.Name,
@@ -419,10 +419,10 @@ internal sealed partial class RecordTypeInfo
 
     private static int FieldSize(FieldInfo field)
     {
-        var inline = field.FieldType.GetCustomAttribute<InlineArrayAttribute>();
+        InlineArrayAttribute? inline = field.FieldType.GetCustomAttribute<InlineArrayAttribute>();
         if (inline is not null)
         {
-            var element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
+            FieldInfo element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
                 ?? throw new InvalidOperationException(field.Name + " has no element.");
             int width = element.FieldType == typeof(byte) || element.FieldType == typeof(sbyte) || element.FieldType == typeof(bool) ? 1
                 : element.FieldType == typeof(short) || element.FieldType == typeof(ushort) ? 2

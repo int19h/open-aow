@@ -61,7 +61,7 @@ public sealed unsafe class TrackerSong : IDisposable
                 throw new InvalidDataException($"libopenmpt failed to load the song ({code}): {detail}");
             }
 
-            var song = new TrackerSong(result);
+            TrackerSong song = new(result);
             song.SetLoop(loop);
             LastError = null;
             return song;

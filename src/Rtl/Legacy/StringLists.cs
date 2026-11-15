@@ -22,7 +22,7 @@ public abstract class StringCollection : Persistent
     public IndexedProperty<int, string> Strings => new(i => this[i], (i, s) => this[i] = s);
     public IndexedProperty<int, object?> Objects => new(GetObject, PutObject);
     // CLASSES.PAS TStrings.GetName, GetValue and SetValue.
-    public IndexedProperty<int, string> Names => new(i => { var s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
+    public IndexedProperty<int, string> Names => new(i => { string s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
 
     public IndexedProperty<string, string> Values => new(name =>
     {
@@ -55,7 +55,7 @@ public abstract class StringCollection : Persistent
     {
         for (int i = 0; i < Count; i++)
         {
-            var s = this[i]; int p = AnsiPos("=", s); if (p > 0 && AnsiCompareText(Copy(s, 1, p - 1), name) == 0)
+            string s = this[i]; int p = AnsiPos("=", s); if (p > 0 && AnsiCompareText(Copy(s, 1, p - 1), name) == 0)
             {
                 return i;
             }
@@ -112,7 +112,7 @@ public abstract class StringCollection : Persistent
             string text = "";
             for (int i = 0; i < Count; i++)
             {
-                var s = this[i];
+                string s = this[i];
                 bool quote = false;
                 for (int p = 1; p <= s.Length && s[p - 1] != 0; p++)
                 {
@@ -201,7 +201,7 @@ public abstract class StringCollection : Persistent
     public virtual void Exchange(int first, int second)
     {
         BeginUpdate();
-        try { var s = this[first]; var o = GetObject(first); this[first] = this[second]; PutObject(first, GetObject(second)); this[second] = s; PutObject(second, o); }
+        try { string s = this[first]; object? o = GetObject(first); this[first] = this[second]; PutObject(first, GetObject(second)); this[second] = s; PutObject(second, o); }
         finally { EndUpdate(); }
     }
 
@@ -212,7 +212,7 @@ public abstract class StringCollection : Persistent
             return;
         }
 
-        BeginUpdate(); try { var s = this[current]; var o = GetObject(current); Delete(current); InsertObject(target, s, o); } finally { EndUpdate(); }
+        BeginUpdate(); try { string s = this[current]; object? o = GetObject(current); Delete(current); InsertObject(target, s, o); } finally { EndUpdate(); }
     }
 
     // CLASSES.PAS TStrings.LoadFromStream and SaveToStream.
@@ -236,9 +236,9 @@ public abstract class StringCollection : Persistent
     public virtual void SaveToStream(Stream stream) => stream.WriteBuffer(Cp1252.Encode(Text));
 
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
-    public void LoadFromFile(string name) { using var stream = OpenFile(name, fmOpenRead); LoadFromStream(stream); }
+    public void LoadFromFile(string name) { using Stream stream = OpenFile(name, fmOpenRead); LoadFromStream(stream); }
 
-    public void SaveToFile(string name) { using var stream = OpenFile(name, fmCreate); SaveToStream(stream); }
+    public void SaveToFile(string name) { using Stream stream = OpenFile(name, fmCreate); SaveToStream(stream); }
 
     // CLASSES.PAS TStrings.Error. The message selects the .NET exception.
     public static void Error(string message, int data)
@@ -420,7 +420,7 @@ public class StringList : StringCollection
         int i;
         do
         {
-            i = left; int j = right; var pivot = items[(left + right) >> 1].Text;
+            i = left; int j = right; string pivot = items[(left + right) >> 1].Text;
             do
             {
                 while (AnsiCompareText(items[i].Text, pivot) < 0)

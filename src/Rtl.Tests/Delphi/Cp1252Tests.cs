@@ -42,7 +42,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void EveryByteHasTheSpecifiedCharAndInverseAndCachedText()
     {
-        var chars = new HashSet<char>();
+        HashSet<char> chars = new();
         for (int b = 0; b < 256; b++)
         {
             char c = Cp1252.Char((byte)b);
@@ -59,7 +59,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void EveryCharMapsToItsByteOrQuestionMark()
     {
-        var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
+        Dictionary<char, byte> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
         for (int c = 0; c <= char.MaxValue; c++)
         {
             Assert.Equal(inverse.GetValueOrDefault((char)c, (byte)63), Cp1252.Byte((char)c));
@@ -69,7 +69,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void CompareUsesUnsignedBytesOverEveryPair()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         for (int a = 0; a < 256; a++)
         {
             for (int b = 0; b < 256; b++)
@@ -90,13 +90,13 @@ public sealed class Cp1252Tests
     [Fact]
     public void DecodeEncodeRoundTripsRandomBuffersIncludingEmbeddedZeros()
     {
-        using var mode = new StringMode(false);
-        var random = new Random(9501);
+        using StringMode mode = new(false);
+        Random random = new(9501);
         foreach (int length in new[] { 0, 1, 2, 3, 31, 256, 4096 })
         {
             for (int run = 0; run < 32; run++)
             {
-                var bytes = new byte[length];
+                byte[] bytes = new byte[length];
                 random.NextBytes(bytes);
                 if (length > 0)
                 {
@@ -119,14 +119,14 @@ public sealed class Cp1252Tests
     [Fact]
     public void AnsiCaseTablesMatchEveryByte()
     {
-        var all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
+        string all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
         Assert.Equal(RtlUnit.UpperCase(all), RtlUnit.UpperCase(all));
         Assert.Equal(RtlUnit.LowerCase(all), RtlUnit.LowerCase(all));
         Assert.Equal(RtlUnit.AnsiUpperCase(all), RtlUnit.AnsiUpperCase(all));
         Assert.Equal(RtlUnit.AnsiLowerCase(all), RtlUnit.AnsiLowerCase(all));
         for (int b = 0; b < 256; b++)
         {
-            var ansi = Cp1252.Text((byte)b);
+            string ansi = Cp1252.Text((byte)b);
             string text = Cp1252.Text((byte)b);
             Assert.Equal(RtlUnit.AnsiUpperCase(ansi), RtlUnit.AnsiUpperCase(text));
             Assert.Equal(RtlUnit.AnsiLowerCase(ansi), RtlUnit.AnsiLowerCase(text));
@@ -161,7 +161,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void OneEncoderMatchesTheFrozenMapForEveryCharAndEveryProducer()
     {
-        var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
+        Dictionary<char, byte> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
         string text = new(Enumerable.Range(0, char.MaxValue + 1).Select(i => (char)i).ToArray());
         byte[] expected = text.Select(c => inverse.GetValueOrDefault(c, (byte)63)).ToArray();
         string normalized = new(expected.Select(ExpectedChar).ToArray());
@@ -202,7 +202,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void EveryBytePairKeepsTheExistingRoutineOrder()
     {
-        foreach (var (textCompare, byteCompare) in new[] {
+        foreach ((Func<string?, string?, int>? textCompare, Func<string, string, int>? byteCompare) in new[] {
             ((Func<string?, string?, int>)RtlUnit.CompareStr, (Func<string, string, int>)RtlUnit.CompareStr),
             (RtlUnit.CompareText, RtlUnit.CompareText), (RtlUnit.AnsiCompareStr, RtlUnit.AnsiCompareStr),
             (RtlUnit.AnsiCompareText, RtlUnit.AnsiCompareText) })
@@ -221,7 +221,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void UnmappedCharsKeepTheirCaseAndOrderAfterEveryMappedChar()
     {
-        var mapped = Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i)).ToHashSet();
+        HashSet<char> mapped = Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i)).ToHashSet();
         for (int i = 0; i <= char.MaxValue; i++)
         {
             char c = (char)i;
@@ -256,9 +256,9 @@ public sealed class Cp1252Tests
     [Fact]
     public void CompareAndComparerGiveAnInjectiveTotalOrderOutsideTheImage()
     {
-        var random = new Random(95102);
+        Random random = new(95102);
         string Next() => new(Enumerable.Range(0, random.Next(9)).Select(_ => (char)random.Next(65536)).ToArray());
-        var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
+        Dictionary<char, int> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
         int Key(char c) => inverse.GetValueOrDefault(c, 256 + c);
         int Expected(string a, string b)
         {

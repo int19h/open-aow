@@ -1,11 +1,13 @@
 
+using Aow.Rtl;
+
 namespace Aow.Graphics;
 
 public static partial class Blit
 {
     public static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, SurfaceView destination)
     {
-        var clip = destination.Clip;
+        Rect clip = destination.Clip;
         if (x2 < x1) { (x1, x2) = (x2, x1); (y1, y2) = (y2, y1); }
         int dx = x2 - x1, dy = Math.Abs(y2 - y1), sign = y2 >= y1 ? 1 : -1;
         bool steep = dy >= dx;

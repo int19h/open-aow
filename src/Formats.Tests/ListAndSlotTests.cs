@@ -43,18 +43,18 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void BothWidthsRoundTripThroughTheDocumentAndTheImage()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TLists");
-        var source = new Lists { NumbersDefault = -1, SmallDefault = 0 };
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TLists");
+        Lists source = new() { NumbersDefault = -1, SmallDefault = 0 };
         source.Numbers.AddRange([int.MinValue, -1, -1, 5, int.MaxValue, -1]);
         source.Small.AddRange([.. Enumerable.Repeat((byte)0, 300), 255, .. Enumerable.Repeat((byte)0, 600)]);
-        var tree = TreeWriter.Write(source, s_factory);
-        var document = DocumentBackend.Write(tree, classValue, schema, "game");
-        var numbers = (JsonObject)document["Numbers"]!;
+        ObjectNode tree = TreeWriter.Write(source, s_factory);
+        JsonObject document = DocumentBackend.Write(tree, classValue, schema, "game");
+        JsonObject numbers = (JsonObject)document["Numbers"]!;
         Assert.Equal(-1, ((JsonInteger)numbers["default"]!).Value);
         Assert.Equal(6, ((JsonArray)numbers["items"]!).Items.Count);
         Assert.Equal(901, ((JsonArray)((JsonObject)document["Small"]!)["items"]!).Items.Count);
-        var image = OriginalBackend.Write(tree, classValue, schema, "game");
+        byte[] image = OriginalBackend.Write(tree, classValue, schema, "game");
         byte[] numberImage =
         [
             0xFF, 0xFF, 0xFF, 0xFF, 6, 0, 0, 0,
@@ -65,9 +65,9 @@ public sealed class ListAndSlotTests : FormatsTest
         // A byte run longer than 255 splits: 300 is 255 and 45, 600 is 255, 255 and 90.
         byte[] smallImage = [0, 0x85, 3, 0, 0, 0, 255, 0, 45, 255, 0, 255, 0, 255, 0, 90];
         Assert.True(image.AsSpan().IndexOf(smallImage) >= 0);
-        foreach (var read in new[] { OriginalBackend.Read(image, classValue, schema, "game"), DocumentBackend.Read(document, classValue, schema, "game") })
+        foreach (ObjectNode? read in new[] { OriginalBackend.Read(image, classValue, schema, "game"), DocumentBackend.Read(document, classValue, schema, "game") })
         {
-            var loaded = new Lists();
+            Lists loaded = new();
             TreeReader.Read(read, loaded, s_factory);
             Assert.Equal(-1, loaded.NumbersDefault);
             Assert.Equal(source.Numbers, loaded.Numbers);
@@ -79,20 +79,20 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void AnEmptyListIsStoredAndAnAbsentListIsLeft()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TLists");
-        var empty = new Lists { NumbersDefault = 7, SmallDefault = 3 };
-        var tree = TreeWriter.Write(empty, s_factory);
-        var document = DocumentBackend.Write(tree, classValue, schema, "game");
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TLists");
+        Lists empty = new() { NumbersDefault = 7, SmallDefault = 3 };
+        ObjectNode tree = TreeWriter.Write(empty, s_factory);
+        JsonObject document = DocumentBackend.Write(tree, classValue, schema, "game");
         Assert.Equal("{\"Numbers\":{\"default\":7,\"items\":[]},\"Small\":{\"default\":3,\"items\":[]}}", Encoding.UTF8.GetString(JsonWriter.ToUtf8(document)).Replace(" ", "").Replace("\n", ""));
-        var image = OriginalBackend.Write(tree, classValue, schema, "game");
-        var loaded = new Lists { NumbersDefault = 1, SmallDefault = 1 };
+        byte[] image = OriginalBackend.Write(tree, classValue, schema, "game");
+        Lists loaded = new() { NumbersDefault = 1, SmallDefault = 1 };
         loaded.Numbers.Add(9);
         TreeReader.Read(OriginalBackend.Read(image, classValue, schema, "game"), loaded, s_factory);
         Assert.Equal(7, loaded.NumbersDefault);
         Assert.Empty(loaded.Numbers);
         Assert.Equal(3, loaded.SmallDefault);
-        var untouched = new Lists { NumbersDefault = 1, SmallDefault = 2 };
+        Lists untouched = new() { NumbersDefault = 1, SmallDefault = 2 };
         untouched.Numbers.Add(9);
         untouched.Small.Add(4);
         TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue, schema, "game"), untouched, s_factory);
@@ -112,8 +112,8 @@ public sealed class ListAndSlotTests : FormatsTest
     [InlineData("{\"Numbers\":[1,2]}", Codes.Type, "root.Numbers")]
     public void AMalformedListIsRefusedWithItsPath(string text, string code, string path)
     {
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "lists.json");
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Sample.Get("TLists"), Sample, "game"));
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "lists.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Sample.Get("TLists"), Sample, "game"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -121,37 +121,37 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void ARunPastTheCountIsRefusedOnTheImage()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TLists");
-        var image = OriginalBackend.Write(TreeWriter.Write(new Lists { Numbers = { 0 } }, s_factory), classValue, schema, "game");
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TLists");
+        byte[] image = OriginalBackend.Write(TreeWriter.Write(new Lists { Numbers = { 0 } }, s_factory), classValue, schema, "game");
         // The single item 0 is the default, stored as the run (0, 1). A run of 2 passes the count.
         int run = image.Length - 5 - 4;
         Assert.Equal(1, image[run]);
         image[run] = 2;
-        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Read(image, classValue, schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Read(image, classValue, schema, "game"));
         Assert.Equal(Codes.Corrupt, error.Diagnostic.Code);
     }
 
     [Fact]
     public void KeyedSlotsRoundTripInStoredOrder()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TSlotted");
-        var source = new Slotted { Last = 4 };
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TSlotted");
+        Slotted source = new() { Last = 4 };
         source.Stored.Add((3, new Part { Value = 30 }));
         source.Stored.Add((0, null));
         source.Stored.Add((1, new Part { Value = 10 }));
-        var tree = TreeWriter.Write(source, s_factory);
-        var document = DocumentBackend.Write(tree, classValue, schema, "game");
-        var parts = (JsonArray)document["Parts"]!;
+        ObjectNode tree = TreeWriter.Write(source, s_factory);
+        JsonObject document = DocumentBackend.Write(tree, classValue, schema, "game");
+        JsonArray parts = (JsonArray)document["Parts"]!;
         Assert.Equal(3, parts.Items.Count);
         Assert.Equal("{\"$class\":\"TPart\",\"$slot\":3,\"Value\":30}", Compact(parts.Items[0]));
         Assert.Equal("{\"$class\":null,\"$slot\":0}", Compact(parts.Items[1]));
-        var image = OriginalBackend.Write(tree, classValue, schema, "game");
-        foreach (var read in new[] { OriginalBackend.Read(image, classValue, schema, "game"), DocumentBackend.Read(document, classValue, schema, "game") })
+        byte[] image = OriginalBackend.Write(tree, classValue, schema, "game");
+        foreach (ObjectNode? read in new[] { OriginalBackend.Read(image, classValue, schema, "game"), DocumentBackend.Read(document, classValue, schema, "game") })
         {
             Assert.Equal(Compact(document), Compact(DocumentBackend.Write(read, classValue, schema, "game")));
-            var loaded = new Slotted { Asked = [1, 3, 0, 7, 1] };
+            Slotted loaded = new() { Asked = [1, 3, 0, 7, 1] };
             TreeReader.Read(read, loaded, s_factory);
             Assert.Equal(4, loaded.Last);
             Assert.Equal([10, 30, -1, -1, 10], loaded.Loaded.Select(part => part?.Value ?? -1));
@@ -162,16 +162,16 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void ASlotTheLoadDoesNotAskForStaysUnread()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TSlotted");
-        var source = new Slotted();
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TSlotted");
+        Slotted source = new();
         source.Stored.Add((2, new Part { Value = 1 }));
-        var tree = TreeWriter.Write(source, s_factory);
-        var loaded = new Slotted { Asked = [], SkipParts = true };
+        ObjectNode tree = TreeWriter.Write(source, s_factory);
+        Slotted loaded = new() { Asked = [], SkipParts = true };
         TreeReader.Read(tree, loaded, s_factory);
         Assert.Empty(loaded.Loaded);
-        var strict = new Slotted { Asked = [] };
-        var error = Assert.Throws<ConversionException>(() => TreeReader.Read(tree, strict, s_factory));
+        Slotted strict = new() { Asked = [] };
+        ConversionException error = Assert.Throws<ConversionException>(() => TreeReader.Read(tree, strict, s_factory));
         Assert.Equal(Codes.Required, error.Diagnostic.Code);
         Assert.Equal("root.Parts", error.Diagnostic.Path);
     }
@@ -179,13 +179,13 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void ASlotStoredTwiceOrBelowZeroIsRefused()
     {
-        var twice = new Slotted();
+        Slotted twice = new();
         twice.Stored.Add((1, new Part()));
         twice.Stored.Add((1, new Part()));
-        var error = Assert.Throws<ConversionException>(() => TreeWriter.Write(twice, s_factory));
+        ConversionException error = Assert.Throws<ConversionException>(() => TreeWriter.Write(twice, s_factory));
         Assert.Equal(Codes.Slot, error.Diagnostic.Code);
         Assert.Equal("root.Parts[1]", error.Diagnostic.Path);
-        var negative = new Slotted();
+        Slotted negative = new();
         negative.Stored.Add((-1, new Part()));
         error = Assert.Throws<ConversionException>(() => TreeWriter.Write(negative, s_factory));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
@@ -200,8 +200,8 @@ public sealed class ListAndSlotTests : FormatsTest
     [InlineData("{\"Parts\":{\"$class\":\"TPart\",\"$slot\":0}}", Codes.Type, "root.Parts")]
     public void AMalformedSlotIsRefusedWithItsPath(string text, string code, string path)
     {
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "slots.json");
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Sample.Get("TSlotted"), Sample, "game"));
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "slots.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Sample.Get("TSlotted"), Sample, "game"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -209,13 +209,13 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void KeyedSlotsOnASequenceAreRefused()
     {
-        var schema = Sample;
-        var tree = TreeWriter.Write(new SpriteHolder(), s_factory);
-        var classValue = schema.Get("TSprites");
-        var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
+        FormatSchema schema = Sample;
+        ObjectNode tree = TreeWriter.Write(new SpriteHolder(), s_factory);
+        SchemaClass classValue = schema.Get("TSprites");
+        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
         Assert.Equal(Codes.Type, document.Diagnostic.Code);
         Assert.Equal("root.Sprites", document.Diagnostic.Path);
-        var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
+        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
         Assert.Equal(Codes.Type, image.Diagnostic.Code);
         Assert.Equal("root.Sprites", image.Diagnostic.Path);
     }
@@ -224,12 +224,12 @@ public sealed class ListAndSlotTests : FormatsTest
     [Fact]
     public void ACreatedObjectInAFixedSlotIsRefused()
     {
-        var schema = Sample;
-        var tree = TreeWriter.Write(new FixedSlots(), s_factory);
-        var classValue = schema.Get("TFixedSlots");
-        var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
+        FormatSchema schema = Sample;
+        ObjectNode tree = TreeWriter.Write(new FixedSlots(), s_factory);
+        SchemaClass classValue = schema.Get("TFixedSlots");
+        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
         Assert.Equal("Version 3 stores no slot of Fixed.", document.Diagnostic.Message);
-        var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
+        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
         Assert.Equal("An item of Fixed is a fixed object at its slot.", image.Diagnostic.Message);
         Assert.Equal("root.Fixed[0]", image.Diagnostic.Path);
     }
@@ -283,7 +283,7 @@ public sealed class ListAndSlotTests : FormatsTest
 
                 return;
             }
-            foreach (var (slot, part) in Stored)
+            foreach ((int slot, Part? part) in Stored)
             {
                 persister.CreatedSlot("Parts", slot: slot, objectValue: part);
             }

@@ -27,7 +27,7 @@ public sealed class ByteBuffer
 
             Array.Resize(ref _buffer, (int)size);
         }
-        var span = _buffer.AsSpan(Length, count);
+        Span<byte> span = _buffer.AsSpan(Length, count);
         Length += count;
         return span;
     }

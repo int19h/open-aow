@@ -54,20 +54,20 @@ public static partial class Fixtures
 
     private static JsonObject Action(int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue = null)
     {
-        var action = Mapped("DiplomaticAction", slot, kind, fields, residue);
+        JsonObject action = Mapped("DiplomaticAction", slot, kind, fields, residue);
         action.Add("Source", new JsonInteger(1)).Add("Target", new JsonInteger(2)).Add("OtherPlayer", new JsonInteger(255));
         return action;
     }
 
     private static JsonObject Mapped(string classValue, int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue)
     {
-        var objectValue = new JsonObject().Add("$class", new JsonString(classValue)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
+        JsonObject objectValue = new JsonObject().Add("$class", new JsonString(classValue)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
         if (residue is not null)
         {
             objectValue.Add("$residue", residue);
         }
 
-        foreach (var (name, value) in fields)
+        foreach ((string? name, JsonValue? value) in fields)
         {
             objectValue.Add(name, value);
         }
@@ -78,19 +78,19 @@ public static partial class Fixtures
     /// <summary>The shipped save with the items in its first empty production queue and the actions in player 1's list.</summary>
     private static JsonObject WithKinds(JsonObject[] items, JsonObject[] actions)
     {
-        var document = Import(Game(Save), "world-hsm", "save");
+        JsonObject document = Import(Game(Save), "world-hsm", "save");
         if (items.Length > 0)
         {
-            var queue = FirstQueue(Root(document)) ?? throw new InvalidOperationException("The save has no production queue.");
-            foreach (var item in items)
+            JsonObject queue = FirstQueue(Root(document)) ?? throw new InvalidOperationException("The save has no production queue.");
+            foreach (JsonObject item in items)
             {
                 Arr(queue["Children"]).Add(item);
             }
         }
         if (actions.Length > 0)
         {
-            var player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
-            foreach (var action in actions)
+            JsonObject player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
+            foreach (JsonObject action in actions)
             {
                 Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
             }
@@ -108,7 +108,7 @@ public static partial class Fixtures
                     return queue;
                 }
 
-                foreach (var m in objectValue.Members)
+                foreach (JsonMember m in objectValue.Members)
                 {
                     if (FirstQueue(m.Value) is { } found)
                     {
@@ -118,7 +118,7 @@ public static partial class Fixtures
 
                 break;
             case JsonArray array:
-                foreach (var item in array.Items)
+                foreach (JsonValue item in array.Items)
                 {
                     if (FirstQueue(item) is { } found)
                     {
@@ -134,7 +134,7 @@ public static partial class Fixtures
     /// <summary>The cases of every object of a class, in document order, with their fields.</summary>
     private static string CasesOf(JsonValue value, string classValue)
     {
-        var found = new List<string>();
+        List<string> found = new();
         void Walk(JsonValue v)
         {
             switch (v)
@@ -142,18 +142,18 @@ public static partial class Fixtures
                 case JsonObject objectValue:
                     if (objectValue["$class"] is JsonString { } name && name.Value == classValue && objectValue["$case"] is JsonString kind)
                     {
-                        var fields = objectValue.Members.Where(m => !m.Name.StartsWith('$') && m.Name is not ("Source" or "Target" or "OtherPlayer"))
+                        IEnumerable<string> fields = objectValue.Members.Where(m => !m.Name.StartsWith('$') && m.Name is not ("Source" or "Target" or "OtherPlayer"))
                             .Select(m => m.Name + "=" + (m.Value is JsonInteger i ? i.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "\"" + ((JsonString)m.Value).Value + "\""));
                         found.Add(kind.Value + "{" + (objectValue["$residue"] is null ? string.Join(",", fields) : "$residue") + "}");
                     }
-                    foreach (var m in objectValue.Members)
+                    foreach (JsonMember m in objectValue.Members)
                     {
                         Walk(m.Value);
                     }
 
                     break;
                 case JsonArray array:
-                    foreach (var item in array.Items)
+                    foreach (JsonValue item in array.Items)
                     {
                         Walk(item);
                     }

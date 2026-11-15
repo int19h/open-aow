@@ -18,8 +18,8 @@ internal static class ImageTree
 
     internal static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, string? profile = null)
     {
-        var context = new EncodeContext(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
-        var output = new ByteBuffer();
+        EncodeContext context = new(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        ByteBuffer output = new();
         WriteBody(node, classValue, context, output, DocumentNodePath.Root, false);
         return output.ToArray();
     }
@@ -39,8 +39,8 @@ internal static class ImageTree
     /// <summary>The data of an object image without its property table, the values in table order.</summary>
     internal static byte[] WriteData(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine)
     {
-        var context = new EncodeContext(schema, engine: engine, profile: engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
-        var writer = WriteMembers(node, classValue: classValue, context: context, path: DocumentNodePath.Root, allowIdentity: false);
+        EncodeContext context = new(schema, engine: engine, profile: engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        ObjectWriter writer = WriteMembers(node, classValue: classValue, context: context, path: DocumentNodePath.Root, allowIdentity: false);
         context.Leave();
         return writer.Data.Span.ToArray();
     }
@@ -61,17 +61,17 @@ internal static class ImageTree
             }
         }
         context.Enter(s_marker, path);
-        var writer = new ObjectWriter();
+        ObjectWriter writer = new();
         int matched = 0;
-        foreach (var prop in classValue.Properties)
+        foreach (SchemaProperty prop in classValue.Properties)
         {
-            var value = node.Find(prop.Name);
+            TreeValue? value = node.Find(prop.Name);
             if (value is null)
             {
                 continue;
             }
 
-            var memberPath = path.Member(prop.Name);
+            DocumentNodePath memberPath = path.Member(prop.Name);
             // Every original image refuses a member whose stored id sits in the port range or the
             // mod range. The own document keeps that member. Absence is not state.
             if (!TransportProfile.Carries(context.Profile, prop))
@@ -81,7 +81,7 @@ internal static class ImageTree
 
             if (prop.IsDynamic)
             {
-                var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
+                ImageFrame slots = new() { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
                 prop.Codec.WriteSlotsImage(value, context, writer, slots);
                 matched++;
                 continue;
@@ -102,13 +102,13 @@ internal static class ImageTree
                 throw new InvalidOperationException(prop + " has no stored id.");
             }
 
-            var frame = new ImageFrame { Property = prop, Id = id, Path = memberPath, Parent = node, OwnerClass = classValue };
+            ImageFrame frame = new() { Property = prop, Id = id, Path = memberPath, Parent = node, OwnerClass = classValue };
             prop.Codec.WriteMemberImage(value, context, writer, frame);
         }
         // The tree stores each name once, so a count short of the members names a member the class does not have.
         if (matched != node.Members.Count)
         {
-            foreach (var (name, _) in node.Members)
+            foreach ((string? name, TreeValue _) in node.Members)
             {
                 if (classValue.PropertyByName(name) is null)
                 {
@@ -123,18 +123,18 @@ internal static class ImageTree
     internal static ObjectNode ReadBody(DecodeContext context, int start, int end, SchemaClass classValue, DocumentNodePath path, string? className, int? slot)
     {
         context.Enter(start, path);
-        var table = PropertyTable.Read(context, start, end, path);
+        PropertyTable table = PropertyTable.Read(context, start, end, path);
         int db = table.DataBase;
         int length = end - db;
-        var entries = table.Entries;
+        List<TableEntry> entries = table.Entries;
         int count = entries.Count;
         // The entries with their properties, sorted by schema order and then by data order. A map
         // stores millions of small objects, so this pass allocates one array and no dictionary.
-        var located = new Located[count];
+        Located[] located = new Located[count];
         for (int i = 0; i < count; i++)
         {
-            var entry = entries[i];
-            var prop = classValue.PropertyById(entry.Id)
+            TableEntry entry = entries[i];
+            SchemaProperty prop = classValue.PropertyById(entry.Id)
                 ?? throw context.Fail(Codes.UnknownProperty, "Class " + classValue.Name + " has no property " + entry.Id + ".", db + entry.Offset, path, entry.Id.ToString(CultureInfo.InvariantCulture));
             for (int k = 0; k < i; k++)
             {
@@ -178,27 +178,27 @@ internal static class ImageTree
         }
         Array.Sort(located, static (left, right) => left.Ordinal != right.Ordinal ? left.Ordinal.CompareTo(right.Ordinal)
             : left.Entry.Offset != right.Entry.Offset ? left.Entry.Offset.CompareTo(right.Entry.Offset) : left.Entry.Index.CompareTo(right.Entry.Index));
-        var node = new ObjectNode(className, slot);
+        ObjectNode node = new(className, slot);
         for (int first = 0; first < count;)
         {
-            var prop = located[first].Property;
+            SchemaProperty prop = located[first].Property;
             int last = first + 1;
             while (last < count && located[last].Ordinal == located[first].Ordinal)
             {
                 last++;
             }
 
-            var memberPath = path.Member(prop.Name);
+            DocumentNodePath memberPath = path.Member(prop.Name);
             if (prop.IsDynamic)
             {
                 // The entries in data order, the order the converter lists them in the document.
-                var images = new SlotImage[last - first];
+                SlotImage[] images = new SlotImage[last - first];
                 for (int k = first; k < last; k++)
                 {
                     images[k - first] = new SlotImage(located[k].Entry.Id, located[k].Start, located[k].End);
                 }
 
-                var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
+                ImageFrame slots = new() { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
                 node.Add(prop.Name, prop.Codec.ReadSlotsImage(context, images, slots));
             }
             else if (prop.Codec.ImageRefusal is string reason)
@@ -207,13 +207,13 @@ internal static class ImageTree
             }
             else if (prop.Codec.GroupsEntries)
             {
-                var images = new SlotImage[last - first];
+                SlotImage[] images = new SlotImage[last - first];
                 for (int k = first; k < last; k++)
                 {
                     images[k - first] = new SlotImage(located[k].Entry.Id, located[k].Start, located[k].End);
                 }
 
-                var grouped = new ImageFrame { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
+                ImageFrame grouped = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
                 node.Add(prop.Name, prop.Codec.ReadGroupImage(context, images, grouped));
             }
             else if (prop.DataId is int dataId)
@@ -231,13 +231,13 @@ internal static class ImageTree
                         pairSecond = (located[k].Start, located[k].End);
                     }
                 }
-                var pair = new ImageFrame { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
+                ImageFrame pair = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
                 node.Add(prop.Name, prop.Codec.ReadPairImage(context, pairFirst, pairSecond, pair));
             }
             else
             {
-                var one = located[first];
-                var frame = new ImageFrame { Property = prop, Id = one.Entry.Id, Path = memberPath, Parent = node, OwnerClass = classValue };
+                Located one = located[first];
+                ImageFrame frame = new() { Property = prop, Id = one.Entry.Id, Path = memberPath, Parent = node, OwnerClass = classValue };
                 node.Add(prop.Name, prop.Codec.ReadImage(context, one.Start, one.End, frame));
             }
             first = last;

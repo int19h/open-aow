@@ -1,4 +1,6 @@
 
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -44,8 +46,8 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 
     private void CastGlobal()
     {
-        var player = map.Players.GetPlayers(_caster);
-        var hero = player.Leader;
+        Player player = map.Players.GetPlayers(_caster);
+        Leader? hero = player.Leader;
         if (hero is null || hero.HeroStatus.Contains(HeroStatusElement.Died))
         {
             GlobalRequests.Add(new { dead = true });
@@ -75,10 +77,10 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 
     private void EquipItems()
     {
-        var control = map.ItemControl;
+        ItemControl control = map.ItemControl;
         for (int index = 1; index < map.Players.GetCount(); index++)
         {
-            var hero = map.Players.GetPlayers(index).Leader;
+            Leader? hero = map.Players.GetPlayers(index).Leader;
             if (hero is null)
             {
                 continue;
@@ -87,7 +89,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
             int? firstRing = null;
             foreach (int kind in new[] { 0, 1, 2, 3, 4, 4, 5, 6 })
             {
-                var item = control.GenerateItem(Set<ItemType>.Of((ItemType)kind), 1, 100000);
+                Item? item = control.GenerateItem(Set<ItemType>.Of((ItemType)kind), 1, 100000);
                 if (item is null)
                 {
                     ItemActions.Add(new { player = index, type = kind, available = false });

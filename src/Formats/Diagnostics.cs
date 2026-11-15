@@ -26,7 +26,7 @@ public sealed record FormatDiagnostic(string Code, string Message)
 
     public override string ToString()
     {
-        var head = new StringBuilder();
+        StringBuilder head = new();
         head.Append(File ?? "<input>");
         if (Span.IsKnown)
         {
@@ -53,7 +53,7 @@ public sealed record FormatDiagnostic(string Code, string Message)
             head.Append(" [").Append(Profile).Append(']');
         }
 
-        var text = new StringBuilder(head.ToString()).Append('\n').Append(Message);
+        StringBuilder text = new StringBuilder(head.ToString()).Append('\n').Append(Message);
         if (Value is not null)
         {
             text.Append(" Value: ").Append(Value).Append('.');

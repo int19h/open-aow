@@ -11,15 +11,15 @@ public sealed class StringRoutineTests
     {
         foreach (string text in new[] { "abcd", "", "a\0\u20ac\u00ffz" })
         {
-            var ansi = Ansi(text);
-            foreach (var (index, count) in new[] {
+            string ansi = Ansi(text);
+            foreach ((int index, int count) in new[] {
                 (1, 2), (3, 99), (0, 2), (-2, 2), (-1, 2), (5, 1), (5, 2),
                 (1, 0), (1, -1), (2, 0), (2, -1), (int.MinValue, 2),
                 (int.MaxValue, int.MaxValue), (1, int.MaxValue) })
             {
                 Assert.Equal(RtlUnit.Copy(ansi, index, count), RtlUnit.Copy(text, index, count));
                 string changed = text;
-                var changedAnsi = ansi;
+                string changedAnsi = ansi;
                 RtlUnit.Delete(ref changed, index, count);
                 RtlUnit.Delete(ref changedAnsi, index, count);
                 Assert.Equal(changedAnsi, changed);
@@ -30,7 +30,7 @@ public sealed class StringRoutineTests
                 foreach (string source in new[] { "XY", "", text, "\u20ac\0" })
                 {
                     string changed = text;
-                    var changedAnsi = ansi;
+                    string changedAnsi = ansi;
                     RtlUnit.Insert(source, ref changed, index);
                     RtlUnit.Insert(Ansi(source), ref changedAnsi, index);
                     Assert.Equal(changedAnsi, changed);
@@ -46,7 +46,7 @@ public sealed class StringRoutineTests
     [Fact]
     public void PositionAndAnsiPositionMatchProbeInputs()
     {
-        foreach (var (needle, text) in new[] {
+        foreach ((string? needle, string? text) in new[] {
             ("ab", "abcd"), ("cd", "abcd"), ("x", "abcd"), ("", "abcd"),
             ("a", ""), ("", ""), ("aa", "aaaa"), ("abcde", "abcd"),
             ("\0b", "a\0b"), ("\u20ac", "a\u20ac\u00ff"), ("\u00ff", "\u20ac") })
@@ -59,14 +59,14 @@ public sealed class StringRoutineTests
     [Fact]
     public void StringsResizeAndWithCharKeepIndependentValuesAndOneBasedIndices()
     {
-        var strings = RtlUnit.Strings(4);
+        string[] strings = RtlUnit.Strings(4);
         Assert.Equal(new[] { "", "", "", "" }, strings);
         strings[1] = "one";
         Assert.Equal("", strings[0]);
         Assert.Empty(RtlUnit.Strings(0));
         foreach (string text in new[] { "abc", "a\0\u20ac\u00ffz", "" })
         {
-            var ansi = Ansi(text);
+            string ansi = Ansi(text);
             Assert.Equal(RtlUnit.Length(ansi), RtlUnit.Length(text));
             for (int i = 1; i <= text.Length; i++)
             {
@@ -80,7 +80,7 @@ public sealed class StringRoutineTests
             {
                 Assert.Equal(RtlUnit.Resized(ansi, length), RtlUnit.Resized(text, length));
                 string resized = text;
-                var resizedAnsi = ansi;
+                string resizedAnsi = ansi;
                 RtlUnit.SetLength(ref resized, length);
                 RtlUnit.SetLength(ref resizedAnsi, length);
                 Assert.Equal(resizedAnsi, resized);
@@ -109,8 +109,8 @@ public sealed class StringRoutineTests
         {
             for (int b = 0; b < 256; b++)
             {
-                var first = Cp1252.Text((byte)a);
-                var second = Cp1252.Text((byte)b);
+                string first = Cp1252.Text((byte)a);
+                string second = Cp1252.Text((byte)b);
                 string x = Cp1252.Text((byte)a), y = Cp1252.Text((byte)b);
                 Assert.Equal(RtlUnit.CompareStr(first, second), RtlUnit.CompareStr(x, y));
                 Assert.Equal(RtlUnit.CompareText(first, second), RtlUnit.CompareText(x, y));
@@ -118,7 +118,7 @@ public sealed class StringRoutineTests
                 Assert.Equal(RtlUnit.AnsiCompareText(first, second), RtlUnit.AnsiCompareText(x, y));
             }
         }
-        foreach (var (a, b) in new[] {
+        foreach ((string? a, string? b) in new[] {
             ("abc", "ABC"), ("ab", "ABC"), ("\u00e0", "\u00c0"), ("", "a"),
             ("a\0b", "A\0c"), ("a", "abc"), ("\u00c0\u0160\u0152\u0178", "\u00e0\u0161\u0153\u00ff") })
         {
@@ -159,7 +159,7 @@ public sealed class StringRoutineTests
             "$abcdef", "00000000", "0002147483647", "12\0junk", "$fF\0junk", "-2147483647" })
         {
             Assert.Equal(RtlUnit.StrToIntDef(Ansi(text), 91), RtlUnit.StrToIntDef(text, 91));
-            var error = Record.Exception(() => RtlUnit.StrToInt(Ansi(text)));
+            Exception? error = Record.Exception(() => RtlUnit.StrToInt(Ansi(text)));
             if (error is null)
             {
                 Assert.Equal(RtlUnit.StrToInt(Ansi(text)), RtlUnit.StrToInt(text));
@@ -177,8 +177,8 @@ public sealed class StringRoutineTests
     {
         foreach (string text in new[] { "", "abc", "a\0b", "\u20ac\u0081\0\u00ff" })
         {
-            var ansi = Ansi(text);
-            var pointer = Ptr<byte>.Unbox(ansi);
+            string ansi = Ansi(text);
+            Ptr<byte> pointer = Ptr<byte>.Unbox(ansi);
             Assert.Equal(RtlUnit.StrPas(pointer), RtlUnit.FromPChar(pointer));
             Assert.Equal(RtlUnit.NullTerminatedText(ansi), RtlUnit.NullTerminatedText(text));
             foreach (int length in new[] { -1, 0, text.Length })
@@ -200,7 +200,7 @@ public sealed class StringRoutineTests
     [Fact]
     public void NullArgumentsBehaveAsEmptyText()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         Assert.Equal(0, RtlUnit.Length(null));
         Assert.Equal("", RtlUnit.Copy(null, 1, 3));
         Assert.Equal("", RtlUnit.Delete(null, 1, 3));
@@ -243,12 +243,12 @@ public sealed class StringRoutineTests
     [Fact]
     public void AssertionMessagesMatchAnsiRoutine()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         foreach (string text in new[] { "", "broken", "\u20ac" })
         {
             RtlUnit.Assert(true, text, "unit.pas", 42);
-            var expected = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, Ansi(text), "unit.pas", 42));
-            var actual = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, text, "unit.pas", 42));
+            AssertionFailedException expected = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, Ansi(text), "unit.pas", 42));
+            AssertionFailedException actual = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, text, "unit.pas", 42));
             Assert.Equal(expected.Message, actual.Message);
         }
         Assert.Equal("Assertion failed (unit.pas, line 1)",

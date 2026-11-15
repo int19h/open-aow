@@ -230,7 +230,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        var box = new object[] { ReadBytes(image, ElementWidth, ElementSigned) };
+        object[] box = new object[] { ReadBytes(image, ElementWidth, ElementSigned) };
         typeof(EnumRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, Name, box]);
@@ -242,7 +242,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
 
     private static void Move<TEnum>(IPersister persister, string name, object[] box) where TEnum : struct, Enum
     {
-        var value = (TEnum)Enum.ToObject(typeof(TEnum), (long)box[0]!);
+        TEnum value = (TEnum)Enum.ToObject(typeof(TEnum), (long)box[0]!);
         value = persister.Enum(name, value);
         box[0] = Convert.ToInt64(value);
     }
@@ -264,7 +264,7 @@ internal sealed class SetRecordField : RecordFieldInfo
 
     internal void TransferNamed(IPersister persister, string name, Span<byte> image)
     {
-        var box = new object[] { image.ToArray() };
+        object[] box = new object[] { image.ToArray() };
         typeof(SetRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, name, box]);
@@ -276,16 +276,16 @@ internal sealed class SetRecordField : RecordFieldInfo
 
     private static void Move<E>(IPersister persister, string name, object[] box) where E : unmanaged, Enum
     {
-        var image = (byte[])box[0]!;
+        byte[] image = (byte[])box[0]!;
         ulong mask = 0;
         for (int i = 0; i < image.Length; i++)
         {
             mask |= (ulong)image[i] << (8 * i);
         }
 
-        var set = Set<E>.FromMask(mask);
+        Set<E> set = Set<E>.FromMask(mask);
         set = persister.Set(name, set);
-        var written = new byte[image.Length];
+        byte[] written = new byte[image.Length];
         set.CopyImageTo(written);
         box[0] = written;
     }
@@ -339,7 +339,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
     private void Move<T>(IPersister persister, Span<byte> image, ItemTransfer<T> transfer)
     {
-        var items = new List<T>(ElementCount);
+        List<T> items = new(ElementCount);
         for (int i = 0; i < ElementCount; i++)
         {
             items.Add(ReadItem<T>(image.Slice(i * ElementWidth, ElementWidth)));
@@ -358,7 +358,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
         for (int i = 0; i < ElementCount; i++)
         {
-            var slot = image.Slice(i * ElementWidth, ElementWidth);
+            Span<byte> slot = image.Slice(i * ElementWidth, ElementWidth);
             if (i < items.Count)
             {
                 WriteItem(slot, items[i]);
@@ -450,13 +450,13 @@ internal sealed class NestedRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        var nested = RecordCatalog.Require(ElementType, null, Name);
+        RecordTypeInfo nested = RecordCatalog.Require(ElementType, null, Name);
         if (nested.BareSet)
         {
             ((SetRecordField)nested.Fields[0]).TransferNamed(persister, Name, image);
             return;
         }
-        var copy = image.ToArray();
+        byte[] copy = image.ToArray();
         persister.Record(Name, body => RecordValues.Apply(body, nested, copy));
         copy.CopyTo(image);
     }

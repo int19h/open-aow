@@ -86,7 +86,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
     [ProbeFact("random")]
     public void RandomFixture()
     {
-        var probe = new ProbeLines("random");
+        ProbeLines probe = new("random");
         foreach (int bound in new[] { 2, 6, 10, 100, 1000, 65536, int.MaxValue, 0, 1 })
         {
             RandSeed = 123456789;
@@ -120,7 +120,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
     [ProbeFact("floats")]
     public void FloatsFixture()
     {
-        var probe = new ProbeLines("floats");
+        ProbeLines probe = new("floats");
         for (int i = -8; i <= 8; i++)
         {
             double x = i / 2.0;
@@ -151,10 +151,10 @@ public sealed class ProbeTests(ITestOutputHelper output)
     [ProbeFact("strings")]
     public void StringsFixture()
     {
-        var probe = new ProbeLines("strings");
+        ProbeLines probe = new("strings");
         void Bytes(string label, string value) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(value).Array!.AsSpan(0, value.Length)));
         string s = "abcd";
-        foreach (var (label, index, count) in new[] {
+        foreach ((string? label, int index, int count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-2,2),
             ("past_end",5,1), ("zero_count",1,0), ("negative_count",1,-1) })
         {
@@ -162,24 +162,24 @@ public sealed class ProbeTests(ITestOutputHelper output)
         }
 
         Bytes("copy_empty", Copy("", 1, 4));
-        foreach (var (label, index, count) in new[] {
+        foreach ((string? label, int index, int count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-1,2),
             ("past_end",5,2), ("zero_count",2,0), ("negative_count",2,-1) })
         {
-            var t = s;
+            string t = s;
             Delete(ref t, index, count);
             Bytes("delete_" + label, t);
         }
-        foreach (var (label, index) in new[] {
+        foreach ((string? label, int index) in new[] {
             ("start",1), ("middle",3), ("end",5), ("past_end",99), ("zero_index",0), ("negative_index",-1) })
         {
-            var t = s;
+            string t = s;
             Insert("XY", ref t, index);
             Bytes("insert_" + label, t);
         }
         Bytes("insert_empty_source", Insert("", s, 2));
         Bytes("insert_empty_target", Insert("XY", "", 1));
-        var self = s;
+        string self = s;
         Insert(self, ref self, 3);
         Bytes("insert_self", self);
         probe.Fact("pos_start", Pos("ab", s));
@@ -202,7 +202,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
         probe.Fact("high_vs_ascii_gt", Ord(Cp1252.Compare("\u20AC", "z") > 0));
         probe.Fact("embedded_zero_compare", Ord(Cp1252.Compare("a\0b", "a\0c") < 0));
         s = "abc";
-        var alias = s;
+        string alias = s;
         s = WithChar(s, 2, 'X');
         Bytes("alias_mutated", s);
         Bytes("alias_original", alias);
@@ -225,17 +225,17 @@ public sealed class ProbeTests(ITestOutputHelper output)
     [ProbeFact("sets")]
     public void SetsFixture()
     {
-        var probe = new ProbeLines("sets");
+        ProbeLines probe = new("sets");
         string Bits(Set<byte> set, int width) => string.Concat(Enumerable.Range(0, width).Select(i => set.Contains((byte)i) ? '1' : '0'));
         foreach (int width in new[] { 8, 16, 32, 256 })
         {
-            var empty = Set<byte>.WithBounds(0, width - 1);
-            var a = empty.With(0).With((byte)(width - 1));
-            var b = empty.With(1).With((byte)(width - 1));
+            Set<byte> empty = Set<byte>.WithBounds(0, width - 1);
+            Set<byte> a = empty.With(0).With((byte)(width - 1));
+            Set<byte> b = empty.With(1).With((byte)(width - 1));
             probe.Fact($"size_{width}", a.StorageSize);
             probe.Fact($"union_{width}", Bits(a + b, width));
             probe.Fact($"difference_{width}", Bits(a - b, width));
-            var c = a & b;
+            Set<byte> c = a & b;
             probe.Fact($"intersection_{width}", Bits(c, width));
             probe.Fact($"subset_true_{width}", Ord(c.IsSubsetOf(a)));
             probe.Fact($"subset_false_{width}", Ord(a.IsSubsetOf(b)));
@@ -252,17 +252,17 @@ public sealed class ProbeTests(ITestOutputHelper output)
         }
         probe.Fact("byte_mask", (byte)Set<byte>.Of(0, 7).Image);
         probe.Fact("word_mask", (ushort)Set<byte>.Of(0, 8, 15).Image);
-        var shifted = Set<byte>.WithBounds(8, 15);
+        Set<byte> shifted = Set<byte>.WithBounds(8, 15);
         probe.Fact("shifted_size", shifted.StorageSize);
         probe.Fact("shifted_mask", (byte)shifted.With(8).With(15).Image);
         probe.Fact("shifted_low_mask", (byte)shifted.With(8).Image);
         probe.Fact("shifted_high_mask", (byte)shifted.With(15).Image);
-        var cross = Set<byte>.WithBounds(7, 8);
+        Set<byte> cross = Set<byte>.WithBounds(7, 8);
         probe.Fact("cross_size", cross.StorageSize);
         probe.Fact("cross_mask", (ushort)cross.With(7).With(8).Image);
         probe.Fact("cross_low_mask", (ushort)cross.With(7).Image);
         probe.Fact("cross_high_mask", (ushort)cross.With(8).Image);
-        var full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
+        Set<byte> full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
         for (int i = 0; i <= 255; i++)
         {
             probe.Fact($"full_member_{i}", Ord(full.Contains((byte)i)));
@@ -274,7 +274,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
     [ProbeFact("integers")]
     public void IntegersFixture()
     {
-        var probe = new ProbeLines("integers");
+        ProbeLines probe = new("integers");
         int i = int.MaxValue, j = 1;
         probe.Fact("add_max_1", unchecked(i + j));
         i = int.MinValue;

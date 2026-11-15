@@ -5,10 +5,10 @@ public sealed class ListStableSortTests
     [Fact]
     public void StableSortKeepsEqualItemsAndQuickSortDoesNot()
     {
-        var first = new object();
-        var second = new object();
-        var third = new object();
-        var stable = new DelphiList<object>();
+        object first = new();
+        object second = new();
+        object third = new();
+        DelphiList<object> stable = new();
         stable.Add(first);
         stable.Add(second);
         stable.Add(third);
@@ -17,7 +17,7 @@ public sealed class ListStableSortTests
         Assert.Same(second, stable[1]);
         Assert.Same(third, stable[2]);
 
-        var quick = new DelphiList<object>();
+        DelphiList<object> quick = new();
         quick.Add(first);
         quick.Add(second);
         quick.Add(third);

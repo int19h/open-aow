@@ -14,7 +14,7 @@ internal static unsafe class SdlVerification
         Environment.SetEnvironmentVariable("SDL_VIDEODRIVER", "dummy");
         for (int iteration = 0; iteration < 2; iteration++)
         {
-            using var display = new SdlDisplayHost("OpenAoW verification", hidden: true);
+            using SdlDisplayHost display = new("OpenAoW verification", hidden: true);
             display.VSync = true;
             display.VSync = false;
             if (display.VSync)
@@ -22,19 +22,19 @@ internal static unsafe class SdlVerification
                 throw new InvalidOperationException("Vsync stayed on.");
             }
 
-            var sink = new Sink();
+            Sink sink = new();
             display.PumpEvents(sink);
             sink.Reset();
             int count;
-            var windows = SDL_GetWindows(&count);
+            SDL_Window** windows = SDL_GetWindows(&count);
             if (count != 1)
             {
                 throw new InvalidOperationException("Expected one SDL window.");
             }
 
-            var id = SDL_GetWindowID(windows[0]);
+            SDL_WindowID id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
-            var surface = new LockedSurface { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = new byte[68 * 24] };
+            LockedSurface surface = new() { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = new byte[68 * 24] };
             display.Present(surface);
             surface.Pitch = -68;
             surface.Data = new byte[68 * 24];

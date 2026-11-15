@@ -45,7 +45,7 @@ public static partial class Fixtures
     public static Summary Run(TextWriter errors)
     {
         int cases = 0, failed = 0, own = 0, ownFailed = 0;
-        foreach (var c in All())
+        foreach (Case c in All())
         {
             cases++;
             Outcome outcome;
@@ -116,7 +116,7 @@ public static partial class Fixtures
 
     private static void Set(JsonObject objectValue, string name, JsonValue value)
     {
-        var member = objectValue.Find(name);
+        JsonMember? member = objectValue.Find(name);
         if (member is null)
         {
             objectValue.Add(name, value);
@@ -140,22 +140,22 @@ public static partial class Fixtures
     /// <summary>G1 and G2 over one original file, and G-own over its document.</summary>
     private static Outcome RoundTrip(byte[] file, string profile, string kind, Func<JsonObject, string?>? inspect = null)
     {
-        var p = FindProfile(profile);
-        var imported = GameFiles.Import(file, p, kind);
-        var text = GameFiles.Write(imported.Document);
-        var exported = GameFiles.Export(GameFiles.Read(text).Document);
+        FileProfile p = FindProfile(profile);
+        ImportResult imported = GameFiles.Import(file, p, kind);
+        byte[] text = GameFiles.Write(imported.Document);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(text).Document);
         if (!p.Comparable(file, FormatLimits.Default).AsSpan().SequenceEqual(p.Comparable(exported.Bytes, FormatLimits.Default)))
         {
             return Fail("G1 differs");
         }
 
-        var again = GameFiles.Write(GameFiles.Import(exported.Bytes, p, kind).Document);
+        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, p, kind).Document);
         if (!again.AsSpan().SequenceEqual(text))
         {
             return Fail("G2 differs");
         }
 
-        var n1 = GameFiles.Normalize(text).Bytes;
+        byte[] n1 = GameFiles.Normalize(text).Bytes;
         if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1))
         {
             return Fail("G-own differs");
@@ -172,11 +172,11 @@ public static partial class Fixtures
     /// <summary>G2 and G-own for an own document: the import of its export is its normal form.</summary>
     private static Outcome OwnRoundTrip(JsonObject document, Func<JsonObject, byte[], string?>? inspect = null)
     {
-        var (profile, kind, _, _) = GameFiles.Envelope(document, null);
-        var exported = GameFiles.Export(document);
-        var normal = GameFiles.Import(exported.Bytes, profile, kind).Document;
-        var text = GameFiles.Write(normal);
-        var exportedAgain = GameFiles.Export(Parse(text));
+        (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = GameFiles.Envelope(document, null);
+        ExportResult exported = GameFiles.Export(document);
+        JsonObject normal = GameFiles.Import(exported.Bytes, profile, kind).Document;
+        byte[] text = GameFiles.Write(normal);
+        ExportResult exportedAgain = GameFiles.Export(Parse(text));
         if (!profile.Comparable(exportedAgain.Bytes, FormatLimits.Default).AsSpan().SequenceEqual(profile.Comparable(exported.Bytes, FormatLimits.Default)))
         {
             return Fail("G1 differs for the exported original");
@@ -187,7 +187,7 @@ public static partial class Fixtures
             return Fail("G2 differs");
         }
 
-        var n1 = GameFiles.Normalize(GameFiles.Write(document)).Bytes;
+        byte[] n1 = GameFiles.Normalize(GameFiles.Write(document)).Bytes;
         if (!n1.AsSpan().SequenceEqual(text))
         {
             return Fail("N(D) differs from the import of the export");
@@ -238,8 +238,8 @@ public static partial class Fixtures
 
     private static byte[] Concat(params byte[][] parts)
     {
-        var b = new ByteBuffer();
-        foreach (var p in parts)
+        ByteBuffer b = new();
+        foreach (byte[] p in parts)
         {
             b.Bytes(p);
         }
@@ -249,7 +249,7 @@ public static partial class Fixtures
 
     private static byte[] I32(int v)
     {
-        var b = new byte[4];
+        byte[] b = new byte[4];
         BinaryPrimitives.WriteInt32LittleEndian(b, v);
         return b;
     }

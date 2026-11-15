@@ -36,8 +36,8 @@ public sealed class CoreTests
         Assert.Equal(nameof(SampleChild), NameTable.Stored(typeof(SampleChild)));
         Assert.Equal("TPersistent", NameTable.Delphi(typeof(Persistent)));
         Assert.Equal(nameof(Persistent), NameTable.Stored(typeof(Persistent)));
-        var fresh = new SampleChild(0);
-        var next = new SampleChild(3);
+        SampleChild fresh = new(0);
+        SampleChild next = new(3);
         Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
         Assert.Equal(2, next.ClassId);
@@ -48,17 +48,17 @@ public sealed class CoreTests
         Assert.True(next.Destroyed);
         Assert.Throws<InvalidOperationException>(() => FailingSample.Create(1));
         Assert.True(FailingSample.LastInstance!.Destroyed);
-        var result = GeneratedStyleSample.Run();
+        SampleRecord result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
         Assert.Equal("abcde", result.Name);
         Assert.Equal(Set<Flag>.Range(Flag.First, Flag.Third), result.Flags);
-        var copy = result;
+        SampleRecord copy = result;
         copy.Name = "x";
         copy.Flags = default;
         Assert.Equal("abcde", result.Name);
         Assert.Equal(3, result.Flags.Count);
         Assert.Equal(12, Marshal.SizeOf<SampleRecord>());
-        var image = Bytes.Of(ref result);
+        Span<byte> image = Bytes.Of(ref result);
         Assert.Equal(7, image[0]);
         Assert.Equal(new byte[] { 5, 97, 98, 99, 100, 101 }, image.Slice(1, 6).ToArray());
         Assert.Equal(6, Marshal.SizeOf<ByteArray6>());
@@ -69,7 +69,7 @@ public sealed class CoreTests
     [Fact]
     public void StringsAreImmutableValuesWithOneCharPerByte()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         string? nil = null;
         Assert.Equal(0, Length(nil));
         Assert.True(IsEmpty(nil));
@@ -87,11 +87,11 @@ public sealed class CoreTests
         string full = Cp1252.Decode(all);
         Assert.Equal(256, full.Length);
         Assert.Equal(all, Cp1252.Encode(full));
-        var dictionary = new Dictionary<string, int> { [full] = 1 };
+        Dictionary<string, int> dictionary = new() { [full] = 1 };
         Assert.Equal(1, dictionary[Cp1252.Decode(all)]);
         Assert.Equal(0, Cp1252.Compare(full, Cp1252.Decode(all)));
         // A PChar of a string is a zero-terminated copy, so a write through it leaves the string.
-        var pointer = Ptr<byte>.Unbox(full);
+        Ptr<byte> pointer = Ptr<byte>.Unbox(full);
         pointer[1] = 10;
         Assert.Equal('\u0001', full[1]);
         Assert.Equal(0, pointer[256]);
@@ -120,7 +120,7 @@ public sealed class CoreTests
         Assert.True(nil.IsNull);
         Assert.True(nil == default);
         Assert.True(Ptr<int>.Alloc(0).IsNull);
-        var pointer = Ptr<int>.Alloc(5);
+        Ptr<int> pointer = Ptr<int>.Alloc(5);
         Assert.False(pointer.IsNull);
         Assert.Equal(0, pointer.Index);
         Assert.Equal(5, pointer.Array!.Length);
@@ -142,7 +142,7 @@ public sealed class CoreTests
         Assert.Equal(new[] { 1, 2, 3, 3, 0 }, pointer.Array);
         Ptr<int>.Fill(pointer + 3, 2, 8);
         Assert.Equal(new[] { 1, 2, 3, 8, 8 }, pointer.Array);
-        var grown = pointer.Realloc(7);
+        Ptr<int> grown = pointer.Realloc(7);
         Assert.Equal(new[] { 1, 2, 3, 8, 8, 0, 0 }, grown.Array);
         grown.Value = 9;
         Assert.Equal(1, pointer.Value);
@@ -151,7 +151,7 @@ public sealed class CoreTests
         Assert.Equal(2, nil.Realloc(2).Array!.Length);
         Ptr<int>.Copy(default, default, 0);
         Ptr<int>.Fill(default, -1, 0);
-        var box = new PtrBox<int>(pointer);
+        PtrBox<int> box = new(pointer);
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox(box));
         object slot = box;
@@ -161,12 +161,12 @@ public sealed class CoreTests
         Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox((object?)null));
         Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(box));
         string[] words = ["a", "b", "c"];
-        var managed = Ptr<string>.To(words, 0);
+        Ptr<string> managed = Ptr<string>.To(words, 0);
         Ptr<string>.Copy(managed, managed + 1, 2);
         Assert.Equal(new[] { "a", "a", "b" }, words);
         Ptr<string>.Fill(managed + 1, 2, "z");
         Assert.Equal(new[] { "a", "z", "z" }, words);
-        var cell = new SampleRecord[1];
+        SampleRecord[] cell = new SampleRecord[1];
         object payload = new PtrBox<SampleRecord>(Ptr<SampleRecord>.To(cell, 0));
         Ptr<SampleRecord>.Unbox(payload).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
@@ -182,7 +182,7 @@ public sealed class CoreTests
         Set<WideFlag> empty = default;
         Assert.True(empty.IsEmpty);
         Assert.Equal(0, empty.Count);
-        var set = Set<WideFlag>.Of(WideFlag.Low, WideFlag.High);
+        Set<WideFlag> set = Set<WideFlag>.Of(WideFlag.Low, WideFlag.High);
         Assert.Equal(0x8000000000000001UL, set.Mask);
         Assert.Equal(set, Set<WideFlag>.FromMask(set.Mask));
         Assert.True(set.Equals((object)Set<WideFlag>.FromMask(set.Mask)));
@@ -200,7 +200,7 @@ public sealed class CoreTests
         Assert.False(Set<byte>.WithBounds(8, 15).Contains(0));
         Assert.Equal(4, Set<byte>.WithBounds(20, 40).StorageSize);
         Assert.Equal(4, Set<byte>.WithBounds(0, 23).StorageSize);
-        var shifted = Set<ShiftedFlag>.Of(ShiftedFlag.Low, ShiftedFlag.High);
+        Set<ShiftedFlag> shifted = Set<ShiftedFlag>.Of(ShiftedFlag.Low, ShiftedFlag.High);
         Assert.Equal(0x8100UL, shifted.Mask);
         Assert.Equal(129UL, shifted.Image);
         Assert.Equal(1, shifted.StorageSize);
@@ -208,7 +208,7 @@ public sealed class CoreTests
         shifted.CopyImageTo(image);
         Assert.Equal(129, image[0]);
         Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
-        var large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
+        Set<byte> large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
         Assert.Equal(large, Set<byte>.WithBounds(0, 255).WithRange(0, 255));
         Assert.Equal(256, large.Count);
         image = new byte[32];
@@ -218,7 +218,7 @@ public sealed class CoreTests
         large.CopyImageTo(image);
         Assert.Equal(254, image[8]); Assert.Equal(254, image[16]); Assert.Equal(254, image[24]);
         Assert.Equal(253, large.Count);
-        var crossing = Set<byte>.WithBounds(60, 80).With(60).With(64).With(79);
+        Set<byte> crossing = Set<byte>.WithBounds(60, 80).With(60).With(64).With(79);
         image = new byte[crossing.StorageSize];
         crossing.CopyImageTo(image);
         Assert.Equal(new byte[] { 16, 1, 128, 0 }, image);
@@ -230,11 +230,11 @@ public sealed class CoreTests
     {
         for (int a = 0; a < 256; a++)
         {
-            var left = Set<byte>.FromMask((ulong)a);
-            var original = left;
+            Set<byte> left = Set<byte>.FromMask((ulong)a);
+            Set<byte> original = left;
             for (int b = 0; b < 256; b++)
             {
-                var right = Set<byte>.FromMask((ulong)b);
+                Set<byte> right = Set<byte>.FromMask((ulong)b);
                 Assert.Equal((ulong)(a | b), (left + right).Mask);
                 Assert.Equal((ulong)(a & ~b), (left - right).Mask);
                 Assert.Equal((ulong)(a & b), (left & right).Mask);

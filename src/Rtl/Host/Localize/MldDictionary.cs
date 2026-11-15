@@ -42,7 +42,7 @@ public sealed class MldDictionary
             return;
         }
 
-        using var stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
+        using Stream stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
         Read(stream);
         _fileName = path;
     }
@@ -50,10 +50,10 @@ public sealed class MldDictionary
     public void Read(Stream stream)
     {
         Close();
-        using var copy = new MemoryStream();
+        using MemoryStream copy = new();
         stream.CopyTo(copy);
-        var reader = new Reader(copy.ToArray());
-        var bytes = reader.Data;
+        Reader reader = new(copy.ToArray());
+        byte[] bytes = reader.Data;
         if (bytes.Length < 42 || !bytes.AsSpan(0, 3).SequenceEqual("MLD"u8))
         {
             throw new InvalidDataException("Invalid MLD header");
@@ -87,19 +87,19 @@ public sealed class MldDictionary
             throw new InvalidDataException("MLD locale records are unsupported");
         }
 
-        var coverage = new List<(int Start, int End)> { (0, 42) };
-        var languages = new MldLanguage[languageCount];
+        List<(int Start, int End)> coverage = new() { (0, 42) };
+        MldLanguage[] languages = new MldLanguage[languageCount];
         reader.Seek(languageOffset);
         for (int i = 0; i < languageCount; i++)
         {
             int start = reader.Position;
             int? block = Version >= 3 ? reader.UInt16() : null;
             int primary = reader.UInt16();
-            var isoLanguage = Version >= 2 ? reader.Chars(2) : "";
+            string isoLanguage = Version >= 2 ? reader.Chars(2) : "";
             int sub = reader.UInt16();
-            var country = Version >= 2 ? reader.Chars(2) : "";
-            var allSubs = reader.Text();
-            var countries = Version >= 2 ? reader.Text() : "";
+            string country = Version >= 2 ? reader.Chars(2) : "";
+            string allSubs = reader.Text();
+            string countries = Version >= 2 ? reader.Text() : "";
             int charset = Version >= 3 ? reader.UInt16() : 0;
             int codePage = reader.UInt16();
             if (reader.Ansi && codePage is not (0 or 1252))
@@ -108,9 +108,9 @@ public sealed class MldDictionary
             }
 
             byte options = reader.Byte();
-            var english = reader.Text();
-            var native = reader.Text();
-            var extra = reader.Text();
+            string english = reader.Text();
+            string native = reader.Text();
+            string extra = reader.Text();
             byte extraByte = reader.Byte();
             int padding = 0;
             if (block is int size)
@@ -129,14 +129,14 @@ public sealed class MldDictionary
             coverage.Add((start, reader.Position));
         }
         reader.Seek(entryOffset);
-        var entries = new MldEntry[entryCount];
+        MldEntry[] entries = new MldEntry[entryCount];
         for (int i = 0; i < entryCount; i++)
         {
             int start = reader.Position;
-            var native = reader.Text();
-            var form = ContextCode is 1 or 3 ? reader.Text() : "";
-            var component = ContextCode is 1 or 2 ? reader.Text() : "";
-            var translations = RtlUnit.Strings(languageCount - 1);
+            string native = reader.Text();
+            string form = ContextCode is 1 or 3 ? reader.Text() : "";
+            string component = ContextCode is 1 or 2 ? reader.Text() : "";
+            string[] translations = RtlUnit.Strings(languageCount - 1);
             for (int j = 0; j < translations.Length; j++)
             {
                 translations[j] = reader.Text();
@@ -149,9 +149,9 @@ public sealed class MldDictionary
         if (infoOffset != 0)
         {
             reader.Seek(infoOffset);
-            var description = reader.Text();
-            var owner = reader.Text();
-            var users = RtlUnit.Strings(reader.UInt16());
+            string description = reader.Text();
+            string owner = reader.Text();
+            string[] users = RtlUnit.Strings(reader.UInt16());
             for (int i = 0; i < users.Length; i++)
             {
                 users[i] = reader.Text();
@@ -173,7 +173,7 @@ public sealed class MldDictionary
             coverage.Add((infoOffset, reader.Position));
         }
         int consumed = 0;
-        foreach (var range in coverage.OrderBy(r => r.Start).ThenBy(r => r.End))
+        foreach ((int Start, int End) range in coverage.OrderBy(r => r.Start).ThenBy(r => r.End))
         {
             if (range.Start != consumed)
             {
@@ -265,7 +265,7 @@ public sealed class MldDictionary
             return source;
         }
 
-        var translated = entry.Translations[_language - 1];
+        string translated = entry.Translations[_language - 1];
         return translated.Length == 0 ? source : translated;
     }
 
@@ -306,7 +306,7 @@ public sealed class MldDictionary
                 throw new InvalidDataException("Truncated MLD data");
             }
 
-            var span = Data.AsSpan(Position, count);
+            Span<byte> span = Data.AsSpan(Position, count);
             Position += count;
             return span;
         }
@@ -329,13 +329,13 @@ public sealed class MldDictionary
 
         public string Chars(int count)
         {
-            var raw = Take(checked(count * (Ansi ? 1 : 2)));
+            ReadOnlySpan<byte> raw = Take(checked(count * (Ansi ? 1 : 2)));
             if (Ansi)
             {
                 return Cp1252.Decode(raw.ToArray());
             }
 
-            var encoding = new UnicodeEncoding(!LittleEndian, false, true);
+            UnicodeEncoding encoding = new(!LittleEndian, false, true);
             return Cp1252.Normalize(encoding.GetString(raw));
         }
     }

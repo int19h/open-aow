@@ -91,7 +91,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         }
         // A view addresses the original array at a byte offset. It never captures another view,
         // so reading through a chain of reinterpretations costs one step.
-        var root = (Array)Storage!;
+        Array root = (Array)Storage!;
         int start = ByteIndex + offset;
         return new Ptr<U> { storage = root, storageBytes = StorageBytes, byteOffset = start, view = View<U>(root, start) };
     }
@@ -114,7 +114,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
             return default;
         }
 
-        var result = Alloc(count);
+        Ptr<T> result = Alloc(count);
         if (!IsNull)
         {
             int copied = Math.Min(count, (StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
@@ -198,7 +198,7 @@ public static class Bytes
 
     public static Span<byte> Of<T>(ref T value, int count) where T : unmanaged
     {
-        var bytes = Of(ref value);
+        Span<byte> bytes = Of(ref value);
         if (count < 0 || count > bytes.Length)
         {
             throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record");

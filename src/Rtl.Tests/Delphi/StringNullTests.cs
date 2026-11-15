@@ -25,7 +25,7 @@ public sealed class StringNullTests
     [InlineData(true)]
     public void EveryTextRoutineReadsTheNullSwitch(bool strict)
     {
-        using var mode = new StringMode(strict);
+        using StringMode mode = new(strict);
         Action[] reads = [
             () => Cp1252.Encode(null), () => Cp1252.Normalize(null),
             () => Cp1252.Compare(null, ""), () => Cp1252.Compare("", null),

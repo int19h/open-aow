@@ -52,14 +52,14 @@ internal sealed class RecordListElement : ListElement
 
     internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path)
     {
-        var bytes = IntegerBytes.Bytes(value, 4);
-        var nested = new DecodeContext(bytes, context.Schema, context.Engine, context.Profile, context.File, context.Limits, new LayoutCounts());
+        byte[] bytes = IntegerBytes.Bytes(value, 4);
+        DecodeContext nested = new(bytes, context.Schema, context.Engine, context.Profile, context.File, context.Limits, new LayoutCounts());
         return _codec.Decode(nested, 0, bytes.Length, Site(path));
     }
 
     internal override long Read(JsonValue value, EncodeContext context, DocumentNodePath path)
     {
-        var buffer = new ByteBuffer(4);
+        ByteBuffer buffer = new(4);
         _codec.Encode(context, value, buffer, Site(path));
         return IntegerBytes.Read(buffer.Span, 4, signed: true);
     }

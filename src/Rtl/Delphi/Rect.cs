@@ -24,7 +24,7 @@ public static partial class RtlUnit
 
     public static bool IntersectRect(out Rect result, in Rect left, in Rect right)
     {
-        var intersection = new Rect { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
+        Rect intersection = new() { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
         bool nonempty = intersection.Right > intersection.Left && intersection.Bottom > intersection.Top;
         result = nonempty ? intersection : default;
         return nonempty;

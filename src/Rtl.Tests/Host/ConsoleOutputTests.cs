@@ -6,7 +6,7 @@ public sealed class ConsoleOutputTests
     [Fact]
     public void WritesRawCodePage1252BytesAndCrLfWithoutTextWriterEncoding()
     {
-        using var output = new MemoryStream();
+        using MemoryStream output = new();
         RtlUnit.ConsoleWrite(output, false, "\0\u20AC\u00E9\u00FF");
         RtlUnit.ConsoleWrite(output, true, " ", -12, " ", true, " ", false);
         RtlUnit.ConsoleWrite(output, true);

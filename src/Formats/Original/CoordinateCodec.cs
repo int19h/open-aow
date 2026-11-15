@@ -33,7 +33,7 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         get
         {
-            var ids = new int[_parts.Length];
+            int[] ids = new int[_parts.Length];
             for (int i = 0; i < _parts.Length; i++)
             {
                 ids[i] = _parts[i].Id;
@@ -56,7 +56,7 @@ internal sealed class CoordinateCodec : PropertyCodec
         }
 
         string[] expected = ["X", "Y", "MapLevel"];
-        var parsed = new (string Name, int Id)[3];
+        (string Name, int Id)[] parsed = new (string Name, int Id)[3];
         for (int i = 0; i < 3; i++)
         {
             if (parts.Items[i] is not JsonObject part
@@ -90,17 +90,17 @@ internal sealed class CoordinateCodec : PropertyCodec
             throw context.Fail(Codes.Type, frame.Property.Name + " is a coordinate.", null, frame.Path);
         }
 
-        foreach (var (name, id) in _parts)
+        foreach ((string? name, int id) in _parts)
         {
-            var found = node.Find(name);
+            TreeValue? found = node.Find(name);
             if (found is null)
             {
                 continue;
             }
 
-            var part = frame.Path.Member(name);
+            DocumentNodePath part = frame.Path.Member(name);
             long number = Require(found, context, name, part);
-            var site = new ValueSite { Property = frame.Property, Id = id, Path = part, Owner = frame.Owner };
+            ValueSite site = new() { Property = frame.Property, Id = id, Path = part, Owner = frame.Owner };
             writer.Begin(id, frame.Property);
             _integers.Encode(context, new JsonInteger(number), writer.Data, site);
             writer.End();
@@ -109,8 +109,8 @@ internal sealed class CoordinateCodec : PropertyCodec
 
     internal override TreeValue ReadGroupImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
     {
-        var node = new RecordNode();
-        foreach (var entry in entries)
+        RecordNode node = new();
+        foreach (SlotImage entry in entries)
         {
             int index = IndexOf(entry.Id);
             if (index < 0)
@@ -119,7 +119,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             }
 
             string name = _parts[index].Name;
-            var site = new ValueSite { Property = frame.Property, Id = entry.Id, Path = frame.Path.Member(name), Owner = frame.Owner };
+            ValueSite site = new() { Property = frame.Property, Id = entry.Id, Path = frame.Path.Member(name), Owner = frame.Owner };
             node.Add(name, new IntegerNode(_width, _signed, ReadInteger(context, entry.Start, entry.End, name, site)));
         }
         return node;
@@ -139,21 +139,21 @@ internal sealed class CoordinateCodec : PropertyCodec
         }
 
         RejectUnknown(objectValue, (member, code, message) => context.Fail(code, message, member.Value, site.Path.Member(member.Name), member.Name));
-        foreach (var (name, id) in _parts)
+        foreach ((string? name, int id) in _parts)
         {
-            var member = objectValue.Find(name);
+            JsonMember? member = objectValue.Find(name);
             if (member is null)
             {
                 continue;
             }
 
-            var part = site.Path.Member(name);
+            DocumentNodePath part = site.Path.Member(name);
             if (member.Value is JsonInteger number)
             {
                 CheckRange(number.Value, name, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, part, Text(number.Value), "-128 to 127"));
             }
 
-            var partSite = new ValueSite { Property = site.Property, Id = id, Path = part, Owner = site.Owner, Reader = site.Reader };
+            ValueSite partSite = new() { Property = site.Property, Id = id, Path = part, Owner = site.Owner, Reader = site.Reader };
             writer.Begin(id, site.Property);
             _integers.Encode(context, member.Value, writer.Data, partSite);
             writer.End();
@@ -162,9 +162,9 @@ internal sealed class CoordinateCodec : PropertyCodec
 
     internal override JsonValue DecodeGroup(DecodeContext context, IReadOnlyList<SlotImage> entries, ValueSite site)
     {
-        var objectValue = new JsonObject();
-        var numbers = new long?[3];
-        foreach (var entry in entries)
+        JsonObject objectValue = new();
+        long?[] numbers = new long?[3];
+        foreach (SlotImage entry in entries)
         {
             int index = IndexOf(entry.Id);
             if (index < 0)
@@ -173,7 +173,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             }
 
             string name = _parts[index].Name;
-            var partSite = new ValueSite { Property = site.Property, Id = entry.Id, Path = site.Path.Member(name), Owner = site.Owner, Builder = site.Builder };
+            ValueSite partSite = new() { Property = site.Property, Id = entry.Id, Path = site.Path.Member(name), Owner = site.Owner, Builder = site.Builder };
             numbers[index] = ReadInteger(context, entry.Start, entry.End, name, partSite);
         }
         for (int i = 0; i < 3; i++)
@@ -199,21 +199,21 @@ internal sealed class CoordinateCodec : PropertyCodec
             return null;
         }
 
-        var json = new JsonObject();
-        foreach (var (name, _) in _parts)
+        JsonObject json = new();
+        foreach ((string? name, int _) in _parts)
         {
-            var found = node.Find(name);
+            TreeValue? found = node.Find(name);
             if (found is null)
             {
                 continue;
             }
 
-            var part = site.At(site.Path.Member(name), element: false);
+            DocumentSite part = site.At(site.Path.Member(name), element: false);
             long number = Require(found, name, message => part.Mismatch(message));
             CheckRange(number, name, stored => part.Fail(Codes.Range, name + " is outside -128 to 127.", null, Text(stored), "-128 to 127"));
             json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, number), part)!);
         }
-        foreach (var (name, _) in node.Members)
+        foreach ((string? name, TreeValue _) in node.Members)
         {
             if (IndexOf(name) < 0)
             {
@@ -232,16 +232,16 @@ internal sealed class CoordinateCodec : PropertyCodec
         }
 
         RejectUnknown(objectValue, (member, code, message) => site.At(site.Path.Member(member.Name), element: false).Fail(code, message, member.Value, member.Name));
-        var node = new RecordNode();
-        foreach (var (name, _) in _parts)
+        RecordNode node = new();
+        foreach ((string? name, int _) in _parts)
         {
-            var member = objectValue.Find(name);
+            JsonMember? member = objectValue.Find(name);
             if (member is null)
             {
                 continue;
             }
 
-            var part = site.At(site.Path.Member(name), element: false);
+            DocumentSite part = site.At(site.Path.Member(name), element: false);
             if (_integers.ReadTree(member.Value, part) is not IntegerNode integer)
             {
                 throw part.Mismatch(name + " is an integer.", member.Value);
@@ -323,7 +323,7 @@ internal sealed class CoordinateCodec : PropertyCodec
 
     private static void RejectUnknown(JsonObject objectValue, Func<JsonMember, string, string, ConversionException> fail)
     {
-        foreach (var member in objectValue.Members)
+        foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name is "X" or "Y" or "MapLevel")
             {

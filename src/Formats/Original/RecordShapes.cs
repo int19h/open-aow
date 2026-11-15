@@ -22,7 +22,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var info = Info(context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(context.File, site.Path.ToString());
         if (end - start != info.Size)
         {
             throw Mismatch(context, start, site, "A record of " + info.Size + " bytes is stored in " + (end - start) + " bytes.");
@@ -38,7 +38,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        var info = Info(context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(context.File, site.Path.ToString());
         if (info.BareSet)
         {
             FieldCodec(info.Fields[0]).Encode(context, value, data, site);
@@ -50,7 +50,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         RefuseOld(site, null);
-        var info = Info(site.Context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(site.Context.File, site.Path.ToString());
         if (info.BareSet)
         {
             return FieldCodec(info.Fields[0]).WriteTree(value, site);
@@ -61,24 +61,24 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             throw site.Mismatch((site.Property?.Name ?? TypeName) + " is a record.");
         }
 
-        var json = new JsonObject();
-        var seen = new HashSet<string>();
+        JsonObject json = new();
+        HashSet<string> seen = new();
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
-        foreach (var field in info.Fields)
+        foreach (RecordFieldInfo field in info.Fields)
         {
             if (!residue && residueAt >= 0 && residueAt < field.Offset)
             {
                 AddResidue(node, json, site);
                 residue = true;
             }
-            var found = node.Find(field.Name);
+            TreeValue? found = node.Find(field.Name);
             if (found is null)
             {
                 continue;
             }
 
-            var at = site.At(site.Path.Member(field.Name), false);
+            DocumentSite at = site.At(site.Path.Member(field.Name), false);
             JsonValue? written = FieldCodec(field).WriteTree(found, at);
             if (written is not null && !field.OmitsDocument(written))
             {
@@ -93,7 +93,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         seen.Add("$reserved");
-        foreach (var (name, _) in node.Members)
+        foreach ((string? name, TreeValue _) in node.Members)
         {
             if (!seen.Contains(name))
             {
@@ -107,7 +107,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
         RefuseOld(site, value);
-        var info = Info(site.Context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(site.Context.File, site.Path.ToString());
         if (info.BareSet)
         {
             return FieldCodec(info.Fields[0]).ReadTree(value, site);
@@ -119,16 +119,16 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         CheckNames(objectValue, info, site);
-        var node = new RecordNode();
-        foreach (var field in info.Fields)
+        RecordNode node = new();
+        foreach (RecordFieldInfo field in info.Fields)
         {
-            var member = objectValue.Find(field.Name);
+            JsonMember? member = objectValue.Find(field.Name);
             if (member is null)
             {
                 continue;
             }
 
-            var at = site.At(site.Path.Member(field.Name), false);
+            DocumentSite at = site.At(site.Path.Member(field.Name), false);
             TreeValue? read = FieldCodec(field).ReadTree(member.Value, at);
             if (read is not null && !field.OmitsImage(read))
             {
@@ -137,7 +137,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
         if (objectValue.Find("$reserved") is { } reserved)
         {
-            var at = site.At(site.Path.Member("$reserved"), false);
+            DocumentSite at = site.At(site.Path.Member("$reserved"), false);
             if (reserved.Value is not JsonString hex)
             {
                 throw at.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", reserved.Value);
@@ -150,18 +150,18 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private JsonObject Document(RecordTypeInfo info, ReadOnlySpan<byte> bytes, DecodeContext context, ValueSite site)
     {
-        var json = new JsonObject();
+        JsonObject json = new();
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
-        foreach (var field in info.Fields)
+        foreach (RecordFieldInfo field in info.Fields)
         {
             if (!residue && residueAt >= 0 && residueAt < field.Offset)
             {
                 AddResidue(bytes, info, json);
                 residue = true;
             }
-            var fieldSite = new ValueSite { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner, Builder = site.Builder };
-            var value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
+            ValueSite fieldSite = new() { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner, Builder = site.Builder };
+            JsonValue? value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
             if (value is not null)
             {
                 json.Add(field.Name, value);
@@ -177,9 +177,9 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private JsonValue? FieldValue(RecordFieldInfo field, ReadOnlySpan<byte> bytes, DecodeContext context, ValueSite site)
     {
-        var codec = FieldCodec(field);
-        var copy = bytes.ToArray();
-        var value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
+        PropertyCodec codec = FieldCodec(field);
+        byte[] copy = bytes.ToArray();
+        JsonValue value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
         if (field.OmitsDocument(value))
         {
             return null;
@@ -197,17 +197,17 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         CheckNames(objectValue, info, context, parent.Path);
-        var bytes = new byte[info.Size];
-        foreach (var field in info.Fields)
+        byte[] bytes = new byte[info.Size];
+        foreach (RecordFieldInfo field in info.Fields)
         {
-            var member = objectValue.Find(field.Name);
+            JsonMember? member = objectValue.Find(field.Name);
             if (member is null)
             {
                 continue;
             }
 
-            var fieldPath = parent.Path.Member(field.Name);
-            var site = new ValueSite { Property = parent.Property!, Id = 0, Path = fieldPath, Owner = objectValue };
+            DocumentNodePath fieldPath = parent.Path.Member(field.Name);
+            ValueSite site = new() { Property = parent.Property!, Id = 0, Path = fieldPath, Owner = objectValue };
             WriteField(field, member.Value, context, site, bytes.AsSpan(field.Offset, field.Size));
         }
         if (objectValue.Find("$reserved") is { } reserved)
@@ -224,7 +224,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private void WriteField(RecordFieldInfo field, JsonValue value, EncodeContext context, ValueSite site, Span<byte> target)
     {
-        var buffer = new ByteBuffer(field.Size);
+        ByteBuffer buffer = new(field.Size);
         FieldCodec(field).Encode(context, value, buffer, site);
         if (buffer.Length != field.Size)
         {
@@ -236,7 +236,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private void AddResidue(RecordNode node, JsonObject json, DocumentSite site)
     {
-        var found = node.Find("$reserved");
+        TreeValue? found = node.Find("$reserved");
         if (found is null)
         {
             return;
@@ -267,7 +267,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             return;
         }
 
-        var residue = Gather(image, info);
+        byte[] residue = Gather(image, info);
         if (AllZero(residue))
         {
             return;
@@ -278,7 +278,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private PropertyCodec FieldCodec(RecordFieldInfo field)
     {
-        if (_codecs.TryGetValue(field.Name, out var codec))
+        if (_codecs.TryGetValue(field.Name, out PropertyCodec? codec))
         {
             return codec;
         }
@@ -295,7 +295,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             return _known;
         }
 
-        var info = RecordCatalog.Require(TypeName, file, path);
+        RecordTypeInfo info = RecordCatalog.Require(TypeName, file, path);
         if (info.Size != size)
         {
             throw new InvalidOperationException("Record " + TypeName + " is " + info.Size + " bytes in the catalog and " + size + " bytes in the schema.");
@@ -317,8 +317,8 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private static void CheckNames(JsonObject objectValue, RecordTypeInfo info, DocumentSite site)
     {
-        var known = info.Fields.Select(field => field.Name).ToHashSet();
-        foreach (var member in objectValue.Members)
+        HashSet<string> known = info.Fields.Select(field => field.Name).ToHashSet();
+        foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name == "$reserved")
             {
@@ -341,8 +341,8 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private static void CheckNames(JsonObject objectValue, RecordTypeInfo info, EncodeContext context, DocumentNodePath path)
     {
-        var known = info.Fields.Select(field => field.Name).ToHashSet();
-        foreach (var member in objectValue.Members)
+        HashSet<string> known = info.Fields.Select(field => field.Name).ToHashSet();
+        foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name == "$reserved")
             {
@@ -370,7 +370,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             throw site.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", value: hex);
         }
 
-        var bytes = HexText.Decode(hex);
+        byte[] bytes = HexText.Decode(hex);
         if (bytes.Length != info.ResidueLength)
         {
             throw site.Fail(Codes.Range, "$reserved holds the record residue.", value: Text(bytes.Length), constraint: info.ResidueLength + " bytes");
@@ -386,7 +386,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             throw context.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", null, path.Member("$reserved"), hex);
         }
 
-        var bytes = HexText.Decode(hex);
+        byte[] bytes = HexText.Decode(hex);
         if (bytes.Length != info.ResidueLength)
         {
             throw context.Fail(Codes.Range, "$reserved holds the record residue.", null, path.Member("$reserved"), Text(bytes.Length), info.ResidueLength + " bytes");
@@ -397,9 +397,9 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     internal static byte[] Gather(ReadOnlySpan<byte> image, RecordTypeInfo info)
     {
-        var residue = new byte[info.ResidueLength];
+        byte[] residue = new byte[info.ResidueLength];
         int at = 0;
-        foreach (var (offset, length) in info.Residue)
+        foreach ((int offset, int length) in info.Residue)
         {
             image.Slice(offset, length).CopyTo(residue.AsSpan(at));
             at += length;
@@ -410,7 +410,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     private static void Scatter(byte[] image, ReadOnlySpan<byte> residue, RecordTypeInfo info)
     {
         int at = 0;
-        foreach (var (offset, length) in info.Residue)
+        foreach ((int offset, int length) in info.Residue)
         {
             residue.Slice(at, length).CopyTo(image.AsSpan(offset));
             at += length;
@@ -419,7 +419,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private static bool AllZero(ReadOnlySpan<byte> bytes)
     {
-        foreach (var b in bytes)
+        foreach (byte b in bytes)
         {
             if (b != 0)
             {
@@ -446,7 +446,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var (indices, residue) = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
+        (int[]? indices, byte residue) = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
         return Document(indices, residue);
     }
 
@@ -465,7 +465,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
         int count = CountOf(frame.Owner, frame.Parent, CountName, context, frame.Path);
-        var (indices, residue) = Unpack(count, context.Data.AsSpan(start, end - start), context, frame.Path);
+        (int[]? indices, byte residue) = Unpack(count, context.Data.AsSpan(start, end - start), context, frame.Path);
         return new BitArrayNode(count, indices, residue);
     }
 
@@ -481,7 +481,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw site.Mismatch((site.Property?.Name ?? "The value") + " is a bit array.");
         }
 
-        var json = Document(node.Indices, node.Residue);
+        JsonValue json = Document(node.Indices, node.Residue);
         Pack(node.Count, json, site.Context, site.Path, site.Property?.Name ?? "The value");
         return json;
     }
@@ -494,15 +494,15 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         }
 
         int count = CountOf(site.Owner, null, CountName, site.Context, site.Path);
-        var bytes = Pack(count, value, site.Context, site.Path, site.Property?.Name ?? "The value");
-        var (indices, residue) = Unpack(count, bytes, site);
+        byte[] bytes = Pack(count, value, site.Context, site.Path, site.Property?.Name ?? "The value");
+        (int[]? indices, byte residue) = Unpack(count, bytes, site);
         return new BitArrayNode(count, indices, residue);
     }
 
     internal static JsonValue Document(IReadOnlyList<int> indices, byte residue)
     {
-        var array = new JsonArray();
-        foreach (var index in indices)
+        JsonArray array = new();
+        foreach (int index in indices)
         {
             array.Add(new JsonInteger(index));
         }
@@ -528,9 +528,9 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw context.Fail(Codes.Range, name + " of 0 bits is omitted.", value, path);
         }
 
-        var (indices, residue) = Read(value, count, context, path, name);
-        var bytes = new byte[length];
-        foreach (var index in indices)
+        (int[]? indices, byte residue) = Read(value, count, context, path, name);
+        byte[] bytes = new byte[length];
+        foreach (int index in indices)
         {
             bytes[index >> 3] |= (byte)(1 << (index & 7));
         }
@@ -574,7 +574,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             residue = (byte)(bytes[^1] & (byte)(0xFF << used));
         }
 
-        var indices = new List<int>();
+        List<int> indices = new();
         for (int i = 0; i < count; i++)
         {
             if ((bytes[i >> 3] & (1 << (i & 7))) != 0)
@@ -596,7 +596,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         }
         else if (value is JsonObject objectValue)
         {
-            foreach (var member in objectValue.Members)
+            foreach (JsonMember member in objectValue.Members)
             {
                 if (member.Name is not ("values" or "$reserved"))
                 {
@@ -650,7 +650,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, null, "at most " + context.Limits.CollectionItems + " items");
         }
 
-        var indices = new int[array.Items.Count];
+        int[] indices = new int[array.Items.Count];
         int previous = -1;
         for (int i = 0; i < array.Items.Count; i++)
         {

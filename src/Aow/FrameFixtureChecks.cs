@@ -23,7 +23,7 @@ internal static class FrameFixtureChecks
 {
     public static int Run(string gameRoot)
     {
-        using var startup = new StartupScope(gameRoot);
+        using StartupScope startup = new(gameRoot);
         int checks = 0;
         void Check(bool condition, string label)
         {
@@ -37,48 +37,48 @@ internal static class FrameFixtureChecks
         // The fixture host replays native scripts, so the game writes original names under it.
         Check(!RtlUnit.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
             && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", "fixture host writes original extensions");
-        var instance = new object();
+        object instance = new();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
         Check(ControlWindow.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
         Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
-        var clock = new FixtureClock(new(2000, 1, 1, 12, 0, 0));
+        FixtureClock clock = new(new(2000, 1, 1, 12, 0, 0));
         clock.WaitMilliseconds(90000);
         Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, "wall time stays fixed while pacing advances");
         Check(RtlUnit.DateTimeToStr(RtlUnit.EncodeDate(2000, 1, 1) + RtlUnit.EncodeTime(12, 0, 0, 0)) == "1/1/2000 12:00:00 PM", "native English file date includes seconds and the day period");
 
-        var displayedFileTime = new DateTime(2000, 1, 1, 13, 0, 0);
+        DateTime displayedFileTime = new(2000, 1, 1, 13, 0, 0);
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-7)) ==
             new DateTime(2000, 1, 1, 20, 0, 0, DateTimeKind.Utc), "daylight file stamp preserves captured 1 PM text");
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
-        var oldMap = StrategicMap.Current;
-        var oldSettings = RtlUnit.Settings;
+        StrategicMap oldMap = StrategicMap.Current;
+        ISettingsStore oldSettings = RtlUnit.Settings;
         try
         {
-            var mapWindow = new Window(null) { Modal = true };
+            Window mapWindow = new(null) { Modal = true };
             mapWindow.SetVisibleWithoutUpdate(true);
-            var ui = new UIContext(startup.Engine);
+            UIContext ui = new(startup.Engine);
             ui.Add(new MapWindow(ui) { MainWindow = mapWindow });
-            var menu = new StartMenu(null) { Modal = false };
+            StartMenu menu = new(null) { Modal = false };
             menu.SetVisibleWithoutUpdate(true);
-            var hidden = new Window(null) { Modal = true };
+            Window hidden = new(null) { Modal = true };
             hidden.SetVisibleWithoutUpdate(false);
-            var manager = new WindowManager(null) { Children = new DelphiList<UIComponent>() };
+            WindowManager manager = new(null) { Children = new DelphiList<UIComponent>() };
             manager.Children.Add(mapWindow);
             manager.Children.Add(menu);
             manager.Children.Add(hidden);
-            var controller = new General(ui) { Manager = manager };
+            General controller = new(ui) { Manager = manager };
             Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu.Modal = true;
             Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
             controller.HideTransientWindows();
             Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
-            var players = new PlayerCollection(null!) { Holder = startup.Engine };
+            PlayerCollection players = new(null!) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
             players.ClearChildren();
             players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
@@ -86,7 +86,7 @@ internal static class FrameFixtureChecks
             players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
             StrategicMap.Current = new StrategicMap(null!, holder: startup.Engine);
             StrategicMap.Current.Players = players;
-            TaskBar bar = new TaskBar(ui)
+            TaskBar bar = new(ui)
             {
                 PlayerIndicatorFrame = new(null) { Aligned = true },
                 WorldMessageEdit = new(null) { Aligned = true }
@@ -104,10 +104,10 @@ internal static class FrameFixtureChecks
             RtlUnit.Settings = new MemorySettingsStore();
             startup.Engine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
-            var world = new MapWindow(ui) { MainWindow = mapWindow };
+            MapWindow world = new(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
             Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
-            var army = new MovementArmy { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
+            MovementArmy army = new() { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
             army.MoveFirst(1, false);
             Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })

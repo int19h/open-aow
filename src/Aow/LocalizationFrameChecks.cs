@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
 using Aow.Game.UI.Dialogs;
 using Aow.Rtl;
@@ -12,12 +13,12 @@ internal static class LocalizationFrameChecks
     public static void Run(string root, string output, LayoutSession layouts, UIContext ui)
     {
         int language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
-        var germanBytes = new SortedSet<byte>();
+        SortedSet<byte> germanBytes = new();
         foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
         {
-            var dictionary = new MldDictionary();
+            MldDictionary dictionary = new();
             dictionary.Open(Path.Combine(root, "Dict", file + ".mld"));
-            foreach (var entry in dictionary.Entries)
+            foreach (MldEntry entry in dictionary.Entries)
             {
                 for (int index = 1; index <= entry.Translations[1].Length; index++)
                 {
@@ -31,11 +32,11 @@ internal static class LocalizationFrameChecks
 
             dictionary.Close();
         }
-        var coverage = new List<object>();
-        var fonts = new[] { ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
+        List<object> coverage = new();
+        ImageLibraryFont[] fonts = new[] { ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
             ui.Fonts.Age10Shadow, ui.Fonts.Age8Shadow, ui.Fonts.Age14Gold, ui.Fonts.Age15WhiteOnGrey,
             ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow };
-        foreach (var font in fonts)
+        foreach (ImageLibraryFont? font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
@@ -50,14 +51,14 @@ internal static class LocalizationFrameChecks
         }
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = ui.FileDialogWindow?.TitleLabel?.Text ?? "";
-        var required = new SortedSet<string>(StringComparer.Ordinal);
+        string dialogTitle = ui.FileDialogWindow?.TitleLabel?.Text ?? "";
+        SortedSet<string> required = new(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
-        var absentEverywhere = Enumerable.Range(128, 128)
+        HashSet<int> absentEverywhere = Enumerable.Range(128, 128)
             .Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)).ToHashSet();
-        var absent = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var module in layouts.Modules.Values)
+        SortedSet<string> absent = new(StringComparer.Ordinal);
+        foreach (Component module in layouts.Modules.Values)
         {
             for (int index = 0; index < module.ComponentCount; index++)
             {
@@ -67,7 +68,8 @@ internal static class LocalizationFrameChecks
                     continue;
                 }
 
-                var texts = new List<string> { control.Text };
+                List<string> texts = new()
+                { control.Text };
                 if (ItemsOf(control) is StringCollection items)
                 {
                     for (int item = 0; item < items.Count; item++)
@@ -76,7 +78,7 @@ internal static class LocalizationFrameChecks
                     }
                 }
 
-                foreach (var text in texts)
+                foreach (string text in texts)
                 {
                     string cased = font.CharCase switch
                     {
@@ -129,8 +131,8 @@ internal static class LocalizationFrameChecks
 
         if (language == 1)
         {
-            var left = new Dib16Surface(120, 40, PixelFormats.pfRGB555);
-            var right = new Dib16Surface(120, 40, PixelFormats.pfRGB555);
+            Dib16Surface left = new(120, 40, PixelFormats.pfRGB555);
+            Dib16Surface right = new(120, 40, PixelFormats.pfRGB555);
             try
             {
                 left.Clear(0);
@@ -142,7 +144,7 @@ internal static class LocalizationFrameChecks
                 {
                     ui.Fonts.Age8.SetText(0, 0, undead, l);
                     ui.Fonts.Age8.SetText(0, 0, "Undead", r);
-                    var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
+                    Span<byte> pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
                     if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                     {
                         throw new InvalidOperationException("English Undead rendering differs");
@@ -158,7 +160,7 @@ internal static class LocalizationFrameChecks
     // A typed list box redeclares Items, so the nearest declaration wins.
     private static object? ItemsOf(Game.UI.Controls.Control control)
     {
-        for (var type = control.GetType(); type is not null; type = type.BaseType)
+        for (Type? type = control.GetType(); type is not null; type = type.BaseType)
         {
             if (type.GetProperty("Items", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance
                     | System.Reflection.BindingFlags.DeclaredOnly) is { } property)

@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Platform;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 
 namespace Aow;
 
@@ -11,18 +12,18 @@ internal static class PacingVerification
 {
     public static int Run(string output)
     {
-        var host = new NullPresenter();
-        var clock = new SdlClock();
-        var savedClock = RtlUnit.Clock;
+        NullPresenter host = new();
+        SdlClock clock = new();
+        IClock savedClock = RtlUnit.Clock;
         RtlUnit.Clock = clock;
-        var display = new TimedDisplay();
-        var controller = new SdlDisplayController(host);
-        var times = new List<double>(306);
+        TimedDisplay display = new();
+        SdlDisplayController controller = new(host);
+        List<double> times = new(306);
         const int warmupFrames = 150;
         long previous = 0;
-        var priority = Thread.CurrentThread.Priority;
-        using var process = Process.GetCurrentProcess();
-        var processPriority = process.PriorityClass;
+        ThreadPriority priority = Thread.CurrentThread.Priority;
+        using Process process = Process.GetCurrentProcess();
+        ProcessPriorityClass processPriority = process.PriorityClass;
         bool noGroupControl = false;
         try
         {

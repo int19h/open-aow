@@ -67,14 +67,14 @@ internal static class ObjectImage
     public static void Decode(DecodeContext context, int start, int end, SchemaClass classValue, DocumentNodePath path, JsonObject target)
     {
         context.Enter(start, path);
-        var table = PropertyTable.Read(context, start, end, path);
+        PropertyTable table = PropertyTable.Read(context, start, end, path);
         int db = table.DataBase;
         int length = end - db;
-        var slots = new List<Slot>(table.Entries.Count);
-        var seen = new Dictionary<int, TableEntry>();
-        foreach (var e in table.Entries)
+        List<Slot> slots = new(table.Entries.Count);
+        Dictionary<int, TableEntry> seen = new();
+        foreach (TableEntry e in table.Entries)
         {
-            var prop = classValue.PropertyById(e.Id)
+            SchemaProperty prop = classValue.PropertyById(e.Id)
                 ?? throw context.Fail(Codes.UnknownProperty, $"Class {classValue.Name} has no property {e.Id}.", db + e.Offset, path, e.Id.ToString(CultureInfo.InvariantCulture));
             if (!seen.TryAdd(e.Id, e))
             {
@@ -85,9 +85,9 @@ internal static class ObjectImage
         }
 
         // Each value runs to the next stored offset. Booleans have no bytes.
-        var boundaries = slots.Select(s => s.Entry.Offset).Append(length).Distinct().Order().ToArray();
-        var nonZeroAt = new Dictionary<int, int>();
-        foreach (var s in slots)
+        int[] boundaries = slots.Select(s => s.Entry.Offset).Append(length).Distinct().Order().ToArray();
+        Dictionary<int, int> nonZeroAt = new();
+        foreach (Slot s in slots)
         {
             s.Start = db + s.Entry.Offset;
             if (s.Property.Codec.ZeroSize)
@@ -106,11 +106,11 @@ internal static class ObjectImage
             }
         }
 
-        var builder = new LayoutBuilder();
+        LayoutBuilder builder = new();
         // Bytes that belong to no value are gaps.
-        var gaps = new List<(int Offset, int Length)>();
+        List<(int Offset, int Length)> gaps = new();
         int cursor = 0;
-        foreach (var s in slots.Where(s => s.End > s.Start).OrderBy(s => s.Start))
+        foreach (Slot? s in slots.Where(s => s.End > s.Start).OrderBy(s => s.Start))
         {
             int offset = s.Start - db;
             if (offset > cursor)
@@ -125,11 +125,11 @@ internal static class ObjectImage
             gaps.Add((cursor, length - cursor));
         }
 
-        var order = slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index).ToList();
-        var byProperty = new Dictionary<SchemaProperty, List<Slot>>();
-        foreach (var s in order)
+        List<Slot> order = slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index).ToList();
+        Dictionary<SchemaProperty, List<Slot>> byProperty = new();
+        foreach (Slot s in order)
         {
-            if (!byProperty.TryGetValue(s.Property, out var list))
+            if (!byProperty.TryGetValue(s.Property, out List<Slot>? list))
             {
                 byProperty[s.Property] = list = [];
             }
@@ -137,49 +137,49 @@ internal static class ObjectImage
             list.Add(s);
         }
 
-        foreach (var prop in classValue.Properties)
+        foreach (SchemaProperty prop in classValue.Properties)
         {
-            if (!byProperty.TryGetValue(prop, out var list))
+            if (!byProperty.TryGetValue(prop, out List<Slot>? list))
             {
                 continue;
             }
 
-            var memberPath = path.Member(prop.Name);
+            DocumentNodePath memberPath = path.Member(prop.Name);
             JsonValue value;
             if (prop.IsDynamic)
             {
-                var array = new JsonArray();
+                JsonArray array = new();
                 context.CheckItems(list.Count, start, memberPath);
                 for (int k = 0; k < list.Count; k++)
                 {
-                    var s = list[k];
-                    var site = new ValueSite { Property = prop, Id = s.Entry.Id, Path = memberPath.Item(k), Owner = target, Builder = builder };
+                    Slot s = list[k];
+                    ValueSite site = new() { Property = prop, Id = s.Entry.Id, Path = memberPath.Item(k), Owner = target, Builder = builder };
                     array.Add(prop.Codec.DecodeElement(context, s.Start, s.End, site));
                 }
                 value = array;
             }
             else if (prop.Codec.GroupsEntries)
             {
-                var images = new SlotImage[list.Count];
+                SlotImage[] images = new SlotImage[list.Count];
                 for (int k = 0; k < list.Count; k++)
                 {
                     images[k] = new SlotImage(list[k].Entry.Id, list[k].Start, list[k].End);
                 }
 
-                var site = new ValueSite { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
+                ValueSite site = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
                 value = prop.Codec.DecodeGroup(context, images, site);
             }
             else if (prop.DataId is int dataId)
             {
-                var first = list.FirstOrDefault(s => s.Entry.Id == prop.Id);
-                var second = list.FirstOrDefault(s => s.Entry.Id == dataId);
-                var site = new ValueSite { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
+                Slot? first = list.FirstOrDefault(s => s.Entry.Id == prop.Id);
+                Slot? second = list.FirstOrDefault(s => s.Entry.Id == dataId);
+                ValueSite site = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
                 value = prop.Codec.DecodePair(context, first is null ? null : (first.Start, first.End), second is null ? null : (second.Start, second.End), site);
             }
             else
             {
-                var s = list[0];
-                var site = new ValueSite { Property = prop, Id = s.Entry.Id, Path = memberPath, Owner = target, Builder = builder };
+                Slot s = list[0];
+                ValueSite site = new() { Property = prop, Id = s.Entry.Id, Path = memberPath, Owner = target, Builder = builder };
                 value = prop.Codec.Decode(context, s.Start, s.End, site);
             }
             target.Members.Add(new JsonMember(prop.Name, value));
@@ -188,7 +188,7 @@ internal static class ObjectImage
         if (!IsCanonical(classValue, table, order, gaps.Count))
         {
             builder.Table(table.Entries, table.EmptyLongMarker, null);
-            foreach (var (offset, count) in gaps)
+            foreach ((int offset, int count) in gaps)
             {
                 builder.Gap(offset, context.Data.AsSpan(db + offset, count), null);
             }
@@ -214,7 +214,7 @@ internal static class ObjectImage
         int lastOrdinal = -1;
         int lastId = int.MinValue;
         int element = 0;
-        foreach (var s in order)
+        foreach (Slot s in order)
         {
             int ordinal = classValue.Ordinal(s.Property);
             if (ordinal < lastOrdinal)
@@ -253,17 +253,17 @@ internal static class ObjectImage
     internal static bool MatchesWriterTable(IReadOnlyList<TableEntry> stored, IReadOnlyList<TableEntry> dataOrder)
     {
         int k = 0;
-        foreach (var e in dataOrder.Where(e => PropertyTable.IsShort(e.Id, e.Offset)))
+        foreach (TableEntry e in dataOrder.Where(e => PropertyTable.IsShort(e.Id, e.Offset)))
         {
-            var s = stored[k++];
+            TableEntry s = stored[k++];
             if (s.Id != e.Id || s.Offset != e.Offset || s.Long)
             {
                 return false;
             }
         }
-        foreach (var e in dataOrder.Where(e => !PropertyTable.IsShort(e.Id, e.Offset)))
+        foreach (TableEntry e in dataOrder.Where(e => !PropertyTable.IsShort(e.Id, e.Offset)))
         {
-            var s = stored[k++];
+            TableEntry s = stored[k++];
             if (s.Id != e.Id || s.Offset != e.Offset || !s.Long)
             {
                 return false;
@@ -275,7 +275,7 @@ internal static class ObjectImage
     /// <summary>Checks the members of an object against its class and the allowed reserved names.</summary>
     public static void CheckMembers(EncodeContext context, JsonObject objectValue, SchemaClass classValue, DocumentNodePath path, params string[] reserved)
     {
-        foreach (var m in objectValue.Members)
+        foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name.StartsWith('$'))
             {
@@ -315,17 +315,17 @@ internal static class ObjectImage
 
         context.Enter(objectValue, path);
         CheckMembers(context, objectValue, classValue, path, reserved);
-        var layout = LayoutReader.Read(context, objectValue, path);
-        var writer = new ObjectWriter();
-        foreach (var prop in classValue.Properties)
+        LayoutReader? layout = LayoutReader.Read(context, objectValue, path);
+        ObjectWriter writer = new();
+        foreach (SchemaProperty prop in classValue.Properties)
         {
-            var member = objectValue.Find(prop.Name);
+            JsonMember? member = objectValue.Find(prop.Name);
             if (member is null)
             {
                 continue;
             }
 
-            var memberPath = path.Member(prop.Name);
+            DocumentNodePath memberPath = path.Member(prop.Name);
             if (!TransportProfile.Carries(context.Profile, prop))
             {
                 throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
@@ -343,17 +343,17 @@ internal static class ObjectImage
                     throw context.Fail(Codes.Limit, "A collection has too many items.", array, memberPath, null, $"at most {context.Limits.CollectionItems} items");
                 }
 
-                var slots = new HashSet<int>();
+                HashSet<int> slots = new();
                 for (int k = 0; k < array.Items.Count; k++)
                 {
-                    var itemPath = memberPath.Item(k);
+                    DocumentNodePath itemPath = memberPath.Item(k);
                     int id = prop.Codec.ElementId(context, array.Items[k], prop, k, itemPath);
                     if (!slots.Add(id))
                     {
                         throw context.Fail(Codes.Slot, $"Slot {id - (prop.SlotBase ?? 0)} of {prop.Name} is declared twice.", array.Items[k], itemPath);
                     }
 
-                    var site = new ValueSite { Property = prop, Id = id, Path = itemPath, Owner = objectValue, Reader = layout };
+                    ValueSite site = new() { Property = prop, Id = id, Path = itemPath, Owner = objectValue, Reader = layout };
                     writer.Begin(id, prop, k);
                     prop.Codec.EncodeElement(context, array.Items[k], writer.Data, site);
                     writer.End();
@@ -361,7 +361,7 @@ internal static class ObjectImage
             }
             else
             {
-                var site = new ValueSite { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = objectValue, Reader = layout };
+                ValueSite site = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = objectValue, Reader = layout };
                 prop.Codec.EncodeMember(context, member.Value, writer, site);
             }
         }
@@ -377,7 +377,7 @@ internal static class ObjectImage
     public static void Place(EncodeContext context, ObjectWriter writer, LayoutReader? layout, int? property, Func<int, SchemaProperty?>? resolve,
         JsonValue at, DocumentNodePath path, ByteBuffer output)
     {
-        var table = layout?.Table(property);
+        (List<TableEntry> Entries, bool LongMarker, JsonValue At)? table = layout?.Table(property);
         if (table is null)
         {
             if (layout is not null && layout.GapsOf(property).Any())
@@ -385,8 +385,8 @@ internal static class ObjectImage
                 throw context.Fail(Codes.Layout, "A gap part needs the table part of its object.", at, path);
             }
 
-            var entries = new List<(int, int)>(writer.Items.Count);
-            foreach (var item in writer.Items)
+            List<(int, int)> entries = new(writer.Items.Count);
+            foreach (EncodedItem item in writer.Items)
             {
                 entries.Add((item.Id, item.Start));
             }
@@ -395,12 +395,12 @@ internal static class ObjectImage
             output.Bytes(writer.Data.Span);
             return;
         }
-        var (stored, longMarker, tableAt) = table.Value;
+        (List<TableEntry>? stored, bool longMarker, JsonValue? tableAt) = table.Value;
         ConversionException Bad(string message) => context.Fail(Codes.Layout, "The retained table does not fit the values: " + message, tableAt, path);
 
         // Match entries to items: static by id, dynamic members by position in data order.
-        var itemsById = new Dictionary<int, EncodedItem>();
-        foreach (var item in writer.Items)
+        Dictionary<int, EncodedItem> itemsById = new();
+        foreach (EncodedItem item in writer.Items)
         {
             if (!item.IsSequential)
             {
@@ -408,19 +408,19 @@ internal static class ObjectImage
             }
         }
 
-        var dynamicQueues = writer.Items.Where(i => i.IsSequential)
+        Dictionary<SchemaProperty, Queue<EncodedItem>> dynamicQueues = writer.Items.Where(i => i.IsSequential)
             .GroupBy(i => i.Property!).ToDictionary(g => g.Key, g => new Queue<EncodedItem>(g));
-        var dataOrder = stored.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
-        var placed = new List<(TableEntry Entry, EncodedItem Item)>();
-        foreach (var e in dataOrder)
+        List<TableEntry> dataOrder = stored.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
+        List<(TableEntry Entry, EncodedItem Item)> placed = new();
+        foreach (TableEntry e in dataOrder)
         {
-            if (itemsById.Remove(e.Id, out var item))
+            if (itemsById.Remove(e.Id, out EncodedItem item))
             {
                 placed.Add((e, item));
                 continue;
             }
-            var prop = resolve?.Invoke(e.Id);
-            if (prop is null || !dynamicQueues.TryGetValue(prop, out var queue) || queue.Count == 0)
+            SchemaProperty? prop = resolve?.Invoke(e.Id);
+            if (prop is null || !dynamicQueues.TryGetValue(prop, out Queue<EncodedItem>? queue) || queue.Count == 0)
             {
                 throw Bad($"no value has id {e.Id}");
             }
@@ -433,12 +433,12 @@ internal static class ObjectImage
         }
 
         long size = 0;
-        foreach (var (e, item) in placed)
+        foreach ((TableEntry e, EncodedItem item) in placed)
         {
             size = Math.Max(size, (long)e.Offset + item.Length);
         }
 
-        foreach (var (offset, bytes, _) in layout!.GapsOf(property))
+        foreach ((int offset, byte[]? bytes, JsonValue _) in layout!.GapsOf(property))
         {
             size = Math.Max(size, (long)offset + bytes.Length);
         }
@@ -448,8 +448,8 @@ internal static class ObjectImage
             throw Bad("it is too large");
         }
 
-        var data = new byte[size];
-        var covered = new bool[size];
+        byte[] data = new byte[size];
+        bool[] covered = new bool[size];
         void Cover(int offset, ReadOnlySpan<byte> bytes)
         {
             for (int i = 0; i < bytes.Length; i++)
@@ -463,12 +463,12 @@ internal static class ObjectImage
             }
             bytes.CopyTo(data.AsSpan(offset));
         }
-        foreach (var (e, item) in placed)
+        foreach ((TableEntry e, EncodedItem item) in placed)
         {
             Cover(e.Offset, writer.Data.Span.Slice(item.Start, item.Length));
         }
 
-        foreach (var (offset, bytes, _) in layout.GapsOf(property))
+        foreach ((int offset, byte[]? bytes, JsonValue _) in layout.GapsOf(property))
         {
             Cover(offset, bytes);
         }
@@ -478,8 +478,8 @@ internal static class ObjectImage
             throw Bad("some bytes are not covered");
         }
 
-        var boundaries = placed.Select(p => p.Entry.Offset).Append((int)size).Distinct().Order().ToArray();
-        foreach (var (e, item) in placed)
+        int[] boundaries = placed.Select(p => p.Entry.Offset).Append((int)size).Distinct().Order().ToArray();
+        foreach ((TableEntry e, EncodedItem item) in placed)
         {
             if (item.Length == 0)
             {
@@ -495,10 +495,10 @@ internal static class ObjectImage
         // The table keeps its stored order: short entries first, then long ones.
         int shortCount = 0, longCount = 0;
         bool seenLong = false;
-        var entryOf = placed.ToDictionary(p => p.Entry.Index, p => p.Entry);
-        foreach (var e in stored)
+        Dictionary<int, TableEntry> entryOf = placed.ToDictionary(p => p.Entry.Index, p => p.Entry);
+        foreach (TableEntry e in stored)
         {
-            var actual = entryOf[e.Index];
+            TableEntry actual = entryOf[e.Index];
             if (actual.Long)
             {
                 seenLong = true;
@@ -534,9 +534,9 @@ internal static class ObjectImage
             output.Byte((byte)shortCount);
         }
 
-        foreach (var e in stored)
+        foreach (TableEntry e in stored)
         {
-            var actual = entryOf[e.Index];
+            TableEntry actual = entryOf[e.Index];
             if (actual.Long)
             {
                 output.Int32(actual.Id);

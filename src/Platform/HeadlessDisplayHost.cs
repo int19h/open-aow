@@ -33,8 +33,8 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     // The same mapper entry the SDL host uses, over a 1:1 view of the client, so a test can roll the wheel.
     public void Wheel(float y, int direction, float x, float yPosition, IDisplayEvents sink)
     {
-        var size = ClientSize;
-        var viewport = new DisplayViewport(size.Width, size.Height, 1, 0, 0, size.Width, size.Height);
+        (int Width, int Height) size = ClientSize;
+        DisplayViewport viewport = new(size.Width, size.Height, 1, 0, 0, size.Width, size.Height);
         _input.Wheel(y, direction, x, yPosition, viewport, sink);
     }
 

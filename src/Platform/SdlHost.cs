@@ -7,7 +7,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null, bool? vsync = null)
     {
         GameRoot = Path.GetFullPath(gameRoot);
-        var files = new LayeredFileSystem(GameRoot, userDirectory ?? DefaultUserDirectory());
+        LayeredFileSystem files = new(GameRoot, userDirectory ?? DefaultUserDirectory());
         Files = files;
         Settings = new JsonSettingsStore(files.UserDirectory);
         Display = new SdlDisplayHost("OpenAoW", scale: scale, hidden: hidden);

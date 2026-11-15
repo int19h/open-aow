@@ -27,7 +27,7 @@ public sealed class GraphicsBoundaryTests
     {
         int count = 0;
         NotifyEvent<object> original = _ => count++;
-        var converted = RtlUnit.RebindDelegate<OtherNotify>(original)!;
+        OtherNotify converted = RtlUnit.RebindDelegate<OtherNotify>(original)!;
         Assert.Same(original.Target, converted.Target);
         Assert.Equal(original.Method, converted.Method);
         converted(new object());

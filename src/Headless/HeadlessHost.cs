@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Aow.Formats;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -18,7 +19,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
         if (settings is not null)
         {
-            foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
+            foreach (JsonProperty property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
             {
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
             }
@@ -39,7 +40,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         if (value.ValueKind == JsonValueKind.Object)
         {
             string kind = value.GetProperty("kind").GetString() ?? "";
-            var data = value.GetProperty("value");
+            JsonElement data = value.GetProperty("value");
             if (kind == "rectangle" && data.ValueKind == JsonValueKind.Array)
             {
                 return string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()));
@@ -124,8 +125,8 @@ internal sealed class RunFiles : IFileSystem
         string name = RtlUnit.ExtractFileName(path).ToString();
         // The autosave goes to the day file under either extension, the one this host writes and
         // the original one (own-formats.md 4.2).
-        var save = Formats.DocumentKind.Save;
-        foreach (var extension in new[] { save.OwnExtension, save.OriginalExtension })
+        DocumentKind save = DocumentKind.Save;
+        foreach (string? extension in new[] { save.OwnExtension, save.OriginalExtension })
         {
             string autosave = "autosave" + extension;
             if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase))

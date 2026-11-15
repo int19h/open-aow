@@ -21,8 +21,8 @@ public static class RecordValues
             throw new InvalidOperationException(typeof(T).Name + " is not a stored image. A record moves through its [StoredLayout] image.");
         }
 
-        var info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
-        var image = new byte[Unsafe.SizeOf<T>()];
+        RecordTypeInfo info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
+        byte[] image = new byte[Unsafe.SizeOf<T>()];
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)
         {
@@ -50,7 +50,7 @@ public static class RecordValues
     {
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
-        foreach (var field in info.Fields)
+        foreach (RecordFieldInfo field in info.Fields)
         {
             if (!residue && residueAt >= 0 && residueAt < field.Offset)
             {
@@ -72,15 +72,15 @@ public static class RecordValues
             return;
         }
 
-        var residue = new byte[info.ResidueLength];
+        byte[] residue = new byte[info.ResidueLength];
         int at = 0;
-        foreach (var (offset, length) in info.Residue)
+        foreach ((int offset, int length) in info.Residue)
         {
             image.Slice(offset, length).CopyTo(residue.AsSpan(at));
             at += length;
         }
         bool any = false;
-        foreach (var b in residue)
+        foreach (byte b in residue)
         {
             if (b != 0)
             {
@@ -99,7 +99,7 @@ public static class RecordValues
         }
 
         at = 0;
-        foreach (var (offset, length) in info.Residue)
+        foreach ((int offset, int length) in info.Residue)
         {
             residue.AsSpan(at, length).CopyTo(image.Slice(offset));
             at += length;

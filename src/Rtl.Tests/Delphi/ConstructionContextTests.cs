@@ -212,7 +212,7 @@ public sealed class ConstructionContextTests
     [Fact]
     public void RealConstructorsMatchEveryRecordedDelphiFact()
     {
-        var trace = new ConstructionTrace();
+        ConstructionTrace trace = new();
         for (int failAt = 1; failAt <= 3; failAt++)
         {
             trace.Number("chain_case", failAt);
@@ -221,7 +221,7 @@ public sealed class ConstructionContextTests
             catch (Construct e) { trace.Fact("chain_exception", e.Message); }
             trace.Number("chain_result_nil", objectValue is null ? 1 : 0);
         }
-        var owner = new List<object>();
+        List<object> owner = new();
         Owned? owned = null;
         try { owned = Owned.New(trace, owner); }
         catch (Construct e) { trace.Fact("owner_exception", e.Message); }
@@ -240,7 +240,7 @@ public sealed class ConstructionContextTests
         }
         trace.Number("throwing_result_nil", throwing is null ? 1 : 0);
         _ = VirtualLeaf.New(trace);
-        var plain = PlainLeaf.New(trace);
+        PlainLeaf plain = PlainLeaf.New(trace);
         try
         {
             try { plain.Reenter(); }
@@ -265,10 +265,10 @@ public sealed class ConstructionContextTests
     {
         int destroys = 0;
         ConstructionContext? saved = null;
-        var objectValue = ConstructionContext.Create(context =>
+        Counted objectValue = ConstructionContext.Create(context =>
         {
             saved = context;
-            var value = new Counted(() => destroys++);
+            Counted value = new(() => destroys++);
             context.Capture(value);
             return value;
         });
@@ -286,10 +286,10 @@ public sealed class ConstructionContextTests
     {
         int destroys = 0;
         ConstructionContext? saved = null;
-        var error = Assert.ThrowsAny<Exception>(() => ConstructionContext.Create<Counted>(context =>
+        Exception error = Assert.ThrowsAny<Exception>(() => ConstructionContext.Create<Counted>(context =>
         {
             saved = context;
-            var value = new Counted(() =>
+            Counted value = new(() =>
             {
                 destroys++;
                 context.Fail();
@@ -317,7 +317,7 @@ public sealed class ConstructionContextTests
     [Fact]
     public void FailureBeforeCapturePreservesTheOriginalException()
     {
-        var original = new Construct("before capture");
+        Construct original = new("before capture");
         Assert.Same(original, Assert.Throws<Construct>(() => ConstructionContext.Create<object>(_ => throw original)));
     }
 
@@ -325,7 +325,7 @@ public sealed class ConstructionContextTests
     public void ContextRejectsASecondCapture()
     {
         int destroys = 0;
-        var context = new ConstructionContext();
+        ConstructionContext context = new();
         context.Capture(new Counted(() => destroys++));
         Assert.Throws<InvalidOperationException>(() => context.Capture(new object()));
         context.Fail();
@@ -338,7 +338,7 @@ public sealed class ConstructionContextTests
     [InlineData(true)]
     public void FinishedContextReleasesTheCapturedObject(bool fail)
     {
-        var (context, weak) = FinishAndRelease(fail);
+        (ConstructionContext? context, WeakReference<object>? weak) = FinishAndRelease(fail);
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
@@ -349,9 +349,9 @@ public sealed class ConstructionContextTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (ConstructionContext, WeakReference<object>) FinishAndRelease(bool fail)
     {
-        var context = new ConstructionContext();
-        var value = new object();
-        var weak = new WeakReference<object>(value);
+        ConstructionContext context = new();
+        object value = new();
+        WeakReference<object> weak = new(value);
         context.Capture(value);
         if (fail)
         {

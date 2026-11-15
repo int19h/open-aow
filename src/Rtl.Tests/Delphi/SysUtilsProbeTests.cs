@@ -10,49 +10,49 @@ public sealed class SysUtilsProbeTests
     internal static void StringsRemaining(ProbeLines probe, ITestOutputHelper output)
     {
         void Bytes(string label, string s) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(s).Array!.AsSpan(0, s.Length)));
-        var all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
+        string all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
         Bytes("uppercase_all_bytes", UpperCase(all)); Bytes("lowercase_all_bytes", LowerCase(all));
-        foreach (var (label, a, b) in new (string, string, string)[] { ("case", "abc", "ABC"), ("prefix", "ab", "ABC"), ("high", "\xe0", "\xc0"), ("empty", "", "a"), ("zero", "a\0b", "A\0c") })
+        foreach ((string? label, string? a, string? b) in new (string, string, string)[] { ("case", "abc", "ABC"), ("prefix", "ab", "ABC"), ("high", "\xe0", "\xc0"), ("empty", "", "a"), ("zero", "a\0b", "A\0c") })
         {
             probe.Fact("comparetext_" + label, Math.Sign(CompareText(a, b)));
         }
 
-        foreach (var (label, text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") })
+        foreach ((string? label, string? text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") })
         {
             Bytes("trim_" + label, Trim(text));
         }
 
-        foreach (var (label, text) in new (string, string)[] {
+        foreach ((string? label, string? text) in new (string, string)[] {
             ("zero","0"), ("negative","-123"), ("plus","+123"), ("max","2147483647"), ("min","-2147483648"), ("dollar_hex","$FF"), ("c_hex","0xFF"), ("negative_hex","-$10"), ("hex_all_bits","$FFFFFFFF"), ("leading_space"," 12"), ("trailing_space","12 "), ("leading_tab","\t12"), ("empty",""), ("spaces","  "), ("junk","12x"), ("overflow","2147483648"), ("underflow","-2147483649"), ("bare_sign","+"), ("bare_hex","$"), ("double_sign","--1"), ("decimal_point","1.0"), ("embedded_zero","12\0" + "3") })
         {
             object result;
             try { result = StrToInt(text); } catch (Exception e) { result = probe.DelphiName(e); }
             probe.Fact("strtoint_" + label, result);
         }
-        foreach (var (label, value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) })
+        foreach ((string? label, int value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) })
         {
             Bytes("inttostr_" + label, IntToStr(value));
         }
 
-        foreach (var (label, value, digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) })
+        foreach ((string? label, int value, int digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) })
         {
             Bytes("inttohex_" + label, IntToHex(value, digits));
         }
 
-        foreach (var (label, text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
+        foreach ((string? label, string? text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
         {
-            var list = new StringList { Text = text };
+            StringList list = new() { Text = text };
             probe.Fact("text_" + label + "_count", list.Count);
             for (int i = 0; i < list.Count; i++)
             {
                 Bytes($"text_{label}_item_{i}", list[i]);
             }
 
-            var roundtrip = list.Text; Bytes("text_" + label + "_text", roundtrip);
+            string roundtrip = list.Text; Bytes("text_" + label + "_text", roundtrip);
             list.Text = roundtrip; Bytes("text_" + label + "_text_again", list.Text);
         }
-        var differences = new StringBuilder();
-        var kinds = new Dictionary<string, int>();
+        StringBuilder differences = new();
+        Dictionary<string, int> kinds = new();
         for (int a = 0; a < 256; a++)
         {
             for (int b = 0; b < 256; b++)
@@ -79,7 +79,7 @@ public sealed class SysUtilsProbeTests
     [ProbeFact("format")]
     public void FormatFixture()
     {
-        var p = new ProbeLines("format");
+        ProbeLines p = new("format");
         void RecordFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, Format(format, arguments));
         void RecordBracketedFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, "[" + Format(format, arguments) + "]");
         void Error(string label, string format, params ReadOnlySpan<FormatArg> arguments)

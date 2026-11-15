@@ -10,7 +10,7 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var objectValue = new JsonObject();
+        JsonObject objectValue = new();
         ObjectImage.Decode(context, start, end, context.Schema.Get(ClassName), site.Path, objectValue);
         return objectValue;
     }
@@ -20,7 +20,7 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
     // cannot write the member back.
     internal override JsonValue DecodeElement(DecodeContext context, int start, int end, ValueSite site)
     {
-        var objectValue = new JsonObject();
+        JsonObject objectValue = new();
         if (context.Schema.Version >= SlotVersion && site.Property.SlotBase is int slotBase)
         {
             objectValue.Add("$slot", new JsonInteger(site.Id - slotBase));
@@ -86,7 +86,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
     {
         context.Need(start, 4, end, site.Path, "class id");
         int classId = context.Int32(start);
-        var objectValue = new JsonObject();
+        JsonObject objectValue = new();
         if (classId == 0)
         {
             if (end != start + 4)
@@ -104,9 +104,9 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             return objectValue;
         }
         isNull = false;
-        var classValue = context.Schema.Resolve(context.Engine, classId)
+        SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
             ?? throw context.Fail(Codes.UnknownClass, $"Class id {classId} is not in the {context.Engine} engine table.", start, site.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        var shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
         if (shape is null && family is not null && !classValue.InheritsFrom(family))
         {
             throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", start, site.Path, classValue.Name, family);
@@ -133,11 +133,11 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 
     internal static void EncodeCreated(EncodeContext context, JsonObject objectValue, ByteBuffer data, ValueSite site, string? family, bool slotted)
     {
-        var classMember = objectValue.Find("$class") ?? throw context.Fail(Codes.MissingMember, "A created object needs $class.", objectValue, site.Path);
+        JsonMember classMember = objectValue.Find("$class") ?? throw context.Fail(Codes.MissingMember, "A created object needs $class.", objectValue, site.Path);
         string[] reserved = slotted ? ["$class", "$slot"] : ["$class"];
         if (classMember.Value is JsonNull)
         {
-            foreach (var m in objectValue.Members)
+            foreach (JsonMember m in objectValue.Members)
             {
                 if (Array.IndexOf(reserved, m.Name) < 0)
                 {
@@ -153,14 +153,14 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             throw context.Fail(Codes.Type, "$class is a class name or null.", classMember.Value, site.Path.Member("$class"));
         }
 
-        var classValue = context.Schema.Find(name.Value)
+        SchemaClass classValue = context.Schema.Find(name.Value)
             ?? throw context.Fail(Codes.UnknownClass, $"Unknown class {name.Value}.", name, site.Path.Member("$class"), name.Value);
         if (classValue.Id is not int id || context.Schema.Resolve(context.Engine, id) != classValue)
         {
             throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {context.Engine} engine table.", name, site.Path.Member("$class"), classValue.Name);
         }
 
-        var shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
         if (shape is null && family is not null && !classValue.InheritsFrom(family))
         {
             throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", name, site.Path.Member("$class"), classValue.Name, family);
@@ -172,7 +172,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var objectValue = DecodeCreated(context, start, end, site, family, null, out bool isNull);
+        JsonObject objectValue = DecodeCreated(context, start, end, site, family, null, out bool isNull);
         return isNull ? new JsonNull() : objectValue;
     }
 
@@ -246,18 +246,18 @@ internal sealed partial class ChildrenCodec : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var table = PropertyTable.Read(context, start, end, site.Path);
+        PropertyTable table = PropertyTable.Read(context, start, end, site.Path);
         int db = table.DataBase;
         int length = end - db;
-        var boundaries = table.Entries.Select(e => e.Offset).Append(length).Distinct().Order().ToArray();
-        var order = table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
-        var slots = new HashSet<int>();
-        var array = new JsonArray();
+        int[] boundaries = table.Entries.Select(e => e.Offset).Append(length).Distinct().Order().ToArray();
+        List<TableEntry> order = table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
+        HashSet<int> slots = new();
+        JsonArray array = new();
         int cursor = 0, k = 0;
-        var gaps = new List<(int, int)>();
+        List<(int, int)> gaps = new();
         for (int i = 0; i < order.Count; i++)
         {
-            var e = order[i];
+            TableEntry e = order[i];
             if (i + 1 < order.Count && order[i + 1].Offset == e.Offset)
             {
                 throw context.Fail(Codes.Layout, "Two children share one offset.", db + e.Offset, site.Path);
@@ -286,7 +286,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
         if (gaps.Count != 0 || table.EmptyLongMarker || !ObjectImage.MatchesWriterTable(table.Entries, order))
         {
             site.Builder?.Table(table.Entries, table.EmptyLongMarker, site.Id);
-            foreach (var (offset, count) in gaps)
+            foreach ((int offset, int count) in gaps)
             {
                 site.Builder?.Gap(offset, context.Data.AsSpan(db + offset, count), site.Id);
             }
@@ -306,11 +306,11 @@ internal sealed partial class ChildrenCodec : PropertyCodec
             throw context.Fail(Codes.Limit, "A collection has too many items.", array, site.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
-        var writer = new ObjectWriter();
-        var slots = new Dictionary<int, JsonValue>();
+        ObjectWriter writer = new();
+        Dictionary<int, JsonValue> slots = new();
         for (int k = 0; k < array.Items.Count; k++)
         {
-            var itemPath = site.Path.Item(k);
+            DocumentNodePath itemPath = site.Path.Item(k);
             if (array.Items[k] is not JsonObject child)
             {
                 throw context.Fail(Codes.Type, "A child is an object.", array.Items[k], itemPath);
@@ -331,7 +331,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
                 throw context.Fail(Codes.Type, "A stored child is never nil.", child, itemPath);
             }
 
-            var childSite = new ValueSite { Property = site.Property, Id = (int)slot.Value, Path = itemPath, Owner = site.Owner, Reader = site.Reader };
+            ValueSite childSite = new() { Property = site.Property, Id = (int)slot.Value, Path = itemPath, Owner = site.Owner, Reader = site.Reader };
             writer.Begin((int)slot.Value, site.Property, k);
             CreatedObjectCodec.EncodeCreated(context, child, writer.Data, childSite, null, true);
             writer.End();
@@ -354,7 +354,7 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
     /// <summary>The level's class, from its $class, decides the field class (MapFieldClass).</summary>
     private static SchemaClass FieldClass(FormatSchema schema, ValueSite site)
     {
-        var level = site.Owner["$class"] is JsonString c ? schema.Find(c.Value) : null;
+        SchemaClass? level = site.Owner["$class"] is JsonString c ? schema.Find(c.Value) : null;
         return schema.Get((level ?? site.Property.Owner).FieldClass ?? "TMapField");
     }
 
@@ -367,12 +367,12 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
             throw context.Fail(Codes.Limit, "The map has too many fields.", start, site.Path, count.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
-        var fieldClass = FieldClass(context.Schema, site);
-        var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
+        SchemaClass fieldClass = FieldClass(context.Schema, site);
+        JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
         int at = start;
         for (int y = 0; y < height; y++)
         {
-            var row = new JsonArray();
+            JsonArray row = new();
             for (int x = 0; x < width; x++)
             {
                 if (at + 4 > end)
@@ -386,7 +386,7 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
                     throw context.Fail(Codes.Corrupt, $"Field [{y}][{x}] has an invalid length {length}.", at, site.Path.Item(y).Item(x));
                 }
 
-                var field = new JsonObject();
+                JsonObject field = new();
                 ObjectImage.Decode(context, at + 4, at + 4 + length, fieldClass, site.Path.Item(y).Item(x), field);
                 row.Add(field);
                 at += 4 + length;
@@ -414,7 +414,7 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
             throw context.Fail(Codes.Dimensions, $"Fields has {rows.Items.Count} rows and Height is {height}.", rows, site.Path, rows.Items.Count.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{height} rows");
         }
 
-        var fieldClass = FieldClass(context.Schema, site);
+        SchemaClass fieldClass = FieldClass(context.Schema, site);
         for (int y = 0; y < rows.Items.Count; y++)
         {
             if (rows.Items[y] is not JsonArray row)
@@ -477,8 +477,8 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
             throw context.Fail(Codes.Corrupt, $"The campaign map size {length} differs from its {bytes.End - bytes.Start} stored bytes.", size.Start, site.Path);
         }
 
-        var image = context.Data.AsSpan(bytes.Start, length).ToArray();
-        var session = new ImportSession
+        byte[] image = context.Data.AsSpan(bytes.Start, length).ToArray();
+        ImportSession session = new()
         {
             Schema = context.Schema,
             Limits = context.Limits,
@@ -486,9 +486,9 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
             File = context.File,
             Nested = site.Path.ToString(),
         };
-        var (container, root) = Nested.Import(image, session);
-        var map = new JsonObject().Add("$container", container).Add("root", root);
-        var builder = new LayoutBuilder();
+        (JsonObject? container, JsonObject? root) = Nested.Import(image, session);
+        JsonObject map = new JsonObject().Add("$container", container).Add("root", root);
+        LayoutBuilder builder = new();
         if (Cfs.HasMagic(image) && image[4] != 0)
         {
             builder.Nested(image);
@@ -505,7 +505,7 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
             throw context.Fail(Codes.Type, "Map is a nested document.", value, site.Path, value.KindName);
         }
 
-        foreach (var m in map.Members)
+        foreach (JsonMember m in map.Members)
         {
             if (m.Name is not ("$container" or "root" or "$layout"))
             {
@@ -513,27 +513,27 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
             }
         }
 
-        var container = map["$container"] as JsonObject ?? throw context.Fail(Codes.MissingMember, "Map needs $container.", map, site.Path);
-        var root = map["root"] ?? throw context.Fail(Codes.MissingMember, "Map needs root.", map, site.Path);
+        JsonObject container = map["$container"] as JsonObject ?? throw context.Fail(Codes.MissingMember, "Map needs $container.", map, site.Path);
+        JsonValue root = map["root"] ?? throw context.Fail(Codes.MissingMember, "Map needs root.", map, site.Path);
         if (container["profile"] is not JsonString { Value: "world-hsm" })
         {
             throw context.Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container, site.Path.Member("$container").Member("profile"));
         }
 
-        var nested = new EncodeContext(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
-        var layout = LayoutReader.Read(nested, map, site.Path);
-        var payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
+        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
+        LayoutReader? layout = LayoutReader.Read(nested, map, site.Path);
+        byte[] payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
         context.Invalidated.AddRange(nested.Invalidated);
         byte[] image = compression == "cfs" ? Cfs.Wrap(payload, level) : payload;
         if (layout?.Nested is { } retained)
         {
             // The retained bytes are used only when they inflate to the visible map.
-            var ok = Cfs.HasMagic(retained.Bytes) && compression == "cfs" && retained.Bytes[4] == level;
+            bool ok = Cfs.HasMagic(retained.Bytes) && compression == "cfs" && retained.Bytes[4] == level;
             if (ok)
             {
                 try
                 {
-                    var inflated = Cfs.Inflate(retained.Bytes.AsSpan(5), context.Limits.DecompressedBytes, m => new InvalidDataException(m));
+                    byte[] inflated = Cfs.Inflate(retained.Bytes.AsSpan(5), context.Limits.DecompressedBytes, m => new InvalidDataException(m));
                     ok = inflated.AsSpan().SequenceEqual(payload);
                 }
                 catch (InvalidDataException)

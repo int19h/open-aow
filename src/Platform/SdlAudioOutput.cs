@@ -61,7 +61,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Callback(nint user, SDL_AudioStream* stream, int additional, int total)
     {
-        var output = (SdlAudioOutput)GCHandle.FromIntPtr(user).Target!;
+        SdlAudioOutput output = (SdlAudioOutput)GCHandle.FromIntPtr(user).Target!;
         try
         {
             int frameBytes = output._channels * output._bytesPerSample;

@@ -22,11 +22,11 @@ public sealed class EngineSupportTests
     [Fact]
     public void MethodPointerCastAdaptsTheContextAndPreservesMulticastOrder()
     {
-        var context = new EventContext();
-        var calls = new List<int>();
+        EventContext context = new();
+        List<int> calls = new();
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
-        var cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
+        NotifyEvent<object> cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         Assert.Throws<InvalidCastException>(() => cast(new object()));
@@ -68,7 +68,7 @@ public sealed class EngineSupportTests
             Assert.Same(R.IntToObject(value), R.IntToObject(value));
             Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
         }
-        var instance = new object();
+        object instance = new();
         Assert.Equal(RuntimeHelpers.GetHashCode(instance) & int.MaxValue, R.ObjectToInt(instance));
         Assert.Equal(0, R.ObjectToInt(null));
     }
@@ -76,7 +76,7 @@ public sealed class EngineSupportTests
     [Fact]
     public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
     {
-        var a = new Receiver(); var b = new Receiver();
+        Receiver a = new(); Receiver b = new();
         NotifyEvent<object> first = a.Event, second = b.Event;
         Assert.Equal(R.MethodCode(first), R.MethodCode(second));
         Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
@@ -100,7 +100,7 @@ public sealed class EngineSupportTests
     [Fact]
     public void StringReadsCopyBeforeWritingAndKeepPartialTransfers()
     {
-        var stream = new MemoryStream();
+        MemoryStream stream = new();
         stream.WriteBuffer(new byte[] { 0, 233 });
         stream.Position = 0;
         string value = "abcd", shared = value;
@@ -115,16 +115,16 @@ public sealed class EngineSupportTests
     [Fact]
     public void ZlibAdaptersRoundTripAndLeaveTheBackingStreamOpen()
     {
-        foreach (var level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
+        foreach (CompressionLevel level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
         {
             byte[] expected = Enumerable.Range(0, 8193).Select(i => (byte)(i * 17)).ToArray();
-            var backing = new MemoryStream();
-            var compressor = new ZLibStream(backing, level, true);
+            MemoryStream backing = new();
+            ZLibStream compressor = new(backing, level, true);
             compressor.Write(expected);
             compressor.Dispose(); compressor.Dispose();
             Assert.True(backing.Length > 0);
             backing.Position = 0;
-            var reader = new ZLibStream(backing, CompressionMode.Decompress, true);
+            ZLibStream reader = new(backing, CompressionMode.Decompress, true);
             byte[] actual = new byte[expected.Length];
             reader.ReadExactly(actual);
             Assert.Equal(expected, actual);
@@ -149,7 +149,7 @@ public sealed class EngineSupportTests
     [Fact]
     public void HostBoundaryHooksAreExplicitAndReplaceable()
     {
-        var saved = R.MessageHandler;
+        Action<string> saved = R.MessageHandler;
         try
         {
             string shown = "";

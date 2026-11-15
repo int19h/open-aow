@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.UI.Dialogs;
+using Aow.Game.UI.Windows;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -52,7 +54,7 @@ internal sealed class FrameDiagnostics : IDisposable
             return;
         }
 
-        var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
+        MethodBase?[] stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) }))
         {
@@ -102,10 +104,10 @@ internal sealed class FrameDiagnostics : IDisposable
             return;
         }
 
-        var viewer = ui.MapWindow.MapViewer;
-        var window = ui.MapWindow.MainWindow;
-        var level = map.MapContainer.GetMapLevel(viewer.SceneL);
-        var objects = new List<object>();
+        HexSpriteMapViewer viewer = ui.MapWindow.MapViewer;
+        Window window = ui.MapWindow.MainWindow;
+        MapLevel level = map.MapContainer.GetMapLevel(viewer.SceneL);
+        List<object> objects = new();
         for (int y = 0; y < level.Height; y++)
         {
             for (int x = 0; x < level.Width; x++)
@@ -117,17 +119,17 @@ internal sealed class FrameDiagnostics : IDisposable
                     continue;
                 }
 
-                var field = level.GetField(x, y);
+                MapField field = level.GetField(x, y);
                 for (int i = 0; i < field.GetCount(); i++)
                 {
-                    var child = field.GetChild(i);
-                    var resource = (child as MapObject)?.Resource;
-                    var sequences = new List<object>();
+                    EngineObject child = field.GetChild(i);
+                    MapObjectResource? resource = (child as MapObject)?.Resource;
+                    List<object> sequences = new();
                     if (resource?.ImageSequenceList is { } list)
                     {
                         for (int index = 0; index < list.Count; index++)
                         {
-                            for (var sequence = list.GetImageSequence(index); sequence is not null; sequence = sequence.Next)
+                            for (ImageSequence? sequence = list.GetImageSequence(index); sequence is not null; sequence = sequence.Next)
                             {
                                 sequences.Add(new
                                 {

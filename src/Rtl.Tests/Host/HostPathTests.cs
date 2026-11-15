@@ -19,8 +19,8 @@ public sealed class HostPathTests
         }
 
         Assert.Equal(Cp1252.Encode("\u0141.sav"), Cp1252.Encode("\u03a9.sav"));
-        using var directory = new ProbeDirectory();
-        var saved = Files;
+        using ProbeDirectory directory = new();
+        IFileSystem saved = Files;
         try
         {
             Files = new PhysicalFileSystem();
@@ -29,8 +29,8 @@ public sealed class HostPathTests
                 File.WriteAllBytes(Path.Combine(directory.Root, s_names[i]), [(byte)i]);
             }
 
-            var found = new List<string>();
-            foreach (var entry in Files.FindEntries("*.sav", attributes: faAnyFile))
+            List<string> found = new();
+            foreach (RtlFileEntry entry in Files.FindEntries("*.sav", attributes: faAnyFile))
             {
                 found.Add(entry.Name);
             }
@@ -39,7 +39,7 @@ public sealed class HostPathTests
 
             foreach (string name in found)
             {
-                using var stream = OpenFile(name, fmOpenRead);
+                using Stream stream = OpenFile(name, fmOpenRead);
                 byte[] content = new byte[1];
                 Assert.Equal(1, stream.Read(content));
                 Assert.Equal(Array.IndexOf(s_names, name), content[0]);
@@ -62,7 +62,7 @@ public sealed class HostPathTests
             }
         }
 
-        var list = new StringList { Sorted = true, Duplicates = Duplicates.Ignore };
+        StringList list = new() { Sorted = true, Duplicates = Duplicates.Ignore };
         foreach (string name in s_names.Concat(Enumerable.Reverse(s_names)))
         {
             list.Add(name);

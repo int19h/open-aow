@@ -15,8 +15,8 @@ public sealed class ListsProbeTests
     [ProbeFact("lists")]
     public void ListsFixture()
     {
-        var p = new ProbeLines("lists");
-        var l = new DelphiList<Item>();
+        ProbeLines p = new("lists");
+        DelphiList<Item> l = new();
         Item[] items = Enumerable.Range(0, 257).Select(i => new Item(i, i % 3)).ToArray();
         void State(string tag)
         {
@@ -54,7 +54,7 @@ public sealed class ListsProbeTests
             }
         }
 
-        var sl = new StringList();
+        StringList sl = new();
         void StringState(string tag)
         {
             p.Fact(tag + "_count", sl.Count);

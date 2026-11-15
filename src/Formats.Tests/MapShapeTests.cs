@@ -25,25 +25,25 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("CombatMapLevel", "tactical")]
     public void ALevelRoundTripsThroughBothBackendsAndMatchesTheConverter(string className, string engine)
     {
-        var classValue = Schema.Get(className);
-        var source = Level(width: 3, height: 2, spritesPerField: [0, 1, 2, 0, 3, 1]);
+        SchemaClass classValue = Schema.Get(className);
+        LevelProbe source = Level(width: 3, height: 2, spritesPerField: [0, 1, 2, 0, 3, 1]);
         source.Fields[1].Sprites.Add(new SpriteProbe { DaysRemaining = 9, Shared = true });
-        var tree = TreeWriter.Write(source, s_factory);
+        ObjectNode tree = TreeWriter.Write(source, s_factory);
         Assert.Equal(6, source.Visited);
-        var document = DocumentBackend.Write(tree, classValue, Schema, engine);
-        var image = OriginalBackend.Write(tree, classValue, Schema, engine);
+        JsonObject document = DocumentBackend.Write(tree, classValue, Schema, engine);
+        byte[] image = OriginalBackend.Write(tree, classValue, Schema, engine);
         Assert.Equal(Compact(PilotImage.Decode(image, className, engine)), Compact(document));
         Assert.Equal(image, PilotImage.Encode(document, className, engine));
-        var rows = (JsonArray)document["Fields"]!;
+        JsonArray rows = (JsonArray)document["Fields"]!;
         Assert.Equal(2, rows.Items.Count);
         Assert.Equal(3, ((JsonArray)rows.Items[0]).Items.Count);
         // A shared sprite is not stored, and a stored sprite carries its class and no slot.
         Assert.Equal("""{"HexSpriteList":[{"$class":"FrozenWaterHexSprite","DaysRemaining":1,"CasterPlayer":-1}],"FieldFlags":1007}""",
             Compact(((JsonArray)rows.Items[0]).Items[1]));
         Assert.Equal("""{"FieldFlags":7}""", Compact(((JsonArray)rows.Items[0]).Items[0]));
-        foreach (var read in new[] { OriginalBackend.Read(image, classValue, Schema, engine), DocumentBackend.Read(document, classValue, Schema, engine) })
+        foreach (ObjectNode? read in new[] { OriginalBackend.Read(image, classValue, Schema, engine), DocumentBackend.Read(document, classValue, Schema, engine) })
         {
-            var loaded = new LevelProbe();
+            LevelProbe loaded = new();
             TreeReader.Read(read, loaded, s_factory);
             Assert.Equal(6, loaded.Visited);
             Assert.Equal(Describe(source, storedOnly: true), Describe(loaded, storedOnly: true));
@@ -54,7 +54,7 @@ public sealed class MapShapeTests : FormatsTest
     public void TheSpritesOfAFieldAreStoredAtIdsFromFifty()
     {
         // The field image is the value of id 6: its 32-bit length, then its table.
-        var field = FieldImage(OriginalBackend.Write(classValue: Schema.Get("MapLevel"), node: TreeWriter.Write(Level(width: 1, height: 1, spritesPerField: [3]), s_factory), schema: Schema, engine: "game"));
+        byte[] field = FieldImage(OriginalBackend.Write(classValue: Schema.Get("MapLevel"), node: TreeWriter.Write(Level(width: 1, height: 1, spritesPerField: [3]), s_factory), schema: Schema, engine: "game"));
         Assert.Equal(4, field[0]);
         Assert.Equal([50, 51, 52, 4], new[] { field[1], field[3], field[5], field[7] });
     }
@@ -62,16 +62,16 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void AnEmptyGridIsStoredAndAnAbsentGridLeavesTheFields()
     {
-        var classValue = Schema.Get("MapLevel");
-        var tree = TreeWriter.Write(new LevelProbe(), s_factory);
-        var document = DocumentBackend.Write(tree, classValue, Schema, "game");
+        SchemaClass classValue = Schema.Get("MapLevel");
+        ObjectNode tree = TreeWriter.Write(new LevelProbe(), s_factory);
+        JsonObject document = DocumentBackend.Write(tree, classValue, Schema, "game");
         Assert.Equal("""{"Fields":[]}""", Compact(document));
-        var image = OriginalBackend.Write(tree, classValue, Schema, "game");
+        byte[] image = OriginalBackend.Write(tree, classValue, Schema, "game");
         Assert.Equal(image, PilotImage.Encode(document, "MapLevel"));
-        var loaded = new LevelProbe();
+        LevelProbe loaded = new();
         TreeReader.Read(OriginalBackend.Read(image, classValue, Schema, "game"), loaded, s_factory);
         Assert.Empty(loaded.Fields);
-        var untouched = Level(width: 1, height: 1, spritesPerField: [1]);
+        LevelProbe untouched = Level(width: 1, height: 1, spritesPerField: [1]);
         TreeReader.Read(DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Width":1,"Height":1}"""u8, "map.json"), classValue: classValue, schema: Schema, engine: "game"), untouched, s_factory);
         Assert.Single(untouched.Fields[0].Sprites);
         Assert.Equal(0, untouched.Visited);
@@ -80,14 +80,14 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void AStoredNullSpriteRoundTripsAndLoadsNothing()
     {
-        var classValue = Schema.Get("MapLevel");
-        var document = (JsonObject)JsonReader.Parse("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":null},{"$class":"FrozenWaterHexSprite","DaysRemaining":2}]}]]}"""u8, "map.json");
-        var tree = DocumentBackend.Read(document, classValue, Schema, "game");
+        SchemaClass classValue = Schema.Get("MapLevel");
+        JsonObject document = (JsonObject)JsonReader.Parse("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":null},{"$class":"FrozenWaterHexSprite","DaysRemaining":2}]}]]}"""u8, "map.json");
+        ObjectNode tree = DocumentBackend.Read(document, classValue, Schema, "game");
         Assert.Equal(Compact(document), Compact(DocumentBackend.Write(tree, classValue, Schema, "game")));
-        var image = OriginalBackend.Write(tree, classValue, Schema, "game");
+        byte[] image = OriginalBackend.Write(tree, classValue, Schema, "game");
         Assert.Equal(image, PilotImage.Encode(document, "MapLevel"));
         Assert.Equal(Compact(document), Compact(DocumentBackend.Write(OriginalBackend.Read(image, classValue, Schema, "game"), classValue, Schema, "game")));
-        var loaded = new LevelProbe();
+        LevelProbe loaded = new();
         TreeReader.Read(tree, loaded, s_factory);
         Assert.Equal(2, Assert.Single(loaded.Fields[0].Sprites).DaysRemaining);
     }
@@ -107,8 +107,8 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Height":1}]]}""", Codes.UnknownMember, "root.Fields[0][0].Height")]
     public void AMalformedGridIsRefusedWithItsPath(string text, string code, string path)
     {
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "map.json");
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("MapLevel"), Schema, "game"));
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "map.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("MapLevel"), Schema, "game"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -116,32 +116,32 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void AGridThatDisagreesWithTheLevelIsRefusedOnBothBackends()
     {
-        var classValue = Schema.Get("MapLevel");
-        var tree = TreeWriter.Write(new MismatchedLevel(), s_factory);
-        var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, Schema, "game"));
+        SchemaClass classValue = Schema.Get("MapLevel");
+        ObjectNode tree = TreeWriter.Write(new MismatchedLevel(), s_factory);
+        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, Schema, "game"));
         Assert.Equal((Codes.Dimensions, "root.Fields"), (document.Diagnostic.Code, document.Diagnostic.Path));
-        var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, Schema, "game"));
+        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, Schema, "game"));
         Assert.Equal((Codes.Dimensions, "root.Fields"), (image.Diagnostic.Code, image.Diagnostic.Path));
-        var count = Assert.Throws<ConversionException>(() => TreeWriter.Write(new LevelProbe { Width = 2, Height = 2 }, s_factory));
+        ConversionException count = Assert.Throws<ConversionException>(() => TreeWriter.Write(new LevelProbe { Width = 2, Height = 2 }, s_factory));
         Assert.Equal((Codes.Dimensions, "root.Fields"), (count.Diagnostic.Code, count.Diagnostic.Path));
-        var stored = TreeWriter.Write(Level(width: 2, height: 1, spritesPerField: [0, 0]), s_factory);
-        var load = Assert.Throws<ConversionException>(() => TreeReader.Read(stored, new MismatchedLevel(), s_factory));
+        ObjectNode stored = TreeWriter.Write(Level(width: 2, height: 1, spritesPerField: [0, 0]), s_factory);
+        ConversionException load = Assert.Throws<ConversionException>(() => TreeReader.Read(stored, new MismatchedLevel(), s_factory));
         Assert.Equal((Codes.Dimensions, "root.Fields"), (load.Diagnostic.Code, load.Diagnostic.Path));
     }
 
     [Fact]
     public void AMalformedFieldStreamIsRefusedOnTheImage()
     {
-        var classValue = Schema.Get("MapLevel");
-        var level = new LevelProbe { Width = 1, Height = 1, Fields = [new FieldProbe()] };
-        var image = OriginalBackend.Write(TreeWriter.Write(level, s_factory), classValue, Schema, "game");
+        SchemaClass classValue = Schema.Get("MapLevel");
+        LevelProbe level = new() { Width = 1, Height = 1, Fields = [new FieldProbe()] };
+        byte[] image = OriginalBackend.Write(TreeWriter.Write(level, s_factory), classValue, Schema, "game");
         // The last value is the field: a length of 1 and an empty table.
         Assert.Equal([1, 0, 0, 0, 0], image[^5..]);
-        var empty = image.ToArray();
+        byte[] empty = image.ToArray();
         empty[^5] = 0;
-        var zero = Assert.Throws<ConversionException>(() => OriginalBackend.Read(empty, classValue, Schema, "game"));
+        ConversionException zero = Assert.Throws<ConversionException>(() => OriginalBackend.Read(empty, classValue, Schema, "game"));
         Assert.Equal((Codes.Corrupt, "root.Fields[0][0]"), (zero.Diagnostic.Code, zero.Diagnostic.Path));
-        var longer = Assert.Throws<ConversionException>(() => OriginalBackend.Read([.. image, 0], classValue, Schema, "game"));
+        ConversionException longer = Assert.Throws<ConversionException>(() => OriginalBackend.Read([.. image, 0], classValue, Schema, "game"));
         Assert.Equal((Codes.Dimensions, "root.Fields"), (longer.Diagnostic.Code, longer.Diagnostic.Path));
     }
 
@@ -153,26 +153,26 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("cfs", 3)]
     public void ACampaignSaveWithANestedMapPassesBothBackends(string compression, int level)
     {
-        var classValue = Schema.Get("Campaign");
-        var nested = NestedMap(compression, level);
-        var file = CampaignSave(nested);
-        var imported = (JsonObject)GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document["root"]!;
-        var map = (JsonObject)imported["Map"]!;
+        SchemaClass classValue = Schema.Get("Campaign");
+        byte[] nested = NestedMap(compression, level);
+        byte[] file = CampaignSave(nested);
+        JsonObject imported = (JsonObject)GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document["root"]!;
+        JsonObject map = (JsonObject)imported["Map"]!;
         Assert.Equal(compression == "cfs" && level != 0, map.Find("$layout") is not null);
         imported.Members.RemoveAll(member => member.Name == "$class");
-        var image = PilotImage.Encode(imported, "Campaign", "campaign");
-        var read = OriginalBackend.Read(image, classValue, Schema, "campaign");
-        var loaded = new CampaignProbe();
+        byte[] image = PilotImage.Encode(imported, "Campaign", "campaign");
+        ObjectNode read = OriginalBackend.Read(image, classValue, Schema, "campaign");
+        CampaignProbe loaded = new();
         TreeReader.Read(read, loaded, s_factory);
         Assert.Equal(nested, loaded.Map);
         Assert.Equal("Fixture campaign", loaded.Name);
-        var tree = TreeWriter.Write(loaded, s_factory);
+        ObjectNode tree = TreeWriter.Write(loaded, s_factory);
         Assert.Equal(image, OriginalBackend.Write(tree, classValue, Schema, "campaign"));
         // The direct document holds the nested document without the converter's retained bytes.
         map.Members.RemoveAll(member => member.Name == "$layout");
-        var document = DocumentBackend.Write(tree, classValue, Schema, "campaign");
+        JsonObject document = DocumentBackend.Write(tree, classValue, Schema, "campaign");
         Assert.Equal(Compact(imported), Compact(document));
-        var again = new CampaignProbe();
+        CampaignProbe again = new();
         TreeReader.Read(DocumentBackend.Read(document, classValue, Schema, "campaign"), again, s_factory);
         Assert.Equal(nested, again.Map);
         Assert.Equal(image, OriginalBackend.Write(TreeWriter.Write(again, s_factory), classValue, Schema, "campaign"));
@@ -181,27 +181,27 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void TheRetainedCompressedBytesStayTheConvertersAlone()
     {
-        var classValue = Schema.Get("Campaign");
+        SchemaClass classValue = Schema.Get("Campaign");
         // A level 2 map compressed by another deflater: the bytes differ from a fresh compression.
-        var payload = Payload(NestedMap("none", 0));
-        using var buffer = new MemoryStream();
-        using (var zlib = new ZLibStream(buffer, CompressionLevel.NoCompression, leaveOpen: true))
+        byte[] payload = Payload(NestedMap("none", 0));
+        using MemoryStream buffer = new();
+        using (ZLibStream zlib = new(buffer, CompressionLevel.NoCompression, leaveOpen: true))
         {
             zlib.Write(payload);
         }
 
         byte[] nested = [.. Cfs.Magic, 2, .. buffer.ToArray()];
         Assert.NotEqual(nested, Cfs.Wrap(payload, 2));
-        var file = CampaignSave(nested);
-        var document = GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document;
+        byte[] file = CampaignSave(nested);
+        JsonObject document = GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document;
         Assert.Equal(file, GameFiles.Export(document).Bytes);
-        var root = (JsonObject)document["root"]!;
+        JsonObject root = (JsonObject)document["root"]!;
         root.Members.RemoveAll(member => member.Name == "$class");
-        var image = PilotImage.Encode(root, "Campaign", "campaign");
-        var tree = OriginalBackend.Read(image, classValue, Schema, "campaign");
+        byte[] image = PilotImage.Encode(root, "Campaign", "campaign");
+        ObjectNode tree = OriginalBackend.Read(image, classValue, Schema, "campaign");
         Assert.Equal(image, OriginalBackend.Write(tree, classValue, Schema, "campaign"));
-        var direct = DocumentBackend.Read(DocumentBackend.Write(tree, classValue, Schema, "campaign"), classValue, Schema, "campaign");
-        var loaded = new CampaignProbe();
+        ObjectNode direct = DocumentBackend.Read(DocumentBackend.Write(tree, classValue, Schema, "campaign"), classValue, Schema, "campaign");
+        CampaignProbe loaded = new();
         TreeReader.Read(direct, loaded, s_factory);
         Assert.Equal(Cfs.Wrap(payload, 2), loaded.Map);
     }
@@ -209,11 +209,11 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void AnEmptyCampaignMapIsOmittedAndAnAbsentOneIsEmpty()
     {
-        var classValue = Schema.Get("Campaign");
-        var tree = TreeWriter.Write(new CampaignProbe { Name = "Empty" }, s_factory);
+        SchemaClass classValue = Schema.Get("Campaign");
+        ObjectNode tree = TreeWriter.Write(new CampaignProbe { Name = "Empty" }, s_factory);
         Assert.Null(tree.Find("Map"));
         Assert.Equal("""{"Name":"Empty"}""", Compact(DocumentBackend.Write(tree, classValue, Schema, "campaign")));
-        var loaded = new CampaignProbe { Map = [1, 2, 3] };
+        CampaignProbe loaded = new() { Map = [1, 2, 3] };
         TreeReader.Read(OriginalBackend.Read(OriginalBackend.Write(tree, classValue, Schema, "campaign"), classValue, Schema, "campaign"), loaded, s_factory);
         Assert.Empty(loaded.Map);
     }
@@ -227,8 +227,8 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("""{"Map":"00"}""", Codes.Type, "root.Map")]
     public void AMalformedCampaignMapIsRefusedWithItsPath(string text, string code, string path)
     {
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "campaign.json");
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("Campaign"), Schema, "campaign"));
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "campaign.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("Campaign"), Schema, "campaign"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -236,20 +236,20 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void AMalformedCampaignMapIsRefusedOnTheImage()
     {
-        var classValue = Schema.Get("Campaign");
-        var image = OriginalBackend.Write(TreeWriter.Write(new CampaignProbe { Map = NestedMap("none", 0) }, s_factory), classValue, Schema, "campaign");
+        SchemaClass classValue = Schema.Get("Campaign");
+        byte[] image = OriginalBackend.Write(TreeWriter.Write(new CampaignProbe { Map = NestedMap("none", 0) }, s_factory), classValue, Schema, "campaign");
         // The table holds the size (id 5) at offset 0 and the bytes (id 6) at offset 4.
         Assert.Equal([2, 5, 0, 6, 4], image[..5]);
-        var bigger = image.ToArray();
+        byte[] bigger = image.ToArray();
         BinaryPrimitives.WriteInt32LittleEndian(bigger.AsSpan(5), BinaryPrimitives.ReadInt32LittleEndian(bigger.AsSpan(5)) + 1);
-        var size = Assert.Throws<ConversionException>(() => OriginalBackend.Read(bigger, classValue, Schema, "campaign"));
+        ConversionException size = Assert.Throws<ConversionException>(() => OriginalBackend.Read(bigger, classValue, Schema, "campaign"));
         Assert.Equal((Codes.Corrupt, "root.Map"), (size.Diagnostic.Code, size.Diagnostic.Path));
         byte[] half = [1, 5, 0, .. image[5..9]];
-        var alone = Assert.Throws<ConversionException>(() => OriginalBackend.Read(half, classValue, Schema, "campaign"));
+        ConversionException alone = Assert.Throws<ConversionException>(() => OriginalBackend.Read(half, classValue, Schema, "campaign"));
         Assert.Equal((Codes.Corrupt, "root.Map"), (alone.Diagnostic.Code, alone.Diagnostic.Path));
         // The document backend imports the stored file through its profile, which refuses a file that is not a map.
-        var stored = TreeWriter.Write(new CampaignProbe { Map = [9] }, s_factory);
-        var junk = Assert.Throws<ConversionException>(() => DocumentBackend.Write(stored, classValue, Schema, "campaign"));
+        ObjectNode stored = TreeWriter.Write(new CampaignProbe { Map = [9] }, s_factory);
+        ConversionException junk = Assert.Throws<ConversionException>(() => DocumentBackend.Write(stored, classValue, Schema, "campaign"));
         Assert.Equal(Codes.Truncated, junk.Diagnostic.Code);
     }
 
@@ -260,11 +260,11 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("""{"TextSeen":{"default":true,"count":16,"bits":[0,15]}}""")]
     public void ABitListRoundTripsThroughBothBackends(string text)
     {
-        var classValue = Schema.Get("Sign");
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "sign.json");
-        var tree = DocumentBackend.Read(document, classValue, Schema, "game");
+        SchemaClass classValue = Schema.Get("Sign");
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "sign.json");
+        ObjectNode tree = DocumentBackend.Read(document, classValue, Schema, "game");
         Assert.Equal(Compact(document), Compact(DocumentBackend.Write(tree, classValue, Schema, "game")));
-        var image = OriginalBackend.Write(tree, classValue, Schema, "game");
+        byte[] image = OriginalBackend.Write(tree, classValue, Schema, "game");
         Assert.Equal(image, PilotImage.Encode(document, "Sign"));
         Assert.Equal(Compact(document), Compact(DocumentBackend.Write(OriginalBackend.Read(image, classValue, Schema, "game"), classValue, Schema, "game")));
     }
@@ -276,8 +276,8 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("""{"TextSeen":{"default":false,"count":1,"bits":[],"extra":1}}""", Codes.UnknownMember, "root.TextSeen.extra")]
     public void AMalformedBitListIsRefusedWithItsPath(string text, string code, string path)
     {
-        var document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "sign.json");
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("Sign"), Schema, "game"));
+        JsonObject document = (JsonObject)JsonReader.Parse(Encoding.UTF8.GetBytes(text), "sign.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("Sign"), Schema, "game"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -285,7 +285,7 @@ public sealed class MapShapeTests : FormatsTest
     // A small world map: an author and a description, in the container the test names.
     private static byte[] NestedMap(string compression, int level)
     {
-        var container = new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString(compression));
+        JsonObject container = new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString(compression));
         if (compression == "cfs")
         {
             container.Add("level", new JsonInteger(level));
@@ -301,16 +301,16 @@ public sealed class MapShapeTests : FormatsTest
 
     private static byte[] CampaignSave(byte[] nested)
     {
-        var map = GameFiles.Import(nested, FileProfile.Find("world-hsm")!, "map").Document;
-        var nestedMap = new JsonObject().Add("$container", map["$container"]!).Add("root", map["root"]!);
-        var container = new JsonObject().Add("profile", new JsonString("campaign")).Add("compression", new JsonString("none"));
-        var root = new JsonObject()
+        JsonObject map = GameFiles.Import(nested, FileProfile.Find("world-hsm")!, "map").Document;
+        JsonObject nestedMap = new JsonObject().Add("$container", map["$container"]!).Add("root", map["root"]!);
+        JsonObject container = new JsonObject().Add("profile", new JsonString("campaign")).Add("compression", new JsonString("none"));
+        JsonObject root = new JsonObject()
             .Add("$class", new JsonString("Campaign"))
             .Add("Map", nestedMap)
             .Add("Name", new JsonString("Fixture campaign"));
         if (Cfs.HasMagic(nested) && nested[4] != 0)
         {
-            var layout = new JsonObject()
+            JsonObject layout = new JsonObject()
                 .Add("codec", new JsonString(LayoutResidue.Codec))
                 .Add("fingerprint", new JsonString(LayoutResidue.Fingerprint(nestedMap, "world-hsm")))
                 .Add("parts", new JsonArray().Add(new JsonObject()
@@ -345,10 +345,10 @@ public sealed class MapShapeTests : FormatsTest
 
     private static LevelProbe Level(int width, int height, int[] spritesPerField)
     {
-        var level = new LevelProbe { Width = (byte)width, Height = (byte)height, HexLevel = 1, Fields = new FieldProbe[width * height] };
+        LevelProbe level = new() { Width = (byte)width, Height = (byte)height, HexLevel = 1, Fields = new FieldProbe[width * height] };
         for (int i = 0; i < level.Fields.Length; i++)
         {
-            var field = new FieldProbe { Flags = (ushort)((i * 1000) + 7) };
+            FieldProbe field = new() { Flags = (ushort)((i * 1000) + 7) };
             for (int k = 0; k < spritesPerField[i]; k++)
             {
                 field.Sprites.Add(new SpriteProbe { DaysRemaining = (sbyte)(k + i), CasterPlayer = (sbyte)(k - 1) });

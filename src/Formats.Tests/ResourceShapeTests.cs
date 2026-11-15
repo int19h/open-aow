@@ -32,8 +32,8 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("0100c07f", """{"$bits":"0100c07f"}""")]
     public void ASingleIsItsShortestNumber(string bits, string document)
     {
-        var bytes = System.Convert.FromHexString(bits);
-        var value = Decode("AIPlayerControl", "DefenseStrengthMultiplier", bytes);
+        byte[] bytes = System.Convert.FromHexString(bits);
+        JsonValue value = Decode("AIPlayerControl", "DefenseStrengthMultiplier", bytes);
         Assert.Equal(document, Compact(value));
         Assert.Equal(bytes, Encode("AIPlayerControl", "DefenseStrengthMultiplier", value));
         Assert.Equal(bytes, Encode("AIPlayerControl", "DefenseStrengthMultiplier", JsonReader.Parse(document)));
@@ -60,7 +60,7 @@ public sealed class ResourceShapeTests : FormatsTest
     public void ATerrainListIsPairs()
     {
         byte[] bytes = [3, 0, 0, 0, 1, 0xFE, 0xFE, 4, 0x7F, 0x80];
-        var value = Decode("MapObjectResource", "TerrainList", bytes);
+        JsonValue value = Decode("MapObjectResource", "TerrainList", bytes);
         Assert.Equal("[[1,-2],[-2,4],[127,-128]]", Compact(value));
         Assert.Equal(bytes, Encode("MapObjectResource", "TerrainList", value));
         Assert.Equal("[]", Compact(Decode("MapObjectResource", "TerrainList", [0, 0, 0, 0])));
@@ -79,12 +79,12 @@ public sealed class ResourceShapeTests : FormatsTest
     {
         // Three by two hexagons: [1][0] holds 0 -1, [0][2] holds 5 0, the others are unchanged.
         byte[] bytes = [0, 0, 0, 0, 5, 0, 0, 0xFF, 0, 0, 0, 0];
-        var owner = Grid(width: 3, height: 2);
-        var value = Decode("FloodControl", "OriginalTerrain", bytes, owner);
+        JsonObject owner = Grid(width: 3, height: 2);
+        JsonValue value = Decode("FloodControl", "OriginalTerrain", bytes, owner);
         Assert.Equal("""[{"X":2,"Y":0,"Terrain":5,"Overlay":0},{"X":0,"Y":1,"Terrain":0,"Overlay":-1}]""", Compact(value));
         Assert.Equal(bytes, Encode("FloodControl", "OriginalTerrain", value, owner));
         Assert.Equal(new byte[12], Encode("FloodControl", "OriginalTerrain", new JsonArray(), owner));
-        var truncated = Assert.Throws<ConversionException>(() => Decode("FloodControl", "OriginalTerrain", [0, 0], owner));
+        ConversionException truncated = Assert.Throws<ConversionException>(() => Decode("FloodControl", "OriginalTerrain", [0, 0], owner));
         Assert.Equal(Codes.Dimensions, truncated.Diagnostic.Code);
     }
 
@@ -100,7 +100,7 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("""[3]""", Codes.Type, "root.OriginalTerrain[0]")]
     public void AMalformedTerrainGridIsRefused(string json, string code, string path)
     {
-        var error = Assert.Throws<ConversionException>(() => Encode("FloodControl", "OriginalTerrain", JsonReader.Parse(json), Grid(width: 3, height: 2)));
+        ConversionException error = Assert.Throws<ConversionException>(() => Encode("FloodControl", "OriginalTerrain", JsonReader.Parse(json), Grid(width: 3, height: 2)));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -108,8 +108,8 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void AnImageLibraryIsBase64()
     {
-        var bytes = Library();
-        var value = Decode("MapObjectResource", "ImageLibrary", bytes);
+        byte[] bytes = Library();
+        JsonValue value = Decode("MapObjectResource", "ImageLibrary", bytes);
         Assert.Equal("""{"$ilb":"BElMQgAWUFUAAIBAGAAAACAAAAAgAAAAAAAAAP////8="}""", Compact(value));
         Assert.Equal(bytes, Encode("MapObjectResource", "ImageLibrary", value));
     }
@@ -123,11 +123,11 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData(20, 31, Codes.Corrupt)]
     public void AnImageLibraryWithAFalseHeaderIsRefused(int offset, byte value, string code)
     {
-        var bytes = Library();
+        byte[] bytes = Library();
         bytes[offset] = value;
-        var decoded = Assert.Throws<ConversionException>(() => Decode("MapObjectResource", "ImageLibrary", bytes));
+        ConversionException decoded = Assert.Throws<ConversionException>(() => Decode("MapObjectResource", "ImageLibrary", bytes));
         Assert.Equal(code, decoded.Diagnostic.Code);
-        var encoded = Assert.Throws<ConversionException>(() => Encode("MapObjectResource", "ImageLibrary",
+        ConversionException encoded = Assert.Throws<ConversionException>(() => Encode("MapObjectResource", "ImageLibrary",
             new JsonObject().Add("$ilb", new JsonString(System.Convert.ToBase64String(bytes)))));
         Assert.Equal(code, encoded.Diagnostic.Code);
         Assert.Equal("root.ImageLibrary.$ilb", encoded.Diagnostic.Path);
@@ -147,11 +147,11 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void AnImageSequenceListStoresLayers()
     {
-        var bytes = Sequences(nil: 1, next: 1);
-        var value = Decode("MapObjectResource", "ImageSequenceList", bytes);
+        byte[] bytes = Sequences(nil: 1, next: 1);
+        JsonValue value = Decode("MapObjectResource", "ImageSequenceList", bytes);
         Assert.Equal(SequencesText, Compact(value));
         Assert.Equal(bytes, Encode("MapObjectResource", "ImageSequenceList", value));
-        foreach (var (className, property) in new[] { ("Ability", "ImageSequences"), ("GamePack", "ImageSequences"), ("Spell", "CastImages"), ("UnitGraphicsResource", "Sequences") })
+        foreach ((string? className, string? property) in new[] { ("Ability", "ImageSequences"), ("GamePack", "ImageSequences"), ("Spell", "CastImages"), ("UnitGraphicsResource", "Sequences") })
         {
             Assert.Equal(bytes, Encode(className, property, Decode(className, property, bytes)));
         }
@@ -162,18 +162,18 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void ABooleanByteTheWriterDoesNotMakeBecomesALayoutPart()
     {
-        var bytes = Sequences(nil: 2, next: 5);
-        var prop = Property("MapObjectResource", "ImageSequenceList");
-        var context = new DecodeContext(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
-        var builder = new LayoutBuilder();
-        var owner = new JsonObject();
-        var value = prop.Codec.Decode(context, 0, bytes.Length, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Builder = builder });
+        byte[] bytes = Sequences(nil: 2, next: 5);
+        SchemaProperty prop = Property("MapObjectResource", "ImageSequenceList");
+        DecodeContext context = new(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
+        LayoutBuilder builder = new();
+        JsonObject owner = new();
+        JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Builder = builder });
         Assert.Equal(SequencesText, Compact(value));
         owner.Add("ImageSequenceList", value);
         builder.Attach(owner, "world-hsm", new LayoutCounts());
-        var encode = new EncodeContext(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
-        var reader = LayoutReader.Read(encode, owner, DocumentNodePath.Root)!;
-        var data = new ByteBuffer();
+        EncodeContext encode = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
+        LayoutReader reader = LayoutReader.Read(encode, owner, DocumentNodePath.Root)!;
+        ByteBuffer data = new();
         prop.Codec.Encode(encode, value, data, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Reader = reader });
         Assert.Equal(bytes, data.ToArray());
         Assert.Equal(Sequences(nil: 1, next: 1), Encode("MapObjectResource", "ImageSequenceList", value));
@@ -195,23 +195,23 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void TheTreeStoresEachResourceShapeOnBothBackends()
     {
-        var resource = new ObjectNode(null, null);
+        ObjectNode resource = new(null, null);
         resource.Add("TerrainList", new PairListNode([(1, -2), (-128, 127)]));
         resource.Add("ImageLibrary", new BytesNode(Library()));
         resource.Add("ImageSequenceList", Node("MapObjectResource", "ImageSequenceList", Sequences(nil: 1, next: 1)));
-        var document = BothBackends("MapObjectResource", resource);
+        JsonObject document = BothBackends("MapObjectResource", resource);
         Assert.Equal("[[1,-2],[-128,127]]", Compact(document["TerrainList"]!));
         Assert.Equal(SequencesText, Compact(document["ImageSequenceList"]!));
 
-        var flood = new ObjectNode(null, null);
+        ObjectNode flood = new(null, null);
         flood.Add("Width", new IntegerNode(4, true, 2));
         flood.Add("Height", new IntegerNode(4, true, 1));
         flood.Add("OriginalTerrain", new BytesNode([0, 0, 3, 0xFE]));
         Assert.Equal("""[{"X":1,"Y":0,"Terrain":3,"Overlay":-2}]""", Compact(BothBackends("FloodControl", flood)["OriginalTerrain"]!));
 
-        foreach (var (bits, text) in new[] { (0x3DCCCCCD, "0.1"), (int.MinValue, """{"$bits":"00000080"}"""), (0x7FC00001, """{"$bits":"0100c07f"}""") })
+        foreach ((int bits, string? text) in new[] { (0x3DCCCCCD, "0.1"), (int.MinValue, """{"$bits":"00000080"}"""), (0x7FC00001, """{"$bits":"0100c07f"}""") })
         {
-            var control = new ObjectNode(null, null);
+            ObjectNode control = new(null, null);
             control.Add("DefenseStrengthMultiplier", new SingleNode(bits));
             Assert.Equal(text, Compact(BothBackends("AIPlayerControl", control)["DefenseStrengthMultiplier"]!));
         }
@@ -220,21 +220,21 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void TheTreeRefusesAResourceThatBreaksItsShape()
     {
-        var library = new ObjectNode(null, null);
+        ObjectNode library = new(null, null);
         library.Add("ImageLibrary", new BytesNode([1, 2, 3]));
-        var classValue = s_schema.Get("MapObjectResource");
+        SchemaClass classValue = s_schema.Get("MapObjectResource");
         Assert.Equal(Codes.Corrupt, Assert.Throws<ConversionException>(() => OriginalBackend.Write(library, classValue, s_schema, "game")).Diagnostic.Code);
         Assert.Equal(Codes.Corrupt, Assert.Throws<ConversionException>(() => DocumentBackend.Write(library, classValue, s_schema, "game")).Diagnostic.Code);
-        var flood = new ObjectNode(null, null);
+        ObjectNode flood = new(null, null);
         flood.Add("Width", new IntegerNode(4, true, 2));
         flood.Add("Height", new IntegerNode(4, true, 2));
         flood.Add("OriginalTerrain", new BytesNode([0, 0, 3, 0xFE]));
-        var floodClass = s_schema.Get("FloodControl");
+        SchemaClass floodClass = s_schema.Get("FloodControl");
         Assert.Equal(Codes.Dimensions, Assert.Throws<ConversionException>(() => OriginalBackend.Write(flood, floodClass, s_schema, "game")).Diagnostic.Code);
         Assert.Equal(Codes.Dimensions, Assert.Throws<ConversionException>(() => DocumentBackend.Write(flood, floodClass, s_schema, "game")).Diagnostic.Code);
-        var layers = new ObjectNode(null, null);
+        ObjectNode layers = new(null, null);
         layers.Add("ImageSequenceList", new ImageSequenceListNode([[new SequenceLayer { Mode = 4 }]]));
-        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(layers, classValue, s_schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(layers, classValue, s_schema, "game"));
         Assert.Equal("root.ImageSequenceList[0][0]", error.Diagnostic.Path);
     }
 
@@ -242,12 +242,12 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void AGroupedListIsItsFlatListOnTheTree()
     {
-        var resource = new ObjectNode(null, null);
+        ObjectNode resource = new(null, null);
         resource.Add("Defenders", new DefaultListNode(4, -1, [198, 201, 199, -1, -1, -1, -1, -1, 203, 200]));
         Assert.Equal("""{"groups":[[198,201,199],[203,200]],"count":10}""", Compact(BothBackends("StructureResource", resource)["Defenders"]!));
-        var bytes = new ObjectNode(null, null);
+        ObjectNode bytes = new(null, null);
         bytes.Add("Defenders", new DefaultListNode(1, 0, []));
-        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(bytes, s_schema.Get("StructureResource"), s_schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(bytes, s_schema.Get("StructureResource"), s_schema, "game"));
         Assert.Equal(Codes.Type, error.Diagnostic.Code);
         Assert.Equal("root.Defenders", error.Diagnostic.Path);
     }
@@ -255,22 +255,22 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void FixedObjectsKeepTheirSlots()
     {
-        var holder = new AbilitySlots();
+        AbilitySlots holder = new();
         holder.Abilities[0].SkillPointCost = 5;
         holder.Abilities[3].SkillPointCost = -1;
-        var document = BothBackends(node: TreeWriter.Write(holder, s_factory), className: "AbilityControl");
+        JsonObject document = BothBackends(node: TreeWriter.Write(holder, s_factory), className: "AbilityControl");
         Assert.Equal("""[{"$slot":0,"SkillPointCost":5},{"$slot":3,"SkillPointCost":-1}]""", Compact(document["Abilities"]!));
 
         // A slot no object asks for stays unread, and an object whose slot is absent keeps its state.
-        var loaded = new AbilitySlots(slots: [3, 7]);
+        AbilitySlots loaded = new(slots: [3, 7]);
         loaded.Abilities[7].SkillPointCost = 9;
         TreeReader.Read(DocumentBackend.Read(document, s_schema.Get("AbilityControl"), s_schema, "game"), loaded, s_factory);
         Assert.Equal(-1, loaded.Abilities[3].SkillPointCost);
         Assert.Equal(9, loaded.Abilities[7].SkillPointCost);
 
-        var spells = new ObjectNode(null, null);
-        var list = new SlotListNode();
-        var spell = new ObjectNode(null, 2);
+        ObjectNode spells = new(null, null);
+        SlotListNode list = new();
+        ObjectNode spell = new(null, 2);
         spell.Add("BaseManaCost", new IntegerNode(4, true, 30));
         list.Add(2, spell);
         spells.Add("RegisteredSpells", list);
@@ -280,17 +280,17 @@ public sealed class ResourceShapeTests : FormatsTest
     [Fact]
     public void AMalformedFixedSlotIsRefused()
     {
-        var classValue = s_schema.Get("AbilityControl");
+        SchemaClass classValue = s_schema.Get("AbilityControl");
         JsonObject Root(string abilities) => new JsonObject().Add("Abilities", JsonReader.Parse(abilities));
-        var missing = Assert.Throws<ConversionException>(() => PilotImage.Encode(Root("""[{"SkillPointCost":1}]"""), "AbilityControl"));
+        ConversionException missing = Assert.Throws<ConversionException>(() => PilotImage.Encode(Root("""[{"SkillPointCost":1}]"""), "AbilityControl"));
         Assert.Equal(Codes.MissingMember, missing.Diagnostic.Code);
         Assert.Equal("root.Abilities[0]", missing.Diagnostic.Path);
-        var twice = Assert.Throws<ConversionException>(() => PilotImage.Encode(Root("""[{"$slot":1},{"$slot":1}]"""), "AbilityControl"));
+        ConversionException twice = Assert.Throws<ConversionException>(() => PilotImage.Encode(Root("""[{"$slot":1},{"$slot":1}]"""), "AbilityControl"));
         Assert.Equal(Codes.Slot, twice.Diagnostic.Code);
-        var negative = Assert.Throws<ConversionException>(() => DocumentBackend.Read(Root("""[{"$slot":-1}]"""), classValue, s_schema, "game"));
+        ConversionException negative = Assert.Throws<ConversionException>(() => DocumentBackend.Read(Root("""[{"$slot":-1}]"""), classValue, s_schema, "game"));
         Assert.Equal(Codes.Range, negative.Diagnostic.Code);
         Assert.Equal("root.Abilities[0].$slot", negative.Diagnostic.Path);
-        var classed = Assert.Throws<ConversionException>(() => DocumentBackend.Read(Root("""[{"$slot":0,"$class":"Ability"}]"""), classValue, s_schema, "game"));
+        ConversionException classed = Assert.Throws<ConversionException>(() => DocumentBackend.Read(Root("""[{"$slot":0,"$class":"Ability"}]"""), classValue, s_schema, "game"));
         Assert.Equal(Codes.ReservedMember, classed.Diagnostic.Code);
     }
 
@@ -301,7 +301,7 @@ public sealed class ResourceShapeTests : FormatsTest
 
     private static byte[] Sequences(byte nil, byte next)
     {
-        var data = new ByteBuffer();
+        ByteBuffer data = new();
         data.Int32(3);
         data.Byte(0);
         Layer(data, library: "Units", layer: 1, speed: 2, mode: 4, imageIndex: 7, offsetX: -3, offsetY: 5);
@@ -336,7 +336,7 @@ public sealed class ResourceShapeTests : FormatsTest
     // and the index terminator.
     private static byte[] Library()
     {
-        var bytes = new byte[32];
+        byte[] bytes = new byte[32];
         "\u0004ILB\0\u0016PU"u8.CopyTo(bytes);
         BinaryPrimitives.WriteSingleLittleEndian(bytes.AsSpan(8), 4f);
         BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(12), 24);
@@ -349,8 +349,8 @@ public sealed class ResourceShapeTests : FormatsTest
     // The tree value the direct path reads from the bytes of one property.
     private static TreeValue Node(string className, string property, byte[] value)
     {
-        var prop = Property(className, property);
-        var context = new DecodeContext(value, s_schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        SchemaProperty prop = Property(className, property);
+        DecodeContext context = new(value, s_schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
         return prop.Codec.ReadImage(context, 0, value.Length, new ImageFrame { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property) });
     }
 
@@ -358,9 +358,9 @@ public sealed class ResourceShapeTests : FormatsTest
     // and the image comes back from the image read and from the document read.
     private static JsonObject BothBackends(string className, ObjectNode node)
     {
-        var classValue = s_schema.Get(className);
-        var image = OriginalBackend.Write(node, classValue, s_schema, "game");
-        var document = DocumentBackend.Write(node, classValue, s_schema, "game");
+        SchemaClass classValue = s_schema.Get(className);
+        byte[] image = OriginalBackend.Write(node, classValue, s_schema, "game");
+        JsonObject document = DocumentBackend.Write(node, classValue, s_schema, "game");
         Assert.Equal(JsonWriter.ToUtf8(PilotImage.Decode(image, className)), JsonWriter.ToUtf8(document));
         Assert.Equal(image, PilotImage.Encode(document, className));
         Assert.Equal(image, OriginalBackend.Write(OriginalBackend.Read(image, classValue, s_schema, "game"), classValue, s_schema, "game"));
@@ -376,27 +376,27 @@ public sealed class ResourceShapeTests : FormatsTest
 
     private static JsonValue Decode(string className, string property, byte[] bytes, JsonObject? owner = null)
     {
-        var prop = Property(className, property);
-        var context = new DecodeContext(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
-        var builder = new LayoutBuilder();
-        var site = new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject(), Builder = builder };
-        var value = prop.Codec.Decode(context, 0, bytes.Length, site);
+        SchemaProperty prop = Property(className, property);
+        DecodeContext context = new(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
+        LayoutBuilder builder = new();
+        ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject(), Builder = builder };
+        JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, site);
         Assert.Empty(builder.Parts);
         return value;
     }
 
     private static byte[] Encode(string className, string property, JsonValue value, JsonObject? owner = null)
     {
-        var prop = Property(className, property);
-        var context = new EncodeContext(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
-        var data = new ByteBuffer();
+        SchemaProperty prop = Property(className, property);
+        EncodeContext context = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
+        ByteBuffer data = new();
         prop.Codec.Encode(context, value, data, new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject() });
         return data.ToArray();
     }
 
     private static void Refused(string className, string property, string json, string code, string path)
     {
-        var error = Assert.Throws<ConversionException>(() => Encode(className, property, JsonReader.Parse(json)));
+        ConversionException error = Assert.Throws<ConversionException>(() => Encode(className, property, JsonReader.Parse(json)));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -404,7 +404,7 @@ public sealed class ResourceShapeTests : FormatsTest
     // The compact writer separates members with a space. None of these values holds text with one.
     private static string Compact(JsonValue value)
     {
-        var text = new StringBuilder();
+        StringBuilder text = new();
         JsonWriter.WriteCompact(text, value);
         return text.ToString().Replace(": ", ":", StringComparison.Ordinal).Replace(", ", ",", StringComparison.Ordinal);
     }
@@ -433,7 +433,7 @@ public sealed class ResourceShapeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            foreach (var (slot, ability) in Abilities.OrderBy(pair => pair.Key))
+            foreach ((int slot, Ability? ability) in Abilities.OrderBy(pair => pair.Key))
             {
                 persister.ObjectSlot("Abilities", slot: slot, objectValue: ability);
             }

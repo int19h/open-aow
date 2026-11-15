@@ -83,17 +83,17 @@ public static class GeneratedStyleSample
 
     public static SampleRecord Run()
     {
-        var instance = s_classConstant(s_typedConstant);
+        Sample instance = s_classConstant(s_typedConstant);
         try
         {
-            var records = new SampleRecord[3];
-            var pointer = Ptr<SampleRecord>.To(records, 0);
+            SampleRecord[] records = new SampleRecord[3];
+            Ptr<SampleRecord> pointer = Ptr<SampleRecord>.To(records, 0);
             for (int i = 0; i < records.Length; i++)
             {
                 pointer.Value.Value = instance.Value + i;
                 pointer += 1;
             }
-            ref var sampleRecord = ref records[1];
+            ref SampleRecord sampleRecord = ref records[1];
             sampleRecord.Flags = Set<Flag>.Of(Flag.First).WithRange(Flag.Second, Flag.Third);
             sampleRecord.Name = "abcdef";
             sampleRecord.Value += instance.ClassId;

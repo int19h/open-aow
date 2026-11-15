@@ -29,7 +29,7 @@ public sealed class JsonObject : JsonValue
 
     public JsonMember? Find(string name)
     {
-        foreach (var member in Members)
+        foreach (JsonMember member in Members)
         {
             if (member.Name == name)
             {

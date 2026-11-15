@@ -19,7 +19,7 @@ public static class JsonWriter
 
     public static string ToText(JsonValue value)
     {
-        var builder = new StringBuilder();
+        StringBuilder builder = new();
         Write(builder, value, 0);
         builder.Append('\n');
         return builder.ToString();
@@ -43,7 +43,7 @@ public static class JsonWriter
                     Indent(builder, depth + 1);
                     WriteString(builder, objectValue.Members[i].Name);
                     builder.Append(": ");
-                    var member = objectValue.Members[i];
+                    JsonMember member = objectValue.Members[i];
                     // Map field rows take one line each, also in a parsed document without layout marks.
                     if (member.Name == "Fields" && member.Value is JsonArray { Items.Count: > 0 } rows && rows.Items.All(r => r is JsonArray))
                     {

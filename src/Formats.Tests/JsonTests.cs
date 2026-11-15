@@ -11,10 +11,10 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void ParsesMembersInOrderWithSpans()
     {
-        var value = (JsonObject)JsonReader.Parse("{\n  \"b\": 1,\n  \"a\": [true, null, \"x\"]\n}");
+        JsonObject value = (JsonObject)JsonReader.Parse("{\n  \"b\": 1,\n  \"a\": [true, null, \"x\"]\n}");
         Assert.Equal(["b", "a"], value.Members.Select(m => m.Name));
         Assert.Equal(new TextSpan(9, 2, 8), value.Members[0].Value.Span);
-        var array = (JsonArray)value["a"]!;
+        JsonArray array = (JsonArray)value["a"]!;
         Assert.Equal(3, array.Items.Count);
         Assert.Equal(3, array.Items[2].Span.Line);
         Assert.Equal(21, array.Items[2].Span.Column);
@@ -23,7 +23,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void AcceptsOneLeadingByteOrderMark()
     {
-        var bytes = Encoding.UTF8.GetPreamble().Concat("{}"u8.ToArray()).ToArray();
+        byte[] bytes = Encoding.UTF8.GetPreamble().Concat("{}"u8.ToArray()).ToArray();
         Assert.IsType<JsonObject>(JsonReader.Parse(bytes));
     }
 
@@ -43,7 +43,7 @@ public sealed class JsonTests : FormatsTest
     [InlineData("{\"a\": 01}", Codes.Syntax, 1, 8)]
     public void RejectsInvalidInputWithLocation(string text, string code, int line, int column)
     {
-        var error = Fails(text);
+        ConversionException error = Fails(text);
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(line, error.Diagnostic.Span.Line);
         Assert.Equal(column, error.Diagnostic.Span.Column);
@@ -58,7 +58,7 @@ public sealed class JsonTests : FormatsTest
     [InlineData("2.5E-7")]
     public void KeepsTheTextOfANumberWithAFraction(string text)
     {
-        var value = (JsonObject)JsonReader.Parse("{\"a\": " + text + "}");
+        JsonObject value = (JsonObject)JsonReader.Parse("{\"a\": " + text + "}");
         Assert.Equal(text, Assert.IsType<JsonNumber>(value["a"]).Text);
         Assert.Equal("{\n  \"a\": " + text + "\n}\n", JsonWriter.ToText(value));
     }
@@ -66,14 +66,14 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void DuplicateMemberNamesBothDeclarations()
     {
-        var error = Fails("{\n  \"a\": 1,\n  \"a\": 2\n}");
+        ConversionException error = Fails("{\n  \"a\": 1,\n  \"a\": 2\n}");
         Assert.Contains("first at 2:3", error.Diagnostic.Message);
     }
 
     [Fact]
     public void RejectsInvalidUtf8WithByteOffset()
     {
-        var error = Assert.Throws<ConversionException>(() => JsonReader.Parse(new byte[] { (byte)'{', 0xFF, (byte)'}' }));
+        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse(new byte[] { (byte)'{', 0xFF, (byte)'}' }));
         Assert.Equal(Codes.Utf8, error.Diagnostic.Code);
         Assert.Equal(1, error.Diagnostic.Offset);
     }
@@ -81,8 +81,8 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void LimitsAreLocated()
     {
-        var limits = new FormatLimits { Depth = 2 };
-        var error = Assert.Throws<ConversionException>(() => JsonReader.Parse("{\"a\": {\"b\": {}}}", null, false, limits));
+        FormatLimits limits = new() { Depth = 2 };
+        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse("{\"a\": {\"b\": {}}}", null, false, limits));
         Assert.Equal(Codes.Limit, error.Diagnostic.Code);
         Assert.Equal(13, error.Diagnostic.Span.Column);
     }
@@ -90,7 +90,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void WritesCanonicalForm()
     {
-        var value = new JsonObject()
+        JsonObject value = new JsonObject()
             .Add("a", new JsonInteger(-5))
             .Add("e", new JsonObject())
             .Add("l", new JsonArray())
@@ -104,7 +104,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void WritesFieldRowsOnSingleLines()
     {
-        var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
+        JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
         rows.Add(new JsonArray().Add(new JsonObject().Add("Terrain", new JsonInteger(1))).Add(new JsonObject().Add("Terrain", new JsonInteger(2))));
         rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject()))).Add(new JsonObject()));
         Assert.Equal(actual: JsonWriter.ToText(new JsonObject().Add("Fields", rows)), expected: "{\n  \"Fields\": [\n    [{\"Terrain\": 1}, {\"Terrain\": 2}],\n    [{\"Sprites\": [{}]}, {}]\n  ]\n}\n");
@@ -113,23 +113,23 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void AParsedDocumentWritesItsFieldRowsBackOnSingleLines()
     {
-        var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
+        JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
         rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject().Add("$class", new JsonString("T"))))));
-        var text = JsonWriter.ToText(new JsonObject().Add("Level", new JsonObject().Add("Fields", rows)));
+        string text = JsonWriter.ToText(new JsonObject().Add("Level", new JsonObject().Add("Fields", rows)));
         Assert.Equal(text, JsonWriter.ToText(JsonReader.Parse(text)));
     }
 
     [Fact]
     public void WriterRefusesUnpairedSurrogates()
     {
-        var error = Assert.Throws<ConversionException>(() => JsonWriter.ToText(new JsonString("\ud800")));
+        ConversionException error = Assert.Throws<ConversionException>(() => JsonWriter.ToText(new JsonString("\ud800")));
         Assert.Equal(Codes.Surrogate, error.Diagnostic.Code);
     }
 
     [Fact]
     public void WriterOutputHasNoByteOrderMarkAndOneFinalLineFeed()
     {
-        var bytes = JsonWriter.ToUtf8(new JsonObject().Add("a", new JsonString("\u00e9")));
+        byte[] bytes = JsonWriter.ToUtf8(new JsonObject().Add("a", new JsonString("\u00e9")));
         Assert.NotEqual(0xEF, bytes[0]);
         Assert.Equal((byte)'\n', bytes[^1]);
         Assert.NotEqual((byte)'\n', bytes[^2]);
@@ -139,14 +139,14 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void DiagnosticTextHasFileLineColumnCodeAndPath()
     {
-        var d = new FormatDiagnostic(Codes.Reference, "Leader id 17 is absent from root.Leaders.")
+        FormatDiagnostic d = new(Codes.Reference, "Leader id 17 is absent from root.Leaders.")
         {
             File = "Save/edited.asg",
             Span = new TextSpan(0, 42, 19),
             Path = "root.Players[1].LeaderId",
         };
         Assert.Equal("Save/edited.asg:42:19 E_REFERENCE root.Players[1].LeaderId\nLeader id 17 is absent from root.Leaders.", d.ToString());
-        var binary = new FormatDiagnostic(Codes.Corrupt, "Bad.") { File = "a.hsm", Offset = 0x41565, Profile = "world-hsm", Path = "root" };
+        FormatDiagnostic binary = new(Codes.Corrupt, "Bad.") { File = "a.hsm", Offset = 0x41565, Profile = "world-hsm", Path = "root" };
         Assert.Equal("a.hsm:0x41565 E_CORRUPT root [world-hsm]\nBad.", binary.ToString());
     }
 }

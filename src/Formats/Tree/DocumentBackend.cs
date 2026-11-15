@@ -20,7 +20,7 @@ public static class DocumentBackend
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
         node.RejectVersion(site.Schema.Version, site.Path);
-        var json = new JsonObject();
+        JsonObject json = new();
         if (created)
         {
             if (node.ClassName is not string className)
@@ -49,16 +49,16 @@ public static class DocumentBackend
             throw site.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", value: "$slot");
         }
 
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var prop in classValue.Properties)
+        HashSet<string> seen = new(StringComparer.Ordinal);
+        foreach (SchemaProperty prop in classValue.Properties)
         {
-            var value = node.Find(prop.Name);
+            TreeValue? value = node.Find(prop.Name);
             if (value is null)
             {
                 continue;
             }
 
-            var member = site.For(prop, parent: node, ownerClass: classValue);
+            DocumentSite member = site.For(prop, parent: node, ownerClass: classValue);
             if (prop.IsDynamic)
             {
                 json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
@@ -70,7 +70,7 @@ public static class DocumentBackend
                 throw member.Fail(Codes.Type, ListOnly(site.Schema.Version));
             }
 
-            var written = prop.Codec.WriteTree(value, member);
+            JsonValue? written = prop.Codec.WriteTree(value, member);
             if (written is not null)
             {
                 json.Add(prop.Name, written);
@@ -78,7 +78,7 @@ public static class DocumentBackend
 
             seen.Add(prop.Name);
         }
-        foreach (var (name, _) in node.Members)
+        foreach ((string? name, TreeValue _) in node.Members)
         {
             if (!seen.Contains(name))
             {
@@ -103,8 +103,8 @@ public static class DocumentBackend
         }
 
         site = site.WithOwner(document);
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var member in document.Members)
+        HashSet<string> seen = new(StringComparer.Ordinal);
+        foreach (JsonMember member in document.Members)
         {
             if (!seen.Add(member.Name))
             {
@@ -112,7 +112,7 @@ public static class DocumentBackend
             }
         }
 
-        var reserved = new List<string>(2);
+        List<string> reserved = new(2);
         if (created)
         {
             reserved.Add("$class");
@@ -146,16 +146,16 @@ public static class DocumentBackend
             slot = (int)number.Value;
         }
 
-        var node = new ObjectNode(className, slot);
-        foreach (var prop in classValue.Properties)
+        ObjectNode node = new(className, slot);
+        foreach (SchemaProperty prop in classValue.Properties)
         {
-            var member = document.Find(prop.Name);
+            JsonMember? member = document.Find(prop.Name);
             if (member is null)
             {
                 continue;
             }
 
-            var at = site.For(prop, parent: null, ownerClass: classValue);
+            DocumentSite at = site.For(prop, parent: null, ownerClass: classValue);
             if (prop.IsDynamic)
             {
                 node.Add(prop.Name, prop.Codec.ReadSlotsTree(member.Value, at));
@@ -166,7 +166,7 @@ public static class DocumentBackend
                 throw at.Fail(Codes.Type, ListOnly(site.Schema.Version), member.Value);
             }
 
-            var value = prop.Codec.ReadTree(member.Value, at);
+            TreeValue? value = prop.Codec.ReadTree(member.Value, at);
             if (value is not null)
             {
                 node.Add(prop.Name, value);
@@ -180,7 +180,7 @@ public static class DocumentBackend
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {
-        var classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
+        SchemaClass classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
         if (site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue))
         {
             throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name);

@@ -12,10 +12,10 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void VersionsPinTheSchemaHash()
     {
-        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")!;
-        using var memory = new MemoryStream();
+        using Stream stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")!;
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
-        var current = (JsonObject)JsonReader.Parse(memory.ToArray());
+        JsonObject current = (JsonObject)JsonReader.Parse(memory.ToArray());
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)current["version"]!).Value);
         Assert.Null(current.Find("versions"));
         string pinned = ((JsonString)current["schemaSha256"]!).Value;
@@ -26,11 +26,11 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void EngineTablesHaveNoAmbiguity()
     {
-        foreach (var engine in new[] { "game", "tactical", "campaign" })
+        foreach (string? engine in new[] { "game", "tactical", "campaign" })
         {
-            var table = Schema.EngineTable(engine);
+            IReadOnlyDictionary<int, SchemaClass> table = Schema.EngineTable(engine);
             Assert.NotEmpty(table);
-            foreach (var (id, classValue) in table)
+            foreach ((int id, SchemaClass? classValue) in table)
             {
                 Assert.Equal(id, classValue.Id);
             }
@@ -47,7 +47,7 @@ public sealed class SchemaTests : FormatsTest
     public void RegistrationAmbiguitiesAreMeasuredAndRefused()
     {
         Assert.Empty(Schema.RegistrationAmbiguities);
-        var schema = FormatSchema.Load(System.Text.Encoding.UTF8.GetBytes("""
+        FormatSchema schema = FormatSchema.Load(System.Text.Encoding.UTF8.GetBytes("""
             {"version": 1, "classes": [
               {"name": "TEObject", "id": 80, "properties": []},
               {"name": "TA", "parent": "TEObject", "id": 7, "engines": ["game"], "properties": []},
@@ -62,11 +62,11 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void EveryClassHasUniqueMemberNamesAndIds()
     {
-        foreach (var classValue in Schema.Classes)
+        foreach (SchemaClass classValue in Schema.Classes)
         {
-            var names = classValue.Properties.Select(p => p.Name).ToList();
+            List<string> names = classValue.Properties.Select(p => p.Name).ToList();
             Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
-            foreach (var p in classValue.Properties)
+            foreach (SchemaProperty p in classValue.Properties)
             {
                 Assert.False(p.Name.StartsWith('$'), classValue.Name + "." + p.Name);
                 if (p.Id is int id)
@@ -80,13 +80,13 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void ChildrenComeLastAndBaseFieldsFirst()
     {
-        var level = Schema.Get("TAoWMapLevel");
+        SchemaClass level = Schema.Get("TAoWMapLevel");
         Assert.Equal(["Width", "Height", "HexLevel", "Fields", "Children"], level.Properties.Select(p => p.Name));
         Assert.Equal(NameTable.ResolveStored("TAoWMapField"), level.FieldClass);
-        var map = Schema.Get("TAoWHSMap");
+        SchemaClass map = Schema.Get("TAoWHSMap");
         Assert.Equal("ConnectionType", map.Properties[0].Name);
         Assert.Equal("Children", map.Properties[^1].Name);
-        var field = Schema.Get("TAoWMapField");
+        SchemaClass field = Schema.Get("TAoWMapField");
         Assert.Equal(["HexSpriteList", "FieldFlags"], field.Properties.Select(p => p.Name));
     }
 
@@ -101,7 +101,7 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void TheValleyLegacyShapeAppliesOnlyToSprites()
     {
-        var shape = Schema.LegacyShape("TMapField.HexSpriteList", "TFlagMessageEventResource");
+        (string Rule, SchemaClass Shape)? shape = Schema.LegacyShape("TMapField.HexSpriteList", "TFlagMessageEventResource");
         Assert.NotNull(shape);
         Assert.Equal("LEGACY_VALLEY01_SPRITE", shape.Value.Rule);
         Assert.Equal(["ResourceId", "LegacyHexX", "LegacyHexY", "UnknownProperty10", "UnknownProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
@@ -120,12 +120,12 @@ public sealed class SchemaTests : FormatsTest
     public void ProfilesCoverEveryInScopeKind()
     {
         Assert.Equal(["world-hsm", "tactical-hsm", "campaign", "scenario-set", "hero-list", "item-list"], FileProfile.All.Select(p => p.Name));
-        foreach (var kind in FileProfile.AllKinds)
+        foreach (string kind in FileProfile.AllKinds)
         {
             Assert.Contains(FileProfile.All, p => p.Kinds.Contains(kind));
         }
 
-        foreach (var p in FileProfile.All)
+        foreach (FileProfile p in FileProfile.All)
         {
             Assert.NotNull(Schema.Find(p.RootFamily));
         }

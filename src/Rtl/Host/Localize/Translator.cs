@@ -19,11 +19,11 @@ public static class TranslatorProperties
     {
         s_bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
-            var strings = read((T)component);
+            StringCollection? strings = read((T)component);
             return strings is null ? [] : Enumerable.Range(0, strings.Count).Select(i => strings[i]).ToArray();
         }, (component, values) =>
         {
-            var strings = read((T)component);
+            StringCollection? strings = read((T)component);
             if (strings is null)
             {
                 return;
@@ -33,7 +33,7 @@ public static class TranslatorProperties
             try
             {
                 strings.Clear();
-                foreach (var value in values)
+                foreach (string value in values)
                 {
                     strings.Add(value);
                 }
@@ -46,7 +46,7 @@ public static class TranslatorProperties
     {
         for (Type? current = type; current is not null; current = current.BaseType)
         {
-            if (s_bindings.TryGetValue((current, name), out var binding))
+            if (s_bindings.TryGetValue((current, name), out Binding? binding))
             {
                 return binding;
             }
@@ -79,7 +79,7 @@ public class IvCustomTranslator : Component
 
     public void Translate(Component module)
     {
-        var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
+        MldDictionary dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
         if (Language is int language && dictionary.Language != language)
         {
             dictionary.SetLanguage(language);
@@ -90,7 +90,7 @@ public class IvCustomTranslator : Component
 
         void Visit(Component component)
         {
-            foreach (var target in TargetsData)
+            foreach (TranslationTarget target in TargetsData)
             {
                 if (!Matches(component.GetType(), target.ClassName))
                 {
@@ -98,14 +98,14 @@ public class IvCustomTranslator : Component
                 }
 
                 string name = target.PropertyName;
-                var binding = TranslatorProperties.Find(component.GetType(), name);
+                TranslatorProperties.Binding? binding = TranslatorProperties.Find(component.GetType(), name);
                 if (binding is null)
                 {
                     continue;
                 }
 
-                var values = _nativeValues.GetOrCreateValue(component);
-                if (!values.TryGetValue(name, out var native))
+                Dictionary<string, string[]> values = _nativeValues.GetOrCreateValue(component);
+                if (!values.TryGetValue(name, out string[]? native))
                 {
                     native = binding.Read(component);
                     values.Add(name, native);
@@ -118,8 +118,8 @@ public class IvCustomTranslator : Component
                         continue;
                     }
 
-                    var joined = Join(native);
-                    var translated = dictionary.TranslateContext(joined, form, componentName);
+                    string joined = Join(native);
+                    string translated = dictionary.TranslateContext(joined, form, componentName);
                     binding.Write(component, translated == joined ? native : Split(translated));
                 }
                 else
@@ -169,7 +169,7 @@ public class IvCustomTranslator : Component
 
     private static string[] Split(string value)
     {
-        var result = new List<string>();
+        List<string> result = new();
         do
         {
             int marker = RtlUnit.Pos("<eol>", value), lineFeed = RtlUnit.Pos("\n", value);

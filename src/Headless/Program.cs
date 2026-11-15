@@ -37,10 +37,10 @@ internal static class Program
             return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
         }
         string? output = null;
-        var saves = new List<object>();
-        var todos = new SortedSet<string>(StringComparer.Ordinal);
-        var exceptions = new HashSet<string>();
-        var runtimeErrors = new SortedSet<string>(StringComparer.Ordinal);
+        List<object> saves = new();
+        SortedSet<string> todos = new(StringComparer.Ordinal);
+        HashSet<string> exceptions = new();
+        SortedSet<string> runtimeErrors = new(StringComparer.Ordinal);
         bool gameplay = false;
         bool writeManifest = false;
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
@@ -93,7 +93,7 @@ internal static class Program
                     case "--file-log": fileLogPath = Path.GetFullPath(Value()); break;
                     case "--animation-fps": animationFps = int.Parse(Value()); break;
                     case "--viewport":
-                        var dimensions = Value().Split('x');
+                        string[] dimensions = Value().Split('x');
                         viewportWidth = int.Parse(dimensions[0]);
                         viewportHeight = int.Parse(dimensions[1]);
                         break;
@@ -128,12 +128,12 @@ internal static class Program
 
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
             };
-            var host = new HeadlessHost(root, output, settings, movementSpeed, input);
+            HeadlessHost host = new(root, output, settings, movementSpeed, input);
             Shim.InstallHost(host);
             if (fileLogPath is not null)
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
-                var log = fileLog = new StreamWriter(fileLogPath, false, new UTF8Encoding(false)) { NewLine = "\n" };
+                StreamWriter log = fileLog = new StreamWriter(fileLogPath, false, new UTF8Encoding(false)) { NewLine = "\n" };
                 FileBoundary.Log = record => { log.WriteLine(record.ToJson()); log.Flush(); };
             }
             if (randomTracePath is not null)
@@ -150,7 +150,7 @@ internal static class Program
                 }
             }
             Startup.InitializeAll();
-            var engine = Startup.CreateEngine();
+            GameEngine engine = Startup.CreateEngine();
             NullSoundSystem.Install();
             CombatClasses.Register(engine);
             gameplay = true;
@@ -174,7 +174,7 @@ internal static class Program
             map.GameEnded += _ => ended = true;
             map.ExecutingEventLog += notification =>
             {
-                var info = notification.Info;
+                ExecuteEventLogInfo info = notification.Info;
                 if (info.Log is MessageEventLog message)
                 {
                     bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
@@ -235,20 +235,20 @@ internal static class Program
             }
 
             map.UpdateFPS(animationFps);
-            var viewer = new HexSpriteMapViewer(null!);
+            HexSpriteMapViewer viewer = new(null!);
             viewer.HexSpriteMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
             viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel);
             TacticalInput.Install(map, viewer);
-            var watchdog = Stopwatch.StartNew();
+            Stopwatch watchdog = Stopwatch.StartNew();
             int previous = day;
             while (!ended && map.Day < firstDay + turns)
             {
                 frames++;
                 if (frames <= 3 || frames % 1000000 == 0)
                 {
-                    var player = map.Players.GetPlayers(map.CurrentPlayer);
+                    Player player = map.Players.GetPlayers(map.CurrentPlayer);
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {map.AIExecutor.Status.Image:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
                 if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)

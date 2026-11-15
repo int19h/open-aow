@@ -27,7 +27,7 @@ public static class FileSearch
                 return [];
             }
 
-            var all = files.Enumerate(directory).ToList();
+            List<RtlFileEntry> all = files.Enumerate(directory).ToList();
             all.Add(new(Name: ".", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));
             all.Add(new(Name: "..", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));
             string expression = FileSystemName.TranslateWin32Expression(pattern);

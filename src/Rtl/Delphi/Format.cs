@@ -8,7 +8,7 @@ public static partial class RtlUnit
     // SYSUTILS.PAS FormatBuf also serves exception constructors.
     public static string Format(string? format, params ReadOnlySpan<FormatArg> args)
     {
-        var result = new StringBuilder();
+        StringBuilder result = new();
         string text = RequireString(format);
         int next = 0;
         for (int i = 0; i < text.Length; i++)

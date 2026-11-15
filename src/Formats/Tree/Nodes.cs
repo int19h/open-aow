@@ -147,7 +147,7 @@ public sealed class LinesNode : TreeValue
 
     internal static LinesNode FromText(string text)
     {
-        var lines = Original.StringsCodec.Lines(text);
+        List<string>? lines = Original.StringsCodec.Lines(text);
         return lines is null ? new LinesNode(null, text) : new LinesNode(lines, null);
     }
 
@@ -177,7 +177,7 @@ public sealed class LinesWithValuesNode : TreeValue
 
     internal static LinesWithValuesNode FromText(string text, IReadOnlyList<int> objects)
     {
-        var lines = Original.StringsCodec.Lines(text);
+        List<string>? lines = Original.StringsCodec.Lines(text);
         return lines is null ? new LinesWithValuesNode(null, text, objects) : new LinesWithValuesNode(lines, null, objects);
     }
 
@@ -303,7 +303,7 @@ public sealed class ObjectNode : TreeValue
 
     public TreeValue? Find(string name)
     {
-        foreach (var (member, value) in _members)
+        foreach ((string? member, TreeValue? value) in _members)
         {
             if (member == name)
             {
@@ -317,9 +317,9 @@ public sealed class ObjectNode : TreeValue
     /// <summary>Every reference of <paramref name="domain"/> under this object, with its path.</summary>
     public IEnumerable<(string Path, int Key)> References(string domain)
     {
-        foreach (var (name, value) in _members)
+        foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach (var hit in value.ReferencesIn(domain, name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, name))
             {
                 yield return hit;
             }
@@ -328,7 +328,7 @@ public sealed class ObjectNode : TreeValue
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
-        foreach (var (name, value) in _members)
+        foreach ((string? name, TreeValue? value) in _members)
         {
             value.RejectVersion(version, path.Member(name));
         }
@@ -336,9 +336,9 @@ public sealed class ObjectNode : TreeValue
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
-        foreach (var (name, value) in _members)
+        foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach (var hit in value.ReferencesIn(domain, path + "." + name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path + "." + name))
             {
                 yield return hit;
             }
@@ -360,7 +360,7 @@ public sealed class RecordNode : TreeValue
 
     public TreeValue? Find(string name)
     {
-        foreach (var (member, value) in _members)
+        foreach ((string? member, TreeValue? value) in _members)
         {
             if (member == name)
             {
@@ -378,7 +378,7 @@ public sealed class RecordNode : TreeValue
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a record.", path);
         }
 
-        foreach (var (name, value) in _members)
+        foreach ((string? name, TreeValue? value) in _members)
         {
             value.RejectVersion(version, path.Member(name));
         }
@@ -386,9 +386,9 @@ public sealed class RecordNode : TreeValue
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
-        foreach (var (name, value) in _members)
+        foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach (var hit in value.ReferencesIn(domain, path + "." + name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path + "." + name))
             {
                 yield return hit;
             }
@@ -480,7 +480,7 @@ public sealed class SlotListNode : TreeValue
     /// <summary>The value stored at <paramref name="slot"/>, or null when the slot is absent.</summary>
     public TreeValue? Find(int slot)
     {
-        foreach (var entry in _entries)
+        foreach (SlotEntry entry in _entries)
         {
             if (entry.Slot == slot)
             {
@@ -503,7 +503,7 @@ public sealed class SlotListNode : TreeValue
     {
         for (int i = 0; i < _entries.Count; i++)
         {
-            foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
             {
                 yield return hit;
             }
@@ -541,7 +541,7 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
         for (int i = 0; i < Fields.Count; i++)
         {
             int y = Math.DivRem(i, Width, out int x);
-            foreach (var hit in Fields[i].ReferencesIn(domain, path + "[" + y.ToString(CultureInfo.InvariantCulture) + "][" + x.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Fields[i].ReferencesIn(domain, path + "[" + y.ToString(CultureInfo.InvariantCulture) + "][" + x.ToString(CultureInfo.InvariantCulture) + "]"))
             {
                 yield return hit;
             }
@@ -573,7 +573,7 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
             {
                 yield return hit;
             }
@@ -620,7 +620,7 @@ public sealed class ListNode : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
             {
                 yield return hit;
             }
@@ -648,7 +648,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     {
         for (int i = 0; i < Children.Count; i++)
         {
-            foreach (var hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
             {
                 yield return hit;
             }

@@ -67,7 +67,7 @@ public static class GameFiles
     /// </summary>
     public static FileProfile? ProfileFor(string kind, byte[] file)
     {
-        var candidates = FileProfile.All.Where(p => p.Kinds.Contains(kind)).ToList();
+        List<FileProfile> candidates = FileProfile.All.Where(p => p.Kinds.Contains(kind)).ToList();
         if (candidates.Count == 1)
         {
             return candidates[0];
@@ -75,7 +75,7 @@ public static class GameFiles
 
         if (candidates.All(p => p is HsmProfile) && HsmProfile.HeaderClassId(file) is int id)
         {
-            var matching = candidates.Where(p => Schema.Resolve(p.Engine, id) is { } c && c.InheritsFrom(p.RootFamily)).ToList();
+            List<FileProfile> matching = candidates.Where(p => Schema.Resolve(p.Engine, id) is { } c && c.InheritsFrom(p.RootFamily)).ToList();
             if (matching.Count == 1)
             {
                 return matching[0];
@@ -91,23 +91,23 @@ public static class GameFiles
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
         }
 
-        var counts = new LayoutCounts();
-        var session = new ImportSession { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
+        LayoutCounts counts = new();
+        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
         if (file.LongLength > session.Limits.DecompressedBytes)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The file is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
         }
 
-        var (container, root) = profile.Import(file, session);
+        (JsonObject? container, JsonObject? root) = profile.Import(file, session);
         return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
     }
 
     /// <summary>Strict export: refuses unrepresentable state, writes nothing partial.</summary>
     public static ExportResult Export(JsonObject document, ExportOptions? options = null, string? fileName = null, FormatLimits? limits = null)
     {
-        var (profile, _, container, root) = Envelope(document, fileName);
-        var context = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, options ?? ExportOptions.Default);
-        var bytes = profile.Export(container, root, context);
+        (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = Envelope(document, fileName);
+        EncodeContext context = new(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, options ?? ExportOptions.Default);
+        byte[] bytes = profile.Export(container, root, context);
         return new ExportResult { Bytes = bytes, Profile = profile, Invalidated = context.Invalidated };
     }
 
@@ -118,7 +118,7 @@ public static class GameFiles
     /// </summary>
     public static byte[] ExportImage(JsonObject document, string? fileName = null, FormatLimits? limits = null)
     {
-        var (profile, _, container, root) = Envelope(document, fileName);
+        (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = Envelope(document, fileName);
         return profile.ExportImage(context: new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default), container: container, root: root);
     }
 
@@ -130,14 +130,14 @@ public static class GameFiles
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
         }
 
-        var counts = new LayoutCounts();
-        var session = new ImportSession { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
+        LayoutCounts counts = new();
+        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
         if (image.LongLength > session.Limits.DecompressedBytes)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The image is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
         }
 
-        var (container, root) = profile.ImportImage(image, session);
+        (JsonObject? container, JsonObject? root) = profile.ImportImage(image, session);
         return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
     }
 
@@ -148,8 +148,8 @@ public static class GameFiles
     /// </summary>
     public static long? FirstG1Difference(byte[] file, FileProfile profile, JsonObject container, byte[] image, FormatLimits? limits = null)
     {
-        var expected = profile.Comparable(file, limits ?? FormatLimits.Default);
-        var actual = profile.ComparableImage(container, image);
+        byte[] expected = profile.Comparable(file, limits ?? FormatLimits.Default);
+        byte[] actual = profile.ComparableImage(container, image);
         int common = expected.AsSpan().CommonPrefixLength(actual);
         return common == expected.Length && common == actual.Length ? null : common;
     }
@@ -166,7 +166,7 @@ public static class GameFiles
     {
         ConversionException Fail(string code, string message, JsonValue at, string path, string? value = null) =>
             new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value });
-        foreach (var m in document.Members)
+        foreach (JsonMember m in document.Members)
         {
             if (m.Name is "$format" or "$version" or "$kind" or "$container" or "root")
             {
@@ -208,7 +208,7 @@ public static class GameFiles
             throw Fail(Codes.Kind, $"Kind {kind.Value} does not belong to profile {profile.Name}.", kind, "$kind", kind.Value);
         }
 
-        var root = document["root"] ?? throw Fail(Codes.MissingMember, "The document needs root.", document, "root");
+        JsonValue root = document["root"] ?? throw Fail(Codes.MissingMember, "The document needs root.", document, "root");
         return (profile, kind.Value, container, root);
     }
 
@@ -244,7 +244,7 @@ public static class GameFiles
             bytes = Gunzip(bytes, limits, fileName);
         }
 
-        var value = JsonReader.Parse(bytes, fileName, gzip, limits);
+        JsonValue value = JsonReader.Parse(bytes, fileName, gzip, limits);
         if (value is not JsonObject document)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Format, "The document is not a JSON object.") { File = fileName, Span = value.Span, Decompressed = gzip });
@@ -277,10 +277,10 @@ public static class GameFiles
     {
         try
         {
-            using var input = new MemoryStream(bytes, false);
-            using var gz = new GZipStream(input, CompressionMode.Decompress);
-            using var output = new MemoryStream();
-            var buffer = new byte[81920];
+            using MemoryStream input = new(bytes, false);
+            using GZipStream gz = new(input, CompressionMode.Decompress);
+            using MemoryStream output = new();
+            byte[] buffer = new byte[81920];
             int read;
             while ((read = gz.Read(buffer, 0, buffer.Length)) > 0)
             {
@@ -307,10 +307,10 @@ public static class GameFiles
     /// </summary>
     public static (byte[] Bytes, IReadOnlyList<FormatDiagnostic> Invalidated) Normalize(byte[] own, string? fileName = null, FormatLimits? limits = null)
     {
-        var read = Read(own, fileName, limits);
-        var (profile, kind, _, _) = Envelope(read.Document, fileName);
-        var exported = Export(read.Document, null, fileName, limits);
-        var imported = Import(exported.Bytes, profile, kind, fileName, limits);
+        ReadResult read = Read(own, fileName, limits);
+        (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = Envelope(read.Document, fileName);
+        ExportResult exported = Export(read.Document, null, fileName, limits);
+        ImportResult imported = Import(exported.Bytes, profile, kind, fileName, limits);
         return (Write(imported.Document), exported.Invalidated);
     }
 
@@ -321,8 +321,8 @@ public static class GameFiles
         {
             try
             {
-                var read = Read(bytes);
-                var (profile, docKind, _, _) = Envelope(read.Document, null);
+                ReadResult read = Read(bytes);
+                (FileProfile? profile, string? docKind, JsonObject _, JsonValue _) = Envelope(read.Document, null);
                 return new Classification(read.Gzip ? DetectedFormat.GzipOwnJson : DetectedFormat.OwnJson, profile, docKind, read.DeclaredVersion, null);
             }
             catch (ConversionException error)
@@ -341,7 +341,7 @@ public static class GameFiles
             return new Classification(DetectedFormat.Unknown, null, null, null, null);
         }
 
-        var p = profileName is not null ? FileProfile.Find(profileName) : ProfileFor(kind, bytes);
+        FileProfile? p = profileName is not null ? FileProfile.Find(profileName) : ProfileFor(kind, bytes);
         if (p is null || !p.Kinds.Contains(kind))
         {
             return new Classification(DetectedFormat.Unknown, null, kind, null, null);

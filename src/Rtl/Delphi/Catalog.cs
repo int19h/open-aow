@@ -17,14 +17,14 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
         ArgumentNullException.ThrowIfNull(value);
         lock (_writeLock)
         {
-            var previous = _snapshot;
+            Snapshot previous = _snapshot;
             if (previous.Entries.ContainsKey(key))
             {
                 throw new InvalidOperationException($"Duplicate {kind} key: {key}.");
             }
 
-            var entries = new Dictionary<TKey, TValue>(previous.Entries) { [key] = value };
-            var values = new TValue[previous.All.Count + 1];
+            Dictionary<TKey, TValue> entries = new(previous.Entries) { [key] = value };
+            TValue[] values = new TValue[previous.All.Count + 1];
             previous.All.CopyTo(values, 0);
             values[^1] = value;
             Volatile.Write(ref _snapshot, new Snapshot(entries, Array.AsReadOnly(values)));
@@ -32,7 +32,7 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
         return value;
     }
 
-    public TValue this[TKey key] => TryGet(key, out var value) ? value
+    public TValue this[TKey key] => TryGet(key, out TValue? value) ? value
         : throw new InvalidOperationException($"Absent {kind} key: {key}.");
 
     public bool TryGet(TKey key, [MaybeNullWhen(false)] out TValue value) =>
