@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AOWTitleWindow.pas.
 using Aow.Game.Audio;
 using Aow.Game.Draw;

@@ -51,6 +51,12 @@ tool that generates C# emits code that follows them.
   abbreviations except widely known ones, judged in this project's context (`Aow`, `Hex`,
   `Info`, `Id`, `IO`, `UI`, `AI`, `Tcp`, `Cpu` and the file format names). Two-letter acronyms
   are uppercase, longer ones Pascal-cased.
+- Nullable reference types are on in every project. A new file is nullable-checked. An
+  existing file that is not nullable-clean carries a file-level `#nullable disable` as its
+  first directive until conversion removes it.
+- The decided code style lives in `.editorconfig`. `Directory.Build.props` sets
+  `EnforceCodeStyleInBuild`, so a rule at warning fails the build. A rule at suggestion has
+  remaining sites and names its fix group in the `.editorconfig` comment next to it.
 - Code that works with data uses pattern matching and deconstruction where they make it clearer.
 - Calls use named arguments. A call with one argument needs none. From the second argument on,
   name the arguments, except where a strong positional convention carries the meaning (`x, y`,

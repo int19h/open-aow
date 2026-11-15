@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWRelations.pas.
 using Aow.Engine.Collections;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWProdScreen.pas.
 using Aow.Engine.Collections;
 using Aow.Game.Combat;

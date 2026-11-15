@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from SmokeCloud.pas.
 using Aow.Engine.Nodes;
 

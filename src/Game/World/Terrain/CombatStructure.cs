@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CombatStructure.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;

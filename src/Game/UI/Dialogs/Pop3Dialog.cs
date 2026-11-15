@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;

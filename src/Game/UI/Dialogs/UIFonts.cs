@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from FontMod.pas.
 using Aow.Game.Draw.Images;
 using Aow.Rtl;

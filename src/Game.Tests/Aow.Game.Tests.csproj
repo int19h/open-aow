@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Aow.Game.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>

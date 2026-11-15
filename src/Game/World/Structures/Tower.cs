@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Tower.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;

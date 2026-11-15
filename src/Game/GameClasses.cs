@@ -1,3 +1,4 @@
+#nullable disable
 
 using Aow.Engine;
 using Aow.Game.AI;

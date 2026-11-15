@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from HSEngine.pas and AoWE.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;

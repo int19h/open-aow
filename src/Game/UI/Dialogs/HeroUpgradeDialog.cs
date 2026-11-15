@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWHeroUpgradeDlg.pas.
 using Aow.Engine.Nodes;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCampaignTransferDlg.pas.
 using Aow.Game.Audio;
 using Aow.Game.Draw;

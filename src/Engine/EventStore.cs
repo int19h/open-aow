@@ -1,3 +1,4 @@
+#nullable disable
 // Last-to-first notify lists. Engine.pas TEventList.Add, Remove, Delete, Clear and
 // TriggerNotifyEvents (4873, 4881, 4887, 4994, 5046).
 using System.Reflection;

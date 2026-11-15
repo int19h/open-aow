@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWTBWindow.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;

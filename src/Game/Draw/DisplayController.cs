@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from DisplayC.pas.
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;

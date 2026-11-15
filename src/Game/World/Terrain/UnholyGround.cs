@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from UnHolyG.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;

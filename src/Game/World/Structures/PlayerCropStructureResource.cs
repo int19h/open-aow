@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Crops.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from HolyG.pas.
 using Aow.Engine.Nodes;
 

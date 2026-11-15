@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AGCPlugins.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;

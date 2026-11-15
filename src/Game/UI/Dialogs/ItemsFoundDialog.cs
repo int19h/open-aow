@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWItemsFoundDlg.pas.
 using Aow.Game.Draw;
 

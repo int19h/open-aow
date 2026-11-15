@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CombatHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;

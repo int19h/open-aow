@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWFileDialog.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats;

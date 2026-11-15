@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;

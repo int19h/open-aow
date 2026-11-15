@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from ImageLib.pas.
 using Aow.Formats.Tree;
 using Aow.Rtl;

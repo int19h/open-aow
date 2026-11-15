@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from GFXE.pas.
 using Aow.Graphics;
 using Aow.Rtl;

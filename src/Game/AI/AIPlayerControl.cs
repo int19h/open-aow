@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using Aow.Engine.Collections;

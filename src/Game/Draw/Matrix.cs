@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from DisplayC.pas.
 
 namespace Aow.Game.Draw;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from MagicSanctuary.pas.
 using Aow.Engine.Nodes;
 

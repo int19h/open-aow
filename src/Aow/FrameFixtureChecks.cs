@@ -1,3 +1,4 @@
+#nullable disable warnings
 using System.Runtime.CompilerServices;
 
 using Aow.Formats;

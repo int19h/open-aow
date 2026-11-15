@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CenterViewLoc.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;

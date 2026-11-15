@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CMapCtrl.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;

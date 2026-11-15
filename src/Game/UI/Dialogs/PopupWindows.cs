@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWPWindows.pas.
 using System.Collections.Immutable;
 

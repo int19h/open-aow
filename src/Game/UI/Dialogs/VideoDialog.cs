@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWVideoDlg.pas.
 using Aow.Game.Draw;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from MainAG.pas.
 using Aow.Engine.Nodes;
 

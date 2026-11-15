@@ -1,3 +1,4 @@
+#nullable disable
 
 namespace Aow.Game.Draw;
 
