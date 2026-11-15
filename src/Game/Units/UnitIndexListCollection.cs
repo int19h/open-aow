@@ -28,19 +28,19 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2432
     public int GetCollectionCount(int index)
     {
-        int I;
+        int i;
         int last;
         int result = 0;
-        I = index * _collectionSize;
-        last = _collectionSize + I;
+        i = index * _collectionSize;
+        last = _collectionSize + i;
         if (last > _units.Count)
         {
             last = _units.Count;
         }
 
-        while (I < last && _units[I] != -1)
+        while (i < last && _units[i] != -1)
         {
-            I += 1;
+            i += 1;
             result += 1;
         }
 
@@ -57,11 +57,11 @@ public partial class UnitIndexListCollection : IDisposable
     public bool AddUnit(int collection, int unitIndex)
     {
         bool result;
-        int N;
-        N = GetCollectionCount(collection);
-        if (N < _collectionSize)
+        int n;
+        n = GetCollectionCount(collection);
+        if (n < _collectionSize)
         {
-            _units[N + collection * _collectionSize] = unitIndex;
+            _units[n + collection * _collectionSize] = unitIndex;
             result = true;
         }
         else
@@ -75,16 +75,16 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2466
     public void DeleteUnit(int collection, int index)
     {
-        int N;
+        int n;
         int offset;
         int unitIndex;
-        N = GetCollectionCount(collection);
-        if (index < N)
+        n = GetCollectionCount(collection);
+        if (index < n)
         {
             offset = collection * _collectionSize;
             unitIndex = offset + index;
             _units.Delete(unitIndex);
-            _units.Insert(offset + N - 1, -1);
+            _units.Insert(offset + n - 1, -1);
         }
     }
 

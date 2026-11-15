@@ -168,8 +168,7 @@ public sealed class CoreTests
         Ptr<string>.Fill(managed + 1, 2, "z");
         Assert.Equal(new[] { "a", "z", "z" }, words);
         var cell = new SampleRecord[1];
-        var recordPointer = Ptr<SampleRecord>.To(cell, 0);
-        object payload = new PtrBox<SampleRecord>(recordPointer);
+        object payload = new PtrBox<SampleRecord>(Ptr<SampleRecord>.To(cell, 0));
         Ptr<SampleRecord>.Unbox(payload).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
     }

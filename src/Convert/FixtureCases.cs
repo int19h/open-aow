@@ -33,9 +33,7 @@ public static partial class Fixtures
                 d => Object(d["$container"])["compression"] is JsonString { Value: "none" } ? null : "raw HSM became CFS"));
         yield return new("containers", "raw HSM and CFS level 0 stay distinct", () =>
         {
-            var raw = Import(Payload(Game(Map)), "world-hsm", "map");
-            var level0 = Import(Cfs.Wrap(Payload(Game(Map)), 0), "world-hsm", "map");
-            return GameFiles.Write(raw).AsSpan().SequenceEqual(GameFiles.Write(level0)) ? Fail("the documents are equal") : Pass("distinct containers");
+            return GameFiles.Write(Import(Payload(Game(Map)), "world-hsm", "map")).AsSpan().SequenceEqual(GameFiles.Write(Import(Cfs.Wrap(Payload(Game(Map)), 0), "world-hsm", "map"))) ? Fail("the documents are equal") : Pass("distinct containers");
         });
         yield return new("containers", "HSM header extension", () =>
         {
@@ -130,8 +128,7 @@ public static partial class Fixtures
         yield return new("presence", "a stored null object", () =>
         {
             var d = Import(Game(Campaign), "campaign", "campaign");
-            var transfer = Object(Root(d)["TransferSettings"]);
-            Set(transfer, "Leader", new JsonNull());
+            Set(Object(Root(d)["TransferSettings"]), name: "Leader", value: new JsonNull());
             return OwnRoundTrip(d, (n, _) => Object(Root(n)["TransferSettings"])["Leader"] is JsonNull ? null : "the stored null was lost");
         });
         yield return new("presence", "an empty fixed object stays present", () =>
@@ -140,16 +137,12 @@ public static partial class Fixtures
         // Strings.
         yield return new("strings", "long prefix for a short string", () =>
         {
-            var image = HeroListImage([1, 20, 0], Concat([255], I32(3), "abc"u8.ToArray()));
-            return RoundTrip(image, "hero-list", "hero-list",
-                d => d.ToString() is not null && GameFiles.Write(d).AsSpan().IndexOf("value-prefixes"u8) >= 0 ? null : "no value-prefixes part");
+            return RoundTrip(HeroListImage([1, 20, 0], Concat([255], I32(3), "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => d.ToString() is not null && GameFiles.Write(d).AsSpan().IndexOf("value-prefixes"u8) >= 0 ? null : "no value-prefixes part");
         });
         yield return new("strings", "all 256 code page bytes", () =>
         {
             var bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
-            var image = HeroListImage([1, 20, 0], Concat([255], I32(256), bytes));
-            return RoundTrip(image, "hero-list", "hero-list",
-                d => Root(d)["LibraryName"] is JsonString s && s.Value.Length == 256 && s.Value[0x81] == '\u0081' && s.Value[0x80] == '\u20ac'
+            return RoundTrip(HeroListImage([1, 20, 0], Concat([255], I32(256), bytes)), profile: "hero-list", kind: "hero-list", inspect: d => Root(d)["LibraryName"] is JsonString s && s.Value.Length == 256 && s.Value[0x81] == '\u0081' && s.Value[0x80] == '\u20ac'
                     ? null : "the code page mapping is not the frozen table");
         });
         yield return new("strings", "an unmapped character is refused with its location", () =>
@@ -176,8 +169,7 @@ public static partial class Fixtures
         yield return new("strings", "rwStringsEx signed object values", () =>
         {
             var d = Import(Game(ScenarioSet), "scenario-set", "scenario-set");
-            var settings = Object(Root(d)["ResourceEditSettings"]);
-            Set(settings, "Editors", new JsonObject()
+            Set(Object(Root(d)["ResourceEditSettings"]), name: "Editors", value: new JsonObject()
                 .Add("lines", new JsonArray().Add(new JsonString("a")).Add(new JsonString("b")))
                 .Add("objects", new JsonArray().Add(new JsonInteger(-1)).Add(new JsonInteger(int.MinValue))));
             return OwnRoundTrip(d);
@@ -268,23 +260,15 @@ public static partial class Fixtures
         // Layout residue: order, gaps, invalidation.
         yield return new("layout", "long table entries and a gap after a Boolean", () =>
         {
-            // THeroLibrary: LibraryName (20) as a long entry, a Boolean-free gap at the end of data
-            // is impossible, so the gap sits before the first value.
-            var image = HeroListImage(Concat([0x80], I32(1), I32(20), I32(2)), Concat([0xAA, 0xBB], [3], "abc"u8.ToArray()));
-            return RoundTrip(image, "hero-list", "hero-list",
-                d => GameFiles.Write(d).AsSpan().IndexOf("\"gaps\""u8) >= 0 ? null : "no gap part");
+            return RoundTrip(HeroListImage(Concat([0x80], I32(1), I32(20), I32(2)), Concat([0xAA, 0xBB], [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => GameFiles.Write(d).AsSpan().IndexOf("\"gaps\""u8) >= 0 ? null : "no gap part");
         });
         yield return new("layout", "a noncanonical table order", () =>
         {
-            // NextLibraryId (21) is stored before LibraryName (20) in the table and the data.
-            var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
-            return RoundTrip(image, "hero-list", "hero-list",
-                d => GameFiles.Write(d).AsSpan().IndexOf("table-form-order"u8) >= 0 ? null : "no table part");
+            return RoundTrip(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => GameFiles.Write(d).AsSpan().IndexOf("table-form-order"u8) >= 0 ? null : "no table part");
         });
         yield return new("layout", "an edit invalidates the layout and export rebuilds it", () =>
         {
-            var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
-            var d = Import(image, "hero-list", "hero-list");
+            var d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
             Set(Root(d), "LibraryName", new JsonString("longer name"));
             var exported = GameFiles.Export(Parse(GameFiles.Write(d)));
             var n = Import(exported.Bytes, "hero-list", "hero-list");
@@ -293,15 +277,13 @@ public static partial class Fixtures
         });
         yield return new("layout", "--exact-layout refuses a stale layout", () =>
         {
-            var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
-            var d = Import(image, "hero-list", "hero-list");
+            var d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
             Root(d).Remove("NextLibraryId");
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d)), new ExportOptions { ExactLayout = true }), Located);
         });
         yield return new("layout", "a part that does not fit is an error, not a cleanup", () =>
         {
-            var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
-            var d = Import(image, "hero-list", "hero-list");
+            var d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
             var root = Root(d);
             var layout = Object(root["$layout"]);
             var entries = Arr(Object(Arr(layout["parts"]).Items[0])["entries"]);
@@ -326,8 +308,7 @@ public static partial class Fixtures
             () => GameFiles.Read(GameFiles.Write(MapDocument()), null, new FormatLimits { Depth = 5 }), Located));
         yield return new("gzip", "a gzip own document reads as own JSON", () =>
         {
-            var text = GameFiles.Write(Import(Game(HeroList), "hero-list", "hero-list"));
-            var c = GameFiles.Classify(Gzip(text), ".ahl");
+            var c = GameFiles.Classify(Gzip(GameFiles.Write(Import(Game(HeroList), "hero-list", "hero-list"))), ".ahl");
             return c.Format == DetectedFormat.GzipOwnJson ? Pass("gzip own JSON") : Fail(c.Format.ToString());
         });
         yield return new("gzip", "bounded gzip", () =>
@@ -418,9 +399,7 @@ public static partial class Fixtures
 
     private static Outcome NonemptyItemList()
     {
-        // Items of an oracle save, copied into a library as its children.
-        var save = MapDocument();
-        var items = Arr(Object(Root(save)["ItemControl"])["Items"]);
+        var items = Arr(Object(Root(MapDocument())["ItemControl"])["Items"]);
         if (items.Items.Count == 0) return Fail("the map has no items");
         var children = new JsonArray();
         for (int k = 0; k < items.Items.Count; k++)
@@ -430,8 +409,7 @@ public static partial class Fixtures
             Set(objectValue, "$slot", new JsonInteger(k));
             children.Add(objectValue);
         }
-        var library = new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastId", new JsonInteger(items.Items.Count)).Add("Children", children);
-        return OwnRoundTrip(Envelope("item-list", "item-list", library));
+        return OwnRoundTrip(Envelope(root: new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastId", new JsonInteger(items.Items.Count)).Add("Children", children), kind: "item-list", profile: "item-list"));
     }
 
     private static JsonObject CampaignWithMap(out byte[] mapFile)
@@ -470,8 +448,7 @@ public static partial class Fixtures
         var exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
         if (exported.Invalidated.Count == 0) return Fail("the stale nested bytes were not reported");
         if (exported.Bytes.AsSpan().IndexOf(mapFile) >= 0) return Fail("the stale nested bytes were reused");
-        var again = Import(exported.Bytes, "campaign", "campaign-save");
-        var day = Object(Object(Root(again)["Map"])["root"])["Day"];
+        var day = Object(Object(Root(Import(exported.Bytes, "campaign", "campaign-save"))["Map"])["root"])["Day"];
         if (day is not JsonInteger { Value: 42 }) return Fail("the edit was lost");
         return RoundTrip(exported.Bytes, "campaign", "campaign-save");
     }

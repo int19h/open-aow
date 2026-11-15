@@ -247,8 +247,7 @@ public sealed partial class PersistEquivalenceTests
     public void AnAbsentGridLeavesTheLevelEmpty()
     {
         var classValue = s_schema.Get("MapLevel");
-        var document = (JsonObject)JsonReader.Parse("""{"Width":2,"Height":1,"HexLevel":1}"""u8, "level.json");
-        var image = PilotImage.Encode(document, "MapLevel");
+        var image = PilotImage.Encode((JsonObject)JsonReader.Parse("""{"Width":2,"Height":1,"HexLevel":1}"""u8, "level.json"), className: "MapLevel");
         var (viaReadWrite, streamMap) = NewLevel("MapLevel");
         var (fromImage, imageMap) = NewLevel("MapLevel");
         try
@@ -571,8 +570,7 @@ public sealed partial class PersistEquivalenceTests
     public void AByteRunOver255SplitsAsTheWriterSplitsIt()
     {
         using var source = Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 300)]);
-        var classValue = s_schema.Get("CommandAbilityData");
-        var image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game");
+        var image = OriginalBackend.Write(classValue: s_schema.Get("CommandAbilityData"), node: TreeWriter.Write(source, Factory), schema: s_schema, engine: "game");
         Assert.Equal(Image(source), image);
         var stored = (JsonObject)PilotImage.Decode(image, "CommandAbilityData")["CommandedUnits"]!;
         Assert.Equal(300, ((JsonArray)stored["items"]!).Items.Count);
@@ -1457,8 +1455,7 @@ public sealed partial class PersistEquivalenceTests
             var image = Image(objectValue);
             var expected = PilotImage.Decode(image, className);
             var tree = TreeWriter.Write(objectValue, Factory);
-            var actual = DocumentBackend.Write(tree, classValue, s_schema, "game");
-            EqualJson(expected, actual, className + " write");
+            EqualJson(actual: DocumentBackend.Write(tree, classValue, s_schema, "game"), expected: expected, label: className + " write");
             EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), className + " original");
             viaReadWrite = Blank(className);
             Load(viaReadWrite, image);
@@ -1491,9 +1488,7 @@ public sealed partial class PersistEquivalenceTests
     private static void Load(EngineObject objectValue, byte[] image, LoadErrorHandler? onError = null)
     {
         var classValue = s_schema.Get(Factory.ClassName(objectValue));
-        string table = GameBoundary.PacketClassTable(classValue);
-        var root = OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: table);
-        TreeReader.Read(root, objectValue: objectValue, factory: Factory, onError: onError);
+        TreeReader.Read(OriginalBackend.Read(engine: GameBoundary.PacketClassTable(classValue), image: image, classValue: classValue, schema: s_schema), objectValue: objectValue, factory: Factory, onError: onError);
     }
 
     private static Ability PlaceAbility(int id)

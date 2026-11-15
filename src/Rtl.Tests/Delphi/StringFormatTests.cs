@@ -159,22 +159,22 @@ public sealed class StringFormatTests
     public static TheoryData<string, string, string> Conversions()
     {
         // Each row: an argument, a conversion and the result or the error message.
-        const string Integer = "Integer format argument required", Text = "String format argument required";
-        const string Pointer = "Pointer format argument required", Unsupported = "Unsupported format at 1";
+        const string integer = "Integer format argument required", text = "String format argument required";
+        const string pointer = "Pointer format argument required", unsupported = "Unsupported format at 1";
         var data = new TheoryData<string, string, string>();
         string[][] table =
         [
-            ["int", "-7", "4294967289", "FFFFFFF9", Text, Pointer],
-            ["byte", Integer, Integer, Integer, "€", Pointer],
-            ["char", Integer, Integer, Integer, "€", Pointer],
-            ["char80", Integer, Integer, Integer, "\u0080", Pointer],
-            ["bool", Integer, Integer, Integer, Text, Pointer],
-            ["double", Integer, Integer, Integer, Text, Pointer],
-            ["string", Integer, Integer, Integer, "abc", Pointer],
-            ["object", Integer, Integer, Integer, Text, Pointer],
-            ["nil", Integer, Integer, Integer, Text, Pointer],
-            ["default", Integer, Integer, Integer, Text, Pointer],
-            ["pointer", Integer, Integer, Integer, Text, "0000BEEF"],
+            ["int", "-7", "4294967289", "FFFFFFF9", text, pointer],
+            ["byte", integer, integer, integer, "€", pointer],
+            ["char", integer, integer, integer, "€", pointer],
+            ["char80", integer, integer, integer, "\u0080", pointer],
+            ["bool", integer, integer, integer, text, pointer],
+            ["double", integer, integer, integer, text, pointer],
+            ["string", integer, integer, integer, "abc", pointer],
+            ["object", integer, integer, integer, text, pointer],
+            ["nil", integer, integer, integer, text, pointer],
+            ["default", integer, integer, integer, text, pointer],
+            ["pointer", integer, integer, integer, text, "0000BEEF"],
         ];
         string[] letters = ["d", "u", "x", "s", "p"];
         foreach (var row in table)
@@ -184,7 +184,7 @@ public sealed class StringFormatTests
                 data.Add(row[0], "%" + letters[i], row[i + 1]);
                 data.Add(row[0], "%" + letters[i].ToUpperInvariant(), row[i + 1]);
             }
-            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" }) data.Add(row[0], other, Unsupported);
+            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" }) data.Add(row[0], other, unsupported);
         }
         return data;
     }

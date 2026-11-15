@@ -18,7 +18,7 @@ internal static class PacingVerification
         var display = new TimedDisplay();
         var controller = new SdlDisplayController(host);
         var times = new List<double>(306);
-        const int WarmupFrames = 150;
+        const int warmupFrames = 150;
         long previous = 0;
         var priority = Thread.CurrentThread.Priority;
         using var process = Process.GetCurrentProcess();
@@ -39,7 +39,7 @@ internal static class PacingVerification
             display.FramePresented = frame =>
             {
                 long now = Stopwatch.GetTimestamp();
-                if (frame < WarmupFrames) return;
+                if (frame < warmupFrames) return;
                 if (previous != 0) times.Add(Stopwatch.GetElapsedTime(previous, now).TotalMilliseconds);
                 previous = now;
                 if (times.Count == 306) display.StopUpdateFrameLoop();
@@ -64,7 +64,7 @@ internal static class PacingVerification
         {
             equal,
             frames = 300,
-            warmup_frames = WarmupFrames,
+            warmup_frames = warmupFrames,
             fps = 30,
             target_ms = 33,
             tolerance_ms = 1,

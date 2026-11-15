@@ -14,7 +14,7 @@ public partial class InverseSortedNode : SortedNode
     public override int AddSortChild(EngineObject child, int sortValue)
     {
         int result;
-        int I;
+        int i;
         CheckChild(child);
         if (_count >= Capacity)
         {
@@ -23,20 +23,20 @@ public partial class InverseSortedNode : SortedNode
 
         if (Sorted)
         {
-            I = _count;
-            while (I > 0 && sortValue < Items[I - 1].SortValue)
+            i = _count;
+            while (i > 0 && sortValue < Items[i - 1].SortValue)
             {
-                I -= 1;
+                i -= 1;
             }
 
-            if (I != _count)
+            if (i != _count)
             {
-                Array.Copy(Items, I, Items, I + 1, _count - I);
+                Array.Copy(Items, i, Items, i + 1, _count - i);
             }
 
-            Items[I].Child = child;
-            Items[I].SortValue = sortValue;
-            result = I;
+            Items[i].Child = child;
+            Items[i].SortValue = sortValue;
+            result = i;
         }
         else
         {

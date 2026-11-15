@@ -110,18 +110,18 @@ public partial class TransportAIGroupControl : AIGroupControl
         if (transporter != null && transporter.Owner is Army)
         {
             army = transporter.ArmyOwner;
-            for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
+            for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
             {
-                bool condition = transporter != army.Units.GetUnit(I);
+                bool condition = transporter != army.Units.GetUnit(i);
                 if (condition)
                 {
-                    var troop = army.Units.GetUnit(I);
+                    var troop = army.Units.GetUnit(i);
                     condition = MoveExecutor.Units.IndexOfUnit(troop) == -1;
                 }
 
                 if (condition)
                 {
-                    var troop = army.Units.GetUnit(I);
+                    var troop = army.Units.GetUnit(i);
                     MoveExecutor.AddUnit(troop);
                 }
             }

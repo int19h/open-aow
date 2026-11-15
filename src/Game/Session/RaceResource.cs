@@ -125,16 +125,16 @@ public partial class RaceResource : EngineResource
     // PlayerC.PAS:1818
     public override LibraryImage GetCellImage()
     {
-        int I;
+        int i;
         AddRef();
         LibraryImage result = null;
         if (ImageLibrary != null)
         {
-            I = 0;
-            while (I < ImageLibrary.Count && result == null)
+            i = 0;
+            while (i < ImageLibrary.Count && result == null)
             {
-                result = ImageLibrary[I];
-                I += 1;
+                result = ImageLibrary[i];
+                i += 1;
             }
         }
 

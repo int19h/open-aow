@@ -195,9 +195,9 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8887
     public virtual EngineObject CreateEngineObject(int classId, CustomNode owner)
     {
-        EngineClass C;
-        C = GetEngineClass(classId);
-        return C.CreateInstance(owner, holder: this);
+        EngineClass c;
+        c = GetEngineClass(classId);
+        return c.CreateInstance(owner, holder: this);
     }
 
     // Engine.pas:8860
@@ -255,31 +255,31 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8835
     public void RegisterEngineClasses(ReadOnlySpan<EngineClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
             if (_options.Contains(VerifyClasses))
             {
-                VerifyEngineObjectClass(classes[I]);
+                VerifyEngineObjectClass(classes[i]);
             }
 
-            var classId = classes[I].ClassId;
+            var classId = classes[i].ClassId;
             if (_classTable.ContainsKey(classId))
             {
                 throw new InvalidOperationException("EObject Class ID double defined!");
             }
 
-            _engineClasses.Add(classes[I]);
-            HashTables.Add(_classTable, key: classes[I].ClassId, value: classes[I]);
+            _engineClasses.Add(classes[i]);
+            HashTables.Add(_classTable, key: classes[i].ClassId, value: classes[i]);
         }
     }
 
     // Engine.pas:8849
     public void UnregisterEngineClasses(ReadOnlySpan<EngineClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            _engineClasses.Remove(classes[I]);
-            var classId = classes[I].ClassId;
+            _engineClasses.Remove(classes[i]);
+            var classId = classes[i].ClassId;
             _classTable.Remove(classId);
         }
     }
@@ -287,17 +287,17 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8867
     public EngineObjectClassList GetDescendantClasses(Type classValue)
     {
-        EngineObjectClassList L;
-        L = new EngineObjectClassList();
-        for (int I = 0, last = _engineClasses.Count - 1; I <= last; I++)
+        EngineObjectClassList l;
+        l = new EngineObjectClassList();
+        for (int i = 0, last = _engineClasses.Count - 1; i <= last; i++)
         {
-            if (classValue.IsAssignableFrom(_engineClasses[I].Type))
+            if (classValue.IsAssignableFrom(_engineClasses[i].Type))
             {
-                L.Add(_engineClasses[I]);
+                l.Add(_engineClasses[i]);
             }
         }
 
-        return L;
+        return l;
     }
 
     // Engine.pas:8878
@@ -383,10 +383,10 @@ public partial class GameEngine : OwningNode
     // An engine image in a memory stream at position 0, for the routines that read it.
     public static MemoryStream ImageStream(byte[] image)
     {
-        MemoryStream M = new MemoryStream();
-        M.WriteBuffer(image);
-        M.Position = 0;
-        return M;
+        MemoryStream m = new MemoryStream();
+        m.WriteBuffer(image);
+        m.Position = 0;
+        return m;
     }
 
     // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
@@ -409,40 +409,40 @@ public partial class GameEngine : OwningNode
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         var image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
-        Stream F = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, 65535);
         try
         {
-            F.Write(image);
+            f.Write(image);
         }
         finally
         {
-            F?.Dispose();
+            f?.Dispose();
         }
     }
 
     // Engine.pas:9017
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        MemoryStream M;
-        Stream F;
-        M = new MemoryStream();
-        F = OpenFile(fileName, 0 | 32);
+        MemoryStream m;
+        Stream f;
+        m = new MemoryStream();
+        f = OpenFile(fileName, 0 | 32);
         try
         {
-            M.LoadFromStream(F);
+            m.LoadFromStream(f);
         }
         finally
         {
-            F?.Dispose();
+            f?.Dispose();
         }
 
         try
         {
-            ReadObjectImage(M.ToArray(), objectValue: objectValue, progress: progress, classTable: "game");
+            ReadObjectImage(m.ToArray(), objectValue: objectValue, progress: progress, classTable: "game");
         }
         finally
         {
-            M?.Dispose();
+            m?.Dispose();
         }
     }
 
@@ -453,74 +453,70 @@ public partial class GameEngine : OwningNode
     {
         int crc1 = default;
         int crc2 = default;
-        MemoryStream M;
-        Stream F = default;
-        M = new MemoryStream();
+        MemoryStream m;
+        Stream f = default;
+        m = new MemoryStream();
         try
         {
-            M.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
-            var size = (int)M.Length;
-            crc1 = EngineServices.GetCrc32(M.GetBuffer(), size);
-            M.Write(Bytes.Of(ref crc1, 4));
-            var mSize = (int)M.Length;
-            crc2 = EngineServices.GetCrc32(M.GetBuffer(), mSize);
-            F = OpenFile(fileName, 65535);
+            m.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
+            crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
+            m.Write(Bytes.Of(ref crc1, 4));
+            crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
+            f = OpenFile(fileName, 65535);
             try
             {
-                F.Write(Bytes.Of(ref crc2, 4));
-                var size2 = (int)M.Length;
-                F.Write(M.GetBuffer().AsSpan(0, size2));
+                f.Write(Bytes.Of(ref crc2, 4));
+                f.Write(m.GetBuffer().AsSpan(length: (int)m.Length, start: 0));
             }
             finally
             {
-                F?.Dispose();
+                f?.Dispose();
             }
         }
         finally
         {
-            M?.Dispose();
+            m?.Dispose();
         }
     }
 
     // Engine.pas:9061
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
-        MemoryStream M;
-        Stream F;
+        MemoryStream m;
+        Stream f;
         int crc2;
         int crc1;
         bool result = false;
-        M = new MemoryStream();
-        F = OpenFile(fileName, 0 | 32);
+        m = new MemoryStream();
+        f = OpenFile(fileName, 0 | 32);
         try
         {
-            M.LoadFromStream(F);
-            M.Position = 0;
-            if (M.Length > 8)
+            m.LoadFromStream(f);
+            m.Position = 0;
+            if (m.Length > 8)
             {
-                crc1 = MemoryMarshal.Read<int>(M.GetBuffer().AsSpan(0, 4));
-                var size = (int)M.Length;
-                crc2 = MemoryMarshal.Read<int>(M.GetBuffer().AsSpan(size - 4, 4));
-                var mSize = (int)M.Length;
-                bool condition = crc1 == EngineServices.GetCrc32(M.GetBuffer().AsSpan(4), mSize - 4);
+                crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, 4));
+                var size = (int)m.Length;
+                crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, 4));
+                var mSize = (int)m.Length;
+                bool condition = crc1 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), mSize - 4);
                 if (condition)
                 {
-                    var size2 = (int)M.Length;
-                    condition = crc2 == EngineServices.GetCrc32(M.GetBuffer().AsSpan(4), size2 - 8);
+                    var size2 = (int)m.Length;
+                    condition = crc2 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), size2 - 8);
                 }
 
                 if (condition)
                 {
-                    var imageSize = (int)M.Length - 8;
-                    ReadObjectImage(M.GetBuffer().AsSpan(4, imageSize).ToArray(), objectValue: objectValue, progress: progress, classTable: classTable);
+                    ReadObjectImage(m.GetBuffer().AsSpan(length: (int)m.Length - 8, start: 4).ToArray(), objectValue: objectValue, progress: progress, classTable: classTable);
                     result = true;
                 }
             }
         }
         finally
         {
-            F?.Dispose();
-            M?.Dispose();
+            f?.Dispose();
+            m?.Dispose();
         }
 
         return result;
@@ -532,8 +528,7 @@ public partial class GameEngine : OwningNode
     public byte[] WriteObjectImage(EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
     {
         var factory = new EnginePersistableFactory(this, progress: progress);
-        var root = TreeWriter.Write(objectValue, factory: factory);
-        return GameBoundary.WriteWrittenObject(root, className: factory.ClassName(objectValue), classTable: classTable);
+        return GameBoundary.WriteWrittenObject(TreeWriter.Write(objectValue, factory: factory), className: factory.ClassName(objectValue), classTable: classTable);
     }
 
     // Loads an object image as TEngine.ReadEObject loads it (Engine.pas:8908): the original backend
@@ -543,8 +538,7 @@ public partial class GameEngine : OwningNode
     public void ReadObjectImage(byte[] image, EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
     {
         var factory = new EnginePersistableFactory(this, progress: progress);
-        var root = GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable);
-        TreeReader.ReadObject(root, objectValue: objectValue, factory: factory);
+        TreeReader.ReadObject(GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable), objectValue: objectValue, factory: factory);
     }
 
     public List<EngineClass> EngineClasses { get => _engineClasses; }

@@ -90,9 +90,9 @@ public sealed class ClassFamilyTests
         // which is the value the Delphi class method returned through the class reference.
         static object? Nearest(Type type, string name)
         {
-            const BindingFlags Flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             for (var t = type; t != null; t = t.BaseType)
-                if (t.GetProperty(name, Flags) is { } property) return property.GetValue(null);
+                if (t.GetProperty(name, flags) is { } property) return property.GetValue(null);
             throw new InvalidOperationException(name);
         }
         var types = typeof(AIPlayerAction).Assembly.GetTypes();

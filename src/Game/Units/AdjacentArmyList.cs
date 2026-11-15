@@ -45,12 +45,12 @@ public partial class AdjacentArmyList : OwningNode, IChildList<AdjacentArmy>
         float days;
         maxDays = -1;
         int result = -1;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            days = GetAdjacentArmies(I).GetMovementDays();
+            days = GetAdjacentArmies(i).GetMovementDays();
             if ((double)days > maxDays)
             {
-                result = I;
+                result = i;
                 maxDays = days;
             }
         }
@@ -63,9 +63,9 @@ public partial class AdjacentArmyList : OwningNode, IChildList<AdjacentArmy>
     {
         MapCoordinateList locations;
         locations = new MapCoordinateList();
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            locations.Add(GetAdjacentArmies(I).Location);
+            locations.Add(GetAdjacentArmies(i).Location);
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);

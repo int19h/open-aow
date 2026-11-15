@@ -33,9 +33,9 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            result += this[I].Troop.GetStrengthMax(damageTypes);
+            result += this[i].Troop.GetStrengthMax(damageTypes);
         }
 
         return result;
@@ -58,11 +58,11 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     // AIGroup.pas:29
     public void DeleteUnit(Troop troop)
     {
-        int I;
-        I = IndexOfU(troop);
-        if (I != -1)
+        int i;
+        i = IndexOfU(troop);
+        if (i != -1)
         {
-            GetProductions(I)?.Dispose();
+            GetProductions(i)?.Dispose();
         }
     }
 

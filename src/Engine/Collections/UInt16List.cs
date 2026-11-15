@@ -273,11 +273,11 @@ public partial class UInt16List : Persistent
     // Engine.pas:4403
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == _default)
+            if (this[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -322,50 +322,50 @@ public partial class UInt16List : Persistent
     // Engine.pas:4493
     public void SaveToStream(Stream stream)
     {
-        int I;
+        int i;
         int run;
-        ushort B = default;
+        ushort b = default;
         int DefaultRun()
         {
-            int J;
+            int j;
             int result = 0;
-            J = I;
-            while (J < _count && _list[J] == _default)
+            j = i;
+            while (j < _count && _list[j] == _default)
             {
                 result += 1;
-                J += 1;
+                j += 1;
             }
 
             return result;
         }
 
-        I = 0;
+        i = 0;
         stream.Write(Bytes.Of(ref _default, 2));
         stream.Write(Bytes.Of(ref _count, 4));
-        while (_count != I)
+        while (_count != i)
         {
             run = DefaultRun();
             if (run > 0)
             {
                 while (run > 65535)
                 {
-                    B = 65535;
+                    b = 65535;
                     stream.Write(Bytes.Of(ref _default, 2));
-                    stream.Write(Bytes.Of(ref B, 2));
+                    stream.Write(Bytes.Of(ref b, 2));
                     // { sic: the original subtracts $FF here but advances I by $FFFF }
                     run -= 255;
-                    I += 65535;
+                    i += 65535;
                 }
 
-                B = (ushort)run;
+                b = (ushort)run;
                 stream.Write(Bytes.Of(ref _default, 2));
-                stream.Write(Bytes.Of(ref B, 2));
-                I += run;
+                stream.Write(Bytes.Of(ref b, 2));
+                i += run;
             }
             else
             {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
-                I += 1;
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, 1)));
+                i += 1;
             }
         }
     }
@@ -376,13 +376,13 @@ public partial class UInt16List : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I] + bonus;
+                chance = _list[i] + bonus;
                 if (chance < 0)
                 {
                     chance = 0;
@@ -391,10 +391,10 @@ public partial class UInt16List : Persistent
                 total += chance;
             }
 
-            R = Random(total);
+            r = Random(total);
             total = 0;
             result = 0;
-            while (total < R)
+            while (total < r)
             {
                 chance = _list[result] + bonus;
                 if (chance < 0)

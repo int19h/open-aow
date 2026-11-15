@@ -94,9 +94,9 @@ public partial class Int32List : Persistent
     internal string GetItemString()
     {
         string result = "";
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(_list[I]) + ",";
+            result = result + IntToStr(_list[i]) + ",";
         }
 
         if (!IsEmpty(result))
@@ -111,16 +111,16 @@ public partial class Int32List : Persistent
     internal void SetItemString(string S)
     {
         string item;
-        int P;
-        int V;
+        int p;
+        int v;
         Clear();
-        P = Pos(",", S);
+        p = Pos(",", S);
         while (!IsEmpty(S))
         {
-            if (P != 0)
+            if (p != 0)
             {
-                item = Copy(S, 1, P - 1);
-                S = RtlUnit.Delete(S, 1, P);
+                item = Copy(S, 1, p - 1);
+                S = RtlUnit.Delete(S, 1, p);
             }
             else
             {
@@ -130,15 +130,15 @@ public partial class Int32List : Persistent
 
             if (!IsEmpty(item))
             {
-                V = StrToInt(item);
+                v = StrToInt(item);
             }
             else
             {
-                V = 0;
+                v = 0;
             }
 
-            Add(V);
-            P = Pos(",", S);
+            Add(v);
+            p = Pos(",", S);
         }
     }
 
@@ -331,11 +331,11 @@ public partial class Int32List : Persistent
     // Engine.pas:3410
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == _default)
+            if (this[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -352,17 +352,17 @@ public partial class Int32List : Persistent
     // Keeps the order of equal items. HeroGrid.SortHeroes is the only caller.
     public void SortStable(IntegerSortCompare compare)
     {
-        for (int I = 1; I < Count; I++)
+        for (int i = 1; i < Count; i++)
         {
-            int item = _list[I];
-            int J = I - 1;
-            while (J >= 0 && compare(_list[J], item) > 0)
+            int item = _list[i];
+            int j = i - 1;
+            while (j >= 0 && compare(_list[j], item) > 0)
             {
-                _list[J + 1] = _list[J];
-                J -= 1;
+                _list[j + 1] = _list[j];
+                j -= 1;
             }
 
-            _list[J + 1] = item;
+            _list[j + 1] = item;
         }
     }
 
@@ -397,38 +397,38 @@ public partial class Int32List : Persistent
     // Engine.pas:3499
     public void SaveToStream(Stream stream)
     {
-        int I;
+        int i;
         int run = default;
         int DefaultRun()
         {
-            int J;
+            int j;
             int result = 0;
-            J = I;
-            while (J < _count && _list[J] == _default)
+            j = i;
+            while (j < _count && _list[j] == _default)
             {
                 result += 1;
-                J += 1;
+                j += 1;
             }
 
             return result;
         }
 
-        I = 0;
+        i = 0;
         stream.Write(Bytes.Of(ref _default, 4));
         stream.Write(Bytes.Of(ref _count, 4));
-        while (_count != I)
+        while (_count != i)
         {
             run = DefaultRun();
             if (run > 0)
             {
                 stream.Write(Bytes.Of(ref _default, 4));
                 stream.Write(Bytes.Of(ref run, 4));
-                I += run;
+                i += run;
             }
             else
             {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
-                I += 1;
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, 1)));
+                i += 1;
             }
         }
     }
@@ -439,13 +439,13 @@ public partial class Int32List : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I] + bonus;
+                chance = _list[i] + bonus;
                 if (chance < 0)
                 {
                     chance = 0;
@@ -454,10 +454,10 @@ public partial class Int32List : Persistent
                 total += chance;
             }
 
-            R = Random(total);
+            r = Random(total);
             total = 0;
             result = 0;
-            while (total < R)
+            while (total < r)
             {
                 chance = _list[result] + bonus;
                 if (chance < 0)
@@ -494,45 +494,45 @@ public partial class Int32List : Persistent
 
     private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)
     {
-        int I;
-        int J;
-        int P;
-        int T = default;
+        int i;
+        int j;
+        int p;
+        int t = default;
         do
         {
-            I = L;
-            J = R;
-            P = sortList[(int)(((uint)(L + R)) >> 1)];
+            i = L;
+            j = R;
+            p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
-                while (sCompare(sortList[I], P) < 0)
+                while (sCompare(sortList[i], p) < 0)
                 {
-                    I += 1;
+                    i += 1;
                 }
 
-                while (sCompare(sortList[J], P) > 0)
+                while (sCompare(sortList[j], p) > 0)
                 {
-                    J -= 1;
+                    j -= 1;
                 }
 
-                if (I <= J)
+                if (i <= j)
                 {
-                    T = sortList[I];
-                    sortList[I] = sortList[J];
-                    sortList[J] = T;
-                    I += 1;
-                    J -= 1;
+                    t = sortList[i];
+                    sortList[i] = sortList[j];
+                    sortList[j] = t;
+                    i += 1;
+                    j -= 1;
                 }
             }
-            while (!(I > J));
-            if (L < J)
+            while (!(i > j));
+            if (L < j)
             {
-                QuickSortInteger(sortList, L, J, sCompare);
+                QuickSortInteger(sortList, L, j, sCompare);
             }
 
-            L = I;
+            L = i;
         }
-        while (!(I >= R));
+        while (!(i >= R));
     }
 
     internal static void FillInteger(Span<int> buffer, int count, int value) => EngineServices.Fill(buffer, count, value);
@@ -542,7 +542,7 @@ public partial class Int32List : Persistent
         Unit testUnit;
         int index;
         int tries;
-        int I;
+        int i;
         int difference;
         int bestIndex;
         int delta;
@@ -552,8 +552,7 @@ public partial class Int32List : Persistent
             bool condition = unit.UnitResource != null;
             if (condition)
             {
-                var unitType = unit.GetUnitType();
-                condition = types.Contains(unitType);
+                condition = types.Contains(unit.GetUnitType());
             }
 
             return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
@@ -576,7 +575,7 @@ public partial class Int32List : Persistent
                         if (testUnit.GetObtainValue() + result > value)
                         {
                             bestIndex = index;
-                            I = 20;
+                            i = 20;
                             difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
                             do
                             {
@@ -595,9 +594,9 @@ public partial class Int32List : Persistent
                                     }
                                 }
 
-                                I -= 1;
+                                i -= 1;
                             }
-                            while (!(I == 0));
+                            while (!(i == 0));
                             index = bestIndex;
                         }
 
@@ -621,7 +620,7 @@ public partial class Int32List : Persistent
         Unit testUnit;
         int index;
         int tries;
-        int I;
+        int i;
         int difference;
         int bestIndex;
         int delta;
@@ -630,8 +629,7 @@ public partial class Int32List : Persistent
             bool condition = unit.UnitResource != null;
             if (condition)
             {
-                var unitType = unit.GetUnitType();
-                condition = types.Contains(unitType);
+                condition = types.Contains(unit.GetUnitType());
             }
 
             return condition && unit.GetUnitLevel() <= level;
@@ -652,7 +650,7 @@ public partial class Int32List : Persistent
                     if (testUnit.GetObtainValue() + result > value)
                     {
                         bestIndex = index;
-                        I = 20;
+                        i = 20;
                         difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
                         do
                         {
@@ -671,9 +669,9 @@ public partial class Int32List : Persistent
                                 }
                             }
 
-                            I -= 1;
+                            i -= 1;
                         }
-                        while (!(I == 0));
+                        while (!(i == 0));
                         index = bestIndex;
                     }
 

@@ -32,10 +32,10 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     {
         bool result = base.Activate();
         var player = Control.Player;
-        for (int I = player.AIGroups.Count - 1; I >= 0; I--)
+        for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
-            var groups = player.AIGroups.GetGroups(I);
-            player.AIGroups.GetGroups(I).Status = groups.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            var groups = player.AIGroups.GetGroups(i);
+            player.AIGroups.GetGroups(i).Status = groups.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
         }
 
         return result;
@@ -47,7 +47,7 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
         bool result;
         bool busy;
         bool done;
-        int I;
+        int i;
         AIGroupControl control;
         _groupProcessCycles += 1;
         try
@@ -59,15 +59,15 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
                 if (_groupControl == null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
-                    I = 0;
-                    while (I < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(I).Status.Contains(AIGroupStatusElement.Done))
+                    i = 0;
+                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatusElement.Done))
                     {
-                        I += 1;
+                        i += 1;
                     }
 
-                    if (I < Control.Player.AIGroups.Count)
+                    if (i < Control.Player.AIGroups.Count)
                     {
-                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(I));
+                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(i));
                     }
                     else
                     {

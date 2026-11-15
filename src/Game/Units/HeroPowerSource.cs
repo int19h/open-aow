@@ -34,14 +34,14 @@ public partial class HeroPowerSource : PowerSource
     // Hero.PAS:597
     public override void Select()
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         ArmyHexSprite armyHexSprite;
-        GetLocation(out X, out Y, out L);
-        if (X != -1)
+        GetLocation(out x, out y, out l);
+        if (x != -1)
         {
-            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
             if (armyHexSprite != null)
             {
                 StrategicMap.Current.Select(armyHexSprite, true);

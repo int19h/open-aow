@@ -95,9 +95,9 @@ public partial class HeroLibraryManager : EngineObject
     public void WriteUserLibraries()
     {
         HeroLibrary library;
-        for (int I = 1, last = _libraries.GetCount() - 1; I <= last; I++)
+        for (int i = 1, last = _libraries.GetCount() - 1; i <= last; i++)
         {
-            library = GetLibrary(I);
+            library = GetLibrary(i);
             var name = library.GetName();
             library.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }

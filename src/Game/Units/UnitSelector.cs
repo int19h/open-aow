@@ -59,12 +59,12 @@ public partial class UnitSelector : IDisposable
         Units.AddUnits(units);
         Units.SortUnits();
         // { Original accumulates FSelectable rather than clearing it on a new setup. }
-        for (int I = Units.GetCount() - 1; I >= 0; I--)
+        for (int i = Units.GetCount() - 1; i >= 0; i--)
         {
             // { The original hard-casts to TUnit, which a hero passes through to the virtual calls. }
-            if (CanSelectUnit(Units.GetUnit(I)))
+            if (CanSelectUnit(Units.GetUnit(i)))
             {
-                Selectable = (byte)(Selectable | (1 << I));
+                Selectable = (byte)(Selectable | (1 << i));
             }
         }
     }

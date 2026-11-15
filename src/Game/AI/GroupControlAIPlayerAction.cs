@@ -31,7 +31,7 @@ public partial class GroupControlAIPlayerAction : AIPlayerAction, IAIPlayerActio
         bool result;
         bool busy;
         bool done;
-        int I;
+        int i;
         AIGroupControl control;
         _groupProcessCycles += 1;
         try
@@ -43,15 +43,15 @@ public partial class GroupControlAIPlayerAction : AIPlayerAction, IAIPlayerActio
                 if (_groupControl == null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
-                    I = 0;
-                    while (I < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(I).Status.Contains(AIGroupStatusElement.Done))
+                    i = 0;
+                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatusElement.Done))
                     {
-                        I += 1;
+                        i += 1;
                     }
 
-                    if (I < Control.Player.AIGroups.Count)
+                    if (i < Control.Player.AIGroups.Count)
                     {
-                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(I));
+                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(i));
                     }
                     else
                     {

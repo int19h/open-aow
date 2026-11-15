@@ -31,45 +31,45 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:893
     public void Clear()
     {
-        List<MemoryStream> L;
-        L = _list;
-        while (L.Count != 0)
+        List<MemoryStream> l;
+        l = _list;
+        while (l.Count != 0)
         {
-            (L[L.Count - 1] as IDisposable)?.Dispose();
-            L.RemoveAt(L.Count - 1);
+            (l[l.Count - 1] as IDisposable)?.Dispose();
+            l.RemoveAt(l.Count - 1);
         }
     }
 
     // NetworkE.pas:905
     public void Add(MemoryStream stream)
     {
-        MemoryStream S;
-        S = new MemoryStream();
-        S.SetLength(stream.Length);
-        var size = (int)S.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
-        _list.Add(S);
+        MemoryStream s;
+        s = new MemoryStream();
+        s.SetLength(stream.Length);
+        var size = (int)s.Length;
+        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
+        _list.Add(s);
     }
 
     // NetworkE.pas:915
     public void AddData(object data, int size)
     {
-        MemoryStream S;
-        S = new MemoryStream();
-        S.SetLength(size);
-        Move(BufferBytes(data)[..size], S.GetBuffer().AsSpan(0, size), size);
-        _list.Add(S);
+        MemoryStream s;
+        s = new MemoryStream();
+        s.SetLength(size);
+        Move(BufferBytes(data)[..size], s.GetBuffer().AsSpan(0, size), size);
+        _list.Add(s);
     }
 
     // NetworkE.pas:925
     public void Insert(int index, MemoryStream stream)
     {
-        MemoryStream S;
-        S = new MemoryStream();
-        S.SetLength(stream.Length);
-        var size = (int)S.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
-        _list.Insert(index, S);
+        MemoryStream s;
+        s = new MemoryStream();
+        s.SetLength(stream.Length);
+        var size = (int)s.Length;
+        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
+        _list.Insert(index, s);
     }
 
     // NetworkE.pas:935

@@ -10,28 +10,28 @@ public static class AudioPlayback
 {
     public static void LockSampleData(string name)
     {
-        SampleData D;
+        SampleData d;
         if (AudioHost.SoundSystem != null)
         {
-            D = AudioHost.SampleDataList.Find(name);
-            if (D == null)
+            d = AudioHost.SampleDataList.Find(name);
+            if (d == null)
             {
                 AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
             }
             else
             {
-                D.AddRef();
+                d.AddRef();
             }
         }
     }
 
     public static void UnlockSampleData(string name)
     {
-        SampleData D;
-        D = AudioHost.SampleDataList.Find(name);
-        if (D != null)
+        SampleData d;
+        d = AudioHost.SampleDataList.Find(name);
+        if (d != null)
         {
-            D.Release();
+            d.Release();
         }
     }
 
@@ -41,32 +41,32 @@ public static class AudioPlayback
 
     public static bool InitializeSoundSystem(string name, in SoundSettings settings)
     {
-        SoundSystemClass C;
+        SoundSystemClass c;
         bool result = true;
         if (IsEmpty(name))
         {
             if (AudioHost.SoundSystems.Count != 0)
             {
-                C = AudioHost.SoundSystems[0];
+                c = AudioHost.SoundSystems[0];
             }
             else
             {
-                C = null;
+                c = null;
             }
         }
         else
         {
-            C = AudioHost.SoundSystems.Find(name);
+            c = AudioHost.SoundSystems.Find(name);
         }
 
-        if (C != null)
+        if (c != null)
         {
             if (AudioHost.SoundSystem != null)
             {
                 ReleaseSoundSystem();
             }
 
-            AudioHost.SoundSystem = C.CreateInstance();
+            AudioHost.SoundSystem = c.CreateInstance();
             if (!AudioHost.SoundSystem.Activate(settings))
             {
                 AudioHost.SoundSystem?.Dispose();
@@ -183,7 +183,7 @@ public static class AudioPlayback
         Stream stream;
         string ext;
         Span<byte> title = stackalloc byte[28];
-        int P;
+        int p;
         stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
         try
         {
@@ -205,10 +205,10 @@ public static class AudioPlayback
                 else
                 {
                     result = ExtractFileName(fileName);
-                    P = Pos(".", result);
-                    if (P != 0)
+                    p = Pos(".", result);
+                    if (p != 0)
                     {
-                        result = Copy(result, 1, P - 1);
+                        result = Copy(result, 1, p - 1);
                     }
                 }
             }
@@ -225,9 +225,9 @@ public static class AudioPlayback
     {
         if (AudioHost.SampleList != null)
         {
-            for (int I = AudioHost.SampleList.Count - 1; I >= 0; I--)
+            for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--)
             {
-                (AudioHost.SampleList.List[I]).Update();
+                (AudioHost.SampleList.List[i]).Update();
             }
         }
 
@@ -283,21 +283,21 @@ public static class AudioPlayback
     internal static Sample PlaySample(string name)
     {
         Sample result;
-        SampleData D;
+        SampleData d;
         if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                D = AudioHost.SampleDataList.Find(name);
-                if (D == null)
+                d = AudioHost.SampleDataList.Find(name);
+                if (d == null)
                 {
-                    D = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
-                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
-                    D.Release();
+                    d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
+                    d.Release();
                 }
                 else
                 {
-                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
                 }
 
                 result.Execute();
@@ -318,21 +318,21 @@ public static class AudioPlayback
     public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         Sample result;
-        SampleData D;
+        SampleData d;
         if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                D = AudioHost.SampleDataList.Find(name);
-                if (D == null)
+                d = AudioHost.SampleDataList.Find(name);
+                if (d == null)
                 {
-                    D = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
-                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
-                    D.Release();
+                    d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
+                    d.Release();
                 }
                 else
                 {
-                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
                 }
 
                 result.Looped = looped;

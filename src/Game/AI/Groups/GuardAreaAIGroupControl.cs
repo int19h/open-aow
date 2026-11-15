@@ -107,11 +107,11 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                         settings.Selection = Selection;
                         settings.MovePointTable = MovePointTable;
                         StrategicMap.Current.MoveControl.ProcessMove(settings);
-                        for (int I = Targets.Count - 1; I >= 0; I--)
+                        for (int i = Targets.Count - 1; i >= 0; i--)
                         {
-                            if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(I).Location) == 16777215)
+                            if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(i).Location) == 16777215)
                             {
-                                Targets.Delete(I);
+                                Targets.Delete(i);
                             }
                         }
 

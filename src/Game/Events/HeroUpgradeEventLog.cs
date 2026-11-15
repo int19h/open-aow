@@ -107,17 +107,17 @@ public partial class HeroUpgradeEventLog : EventLog
     // Hero.PAS:102
     public override void ViewLocation()
     {
-        Troop U;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        U = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (U != null)
+        Troop u;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        if (u != null)
         {
-            U.GetLocation(out X, out Y, out L);
-            if (X != -1)
+            u.GetLocation(out x, out y, out l);
+            if (x != -1)
             {
-                CenterViewTo(X, Y, L);
+                CenterViewTo(x, y, l);
             }
         }
     }

@@ -99,8 +99,7 @@ public sealed class WallCrushingFastBattleTests
         var (combat, source, wall) = Build();
         wall.Status = wall.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         var ability = new WallCrushingAbility(null!, holder: EngineFixture.Engine);
-        var command = new FastBattleCommand(117) { Target = wall };
-        Assert.True(ability.FastBattleExecuteCombatCommand(source, command));
+        Assert.True(ability.FastBattleExecuteCombatCommand(command: new FastBattleCommand(117) { Target = wall }, source: source));
         Assert.Empty(wall.Rolls);
         Assert.Equal(0, combat.Logbook.Actions.Count);
         Assert.Equal(10, wall.GetHitPoints());

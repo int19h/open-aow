@@ -22,8 +22,7 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
     public override string LogText(DiplomaticAction action)
     {
         var subject = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceProposalText);
-        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), MadeAllianceText);
-        return Outcome(action, subject, subject, accepted, subject);
+        return Outcome(accepted: action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), MadeAllianceText), action: action, proposed: subject, subject: subject, otherwise: subject);
     }
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";

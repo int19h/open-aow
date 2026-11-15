@@ -71,24 +71,24 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         bool showSource;
         bool showTarget;
         byte selection = default;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         ArmyHexSprite army = default;
         MapField field;
         ImageSequenceAnimation animation;
         base.Process(source, value);
-        source.GetLocation(out X, out Y, out layer);
+        source.GetLocation(out x, out y, out layer);
         ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
         army.MoveTo(field, 0);
-        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(X, Y, layer, StrategicMap.Current.SeatedPlayer);
+        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
         if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+            StrategicMap.Current.PlaceHex(animation, x, y, layer);
         }
 
         if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
@@ -107,7 +107,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
             StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
         }
 
-        if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
+        if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         }

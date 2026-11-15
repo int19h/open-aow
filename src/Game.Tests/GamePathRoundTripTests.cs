@@ -130,11 +130,10 @@ public sealed class GamePathRoundTripTests : IDisposable
         var root = new JsonObject()
             .Add("$class", new JsonString("CombatMap")).Add("ViewPixelX", new JsonInteger(12)).Add("ViewPixelY", new JsonInteger(8))
             .Add("Children", new JsonArray().Add(container));
-        var document = new JsonObject()
+        byte[] constructed = GameFiles.Write(new JsonObject()
             .Add("$format", new JsonString(OwnFormat.FormatName)).Add("$version", new JsonInteger(OwnFormat.CurrentVersion)).Add("$kind", new JsonString("map"))
             .Add("$container", new JsonObject().Add("profile", new JsonString("tactical-hsm")).Add("compression", new JsonString("cfs")).Add("level", new JsonInteger(2)))
-            .Add("root", root);
-        byte[] constructed = GameFiles.Write(document);
+            .Add("root", root));
         string source = Path.Combine(Folder, "constructed.ohsm");
         string file = Path.Combine(Folder, "saved.ohsm");
         using (var stream = Runtime.Files.Open(source, mode: Runtime.fmCreate)) stream.Write(constructed);

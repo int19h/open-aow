@@ -38,17 +38,17 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
                 CombatMap.Current.Combat.NewRound();
             }
 
-            for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
             {
-                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit;
+                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit;
                 if (condition)
                 {
-                    var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
+                    var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
                     var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
                     condition = combatObject.CombatPlayer == turnOrder;
                 }
 
-                if (condition && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled())
+                if (condition && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
                 {
                     found = true;
                 }

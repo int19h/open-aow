@@ -66,7 +66,7 @@ public partial class PlayerControl : EngineObject
         StrategicMap.Current.Day += 1;
         StrategicMap.Current.Players.BeginUpdate();
         StrategicMap.Current.LockRelationsChanged();
-        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             log = new NewDayEventLog(null) { Holder = CreationHolder() };
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_newDayFormat), [StrategicMap.Current.Day]);
@@ -76,8 +76,8 @@ public partial class PlayerControl : EngineObject
                 log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 
-            log._player = (sbyte)I;
-            StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+            log._player = (sbyte)i;
+            StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
             log.Release();
         }
 
@@ -126,9 +126,9 @@ public partial class PlayerControl : EngineObject
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, null);
             messageLog.Release();
             StrategicMap.Current.GameOver(StrategicMap.Current.SeatedPlayer, GameOverStatus.Lost);
-            for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+            for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
-                StrategicMap.Current.GameOver((sbyte)I, GameOverStatus.Lost);
+                StrategicMap.Current.GameOver((sbyte)i, GameOverStatus.Lost);
             }
         }
 
@@ -257,15 +257,15 @@ public partial class PlayerControl : EngineObject
             {
                 playerCommunicationControl = new LocalPlayerCommunicationControl(this);
                 playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
-                for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
+                    if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human)
                     {
-                        playerCommunicationControl.SetConnectionMode(I, ConnectionMode.Local);
+                        playerCommunicationControl.SetConnectionMode(i, ConnectionMode.Local);
                     }
                     else
                     {
-                        playerCommunicationControl.SetConnectionMode(I, ConnectionMode.Global);
+                        playerCommunicationControl.SetConnectionMode(i, ConnectionMode.Global);
                     }
                 }
 
@@ -279,11 +279,11 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:224
     public virtual void StartNewMap()
     {
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (I == 0 || StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (i == 0 || StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                StrategicMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
+                StrategicMap.Current.Players.GetPlayers(i).Status = PlayerStatus.Playing;
             }
         }
     }
@@ -330,11 +330,11 @@ public partial class PlayerControl : EngineObject
                 {
                     if (StrategicMap.Current.Players.GetActivePlayersAllied())
                     {
-                        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                         {
-                            if (I != player && StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
+                            if (i != player && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
                             {
-                                SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
+                                SetPlayerGameOverStatus((sbyte)i, GameOverStatus.Won);
                             }
                         }
                     }
@@ -344,17 +344,17 @@ public partial class PlayerControl : EngineObject
             {
                 if (status == GameOverStatus.Won)
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        if (I != player && StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
+                        if (i != player && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
                         {
-                            if (StrategicMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I) == DiplomaticRelation.Alliance && StrategicMap.Current.AlliedVictory)
+                            if (StrategicMap.Current.Players.GetDiplomaticRelation(player, (sbyte)i) == DiplomaticRelation.Alliance && StrategicMap.Current.AlliedVictory)
                             {
-                                SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
+                                SetPlayerGameOverStatus((sbyte)i, GameOverStatus.Won);
                             }
                             else
                             {
-                                SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Lost);
+                                SetPlayerGameOverStatus((sbyte)i, GameOverStatus.Lost);
                             }
                         }
                     }
@@ -477,21 +477,21 @@ public partial class PlayerControl : EngineObject
     public virtual void EndTurn(sbyte player)
     {
         EngineMessage message = default;
-        int X = default;
-        int Y = default;
-        int L = default;
-        Player P;
+        int x = default;
+        int y = default;
+        int l = default;
+        Player p;
         StrategicMap.Current.LockRelationsChanged();
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            P = StrategicMap.Current.Players.GetPlayers(player);
-            P.SetEndTurn(true);
-            if (P != null)
+            p = StrategicMap.Current.Players.GetPlayers(player);
+            p.SetEndTurn(true);
+            if (p != null)
             {
-                StrategicMap.Current.GetViewCenter(out X, out Y, out L);
-                P.ViewX = (byte)X;
-                P.ViewY = (byte)Y;
-                P.ViewMapLevel = (byte)L;
+                StrategicMap.Current.GetViewCenter(out x, out y, out l);
+                p.ViewX = (byte)x;
+                p.ViewY = (byte)y;
+                p.ViewMapLevel = (byte)l;
             }
         }
 
@@ -519,18 +519,18 @@ public partial class PlayerControl : EngineObject
         int player;
         int count;
         PlayerConnectionEventLog log;
-        for (int I = _disconnectedPlayers.Count - 1; I >= 0; I--)
+        for (int i = _disconnectedPlayers.Count - 1; i >= 0; i--)
         {
-            player = _disconnectedPlayers[I].First;
+            player = _disconnectedPlayers[i].First;
             if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
                 if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.CurrentPlayer) && StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
-                    count = _disconnectedPlayers[I].Second;
+                    count = _disconnectedPlayers[i].Second;
                     if (count > 0)
                     {
                         count -= 1;
-                        _disconnectedPlayers.List[I] = _disconnectedPlayers.List[I] with { Second = count };
+                        _disconnectedPlayers.List[i] = _disconnectedPlayers.List[i] with { Second = count };
                     }
 
                     if (count == 0)
@@ -539,13 +539,13 @@ public partial class PlayerControl : EngineObject
                         log.Setup((sbyte)player, 2);
                         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                         log.Release();
-                        _disconnectedPlayers.Delete(I);
+                        _disconnectedPlayers.Delete(i);
                     }
                 }
             }
             else
             {
-                _disconnectedPlayers.Delete(I);
+                _disconnectedPlayers.Delete(i);
             }
         }
     }
@@ -597,17 +597,17 @@ public partial class PlayerControl : EngineObject
         string text;
         PlayerCommunicationControl playerCommunicationControl;
         playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            text = "Player " + IntToStr(I);
-            race = StrategicMap.Current.Players.GetPlayers(I).PlayerRace;
+            text = "Player " + IntToStr(i);
+            race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[race]);
                 text = text + "(" + raceNamesPlural + ")";
             }
 
-            text = text + " at system " + IntToStr(playerCommunicationControl.Players[I].SystemId);
+            text = text + " at system " + IntToStr(playerCommunicationControl.Players[i].SystemId);
             if (strings != null)
             {
                 strings.Add(text);

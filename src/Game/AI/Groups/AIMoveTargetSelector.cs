@@ -177,7 +177,7 @@ public partial class AIMoveTargetSelector : EngineObject
         Int32List gaps;
         MoveTarget target;
         bool valid;
-        int I;
+        int i;
         if (_bufferedTargets.Count != 0)
         {
             gaps = new Int32List();
@@ -193,17 +193,17 @@ public partial class AIMoveTargetSelector : EngineObject
 
                 _settings.MovePointsMax = MovePointsMax;
                 _settings.MovePointTable = _transportMovePointTable;
-                I = gaps.Count;
+                i = gaps.Count;
                 valid = true;
-                while (I != 0 && valid)
+                while (i != 0 && valid)
                 {
-                    I -= 1;
+                    i -= 1;
                     _settings.ResetState();
-                    var item = gaps[I];
+                    var item = gaps[i];
                     var fMovePathItem = target.MovePath[item];
-                    var gapsItem = gaps[I];
+                    var gapsItem = gaps[i];
                     var item2 = target.MovePath[gapsItem];
-                    var item3 = gaps[I];
+                    var item3 = gaps[i];
                     var item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
                     valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
@@ -233,7 +233,7 @@ public partial class AIMoveTargetSelector : EngineObject
         bool yield;
         bool processing;
         bool found;
-        int I;
+        int i;
         MoveControlSettings settings;
         MapField field;
         MoveTarget target;
@@ -281,11 +281,11 @@ public partial class AIMoveTargetSelector : EngineObject
             case 2:
                 settings = _settings;
                 found = false;
-                I = settings.ProcessedMapFields.Count;
-                while (I > 0 && !found)
+                i = settings.ProcessedMapFields.Count;
+                while (i > 0 && !found)
                 {
-                    I -= 1;
-                    field = settings.ProcessedMapFields.List[I];
+                    i -= 1;
+                    field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
@@ -319,7 +319,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         }
                     }
 
-                    settings.ProcessedMapFields.Delete(I);
+                    settings.ProcessedMapFields.Delete(i);
                 }
 
                 if (_settings.ProcessedMapFields.Count == 0)
@@ -387,11 +387,11 @@ public partial class AIMoveTargetSelector : EngineObject
             case 12:
                 settings = _settings;
                 found = false;
-                I = settings.ProcessedMapFields.Count;
-                while (I > 0 && !found)
+                i = settings.ProcessedMapFields.Count;
+                while (i > 0 && !found)
                 {
-                    I -= 1;
-                    field = settings.ProcessedMapFields.List[I];
+                    i -= 1;
+                    field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
@@ -413,7 +413,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         }
                     }
 
-                    settings.ProcessedMapFields.Delete(I);
+                    settings.ProcessedMapFields.Delete(i);
                 }
 
                 if (_settings.ProcessedMapFields.Count == 0)

@@ -22,19 +22,19 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // { The number of different system IDs among the players }
     public override int GetSystemCount()
     {
-        int J;
+        int j;
         int id;
         bool unique;
         int result = 0;
-        for (int I = 0, last = PlayerCommunicationSettingsList.Count - 1; I <= last; I++)
+        for (int i = 0, last = PlayerCommunicationSettingsList.Count - 1; i <= last; i++)
         {
-            id = PlayerCommunicationSettingsList.Players[I]._systemId;
+            id = PlayerCommunicationSettingsList.Players[i]._systemId;
             unique = true;
-            J = 0;
-            while (J != I && unique)
+            j = 0;
+            while (j != i && unique)
             {
-                unique = id != PlayerCommunicationSettingsList.Players[J]._systemId;
-                J += 1;
+                unique = id != PlayerCommunicationSettingsList.Players[j]._systemId;
+                j += 1;
             }
 
             if (unique)
@@ -87,8 +87,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
 
         if (systemId != _localSystemId)
         {
-            var size = (int)stream.Length;
-            result = SendData(stream.GetBuffer(), size, systemId);
+            result = SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
         }
         else
         {

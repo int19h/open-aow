@@ -19,11 +19,11 @@ public partial class StartupSongList : SongList
     {
         string name;
         SongNames.Clear();
-        for (int I = Songs.Count - 1; I >= 0; I--)
+        for (int i = Songs.Count - 1; i >= 0; i--)
         {
             try
             {
-                name = AudioPlayback.GetSongName(Songs[I]);
+                name = AudioPlayback.GetSongName(Songs[i]);
             }
             catch
             {

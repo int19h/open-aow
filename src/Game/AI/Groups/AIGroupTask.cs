@@ -88,16 +88,16 @@ public partial class AIGroupTask : EngineObject
     public bool MainProcess()
     {
         bool busy;
-        int I;
+        int i;
         try
         {
             _processCycles += 1;
             Validate();
             busy = false;
-            I = 0;
-            while (!busy && State != -1 && (I == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
+            i = 0;
+            while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
             {
-                I += 1;
+                i += 1;
                 busy = Process();
             }
         }

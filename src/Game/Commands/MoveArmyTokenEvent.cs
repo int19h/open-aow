@@ -77,38 +77,38 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     // MoveT.PAS:2137
     public override bool Validate()
     {
-        int I;
+        int i;
         int unitIndex;
         MoveControlSettings settings;
         sbyte targetPlayer;
-        I = Path.Count - 1;
+        i = Path.Count - 1;
         bool result = true;
-        if (I < 1)
+        if (i < 1)
         {
             result = false;
         }
         else
         {
-            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[I].Location).FindOwnedChild(131607);
+            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[i].Location).FindOwnedChild(131607);
             if (ArmyHexSprite == null)
             {
                 result = false;
             }
             else
             {
-                I = _unitIds.Count;
+                i = _unitIds.Count;
                 Selection = 0;
-                while (I != 0 && result)
+                while (i != 0 && result)
                 {
-                    I -= 1;
-                    var item = _unitIds[I];
+                    i -= 1;
+                    var item = _unitIds[i];
                     unitIndex = ArmyHexSprite.Army.Units.IndexOfId(item);
                     if (unitIndex != -1)
                     {
                         Selection = (byte)(Selection | (1 << unitIndex));
                     }
 
-                    var fUnitIdsItem = _unitIds[I];
+                    var fUnitIdsItem = _unitIds[i];
                     result = ArmyHexSprite.Army.Units.IndexOfId(fUnitIdsItem) != -1;
                 }
 
@@ -339,16 +339,16 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public virtual bool CanMoveNext()
     {
         bool stop;
-        int I;
+        int i;
         MapField field;
         ArmyHexSprite armyHexSprite;
         bool result = false;
         stop = false;
-        I = MoveIndex;
-        while (I != 0 && !(stop || result))
+        i = MoveIndex;
+        while (i != 0 && !(stop || result))
         {
-            I -= 1;
-            field = GetMapField(Path[I].Location);
+            i -= 1;
+            field = GetMapField(Path[i].Location);
             result = field.GetPlayer() == -1;
             if (!result)
             {
@@ -386,8 +386,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int direction;
         if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
         {
-            var mapField = GetMapField(Path[MoveIndex].Location);
-            ConstructRoad(ArmyHexSprite.Army.Player, mapField);
+            ConstructRoad(field: GetMapField(Path[MoveIndex].Location), player: ArmyHexSprite.Army.Player);
         }
 
         MoveIndex -= 1;
@@ -432,15 +431,15 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     {
         bool result;
         int first;
-        int Last;
+        int last2;
         Path.Clear();
         first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));
-        Last = path.Count - 1;
-        if (Last > first)
+        last2 = path.Count - 1;
+        if (last2 > first)
         {
-            for (int I = first; I <= Last; I++)
+            for (int i = first; i <= last2; i++)
             {
-                var item = path[I];
+                var item = path[i];
                 Path.Add(item);
             }
 
@@ -452,11 +451,11 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             TargetY = path[0].Location.Y;
             TargetMapLevel = path[0].Location.MapLevel;
             Selection = armyHexSprite.Army.ValidateSelection(selection);
-            for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
+            for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
             {
-                if (((1 << I) & selection) != 0)
+                if (((1 << i) & selection) != 0)
                 {
-                    var troop = armyHexSprite.Army.Units.GetUnit(I);
+                    var troop = armyHexSprite.Army.Units.GetUnit(i);
                     _unitIds.Add(troop.UnitId);
                 }
             }

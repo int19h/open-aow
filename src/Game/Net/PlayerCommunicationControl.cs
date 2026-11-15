@@ -93,7 +93,7 @@ public partial class PlayerCommunicationControl : IDisposable
     public bool Setup(int count)
     {
         _playerCommunicationSettingsList.Clear();
-        for (int I = 0; I <= count - 1; I++)
+        for (int i = 0; i <= count - 1; i++)
         {
             CreatePlayerCommunicationSettings().Owner = _playerCommunicationSettingsList;
         }

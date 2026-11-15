@@ -121,17 +121,17 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:366
     public int IndexOfPlayer(byte player)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 0;
-        while (result == -1 && I != Count)
+        i = 0;
+        while (result == -1 && i != Count)
         {
-            if (this[I].PlayerId == player)
+            if (this[i].PlayerId == player)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -140,17 +140,17 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:378
     public int IndexOfRemoteId(int remoteId)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 0;
-        while (result == -1 && I != Count)
+        i = 0;
+        while (result == -1 && i != Count)
         {
-            if (this[I].Behavior.Flags == remoteId)
+            if (this[i].Behavior.Flags == remoteId)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -159,17 +159,17 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:390
     public int IndexOfRace(byte race)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 0;
-        while (result == -1 && I != Count)
+        i = 0;
+        while (result == -1 && i != Count)
         {
-            if (race == (byte)this[I].Race)
+            if (race == (byte)this[i].Race)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

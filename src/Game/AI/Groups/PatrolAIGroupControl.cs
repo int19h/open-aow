@@ -188,15 +188,15 @@ public partial class PatrolAIGroupControl : AIGroupControl
     {
         bool result = default;
         int previousHeading = default;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         DoubleItemList<MapField> newList = default;
         PatrolAIGroup group = default;
         MoveControlSettings settings = default;
         DelphiList<MapField> fields = default;
         var lists = new DoubleItemList<MapField>[HexDirectionSlotCount];
         MapFieldMessage message = default;
-        int J = default;
+        int j = default;
         int heading = default;
         int lastHeading = default;
         MapField mapField = default;
@@ -219,56 +219,56 @@ public partial class PatrolAIGroupControl : AIGroupControl
         settings.MovePointTable = MovePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         fields = settings.ProcessedMapFields;
-        for (int I = 0; I < HexDirectionSlotCount; I++)
+        for (int i = 0; i < HexDirectionSlotCount; i++)
         {
             var doubleItemList = new DoubleItemList<MapField>();
-            lists[I] = doubleItemList;
+            lists[i] = doubleItemList;
         }
 
-        X = group.PatrolFrom.X;
-        Y = group.PatrolFrom.Y;
-        for (int I = fields.Count - 1; I >= 0; I--)
+        x = group.PatrolFrom.X;
+        y = group.PatrolFrom.Y;
+        for (int i = fields.Count - 1; i >= 0; i--)
         {
             // { Original samples every fourth processed field. }
-            if ((I & 3) == 3)
+            if ((i & 3) == 3)
             {
-                mapField = fields.List[I];
-                heading = HexGeometry.DeltaHexToHexDirection(X, Y, mapField.HexX, mapField.HexY);
+                mapField = fields.List[i];
+                heading = HexGeometry.DeltaHexToHexDirection(x, y, mapField.HexX, mapField.HexY);
                 var movePoints = settings.GetMovePoints(mapField.HexX, mapField.HexY, mapField.HexLevel);
                 lists[heading].AddAbility(mapField, movePoints);
             }
         }
 
-        for (int I = 0; I < HexDirectionSlotCount; I++)
+        for (int i = 0; i < HexDirectionSlotCount; i++)
         {
-            lists[I].Sort(ComparePatrolFields);
+            lists[i].Sort(ComparePatrolFields);
         }
 
         message.MessageId = 4384;
         message.Param[0] = ArmyHexSprite;
-        for (int I = 1; I < HexDirectionSlotCount; I++)
+        for (int i = 1; i < HexDirectionSlotCount; i++)
         {
             newList = new DoubleItemList<MapField>();
-            J = 0;
-            while (newList.Count != 30 && J != lists[I].Count)
+            j = 0;
+            while (newList.Count != 30 && j != lists[i].Count)
             {
-                mapField = lists[I].List[J].First;
+                mapField = lists[i].List[j].First;
                 if (mapField.GetPlayer() == -1)
                 {
                     message.Result = 0;
                     mapField.SendMapFieldMessage(ref message);
                     if (message.Result.Int == 0)
                     {
-                        var item = lists[I][J];
+                        var item = lists[i][j];
                         newList.Add(item);
                     }
                 }
 
-                J += 1;
+                j += 1;
             }
 
-            lists[I]?.Dispose();
-            lists[I] = newList;
+            lists[i]?.Dispose();
+            lists[i] = newList;
         }
 
         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
@@ -288,24 +288,24 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
         previousHeading = group.PreviousHeading;
         choices = new ByteList();
-        for (int I = 0; I < HexDirectionSlotCount; I++)
+        for (int i = 0; i < HexDirectionSlotCount; i++)
         {
-            if (lists[I].Count != 0 && lastHeading != I && I != previousHeading)
+            if (lists[i].Count != 0 && lastHeading != i && i != previousHeading)
             {
-                if (previousHeading == 0 || PatrolHeadingDistance(I, lastHeading) > 1 || PatrolHeadingDistance(I, previousHeading) > 1)
+                if (previousHeading == 0 || PatrolHeadingDistance(i, lastHeading) > 1 || PatrolHeadingDistance(i, previousHeading) > 1)
                 {
-                    choices.Add((byte)I);
+                    choices.Add((byte)i);
                 }
             }
         }
 
         if (choices.Count == 0)
         {
-            for (int I = 0; I < HexDirectionSlotCount; I++)
+            for (int i = 0; i < HexDirectionSlotCount; i++)
             {
-                if (lists[I].Count != 0 && lastHeading != I)
+                if (lists[i].Count != 0 && lastHeading != i)
                 {
-                    choices.Add((byte)I);
+                    choices.Add((byte)i);
                 }
             }
         }
@@ -326,9 +326,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
             result = false;
         }
 
-        for (int I = 0; I < HexDirectionSlotCount; I++)
+        for (int i = 0; i < HexDirectionSlotCount; i++)
         {
-            lists[I]?.Dispose();
+            lists[i]?.Dispose();
         }
 
         choices?.Dispose();

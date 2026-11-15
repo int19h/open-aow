@@ -66,20 +66,19 @@ public partial class ArmyView : Army
         X = army.X;
         Y = army.Y;
         MapLevel = army.MapLevel;
-        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)army.Units.GetUnit(I).Copy(GetEngine());
+                troop = (Troop)army.Units.GetUnit(i).Copy(GetEngine());
                 troop.SetOwner(this);
                 troop.Release();
-                var unit = army.Units.GetUnit(I);
+                var unit = army.Units.GetUnit(i);
                 var count = Units.Count;
                 MoraleValues[count - 1] = unit.MoraleValue;
                 for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
-                    var unitConcealedForPlayer = army.GetUnitConcealedForPlayer(I, (sbyte)player);
-                    SetUnitConcealedForPlayer(Units.Count - 1, (sbyte)player, unitConcealedForPlayer);
+                    SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, (sbyte)player), index: Units.Count - 1, player: (sbyte)player);
                 }
             }
 

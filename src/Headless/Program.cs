@@ -35,8 +35,7 @@ internal static class Program
         if (arguments.Length >= 3 && arguments[0] == "--measure-persistence")
         {
             string? Option(string name) => Array.IndexOf(arguments, name) is int at and >= 0 && at + 1 < arguments.Length ? arguments[at + 1] : null;
-            string gameRoot = Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders";
-            return PersistenceMeasurement.Run(gameRoot, kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
+            return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
         }
         string? output = null;
         var saves = new List<object>();

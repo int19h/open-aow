@@ -111,8 +111,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 objectValue = engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
                 var filled = Fill(objectValue, classValue);
                 if (filled.Count == 0) continue;
-                byte[] image = Image(objectValue);
-                var document = PilotImage.Decode(image, classValue.Name);
+                var document = PilotImage.Decode(Image(objectValue), className: classValue.Name);
                 objects++;
                 foreach (var (name, expected) in filled)
                 {
@@ -159,8 +158,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         foreach (string name in enums)
         {
             var type = NameTable.Find(name);
-            var stored = EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray();
-            Assert.Equal(Enum.GetNames(type).Order(StringComparer.Ordinal).ToArray(), stored);
+            Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: Enum.GetNames(type).Order(StringComparer.Ordinal).ToArray());
         }
         output.WriteLine(records.Count + " records and " + enums.Count + " enums checked");
         Assert.True(failures.Count == 0, string.Join("\n", failures));

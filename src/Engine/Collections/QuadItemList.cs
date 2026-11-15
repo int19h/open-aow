@@ -353,11 +353,11 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5634
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (_list[I] == _default)
+            if (_list[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -520,8 +520,7 @@ public partial class QuadItemList : Persistent
 
     internal static void FillQuadInteger(Span<QuadInteger> buffer, int count, in QuadInteger value)
     {
-        QuadInteger value2 = value;
-        EngineServices.Fill(buffer, count, value2);
+        EngineServices.Fill(value: value, buffer: buffer, count: count);
     }
 
     // Delphi TQuadInteger, four integers. Equality compares all four.

@@ -85,8 +85,7 @@ public static class FileBoundary
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            var report = new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } };
-            Record(files, fileName, report);
+            Record(report: new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } }, files: files, fileName: fileName);
             return null;
         }
         string layer = LayerOf(files, fileName);
@@ -140,8 +139,7 @@ public static class FileBoundary
         GameFileResult result;
         try
         {
-            var tree = TreeWriter.Write(root, factory: new EnginePersistableFactory(root.GetEngine(), progress: progress));
-            result = GameBoundary.PrepareSave(tree, className: NameTable.Stored(root.GetType()), fileName: fileName, use: profile, validators: FormatMapping.Validators, headerName: headerName);
+            result = GameBoundary.PrepareSave(TreeWriter.Write(root, factory: new EnginePersistableFactory(root.GetEngine(), progress: progress)), className: NameTable.Stored(root.GetType()), fileName: fileName, use: profile, validators: FormatMapping.Validators, headerName: headerName);
         }
         catch (ConversionException error)
         {
@@ -251,8 +249,7 @@ public static class FileBoundary
     // caller sends nothing. A nil packet is not an image of the file.
     private static void RefuseThroughPacket(Prepared prepared, GameProfile profile)
     {
-        var result = prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result.");
-        var tree = GameBoundary.ReadTree(result, use: profile);
+        var tree = GameBoundary.ReadTree(prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result."), use: profile);
         GameBoundary.WritePacket(tree.Root, classId: tree.ClassId, className: tree.ClassName);
     }
 
@@ -351,8 +348,7 @@ public static class FileBoundary
     /// <summary>Whether a file lies directly in an EmailIn directory.</summary>
     public static bool IsEmailExchange(string fileName)
     {
-        string directory = RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName));
-        return RtlUnit.CompareText(RtlUnit.ExtractFileName(directory), "EmailIn") == 0;
+        return RtlUnit.CompareText(RtlUnit.ExtractFileName(RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName))), "EmailIn") == 0;
     }
 
     /// <summary>

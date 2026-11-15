@@ -26,9 +26,8 @@ public sealed class UnitSelectionDrawTests
             dialog.Unit1CheckBox = new CheckBox(dialog);
             dialog.Unit1CheckBox.OnPreDraw += (sender, surface) => dialog.U1PreDraw(sender, surface, 0);
             dialog.Event = new HealingUnitSelector(EngineFixture.Engine);
-            LockedSurface lockedSurface = default;
             // The check box raises the base event, as its PreDraw does.
-            EventFields.Handler<AoWOnDrawEvent<UIComponent>>(dialog.Unit1CheckBox, declaring: typeof(UIComponent), name: nameof(UIComponent.OnPreDraw))!(dialog.Unit1CheckBox, lockedSurface);
+            EventFields.Handler<AoWOnDrawEvent<UIComponent>>(dialog.Unit1CheckBox, declaring: typeof(UIComponent), name: nameof(UIComponent.OnPreDraw))!(surfDesc: default, sender: dialog.Unit1CheckBox);
         }
         finally
         {

@@ -66,10 +66,10 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     public new void Setup(int count)
     {
         base.Setup(count);
-        for (int I = PlayerCommunicationSettingsList.Count - 1; I >= 0; I--)
+        for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
             var localSystemId = GetLocalSystemId();
-            PlayerCommunicationSettingsList.Players[I]._systemId = localSystemId;
+            PlayerCommunicationSettingsList.Players[i]._systemId = localSystemId;
         }
     }
 

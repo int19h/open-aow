@@ -170,8 +170,7 @@ public sealed class LayeredFileSystem : IFileSystem
             EnsureDirectory(Path.GetDirectoryName(target)!);
             if (!create && !File.Exists(target))
             {
-                string source = ReadLocation(relative) ?? throw new FileNotFoundException(path);
-                File.Copy(source, target);
+                File.Copy(ReadLocation(relative) ?? throw new FileNotFoundException(path), destFileName: target);
                 File.SetAttributes(target, File.GetAttributes(target) & ~FileAttributes.ReadOnly);
             }
             _userListings.Clear();
@@ -217,8 +216,7 @@ public sealed class LayeredFileSystem : IFileSystem
 
     public string Layer(string path)
     {
-        string relative = Relative(path);
-        string? found = ReadLocation(relative);
+        string? found = ReadLocation(Relative(path));
         if (found is null) return "none";
         return Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
     }

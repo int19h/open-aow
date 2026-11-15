@@ -158,7 +158,7 @@ public partial class EmailGameControl : EngineObject
         StrategicMap previousMap;
         EmailGame localGame;
         bool overwrite;
-        int I;
+        int i;
         string name = "";
         // { Addressability survives elimination of this assignment. }
         try
@@ -175,8 +175,7 @@ public partial class EmailGameControl : EngineObject
 
             if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
             {
-                var localEmailAddress = GetEngine().Registry.GetLocalEmailAddress();
-                if (CompareText(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress, localEmailAddress) == 0)
+                if (CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress) == 0)
                 {
                     localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
                     if (localGame != null)
@@ -227,12 +226,12 @@ public partial class EmailGameControl : EngineObject
 
                     if (!IsEmpty(name))
                     {
-                        I = 0;
+                        i = 0;
                         destination = GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg";
                         while (!overwrite && FileExists(destination))
                         {
-                            I += 1;
-                            destination = GetEngine().StartupDirectory + "EmailIn\\" + name + IntToStr(I) + ".asg";
+                            i += 1;
+                            destination = GetEngine().StartupDirectory + "EmailIn\\" + name + IntToStr(i) + ".asg";
                         }
                     }
                 }
@@ -255,8 +254,7 @@ public partial class EmailGameControl : EngineObject
             try
             {
                 StreamExtensions.LoadFromStream(value, value2);
-                int size = (int)((Stream)value).Length;
-                result = EngineServices.GetCrc32((ReadOnlySpan<byte>)(value.GetBuffer()), size);
+                result = EngineServices.GetCrc32(size: (int)((Stream)value).Length, buffer: (ReadOnlySpan<byte>)(value.GetBuffer()));
             }
             finally
             {

@@ -18,12 +18,12 @@ internal static class CombatEvents
         {
             BattleEffectSprite effect;
             int count;
-            float Z = default;
+            float z = default;
             float speed = default;
             float vz = default;
             float gravity = default;
             count = Random(5) + 8;
-            for (int I = 1; I <= count - 1; I++)
+            for (int i = 1; i <= count - 1; i++)
             {
                 effect = CombatMap.Current.AddEffect(effectType);
                 speed = (float)((double)(Random(10) + 10) * 0.1);
@@ -37,8 +37,8 @@ internal static class CombatEvents
                     vz = (float)((double)(Random(25) + 25) * 0.1);
                 }
 
-                Z = 0;
-                EffectPaths.MakeArcPath(X, Y, I * 360 / count, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                z = 0;
+                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
             }
         }
 

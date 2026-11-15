@@ -43,7 +43,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
         MapField field = default;
         RaisedMountain mountain = default;
         MapObjectResource resource = default;
-        int I = default;
+        int i = default;
         bool found = default;
         ImageSequenceAnimation animation = default;
         resources = GamePack.Current.MapObjectResourceList;
@@ -58,11 +58,11 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                 if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(19)).ValidTargetMapField(field))
                 {
                     found = false;
-                    I = resources.Count;
-                    while (!found && I != 0)
+                    i = resources.Count;
+                    while (!found && i != 0)
                     {
-                        I -= 1;
-                        resource = resources[I];
+                        i -= 1;
+                        resource = resources[i];
                         found = resource.EngineClass.ClassId == 131435 && resource.TerrainList.UsedTerrain() == 1;
                     }
 

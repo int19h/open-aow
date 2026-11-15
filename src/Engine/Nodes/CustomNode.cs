@@ -34,33 +34,33 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2626
     public override void Clear()
     {
-        EngineObject C;
+        EngineObject c;
         if (Count != 0)
         {
-            for (int I = Count - 1; I >= 0; I--)
+            for (int i = Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                if (C != null && C.Owner == this)
+                c = Children[i];
+                if (c != null && c.Owner == this)
                 {
-                    if (!C.GetControlStyle().Contains(EngineServices.Shared))
+                    if (!c.GetControlStyle().Contains(EngineServices.Shared))
                     {
-                        C.Dispose();
+                        c.Dispose();
                     }
                     else
                     {
-                        C.Clear();
+                        c.Clear();
                     }
                 }
             }
 
-            for (int I = Count - 1; I >= 0; I--)
+            for (int i = Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                if (C != null)
+                c = Children[i];
+                if (c != null)
                 {
-                    if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.Shared)))
+                    if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
-                        RemoveChild(C);
+                        RemoveChild(c);
                     }
                 }
             }
@@ -105,24 +105,24 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2608
     public virtual void DestroyAllChildren()
     {
-        EngineObject C;
-        for (int I = Count - 1; I >= 0; I--)
+        EngineObject c;
+        for (int i = Count - 1; i >= 0; i--)
         {
-            C = Children[I];
-            if (C != null && C.Owner == this)
+            c = Children[i];
+            if (c != null && c.Owner == this)
             {
-                C.Dispose();
+                c.Dispose();
             }
         }
 
         if (Count != 0)
         {
-            for (int I = Count - 1; I >= 0; I--)
+            for (int i = Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                if (C != null)
+                c = Children[i];
+                if (c != null)
                 {
-                    RemoveChild(C);
+                    RemoveChild(c);
                 }
             }
         }
@@ -131,39 +131,39 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2654
     public virtual void QuickClear()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            RemoveChild(Children[I]);
+            RemoveChild(Children[i]);
         }
     }
 
     // Engine.pas:2674
     public virtual void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        EngineObject C;
+        EngineObject c;
         if ((message.MessageId & 268435456) != 0)
         {
             if ((message.MessageId & 536870912) == 0)
             {
-                for (int I = Count - 1; I >= 0; I--)
+                for (int i = Count - 1; i >= 0; i--)
                 {
-                    C = Children[I];
-                    if (C != null && C.GetLastMessage() != message.Sequence)
+                    c = Children[i];
+                    if (c != null && c.GetLastMessage() != message.Sequence)
                     {
-                        C.SetLastMessage(message.Sequence);
-                        C.MessageProc(ref message, this);
+                        c.SetLastMessage(message.Sequence);
+                        c.MessageProc(ref message, this);
                     }
                 }
             }
             else
             {
-                for (int I = Count - 1; I >= 0; I--)
+                for (int i = Count - 1; i >= 0; i--)
                 {
-                    C = Children[I];
-                    if (C != null && C.GetLastMessage() != message.Sequence && C.Owner == this)
+                    c = Children[i];
+                    if (c != null && c.GetLastMessage() != message.Sequence && c.Owner == this)
                     {
-                        C.SetLastMessage(message.Sequence);
-                        C.MessageProc(ref message, this);
+                        c.SetLastMessage(message.Sequence);
+                        c.MessageProc(ref message, this);
                     }
                 }
             }
@@ -172,23 +172,23 @@ public abstract partial class CustomNode : EngineObject, IOwner
         {
             if ((message.MessageId & 536870912) == 0)
             {
-                for (int I = Count - 1; I >= 0; I--)
+                for (int i = Count - 1; i >= 0; i--)
                 {
-                    C = Children[I];
-                    if (C != null)
+                    c = Children[i];
+                    if (c != null)
                     {
-                        C.MessageProc(ref message, this);
+                        c.MessageProc(ref message, this);
                     }
                 }
             }
             else
             {
-                for (int I = Count - 1; I >= 0; I--)
+                for (int i = Count - 1; i >= 0; i--)
                 {
-                    C = Children[I];
-                    if (C != null && C.Owner == this)
+                    c = Children[i];
+                    if (c != null && c.Owner == this)
                     {
-                        C.MessageProc(ref message, this);
+                        c.MessageProc(ref message, this);
                     }
                 }
             }
@@ -205,38 +205,38 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // { The original tests Result before the child-count call. }
     public virtual int DestroyChildren(int classId)
     {
-        EngineObject C;
-        int N;
-        N = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        EngineObject c;
+        int n;
+        n = 0;
+        for (int i = Count - 1; i >= 0; i--)
         {
-            C = Children[I];
-            if (C != null && C.EngineClass.ClassId == classId)
+            c = Children[i];
+            if (c != null && c.EngineClass.ClassId == classId)
             {
-                C.Dispose();
-                N += 1;
+                c.Dispose();
+                n += 1;
             }
         }
 
-        return N;
+        return n;
     }
 
     // Engine.pas:2768
     public virtual EngineObject FindChildInTree(int classId)
     {
-        int I;
+        int i;
         EngineObject result = FindChild(classId);
         if (result == null)
         {
-            I = 0;
-            while (result == null && I < Count)
+            i = 0;
+            while (result == null && i < Count)
             {
-                if (Children[I] is CustomNode)
+                if (Children[i] is CustomNode)
                 {
-                    result = ((CustomNode)Children[I]).FindChildInTree(classId);
+                    result = ((CustomNode)Children[i]).FindChildInTree(classId);
                 }
 
-                I += 1;
+                i += 1;
             }
         }
 
@@ -247,22 +247,22 @@ public abstract partial class CustomNode : EngineObject, IOwner
     public virtual EngineObject FindChild(int classId)
     {
         EngineObject result;
-        int I;
+        int i;
         bool found;
-        EngineObject C;
-        I = 0;
+        EngineObject c;
+        i = 0;
         found = false;
-        C = null;
-        while (!found && I < Count)
+        c = null;
+        while (!found && i < Count)
         {
-            C = Children[I];
-            found = C != null && C.EngineClass.ClassId == classId;
-            I += 1;
+            c = Children[i];
+            found = c != null && c.EngineClass.ClassId == classId;
+            i += 1;
         }
 
         if (found)
         {
-            result = C;
+            result = c;
         }
         else
         {
@@ -276,22 +276,22 @@ public abstract partial class CustomNode : EngineObject, IOwner
     public virtual EngineObject FindOwnedChild(int classId)
     {
         EngineObject result;
-        int I;
+        int i;
         bool found;
-        EngineObject C;
-        I = 0;
+        EngineObject c;
+        i = 0;
         found = false;
-        C = null;
-        while (!found && I < Count)
+        c = null;
+        while (!found && i < Count)
         {
-            C = Children[I];
-            found = C != null && C.Owner == this && classId == C.EngineClass.ClassId;
-            I += 1;
+            c = Children[i];
+            found = c != null && c.Owner == this && classId == c.EngineClass.ClassId;
+            i += 1;
         }
 
         if (found)
         {
-            result = C;
+            result = c;
         }
         else
         {

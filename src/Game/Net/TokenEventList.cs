@@ -67,15 +67,15 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1024
     public int FindTokenEvent(int classId)
     {
-        int C;
+        int c;
         int result = 0;
-        C = List.Events.Count;
-        while (result != C && List.Events[result].EngineClass.ClassId != classId)
+        c = List.Events.Count;
+        while (result != c && List.Events[result].EngineClass.ClassId != classId)
         {
             result += 1;
         }
 
-        if (result == C)
+        if (result == c)
         {
             result = -1;
         }
@@ -98,9 +98,9 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1061
     public void AddEvents(TokenEventList events)
     {
-        for (int I = 0, last = events.Count - 1; I <= last; I++)
+        for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
-            var tokenEvent = events[I];
+            var tokenEvent = events[i];
             List.AddChild(tokenEvent);
         }
     }

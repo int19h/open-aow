@@ -35,19 +35,19 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
     public EngineResource FindResource(int id)
     {
         EngineResource result;
-        int I;
+        int i;
         bool found;
         found = false;
-        I = 0;
-        while (!found && I != this.Count)
+        i = 0;
+        while (!found && i != this.Count)
         {
-            found = this.GetChild(I) != null && id == this[I].ResourceId;
-            I += 1;
+            found = this.GetChild(i) != null && id == this[i].ResourceId;
+            i += 1;
         }
 
         if (found)
         {
-            result = this[I - 1];
+            result = this[i - 1];
         }
         else
         {

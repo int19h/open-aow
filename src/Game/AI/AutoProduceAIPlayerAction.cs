@@ -41,7 +41,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1532
     public override bool Process()
     {
-        int I = default;
+        int i = default;
         int priority = default;
         AIBudget budget = default;
         ProductionControlList controls = default;
@@ -133,17 +133,17 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             case 2:
                 while (_state == 2 && !Control.Player.GetBusy())
                 {
-                    I = 0;
+                    i = 0;
                     priority = Round((double)_productions[0].Fourth * 0.8);
-                    while (I + 1 < _productions.Count && _productions[I + 1].Fourth >= priority)
+                    while (i + 1 < _productions.Count && _productions[i + 1].Fourth >= priority)
                     {
-                        I += 1;
+                        i += 1;
                     }
 
-                    I = StrategicMap.Current.Random(I + 1);
-                    var item = _productions[I];
-                    ExecuteProduce(_productions[I].First, item.Second);
-                    _productions.Delete(I);
+                    i = StrategicMap.Current.Random(i + 1);
+                    var item = _productions[i];
+                    ExecuteProduce(_productions[i].First, item.Second);
+                    _productions.Delete(i);
                     if (!(_productions.Count != 0 && (_goldUpkeep > 2 || _manaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
                     {
                         _state = -1;
@@ -165,17 +165,17 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         if (control.Status == ProductionControlStatus.Idle)
         {
             bonus = 0;
-            for (int I = 0, last = control.UnitProductions.Count - 1; I <= last; I++)
+            for (int i = 0, last = control.UnitProductions.Count - 1; i <= last; i++)
             {
-                if (control.UnitProductions.GetItem(I).Researched)
+                if (control.UnitProductions.GetItem(i).Researched)
                 {
-                    unitIndex = control.UnitProductions.GetItem(I).UnitIndex;
+                    unitIndex = control.UnitProductions.GetItem(i).UnitIndex;
                     if (unitIndex != -1)
                     {
                         priority = Control.UnitIndexToPriority(unitIndex);
                         if (priority != -1)
                         {
-                            _productions.AddABCD(control, I, 0, priority + bonus);
+                            _productions.AddABCD(control, i, 0, priority + bonus);
                         }
                     }
                 }
@@ -277,10 +277,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     {
         QuadItemList<ProductionControl> candidates = default;
         PlayerStructure structure = default;
-        int I = default;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        int i = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         Player player = default;
         ProductionControl control = default;
         UnitResource resource = default;
@@ -289,28 +289,28 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         if (budget.Gold > 50)
         {
             candidates = new QuadItemList<ProductionControl>();
-            I = player.ProductionControls.Count;
-            while (I != 0)
+            i = player.ProductionControls.Count;
+            while (i != 0)
             {
-                I -= 1;
-                control = player.ProductionControls.GetPC(I);
+                i -= 1;
+                control = player.ProductionControls.GetPC(i);
                 if (control.Status == ProductionControlStatus.Idle)
                 {
-                    for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
+                    for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
                     {
-                        if (control.UnitProductions.GetItem(J).UnitIndex != -1 && !control.UnitProductions.GetItem(J).Researched)
+                        if (control.UnitProductions.GetItem(j).UnitIndex != -1 && !control.UnitProductions.GetItem(j).Researched)
                         {
-                            var unitProduction = control.UnitProductions.GetItem(J);
+                            var unitProduction = control.UnitProductions.GetItem(j);
                             resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitResearchMana = control.UnitResearchMana(J);
-                                var unitResearchGold = control.UnitResearchGold(J);
+                                var unitResearchMana = control.UnitResearchMana(j);
+                                var unitResearchGold = control.UnitResearchGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    control.GetLocation(out X, out Y, out L);
-                                    structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
-                                    priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
+                                    control.GetLocation(out x, out y, out l);
+                                    structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                    priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
                                     {
                                         if (structure != null && structure.ProductionPriority > 0)
@@ -325,7 +325,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                             }
                                         }
 
-                                        candidates.AddABCD(control, J, 0, priority);
+                                        candidates.AddABCD(control, j, 0, priority);
                                     }
                                 }
                             }
@@ -364,10 +364,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     {
         QuadItemList<ProductionControl> candidates = default;
         PlayerStructure structure = default;
-        int I = default;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        int i = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         Player player = default;
         ProductionControl control = default;
         UnitResource resource = default;
@@ -376,34 +376,34 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         if (budget.Gold > 50)
         {
             candidates = new QuadItemList<ProductionControl>();
-            I = player.ProductionControls.Count;
-            while (I != 0)
+            i = player.ProductionControls.Count;
+            while (i != 0)
             {
-                I -= 1;
-                control = player.ProductionControls.GetPC(I);
+                i -= 1;
+                control = player.ProductionControls.GetPC(i);
                 if (control.Status == ProductionControlStatus.Idle)
                 {
-                    for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
+                    for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
                     {
-                        if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
+                        if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                         {
-                            var unitProduction = control.UnitProductions.GetItem(J);
+                            var unitProduction = control.UnitProductions.GetItem(j);
                             resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitProductionMana = control.UnitProductionMana(J);
-                                var unitProductionGold = control.UnitProductionGold(J);
+                                var unitProductionMana = control.UnitProductionMana(j);
+                                var unitProductionGold = control.UnitProductionGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitProductionGold, unitProductionMana, budget, false))
                                 {
-                                    var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(J);
-                                    var controlUnitProductionMana = control.UnitProductionMana(J);
-                                    var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(J);
-                                    var controlUnitProductionGold = control.UnitProductionGold(J);
+                                    var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(j);
+                                    var controlUnitProductionMana = control.UnitProductionMana(j);
+                                    var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(j);
+                                    var controlUnitProductionGold = control.UnitProductionGold(j);
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        control.GetLocation(out X, out Y, out L);
-                                        structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
-                                        priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
+                                        control.GetLocation(out x, out y, out l);
+                                        structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                        priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
                                         {
                                             if (structure != null && structure.ProductionPriority > 0)
@@ -418,7 +418,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                                 }
                                             }
 
-                                            candidates.AddABCD(control, J, 0, priority);
+                                            candidates.AddABCD(control, j, 0, priority);
                                         }
                                     }
                                 }
@@ -463,14 +463,14 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1444
     public Troop FindAvailableTransporter()
     {
-        int I;
+        int i;
         var player = Control.Player;
         Troop result = null;
-        I = player.Armies.Count;
-        while (I != 0 && result == null)
+        i = player.Armies.Count;
+        while (i != 0 && result == null)
         {
-            I -= 1;
-            result = player.Armies.GetArmy(I).Transporter(255);
+            i -= 1;
+            result = player.Armies.GetArmy(i).Transporter(255);
             if (result != null && result.GroupId != 0)
             {
                 result = null;
@@ -484,21 +484,21 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     public bool TransporterProductionControlExists()
     {
         UnitResource resource;
-        int I;
+        int i;
         ProductionControl control;
         // { locals follow the original stack order }
         var player = Control.Player;
         bool result = false;
-        I = player.ProductionControls.Count;
-        while (I != 0 && !result)
+        i = player.ProductionControls.Count;
+        while (i != 0 && !result)
         {
-            I -= 1;
-            control = player.ProductionControls.GetPC(I);
-            for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
+            i -= 1;
+            control = player.ProductionControls.GetPC(i);
+            for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
             {
-                if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
+                if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                 {
-                    var unitProduction = control.UnitProductions.GetItem(J);
+                    var unitProduction = control.UnitProductions.GetItem(j);
                     resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
@@ -511,15 +511,15 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1487
     public bool ProducingTransporter()
     {
-        int I;
+        int i;
         ProductionControl control;
         var player = Control.Player;
         bool result = false;
-        I = player.ProductionControls.Count;
-        while (I != 0 && !result)
+        i = player.ProductionControls.Count;
+        while (i != 0 && !result)
         {
-            I -= 1;
-            control = player.ProductionControls.GetPC(I);
+            i -= 1;
+            control = player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ProduceUnit)
@@ -535,16 +535,16 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1507
     public bool ResearchingTransporter()
     {
-        int I;
+        int i;
         ProductionControl control;
         UnitResource resource;
         var player = Control.Player;
         bool result = false;
-        I = player.ProductionControls.Count;
-        while (I != 0 && !result)
+        i = player.ProductionControls.Count;
+        while (i != 0 && !result)
         {
-            I -= 1;
-            control = player.ProductionControls.GetPC(I);
+            i -= 1;
+            control = player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ResearchSpell)

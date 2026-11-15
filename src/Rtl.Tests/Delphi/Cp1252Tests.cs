@@ -258,7 +258,6 @@ public sealed class Cp1252Tests
             if (order <= 0 && Cp1252.Compare(b, c) <= 0) Assert.True(Cp1252.Compare(a, c) <= 0);
         }
         string[] values = ["\u0080", "?", "\u20ac", "\u00ff", "\u2603", "\u0081", "\ud800", "\0"];
-        string[] sorted = values.Order(Cp1252.Comparer).ToArray();
-        Assert.Equal(new[] { "\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800" }, sorted);
+        Assert.Equal(actual: values.Order(Cp1252.Comparer).ToArray(), expected: new[] { "\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800" });
     }
 }

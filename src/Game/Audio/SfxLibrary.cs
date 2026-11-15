@@ -39,11 +39,11 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     public Sample Play(int id)
     {
         Sample result;
-        SfxSequence S;
-        S = Find(id);
-        if (S != null)
+        SfxSequence s;
+        s = Find(id);
+        if (s != null)
         {
-            result = S.Play();
+            result = s.Play();
         }
         else
         {
@@ -57,11 +57,11 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         Sample result = default;
-        SfxSequence S;
-        S = Find(id);
-        if (S != null)
+        SfxSequence s;
+        s = Find(id);
+        if (s != null)
         {
-            result = S.Play(volume, looped, delay, panning, callback);
+            result = s.Play(volume, looped, delay, panning, callback);
         }
         else
         {
@@ -74,17 +74,17 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     // Sound.pas:1119
     public SfxSequence Find(int id)
     {
-        int I;
-        I = 0;
+        int i;
+        i = 0;
         SfxSequence result = null;
-        while (I != this.Count && result == null)
+        while (i != this.Count && result == null)
         {
-            if (this[I].Id == id)
+            if (this[i].Id == id)
             {
-                result = this[I];
+                result = this[i];
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -94,22 +94,22 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     // { The first ID that two sequences share, -1 when the IDs are unique. }
     public int DoubleId()
     {
-        int I;
+        int i;
         int id;
-        I = 0;
+        i = 0;
         int result = -1;
-        while (result == -1 && I != Count)
+        while (result == -1 && i != Count)
         {
-            id = this[I].Id;
-            for (int J = I + 1, last = Count - 1; J <= last; J++)
+            id = this[i].Id;
+            for (int j = i + 1, last = Count - 1; j <= last; j++)
             {
-                if (id == this[J].Id)
+                if (id == this[j].Id)
                 {
                     result = id;
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

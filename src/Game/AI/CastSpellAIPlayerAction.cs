@@ -52,9 +52,9 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         if (player.PlayerIndex != 0)
         {
             _state = 0;
-            for (int I = 0, last = player.Heroes.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = player.Heroes.GetCount() - 1; i <= last; i++)
             {
-                hero = player.Heroes.GetHero(I);
+                hero = player.Heroes.GetHero(i);
                 if (hero.GetAbilityEnabled(52) && hero.Owner != null)
                 {
                     if (hero.CastingSpellId == 0)
@@ -101,11 +101,11 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         SpellList spells;
         spells = new SpellList();
         Control.Player.MagicControl.ListSpells(ref spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
-        for (int I = 0, last = spells.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
-            if (hero.CastingTurns(spells.GetSpell(I)) < 8)
+            if (hero.CastingTurns(spells.GetSpell(i)) < 8)
             {
-                spells.GetSpell(I).AIPrefetchCastSpellActions(hero, _castSpellActions);
+                spells.GetSpell(i).AIPrefetchCastSpellActions(hero, _castSpellActions);
             }
         }
 
@@ -125,7 +125,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
         Hero hero;
         bool done;
-        int I;
+        int i;
         int index;
         switch (_state)
         {
@@ -209,23 +209,23 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                     done = false;
                     while (!done && _castSpellActions.GetCount() != 0)
                     {
-                        I = 0;
+                        i = 0;
                         while (true)
                         {
-                            bool condition = I < _castSpellActions.GetCount();
+                            bool condition = i < _castSpellActions.GetCount();
                             if (condition)
                             {
-                                var castSpellActions = _castSpellActions.GetCastSpellActions(I);
+                                var castSpellActions = _castSpellActions.GetCastSpellActions(i);
                                 var fCastSpellActionsCastSpellActions = _castSpellActions.GetCastSpellActions(0);
                                 condition = (double)castSpellActions.Priority >= (double)fCastSpellActionsCastSpellActions.Priority * 0.75;
                             }
 
                             if (!condition)
                                 break;
-                            I += 1;
+                            i += 1;
                         }
 
-                        index = StrategicMap.Current.Random(I);
+                        index = StrategicMap.Current.Random(i);
                         var castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
                         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
                         if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)

@@ -99,11 +99,11 @@ public partial class UnitSpellCaster : SpellCaster
             if (source != null)
             {
                 targets = new UnitUserList(null) { Holder = CreationHolder() };
-                for (int I = 0, last = TargetUnits.Count - 1; I <= last; I++)
+                for (int i = 0, last = TargetUnits.Count - 1; i <= last; i++)
                 {
-                    if (((1 << I) & SelectionMask) != 0)
+                    if (((1 << i) & SelectionMask) != 0)
                     {
-                        targets.AddUnit(TargetUnits.GetUnit(I));
+                        targets.AddUnit(TargetUnits.GetUnit(i));
                     }
                 }
 

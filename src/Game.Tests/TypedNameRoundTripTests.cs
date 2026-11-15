@@ -38,8 +38,7 @@ public sealed class TypedNameRoundTripTests
             Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");
 
             loaded = new Leader(null!) { Holder = EngineFixture.Engine };
-            var classValue = FormatSchema.Current.Get("Leader");
-            TreeReader.Read(OriginalBackend.Read(saved, classValue: classValue, schema: FormatSchema.Current, engine: "game"), objectValue: loaded, factory: new EnginePersistableFactory(EngineFixture.Engine));
+            TreeReader.Read(OriginalBackend.Read(classValue: FormatSchema.Current.Get("Leader"), image: saved, schema: FormatSchema.Current, engine: "game"), objectValue: loaded, factory: new EnginePersistableFactory(EngineFixture.Engine));
             Assert.Equal(typed, loaded.HeroName);
             Assert.Equal("Jörg €„äß", loaded.HeroName);
             Assert.Equal(saved, Save(loaded));
@@ -56,9 +55,7 @@ public sealed class TypedNameRoundTripTests
     private static byte[] Save(Leader leader)
     {
         var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var root = TreeWriter.Write(leader, factory: factory);
-        var classValue = FormatSchema.Current.Get(factory.ClassName(leader));
-        return OriginalBackend.Write(root, classValue: classValue, schema: FormatSchema.Current, engine: "game");
+        return OriginalBackend.Write(TreeWriter.Write(leader, factory: factory), classValue: FormatSchema.Current.Get(factory.ClassName(leader)), schema: FormatSchema.Current, engine: "game");
     }
 
     private sealed class Keyboard(Edit edit) : IDisplayEvents

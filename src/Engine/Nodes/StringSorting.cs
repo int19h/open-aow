@@ -34,10 +34,10 @@ internal static class StringSorting
             if ((uint)(linkedStrings.Length - 1) >= 0)
             {
                 lists = new DelphiList<StringCollection>();
-                for (int I = 0, last = linkedStrings.Length - 1; I <= last; I++)
+                for (int i = 0, last = linkedStrings.Length - 1; i <= last; i++)
                 {
-                    linkedStrings[I].BeginUpdate();
-                    lists.Add(linkedStrings[I]);
+                    linkedStrings[i].BeginUpdate();
+                    lists.Add(linkedStrings[i]);
                 }
 
                 context.ExchangeProc = EngineServices.ExchangeLinkedStrings;
@@ -52,9 +52,9 @@ internal static class StringSorting
             SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
             if (lists != null)
             {
-                for (int I = 0, last = linkedStrings.Length - 1; I <= last; I++)
+                for (int i = 0, last = linkedStrings.Length - 1; i <= last; i++)
                 {
-                    linkedStrings[I].EndUpdate();
+                    linkedStrings[i].EndUpdate();
                 }
 
                 lists?.Dispose();

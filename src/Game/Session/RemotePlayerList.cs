@@ -22,17 +22,17 @@ public partial class RemotePlayerList : OwningNode, IChildList<RemotePlayer>
     // AoWSetup.pas:284
     public int IndexOfRemoteId(int remoteId)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 0;
-        while (result == -1 && I != Count)
+        i = 0;
+        while (result == -1 && i != Count)
         {
-            if (this[I].RemoteId == remoteId)
+            if (this[i].RemoteId == remoteId)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

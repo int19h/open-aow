@@ -143,7 +143,7 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5083
-    public int AddAbility(int A, int B)
+    public int AddAbility(int a, int b)
     {
         int result = _count;
         if (result == _capacity)
@@ -151,7 +151,7 @@ public partial class DoubleItemList : Persistent
             Grow();
         }
 
-        _list[result] = new DoubleItem(First: A, Second: B);
+        _list[result] = new DoubleItem(First: a, Second: b);
         _count += 1;
         return result;
     }
@@ -319,11 +319,11 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5221
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == _default)
+            if (this[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -370,13 +370,13 @@ public partial class DoubleItemList : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I].First + bonus;
+                chance = _list[i].First + bonus;
                 if (chance < 0)
                 {
                     chance = 0;
@@ -385,10 +385,10 @@ public partial class DoubleItemList : Persistent
                 total += chance;
             }
 
-            R = Random(total);
+            r = Random(total);
             total = 0;
             result = 0;
-            while (total < R)
+            while (total < r)
             {
                 chance = _list[result].First + bonus;
                 if (chance < 0)
@@ -414,20 +414,20 @@ public partial class DoubleItemList : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I].Second + bonus;
+                chance = _list[i].Second + bonus;
                 if (chance > 0)
                 {
                     total += chance;
                 }
             }
 
-            R = Random(total);
+            r = Random(total);
             result = 0;
             total = 0;
             chance = _list[0].Second + bonus;
@@ -436,7 +436,7 @@ public partial class DoubleItemList : Persistent
                 total += chance;
             }
 
-            while (total <= R)
+            while (total <= r)
             {
                 result += 1;
                 chance = _list[result].Second + bonus;

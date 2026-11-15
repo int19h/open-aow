@@ -136,28 +136,28 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public int GetMovePathBattleFieldStrength(MovePath path)
     {
         int result;
-        int I;
+        int i;
         BattleFieldInfo info = default;
         if (path != null && _pathStep < path.Count)
         {
             result = 0;
-            I = _pathStep;
+            i = _pathStep;
             BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            while (I < path.Count)
+            while (i < path.Count)
             {
                 info.Strength = 0;
-                var pathL = path[I];
-                var pathY = path[I];
-                var pathX = path[I];
+                var pathL = path[i];
+                var pathY = path[i];
+                var pathX = path[i];
                 StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
                     result = info.Strength;
                 }
 
-                I += _pathStep;
+                i += _pathStep;
             }
         }
         else

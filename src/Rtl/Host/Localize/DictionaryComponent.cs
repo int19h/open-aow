@@ -25,8 +25,7 @@ public partial class IvDictionary
         _dictionary.Open(FileName);
         if (DictionaryName == "ResourceStringDictionary")
         {
-            string path = RtlUnit.Files.ExpandPath(FileName);
-            LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(path)) ?? "";
+            LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(RtlUnit.Files.ExpandPath(FileName))) ?? "";
         }
     }
 

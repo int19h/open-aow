@@ -15,9 +15,9 @@ public partial class ReferenceNode : OwningNode
     // Engine.pas:8144
     public override void Clear()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            GetChild(I).Release();
+            GetChild(i).Release();
         }
 
         ClearChildren();

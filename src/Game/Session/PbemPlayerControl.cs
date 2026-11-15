@@ -62,42 +62,41 @@ public partial class PbemPlayerControl : TurnPlayerControl
     // PlayerC.PAS:1194
     public override void StartNewMap()
     {
-        int I;
+        int i;
         int player;
         DefaultStartMap();
         NewDay();
-        I = 0;
+        i = 0;
         int last = StrategicMap.Current.Players.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            if (I == 0 || StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (i == 0 || StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                StrategicMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
+                StrategicMap.Current.Players.GetPlayers(i).Status = PlayerStatus.Playing;
             }
         }
 
-        I = 0;
+        i = 0;
         while (true)
         {
-            bool condition = I < StrategicMap.Current.TurnOrder.Count;
+            bool condition = i < StrategicMap.Current.TurnOrder.Count;
             if (condition)
             {
-                var item = StrategicMap.Current.TurnOrder[I];
+                var item = StrategicMap.Current.TurnOrder[i];
                 condition = StrategicMap.Current.Players.GetPlayers(item).PlayerType != PlayerType.Human;
             }
 
             if (!condition)
                 break;
-            I += 1;
+            i += 1;
         }
 
-        player = StrategicMap.Current.TurnOrder[I];
+        player = StrategicMap.Current.TurnOrder[i];
         var players = StrategicMap.Current.Players.GetPlayers(player);
         bool test = GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) != null;
         if (test)
         {
-            var localEmailAddress = GetEngine().Registry.GetLocalEmailAddress();
-            test = CompareText(StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress, localEmailAddress) == 0;
+            test = CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress) == 0;
         }
 
         if (test)

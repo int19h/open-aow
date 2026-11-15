@@ -55,13 +55,13 @@ public partial class HeroJoinEventLog : JoinEventLog
     public override bool Accept(ref string errorText)
     {
         NegotiateTokenEvent tokenEvent;
-        Troop U;
+        Troop u;
         MapCoordinate location = default;
         bool result = base.Accept(ref errorText);
         if (result && !StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
         {
-            U = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
-            U.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+            u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
+            u.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
             location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
             tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Player = _player;

@@ -37,14 +37,14 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
     {
         MapLevel level = default;
         HexNumberWalkData[] walkCell = new HexNumberWalkData[1];
-        ref HexNumberWalkData Walk = ref walkCell[0];
+        ref HexNumberWalkData hexNumberWalkData = ref walkCell[0];
         UnholyGround.Resource resource = default;
         MapField mapField = default;
         UnholyGround ground = default;
         ImageSequenceAnimation animation = default;
-        var walk = Walk;
+        var walk = hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out Walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
         resource = (UnholyGround.Resource)GamePack.Current.MapObjectResourceList.FindChild(131986);
         while (walk.Radius <= 1)
         {
@@ -77,7 +77,7 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                 }
             }
 
-            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
 

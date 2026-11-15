@@ -55,9 +55,7 @@ public sealed class PreviewCacheTests : IDisposable
     {
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alpha"));
         Install();
-        var first = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
-        var second = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
-        Assert.Equal(first, second);
+        Assert.Equal(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview"), actual: FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview"));
         Assert.Equal([false, true], _log.Select(r => r.Cached));
         Assert.Equal("root", _log[1].Layer);
     }

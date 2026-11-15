@@ -72,26 +72,26 @@ public partial class PropertyTable : IDisposable
     public int FindOffset(int id)
     {
         int result;
-        int I;
-        I = _nextIndex;
-        if (I >= _count || _items[I].Id != id)
+        int i;
+        i = _nextIndex;
+        if (i >= _count || _items[i].Id != id)
         {
-            I = _first;
+            i = _first;
             result = -1;
-            while (I < _count && _items[I].Id != id)
+            while (i < _count && _items[i].Id != id)
             {
-                I += 1;
+                i += 1;
             }
 
-            if (I != _count)
+            if (i != _count)
             {
-                result = _items[I].Offset;
-                _nextIndex = I + 1;
+                result = _items[i].Offset;
+                _nextIndex = i + 1;
             }
         }
         else
         {
-            result = _items[I].Offset;
+            result = _items[i].Offset;
             _nextIndex += 1;
         }
 
@@ -102,16 +102,16 @@ public partial class PropertyTable : IDisposable
     public bool PropertyExist(int id)
     {
         bool result;
-        int I;
+        int i;
         if (id <= _maxId)
         {
-            I = _first;
-            while (I < _count && _items[I].Id != id)
+            i = _first;
+            while (i < _count && _items[i].Id != id)
             {
-                I += 1;
+                i += 1;
             }
 
-            result = I != _count;
+            result = i != _count;
         }
         else
         {
@@ -210,9 +210,9 @@ public partial class PropertyTable : IDisposable
         int pair = default;
         longCount = 0;
         shortCount = 0;
-        for (int I = _first, last = _count - 1; I <= last; I++)
+        for (int i = _first, last = _count - 1; i <= last; i++)
         {
-            if (_items[I].Id <= 127 && _items[I].Offset <= 255)
+            if (_items[i].Id <= 127 && _items[i].Offset <= 255)
             {
                 shortCount = (byte)(shortCount + 1);
             }
@@ -235,11 +235,11 @@ public partial class PropertyTable : IDisposable
 
         if (shortCount != 0)
         {
-            for (int I = _first, last = _count - 1; I <= last; I++)
+            for (int i = _first, last = _count - 1; i <= last; i++)
             {
-                if (_items[I].Id <= 127 && _items[I].Offset <= 255)
+                if (_items[i].Id <= 127 && _items[i].Offset <= 255)
                 {
-                    pair = _items[I].Id + (_items[I].Offset << 8);
+                    pair = _items[i].Id + (_items[i].Offset << 8);
                     stream.Write(Bytes.Of(ref pair, 2));
                 }
             }
@@ -247,12 +247,12 @@ public partial class PropertyTable : IDisposable
 
         if (longCount != 0)
         {
-            for (int I = _first, last = _count - 1; I <= last; I++)
+            for (int i = _first, last = _count - 1; i <= last; i++)
             {
-                if (_items[I].Id > 127 || _items[I].Offset > 255)
+                if (_items[i].Id > 127 || _items[i].Offset > 255)
                 {
-                    stream.Write(Bytes.Of(ref _items[I].Id, 4));
-                    stream.Write(Bytes.Of(ref _items[I].Offset, 4));
+                    stream.Write(Bytes.Of(ref _items[i].Id, 4));
+                    stream.Write(Bytes.Of(ref _items[i].Offset, 4));
                 }
             }
         }

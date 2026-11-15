@@ -28,11 +28,11 @@ public partial class CombatEventLog : EventLog
     // Combat2.pas:405
     public override void Dispose()
     {
-        CombatLogbook L;
-        L = Logbook;
-        if (L != null)
+        CombatLogbook l;
+        l = Logbook;
+        if (l != null)
         {
-            L.Release();
+            l.Release();
             Logbook = null;
         }
 

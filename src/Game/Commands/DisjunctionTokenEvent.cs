@@ -59,19 +59,19 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
     {
         GlobalEnchantment enchantment;
         int index;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         TwinkleAnimation twinkle;
         int mana;
         base.Process(source, value);
         index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-        source.GetLocation(out X, out Y, out layer);
-        StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+        source.GetLocation(out x, out y, out layer);
+        StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
-        StrategicMap.Current.PlaceHex(twinkle, X, Y, layer);
+        StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         mana = Round((double)((double)enchantment.DispelMana * 0.02) * DispelChance);
         var player = StrategicMap.Current.Players.GetPlayers(source.Player);

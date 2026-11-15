@@ -32,14 +32,14 @@ public partial class AIPlayerActionManager : EngineObject
     // AI.pas:63
     public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            if (_registeredClasses.IndexOf(classes[I]) != -1)
+            if (_registeredClasses.IndexOf(classes[i]) != -1)
             {
                 throw new InvalidOperationException("AIPlayerAction already Registered");
             }
 
-            _registeredClasses.Add(classes[I]);
+            _registeredClasses.Add(classes[i]);
         }
 
         _registeredClasses.Sort(CompareAIPlayerActionClasses);
@@ -48,9 +48,9 @@ public partial class AIPlayerActionManager : EngineObject
     // AI.pas:76
     public void UnregisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            _registeredClasses.Remove(classes[I]);
+            _registeredClasses.Remove(classes[i]);
         }
     }
 

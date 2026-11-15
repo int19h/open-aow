@@ -45,17 +45,17 @@ public partial class MultiMoveTokenEvent : TokenEvent
         TokenEventList events;
         bool valid;
         ExecuteResult moveResult;
-        int I;
+        int i;
         events = Events;
         if (tokenEvent.ExecuteCount == 0)
         {
-            I = events.Count;
+            i = events.Count;
             valid = true;
-            while (I != 0)
+            while (i != 0)
             {
-                I -= 1;
+                i -= 1;
                 // { The original retains only the final validation result. }
-                valid = ((MoveTokenEvent)events[I]).Validate();
+                valid = ((MoveTokenEvent)events[i]).Validate();
             }
         }
         else
@@ -67,13 +67,13 @@ public partial class MultiMoveTokenEvent : TokenEvent
         {
             if (Simultaneous)
             {
-                I = events.Count - 1;
-                for (; I >= 0; I -= 1)
+                i = events.Count - 1;
+                for (; i >= 0; i -= 1)
                 {
-                    moveResult = events[I].Execute(tokenEvent);
+                    moveResult = events[i].Execute(tokenEvent);
                     if (moveResult == ExecuteResult.Done || moveResult == ExecuteResult.DoneHalt)
                     {
-                        events.Delete(I);
+                        events.Delete(i);
                     }
                 }
             }

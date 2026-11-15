@@ -16,9 +16,9 @@ public partial class SampleList : DelphiList<Sample>
     // Sound.pas:716
     public new void Clear()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+            ((List[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         base.Clear();

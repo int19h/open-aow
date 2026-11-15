@@ -28,7 +28,7 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int X, int Y, SwarmDirection direction, ref Point3DList list)
+    internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int x, int y, SwarmDirection direction, ref Point3DList list)
     {
         int total;
         int b;
@@ -51,8 +51,8 @@ internal static class EffectPaths
             }
 
             xYZ = new Point3D();
-            xYZ.X = Round((double)Math.Sin(radiusLocal) * r) + X;
-            xYZ.Y = Round((double)Math.Cos(radiusLocal) * r) + Y;
+            xYZ.X = Round((double)Math.Sin(radiusLocal) * r) + x;
+            xYZ.Y = Round((double)Math.Cos(radiusLocal) * r) + y;
             list.Add(xYZ);
             switch (direction)
             {

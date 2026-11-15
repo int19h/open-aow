@@ -334,7 +334,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     public void SetupCombat()
     {
         MapField field = default;
-        sbyte Player = default;
+        sbyte player2 = default;
         Combat.Battle combat = default;
         MapFieldMessage message = default;
         CombatTypeRequestEventLog request = default;
@@ -598,21 +598,21 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             StrategicMap.Current.AIExecutor.Lock();
             if (StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human)
             {
-                Player = ArmyHexSprite.Army.Player;
+                player2 = ArmyHexSprite.Army.Player;
             }
             else
             {
-                Player = field.GetPlayer();
+                player2 = field.GetPlayer();
             }
 
-            if (StrategicMap.Current.TokenManager.GetTokenControl(Player).Local())
+            if (StrategicMap.Current.TokenManager.GetTokenControl(player2).Local())
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(Player).ClearEvents();
+                StrategicMap.Current.TokenManager.GetTokenControl(player2).ClearEvents();
             }
 
             StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
-            if (StrategicMap.Current.SeatedPlayer == Player)
+            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player2);
+            if (StrategicMap.Current.SeatedPlayer == player2)
             {
                 request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
                 request.Player = ArmyHexSprite.Army.Player;
@@ -728,14 +728,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 {
                     army = armyHexSprite.Army;
                     selection = 0;
-                    for (int I = army.Units.Count - 1; I >= 0; I--)
+                    for (int i = army.Units.Count - 1; i >= 0; i--)
                     {
                         selection = (byte)(selection << 1);
-                        if (army.Units.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
+                        if (army.Units.GetUnit(i).UnitStatus.Contains(UnitStatusElement.Moving))
                         {
                             selection = (byte)(selection | 1);
-                            var troop = army.Units.GetUnit(I);
-                            army.Units.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                            var troop = army.Units.GetUnit(i);
+                            army.Units.GetUnit(i).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                         }
                     }
 
@@ -768,10 +768,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerX, combat.CombatData.AttackerY, combat.CombatData.AttackerMapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
-                    for (int I = armyHexSprite.Army.Units.Count - 1; I >= 0; I--)
+                    for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                     {
-                        var troop = armyHexSprite.Army.Units.GetUnit(I);
-                        armyHexSprite.Army.Units.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                        var troop = armyHexSprite.Army.Units.GetUnit(i);
+                        armyHexSprite.Army.Units.GetUnit(i).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                     }
 
                     if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)

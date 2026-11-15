@@ -44,9 +44,9 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
         {
             if (persister.Loading)
             {
-                for (int I = 0, last = Count - 1; I <= last; I++)
+                for (int i = 0, last = Count - 1; i <= last; i++)
                 {
-                    this[I].Release();
+                    this[i].Release();
                 }
             }
 
@@ -57,9 +57,9 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     // EventLog.pas:471
     public override void Clear()
     {
-        for (int I = GetCount() - 1; I >= 0; I--)
+        for (int i = GetCount() - 1; i >= 0; i--)
         {
-            this[I].Release();
+            this[i].Release();
         }
 
         ClearChildren();

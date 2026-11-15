@@ -100,8 +100,7 @@ public sealed class UncheckedOwnerCastTests
     public void HealingActivateSkipsSetupForAnItemAndRecordsAUnit()
     {
         using var scope = new MapScope();
-        var list = new UnitUserList(null!) { Holder = EngineFixture.Engine };
-        var unit = new PlacedUnit(9, list);
+        var unit = new PlacedUnit(list: new UnitUserList(null!) { Holder = EngineFixture.Engine }, id: 9);
         int id = -1;
         int source = -1;
         bool fired = false;

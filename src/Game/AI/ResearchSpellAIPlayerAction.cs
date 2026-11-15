@@ -31,10 +31,10 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
             spells = new SpellList();
             choices = new DoubleItemList();
             Control.Player.MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
-            for (int I = 0, last = spells.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {
-                value = spells.GetSpell(I).CastDuration * 100 + 100;
-                var spell = spells.GetSpell(I);
+                value = spells.GetSpell(i).CastDuration * 100 + 100;
+                var spell = spells.GetSpell(i);
                 var netPowerToResearch = Control.Player.MagicControl.GetNetPowerToResearch();
                 value = value - Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);
                 if (value <= 0)
@@ -42,7 +42,7 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
                     value = 1;
                 }
 
-                choices.AddAbility(spells.GetSpell(I).SpellId, value);
+                choices.AddAbility(spells.GetSpell(i).SpellId, value);
             }
 
             if (choices.Count != 0)

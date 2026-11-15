@@ -132,7 +132,7 @@ public partial class AIMoveControl : EngineObject
     public bool CalculateTransportGaps(MovePath path, MovePointTable table)
     {
         bool result;
-        int I;
+        int i;
         int firstGap;
         int lastGap;
         int gaps;
@@ -141,14 +141,14 @@ public partial class AIMoveControl : EngineObject
         gaps = 0;
         firstGap = -1;
         lastGap = -1;
-        I = path.Count - 1;
+        i = path.Count - 1;
         inGap = false;
-        while (I > 1)
+        while (i > 1)
         {
-            I -= 1;
-            var item = path[I];
-            var pathItem = path[I];
-            var item2 = path[I];
+            i -= 1;
+            var item = path[i];
+            var pathItem = path[i];
+            var item2 = path[i];
             mapField = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
             if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
@@ -156,7 +156,7 @@ public partial class AIMoveControl : EngineObject
                 {
                     if (firstGap == -1)
                     {
-                        firstGap = I;
+                        firstGap = i;
                     }
 
                     gaps += 1;
@@ -167,7 +167,7 @@ public partial class AIMoveControl : EngineObject
             {
                 if (inGap)
                 {
-                    lastGap = I + 1;
+                    lastGap = i + 1;
                     inGap = false;
                 }
             }
@@ -203,7 +203,7 @@ public partial class AIMoveControl : EngineObject
     public void ProcessTransporterCanMove()
     {
         int points;
-        MapCoordinate Location = default;
+        MapCoordinate mapCoordinate = default;
         switch (_state)
         {
             case 0:
@@ -243,8 +243,8 @@ public partial class AIMoveControl : EngineObject
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
                         Settings.Transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                        Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
-                        _pathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
+                        mapCoordinate = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                        _pathSettings.SetSourcePosition(mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel);
                         ref var location = ref Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 

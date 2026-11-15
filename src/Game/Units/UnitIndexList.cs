@@ -37,18 +37,18 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:231
     public void VerifyUnits(bool showErrors)
     {
-        int U;
-        for (int I = Count - 1; I >= 0; I--)
+        int u;
+        for (int i = Count - 1; i >= 0; i--)
         {
-            U = List[I];
-            if (U != -1 && GamePack.Current.UnitResources.GetUnitResource(U) == null)
+            u = List[i];
+            if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) == null)
             {
                 if (showErrors)
                 {
-                    ShowMessage("Used unit missing (unit index:" + IntToStr(U) + ")");
+                    ShowMessage("Used unit missing (unit index:" + IntToStr(u) + ")");
                 }
 
-                List[I] = Default;
+                List[i] = Default;
             }
         }
     }

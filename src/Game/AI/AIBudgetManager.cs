@@ -82,9 +82,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetBudgetGoldUpkeep()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).GoldUpkeep;
+            result += Budgets.GetBudgets(i).GoldUpkeep;
         }
 
         return result;
@@ -94,9 +94,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetBudgetManaUpkeep()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).ManaUpkeep;
+            result += Budgets.GetBudgets(i).ManaUpkeep;
         }
 
         return result;
@@ -106,9 +106,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetReservedBudgetGold()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).Gold;
+            result += Budgets.GetBudgets(i).Gold;
         }
 
         return result;
@@ -118,9 +118,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetReservedBudgetMana()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).Mana;
+            result += Budgets.GetBudgets(i).Mana;
         }
 
         return result;
@@ -130,9 +130,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayGold()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).DayGold;
+            result += Budgets.GetBudgets(i).DayGold;
         }
 
         return result;
@@ -142,9 +142,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayMana()
     {
         int result = 0;
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            result += Budgets.GetBudgets(I).DayMana;
+            result += Budgets.GetBudgets(i).DayMana;
         }
 
         return result;
@@ -153,9 +153,9 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1794
     public void UpdateBudgetDayRequirements()
     {
-        for (int I = Budgets.Count - 1; I >= 0; I--)
+        for (int i = Budgets.Count - 1; i >= 0; i--)
         {
-            Budgets.GetBudgets(I).UpdateDayRequirements();
+            Budgets.GetBudgets(i).UpdateDayRequirements();
         }
     }
 
@@ -165,9 +165,9 @@ public partial class AIBudgetManager : EngineObject
         ProductionControl control;
         ProductionManaUpkeep = 0;
         ProductionGoldUpkeep = 0;
-        for (int I = this.Player.ProductionControls.Count - 1; I >= 0; I--)
+        for (int i = this.Player.ProductionControls.Count - 1; i >= 0; i--)
         {
-            control = this.Player.ProductionControls.GetPC(I);
+            control = this.Player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit != null)
             {
                 ProductionGoldUpkeep += control.Settings.GoldUpkeep;
@@ -180,9 +180,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetGroupsGoldBudget()
     {
         int result = 0;
-        for (int I = this.Player.AIGroups.Count - 1; I >= 0; I--)
+        for (int i = this.Player.AIGroups.Count - 1; i >= 0; i--)
         {
-            result += this.Player.AIGroups.GetGroups(I).GetGoldBudget();
+            result += this.Player.AIGroups.GetGroups(i).GetGoldBudget();
         }
 
         return result;
@@ -192,9 +192,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetGroupsManaBudget()
     {
         int result = 0;
-        for (int I = this.Player.AIGroups.Count - 1; I >= 0; I--)
+        for (int i = this.Player.AIGroups.Count - 1; i >= 0; i--)
         {
-            result += this.Player.AIGroups.GetGroups(I).GetManaBudget();
+            result += this.Player.AIGroups.GetGroups(i).GetManaBudget();
         }
 
         return result;
@@ -203,9 +203,9 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1849
     public void ReserveForBudgets(int gold, int mana)
     {
-        int I;
-        int M;
-        int G;
+        int i;
+        int m;
+        int g;
         int totalGold;
         int totalMana;
         int goldLeft;
@@ -214,63 +214,63 @@ public partial class AIBudgetManager : EngineObject
         manaLeft = mana;
         totalGold = GetRequiredBudgetDayGold();
         totalMana = GetRequiredBudgetDayMana();
-        I = Budgets.Count;
-        while (I != 0 && (goldLeft > 0 || manaLeft > 0))
+        i = Budgets.Count;
+        while (i != 0 && (goldLeft > 0 || manaLeft > 0))
         {
-            I -= 1;
+            i -= 1;
             if (totalGold != 0)
             {
-                G = Round((double)(Budgets.GetBudgets(I).DayGold * gold) / totalGold);
-                if (G > Budgets.GetBudgets(I).DayGold)
+                g = Round((double)(Budgets.GetBudgets(i).DayGold * gold) / totalGold);
+                if (g > Budgets.GetBudgets(i).DayGold)
                 {
-                    G = Budgets.GetBudgets(I).DayGold;
+                    g = Budgets.GetBudgets(i).DayGold;
                 }
 
-                if (G > goldLeft)
+                if (g > goldLeft)
                 {
-                    G = goldLeft;
+                    g = goldLeft;
                 }
             }
             else
             {
-                G = 0;
+                g = 0;
             }
 
             if (totalMana != 0)
             {
-                M = Round((double)(Budgets.GetBudgets(I).DayMana * mana) / totalMana);
-                if (M > Budgets.GetBudgets(I).DayMana)
+                m = Round((double)(Budgets.GetBudgets(i).DayMana * mana) / totalMana);
+                if (m > Budgets.GetBudgets(i).DayMana)
                 {
-                    M = Budgets.GetBudgets(I).DayMana;
+                    m = Budgets.GetBudgets(i).DayMana;
                 }
 
-                if (M > manaLeft)
+                if (m > manaLeft)
                 {
-                    M = manaLeft;
+                    m = manaLeft;
                 }
             }
             else
             {
-                M = 0;
+                m = 0;
             }
 
-            var aiBudget = Budgets.GetBudgets(I);
-            aiBudget.Gold += G;
-            aiBudget.Mana += M;
-            aiBudget.DayGold -= G;
-            aiBudget.DayMana -= M;
+            var aiBudget = Budgets.GetBudgets(i);
+            aiBudget.Gold += g;
+            aiBudget.Mana += m;
+            aiBudget.DayGold -= g;
+            aiBudget.DayMana -= m;
 
-            goldLeft -= G;
-            manaLeft -= M;
+            goldLeft -= g;
+            manaLeft -= m;
         }
     }
 
     // AI.pas:1887
     public void ReturnFromBudgets(int gold, int mana)
     {
-        int I;
-        int G;
-        int M;
+        int i;
+        int g;
+        int m;
         int totalGold;
         int totalMana;
         int goldLeft;
@@ -279,53 +279,53 @@ public partial class AIBudgetManager : EngineObject
         manaLeft = mana;
         totalGold = GetReservedBudgetGold();
         totalMana = GetReservedBudgetMana();
-        I = Budgets.Count;
-        while (I != 0 && (goldLeft > 0 || manaLeft > 0))
+        i = Budgets.Count;
+        while (i != 0 && (goldLeft > 0 || manaLeft > 0))
         {
-            I -= 1;
+            i -= 1;
             if (totalGold != 0 && goldLeft > 0)
             {
-                G = Round((double)(Budgets.GetBudgets(I).Gold * gold) / totalGold) + 1;
-                if (G > Budgets.GetBudgets(I).Gold)
+                g = Round((double)(Budgets.GetBudgets(i).Gold * gold) / totalGold) + 1;
+                if (g > Budgets.GetBudgets(i).Gold)
                 {
-                    G = Budgets.GetBudgets(I).Gold;
+                    g = Budgets.GetBudgets(i).Gold;
                 }
 
-                if (G > goldLeft)
+                if (g > goldLeft)
                 {
-                    G = goldLeft;
+                    g = goldLeft;
                 }
             }
             else
             {
-                G = 0;
+                g = 0;
             }
 
             if (totalMana != 0 && manaLeft > 0)
             {
                 // { Original bug: mana returns are weighted by reserved gold. }
-                M = Round((double)(Budgets.GetBudgets(I).Gold * mana) / totalMana) + 1;
-                if (M > Budgets.GetBudgets(I).Mana)
+                m = Round((double)(Budgets.GetBudgets(i).Gold * mana) / totalMana) + 1;
+                if (m > Budgets.GetBudgets(i).Mana)
                 {
-                    M = Budgets.GetBudgets(I).Mana;
+                    m = Budgets.GetBudgets(i).Mana;
                 }
 
-                if (M > manaLeft)
+                if (m > manaLeft)
                 {
-                    M = manaLeft;
+                    m = manaLeft;
                 }
             }
             else
             {
-                M = 0;
+                m = 0;
             }
 
-            var aiBudget = Budgets.GetBudgets(I);
-            aiBudget.Gold -= G;
-            aiBudget.Mana -= M;
+            var aiBudget = Budgets.GetBudgets(i);
+            aiBudget.Gold -= g;
+            aiBudget.Mana -= m;
 
-            goldLeft -= G;
-            manaLeft -= M;
+            goldLeft -= g;
+            manaLeft -= m;
         }
     }
 
@@ -356,9 +356,9 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1940
     public void OutputDebugInfo()
     {
-        for (int I = 0, last = Budgets.Count - 1; I <= last; I++)
+        for (int i = 0, last = Budgets.Count - 1; i <= last; i++)
         {
-            Budgets.GetBudgets(I).OutputDebugInfo();
+            Budgets.GetBudgets(i).OutputDebugInfo();
         }
 
         var groupsGoldBudget = GetGroupsGoldBudget();
@@ -385,7 +385,7 @@ public partial class AIBudgetManager : EngineObject
         int gold;
         int mana;
         int goldUpkeep;
-        int ManaUpkeep;
+        int manaUpkeep2;
         int reserveGold;
         int reserveMana;
         ValidateReservations();
@@ -402,9 +402,9 @@ public partial class AIBudgetManager : EngineObject
         goldUpkeep = upkeep + ProductionGoldUpkeep + budgetGoldUpkeep;
         var manaUpkeep = Player.MagicControl.GetManaUpkeep();
         var budgetManaUpkeep = GetBudgetManaUpkeep();
-        ManaUpkeep = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
+        manaUpkeep2 = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
         GoldUpkeep = Round((double)Player.Income * _goldIncomeFactor) - goldUpkeep;
-        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - ManaUpkeep;
+        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - manaUpkeep2;
         if (this.ManaUpkeep < 0)
         {
             ValidateManaUpkeep();
@@ -435,17 +435,17 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1993
     public bool RequestProductionExpense(int gold, int goldUpkeep, int mana, int manaUpkeep, AIBudget budget)
     {
-        int G;
-        int M;
-        G = Gold;
-        M = Mana;
+        int g;
+        int m;
+        g = Gold;
+        m = Mana;
         if (budget != null)
         {
-            G += budget.Gold;
-            M += budget.Mana;
+            g += budget.Gold;
+            m += budget.Mana;
         }
 
-        return (gold == 0 || G >= gold) && (mana == 0 || mana <= M) && (goldUpkeep == 0 || GoldUpkeep >= goldUpkeep) && (manaUpkeep == 0 || ManaUpkeep >= manaUpkeep);
+        return (gold == 0 || g >= gold) && (mana == 0 || mana <= m) && (goldUpkeep == 0 || GoldUpkeep >= goldUpkeep) && (manaUpkeep == 0 || ManaUpkeep >= manaUpkeep);
     }
 
     // AI.pas:2010
@@ -493,23 +493,23 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:2029
     public bool RequestBudgetExpense(int gold, int mana, AIBudget budget, bool usePool)
     {
-        int G;
-        int M;
-        G = 0;
-        M = 0;
+        int g;
+        int m;
+        g = 0;
+        m = 0;
         if (budget != null)
         {
-            G += budget.Gold;
-            M += budget.Mana;
+            g += budget.Gold;
+            m += budget.Mana;
         }
 
         if (usePool)
         {
-            G += Gold;
-            M += Mana;
+            g += Gold;
+            m += Mana;
         }
 
-        return (gold == 0 || gold <= G) && (mana == 0 || mana <= M);
+        return (gold == 0 || gold <= g) && (mana == 0 || mana <= m);
     }
 
     // AI.pas:2049

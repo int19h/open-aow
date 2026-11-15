@@ -62,11 +62,11 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:550
     public void ListEvents(StringCollection strings)
     {
-        for (int I = 0, last = _events.Count - 1; I <= last; I++)
+        for (int i = 0, last = _events.Count - 1; i <= last; i++)
         {
-            if (_events[I].GetVisible())
+            if (_events[i].GetVisible())
             {
-                strings.AddObject(_events[I].GetText(), IntToObject(I));
+                strings.AddObject(_events[i].GetText(), IntToObject(i));
             }
         }
     }

@@ -50,9 +50,9 @@ public partial class ItemControl : EngineObject
     public override void Dispose()
     {
         BeginUpdate();
-        for (int I = _items.Count - 1; I >= 0; I--)
+        for (int i = _items.Count - 1; i >= 0; i--)
         {
-            UnregisterItem(_items[I]);
+            UnregisterItem(_items[i]);
         }
 
         _items.Clear();
@@ -117,14 +117,14 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4717
     public Item FindItem(int itemId)
     {
-        int I;
-        I = _items.Count;
-        while (I != 0)
+        int i;
+        i = _items.Count;
+        while (i != 0)
         {
-            I -= 1;
-            if ((_items[I]).ItemId == itemId)
+            i -= 1;
+            if ((_items[i]).ItemId == itemId)
             {
-                return _items[I];
+                return _items[i];
             }
         }
 
@@ -165,22 +165,22 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4754
     public int CreateUniqueId()
     {
-        int I;
+        int i;
         do
         {
-            I = 0;
+            i = 0;
             _lastId += 1;
             if (_lastId > 268435455)
             {
                 _lastId = 0;
             }
 
-            while (I != _items.Count && (_items[I]).ItemId != _lastId)
+            while (i != _items.Count && (_items[i]).ItemId != _lastId)
             {
-                I += 1;
+                i += 1;
             }
         }
-        while (!(I == _items.Count));
+        while (!(i == _items.Count));
         return _lastId;
     }
 
@@ -197,9 +197,9 @@ public partial class ItemControl : EngineObject
     public void UpdateLibraryItems()
     {
         BeginUpdate();
-        for (int I = GetCount() - 1; I >= 0; I--)
+        for (int i = GetCount() - 1; i >= 0; i--)
         {
-            (_items[I]).UpdateFromLibrary();
+            (_items[i]).UpdateFromLibrary();
         }
 
         EndUpdate();
@@ -250,9 +250,9 @@ public partial class ItemControl : EngineObject
         int value;
         Item item;
         list = new DoubleItemList<Item>();
-        for (int I = 0, last = GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
-            item = _items[I];
+            item = _items[i];
             if (item.RefCount == 1 && types.Contains(item.ItemType))
             {
                 value = item.GetObtainValue();
@@ -289,9 +289,9 @@ public partial class ItemControl : EngineObject
         Item candidate;
         int result = 0;
         list = new DoubleItemList<Item>();
-        for (int I = 0, last = GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
-            item = _items[I];
+            item = _items[i];
             if (types.Contains(item.ItemType) && item.RefCount == 1)
             {
                 list.AddAbility(item, (int)item.Availability);
@@ -346,9 +346,9 @@ public partial class ItemControl : EngineObject
         if (!_status.Contains(StatusElement.Activated))
         {
             _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = _items.Count - 1; I >= 0; I--)
+            for (int i = _items.Count - 1; i >= 0; i--)
             {
-                (_items[I]).Activate();
+                (_items[i]).Activate();
             }
         }
     }
@@ -359,9 +359,9 @@ public partial class ItemControl : EngineObject
         if (_status.Contains(StatusElement.Activated))
         {
             _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = _items.Count - 1; I >= 0; I--)
+            for (int i = _items.Count - 1; i >= 0; i--)
             {
-                (_items[I]).Deactivate();
+                (_items[i]).Deactivate();
             }
         }
     }

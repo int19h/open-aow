@@ -33,7 +33,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         ArmyHexSprite army = default;
         MapLevel level = default;
         ImageSequenceAnimation animation = default;
-        bool Healed = default;
+        bool healed2 = default;
         bool playSound = default;
         HexSprite cloud = default;
         base.Process(source, value);
@@ -67,28 +67,28 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     if (!level.GetField(walk.X, walk.Y).GetMagicShieldActive())
                     {
-                        Healed = false;
+                        healed2 = false;
                         army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                         if (army != null)
                         {
-                            for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
+                            for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                             {
-                                troopObject = army.Army.Units.GetUnit(I);
+                                troopObject = army.Army.Units.GetUnit(i);
                                 if (troopObject.GetHitPoints() < troopObject.GetHits())
                                 {
                                     troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() + 5));
-                                    Healed = true;
+                                    healed2 = true;
                                 }
 
                                 if (troopObject.GetAbilityEnabled(96))
                                 {
                                     troopObject.RemoveAbility(96);
-                                    Healed = true;
+                                    healed2 = true;
                                 }
                             }
 
                             army.Army.Update();
-                            bool healed = Healed;
+                            bool healed = healed2;
                             if (healed)
                             {
                                 var hexY = army.HexY;
@@ -149,8 +149,8 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:2141
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         int xShift;
         int yShift;
         int speed;
@@ -177,24 +177,24 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             RandSeed = StrategicMap.Current.InitialRandomSeed;
-            for (int I = 0; I <= count; I++)
+            for (int i = 0; i <= count; i++)
             {
-                X = Random(100) - 50;
-                Y = Random(100) - 50;
+                x = Random(100) - 50;
+                y = Random(100) - 50;
                 speed = Random(5) + 5;
                 var random = Random(30);
                 frame = animation.FrameCounter - random;
                 if (frame >= 0 && frame < 50)
                 {
                     frame = frame % 30;
-                    X -= Round((double)(frame * 4) * ((double)speed * 0.2));
-                    Y += Round((double)(frame * 20) * ((double)speed * 0.2));
-                    if (Y < 500)
+                    x -= Round((double)(frame * 4) * ((double)speed * 0.2));
+                    y += Round((double)(frame * 20) * ((double)speed * 0.2));
+                    if (y < 500)
                     {
-                        for (int J = 0; J <= 10; J++)
+                        for (int j = 0; j <= 10; j++)
                         {
-                            xShift = X - Round((double)(J * 2) * 0.1);
-                            yShift = Y + Round((double)(J * 10) * 0.1);
+                            xShift = x - Round((double)(j * 2) * 0.1);
+                            yShift = y + Round((double)(j * 10) * 0.1);
                             GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }

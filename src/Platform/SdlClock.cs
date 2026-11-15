@@ -36,8 +36,7 @@ public sealed class FramePacer(IClock clock, int frameRate = 30)
 
     public void Wait()
     {
-        double target = _last + _frameTime;
-        clock.WaitUntil(target);
+        clock.WaitUntil(_last + _frameTime);
         _last = clock.ElapsedMilliseconds;
     }
 }

@@ -41,17 +41,17 @@ public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     // Army.PAS:5189
     public int FindItemTypeGraphics(ItemType itemType)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 0;
-        while (result == -1 && I != Count)
+        i = 0;
+        while (result == -1 && i != Count)
         {
-            if (GetChild(I) != null && this[I].ItemType == itemType)
+            if (GetChild(i) != null && this[i].ItemType == itemType)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
