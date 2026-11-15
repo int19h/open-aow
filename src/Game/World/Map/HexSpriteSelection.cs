@@ -20,7 +20,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // AcceptsChild admits only a sprite, so the cast never fails.
     public HexSprite this[int index] => (HexSprite)GetChild(index);
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is Draw.HexSprite;
+    protected sealed override bool AcceptsChild(EngineObject child) => child is HexSprite;
 
     int IChildSink<HexSprite>.AddChild(HexSprite child) => AddChild(child);
 

@@ -1,11 +1,6 @@
 using System.Collections.Immutable;
-
-using Aow.Engine.Buffers;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Session;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
@@ -176,7 +171,7 @@ public static class GameTables
     {
         for (int i = 0; i <= 19; i++)
         {
-            s_hitProbabilities[i] = (float)((double)(20 - i) * 0.05);
+            s_hitProbabilities[i] = (float)((20 - i) * 0.05);
         }
     }
 

@@ -1,19 +1,12 @@
 #nullable disable
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;

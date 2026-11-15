@@ -14,7 +14,7 @@ public sealed class EditorClass
     {
         Class = engineClass;
         EditorClassId = editorClassId;
-        this._edit = edit;
+        _edit = edit;
     }
 
     public EngineClass Class { get; }

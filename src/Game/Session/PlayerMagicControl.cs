@@ -465,13 +465,13 @@ public partial class PlayerMagicControl : EngineObject
         switch (Player.PlayerType)
         {
             case PlayerType.Cpu2:
-                result = Round((double)result * 1.25);
+                result = Round(result * 1.25);
                 break;
             case PlayerType.Cpu3:
-                result = Round((double)result * 1.5);
+                result = Round(result * 1.5);
                 break;
             case PlayerType.Cpu4:
-                result = Round((double)result * 1.75);
+                result = Round(result * 1.75);
                 break;
             case PlayerType.Cpu5:
                 result = Round((double)result * 2);
@@ -482,7 +482,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2161
-    public int GetNetPowerToResearch() => Round((double)(GetNetPower() * ResearchPercentage) * 0.01);
+    public int GetNetPowerToResearch() => Round(GetNetPower() * ResearchPercentage * 0.01);
 
     // Spells.PAS:2163
     public int ResearchTurns(int power, int points)

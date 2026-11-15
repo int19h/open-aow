@@ -104,7 +104,7 @@ internal static class ConstructionSnapshot
     {
         JsonObject objectValue => new JsonObject(objectValue.Select(pair => KeyValuePair.Create(pair.Key, Expand(pair.Value)))),
         JsonArray array => new JsonArray(array.Select(Expand).ToArray()),
-        JsonValue value when value.TryGetValue<string>(out string? text) => Readable(text),
+        JsonValue value when value.TryGetValue(out string? text) => Readable(text),
         _ => node?.DeepClone()
     };
 }

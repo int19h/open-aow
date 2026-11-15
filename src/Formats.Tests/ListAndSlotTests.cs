@@ -99,7 +99,7 @@ public sealed class ListAndSlotTests : FormatsTest
         Assert.Equal(1, untouched.NumbersDefault);
         Assert.Equal([9], untouched.Numbers);
         Assert.Equal(2, untouched.SmallDefault);
-        Assert.Equal([(byte)4], untouched.Small);
+        Assert.Equal<byte>([4], untouched.Small);
     }
 
     [Theory]

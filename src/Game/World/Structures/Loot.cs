@@ -1,12 +1,8 @@
 #nullable disable
 using Aow.Game.Draw;
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -47,7 +43,7 @@ public sealed partial record Loot : ProductionOrder
         ChangeRelation(control, city, -30);
         var log = new LocationTextEventLog(null) { Holder = control };
         log.Player = control.GetPlayer();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
+        log.Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         EventLog.DistributeLocationEventLog(y: city.GetHexY(), level: city.GetHexLevel(), x: city.GetHexX(), log: log, player: control.GetPlayer(), execute: false);
         log.Release();
@@ -64,7 +60,7 @@ public sealed partial record Loot : ProductionOrder
         }
 
         control.BeginUpdate();
-        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
+        Log(control, city, Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
         var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + city.Income * 3);
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);

@@ -218,7 +218,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             {
                                 var castSpellActions = _castSpellActions.GetCastSpellActions(i);
                                 var fCastSpellActionsCastSpellActions = _castSpellActions.GetCastSpellActions(0);
-                                condition = (double)castSpellActions.Priority >= (double)fCastSpellActionsCastSpellActions.Priority * 0.75;
+                                condition = castSpellActions.Priority >= fCastSpellActionsCastSpellActions.Priority * 0.75;
                             }
 
                             if (!condition)

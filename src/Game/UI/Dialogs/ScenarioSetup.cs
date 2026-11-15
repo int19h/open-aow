@@ -1,21 +1,14 @@
 #nullable disable
 // Translated from AoWScenSetup.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
-
 using Aow.Game.Audio;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Host;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;

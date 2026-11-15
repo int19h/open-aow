@@ -89,7 +89,7 @@ public partial class GlobalTargetSpell : Spell
         if (x >= 0 && y >= 0 && x <= level.Width && y <= level.Height)
         {
             mapField = level.Field[x, y];
-            if (this.ValidTargetSelectionMapField(mapField))
+            if (ValidTargetSelectionMapField(mapField))
             {
                 radius = HexGeometry.HexNumberToRadius(hexNumber);
                 intensity = Math.Abs((StrategicMap.Current.Frame + radius) % 9 - 4) * 20 + 20;

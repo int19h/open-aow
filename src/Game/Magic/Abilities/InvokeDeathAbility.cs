@@ -80,7 +80,7 @@ public partial class InvokeDeathAbility : TouchAbility
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Death);
@@ -100,7 +100,7 @@ public partial class InvokeDeathAbility : TouchAbility
     {
         if (owner is Troop troop)
         {
-            strength = Round((double)(troop.GetAttack() * 6 * 5) * 0.1);
+            strength = Round(troop.GetAttack() * 6 * 5 * 0.1);
             types = Set<DamageType>.Of(DamageType.Death);
         }
     }
@@ -117,7 +117,7 @@ public partial class InvokeDeathAbility : TouchAbility
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Death);

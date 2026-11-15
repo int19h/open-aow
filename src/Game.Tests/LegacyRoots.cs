@@ -11,7 +11,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.UI.Controls;
-using Aow.Game.UI.Dialogs;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;

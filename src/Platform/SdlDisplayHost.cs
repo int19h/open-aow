@@ -31,8 +31,8 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             // Real pixels on a scaled Windows desktop, instead of a bitmap the system stretches.
             SDL_SetHint("SDL_WINDOWS_DPI_AWARENESS", "permonitorv2");
             Check(SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO));
-            this._width = width;
-            this._height = height;
+            _width = width;
+            _height = height;
             _windowedScale = scale;
             _window = SDL_CreateWindow(title, checked(width * scale), checked(height * scale), SDL_WindowFlags.SDL_WINDOW_RESIZABLE | SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
             if (_window is null) throw Error();

@@ -39,7 +39,7 @@ internal static class EffectPaths
         total = 0;
         do
         {
-            radiusLocal = (float)((double)((double)angle * Math.PI) / 180);
+            radiusLocal = (float)((double)(angle * Math.PI) / 180);
             b = (phase + angle) % 180;
             switch (b)
             {
@@ -180,7 +180,7 @@ internal static class EffectPaths
             xYZ.X = x1 + (x2 - x1) * i / steps;
             xYZ.Y = y1 + (y2 - y1) * i / steps;
             var pi = Math.PI;
-            xYZ.Z = Round((double)Math.Sin((double)((double)i * pi) / steps) * height);
+            xYZ.Z = Round((double)Math.Sin((double)(i * pi) / steps) * height);
             i += 1;
         }
     }
@@ -190,7 +190,7 @@ internal static class EffectPaths
         float result;
         if (x1 == x2)
         {
-            result = (float)((double)Math.PI / 2);
+            result = (float)(Math.PI / 2);
         }
         else
         {

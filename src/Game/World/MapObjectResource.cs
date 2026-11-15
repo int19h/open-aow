@@ -174,7 +174,7 @@ public partial class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:420
-    public override void Draw(Canvas canvas, Rect rectangle, Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
+    public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
         int i;
         LibraryImage image;
@@ -337,7 +337,7 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle)
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle)
     {
         throw new NotImplementedException();
     }

@@ -1,20 +1,15 @@
 #nullable disable
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -988,7 +983,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 {
                     if (x2 == x1)
                     {
-                        a = (float)((double)Math.PI / 2);
+                        a = (float)(Math.PI / 2);
                     }
                     else
                     {

@@ -218,14 +218,14 @@ public sealed class RemainingConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         bool node = typeof(EngineObject).IsAssignableFrom(type);
         // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
         var constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
-        if (factory is not null) return (object)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
-        if (constructor is not null) return (object)Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
+        if (factory is not null) return Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
+        if (constructor is not null) return Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
         throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
 

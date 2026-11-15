@@ -818,23 +818,23 @@ public partial class GameSettings : Registry
 
     private static Rect StringToRectangle(string S)
     {
-        Rect result = default(Rect);
-        int number = RtlUnit.Pos(",", S);
+        Rect result = default;
+        int number = Pos(",", S);
         int number2 = 0;
-        while (!RtlUnit.IsEmpty(S) && number2 != 4)
+        while (!IsEmpty(S) && number2 != 4)
         {
             string text;
             if (number != 0)
             {
-                text = RtlUnit.Copy(S, 1, number - 1);
-                S = RtlUnit.Delete(S, 1, number);
+                text = Copy(S, 1, number - 1);
+                S = Delete(S, 1, number);
             }
             else
             {
                 text = S;
                 S = "";
             }
-            int number3 = ((!RtlUnit.IsEmpty(text)) ? RtlUnit.StrToInt(text) : 0);
+            int number3 = ((!IsEmpty(text)) ? StrToInt(text) : 0);
             switch (number2)
             {
                 case 0:
@@ -850,7 +850,7 @@ public partial class GameSettings : Registry
                     result.Bottom = number3;
                     break;
             }
-            number = RtlUnit.Pos(",", S);
+            number = Pos(",", S);
             number2++;
         }
         return result;
@@ -860,13 +860,13 @@ public partial class GameSettings : Registry
     {
         return string.Concat(new string[7]
         {
-            RtlUnit.IntToStr(R.Left),
+            IntToStr(R.Left),
             ",",
-            RtlUnit.IntToStr(R.Top),
+            IntToStr(R.Top),
             ",",
-            RtlUnit.IntToStr(R.Right),
+            IntToStr(R.Right),
             ",",
-            RtlUnit.IntToStr(R.Bottom)
+            IntToStr(R.Bottom)
         });
     }
 
@@ -891,7 +891,7 @@ public partial class GameSettings : Registry
         for (int i = 0; i <= number2 - 1; i++)
         {
             byte b = Cp1252.Byte(S[number2 - i - 1]);
-            int number3 = ((!Set<byte>.WithBounds(0, 255).WithRange((byte)48, (byte)57).Contains(b)) ? ((!Set<byte>.WithBounds(0, 255).WithRange((byte)65, (byte)70).Contains(b)) ? (Set<byte>.WithBounds(0, 255).WithRange((byte)97, (byte)102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48));
+            int number3 = ((!Set<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(b)) ? ((!Set<byte>.WithBounds(0, 255).WithRange(65, 70).Contains(b)) ? (Set<byte>.WithBounds(0, 255).WithRange(97, 102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48));
             number |= number3 << i * 4;
         }
         return number;

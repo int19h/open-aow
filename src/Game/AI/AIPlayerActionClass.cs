@@ -15,7 +15,7 @@ public sealed class AIPlayerActionClass
     private AIPlayerActionClass(EngineClass engineClass, Func<int> priority, Set<AIPlayerProcessPhase> supportedPhases)
     {
         Class = engineClass;
-        this._priority = priority;
+        _priority = priority;
         SupportedPhases = supportedPhases;
     }
 

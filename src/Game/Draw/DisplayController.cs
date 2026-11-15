@@ -345,11 +345,11 @@ public partial class DisplayController : Component
     {
         if (_inverseMatrix != null)
         {
-            for (int i = 0, last = this._inverseMatrix.Width - 1; i <= last; i++)
+            for (int i = 0, last = _inverseMatrix.Width - 1; i <= last; i++)
             {
-                for (int j = 0, lastJ = this._inverseMatrix.Height - 1; j <= lastJ; j++)
+                for (int j = 0, lastJ = _inverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    this._inverseMatrix.SetValue((byte)i, (byte)j, 1);
+                    _inverseMatrix.SetValue((byte)i, (byte)j, 1);
                 }
             }
         }

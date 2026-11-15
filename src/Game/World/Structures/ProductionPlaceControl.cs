@@ -25,8 +25,8 @@ public partial class ProductionPlaceControl : ProductionControl
     // PrdPlace.pas:169
     public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
-        X = this.ProductionPlace.HexX;
-        Y = this.ProductionPlace.HexY;
+        X = ProductionPlace.HexX;
+        Y = ProductionPlace.HexY;
         L = ProductionPlace.HexLevel;
     }
 

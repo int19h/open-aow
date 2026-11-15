@@ -1,13 +1,9 @@
 // Translated from CitySpells.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;

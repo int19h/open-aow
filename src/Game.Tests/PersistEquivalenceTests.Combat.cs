@@ -4,11 +4,9 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Units;
 
 namespace Aow.Game.Tests;
 

@@ -7,7 +7,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 

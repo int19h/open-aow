@@ -129,7 +129,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, byte selection, sbyte X, sbyte Y, sbyte L, int movePoints)
     {
         string errorText = "";
-        MapFieldMessage message = default(MapFieldMessage);
+        MapFieldMessage message = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
         {
             if (player == StrategicMap.Current.SeatedPlayer)
@@ -143,7 +143,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 negotiateRequestEventLog.Player = (sbyte)(byte)player;
                 message.MessageId = 4366;
                 var param = message.Param;
-                param[0] = new MsgArg((object)negotiateRequestEventLog);
+                param[0] = new MsgArg(negotiateRequestEventLog);
                 message.Param = param;
                 var param2 = message.Param;
                 param2[1] = (MsgArg)(0);
@@ -168,7 +168,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             negotiateRequestEventLog.Player = (sbyte)(byte)player;
             message.MessageId = 4366;
             var param3 = message.Param;
-            param3[0] = new MsgArg((object)negotiateRequestEventLog);
+            param3[0] = new MsgArg(negotiateRequestEventLog);
             message.Param = param3;
             var param4 = message.Param;
             param4[1] = (MsgArg)(0);

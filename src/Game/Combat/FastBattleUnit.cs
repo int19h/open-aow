@@ -335,7 +335,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (FastBattleBehindWall())
             {
-                if (((FastBattle)Combat).AttackerCanCrushWall() || (double)((FastBattle)Combat).GetAttackerBallisticCombatValue() > (double)((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
+                if (((FastBattle)Combat).AttackerCanCrushWall() || ((FastBattle)Combat).GetAttackerBallisticCombatValue() > ((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
                 {
                     State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                     troop = Troop;

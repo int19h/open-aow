@@ -19,7 +19,7 @@ public partial class Rejuvenate : GlobalTargetSpell
     public Rejuvenate(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_rejuvenateText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_rejuvenateText);
         SpellId = 41;
         BaseManaCost = 5;
         SpellLevel = 1;

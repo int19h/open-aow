@@ -225,7 +225,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         if (cities.Count != 0)
         {
             index = 0;
-            value = Round((double)cities[0].Second * 0.75);
+            value = Round(cities[0].Second * 0.75);
             while (index + 1 < cities.Count && value <= cities[index + 1].Second)
             {
                 index += 1;

@@ -132,8 +132,8 @@ public partial class PlayerInfoWindow : UIModule
     // AoWPInfoWin.pas:100
     public void PInfoWinResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
-        this.MainWindow.Alignment.BottomOffset = UI.General.Manager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
+        MainWindow.Alignment.RightOffset = MainWindow.WindowManager.WinWidth - MainWindow.WinLeft - MainWindow.WinWidth;
+        MainWindow.Alignment.BottomOffset = UI.General.Manager.WinHeight - MainWindow.WinTop - MainWindow.WinHeight;
     }
 
     // AoWPInfoWin.pas:109

@@ -11,7 +11,7 @@ namespace Aow.Game.UI.Grids;
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,
 // change event, checked, animation frame
-public partial class TurnButton : Controls.Control
+public partial class TurnButton : Control
 {
     private ImageLibrary _imageLibrary;
     private int _currentPlayer;
@@ -119,11 +119,11 @@ public partial class TurnButton : Controls.Control
     {
         try
         {
-            if (Visible == true && Valid == true)
+            if (Visible && Valid)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                if (!_animating && ButtonChecked == true)
+                if (!_animating && ButtonChecked)
                 {
                     _imageLibrary[_frameOffset + _currentPlayer * 7 + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }

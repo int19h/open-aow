@@ -42,7 +42,7 @@ public partial class Image : Control
     public override void Update()
     {
         int i;
-        if (Visible && _animate == true)
+        if (Visible && _animate)
         {
             if (_frameCount > 0)
             {

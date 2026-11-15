@@ -123,8 +123,8 @@ public partial class ControlWindow : UIModule
     // AOWControlWin.pas:324
     public void ControlWindowResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
-        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
+        MainWindow.Alignment.RightOffset = MainWindow.WindowManager.WinWidth - MainWindow.WinLeft - MainWindow.WinWidth;
+        MainWindow.Alignment.TopOffset = MainWindow.WinTop;
     }
 
     // AOWControlWin.pas:333

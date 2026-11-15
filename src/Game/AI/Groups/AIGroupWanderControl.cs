@@ -57,14 +57,14 @@ public partial class AIGroupWanderControl : AIGroupTask
                 control = _control;
                 _moveSettings.Reset();
                 {
-                    this._moveSettings.Player = control.Group.Player;
-                    this._moveSettings.Mode = this._moveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                    this._moveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
+                    _moveSettings.Player = control.Group.Player;
+                    _moveSettings.Mode = _moveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                    _moveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
                 }
 
                 {
                     var moveControlSettings = _moveSettings;
-                    moveControlSettings.MovePointsMax = this.MovePointsMax;
+                    moveControlSettings.MovePointsMax = MovePointsMax;
                     moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
@@ -75,7 +75,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     var group = control.Group;
                     // { Original reloads the current control. }
-                    if (group.TargetMode == 1 && this._control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && this._control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location))
+                    if (group.TargetMode == 1 && _control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && _control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location))
                     {
                         State = 2;
                     }
@@ -125,7 +125,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     i = 0;
                     while (fields.Count != 0 && field == null)
                     {
-                        i = StrategicMap.Current.Random(Round((double)fields.Count * 0.1) + 1);
+                        i = StrategicMap.Current.Random(Round(fields.Count * 0.1) + 1);
                         field = fields[i].First;
                         if (field.GetPlayer() != -1)
                         {

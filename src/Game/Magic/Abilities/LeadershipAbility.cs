@@ -1,8 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine;
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;

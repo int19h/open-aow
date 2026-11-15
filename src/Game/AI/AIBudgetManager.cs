@@ -166,9 +166,9 @@ public partial class AIBudgetManager : EngineObject
         ProductionControl control;
         ProductionManaUpkeep = 0;
         ProductionGoldUpkeep = 0;
-        for (int i = this.Player.ProductionControls.Count - 1; i >= 0; i--)
+        for (int i = Player.ProductionControls.Count - 1; i >= 0; i--)
         {
-            control = this.Player.ProductionControls.GetPC(i);
+            control = Player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit != null)
             {
                 ProductionGoldUpkeep += control.Settings.GoldUpkeep;
@@ -181,9 +181,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetGroupsGoldBudget()
     {
         int result = 0;
-        for (int i = this.Player.AIGroups.Count - 1; i >= 0; i--)
+        for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
         {
-            result += this.Player.AIGroups.GetGroups(i).GetGoldBudget();
+            result += Player.AIGroups.GetGroups(i).GetGoldBudget();
         }
 
         return result;
@@ -193,9 +193,9 @@ public partial class AIBudgetManager : EngineObject
     public int GetGroupsManaBudget()
     {
         int result = 0;
-        for (int i = this.Player.AIGroups.Count - 1; i >= 0; i--)
+        for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
         {
-            result += this.Player.AIGroups.GetGroups(i).GetManaBudget();
+            result += Player.AIGroups.GetGroups(i).GetManaBudget();
         }
 
         return result;
@@ -405,8 +405,8 @@ public partial class AIBudgetManager : EngineObject
         var budgetManaUpkeep = GetBudgetManaUpkeep();
         manaUpkeep2 = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
         GoldUpkeep = Round((double)Player.Income * _goldIncomeFactor) - goldUpkeep;
-        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - manaUpkeep2;
-        if (this.ManaUpkeep < 0)
+        ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - manaUpkeep2;
+        if (ManaUpkeep < 0)
         {
             ValidateManaUpkeep();
         }
@@ -539,7 +539,7 @@ public partial class AIBudgetManager : EngineObject
                 else
                 {
                     gold -= Gold;
-                    this.Gold = 0;
+                    Gold = 0;
                 }
 
                 if (mana < Mana)
@@ -550,7 +550,7 @@ public partial class AIBudgetManager : EngineObject
                 else
                 {
                     mana -= Mana;
-                    this.Mana = 0;
+                    Mana = 0;
                 }
             }
 

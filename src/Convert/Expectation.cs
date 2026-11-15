@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Aow.Convert;
 
-public sealed class ExpectationException(string message) : System.Exception(message);
+public sealed class ExpectationException(string message) : Exception(message);
 
 /// <summary>One in-scope row of the accepted census manifest.</summary>
 public sealed record CensusRow(string Identity, string SourceRoot, string RelativePath, string Profile, string Kind, string Sha256);

@@ -19,7 +19,7 @@ public partial class FreezeWater : GlobalTargetSpell
     public FreezeWater(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_freezeWaterText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_freezeWaterText);
         SpellId = 10;
         BaseManaCost = 5;
         SpellLevel = 3;

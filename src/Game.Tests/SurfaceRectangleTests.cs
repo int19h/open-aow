@@ -190,7 +190,7 @@ public sealed class SurfaceRectangleTests
         Assert.Equal(region, displayController.PrimarySurfaceRegion);
     }
 
-    private sealed class NullDisplayHost : Game.Host.IDisplayHost
+    private sealed class NullDisplayHost : Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -200,7 +200,7 @@ public sealed class SurfaceRectangleTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (0, 0, true);
 
-        public void PumpEvents(Game.Host.IDisplayEvents sink) { }
+        public void PumpEvents(Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

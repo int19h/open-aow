@@ -509,7 +509,7 @@ public partial class AIMoveExecutor : EngineObject
             capacity = 1;
         }
 
-        army = StrategicMap.Current.MapContainer.GetField(this.Transporter.Location.X, this.Transporter.Location.Y, this.Transporter.Location.MapLevel).GetArmyHexSprite();
+        army = StrategicMap.Current.MapContainer.GetField(Transporter.Location.X, Transporter.Location.Y, Transporter.Location.MapLevel).GetArmyHexSprite();
 
         i = 0;
         while (capacity > 0 && i != army.Army.Units.Count)

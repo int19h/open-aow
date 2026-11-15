@@ -842,20 +842,20 @@ public partial class AIGroupTargetSelector : AIGroupTask
         PathStrengthFactor = 1;
         CurrentPathStrengthFactor = (float)0.8;
         _targetLimit = 100;
-        this.Priorities.TargetFactor = 1;
-        this.Priorities.ImmediateBonus = 500;
-        this.Priorities.SetupBonus = 25;
-        this.Priorities.ExecuteBonus = 75;
-        this.Priorities.TransportPenalty = -100;
-        this.Priorities.PartialRecruitmentPenalty = 0;
-        this.Priorities.CompleteRecruitmentPenalty = -50;
-        this.Priorities.CompleteCooperationPenalty = -25;
-        this.Priorities.PartialCooperationPenalty = -50;
-        this.Priorities.MoveDayPenalty = -25;
-        this.Priorities.ProductionDayPenalty = -25;
-        this.Priorities.PartialProductionPenalty = -10;
-        this.Priorities.FarOverlapPenalty = -199;
-        this.Priorities.NearOverlapPenalty = -50;
+        Priorities.TargetFactor = 1;
+        Priorities.ImmediateBonus = 500;
+        Priorities.SetupBonus = 25;
+        Priorities.ExecuteBonus = 75;
+        Priorities.TransportPenalty = -100;
+        Priorities.PartialRecruitmentPenalty = 0;
+        Priorities.CompleteRecruitmentPenalty = -50;
+        Priorities.CompleteCooperationPenalty = -25;
+        Priorities.PartialCooperationPenalty = -50;
+        Priorities.MoveDayPenalty = -25;
+        Priorities.ProductionDayPenalty = -25;
+        Priorities.PartialProductionPenalty = -10;
+        Priorities.FarOverlapPenalty = -199;
+        Priorities.NearOverlapPenalty = -50;
     }
 
     // AIGroup.pas:3173
@@ -1250,7 +1250,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (condition)
         {
             var requiredStrength = GetRequiredStrength(target);
-            condition = (double)GroupControl.StrengthMax >= (double)requiredStrength * MultiTargetFactor;
+            condition = GroupControl.StrengthMax >= (double)requiredStrength * MultiTargetFactor;
         }
 
         result = condition;

@@ -1,26 +1,16 @@
 #nullable disable
 using System.Collections.Immutable;
-
-using System.Runtime.InteropServices;
 using Aow.Engine;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
@@ -143,12 +133,12 @@ public static class AbilityRules
         {
             var targetPriority = target.GetTargetPriority();
             var hitPoints = target.GetHitPoints();
-            result = target.GetTargetPriority() + Round((double)targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
+            result = target.GetTargetPriority() + Round(targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
             if (targetDamageValue != 0)
             {
                 var sourceTargetPriority = source.GetTargetPriority();
                 var sourceHitPoints = source.GetHitPoints();
-                result = result - (source.GetTargetPriority() + Round((double)sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100))));
+                result = result - (source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100))));
             }
         }
         else
@@ -575,7 +565,7 @@ public static class AbilityRules
     internal static void PolarToCartesian(int degrees, int radius, out int X, out int Y)
     {
         float radians;
-        radians = (float)((double)((double)degrees * Math.PI) / 180);
+        radians = (float)((double)(degrees * Math.PI) / 180);
         X = Round((double)Math.Cos(radians) * radius);
         Y = Round((double)Math.Sin(radians) * radius);
     }
@@ -621,7 +611,7 @@ public static class AbilityRules
         ArmyHexSprite army;
         if (movePath != null && movePath.Count > 0)
         {
-            distance = Round((double)range * 0.5);
+            distance = Round(range * 0.5);
             result = 0;
             i = movePath.Count - 1;
             units = null;

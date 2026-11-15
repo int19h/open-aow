@@ -1,23 +1,16 @@
 #nullable disable
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -151,7 +144,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     log = new ArmyEventLog(null) { Holder = CreationHolder() };
                     log.Player = source.Player;
                     var tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
-                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
+                    log.ArmyText = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
                     var tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
@@ -254,18 +247,18 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            _angle = this._angle + 20 + _animation.FrameCounter / 5;
+            _angle = _angle + 20 + _animation.FrameCounter / 5;
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
                 direction = Random(360);
                 if (animation.FrameCounter >= (int)(((uint)i) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
                 {
-                    radius = Round((double)((double)2.997 - Math.Log((double)((double)(i * 19) * 0.005) + 1)) * 35) + 7;
+                    radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
                     height = 200 - i - 16;
-                    xShift = Round((double)((double)Math.Sin((double)((double)_animation.FrameCounter * 0.1) + (double)i * 0.02) * (200 - i)) * 0.25) + 16;
+                    xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + i * 0.02) * (200 - i)) * 0.25) + 16;
                     var pi = Math.PI;
-                    angle = (float)((double)((double)(direction + _angle) * pi) / 180);
+                    angle = (float)((double)((direction + _angle) * pi) / 180);
                     if (GetEngine().AnimationDetail == 0)
                     {
                         last = 1;

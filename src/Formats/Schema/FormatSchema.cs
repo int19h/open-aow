@@ -196,7 +196,7 @@ public sealed class SchemaClass
 
     internal SchemaClass(JsonObject source, FormatSchema schema, string? shapeOf = null)
     {
-        this._source = source;
+        _source = source;
         Name = shapeOf ?? ((JsonString)source["name"]!).Value;
         if (shapeOf is not null)
         {

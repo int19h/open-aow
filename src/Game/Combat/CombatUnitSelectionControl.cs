@@ -1444,7 +1444,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             multiMoveTokenEvent.Release();
             if (movePath != null)
             {
-                ((Persistent)movePath).Dispose();
+                movePath.Dispose();
             }
             int m = 0;
             for (int number4 = CombatMap.Current.UnitSelection.MoveSettingsList.Count - 1; m <= number4; m++)

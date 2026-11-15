@@ -130,7 +130,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             var words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
             words.Fill(Magenta555);
             try { source.Show(0, 0, d555); }
-            catch (System.Exception) { }
+            catch (Exception) { }
             for (int y = 0; y < h; y++)
                 for (int x = 0; x < w; x++)
                 {
@@ -173,7 +173,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             {
                                 bool grabbed;
                                 try { grabbed = image.GrabImage(lockedSurface, rectangle, grab); }
-                                catch (System.Exception error) { hash.Add(error.GetType().Name); grabbed = false; }
+                                catch (Exception error) { hash.Add(error.GetType().Name); grabbed = false; }
                                 hash.Add(grabbed ? 1 : 0);
                                 if (grabbed)
                                 {
@@ -214,7 +214,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             try { Pin(copy, hash); }
             finally { copy.Dispose(); }
         }
-        catch (System.Exception error) { hash.Add(error.GetType().Name); }
+        catch (Exception error) { hash.Add(error.GetType().Name); }
     }
 
     // The pixel readers of GFXE on every pixel of small surfaces of each format and width: the
@@ -332,7 +332,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static int Read(Func<int> reader)
     {
         try { return reader(); }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             var name = new Fnv();
             name.Add(error.GetType().Name);
@@ -438,7 +438,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
             lockedSurface.ClipRectangle = new Rect(1, 1, w - 1, h - 1);
             try { draw(lockedSurface); }
-            catch (System.Exception error) { hash.Add(error.GetType().Name); }
+            catch (Exception error) { hash.Add(error.GetType().Name); }
             hash.Add(pixels);
             surface.Unlock();
         }

@@ -54,13 +54,13 @@ internal struct EveryWidth
     [FieldOffset(10)] public int I32;
 }
 
-enum SampleRank : byte
+internal enum SampleRank : byte
 {
     None = 0,
     Gold = 1,
 }
 
-enum OtherRank : byte
+internal enum OtherRank : byte
 {
     Low = 0,
 }

@@ -252,7 +252,7 @@ public partial class WindowControl : UIComponent
             {
                 c = Children[i];
                 c.CheckKeyPress(ref key);
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -281,7 +281,7 @@ public partial class WindowControl : UIComponent
             {
                 c = Children[i];
                 c.CheckKeyDown(ref key, shift);
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -338,7 +338,7 @@ public partial class WindowControl : UIComponent
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
             c = Children[i];
-            if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked == true)
+            if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked)
             {
                 c.Checked = false;
                 c.Drawn = false;

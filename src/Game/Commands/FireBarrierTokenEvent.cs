@@ -52,7 +52,7 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         fire.SetupExplosion(Random(35));
                         fire.TurnsLeft = 3;
-                        fire.Player = this.GetSource().Player;
+                        fire.Player = GetSource().Player;
                     }
                 }
             }

@@ -2,7 +2,6 @@ using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
 using Aow.Game;
 using Aow.Game.Draw;
-
 using Aow.Game.Host;
 using Aow.Platform;
 using Aow.Rtl;
@@ -77,7 +76,7 @@ internal static class Verification
         mapper.Key('a', 4, 0, true, sink);
         mapper.Key('a', 4, 0, false, sink);
         Equal(6, sink.Keys.Count, "repeat delivery");
-        Equal((ushort)'A', sink.ReleasedKey, "key release");
+        Equal('A', sink.ReleasedKey, "key release");
         sink.Characters.Clear();
         InputMapper.Text("Aé€Ÿ😀中\r\n", sink);
         Check(sink.Characters.SequenceEqual(new byte[] { 65, 233, 128, 159 }), "CP1252 text and dropped characters");

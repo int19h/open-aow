@@ -12,6 +12,7 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Movement;
+using EngineReferenceNode = Aow.Engine.Nodes.ReferenceNode;
 
 namespace Aow.Game.Tests;
 
@@ -280,7 +281,7 @@ public sealed class OwnershipTroopTests
         var list = new HeroList(null!) { Holder = EngineFixture.Engine };
         var stored = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 3 };
         Assert.False(typeof(HeroList).IsAssignableFrom(typeof(HeroLibrary)));
-        Assert.True(typeof(Engine.Nodes.ReferenceNode).IsAssignableFrom(typeof(HeroLibrary)));
+        Assert.True(typeof(EngineReferenceNode).IsAssignableFrom(typeof(HeroLibrary)));
         Assert.True(typeof(HeroList).IsAssignableFrom(list.GetType()));
 
         stored.SetOwner(library);
@@ -393,7 +394,7 @@ public sealed class OwnershipTroopTests
         Assert.Throws<ArgumentException>(() => new EventLog(stranger));
         var events = new TokenEventReferenceList(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => events.AddChild(new MoveTarget(null!) { Holder = EngineFixture.Engine }));
-        Assert.Equal(EngineClass.Of<Engine.Nodes.ReferenceNode>().ClassId, events.EngineClass.ClassId);
+        Assert.Equal(EngineClass.Of<EngineReferenceNode>().ClassId, events.EngineClass.ClassId);
         var target = new MoveTarget(null!) { Holder = EngineFixture.Engine };
         ((IOwnedSink<MoveTargetList>)target).SetOwner(new MoveTargetList(null!) { Holder = EngineFixture.Engine });
         Assert.Null(target.Owner);

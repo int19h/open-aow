@@ -1,8 +1,5 @@
 #nullable disable
 using System.Collections;
-
-using Aow.Engine.Nodes;
-
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.AI.Groups;
@@ -41,7 +38,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     // AIGroup.pas:907
     public AIGroupProductionLocation GetProductionLocation(int index)
     {
-        Aow.Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
+        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
         return this[index];
     }
 

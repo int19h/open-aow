@@ -1,10 +1,4 @@
-
-using Aow.Engine.Buffers;
-
 using Aow.Game.Combat;
-
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;

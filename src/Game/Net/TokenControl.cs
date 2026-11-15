@@ -55,7 +55,7 @@ public partial class TokenControl : IDisposable
         TokenEvent tokenEvent;
         if (Global() || Local())
         {
-            if (_events.Count != 0 || executor.HoldTacticalBattle != true)
+            if (_events.Count != 0 || !executor.HoldTacticalBattle)
             {
                 if (Local())
                 {

@@ -631,10 +631,10 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:592
     public void OverWindowResize()
     {
-        this.Window.Alignment.AlignWidth = AlignWidth.Left;
-        this.Window.Alignment.AlignHeight = AlignHeight.Top;
-        this.Window.Alignment.LeftOffset = this.Window.WinLeft;
-        this.Window.Alignment.TopOffset = this.Window.WinTop;
+        Window.Alignment.AlignWidth = AlignWidth.Left;
+        Window.Alignment.AlignHeight = AlignHeight.Top;
+        Window.Alignment.LeftOffset = Window.WinLeft;
+        Window.Alignment.TopOffset = Window.WinTop;
     }
 
     // AoWRealm.pas:603

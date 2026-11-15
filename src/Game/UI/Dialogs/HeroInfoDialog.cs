@@ -1,14 +1,12 @@
 #nullable disable
 // Translated from AoWHeroInfoDlg.pas.
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -105,10 +103,10 @@ public partial class HeroInfoDialog : UIModule
         Rect r = default;
         Hero hero;
         int i;
-        r.Left = this.FaceFrame.WinLeft + Window.WinLeft;
-        r.Right = this.FaceFrame.WinWidth + r.Left;
-        r.Top = this.FaceFrame.WinTop + Window.WinTop;
-        r.Bottom = this.FaceFrame.WinHeight + r.Top;
+        r.Left = FaceFrame.WinLeft + Window.WinLeft;
+        r.Right = FaceFrame.WinWidth + r.Left;
+        r.Top = FaceFrame.WinTop + Window.WinTop;
+        r.Bottom = FaceFrame.WinHeight + r.Top;
 
         hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, RosterTables.AllHeroTypes);
         if (hero.GetFace() != null)

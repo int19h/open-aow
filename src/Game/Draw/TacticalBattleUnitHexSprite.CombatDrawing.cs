@@ -129,8 +129,8 @@ public partial class TacticalBattleUnitHexSprite
                         HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
                         var moveSteps = GetMoveSteps();
                         progress = (double)MoveStep / moveSteps;
-                        pixelXSurface += Round((double)deltaX * progress);
-                        pixelYSurface += Round((double)deltaY * progress);
+                        pixelXSurface += Round(deltaX * progress);
+                        pixelYSurface += Round(deltaY * progress);
                         sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
                     }
                     else

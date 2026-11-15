@@ -82,9 +82,9 @@ public partial class Edit : Control
             _cursorPosition = base.Text.Length;
         }
 
-        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * base.BorderWidth - 1)
+        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * BorderWidth - 1)
         {
-            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
+            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
             {
                 FirstChar += 1;
             }
@@ -98,14 +98,14 @@ public partial class Edit : Control
     public override void Update()
     {
         base.Update();
-        if (Visible && _editable && _blinkDelay > 0 && Redraw == true)
+        if (Visible && _editable && _blinkDelay > 0 && Redraw)
         {
             _blinkCount += 1;
             if (_blinkCount > _blinkDelay)
             {
                 Drawn = false;
                 _blinkCount = 0;
-                if (_cursorShown == true)
+                if (_cursorShown)
                 {
                     _cursorShown = false;
                 }
@@ -143,7 +143,7 @@ public partial class Edit : Control
                 base.Font.Color = Color;
                 if (_passWordChar == 0)
                 {
-                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
                 }
                 else
                 {
@@ -153,14 +153,14 @@ public partial class Edit : Control
                         s = s + Cp1252.Text(_passWordChar);
                     }
 
-                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, s, lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                if (_editable && Redraw == true && _cursorShown == true)
+                if (_editable && Redraw && _cursorShown)
                 {
                     var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
-                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth + textWidth, Window.WinTop + WinTop + base.BorderHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth + textWidth, Window.WinTop + WinTop + BorderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -185,22 +185,22 @@ public partial class Edit : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (Valid == true && Visible == true)
+            if (Valid && Visible)
             {
                 if (button == MouseButton.Left)
                 {
-                    if (_editable == true)
+                    if (_editable)
                     {
                         Redraw = true;
                     }
 
                     var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
-                    if (X > Window.WinLeft + WinLeft + base.BorderWidth + textWidth)
+                    if (X > Window.WinLeft + WinLeft + BorderWidth + textWidth)
                     {
                         FirstChar = 1;
-                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * base.BorderWidth - 1)
+                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * BorderWidth - 1)
                         {
-                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
+                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
                             {
                                 FirstChar += 1;
                             }
@@ -212,7 +212,7 @@ public partial class Edit : Control
                     {
                         i = 0;
                         w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
-                        while (X > Window.WinLeft + WinLeft + base.BorderWidth + w && base.Text.Length > i + FirstChar - 1)
+                        while (X > Window.WinLeft + WinLeft + BorderWidth + w && base.Text.Length > i + FirstChar - 1)
                         {
                             i += 1;
                             w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
@@ -268,7 +268,7 @@ public partial class Edit : Control
         if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_editable == true)
+            if (_editable)
             {
                 Window.Cursor = -4;
             }
@@ -284,7 +284,7 @@ public partial class Edit : Control
         bool scroll;
         Handled = Redraw;
         scroll = true;
-        if (_editable && Redraw == true && Valid == true && Visible == true)
+        if (_editable && Redraw && Valid && Visible)
         {
             _cursorShown = true;
             switch (key)
@@ -324,9 +324,9 @@ public partial class Edit : Control
                     break;
             }
 
-            if (scroll == true)
+            if (scroll)
             {
-                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
+                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
                 {
                     FirstChar += 1;
                     _cursorPosition -= 1;

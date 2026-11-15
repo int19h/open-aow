@@ -82,7 +82,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         int result;
         CheckChild(child);
         var unit = child;
-        if (this.CanAddUnit((Troop)child))
+        if (CanAddUnit((Troop)child))
         {
             unit.AddRef();
             result = base.AddChild(child);
@@ -270,8 +270,8 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 troop = units[i];
                 alignmentAlignment = troop.GetAlignment();
-                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(alignmentAlignment));
-                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(alignmentAlignment));
+                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
+                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 

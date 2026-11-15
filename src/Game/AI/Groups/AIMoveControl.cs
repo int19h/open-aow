@@ -373,7 +373,7 @@ public partial class AIMoveControl : EngineObject
         Initialize(settings);
         Status = AIMoveControlStatus.Processing;
         _pathSettings.Reset();
-        _pathSettings.SetSourcePosition(this.Settings.SourceX, this.Settings.SourceY, this.Settings.SourceL);
+        _pathSettings.SetSourcePosition(Settings.SourceX, Settings.SourceY, Settings.SourceL);
 
         _pathSettings.Player = Settings.Player;
         _pathSettings.SetDestinationPosition(Settings.DestinationX, Settings.DestinationY, Settings.DestinationL);

@@ -30,7 +30,7 @@ public partial class RoundAttackAbility : TouchAbility
         Set<DamageType> damageTypes;
         int count;
         StrikeCombatAction action;
-        Combat.Battle combat;
+        Battle combat;
         DelphiList<CombatObject> targets;
         CombatObject target;
         CombatObject other;
@@ -150,7 +150,7 @@ public partial class RoundAttackAbility : TouchAbility
     {
         int count;
         Set<DamageType> damageTypes;
-        Combat.Battle combat;
+        Battle combat;
         CombatObject target;
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {

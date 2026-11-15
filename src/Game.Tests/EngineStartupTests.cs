@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 
 using Aow.Game.Magic.Abilities;
-
 using Xunit.Sdk;
 
 namespace Aow.Game.Tests;
@@ -145,7 +144,7 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    result["FinalSnapshot"] = Snapshot((GameEngine)value!, fixture);
+                    result["FinalSnapshot"] = Snapshot(value!, fixture);
                     result["MovePointTables"] = MovePoints();
                 }
                 else if (caught is not null)

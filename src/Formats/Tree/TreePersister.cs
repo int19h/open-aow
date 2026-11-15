@@ -8,14 +8,14 @@ namespace Aow.Formats.Tree;
 /// A null handler continues. Once a handler stops the load, later exceptions stop too.
 /// An empty message is reported as "Error Reading EngineObject".
 /// </summary>
-sealed class LoadErrorPolicy
+internal sealed class LoadErrorPolicy
 {
     private readonly LoadErrorHandler? _handler;
     private bool _stopped;
 
-    internal LoadErrorPolicy(LoadErrorHandler? handler) => this._handler = handler;
+    internal LoadErrorPolicy(LoadErrorHandler? handler) => _handler = handler;
 
-    internal bool Continue(System.Exception error)
+    internal bool Continue(Exception error)
     {
         if (_stopped) return false;
         bool continueLoad = true;
@@ -56,7 +56,7 @@ public static class TreeWriter
         {
             return Write(objectValue, factory: factory);
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             return new ObjectNode(null, null);
         }
@@ -92,7 +92,7 @@ public static class TreeReader
             objectValue.Persist(persister);
             persister.Finish();
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             if (!errors.Continue(error)) throw;
         }
@@ -116,7 +116,7 @@ public static class TreeReader
             persister.Finish();
             return created;
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             if (created is not null) factory.Release(created);
             if (!errors.Continue(error)) throw;
@@ -126,7 +126,7 @@ public static class TreeReader
 }
 
 /// <summary>The persister over one object or one record.</summary>
-sealed class MemberPersister : IPersister
+internal sealed class MemberPersister : IPersister
 {
     private readonly IReadOnlyList<(string Name, TreeValue Value)> _existing;
     private readonly Action<string, TreeValue>? _add;
@@ -150,13 +150,13 @@ sealed class MemberPersister : IPersister
 
     private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors, bool preview)
     {
-        this._existing = existing;
-        this._add = add;
+        _existing = existing;
+        _add = add;
         Loading = loading;
         Preview = preview;
         Factory = factory;
-        this._path = path;
-        this._errors = errors;
+        _path = path;
+        _errors = errors;
     }
 
     public bool Loading { get; }
@@ -474,7 +474,7 @@ sealed class MemberPersister : IPersister
                 objectValue.Persist(child);
                 child.Finish();
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 if (!Continue(error)) throw;
             }
@@ -588,7 +588,7 @@ sealed class MemberPersister : IPersister
                 objectValue.Persist(reader);
                 reader.Finish();
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 if (!Continue(error)) throw;
             }
@@ -671,7 +671,7 @@ sealed class MemberPersister : IPersister
                     reader.Finish();
                     children.Place(slot, created);
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     if (created is not null) Factory.Release(created);
                     if (!Continue(error)) throw;
@@ -714,7 +714,7 @@ sealed class MemberPersister : IPersister
                     fields[i].Persist(reader);
                     reader.Finish();
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     if (!Continue(error)) throw;
                 }
@@ -764,7 +764,7 @@ sealed class MemberPersister : IPersister
                     reader.Finish();
                     items.Place(k, created);
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     if (created is not null) Factory.Release(created);
                     if (!Continue(error)) throw;
@@ -916,7 +916,7 @@ sealed class MemberPersister : IPersister
         return current;
     }
 
-    private bool Continue(System.Exception error) => _errors is null || _errors.Continue(error);
+    private bool Continue(Exception error) => _errors is null || _errors.Continue(error);
 
     // rwCreateEObject creates the object and runs its load. A failure releases the object, and the
     // load's handler decides whether the parent continues with null.
@@ -931,7 +931,7 @@ sealed class MemberPersister : IPersister
             child.Finish();
             return created;
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             if (created is not null) Factory.Release(created);
             if (!Continue(error)) throw;
@@ -956,7 +956,7 @@ sealed class MemberPersister : IPersister
 }
 
 /// <summary>One list item, holding a single tree value.</summary>
-sealed class ItemSlot : IItemSlot
+internal sealed class ItemSlot : IItemSlot
 {
     private readonly TreeValue? _loaded;
     private readonly bool _loading;
@@ -969,12 +969,12 @@ sealed class ItemSlot : IItemSlot
 
     public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
     {
-        this._loaded = loaded;
-        this._loading = loading;
-        this._factory = factory;
-        this._path = path;
-        this._errors = errors;
-        this._preview = preview;
+        _loaded = loaded;
+        _loading = loading;
+        _factory = factory;
+        _path = path;
+        _errors = errors;
+        _preview = preview;
     }
 
     public TreeValue Finish()
@@ -1053,7 +1053,7 @@ sealed class ItemSlot : IItemSlot
                 child.Finish();
                 return created;
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 if (created is not null) _factory.Release(created);
                 if (_errors is not null && !_errors.Continue(error)) throw;

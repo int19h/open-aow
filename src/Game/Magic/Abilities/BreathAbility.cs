@@ -27,7 +27,7 @@ public partial class BreathAbility : RangedAttackAbility
     // AoWAb.PAS:4894
     public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        Combat.Battle combat;
+        Battle combat;
         DelphiList<CombatObject> targets;
         CombatObject target;
         CombatObject other;
@@ -87,7 +87,7 @@ public partial class BreathAbility : RangedAttackAbility
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         int count;
-        Combat.Battle combat;
+        Battle combat;
         CombatObject target;
         base.FastBattleGetDamageValues(attacker, defender, wallSituation, ref damageValues);
         if (damageValues.SourceDamage != 0)

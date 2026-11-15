@@ -1,5 +1,3 @@
-using Aow.Game.Magic.Abilities;
-
 namespace Aow.Game.Units;
 
 /// <summary>

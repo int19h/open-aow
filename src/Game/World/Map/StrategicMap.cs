@@ -381,9 +381,9 @@ public partial class StrategicMap : GameMap
         for (int i = Effects.Count - 1; i >= 0; i--)
         {
             var animation = Effects[i];
-            DynamicFixedVisibleHexSprite.RemoveChild((EngineObject)animation);
+            DynamicFixedVisibleHexSprite.RemoveChild(animation);
             var fEffectsItem = Effects[i];
-            DynamicVisibleHexSprite.RemoveChild((EngineObject)fEffectsItem);
+            DynamicVisibleHexSprite.RemoveChild(fEffectsItem);
             (Effects[i] as IDisposable)?.Dispose();
         }
 
@@ -825,7 +825,7 @@ public partial class StrategicMap : GameMap
                     break;
                 case MapProgressType.Initializing:
                     total = progress.Percent + progress.Level * 100;
-                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
+                    percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
                     if (GetEngine().Debug)
                     {
                         text = AbilityRules.TranslateResourceString(GetEngine(), s_initializingLevelText) + IntToStr(progress.Level);
@@ -839,7 +839,7 @@ public partial class StrategicMap : GameMap
                     break;
                 case MapProgressType.UpdatingTerrain:
                     total = progress.Percent + progress.Level * 100;
-                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
+                    percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
                     if (GetEngine().Debug)
                     {
                         text = AbilityRules.TranslateResourceString(GetEngine(), s_updatingTerrainLevelText) + IntToStr(progress.Level);
@@ -853,7 +853,7 @@ public partial class StrategicMap : GameMap
                     break;
                 case MapProgressType.Activating:
                     total = progress.Percent + progress.Level * 100;
-                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
+                    percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
                     if (GetEngine().Debug)
                     {
                         text = AbilityRules.TranslateResourceString(GetEngine(), s_activatingLevelText) + IntToStr(progress.Level);
@@ -1855,7 +1855,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2077
     public void GameOver(sbyte player, GameOverStatus status)
     {
-        if (player > 0 && this.Status.Contains(HexSpriteMapStatusElement.Activated) && !this.Status.Contains(HexSpriteMapStatusElement.Editting) && !this.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (player > 0 && Status.Contains(HexSpriteMapStatusElement.Activated) && !Status.Contains(HexSpriteMapStatusElement.Editting) && !Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             PlayerControl.GameOver(player, status);
         }

@@ -20,7 +20,7 @@ public partial class Vortex : GlobalTargetSpell
     public Vortex(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
         SpellId = 70;
         AboveGroundOnly = false;
     }

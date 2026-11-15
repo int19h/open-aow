@@ -76,7 +76,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         {
             var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
             var name = GetName();
-            reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+            reason = Format(xIsAlreadyActive, [name]);
             result = false;
         }
         else

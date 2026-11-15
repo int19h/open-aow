@@ -119,7 +119,7 @@ public partial class TabPanel : Control
                             var textWidth = base.Font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + base.BorderHeight, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + BorderHeight, item2, lockedSurface);
                         }
                     }
                     else
@@ -172,7 +172,7 @@ public partial class TabPanel : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -248,7 +248,7 @@ public partial class TabPanel : Control
             for (int i = 0, last = Panels.Count - 1; i <= last; i++)
             {
                 var component = Panels[i];
-                if (component.OwnerItem == this._selected)
+                if (component.OwnerItem == _selected)
                 {
                     component.SetVisible(true);
                 }

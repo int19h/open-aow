@@ -1,15 +1,10 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
@@ -93,15 +88,15 @@ public partial class StructureTokenEvent : TokenEvent
     {
         MapField mapField;
         Structure structure;
-        this._x = x;
-        this._y = y;
+        _x = x;
+        _y = y;
         _mapLevel = mapLevel;
-        mapField = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel);
+        mapField = StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel);
         structure = (Structure)mapField.FindOwnedChild(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();
-        Player = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel).GetPlayer();
+        Player = StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel).GetPlayer();
     }
 
     // NetworkE.pas:230

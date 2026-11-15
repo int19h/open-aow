@@ -317,9 +317,9 @@ public sealed class MapNetSoundConstructionTests
     {
         internal bool Observed { get; private set; }
 
-        public override void Notification(Component child, Component.Operation operation)
+        public override void Notification(Component child, Operation operation)
         {
-            if (operation == Component.Operation.Insert && child is UnitSfxManager manager)
+            if (operation == Operation.Insert && child is UnitSfxManager manager)
             {
                 Assert.Null(manager.Sfx);
                 Observed = true;

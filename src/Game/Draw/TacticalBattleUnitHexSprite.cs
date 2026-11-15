@@ -766,18 +766,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             var ability = Abilities[i];
-            names.AddObject(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
+            names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
             if (types != null)
             {
                 var ability2 = Abilities[i];
-                var abilityType = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
+                var abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
                 types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
                 var ability2 = Abilities[i];
-                sources.Add(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
+                sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
             }
         }
     }
@@ -867,7 +867,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     public static void OriginalUnitAssert(string message, string fileName, int lineNumber)
     {
-        RtlUnit.Assert(false, message, fileName, lineNumber);
+        Assert(false, message, fileName, lineNumber);
     }
 
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)

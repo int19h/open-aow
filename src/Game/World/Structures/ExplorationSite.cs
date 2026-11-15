@@ -163,7 +163,7 @@ public partial class ExplorationSite : Structure
     public virtual bool GetExplored() => true;
 
     // ExploreS.pas:138
-    public virtual void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
+    public virtual void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         combat.SetExecutedHandler(CombatExecuted);
         var hexY = army.GetHexY();
@@ -191,7 +191,7 @@ public partial class ExplorationSite : Structure
     {
         bool result = default;
         ArmyHexSprite armyHexSprite;
-        Combat.Battle combat;
+        Battle combat;
         sbyte player;
         CombatEventLog eventValue;
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
@@ -316,7 +316,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:113
-    public void CombatExecuted(Combat.Battle combat)
+    public void CombatExecuted(Battle combat)
     {
         CombatData data;
         CombatObject objectValue;

@@ -241,7 +241,7 @@ public partial class HorizontalScrollBar : ScrollBar
         int oldPosition;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (Visible == true && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             oldPosition = Position;
             Handled = true;

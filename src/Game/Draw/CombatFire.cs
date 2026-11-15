@@ -140,7 +140,7 @@ public partial class CombatFire : SingleHexSprite
                     }
                 }
 
-                this.Dispose();
+                Dispose();
             }
         }
     }

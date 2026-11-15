@@ -1,8 +1,5 @@
 #nullable disable
 using System.Collections;
-
-using Aow.Engine.Nodes;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
@@ -40,7 +37,7 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     // AIGroup.pas:684
     public AIGroupControlTarget GetTargets(int index)
     {
-        Aow.Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
+        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
         return this[index];
     }
 

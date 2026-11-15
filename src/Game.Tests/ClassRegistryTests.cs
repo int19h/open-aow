@@ -5,20 +5,15 @@ using Aow.Formats;
 using Aow.Formats.Schema;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
-using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
-using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 

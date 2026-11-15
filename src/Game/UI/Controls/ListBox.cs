@@ -342,19 +342,19 @@ public partial class ListBox : Control
                         {
                             case TextAlignment.Left:
                                 var item = _items[FirstShownItem + i];
-                                base.Font.SetText(base.BorderWidth + l, base.BorderHeight + t + _itemHeight * i, item, lockedSurface);
+                                base.Font.SetText(BorderWidth + l, BorderHeight + t + _itemHeight * i, item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var item2 = _items[FirstShownItem + i];
                                 var textWidth = base.Font.GetTextWidth(item2);
                                 var item3 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + w - base.BorderWidth - textWidth, base.BorderHeight + t + _itemHeight * i, item3, lockedSurface);
+                                base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + _itemHeight * i, item3, lockedSurface);
                                 break;
                             default:
                                 var item4 = _items[FirstShownItem + i];
                                 var fontTextWidth = base.Font.GetTextWidth(item4);
                                 var item5 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + w / 2 - fontTextWidth / 2, base.BorderHeight + t + _itemHeight * i, item5, lockedSurface);
+                                base.Font.SetText(l + w / 2 - fontTextWidth / 2, BorderHeight + t + _itemHeight * i, item5, lockedSurface);
                                 break;
                         }
 

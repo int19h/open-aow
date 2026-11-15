@@ -1,6 +1,5 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Net;
@@ -55,7 +54,7 @@ public partial class DataPackage : EngineObject
     }
 
     // NetworkE.pas:586
-    public virtual string Name() => this.GetType().Name;
+    public virtual string Name() => GetType().Name;
 
     public int Sender { get => _sender; set => _sender = value; }
     public int Receiver { get => _receiver; set => _receiver = value; }

@@ -212,7 +212,7 @@ public partial class StormSpell : Spell
                 if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out info))
                 {
                     damage = info.EnemyDamage - info.FriendlyDamage;
-                    if ((double)((double)BaseManaCost * 0.75) < damage)
+                    if ((double)(BaseManaCost * 0.75) < damage)
                     {
                         result = damage * 5 + 750;
                     }

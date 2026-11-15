@@ -1,7 +1,6 @@
 using System.Reflection;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-using Aow.Game;
 
 namespace Aow.Game.Tests;
 
@@ -25,7 +24,7 @@ public sealed class PersistenceInventoryTests
     private static readonly Assembly[] Product =
     [
         typeof(OriginalBackend).Assembly,
-        typeof(Aow.Engine.PersistSupport).Assembly,
+        typeof(Engine.PersistSupport).Assembly,
         typeof(GameEngine).Assembly,
     ];
 
@@ -47,7 +46,7 @@ public sealed class PersistenceInventoryTests
     public void ProductAssembliesStayInsideTheAllowedSites()
     {
         Assert.Contains(Product, static assembly => assembly.GetName().Name == "Aow.Formats");
-        Assert.Contains(Product, static assembly => assembly == typeof(Aow.Engine.PersistSupport).Assembly);
+        Assert.Contains(Product, static assembly => assembly == typeof(Engine.PersistSupport).Assembly);
         Assert.Contains(Product, static assembly => assembly == typeof(GameEngine).Assembly);
         var reaches = PersistenceInventory.BackendReaches(Product);
         var exposed = PersistenceInventory.ExposedMembers(Product);

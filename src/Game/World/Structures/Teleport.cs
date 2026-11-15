@@ -120,7 +120,7 @@ public partial class Teleport : Structure
             State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        this.ImageIndex = GetTerrainTypeImage(TerrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Teleport.pas:279
@@ -223,7 +223,7 @@ public partial class Teleport : Structure
                         if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            eventValue = Draw.ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, 255, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, 255, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (eventValue != null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -242,7 +242,7 @@ public partial class Teleport : Structure
                     }
                     else
                     {
-                        result = Draw.ArmyHexSprite.MoveArmy(armyHexSprite, 255, path, Set<ArmyMoveModeElement>.Of(), false);
+                        result = ArmyHexSprite.MoveArmy(armyHexSprite, 255, path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
                     if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)

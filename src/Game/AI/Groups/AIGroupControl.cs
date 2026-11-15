@@ -18,8 +18,6 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Game.AI.Groups;
 
 // cycles, group, status, location, army, army sprite, selection, targets, strengths, max
@@ -468,10 +466,10 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        if (this._aiGroupTask != null)
+        if (_aiGroupTask != null)
         {
-            this._aiGroupTask.Release();
-            this._aiGroupTask = null;
+            _aiGroupTask.Release();
+            _aiGroupTask = null;
         }
     }
 

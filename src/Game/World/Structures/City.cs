@@ -149,11 +149,11 @@ public partial class City : PlayerCropStructure
                 var cityResource = (PlayerStructureResource)Resource;
                 if (cityResource.FlagType <= 1)
                 {
-                    GamePack.Current.FlagControl.ShowFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, this._flagId, lockedSurface);
+                    GamePack.Current.FlagControl.ShowFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, _flagId, lockedSurface);
                 }
                 else
                 {
-                    GamePack.Current.FlagControl.ShowStructureFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, this._flagId, lockedSurface);
+                    GamePack.Current.FlagControl.ShowStructureFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, _flagId, lockedSurface);
                 }
             }
         }
@@ -1014,7 +1014,7 @@ public partial class City : PlayerCropStructure
             {
                 var cityBattleWon = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleWonFormat);
                 var name = GetName();
-                result = RtlUnit.Format(cityBattleWon, [name]);
+                result = Format(cityBattleWon, [name]);
             }
             else
             {
@@ -1022,7 +1022,7 @@ public partial class City : PlayerCropStructure
                 {
                     var cityBattleLost = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleLostFormat);
                     var name = GetName();
-                    result = RtlUnit.Format(cityBattleLost, [name]);
+                    result = Format(cityBattleLost, [name]);
                 }
                 else
                 {
@@ -1030,7 +1030,7 @@ public partial class City : PlayerCropStructure
                     {
                         var cityBattleDrawn = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleDrawnFormat);
                         var name = GetName();
-                        result = RtlUnit.Format(cityBattleDrawn, [name]);
+                        result = Format(cityBattleDrawn, [name]);
                     }
                 }
             }
@@ -1048,7 +1048,7 @@ public partial class City : PlayerCropStructure
             log = new CityProductionEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
             var editName = EditName();
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
+            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.HexX = GetHexX();
             log.HexY = GetHexY();
             log.HexLevel = GetHexLevel();
@@ -1171,7 +1171,7 @@ public partial class City : PlayerCropStructure
             SetIncome((byte)(GetCropCount() * 2 + GetSize() * 5));
             if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
             {
-                SetIncome((byte)(Income + Round((double)Income * 0.25)));
+                SetIncome((byte)(Income + Round(Income * 0.25)));
             }
 
             if (Enchantments.Contains(CityEnchantmentId.GoldRush))
@@ -1369,7 +1369,7 @@ public partial class City : PlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(StringCollection list)
     {
-        list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
+        list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
         if (WallType == 1)
         {
             list.Add(AbilityRules.TranslateResourceString(GetEngine(), s_cityWoodenWallText));
@@ -2128,13 +2128,13 @@ public partial class City : PlayerCropStructure
         values.Add(IntToStr(income));
         income += GetCropCount() * 2;
         var cropCount = GetCropCount();
-        names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cropFieldsFormat), [IntToStr(cropCount)]));
+        names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_cropFieldsFormat), [IntToStr(cropCount)]));
         values.Add(IntToStr(GetCropCount() * 2));
         if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
         {
             names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
-            values.Add(IntToStr(Round((double)income * 0.25)));
-            income += Round((double)income * 0.25);
+            values.Add(IntToStr(Round(income * 0.25)));
+            income += Round(income * 0.25);
         }
 
         if (Enchantments.Contains(CityEnchantmentId.GoldRush))
@@ -2165,19 +2165,19 @@ public partial class City : PlayerCropStructure
         {
             var playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             var status = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StatusTexts[(int)playerRelation]);
-            list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_raceRelationFormat), [status]));
+            list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_raceRelationFormat), [status]));
             if (RaceTerrain[Race].Penalty.Contains((byte)TerrainType))
             {
                 var terrainPenaltyX = AbilityRules.TranslateResourceString(GetEngine(), s_terrainPenaltyFormat);
                 var terrainType = GamePack.Current.TerrainTypes[TerrainType];
-                list.Add(RtlUnit.Format(terrainPenaltyX, [terrainType]));
+                list.Add(Format(terrainPenaltyX, [terrainType]));
             }
 
             if (RaceTerrain[Race].Bonus.Contains((byte)TerrainType))
             {
                 var terrainBonusX = AbilityRules.TranslateResourceString(GetEngine(), s_terrainBonusFormat);
                 var terrainType = GamePack.Current.TerrainTypes[TerrainType];
-                list.Add(RtlUnit.Format(terrainBonusX, [terrainType]));
+                list.Add(Format(terrainBonusX, [terrainType]));
             }
 
             predictor = new CombatPredictor(this);
@@ -2211,18 +2211,18 @@ public partial class City : PlayerCropStructure
                 if (predictor.GetSuperiority() / 4 >= 75)
                 {
                     var strong = AbilityRules.TranslateResourceString(GetEngine(), s_strongText);
-                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [strong]));
+                    list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [strong]));
                 }
                 else
                 {
                     var average = AbilityRules.TranslateResourceString(GetEngine(), s_averageText);
-                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [average]));
+                    list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [average]));
                 }
             }
             else
             {
                 var weak = AbilityRules.TranslateResourceString(GetEngine(), s_weakText);
-                list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [weak]));
+                list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [weak]));
             }
 
             predictor?.Dispose();
@@ -2592,7 +2592,7 @@ public partial class City : PlayerCropStructure
             {
                 request.Object = NegotiateObject.City;
                 var name = GetName();
-                request.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityJoinHeaderFormat), [name]);
+                request.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityJoinHeaderFormat), [name]);
                 request.Gold = amount;
                 if (request.Gold == 0)
                 {
@@ -2601,7 +2601,7 @@ public partial class City : PlayerCropStructure
                 }
                 else
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityTributeJoinFormat), [IntToStr(request.Gold)]);
+                    var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityTributeJoinFormat), [IntToStr(request.Gold)]);
                     request.JoinMessage.Text = format;
                 }
 
@@ -2649,7 +2649,7 @@ public partial class City : PlayerCropStructure
                     log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                     log.Player = Player;
                     var name = GetName();
-                    log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_overthrownFormat), [name]);
+                    log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_overthrownFormat), [name]);
                     log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
                     EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
                     log.Release();
@@ -2845,34 +2845,34 @@ public partial class City : PlayerCropStructure
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)2),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)3).With((byte)6)
-                .With((byte)13)
+            Bonus = Set<byte>.WithBounds(0, 15).With(2),
+            Penalty = Set<byte>.WithBounds(0, 15).With(3).With(6)
+                .With(13)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)0),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)2).With((byte)5)
+            Bonus = Set<byte>.WithBounds(0, 15).With(0),
+            Penalty = Set<byte>.WithBounds(0, 15).With(2).With(5)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)3).With((byte)6)
-                .With((byte)13),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)2)
+            Bonus = Set<byte>.WithBounds(0, 15).With(3).With(6)
+                .With(13),
+            Penalty = Set<byte>.WithBounds(0, 15).With(2)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)1),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)5)
+            Bonus = Set<byte>.WithBounds(0, 15).With(1),
+            Penalty = Set<byte>.WithBounds(0, 15).With(5)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)1),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)5)
+            Bonus = Set<byte>.WithBounds(0, 15).With(1),
+            Penalty = Set<byte>.WithBounds(0, 15).With(5)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)12),
+            Bonus = Set<byte>.WithBounds(0, 15).With(12),
             Penalty = Set<byte>.WithBounds(0, 15)
         },
         new RaceTerrainInfo
@@ -2882,7 +2882,7 @@ public partial class City : PlayerCropStructure
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)12),
+            Bonus = Set<byte>.WithBounds(0, 15).With(12),
             Penalty = Set<byte>.WithBounds(0, 15)
         },
         new RaceTerrainInfo
@@ -2892,13 +2892,13 @@ public partial class City : PlayerCropStructure
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)12),
+            Bonus = Set<byte>.WithBounds(0, 15).With(12),
             Penalty = Set<byte>.WithBounds(0, 15)
         },
         new RaceTerrainInfo
         {
-            Bonus = Set<byte>.WithBounds(0, 15).With((byte)5),
-            Penalty = Set<byte>.WithBounds(0, 15).With((byte)1)
+            Bonus = Set<byte>.WithBounds(0, 15).With(5),
+            Penalty = Set<byte>.WithBounds(0, 15).With(1)
         }
     };
 

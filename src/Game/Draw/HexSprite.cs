@@ -215,7 +215,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         mapField = Owner;
         if (mapField != null)
         {
-            ((GameEngine)mapField.Owner.Engine).HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
+            mapField.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
         }
     }
 
@@ -255,7 +255,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)Owner.Owner.Engine).HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()

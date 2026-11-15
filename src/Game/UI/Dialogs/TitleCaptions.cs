@@ -1,5 +1,3 @@
-using Aow.Engine.Buffers;
-
 namespace Aow.Game.UI.Dialogs;
 
 internal static class TitleCaptions

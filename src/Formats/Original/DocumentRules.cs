@@ -122,7 +122,7 @@ internal sealed partial class StringsWithValuesCodec
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is not LinesWithValuesNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is lines with objects.");
-        string text = node.RawText ?? StringsCodec.Join(node.Lines ?? []);
+        string text = node.RawText ?? Join(node.Lines ?? []);
         int lines = LineCount(text);
         if (lines != node.Objects.Count)
             throw site.Fail(Codes.Corrupt, $"The text has {lines} lines and {node.Objects.Count} object values.");
@@ -131,7 +131,7 @@ internal sealed partial class StringsWithValuesCodec
         foreach (var item in node.Objects) objects.Add(new JsonInteger(item));
         // The converter stores an array only when the block rule reproduces the bytes. A line that
         // holds CR, LF or NUL stays $text, the same choice Decode makes for the engine image.
-        var canonical = node.RawText is null ? StringsCodec.Lines(text) : null;
+        var canonical = node.RawText is null ? Lines(text) : null;
         if (canonical is null) return new JsonObject().Add("$text", new JsonString(text)).Add("objects", objects);
         var array = new JsonArray();
         foreach (var line in canonical) array.Add(new JsonString(line));

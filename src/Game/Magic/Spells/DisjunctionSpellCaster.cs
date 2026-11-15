@@ -138,7 +138,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
         enchantment = SelectedEnchantment();
         if (enchantment != null)
         {
-            result = Round((double)((double)enchantment.DispelMana * 0.02) * DispelChance);
+            result = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
         }
         else
         {

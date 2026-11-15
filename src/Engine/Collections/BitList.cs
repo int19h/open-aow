@@ -174,10 +174,10 @@ public partial class BitList : Persistent
         if (source is BitList)
         {
             var bitList = (BitList)source;
-            this._count = bitList._count;
-            this.SetCapacity(bitList._count);
-            RtlUnit.Move(bitList.List.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), this.List.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), (int)(((uint)(this._count + 31)) >> 5) * 4);
-            this._default = bitList._default;
+            _count = bitList._count;
+            SetCapacity(bitList._count);
+            RtlUnit.Move(bitList.List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), (int)(((uint)(_count + 31)) >> 5) * 4);
+            _default = bitList._default;
         }
         else
         {
@@ -382,7 +382,7 @@ public partial class BitList : Persistent
     // Engine.pas:4613
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
 }

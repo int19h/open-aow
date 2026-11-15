@@ -40,8 +40,8 @@ public sealed class StringPathTests
         foreach (Func<string?, string> function in new Func<string?, string>[] {
             RtlUnit.ExtractFileName, RtlUnit.ExtractFilePath, RtlUnit.ExtractFileDir, RtlUnit.ExtractFileExt,
             RtlUnit.ExtractFileDrive, RtlUnit.ExpandFileName }) Assert.Equal("", function(null));
-        Assert.Equal("", RtlUnit.ChangeFileExt((string?)null, null));
-        Assert.Equal("file", RtlUnit.ChangeFileExt("file.ext", (string?)null));
+        Assert.Equal("", RtlUnit.ChangeFileExt(null, null));
+        Assert.Equal("file", RtlUnit.ChangeFileExt("file.ext", null));
         Assert.Equal("\u2603.ext", RtlUnit.ExtractFileName("C:\\folder\\\u2603.ext"));
         Assert.Equal("C:\\folder\\\u2603.new", RtlUnit.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
     }

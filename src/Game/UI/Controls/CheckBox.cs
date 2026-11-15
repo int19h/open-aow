@@ -23,14 +23,14 @@ public partial class CheckBox : BaseButton
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         Lit = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
 
             if (button == MouseButton.Left)
             {
-                if (base.RadioIndex > 0)
+                if (RadioIndex > 0)
                 {
                     if (!base.Checked)
                     {
@@ -89,7 +89,7 @@ public partial class CheckBox : BaseButton
     {
         Handled = false;
         Lit = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -128,7 +128,7 @@ public partial class CheckBox : BaseButton
         {
             base.Checked = value;
             Drawn = false;
-            if (base.RadioIndex > 0)
+            if (RadioIndex > 0)
             {
                 if (Window != null)
                 {

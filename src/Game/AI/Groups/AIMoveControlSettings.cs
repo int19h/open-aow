@@ -1,16 +1,10 @@
 #nullable disable
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;

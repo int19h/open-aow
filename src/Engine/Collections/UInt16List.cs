@@ -120,10 +120,10 @@ public partial class UInt16List : Persistent
         if (source is UInt16List)
         {
             var uInt16List = (UInt16List)source;
-            this._count = uInt16List._count;
-            this.SetCapacity(uInt16List._count);
-            Array.Copy(uInt16List._list, 0, this._list, 0, this._count);
-            this._default = uInt16List._default;
+            _count = uInt16List._count;
+            SetCapacity(uInt16List._count);
+            Array.Copy(uInt16List._list, 0, _list, 0, _count);
+            _default = uInt16List._default;
         }
         else
         {
@@ -426,7 +426,7 @@ public partial class UInt16List : Persistent
     // Engine.pas:4303
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortWord(Span<ushort> sortList, int L, int R, WordSortCompare sCompare)

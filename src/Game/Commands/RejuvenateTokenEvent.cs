@@ -49,9 +49,9 @@ public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:1039
     public void RejuvenateTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).WithRange((int)World.Map.TerrainType.Desert, (int)World.Map.TerrainType.Wasteland).Contains((byte)terrainType))
+        if (Set<byte>.WithBounds(0, 255).WithRange((int)TerrainType.Desert, (int)TerrainType.Wasteland).Contains((byte)terrainType))
         {
-            terrainType = (int)World.Map.TerrainType.Grass;
+            terrainType = (int)TerrainType.Grass;
         }
     }
 
