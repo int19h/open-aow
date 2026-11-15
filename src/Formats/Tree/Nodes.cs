@@ -48,7 +48,7 @@ public abstract class TreeValue
 /// <summary>A signed or unsigned integer of a fixed width. The document stores the number only.</summary>
 public sealed class IntegerNode(int width, bool signed, long value) : TreeValue
 {
-    public int Width { get; } = width;
+    internal int Width { get; } = width;
     public bool Signed { get; } = signed;
     public long Value { get; } = value;
 
@@ -63,7 +63,7 @@ public sealed class IntegerNode(int width, bool signed, long value) : TreeValue
 public sealed class EnumNode(string typeName, int width, bool signed, long value) : TreeValue
 {
     public string TypeName { get; } = typeName;
-    public int Width { get; } = width;
+    internal int Width { get; } = width;
     public bool Signed { get; } = signed;
     public long Value { get; } = value;
 
@@ -78,8 +78,8 @@ public sealed class EnumNode(string typeName, int width, bool signed, long value
 public sealed class SetNode(string typeName, int width, ulong mask) : TreeValue
 {
     public string TypeName { get; } = typeName;
-    public int Width { get; } = width;
-    public ulong Mask { get; } = mask;
+    internal int Width { get; } = width;
+    internal ulong Mask { get; } = mask;
 
     public override bool ValueEquals(TreeValue other) =>
         other is SetNode node && node.TypeName == TypeName && node.Width == Width && node.Mask == Mask;
@@ -181,7 +181,7 @@ public sealed class LinesWithValuesNode : TreeValue
 /// </summary>
 public sealed class BytesNode(byte[] data) : TreeValue
 {
-    public byte[] Data { get; } = data;
+    internal byte[] Data { get; } = data;
 
     public override bool ValueEquals(TreeValue other) =>
         other is BytesNode node && node.Data.AsSpan().SequenceEqual(Data);
@@ -363,7 +363,7 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
 {
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
-    public byte Residue { get; } = residue;
+    internal byte Residue { get; } = residue;
 
     public override bool ValueEquals(TreeValue other) =>
         other is BitArrayNode node && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
@@ -385,7 +385,7 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices, byt
     public byte Default { get; } = defaultValue;
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
-    public byte Residue { get; } = residue;
+    internal byte Residue { get; } = residue;
 
     public override bool ValueEquals(TreeValue other) =>
         other is BitListNode node && node.Default == Default && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
@@ -405,7 +405,7 @@ public sealed record BitListImage(byte Default, int Count, byte[] Bits);
 /// </summary>
 public sealed class DefaultListNode(int width, long defaultValue, IReadOnlyList<long> items) : TreeValue
 {
-    public int Width { get; } = width;
+    internal int Width { get; } = width;
     public long Default { get; } = defaultValue;
     public IReadOnlyList<long> Items { get; } = items;
 
@@ -526,7 +526,7 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
 public sealed class NestedDocumentNode(string profile, byte[] image) : TreeValue
 {
     public string Profile { get; } = profile;
-    public byte[] Image { get; } = image;
+    internal byte[] Image { get; } = image;
 
     public override bool ValueEquals(TreeValue other) =>
         other is NestedDocumentNode node && node.Profile == Profile && node.Image.AsSpan().SequenceEqual(Image);

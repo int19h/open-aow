@@ -108,8 +108,10 @@ order and proposal kinds. The design is `data/rewrite/mods-design.md` in the pri
 until step 10.11 moves it to `specs/modding.md`. Every step keeps the gate's layers at their counts
 with the harness under `--no-mods`, and a game with no mods writes the same bytes as before.
 The exit from the Delphi image (`specs/own-formats.md` 6.3) comes before step 10.4 publishes the
-API baseline: no persistence interface becomes stable mod API while own saves pass through the
-image. The private roadmap allocates its five steps as briefs PE-1 to PE-5.
+API baseline. Steps 1 to 4 of that exit are done. Step 5 is done for port-only state and the
+inventory of the own disk path and the public persistence interface. Own saves of the in-scope
+profiles do not pass through the original image. The migration chain is dropped. Own formats are not stable yet, so there is no chain to keep. 10.4 itself is not done. The private
+roadmap still allocates the five steps as briefs PE-1 to PE-5.
 Network agreement between peers with different mod sets waits for the networking work, which
 section 7 keeps out of the first release.
 
