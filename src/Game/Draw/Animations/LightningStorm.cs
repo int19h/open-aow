@@ -28,19 +28,19 @@ public partial class LightningStorm : Storm
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int frame;
         frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] != null)
         {
             var hexY = GetHexY();
-            HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
+            HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
             var stormImageWidth = _stormImages[frame];
-            X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
+            x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
             var stormImageHeight = _stormImages[frame];
-            Y = Y - stormImageHeight.Height + 32 + 40;
-            _stormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
+            y = y - stormImageHeight.Height + 32 + 40;
+            _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
         }
     }
 
@@ -55,7 +55,7 @@ public partial class LightningStorm : Storm
     {
         base.UpdateTargetSelection(selection);
         // { Original adds to the map selection, without clearing its existing hexes. }
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
         {
             StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
@@ -64,7 +64,7 @@ public partial class LightningStorm : Storm
     // Storms.pas:443
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
-        Rect R = default;
+        Rect r = default;
         base.InitializeStorm(player, X, Y, L);
         _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         if (GetVisible())
@@ -72,11 +72,11 @@ public partial class LightningStorm : Storm
             _stormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)_stormImages[0].Width) >> 1);
-        R.Top = -_stormImages[0].Height + 32;
-        R.Bottom = 32;
-        SetDimensions(R);
+        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
+        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        r.Top = -_stormImages[0].Height + 32;
+        r.Bottom = 32;
+        SetDimensions(r);
         StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
         PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
@@ -93,9 +93,7 @@ public partial class LightningStorm : Storm
 
         if (_stormImages.Count == FrameCounter)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            AbilityRules.TriggerStormDamage(StormType.Lightning, GetHexX(), hexY, hexLevel, 0, 1, StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
             result = false;
         }
         else

@@ -39,7 +39,7 @@ public partial class WarpParty : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            if (source.Owner is HeroList)
+            if (source.Owner is IHeroHolder)
             {
                 return false;
             }
@@ -98,7 +98,7 @@ public partial class WarpParty : Spell
         HexNumberWalkData walk = default;
         MapLevel level;
         MapField field;
-        int I;
+        int i;
         bool found;
         candidates = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(255, out table);
@@ -120,11 +120,11 @@ public partial class WarpParty : Spell
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            if (Math.Abs(L - army.HexLevel) == 1)
+            if (Math.Abs(l - army.HexLevel) == 1)
             {
-                level = StrategicMap.Current.MapContainer.MapLevels[L];
+                level = StrategicMap.Current.MapContainer.MapLevels[l];
                 var armyHexY = army.HexY;
                 var armyHexX = army.HexX;
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, 0);
@@ -148,8 +148,8 @@ public partial class WarpParty : Spell
         MapCoordinate result = MapCoordinate.None;
         while (candidates.Count != 0 && !found)
         {
-            I = Random(candidates.Count);
-            field = candidates[I];
+            i = Random(candidates.Count);
+            field = candidates[i];
             if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;
@@ -165,7 +165,7 @@ public partial class WarpParty : Spell
             }
             else
             {
-                candidates.Delete(I);
+                candidates.Delete(i);
             }
         }
 

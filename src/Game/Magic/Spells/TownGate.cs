@@ -39,11 +39,11 @@ public partial class TownGate : CityTargetSpell
         ArmyHexSprite army = default;
         MapField field;
         ArmyHexSprite newArmy;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        ImageSequenceAnimation A;
-        source.GetLocation(out X, out Y, out L);
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        ImageSequenceAnimation a;
+        source.GetLocation(out x, out y, out l);
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation);
         army.Army.ResetDestinationPosition();
@@ -71,15 +71,15 @@ public partial class TownGate : CityTargetSpell
             }
         }
 
-        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(X, Y, L, 0);
+        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(x, y, l, 0);
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
         if (showSource)
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
-                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                StrategicMap.Current.PlaceHex(A, X, Y, L);
+                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                StrategicMap.Current.PlaceHex(a, x, y, l);
             }
         }
 
@@ -87,9 +87,9 @@ public partial class TownGate : CityTargetSpell
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
-                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                StrategicMap.Current.PlaceHex(A, field.HexX, field.HexY, field.HexLevel);
+                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                StrategicMap.Current.PlaceHex(a, field.HexX, field.HexY, field.HexLevel);
             }
         }
 
@@ -101,11 +101,11 @@ public partial class TownGate : CityTargetSpell
         {
             if (!StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
             {
-                StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+                StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             }
         }
 
-        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(X, Y, L, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
+        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, l, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
             GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
@@ -138,7 +138,7 @@ public partial class TownGate : CityTargetSpell
         bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
         if (result)
         {
-            if (source.Owner is HeroList)
+            if (source.Owner is IHeroHolder)
             {
                 return false;
             }

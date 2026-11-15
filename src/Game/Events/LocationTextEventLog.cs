@@ -53,11 +53,11 @@ public partial class LocationTextEventLog : TextEventLog
     }
 
     // EventLog.pas:737
-    public void SetLocation(sbyte X, sbyte Y, sbyte L)
+    public void SetLocation(sbyte x, sbyte y, sbyte level)
     {
-        HexX = X;
-        HexY = Y;
-        HexLevel = L;
+        HexX = x;
+        HexY = y;
+        HexLevel = level;
     }
 
 }

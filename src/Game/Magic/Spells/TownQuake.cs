@@ -55,9 +55,9 @@ public partial class TownQuake : CityTargetSpell
                 }
 
                 targetCity.ListArmies(armies);
-                for (int I = 0, last = armies.Count - 1; I <= last; I++)
+                for (int i = 0, last = armies.Count - 1; i <= last; i++)
                 {
-                    TriggerArmyDamage(source, armies.GetArmyHexSprite(I));
+                    TriggerArmyDamage(source, armies.GetArmyHexSprite(i));
                 }
 
                 armies?.Dispose();
@@ -105,9 +105,9 @@ public partial class TownQuake : CityTargetSpell
         log.ArmyView.Setup(army.Army, 255);
         army.Army.BeginUpdate();
         damaged = false;
-        for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
         {
-            troop = army.Army.Units.GetUnit(I);
+            troop = army.Army.Units.GetUnit(i);
             damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
             if (damage > troop.GetHitPoints())
             {
@@ -127,10 +127,7 @@ public partial class TownQuake : CityTargetSpell
         if (damaged)
         {
             log.ValidateGameOver();
-            var hexY = army.GetHexY();
-            var hexLevel = army.GetHexLevel();
-            var hexX = army.GetHexX();
-            EventLog.DistributeLocationEventLog(log, army.Army.Player, hexX, hexY, hexLevel, true);
+            EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: army.Army.Player, execute: true);
         }
 
         log.Release();

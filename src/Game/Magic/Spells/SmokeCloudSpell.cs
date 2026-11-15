@@ -63,7 +63,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(4) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(4) - 1; i <= last; i++)
         {
             target.HexNumbers.Add(0);
         }

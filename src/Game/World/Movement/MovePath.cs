@@ -35,9 +35,9 @@ public partial class MovePath : PathStepList
     public int PositionToMovePoints(int position)
     {
         int result = 0;
-        for (int I = Count - 1; I >= position; I--)
+        for (int i = Count - 1; i >= position; i--)
         {
-            result += List[I].MoveCost;
+            result += List[i].MoveCost;
         }
 
         return result;

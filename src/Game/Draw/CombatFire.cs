@@ -128,10 +128,10 @@ public partial class CombatFire : SingleHexSprite
                 var yhx = GetHexY();
                 var xhx = GetHexX();
                 CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
-                for (int I = 1; I <= 6; I++)
+                for (int i = 1; i <= 6; i++)
                 {
                     var hexY2 = GetHexY();
-                    HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, I, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {
                         EffectPaths.CreateFire(true, 50, hexX, hexY, engine: GetEngine());

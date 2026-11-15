@@ -37,7 +37,7 @@ public partial class AnimateRuins : CityTargetSpell
         bool result = default;
         City targetCity = default;
         LocationTextEventLog log = default;
-        ImageSequenceAnimation A = default;
+        ImageSequenceAnimation a = default;
         int count = default;
         Unit unit = default;
         if (executeCount == 0)
@@ -47,27 +47,22 @@ public partial class AnimateRuins : CityTargetSpell
             log._player = source.Player;
             var animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
             log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
-            var hexLevel = targetCity.GetHexLevel();
-            var hexY = targetCity.GetHexY();
-            log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
-            var targetCityHexY = targetCity.GetHexY();
-            var targetCityHexLevel = targetCity.GetHexLevel();
-            var hexX = targetCity.GetHexX();
-            EventLog.DistributeLocationEventLog(log, source.Player, hexX, targetCityHexY, targetCityHexLevel, false);
+            log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
+            EventLog.DistributeLocationEventLog(y: targetCity.GetHexY(), level: targetCity.GetHexLevel(), x: targetCity.GetHexX(), log: log, player: source.Player, execute: false);
             log.Release();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
             {
-                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
-                A.SetPixelXOffset(A.PixelXOffset - 16);
-                A.SetPixelYOffset(A.PixelYOffset - 16);
-                A.OnShow += ShowAnimation;
+                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
+                a.SetPixelXOffset(a.PixelXOffset - 16);
+                a.SetPixelYOffset(a.PixelYOffset - 16);
+                a.OnShow += ShowAnimation;
                 var hexLevel2 = targetCity.GetHexLevel();
                 var hexY2 = targetCity.GetHexY();
                 var targetCityHexX = targetCity.GetHexX();
-                StrategicMap.Current.PlaceHex(A, targetCityHexX, hexY2, hexLevel2);
+                StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
             }
 
             result = true;
@@ -81,7 +76,7 @@ public partial class AnimateRuins : CityTargetSpell
                 targetCity.SetRazed(false);
                 var size = targetCity.GetSize();
                 count = StrategicMap.Current.Random(size * 2) + 1;
-                for (int I = 0; I <= count; I++)
+                for (int i = 0; i <= count; i++)
                 {
                     unit = new Unit(null) { Holder = CreationHolder() };
                     var random = StrategicMap.Current.Random(2);

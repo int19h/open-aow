@@ -29,7 +29,7 @@ public partial class GroupDefenseSelector : IDisposable
     // The node that created this selector. It and the nodes it creates reach the engine through it.
     public EngineObject Creator { get; }
 
-    public UnitList Defenders { get; }
+    public UnitUserList Defenders { get; }
 
     public MapCoordinate DefenseLocation;
 
@@ -40,7 +40,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1652
-    public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitList units)
+    public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitUserList units)
     {
         DefensePriority priority;
         MapCoordinate location;
@@ -110,7 +110,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1728
-    public bool Execute(AIGroup group, sbyte X, sbyte Y, sbyte L, UnitList units)
+    public bool Execute(AIGroup group, sbyte X, sbyte Y, sbyte L, UnitUserList units)
     {
         bool result = default;
         UnitUserList candidates = default;
@@ -127,7 +127,7 @@ public partial class GroupDefenseSelector : IDisposable
         DefenseLocation = MapCoordinate.None;
         candidates = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
-        while (walk.Radius <= 1 && Defenders.Count != group.Count)
+        while (walk.Radius <= 1 && Defenders.Count != group.Units.Count)
         {
             mapField = level.GetField(walk.X, walk.Y);
             if (mapField.GetPlayer() == group.Player)
@@ -217,7 +217,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     private static int s_defenseSortGroupId;
-    private static UnitList s_defenseSortUnits;
+    private static UnitUserList s_defenseSortUnits;
 
     private static int CompareDefenseUnits(EngineObject item1, EngineObject item2)
     {

@@ -104,9 +104,9 @@ public partial class FastBattleWindow : UIModule
         if (_viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             combat = _viewer.Combat;
-            for (int I = 0, last = combat.CombatData.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = combat.CombatData.GetCount() - 1; i <= last; i++)
             {
-                objectValue = combat.CombatData.GetObjects(I);
+                objectValue = combat.CombatData.GetObjects(i);
                 if (objectValue.Position != 128)
                 {
                     GetPartyPosition((int)(((uint)objectValue.Position) >> 4), ref pixelX, ref pixelY);
@@ -119,7 +119,7 @@ public partial class FastBattleWindow : UIModule
                         pixelY += 38;
                     }
 
-                    var combatObject = combat.CombatData.GetObjects(I);
+                    var combatObject = combat.CombatData.GetObjects(i);
                     _viewer.ShowFieldObject(combatObject, _animationFrame, 3, pixelX, pixelY, surface);
                 }
             }
@@ -227,15 +227,11 @@ public partial class FastBattleWindow : UIModule
             {
                 if (HasWall(0, 4))
                 {
-                    var hits = wall.GetHits();
-                    var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(wall.GetHitPoints(), hits);
-                    HitChance.ShowHitPercent(X + 250, Y + 332 - 45, surface, hitPointsToHitPercent);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 332 - 45, surface: surface);
                 }
                 else
                 {
-                    var hits = wall.GetHits();
-                    var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(wall.GetHitPoints(), hits);
-                    HitChance.ShowHitPercent(X + 250, Y + 218 - 45, surface, hitPointsToHitPercent);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 218 - 45, surface: surface);
                 }
             }
         }
@@ -264,17 +260,17 @@ public partial class FastBattleWindow : UIModule
         _viewer.ShowFightingObjects(_animationFrame, X + 234, Y + 15, surface);
         if (_phase == 2 || _phase == 3)
         {
-            for (int I = 0; I <= 7; I++)
+            for (int i = 0; i <= 7; i++)
             {
-                if (combat.CombatData.Parties.GetParty((byte)I) != null)
+                if (combat.CombatData.Parties.GetParty((byte)i) != null)
                 {
-                    if (combat.CombatData.Parties.GetParty((byte)I).Army.Units.Count == 0)
+                    if (combat.CombatData.Parties.GetParty((byte)i).Army.Units.Count == 0)
                     {
                         if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
                         {
                             glow = _phaseFrame / 2;
                             glow = Math.Abs((glow + 7) % 15 - 7);
-                            GetPartyPosition(I, ref pixelX, ref pixelY);
+                            GetPartyPosition(i, ref pixelX, ref pixelY);
                             GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
                         }
                     }
@@ -666,9 +662,9 @@ public partial class FastBattleWindow : UIModule
         dialog._viewer.Initialize(logbook);
         combat = dialog._viewer.Combat;
         dialog._animationFrame = 0;
-        for (int I = 0; I <= 7; I++)
+        for (int i = 0; i <= 7; i++)
         {
-            switch (I)
+            switch (i)
             {
                 case 0:
                     image = dialog.Party1Background;
@@ -700,7 +696,7 @@ public partial class FastBattleWindow : UIModule
                     break;
             }
 
-            party = combat.CombatData.Parties.GetParty((byte)I);
+            party = combat.CombatData.Parties.GetParty((byte)i);
             if (party != null)
             {
                 playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
@@ -718,7 +714,7 @@ public partial class FastBattleWindow : UIModule
             }
             else
             {
-                if (I != 7)
+                if (i != 7)
                 {
                     image.Visible = false;
                 }

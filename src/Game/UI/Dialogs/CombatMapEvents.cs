@@ -112,7 +112,7 @@ public partial class CombatMapEvents : UIModule
     // aowTCMapEvents.pas:174
     public void CombatMapMouseOverTarget(HexSprite hexSprite)
     {
-        Troop U;
+        Troop u;
         if (UI.CombatUnitInfo.MainWindow.Visible)
         {
             UI.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite != null;
@@ -121,27 +121,27 @@ public partial class CombatMapEvents : UIModule
             {
                 if (hexSprite is TacticalBattleUnitHexSprite)
                 {
-                    U = ((TacticalBattleUnitHexSprite)hexSprite).Unit.Troop;
-                    var name = U.GetName();
+                    u = ((TacticalBattleUnitHexSprite)hexSprite).Unit.Troop;
+                    var name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
-                    var hitPoints = U.GetHitPoints();
-                    var hits = U.GetHits();
+                    var hitPoints = u.GetHitPoints();
+                    var hits = u.GetHits();
                     UI.CombatUnitInfo.TargetHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-                    var movePoints = U.GetMovePoints();
-                    var moves = U.GetMoves();
+                    var movePoints = u.GetMovePoints();
+                    var moves = u.GetMoves();
                     UI.CombatUnitInfo.TargetMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-                    var attack = U.GetAttack();
+                    var attack = u.GetAttack();
                     UI.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
-                    var damage = U.GetDamage();
+                    var damage = u.GetDamage();
                     UI.CombatUnitInfo.TargetDamageLabel.Text = IntToStr(damage);
-                    var defense = U.GetDefense();
+                    var defense = u.GetDefense();
                     UI.CombatUnitInfo.TargetDefenseLabel.Text = IntToStr(defense);
-                    var resistance = U.GetResistance();
+                    var resistance = u.GetResistance();
                     UI.CombatUnitInfo.TargetResistanceLabel.Text = IntToStr(resistance);
-                    var moveTypes = U.GetMoveTypes();
+                    var moveTypes = u.GetMoveTypes();
                     var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
-                    U.ListAbilities(UI.CombatUnitInfo.TargetAbilityList.Items);
+                    u.ListAbilities(UI.CombatUnitInfo.TargetAbilityList.Items);
                 }
             }
         }
@@ -236,7 +236,7 @@ public partial class CombatMapEvents : UIModule
 
     private static void RefreshCombatUnit(CombatUnitInfo window)
     {
-        AbilityCombatInfo Info = default(AbilityCombatInfo);
+        AbilityCombatInfo abilityCombatInfo = default(AbilityCombatInfo);
         SpellCombatInfo info = default(SpellCombatInfo);
         if (window.UI.General.CombatUnit != null)
         {
@@ -381,75 +381,75 @@ public partial class CombatMapEvents : UIModule
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
-                    GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref Info);
+                    GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref abilityCombatInfo);
                     string name = GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
-                    if (Info.Attack > 0)
+                    if (abilityCombatInfo.Attack > 0)
                     {
-                        window.AbilityAttackLabel.Text = RtlUnit.IntToStr((int)Info.Attack);
+                        window.AbilityAttackLabel.Text = RtlUnit.IntToStr((int)abilityCombatInfo.Attack);
                     }
                     else
                     {
                         window.AbilityAttackLabel.Text = "-";
                     }
-                    if (Info.Damage > 0)
+                    if (abilityCombatInfo.Damage > 0)
                     {
-                        window.AbilityDamageLabel.Text = RtlUnit.IntToStr((int)Info.Damage);
+                        window.AbilityDamageLabel.Text = RtlUnit.IntToStr((int)abilityCombatInfo.Damage);
                     }
                     else
                     {
                         window.AbilityDamageLabel.Text = "-";
                     }
                     ((StringCollection)window.AbilityStatisticsList.Items).Clear();
-                    if (Info.DamageTypes.Contains(DamageType.Fire))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Fire))
                     {
                         string text19 = window.UI.Engine.TranslateResourceString(GameTables.FireText);
                         string text20 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text19 + " " + text20);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Cold))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Cold))
                     {
                         string text21 = window.UI.Engine.TranslateResourceString(s_coldText);
                         string text22 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text21 + " " + text22);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Lightning))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Lightning))
                     {
                         string text23 = window.UI.Engine.TranslateResourceString(s_lightningText);
                         string text24 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text23 + " " + text24);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Magic))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Magic))
                     {
                         string text25 = window.UI.Engine.TranslateResourceString(s_magicText);
                         string text26 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text25 + " " + text26);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Poison))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Poison))
                     {
                         string text27 = window.UI.Engine.TranslateResourceString(s_poisonText);
                         string text28 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text27 + " " + text28);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Death))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Death))
                     {
                         string text29 = window.UI.Engine.TranslateResourceString(GameTables.DeathText);
                         string text30 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text29 + " " + text30);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Holy))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Holy))
                     {
                         string text31 = window.UI.Engine.TranslateResourceString(s_holyText);
                         string text32 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text31 + " " + text32);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Physical))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Physical))
                     {
                         string text33 = window.UI.Engine.TranslateResourceString(s_physicalText);
                         string text34 = window.UI.Engine.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilityStatisticsList.Items).Add(text33 + " " + text34);
                     }
-                    if (Info.DamageTypes.Contains(DamageType.Wall))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Wall))
                     {
                         string text35 = window.UI.Engine.TranslateResourceString(s_wallText);
                         string text36 = window.UI.Engine.TranslateResourceString(s_damageText);

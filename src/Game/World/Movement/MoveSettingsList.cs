@@ -28,15 +28,15 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
         int priority;
         int result = -1;
         minPriority = 16777215;
-        for (int I = GetCount() - 1; I >= 0; I--)
+        for (int i = GetCount() - 1; i >= 0; i--)
         {
-            var moveSettings = this[I];
+            var moveSettings = this[i];
             if (!moveSettings.Valid)
             {
                 priority = moveSettings.GetMovePrio();
                 if (priority <= minPriority)
                 {
-                    result = I;
+                    result = i;
                     minPriority = priority;
                 }
             }
@@ -66,9 +66,9 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
     {
         int index;
         MoveSettings settings;
-        for (int I = GetCount() - 1; I >= 0; I--)
+        for (int i = GetCount() - 1; i >= 0; i--)
         {
-            settings = GetMoveSettings(I);
+            settings = GetMoveSettings(i);
             settings.MovePosition = settings.Path.MovePointsToPosition(settings.MovePoints);
             settings.Valid = settings.Path.Count == 0 || settings.MovePosition == settings.Path.Count - 1;
         }
@@ -79,17 +79,17 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
             if (validate(this, index))
             {
                 GetMoveSettings(index).Valid = true;
-                for (int I = 0, last = GetCount() - 1; I <= last; I++)
+                for (int i = 0, last = GetCount() - 1; i <= last; i++)
                 {
-                    if (index != I)
+                    if (index != i)
                     {
                         var moveLocation = GetMoveSettings(index).GetMoveLocation();
-                        var moveLocation2 = GetMoveSettings(I).GetMoveLocation();
+                        var moveLocation2 = GetMoveSettings(i).GetMoveLocation();
                         if (moveLocation == moveLocation2)
                         {
-                            if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(I).GetMovePrio())
+                            if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(i).GetMovePrio())
                             {
-                                GetMoveSettings(I).Valid = false;
+                                GetMoveSettings(i).Valid = false;
                             }
                         }
                     }

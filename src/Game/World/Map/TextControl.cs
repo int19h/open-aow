@@ -50,15 +50,15 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
     // Structur.PAS:4436
     public TextControlItem FindId(int id)
     {
-        int I;
-        I = Count;
+        int i;
+        i = Count;
         TextControlItem result = null;
-        while (result == null && I != 0)
+        while (result == null && i != 0)
         {
-            I -= 1;
-            if (this[I].Id == id)
+            i -= 1;
+            if (this[i].Id == id)
             {
-                result = this[I];
+                result = this[i];
             }
         }
 

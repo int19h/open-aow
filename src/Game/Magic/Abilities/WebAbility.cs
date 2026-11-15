@@ -113,10 +113,7 @@ public partial class WebAbility : TouchAbility
             damageValues.SourceCost = defenderHitPoints;
             var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
-            var protectionTypes = attacker.GetProtectionTypes();
-            var immunityTypes = attacker.GetImmunityTypes();
-            var meleeDamageTypes = CombatObject.MeleeDamageTypes(defender);
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(defender.GetDamage(), meleeDamageTypes, immunityTypes, protectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of();
         }
@@ -140,8 +137,7 @@ public partial class WebAbility : TouchAbility
     public WebCombatAction CreateWebCombatAction(CombatObject source, CombatObject target)
     {
         WebCombatAction result = new WebCombatAction(null) { Holder = CreationHolder() };
-        var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
-        result.Initialize(source.Id, target.Id, combatTouchRole);
+        result.Initialize(successful: CombatTouchRole((CombatUnit)source, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }
 

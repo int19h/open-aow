@@ -75,7 +75,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                bool locked = troop.Owner is not HeroList;
+                bool locked = troop.Owner is not IHeroHolder;
                 owner = locked ? troop.OwnerUnits.Holder : null;
                 if (locked)
                 {

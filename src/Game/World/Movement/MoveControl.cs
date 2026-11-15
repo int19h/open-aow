@@ -215,16 +215,16 @@ public partial class MoveControl : IDisposable
     {
         int best;
         int points;
-        int I;
+        int i;
         PathFindingStep pathFindingStep;
         MoveControlSettings settings;
         best = 16777215;
         MapField result = null;
-        I = 0;
+        i = 0;
         settings = Settings;
-        while (I < settings.SubMoves.Count)
+        while (i < settings.SubMoves.Count)
         {
-            pathFindingStep = settings.SubMoves.GetSubMove(I);
+            pathFindingStep = settings.SubMoves.GetSubMove(i);
             if (mapField.HexX == pathFindingStep.Location.X && mapField.HexY == pathFindingStep.Location.Y && mapField.HexLevel == pathFindingStep.Location.MapLevel)
             {
                 points = settings.GetMovePoints(pathFindingStep.Origin.X, pathFindingStep.Origin.Y, pathFindingStep.Origin.MapLevel);
@@ -236,7 +236,7 @@ public partial class MoveControl : IDisposable
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -359,9 +359,9 @@ public partial class MoveControl : IDisposable
                 direction = 1;
             }
 
-            for (int I = 0; I <= 2; I++)
+            for (int i = 0; i <= 2; i++)
             {
-                hexDirection = s_oddDirections[direction - 1][I];
+                hexDirection = s_oddDirections[direction - 1][i];
                 count = CalculateMovePointLine(mapField, hexDirection, overCode);
                 if (count != 0)
                 {
@@ -369,9 +369,9 @@ public partial class MoveControl : IDisposable
                 }
             }
 
-            for (int I = 0; I <= 2; I++)
+            for (int i = 0; i <= 2; i++)
             {
-                hexDirection = s_evenDirections[direction - 1][I];
+                hexDirection = s_evenDirections[direction - 1][i];
                 count = CalculateMovePointLine(mapField, hexDirection, overCode);
                 if (count != 0)
                 {
@@ -386,8 +386,8 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1295
     public bool ProcessSubMove(PathFindingStep pathFindingStep)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int count;
         int direction;
         int processed;
@@ -397,10 +397,10 @@ public partial class MoveControl : IDisposable
             SetMapL(Map.MapContainer.GetMapLevel(pathFindingStep.Location.MapLevel));
             direction = pathFindingStep.MovePointLines[0].First;
             count = pathFindingStep.MovePointLines[0].Second;
-            HexGeometry.CenterHexNumberToHex(pathFindingStep.Location.X, pathFindingStep.Location.Y, direction, ref X, ref Y);
+            HexGeometry.CenterHexNumberToHex(pathFindingStep.Location.X, pathFindingStep.Location.Y, direction, ref x, ref y);
             pathFindingStep.MovePointLines.Delete(0);
             processed = _processedCount;
-            ProcessHex(MapLevel.GetField(X, Y), direction, count - 1);
+            ProcessHex(MapLevel.GetField(x, y), direction, count - 1);
             processed = _processedCount - processed;
             StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
         }
@@ -534,20 +534,20 @@ public partial class MoveControl : IDisposable
     public bool ValidPath(MoveControlSettings settings, MovePath path)
     {
         bool valid;
-        int I;
+        int i;
         int points;
         valid = true;
-        I = path.Count - 2;
+        i = path.Count - 2;
         points = 0;
         settings.MovePointsMax = path.PositionToMovePoints(0);
         ProcessMove(settings);
-        while (I > 0 && valid)
+        while (i > 0 && valid)
         {
-            points += path[I].MoveCost;
-            var item = path[I];
-            var pathItem = path[I];
-            valid = points == settings.GetMovePoints(path[I].Location.X, pathItem.Location.Y, item.Location.MapLevel);
-            I -= 1;
+            points += path[i].MoveCost;
+            var item = path[i];
+            var pathItem = path[i];
+            valid = points == settings.GetMovePoints(path[i].Location.X, pathItem.Location.Y, item.Location.MapLevel);
+            i -= 1;
         }
 
         return valid;
@@ -556,8 +556,8 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1608
     public void CalculateGaps(int sourceX, int sourceY, int destinationX, int destinationY)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         int direction;
         int overCode;
         MapField field;
@@ -569,8 +569,8 @@ public partial class MoveControl : IDisposable
         _directRoute.Count = 0;
         overCode = 1;
         _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
-        X = 0;
-        Y = 0;
+        x = 0;
+        y = 0;
         direction = 0;
         while (sourceX != destinationX || sourceY != destinationY)
         {
@@ -579,16 +579,16 @@ public partial class MoveControl : IDisposable
                 if (sourceY > destinationY)
                 {
                     direction = 1;
-                    X = sourceX;
-                    Y = sourceY - 1;
+                    x = sourceX;
+                    y = sourceY - 1;
                 }
                 else
                 {
                     if (sourceY < destinationY)
                     {
                         direction = 4;
-                        X = sourceX;
-                        Y = sourceY + 1;
+                        x = sourceX;
+                        y = sourceY + 1;
                     }
                 }
             }
@@ -601,14 +601,14 @@ public partial class MoveControl : IDisposable
                         if (sourceY > destinationY)
                         {
                             direction = 6;
-                            X = sourceX - 1;
-                            Y = sourceY - 1;
+                            x = sourceX - 1;
+                            y = sourceY - 1;
                         }
                         else
                         {
                             direction = 5;
-                            X = sourceX - 1;
-                            Y = sourceY;
+                            x = sourceX - 1;
+                            y = sourceY;
                         }
                     }
                     else
@@ -616,14 +616,14 @@ public partial class MoveControl : IDisposable
                         if (sourceY > destinationY)
                         {
                             direction = 2;
-                            X = sourceX + 1;
-                            Y = sourceY - 1;
+                            x = sourceX + 1;
+                            y = sourceY - 1;
                         }
                         else
                         {
                             direction = 3;
-                            X = sourceX + 1;
-                            Y = sourceY;
+                            x = sourceX + 1;
+                            y = sourceY;
                         }
                     }
                 }
@@ -634,14 +634,14 @@ public partial class MoveControl : IDisposable
                         if (sourceY < destinationY)
                         {
                             direction = 5;
-                            X = sourceX - 1;
-                            Y = sourceY + 1;
+                            x = sourceX - 1;
+                            y = sourceY + 1;
                         }
                         else
                         {
                             direction = 6;
-                            X = sourceX - 1;
-                            Y = sourceY;
+                            x = sourceX - 1;
+                            y = sourceY;
                         }
                     }
                     else
@@ -649,24 +649,24 @@ public partial class MoveControl : IDisposable
                         if (sourceY < destinationY)
                         {
                             direction = 3;
-                            X = sourceX + 1;
-                            Y = sourceY + 1;
+                            x = sourceX + 1;
+                            y = sourceY + 1;
                         }
                         else
                         {
                             direction = 2;
-                            X = sourceX + 1;
-                            Y = sourceY;
+                            x = sourceX + 1;
+                            y = sourceY;
                         }
                     }
                 }
             }
 
-            field = MapLevel.GetField(X, Y);
+            field = MapLevel.GetField(x, y);
             points = OnMovePoint(field, overCode);
             if (points >= 0)
             {
-                if ((field.FieldFlags & MapField.MoveOverFlag) != 0 && (X != destinationX || Y != destinationY))
+                if ((field.FieldFlags & MapField.MoveOverFlag) != 0 && (x != destinationX || y != destinationY))
                 {
                     overCode = field.CanMoveOver(this);
                     if (overCode == 0)
@@ -694,13 +694,13 @@ public partial class MoveControl : IDisposable
             {
                 if (!clear)
                 {
-                    GapEnds.AddMapCoordinate((sbyte)X, (sbyte)Y, -1);
+                    GapEnds.AddMapCoordinate((sbyte)x, (sbyte)y, -1);
                     clear = true;
                 }
             }
 
-            sourceX = X;
-            sourceY = Y;
+            sourceX = x;
+            sourceY = y;
             _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
         }
 
@@ -713,21 +713,21 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1815
     public int GetMovePointsCostFast(int sourceX, int sourceY, int destinationX, int destinationY)
     {
-        int I;
+        int i;
         int points;
         int gapIndex;
         int cost;
-        I = 1;
+        i = 1;
         gapIndex = 0;
         points = 0;
         CalculateGaps(sourceX, sourceY, destinationX, destinationY);
-        while (I < _directRoute.Count && points != -1)
+        while (i < _directRoute.Count && points != -1)
         {
-            cost = _directRoute[I].MapLevel;
+            cost = _directRoute[i].MapLevel;
             if (cost < 0)
             {
-                var item = _directRoute[I - 1];
-                var fDirectRouteItem = _directRoute[I - 1];
+                var item = _directRoute[i - 1];
+                var fDirectRouteItem = _directRoute[i - 1];
                 gapIndex = GapStarts.IndexOfXY(fDirectRouteItem.X, item.Y);
                 cost = CalculateTurnAroundMovePoints(ref gapIndex);
                 if (cost != -1)
@@ -735,7 +735,7 @@ public partial class MoveControl : IDisposable
                     points += cost;
                     var fGapEndsItem = GapEnds[gapIndex];
                     var item2 = GapEnds[gapIndex];
-                    I = _directRoute.IndexOfXY(item2.X, fGapEndsItem.Y);
+                    i = _directRoute.IndexOfXY(item2.X, fGapEndsItem.Y);
                 }
                 else
                 {
@@ -747,7 +747,7 @@ public partial class MoveControl : IDisposable
                 points += cost;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return points;

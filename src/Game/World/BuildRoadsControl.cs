@@ -28,11 +28,11 @@ public partial class BuildRoadsControl : ConstructionControl
     public override bool CanConstruct(Troop troop, ref string reason)
     {
         bool result;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        troop.GetLocation(out X, out Y, out L);
-        if (L == 0)
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        troop.GetLocation(out x, out y, out l);
+        if (l == 0)
         {
             result = base.CanConstruct(troop, ref reason);
         }

@@ -146,9 +146,9 @@ public partial class HexBridge : AbstractRoad
         {
             if (_sideA.IndexOf((byte)info.HexNumber) != -1)
             {
-                for (int I = 0, last = _sideB.Count - 1; I <= last; I++)
+                for (int i = 0, last = _sideB.Count - 1; i <= last; i++)
                 {
-                    var sideB = _sideB[I];
+                    var sideB = _sideB[i];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
                     mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                     ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
@@ -158,9 +158,9 @@ public partial class HexBridge : AbstractRoad
             {
                 if (_sideB.IndexOf((byte)info.HexNumber) != -1)
                 {
-                    for (int I = 0, last = _sideA.Count - 1; I <= last; I++)
+                    for (int i = 0, last = _sideA.Count - 1; i <= last; i++)
                     {
-                        var sideA = _sideA[I];
+                        var sideA = _sideA[i];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
                         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                         ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
@@ -295,8 +295,8 @@ public partial class HexBridge : AbstractRoad
     {
         int hexX;
         int hexY;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         MapLevel level;
         _sideB.Clear();
         _sideA.Clear();
@@ -309,78 +309,78 @@ public partial class HexBridge : AbstractRoad
             switch (Direction)
             {
                 case 0:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(2);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(3);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(5);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(6);
                     }
 
                     break;
                 case 1:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(3);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(4);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(6);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(1);
                     }
 
                     break;
                 case 2:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(1);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideB.Add(2);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(4);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref X, ref Y);
-                    if (!Land(level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref x, ref y);
+                    if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _sideA.Add(5);
                     }

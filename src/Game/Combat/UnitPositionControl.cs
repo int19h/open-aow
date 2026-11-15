@@ -30,21 +30,21 @@ public partial class UnitPositionControl : EngineObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         UnitPositionHexSprite hexSprite;
-        int X = default;
-        int Y = default;
-        int L;
+        int x = default;
+        int y = default;
+        int l;
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
         {
-            L = message.Data[1];
-            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
-            if (CombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
+            l = message.Data[1];
+            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out x, out y);
+            if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
-                hexSprite = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
+                hexSprite = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(2228483);
                 if (hexSprite == null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };
-                    if (!CombatMap.Current.PlaceHex(hexSprite, X, Y, L))
+                    if (!CombatMap.Current.PlaceHex(hexSprite, x, y, l))
                     {
                         hexSprite?.Dispose();
                         hexSprite = null;
@@ -61,8 +61,8 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4950
     public UnitPosition GetUnitPosition(int position, int index)
     {
-        int I = position * 8 + index;
-        return I < Positions.Count ? Positions[I] : UnitPosition.None;
+        int i = position * 8 + index;
+        return i < Positions.Count ? Positions[i] : UnitPosition.None;
     }
 
     // AoWTC.pas:4963

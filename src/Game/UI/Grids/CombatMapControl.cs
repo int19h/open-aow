@@ -107,12 +107,12 @@ public partial class CombatMapControl : Component
         CombatMap.Current.AbilityActivated += ActivateAbility;
         CombatMap.Current.CombatStarted += CastSpell;
         StrategicMap.Current.ExecutingEventLog += ExecuteEventLog;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            StrategicMap.Current.Players.GetPlayers(I).GemsChanged += GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(I).IncomeChanged += IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(I).UpkeepChanged += UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(I).LogbookChanged += LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged += GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged += IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged += UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged += LogbookChanged;
         }
     }
 
@@ -133,12 +133,12 @@ public partial class CombatMapControl : Component
         CombatMap.Current.UnitChanged -= UnitChanged;
         CombatMap.Current.AbilityActivated -= ActivateAbility;
         CombatMap.Current.CombatStarted -= CastSpell;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            StrategicMap.Current.Players.GetPlayers(I).GemsChanged -= GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(I).IncomeChanged -= IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(I).UpkeepChanged -= UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(I).LogbookChanged -= LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged -= IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged -= UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged -= LogbookChanged;
         }
     }
 

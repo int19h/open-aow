@@ -35,13 +35,13 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:569
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         bool result = base.CanActivate(source, ref messageText);
         if (result && AboveGroundOnly)
         {
-            source.GetLocation(out X, out Y, out layer);
+            source.GetLocation(out x, out y, out layer);
             if (layer != 0)
             {
                 result = false;
@@ -79,16 +79,16 @@ public partial class GlobalTargetSpell : Spell
     {
         MapLevel level;
         MapField mapField;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int intensity;
         int radius;
         level = StrategicMap.Current.MapContainer.MapLevels[target.TargetL];
-        HexGeometry.CenterHexNumberToHex(target.TargetX, target.TargetY, hexNumber, ref X, ref Y);
+        HexGeometry.CenterHexNumberToHex(target.TargetX, target.TargetY, hexNumber, ref x, ref y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
-        if (X >= 0 && Y >= 0 && X <= level.Width && Y <= level.Height)
+        if (x >= 0 && y >= 0 && x <= level.Width && y <= level.Height)
         {
-            mapField = level.Field[X, Y];
+            mapField = level.Field[x, y];
             if (this.ValidTargetSelectionMapField(mapField))
             {
                 radius = HexGeometry.HexNumberToRadius(hexNumber);
@@ -166,13 +166,13 @@ public partial class GlobalTargetSpell : Spell
 
     internal static bool GlobalTargetCanActivate(GlobalTargetSpell spell, Troop caster, ref string messageText)
     {
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         bool result = spell.CanActivateStatic(caster, ref messageText);
         if (result && spell.AboveGroundOnly)
         {
-            caster.GetLocation(out X, out Y, out layer);
+            caster.GetLocation(out x, out y, out layer);
             if (layer != 0)
             {
                 result = false;

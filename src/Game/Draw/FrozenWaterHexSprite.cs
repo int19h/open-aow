@@ -54,16 +54,16 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     // Structur.PAS:4524
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         var hexY = HexY;
-        HexGeometry.HexToPixel(HexX, hexY, out X, out Y);
-        X = X - pixelXSurface + 16;
-        Y = Y - pixelYSurface + 16;
+        HexGeometry.HexToPixel(HexX, hexY, out x, out y);
+        x = x - pixelXSurface + 16;
+        y = y - pixelYSurface + 16;
         var hexX = HexX;
         var hexY2 = HexY;
         var hexY3 = HexY;
-        GamePack.Current.ImageSequences.ShowLooped(70, X, Y, StrategicMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
+        GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
     }
 
     // Structur.PAS:4494

@@ -47,9 +47,9 @@ public partial class CommandAbilityData : AbilityData
     {
         CombatObject target;
         int result = 0;
-        for (int I = CommandedUnits.Count - 1; I >= 0; I--)
+        for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
-            target = combat.CombatData.FindId(CommandedUnits.List[I]);
+            target = combat.CombatData.FindId(CommandedUnits.List[i]);
             if (target != null)
             {
                 result += target.GetTargetPriority();
@@ -64,9 +64,9 @@ public partial class CommandAbilityData : AbilityData
     {
         CombatObject target;
         int result = 0;
-        for (int I = CommandedUnits.Count - 1; I >= 0; I--)
+        for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
-            target = combat.CombatData.FindId(CommandedUnits.List[I]);
+            target = combat.CombatData.FindId(CommandedUnits.List[i]);
             if (target != null)
             {
                 result += target.GetTargetStrength();

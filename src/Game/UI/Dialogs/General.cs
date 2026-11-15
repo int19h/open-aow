@@ -90,11 +90,11 @@ public partial class General : UIModule
             ControlVisible = UI.InfoWindow.MainWindow.Visible;
             ChatVisible = UI.ChatWindow.MainWindow.Visible;
             MapVisible = UI.MapWindow.MainWindow.Visible;
-            for (int I = 0, last = UI.General.Manager.Children.Count - 1; I <= last; I++)
+            for (int i = 0, last = UI.General.Manager.Children.Count - 1; i <= last; i++)
             {
-                if (UI.General.Manager.Children[I] != UI.TaskBar.TaskWindow)
+                if (UI.General.Manager.Children[i] != UI.TaskBar.TaskWindow)
                 {
-                    UI.General.Manager.Children[I].Visible = false;
+                    UI.General.Manager.Children[i].Visible = false;
                 }
             }
         }
@@ -224,44 +224,44 @@ public partial class General : UIModule
     // AoWWinMan.pas:123
     public void SortLists(ref DelphiList<ListBox> lists, byte order)
     {
-        ListBox L;
-        int J;
+        ListBox l;
+        int j;
         int insertAt;
         int valueI;
         int valueJ;
-        L = lists[0];
-        for (int I = 1, last = L.Items.Count - 1; I <= last; I++)
+        l = lists[0];
+        for (int i = 1, last = l.Items.Count - 1; i <= last; i++)
         {
-            J = I - 1;
+            j = i - 1;
             insertAt = -1;
-            while (J > -1)
+            while (j > -1)
             {
                 switch (order)
                 {
                     case 0:
-                        var item = L.Items[J];
-                        if (CompareStr(UpperCase(L.Items[I]), UpperCase(item)) < 0)
+                        var item = l.Items[j];
+                        if (CompareStr(UpperCase(l.Items[i]), UpperCase(item)) < 0)
                         {
-                            insertAt = J;
+                            insertAt = j;
                         }
 
                         break;
                     case 1:
-                        var item2 = L.Items[J];
-                        if (CompareStr(UpperCase(L.Items[I]), UpperCase(item2)) > 0)
+                        var item2 = l.Items[j];
+                        if (CompareStr(UpperCase(l.Items[i]), UpperCase(item2)) > 0)
                         {
-                            insertAt = J;
+                            insertAt = j;
                         }
 
                         break;
                     case 2:
                         try
                         {
-                            valueI = StrToInt(L.Items[I]);
-                            valueJ = StrToInt(L.Items[J]);
+                            valueI = StrToInt(l.Items[i]);
+                            valueJ = StrToInt(l.Items[j]);
                             if (valueI > valueJ)
                             {
-                                insertAt = J;
+                                insertAt = j;
                             }
                         }
                         catch
@@ -272,11 +272,11 @@ public partial class General : UIModule
                     case 3:
                         try
                         {
-                            valueI = StrToInt(L.Items[I]);
-                            valueJ = StrToInt(L.Items[J]);
+                            valueI = StrToInt(l.Items[i]);
+                            valueJ = StrToInt(l.Items[j]);
                             if (valueI < valueJ)
                             {
-                                insertAt = J;
+                                insertAt = j;
                             }
                         }
                         catch
@@ -286,26 +286,26 @@ public partial class General : UIModule
                         break;
                 }
 
-                J -= 1;
+                j -= 1;
             }
 
             if (insertAt > -1)
             {
-                J = 0;
+                j = 0;
                 int limit = lists.Count - 1;
-                for (; J <= limit; J += 1)
+                for (; j <= limit; j += 1)
                 {
-                    lists[J].Items.Move(I, insertAt);
+                    lists[j].Items.Move(i, insertAt);
                 }
             }
         }
 
-        for (int I = 0, last = lists.Count - 1; I <= last; I++)
+        for (int i = 0, last = lists.Count - 1; i <= last; i++)
         {
-            L = lists[I];
-            L.ListOffset = 0;
-            L.Selected = -1;
-            L.Sized = false;
+            l = lists[i];
+            l.ListOffset = 0;
+            l.Selected = -1;
+            l.Sized = false;
         }
 
         lists?.Dispose();
@@ -352,13 +352,13 @@ public partial class General : UIModule
         int result = -1;
         if (SelectedUnits[0] > -1 && UnitList != null)
         {
-            for (int I = 0; I <= 7; I++)
+            for (int i = 0; i <= 7; i++)
             {
-                if (SelectedUnits[I] > -1 && I < UnitList.Units.Count)
+                if (SelectedUnits[i] > -1 && i < UnitList.Units.Count)
                 {
-                    if (U == UnitList.Units.GetUnit(SelectedUnits[I]))
+                    if (U == UnitList.Units.GetUnit(SelectedUnits[i]))
                     {
-                        result = I;
+                        result = i;
                     }
                 }
             }
@@ -370,28 +370,28 @@ public partial class General : UIModule
     // AoWWinMan.pas:100
     public void BuildAbilities()
     {
-        CombatAbilityRef A;
+        CombatAbilityRef a;
         ActiveAbilityCount = 0;
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            (Abilities[I] as IDisposable)?.Dispose();
+            (Abilities[i] as IDisposable)?.Dispose();
         }
 
         Abilities.Clear();
-        for (int I = 0; I <= 169; I++)
+        for (int i = 0; i <= 169; i++)
         {
-            if (SelectedUnit.GetAbilityEnabled(I))
+            if (SelectedUnit.GetAbilityEnabled(i))
             {
-                A = new CombatAbilityRef();
-                A.Ability = I;
-                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
+                a = new CombatAbilityRef();
+                a.Ability = i;
+                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(i).GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
-                    Abilities.Insert(ActiveAbilityCount, A);
+                    Abilities.Insert(ActiveAbilityCount, a);
                     ActiveAbilityCount += 1;
                 }
                 else
                 {
-                    Abilities.Add(A);
+                    Abilities.Add(a);
                 }
             }
         }
@@ -489,9 +489,9 @@ public partial class General : UIModule
     // AoWWinMan.pas:223
     public void GeneralDestroy()
     {
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            (Abilities[I] as IDisposable)?.Dispose();
+            (Abilities[i] as IDisposable)?.Dispose();
         }
 
         Abilities?.Clear();
@@ -669,7 +669,7 @@ public partial class General : UIModule
     public void ManagerKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         Player player;
-        string S;
+        string s;
         if (UI.Engine.Debug)
         {
             if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
@@ -685,8 +685,8 @@ public partial class General : UIModule
                 }
 
                 var playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
-                S = "Player " + IntToStr(key - 48) + " set to: " + playerType;
-                StrategicMap.Current.ShowMessage(S);
+                s = "Player " + IntToStr(key - 48) + " set to: " + playerType;
+                StrategicMap.Current.ShowMessage(s);
                 StrategicMap.Current.Players.Update();
                 StrategicMap.Current.RequestCombatType = StrategicMap.Current.Players.LocalHumanPlayers.Count > 1;
             }
@@ -694,16 +694,16 @@ public partial class General : UIModule
             switch (key)
             {
                 case 122:
-                    S = ExtractFileDir(RtlUnit.Application.ExeName);
-                    S = S + "\\Scenario\\Custom";
-                    SetCurrentDir(S);
+                    s = ExtractFileDir(RtlUnit.Application.ExeName);
+                    s = s + "\\Scenario\\Custom";
+                    SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("Crap.hsm"));
                     StartGame(this);
                     break;
                 case 123:
-                    S = ExtractFileDir(RtlUnit.Application.ExeName);
-                    S = S + "\\Scenario\\Custom";
-                    SetCurrentDir(S);
+                    s = ExtractFileDir(RtlUnit.Application.ExeName);
+                    s = s + "\\Scenario\\Custom";
+                    SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
                     StartGame(this);
                     break;
@@ -734,11 +734,11 @@ public partial class General : UIModule
             controller.ControlVisible = controller.UI.ControlWindow.MainWindow.Visible;
             controller.ChatVisible = controller.UI.ChatWindow.MainWindow.Visible;
             controller.MapVisible = controller.UI.MapWindow.MainWindow.Visible;
-            for (int I = 0, last = controller.UI.General.Manager.Children.Count - 1; I <= last; I++)
+            for (int i = 0, last = controller.UI.General.Manager.Children.Count - 1; i <= last; i++)
             {
-                if (controller.UI.General.Manager.Children[I] != controller.UI.TaskBar.TaskWindow)
+                if (controller.UI.General.Manager.Children[i] != controller.UI.TaskBar.TaskWindow)
                 {
-                    controller.UI.General.Manager.Children[I].Visible = false;
+                    controller.UI.General.Manager.Children[i].Visible = false;
                 }
             }
         }

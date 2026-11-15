@@ -37,16 +37,16 @@ public partial class Crusade : Spell
         int unitIndex;
         int pixelX = default;
         int pixelY = default;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         ArmyHexSprite party;
         Unit newUnit;
         if (executeCount == 0)
         {
-            source.GetLocation(out X, out Y, out layer);
-            StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
-            HexGeometry.HexToPixel(X, Y, out pixelX, out pixelY);
+            source.GetLocation(out x, out y, out layer);
+            StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
+            HexGeometry.HexToPixel(x, y, out pixelX, out pixelY);
             var worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
             worldEffectHexSprite.X = pixelX + 16;
             worldEffectHexSprite.Y = pixelY + 16;
@@ -58,7 +58,7 @@ public partial class Crusade : Spell
                 party.Army.SetPlayer(0);
                 count = 1;
                 unitIndex = StrategicMap.Current.Random(1);
-                for (int J = 0; J <= count - 1; J++)
+                for (int j = 0; j <= count - 1; j++)
                 {
                     newUnit = new Unit(null) { Holder = CreationHolder() };
                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(LargeUnitResourceIds[unitIndex]));
@@ -74,12 +74,12 @@ public partial class Crusade : Spell
             }
             else
             {
-                for (int I = 0; I <= 1; I++)
+                for (int i = 0; i <= 1; i++)
                 {
                     party = new ArmyHexSprite(null) { Holder = CreationHolder() };
                     party.Army.SetPlayer(0);
                     count = StrategicMap.Current.Random(3) + 4;
-                    for (int J = 0; J <= count - 1; J++)
+                    for (int j = 0; j <= count - 1; j++)
                     {
                         newUnit = new Unit(null) { Holder = CreationHolder() };
                         unitIndex = StrategicMap.Current.Random(2);
@@ -104,7 +104,7 @@ public partial class Crusade : Spell
                     count += 1;
                 }
 
-                for (int J = 0; J <= count - 1; J++)
+                for (int j = 0; j <= count - 1; j++)
                 {
                     newUnit = new Unit(null) { Holder = CreationHolder() };
                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(MountedUnitResourceIds[unitIndex]));
@@ -155,14 +155,13 @@ public partial class Crusade : Spell
         bool result;
         int targetX = default;
         int targetY = default;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         ImageSequenceAnimation animation;
-        source.GetLocation(out X, out Y, out layer);
+        source.GetLocation(out x, out y, out layer);
         var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
-        var random = StrategicMap.Current.Random(radiusToHexNumber);
-        HexGeometry.CenterHexNumberToHex(X, Y, random, ref targetX, ref targetY);
+        HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
             party.Activate();

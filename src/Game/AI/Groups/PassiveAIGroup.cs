@@ -38,7 +38,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     }
 
     // MainAG.pas:147
-    public override bool GetRecruitableUnits(AIGroup recruiter, UnitList units, UnitList recruitable)
+    public override bool GetRecruitableUnits(AIGroup recruiter, UnitUserList units, UnitUserList recruitable)
     {
         MapCoordinate location = default;
         GroupDefenseSelector selector;

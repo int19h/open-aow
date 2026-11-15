@@ -42,9 +42,9 @@ public partial class CustomImageLibrary : Component
             if (newCapacity > Capacity)
             {
                 ClearElements(Images, Capacity, newCapacity - Capacity);
-                for (int I = Capacity; I <= newCapacity - 1; I++)
+                for (int i = Capacity; i <= newCapacity - 1; i++)
                 {
-                    Images[I].Reference = -1;
+                    Images[i].Reference = -1;
                 }
             }
 
@@ -216,11 +216,11 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9826
     public virtual void Clear()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (Images[I].Image != null)
+            if (Images[i].Image != null)
             {
-                Images[I].Image?.Dispose();
+                Images[i].Image?.Dispose();
             }
         }
 
@@ -299,8 +299,7 @@ public partial class CustomImageLibrary : Component
                     stream.ReadBuffer(Bytes.Of(ref index, 4));
                     while (index != -1)
                     {
-                        var readImageFromStream = ImageStreams.ReadImageFromStream(stream, this);
-                        SetImage(index, readImageFromStream);
+                        SetImage(image: ImageStreams.ReadImageFromStream(stream, this), index: index);
                         stream.ReadExactly(Bytes.Of(ref reference, 4));
                         SetImageReference(index, reference);
                         stream.ReadBuffer(Bytes.Of(ref index, 4));
@@ -315,14 +314,12 @@ public partial class CustomImageLibrary : Component
             try
             {
                 milliseconds.SetLength(header.IndexEnd - header.HeaderSize);
-                var size = (int)milliseconds.Length;
-                stream.ReadBuffer(milliseconds.GetBuffer().AsSpan(0, size));
+                stream.ReadBuffer(milliseconds.GetBuffer().AsSpan(length: (int)milliseconds.Length, start: 0));
                 _paletteManager.LoadFromStream(milliseconds);
                 milliseconds.ReadBuffer(Bytes.Of(ref index, 4));
                 while (index != -1)
                 {
-                    var readImageFromStreamEx = ImageStreams.ReadImageFromStream(milliseconds, stream, this);
-                    SetImage(index, readImageFromStreamEx);
+                    SetImage(image: ImageStreams.ReadImageFromStream(milliseconds, stream, this), index: index);
                     milliseconds.Read(Bytes.Of(ref reference, 4));
                     SetImageReference(index, reference);
                     milliseconds.ReadBuffer(Bytes.Of(ref index, 4));
@@ -354,7 +351,7 @@ public partial class CustomImageLibrary : Component
         Stream swap;
         int startPosition;
         string swapName;
-        int I;
+        int i;
         ImageLibraryHeader header = default;
         startPosition = (int)(stream.Position);
         swapName = ExtractFilePath(RtlUnit.Application.ExeName) + "\\SWAP.$$$";
@@ -367,20 +364,20 @@ public partial class CustomImageLibrary : Component
             header.Version = 4;
             stream.Write(Bytes.Of(ref header, 24));
             _paletteManager.SaveToStream(stream);
-            I = 0;
+            i = 0;
             int last = _count - 1;
-            for (; I <= last; I += 1)
+            for (; i <= last; i += 1)
             {
-                if (Images[I].Image != null || Images[I].Reference != -1)
+                if (Images[i].Image != null || Images[i].Reference != -1)
                 {
-                    stream.Write(Bytes.Of(ref I, 4));
-                    LibraryImage.WriteImageToStream(Images[I].Image, stream, swap);
-                    stream.Write(Bytes.Of(ref Images[I].Reference, 4));
+                    stream.Write(Bytes.Of(ref i, 4));
+                    LibraryImage.WriteImageToStream(Images[i].Image, stream, swap);
+                    stream.Write(Bytes.Of(ref Images[i].Reference, 4));
                 }
             }
 
-            I = -1;
-            stream.Write(Bytes.Of(ref I, 4));
+            i = -1;
+            stream.Write(Bytes.Of(ref i, 4));
             var position = stream.Position;
             header.IndexEnd = (int)(position) - startPosition;
             swap.Position = 0;
@@ -522,11 +519,11 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9843
     public void DisableReloading()
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (Images[I].Image != null)
+            if (Images[i].Image != null)
             {
-                Images[I].Image.SetReloadingEnabled(false);
+                Images[i].Image.SetReloadingEnabled(false);
             }
         }
 
@@ -539,9 +536,9 @@ public partial class CustomImageLibrary : Component
         LibraryImage image;
         if (_reloading)
         {
-            for (int I = 0, last = _count - 1; I <= last; I++)
+            for (int i = 0, last = _count - 1; i <= last; i++)
             {
-                image = Images[I].Image;
+                image = Images[i].Image;
                 if (image != null)
                 {
                     image.ReleaseDiscardableImageData();
@@ -554,9 +551,9 @@ public partial class CustomImageLibrary : Component
     public void LoadDiscardableImageData()
     {
         LibraryImage image;
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            image = Images[I].Image;
+            image = Images[i].Image;
             if (image != null)
             {
                 image.LoadDiscardableImageData();
@@ -571,16 +568,16 @@ public partial class CustomImageLibrary : Component
     public bool ImageExist(int index)
     {
         bool result;
-        int R;
+        int r;
         if (index < _count && index >= 0)
         {
             result = Images[index].Image != null;
             if (!result)
             {
-                R = Images[index].Reference;
-                if (R >= 0 && R < _count)
+                r = Images[index].Reference;
+                if (r >= 0 && r < _count)
                 {
-                    result = Images[R].Image != null;
+                    result = Images[r].Image != null;
                 }
                 else
                 {
@@ -814,25 +811,25 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10256
     public bool Empty()
     {
-        int I;
-        I = 0;
-        while (I != _count && Images[I].Image == null)
+        int i;
+        i = 0;
+        while (i != _count && Images[i].Image == null)
         {
-            I += 1;
+            i += 1;
         }
 
-        return I == _count;
+        return i == _count;
     }
 
     // ImageLib.pas:10265
     public void Pack()
     {
         DisableOnChangeEvent();
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (Get(I) == null)
+            if (Get(i) == null)
             {
-                Delete(I);
+                Delete(i);
             }
         }
 
@@ -1257,19 +1254,19 @@ public partial class CustomImageLibrary : Component
         int result = 0;
         if (image != null)
         {
-            for (int I = 0, last = imageLibrary.Count - 1; I <= last; I++)
+            for (int i = 0, last = imageLibrary.Count - 1; i <= last; i++)
             {
-                if (!imageLibrary.IsReference(I))
+                if (!imageLibrary.IsReference(i))
                 {
-                    for (int J = 0, lastJ = imageLibrary.GetSubCount(I) - 1; J <= lastJ; J++)
+                    for (int j = 0, lastJ = imageLibrary.GetSubCount(i) - 1; j <= lastJ; j++)
                     {
-                        sub = imageLibrary.GetSub(I, J);
+                        sub = imageLibrary.GetSub(i, j);
                         if (sub != null && CompareText(sub._fileName, image._fileName) == 0 && sub._fileIndex == image._fileIndex)
                         {
                             newImage = image.Copy();
                             newImage.Xshift = sub.Xshift;
                             newImage.Yshift = sub.Yshift;
-                            imageLibrary.SetSubImage(I, J, newImage);
+                            imageLibrary.SetSubImage(i, j, newImage);
                             result += 1;
                         }
                     }

@@ -29,16 +29,16 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:156
     public override bool VisibleForPlayer(sbyte player)
     {
-        HexNumberWalkData Walk = default;
+        HexNumberWalkData hexNumberWalkData = default;
         bool result = PlayerIndex == player;
-        ref var walk = ref Walk;
+        ref var walk = ref hexNumberWalkData;
         var hexY = Cloud.HexY;
         var hexX = Cloud.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out Walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         while (!result && walk.Radius <= 3)
         {
             result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);
-            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
 
         return result;

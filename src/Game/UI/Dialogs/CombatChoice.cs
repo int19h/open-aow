@@ -105,30 +105,30 @@ public partial class CombatChoice : UIModule
     // TCFCDlg.pas:88
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         LockedSurface viewSurfaceDescription = default;
-        Rect R;
-        int W;
-        int H;
-        R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-        W = R.Right - R.Left;
-        H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(_request.X, _request.Y, out X, out Y);
-        X = X + 16 - (int)(((uint)W) >> 1);
-        Y = Y + 16 - (int)(((uint)H) >> 1);
-        if (X < 16)
+        Rect r;
+        int w;
+        int h;
+        r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+        w = r.Right - r.Left;
+        h = r.Bottom - r.Top;
+        HexGeometry.HexToPixel(_request.X, _request.Y, out x, out y);
+        x = x + 16 - (int)(((uint)w) >> 1);
+        y = y + 16 - (int)(((uint)h) >> 1);
+        if (x < 16)
         {
-            X = 16;
+            x = 16;
         }
 
-        if (Y < 16)
+        if (y < 16)
         {
-            Y = 16;
+            y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, out viewSurfaceDescription);
-        StrategicMap.Current.SetViewPort(X, Y, _request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
+        LockedSurface.CreateFrom(lockedSurface, r, out viewSurfaceDescription);
+        StrategicMap.Current.SetViewPort(x, y, _request.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref viewSurfaceDescription);

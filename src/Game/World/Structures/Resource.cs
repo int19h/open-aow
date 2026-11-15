@@ -78,9 +78,9 @@ public partial class Resource : PlayerCropStructureResource
     public new void ActivateMessage()
     {
         Size = 0;
-        for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
+        for (int i = 0, last = TerrainList.Count - 1; i <= last; i++)
         {
-            if (TerrainList.Terrain[I] >= 0)
+            if (TerrainList.Terrain[i] >= 0)
             {
                 Size = (byte)(Size + 1);
             }

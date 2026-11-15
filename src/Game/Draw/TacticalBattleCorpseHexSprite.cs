@@ -41,12 +41,12 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        pixelXSurface = X - pixelXSurface - 15;
-        pixelYSurface = Y - pixelYSurface - 25;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        pixelXSurface = x - pixelXSurface - 15;
+        pixelYSurface = y - pixelYSurface - 25;
         if (SequenceIndex > -1)
         {
             sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
@@ -80,13 +80,13 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     {
         CombatAction animateAction;
         CombatAction raiseAction;
-        int N;
-        int X = default;
-        int Y = default;
+        int n;
+        int x = default;
+        int y = default;
         int deltaX;
         int deltaY;
         BattleEffectSprite effect;
-        float Z = default;
+        float z = default;
         float speed = default;
         float vz = default;
         float gravity = default;
@@ -104,19 +104,19 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                     var hexX2 = GetHexX();
                     CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
                     var hexY3 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY3, out X, out Y);
+                    HexGeometry.HexToPixel(GetHexX(), hexY3, out x, out y);
                     for (int ring = 1; ring <= 3; ring++)
                     {
-                        N = Random(5);
+                        n = Random(5);
                         deltaX = Random(20) + ring * 30;
                         deltaY = Random(20) + ring * 30;
-                        for (int I = 0; I <= 17; I++)
+                        for (int i = 0; i <= 17; i++)
                         {
                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                             effect.AbilityIndex = 52;
                             effect.SpellIndex = message.Param[1].Int;
                             deltaX = -deltaX;
-                            switch (I)
+                            switch (i)
                             {
                                 case 1:
                                 case 3:
@@ -132,9 +132,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                             }
 
                             var pi = Math.PI;
-                            var sin = Math.Sin((double)((double)(I * 5 + N) * pi) / 180);
+                            var sin = Math.Sin((double)((double)(i * 5 + n) * pi) / 180);
                             var mathPI = Math.PI;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(I * 5 + N) * mathPI) / 180) * deltaX) + (X + 16), Round((double)sin * deltaY) / 2 + (Y + 16), X + 16, Y + 16, 100, ref effect.Path);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref effect.Path);
                         }
                     }
 
@@ -149,9 +149,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
                     var hexY2 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY2, out X, out Y);
-                    N = Random(6) + 25;
-                    for (int I = 1; I <= N - 1; I++)
+                    HexGeometry.HexToPixel(GetHexX(), hexY2, out x, out y);
+                    n = Random(6) + 25;
+                    for (int i = 1; i <= n - 1; i++)
                     {
                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                         effect.AbilityIndex = 52;
@@ -160,8 +160,8 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         speed = (float)((double)(Random(10) + 10) * 0.05);
                         gravity = (float)0.5;
                         vz = (float)((double)(Random(50) + 50) * 0.05);
-                        Z = 0;
-                        EffectPaths.MakeArcPath(X + 16, Y + 16, I * 360 / N, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                        z = 0;
+                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                     }
 
                     switch (message.Param[1].Int)

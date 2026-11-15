@@ -206,15 +206,15 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:224
     public override void CheckKeyPress(ref byte key)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.CheckKeyPress(ref key);
-                if (C.Handled == true)
+                c = Children[i];
+                c.CheckKeyPress(ref key);
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -235,15 +235,15 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:246
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.CheckKeyDown(ref key, shift);
-                if (C.Handled == true)
+                c = Children[i];
+                c.CheckKeyDown(ref key, shift);
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -266,22 +266,21 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:208
     public virtual void Blit(Surface surface)
     {
-        Rect R = default;
+        Rect r = default;
         if (OnPreDrawSurface != null)
         {
             OnPreDrawSurface(this, surface, WinLeft, WinTop);
         }
 
-        R = new Rect(0, 0, WinWidth, WinHeight);
+        r = new Rect(0, 0, WinWidth, WinHeight);
         if (!Masked)
         {
-            BackSurface.BlitAreaClipped(surface, R, WinLeft, WinTop);
+            BackSurface.BlitAreaClipped(surface, r, WinLeft, WinTop);
         }
         else
         {
-            var pixelFormatId = BackSurface.GetPixelFormatId();
-            var color2PixelInfo = PixelFormats.Color2PixelInfo(_maskColor, pixelFormatId, null);
-            BackSurface.BlitAreaColorKeyClipped(surface, R, WinLeft, WinTop, color2PixelInfo);
+            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: _maskColor, palette: null);
+            BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
         }
 
         if (OnDrawSurface != null)
@@ -301,15 +300,15 @@ public partial class WindowControl : UIComponent
     // { RadioChange unchecks the other children of the radio group of Sender }
     public void RadioChange(UIComponent sender)
     {
-        UIComponent C;
-        for (int I = 0, last = Children.Count - 1; I <= last; I++)
+        UIComponent c;
+        for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            C = Children[I];
-            if (sender._radioIndex == C._radioIndex && C != sender && C._checked == true)
+            c = Children[i];
+            if (sender._radioIndex == c._radioIndex && c != sender && c._checked == true)
             {
-                C._checked = false;
-                C.Drawn = false;
-                C.RaiseChange(C);
+                c._checked = false;
+                c.Drawn = false;
+                c.RaiseChange(c);
             }
         }
     }

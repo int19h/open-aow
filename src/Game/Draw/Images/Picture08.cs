@@ -108,9 +108,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
     {
         base.ReadDiscardableImageData(stream);
         AllocateDiscardableImageData(_dataWidth, _dataHeight);
-        for (int Y = 0, last = _dataHeight - 1; Y <= last; Y++)
+        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(Y * _pitch, _dataWidth));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, _dataWidth));
         }
     }
 
@@ -118,9 +118,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        for (int Y = 0, last = _dataHeight - 1; Y <= last; Y++)
+        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(Y * _pitch, _dataWidth));
+            stream.Write(_buffer.AsSpan(y * _pitch, _dataWidth));
         }
     }
 
@@ -146,9 +146,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
             AllocateDiscardableImageData(_width, _height);
             if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
             {
-                for (int Y = 0, last = _height - 1; Y <= last; Y++)
+                for (int y = 0, last = _height - 1; y <= last; y++)
                 {
-                    lockedSurface.View().Bytes((R.Top + Y) * lockedSurface.Pitch + R.Left, _dataWidth).CopyTo(_buffer.AsSpan(_pitch * Y, _dataWidth));
+                    lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, _dataWidth).CopyTo(_buffer.AsSpan(_pitch * y, _dataWidth));
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);

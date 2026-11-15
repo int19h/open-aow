@@ -523,7 +523,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         bool result;
         if (location.PathStrength != 0)
         {
-            result = _control.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
+            result = _control.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
         }
         else
         {

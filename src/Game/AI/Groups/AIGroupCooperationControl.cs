@@ -187,9 +187,9 @@ public partial class AIGroupCooperationControl : AIGroupTask
         Troop troop;
         DamageType D;
         Groups.AddChild(group);
-        for (int I = group.Group.Count - 1; I >= 0; I--)
+        for (int I = group.Group.Units.Count - 1; I >= 0; I--)
         {
-            troop = group.Group.GetUnit(I);
+            troop = group.Group.Units.GetUnit(I);
             var strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
@@ -229,14 +229,14 @@ public partial class AIGroupCooperationControl : AIGroupTask
             if (group.PathStrength != 0)
             {
                 location = group.Group.GetLocation();
-                strength1 = group.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                strength1 = group.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                 group1 = group.Group;
-                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1.Units, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
                 location = _control.Group.GetLocation();
-                strength2 = _control.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                 group2 = _control.Group;
-                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2.Units, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
                 if (strength1 < strength2)
                 {
@@ -313,7 +313,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         }
     }
 
-    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitList units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
+    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitCollection units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
     {
         BattleFieldInfo info = default(BattleFieldInfo);
         BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);

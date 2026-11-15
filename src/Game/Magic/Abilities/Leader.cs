@@ -249,16 +249,16 @@ public partial class Leader : Hero
     public override void EditDropMessage(ref EngineMessage message)
     {
         MapLevel level;
-        int L;
-        int X = default;
-        int Y = default;
+        int l;
+        int x = default;
+        int y = default;
         bool placed;
         level = message.Param[0].As<MapLevel>();
-        L = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
-        if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
+        l = message.Data[1];
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out x, out y);
+        if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
         {
-            placed = Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of()) != null;
+            placed = Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) != null;
         }
         else
         {
@@ -282,9 +282,9 @@ public partial class Leader : Hero
         if (sphere != MagicSphere.Cosmos)
         {
             result = 0;
-            for (int I = _spheres.Count - 1; I >= 0; I--)
+            for (int i = _spheres.Count - 1; i >= 0; i--)
             {
-                if (_spheres.List[I] == (byte)sphere)
+                if (_spheres.List[i] == (byte)sphere)
                 {
                     result = (byte)(result + 1);
                 }
@@ -425,18 +425,18 @@ public partial class Leader : Hero
     // Hero.PAS:2870
     public bool DeleteSphere(MagicSphere sphere)
     {
-        int I;
-        I = _spheres.Count;
+        int i;
+        i = _spheres.Count;
         bool result = false;
-        while (!result && I != 0)
+        while (!result && i != 0)
         {
-            I -= 1;
-            result = _spheres[I] == (byte)sphere;
+            i -= 1;
+            result = _spheres[i] == (byte)sphere;
         }
 
         if (result)
         {
-            _spheres.Delete(I);
+            _spheres.Delete(i);
         }
 
         return result;

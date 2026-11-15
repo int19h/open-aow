@@ -37,11 +37,11 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
-        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
+        for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
+            for (int j = playerLocal.Armies.GetArmy(i).Units.Count - 1; j >= 0; j--)
             {
-                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).ResetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(i).Units.GetUnit(j).ResetEarthMasteryStoneSkin();
             }
         }
 
@@ -77,11 +77,11 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
-        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
+        for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
+            for (int j = playerLocal.Armies.GetArmy(i).Units.Count - 1; j >= 0; j--)
             {
-                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).SetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(i).Units.GetUnit(j).SetEarthMasteryStoneSkin();
             }
         }
 

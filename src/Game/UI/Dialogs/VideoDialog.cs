@@ -52,17 +52,17 @@ public partial class VideoDialog : UIModule
     public void UpdateModes()
     {
         DisplayModeItem mode;
-        string S;
+        string s;
         DisplayModesList.Items.Clear();
         var desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
         DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
-        for (int I = 0, last = _displayModes.Count - 1; I <= last; I++)
+        for (int i = 0, last = _displayModes.Count - 1; i <= last; i++)
         {
-            mode = _displayModes.Items[I];
+            mode = _displayModes.Items[i];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 var fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
-                DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(I));
+                DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(i));
             }
         }
 
@@ -70,9 +70,9 @@ public partial class VideoDialog : UIModule
         DisplayModesList.Selected = currentMode;
         if (DisplayModesList.Selected != -1)
         {
-            S = DisplayModesList.Items[DisplayModesList.Selected];
-            S = S + " (" + LowerCase(UI.Engine.TranslateResourceString(s_currentText)) + ")";
-            DisplayModesList.Items[DisplayModesList.Selected] = S;
+            s = DisplayModesList.Items[DisplayModesList.Selected];
+            s = s + " (" + LowerCase(UI.Engine.TranslateResourceString(s_currentText)) + ")";
+            DisplayModesList.Items[DisplayModesList.Selected] = s;
         }
     }
 
@@ -99,15 +99,15 @@ public partial class VideoDialog : UIModule
     // AoWVideoDlg.pas:212
     public void ApplyBtnClick()
     {
-        int I;
+        int i;
         UI.General.PlayButtonSound(0);
         if (DisplayModesList.Selected != -1)
         {
-            I = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
-            if (I != -1)
+            i = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
+            if (i != -1)
             {
-                DisplayWidth = _displayModes.Items[I].Width;
-                DisplayHeight = _displayModes.Items[I].Height;
+                DisplayWidth = _displayModes.Items[i].Width;
+                DisplayHeight = _displayModes.Items[i].Height;
                 ChangeResolution(DisplayWidth, DisplayHeight);
                 _fullScreen = ScreenMode.Game;
             }

@@ -52,19 +52,18 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         bool valid;
         AICastSpellAction action;
         string reason = "";
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         City targetCity;
         if (AIPriority != -1)
         {
-            source.GetLocation(out X, out Y, out L);
-            targetCity = (City)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+            source.GetLocation(out x, out y, out l);
+            targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
             bool condition = targetCity != null;
             if (condition)
             {
-                var aiCityEnchantmentUpkeepPriority = targetCity.AICityEnchantmentUpkeepPriority(EnchantmentId);
-                condition = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiCityEnchantmentUpkeepPriority);
+                condition = AIRequestCastSpellExpense(upkeep: targetCity.AICityEnchantmentUpkeepPriority(EnchantmentId), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             }
 
             valid = condition;
@@ -89,19 +88,19 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     {
         bool result;
         string reason = "";
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         City targetCity;
-        source.GetLocation(out X, out Y, out L);
-        targetCity = (City)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+        source.GetLocation(out x, out y, out l);
+        targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
         if (targetCity != null && ValidTargetCity(source, targetCity) && ((Hero)source).CanCastSpell(SpellId, ref reason))
         {
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
             var hero = (Hero)source;
             if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = TargetSelected(source, X, Y, L);
+                result = TargetSelected(source, x, y, l);
             }
             else
             {

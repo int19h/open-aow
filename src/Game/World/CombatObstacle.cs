@@ -99,14 +99,12 @@ public partial class CombatObstacle : MultiHexMapObject
             base.MakeVisible(visibilityList);
             if (_shadow != null)
             {
-                var showPriority = _shadow.GetShowPriority();
-                visibilityList.AddSortChild(_shadow, showPriority);
+                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
 
             if (_overlay != null)
             {
-                var showPriority = _overlay.GetShowPriority();
-                visibilityList.AddSortChild(_overlay, showPriority);
+                visibilityList.AddSortChild(sortValue: _overlay.GetShowPriority(), child: _overlay);
             }
         }
     }
@@ -189,22 +187,22 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:171
     public void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
-        pixelXSurface = X - pixelXSurface;
-        pixelYSurface = Y - pixelYSurface;
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        pixelXSurface = x - pixelXSurface;
+        pixelYSurface = y - pixelYSurface;
         _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatObstacle.pas:182
     public void ShowOverlay(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
-        pixelXSurface = X - pixelXSurface;
-        pixelYSurface = Y - pixelYSurface;
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        pixelXSurface = x - pixelXSurface;
+        pixelYSurface = y - pixelYSurface;
         _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 

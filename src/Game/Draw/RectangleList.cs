@@ -12,10 +12,10 @@ public partial class RectangleList : DelphiList<Rectangle>
     // GFXE.pas:2447
     public override void Dispose()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            ((this[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
-            Delete(I);
+            ((this[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+            Delete(i);
         }
     }
 

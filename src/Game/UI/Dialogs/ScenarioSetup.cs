@@ -228,7 +228,7 @@ public partial class ScenarioSetup : UIModule
     // AoWScenSetup.pas:257
     public void ExitGameClick()
     {
-        int I;
+        int i;
         SetupSettings settings;
         try
         {
@@ -238,15 +238,15 @@ public partial class ScenarioSetup : UIModule
                 if (SetupControl.GetHost())
                 {
                     settings = SetupControl.Settings;
-                    I = 0;
-                    while (I != settings.RemotePlayers.Count && settings.RemotePlayers.GetPlayers(I).RemoteId == settings.HostRemoteId)
+                    i = 0;
+                    while (i != settings.RemotePlayers.Count && settings.RemotePlayers.GetPlayers(i).RemoteId == settings.HostRemoteId)
                     {
-                        I++;
+                        i++;
                     }
 
-                    if (I != settings.RemotePlayers.Count)
+                    if (i != settings.RemotePlayers.Count)
                     {
-                        SetupControl.SetHostRemoteId(settings.RemotePlayers.GetPlayers(I).RemoteId);
+                        SetupControl.SetHostRemoteId(settings.RemotePlayers.GetPlayers(i).RemoteId);
                     }
                 }
 
@@ -282,21 +282,21 @@ public partial class ScenarioSetup : UIModule
     // AoWScenSetup.pas:295
     public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        int I;
+        int i;
         if (drawItem < PlayerList.Items.Count)
         {
             var objectValue = PlayerList.Items.Objects[drawItem];
-            I = SetupControl.Settings.RemotePlayers.IndexOfRemoteId(ObjectToInt(objectValue));
-            if (I != -1)
+            i = SetupControl.Settings.RemotePlayers.IndexOfRemoteId(ObjectToInt(objectValue));
+            if (i != -1)
             {
-                if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.Invalid)
+                if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Invalid)
                 {
                     UI.Fonts.Age8Shadow.Color = 255;
                     UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
                 }
                 else
                 {
-                    if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.InvalidMap)
+                    if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.InvalidMap)
                     {
                         UI.Fonts.Age8Shadow.Color = 32768;
                         UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
@@ -602,7 +602,7 @@ public partial class ScenarioSetup : UIModule
 
     internal static void InitializeScenarioSetup(ScenarioSetup setup, SetupControl control)
     {
-        byte B;
+        byte b;
         setup.SetupControl = control;
         setup.UI.TitleWindow.MainWindow.Visible = true;
         setup.ScenarioSetupPanel.Visible = true;
@@ -626,9 +626,9 @@ public partial class ScenarioSetup : UIModule
             setup.TacticalCombatComboBox.Items.Clear();
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
-                B = (byte)bOrdinal;
-                var tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[B]);
-                setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(B));
+                b = (byte)bOrdinal;
+                var tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
+                setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(b));
             }
         }
         else
@@ -686,9 +686,9 @@ public partial class ScenarioSetup : UIModule
             setup.PlayerList.Items.Clear();
             setup.PingList.Items.Clear();
             setup.PreferredRaceList.Items.Clear();
-            for (int I = 0, last = control.Settings.RemotePlayers.Count - 1; I <= last; I++)
+            for (int i = 0, last = control.Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
-                player = control.Settings.RemotePlayers.GetPlayers(I);
+                player = control.Settings.RemotePlayers.GetPlayers(i);
                 setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
@@ -746,13 +746,13 @@ public partial class ScenarioSetup : UIModule
                 setup.PreferredRaceComboBox.Items.Clear();
                 var none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
                 setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
-                for (int I = 0, last = setup.SetupControl.Settings.Count - 1; I <= last; I++)
+                for (int i = 0, last = setup.SetupControl.Settings.Count - 1; i <= last; i++)
                 {
-                    if (!setup.SetupControl.Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.Fixed))
+                    if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.Fixed))
                     {
-                        var settingRace = setup.SetupControl.Settings.GetSettings(I);
+                        var settingRace = setup.SetupControl.Settings.GetSettings(i);
                         var raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
-                        var setting = setup.SetupControl.Settings.GetSettings(I);
+                        var setting = setup.SetupControl.Settings.GetSettings(i);
                         setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
                     }
                 }
@@ -854,8 +854,8 @@ public partial class ScenarioSetup : UIModule
     internal static void UpdateScenarioRow(ScenarioSetup setup, PlayerSetupSettings settings, ComboBox playerBox, ComboBox behaviorBox, Image icon, Label playerName, Label info, Panel fog)
     {
         SetupPlayerBehavior behavior = default;
-        byte B;
-        int I;
+        byte b;
+        int i;
         bool visible;
         bool found;
         if (settings != null)
@@ -873,11 +873,11 @@ public partial class ScenarioSetup : UIModule
                 setup.SetupControl.ListAvailablePlayers(playerBox.Items);
                 playerBox.Items.EndUpdate();
                 found = false;
-                I = playerBox.Items.Count;
-                while (!found && I != 0)
+                i = playerBox.Items.Count;
+                while (!found && i != 0)
                 {
-                    I -= 1;
-                    var item = playerBox.Items[I];
+                    i -= 1;
+                    var item = playerBox.Items[i];
                     if (setup.SetupControl.PlayerNameToPlayerId(item, ref behavior))
                     {
                         found = settings.Behavior.PlayerType == behavior.PlayerType && settings.Behavior.Flags == behavior.Flags;
@@ -886,7 +886,7 @@ public partial class ScenarioSetup : UIModule
 
                 if (found)
                 {
-                    playerBox.Selected = I;
+                    playerBox.Selected = i;
                 }
                 else
                 {
@@ -900,10 +900,10 @@ public partial class ScenarioSetup : UIModule
                 playerName.Visible = true;
                 if (settings.Behavior.PlayerType == 0 && settings.Behavior.Flags != 0)
                 {
-                    I = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
-                    if (I != -1)
+                    i = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
+                    if (i != -1)
                     {
-                        playerName.Text = setup.SetupControl.Settings.RemotePlayers.GetPlayers(I).Name;
+                        playerName.Text = setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).Name;
                     }
                     else
                     {
@@ -928,11 +928,11 @@ public partial class ScenarioSetup : UIModule
                 {
                     if (setup.SetupControl.GetRemote() && settings.Status.Contains(PlayerSetupStatusElement.Forced) && settings.Behavior.PlayerType == 0)
                     {
-                        I = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
-                        if (I != -1)
+                        i = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
+                        if (i != -1)
                         {
                             // { Original compares race bytes, including the FF sentinel. }
-                            if (setup.SetupControl.Settings.RemotePlayers.GetPlayers(I).PreferredRace == (byte)settings.Race)
+                            if (setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).PreferredRace == (byte)settings.Race)
                             {
                                 info.Text = setup.UI.Engine.TranslateResourceString(GameText.TakenText);
                             }
@@ -966,9 +966,9 @@ public partial class ScenarioSetup : UIModule
                 behaviorBox.Items.Clear();
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
-                    B = (byte)bOrdinal;
-                    var playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)B]);
-                    behaviorBox.Items.AddObject(playerBehavior, IntToObject(B));
+                    b = (byte)bOrdinal;
+                    var playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)b]);
+                    behaviorBox.Items.AddObject(playerBehavior, IntToObject(b));
                 }
 
                 behaviorBox.Items.EndUpdate();

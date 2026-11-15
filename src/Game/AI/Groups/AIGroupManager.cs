@@ -4,9 +4,20 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.AI.Groups;
 
-// next ID, classes
-public partial class AIGroupManager : AIGroupList
+// The original's TAIGroupManager derives from TAIGroupList. The port's manager owns the groups
+// it creates and reads them through Groups. A player's AIGroups list is a separate index.
+public partial class AIGroupManager : ENode, IChildList<AIGroup>
 {
+    /// <summary>The groups this manager owns, in their stored order.</summary>
+    public AIGroupCollection Groups => new(this);
+
+    // The group in slot index, read as the original reads the list, without a range check.
+    public AIGroup this[int index] => Groups[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroup;
+
+    int IChildSink<AIGroup>.AddChild(AIGroup child) => AddChild(child);
+
     // AIGroup.pas:564
     public AIGroupManager(ECustomNode owner) : base(owner)
     {
@@ -88,7 +99,7 @@ public partial class AIGroupManager : AIGroupList
     public int CreateUniqueId()
     {
         int result = _nextId;
-        while (IndexOfId(result) != -1)
+        while (Groups.IndexOfId(result) != -1)
         {
             result += 1;
             if (result > 268435455)

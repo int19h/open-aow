@@ -38,8 +38,7 @@ public partial class GlobalEnchantmentSpell : Spell
         bool aiCanCastSpell = AICanCastSpell(source);
         if (aiCanCastSpell)
         {
-            var aiUpkeepPriority = AIUpkeepPriority();
-            aiCanCastSpell = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            aiCanCastSpell = AIRequestCastSpellExpense(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
         }
 
         if (aiCanCastSpell)
@@ -58,8 +57,7 @@ public partial class GlobalEnchantmentSpell : Spell
         string reason = "";
         if (AICanCastSpell(source))
         {
-            var aiUpkeepPriority = AIUpkeepPriority();
-            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             var hero = (Hero)source;
             if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {

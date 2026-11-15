@@ -18,9 +18,9 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
     {
         CombatObject target;
         base.Execute(combat);
-        for (int I = TargetIds.Count - 1; I >= 0; I--)
+        for (int i = TargetIds.Count - 1; i >= 0; i--)
         {
-            var targetId = TargetIds[I];
+            var targetId = TargetIds[i];
             target = combat.CombatData.FindId(targetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
             GamePack.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
@@ -30,17 +30,17 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
     // CombatSpells.pas:958
     public void Generate(CombatObject source)
     {
-        CombatSide Side;
+        CombatSide combatSide;
         CombatObject target;
         SpellId = 102;
         SourceId = source.Id;
         var combat = source.Combat;
         var side = source.GetSide();
-        Side = combat.Sides[(int)side];
+        combatSide = combat.Sides[(int)side];
 
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            target = Side.GetObjects(I);
+            target = combatSide.GetObjects(i);
             if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 TargetIds.Add(target.Id);

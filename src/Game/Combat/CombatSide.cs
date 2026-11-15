@@ -57,9 +57,9 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     public int GetDestroyedObjects()
     {
         int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (this[I].Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (this[i].Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 result += 1;
             }
@@ -73,9 +73,9 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     {
         CombatObject objectValue;
         int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = this[I];
+            objectValue = this[i];
             if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & objectValue.Status) == Set<CombatObjectStatusElement>.Of() && objectValue.ControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
             {
                 result += 1;
@@ -88,7 +88,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     // Combat.pas:6038
     public void OutputDebugInfo()
     {
-        string S;
+        string s;
         if (SideIndex == 0)
         {
             GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Attacker ---");
@@ -98,30 +98,30 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
             GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Defender ---");
         }
 
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            var idString = GetObjects(I).IdString();
-            var targetPriority = GetObjects(I).GetTargetPriority();
-            var targetStrength = GetObjects(I).GetTargetStrength();
-            S = "(" + IntToStr(I) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
-            GetEngine().OutputDebugMessage(DebugChannel.Combat, S);
+            var idString = GetObjects(i).IdString();
+            var targetPriority = GetObjects(i).GetTargetPriority();
+            var targetStrength = GetObjects(i).GetTargetStrength();
+            s = "(" + IntToStr(i) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, s);
         }
     }
 
     // Combat.pas:6052
     public void UpdateSettings()
     {
-        int N;
+        int n;
         CombatObject objectValue;
         Strength = 0;
         ConquerCount = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = this[I];
-            N = objectValue.Targets.Count;
-            if (N > 0)
+            objectValue = this[i];
+            n = objectValue.Targets.Count;
+            if (n > 0)
             {
-                Strength += objectValue.CombatValue / N;
+                Strength += objectValue.CombatValue / n;
             }
 
             if (objectValue.TargetedBy.Count > 0 && objectValue.AttackerCount == 0)

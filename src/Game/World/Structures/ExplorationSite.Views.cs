@@ -25,9 +25,9 @@ public partial class ExplorationSite
 
         site.TakesCombatItems = takesItems;
         string stem = prefix + IntToStr(Random(variants));
-        for (int I = 1; I <= 6; I += 1)
+        for (int i = 1; i <= 6; i += 1)
         {
-            site.FixTag(I);
+            site.FixTag(i);
         }
 
         return stem;

@@ -75,14 +75,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
     public void NewFrame(object sender)
     {
         BattleEffectSprite effect;
-        int J = default;
-        int I = default;
+        int j = default;
+        int i = default;
         ImageSequence sequence;
         Point3DList newPath;
-        int K = default;
-        int X = default;
-        int Y = default;
-        float Z = default;
+        int k = default;
+        int x = default;
+        int y = default;
+        float z = default;
         float speed = default;
         float vz = default;
         float gravity = default;
@@ -91,21 +91,21 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
         MapFieldMessage message = default;
         void MakeCloud(int count, int radius)
         {
-            for (int N = 1; N <= count - 1; N++)
+            for (int n = 1; n <= count - 1; n++)
             {
                 effect = CombatMap.Current.AddEffect(BattleEffectType.CloudPuff);
                 effect.AbilityIndex = AbilityIndex;
                 effect.SpellIndex = SpellIndex;
                 var xyz = new Point3D();
                 effect.Path.Add(xyz);
-                J = Random(70) + 10;
+                j = Random(70) + 10;
                 var pi = Math.PI;
-                var cos = Math.Cos((double)((double)J * pi) / 180);
+                var cos = Math.Cos((double)((double)j * pi) / 180);
                 var random = Random(radius);
                 var pathX = Path[0];
                 effect.Path[0].X = pathX.X + Round((double)cos * (random - radius / 2));
                 var mathPI = Math.PI;
-                var sin = Math.Sin((double)((double)J * mathPI) / 180);
+                var sin = Math.Sin((double)((double)j * mathPI) / 180);
                 var random2 = Random(radius);
                 var pathY = Path[0];
                 effect.Path[0].Y = pathY.Y + Round((double)sin * (random2 - radius / 2)) / 2;
@@ -116,14 +116,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
         {
             effect = null;
             var pathY = Path[Frame];
-            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y, out I, out J);
-            if (CombatMap.Current.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
+            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y, out i, out j);
+            if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].TerrainType == 0)
             {
                 effect = CombatMap.Current.AddEffect(BattleEffectType.HitWater);
             }
             else
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[I, J].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229508) == null && CombatMap.Current.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229510) == null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229508) == null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229510) == null)
                 {
                     effect = CombatMap.Current.AddEffect(BattleEffectType.HitGround);
                 }
@@ -206,8 +206,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
-                            CombatMap.Current.MakeVisible(I, J, 0, 2);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, 2);
                         }
 
                         break;
@@ -268,8 +268,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
-                            CombatMap.Current.MakeVisible(I, J, 0, 2);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, 2);
                         }
 
                         break;
@@ -422,12 +422,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     Frame = 999;
                                 }
 
-                                J = Random(5) + 5;
-                                HexGeometry.HexToPixel(TargetX, TargetY, out K, out X);
+                                j = Random(5) + 5;
+                                HexGeometry.HexToPixel(TargetX, TargetY, out k, out x);
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -435,15 +435,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var random = Random(100);
                                         var random2 = Random(5);
                                         var random3 = Random(100);
-                                        EffectPaths.MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref effect.Path);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref effect.Path);
                                     }
                                 }
 
-                                J = Random(10) + 10;
+                                j = Random(10) + 10;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -451,20 +451,19 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(50) + 20) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)Random(10) / 10);
-                                        Z = 100;
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(K - 200, X - 100, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 100;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
                                 break;
                             case >= 1000 and <= 1029:
-                                HexGeometry.HexToPixel(TargetX, TargetY, out K, out X);
-                                J = Random(5) + 5;
+                                HexGeometry.HexToPixel(TargetX, TargetY, out k, out x);
+                                j = Random(5) + 5;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -472,15 +471,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var random = Random(100);
                                         var random2 = Random(5);
                                         var random3 = Random(100);
-                                        EffectPaths.MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref effect.Path);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref effect.Path);
                                     }
                                 }
 
-                                J = Random(10) + 10;
+                                j = Random(10) + 10;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -488,17 +487,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(50) + 20) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)Random(10) / 10);
-                                        Z = 100;
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(K - 200, X - 100, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 100;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
-                                J = Random(5) + 5;
+                                j = Random(5) + 5;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -506,15 +504,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(20) + 20) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 20) / 10);
-                                        Z = 0;
+                                        z = 0;
                                         var count8 = Path.Count;
                                         var path = Path[count8 - 1];
                                         var count9 = Path.Count;
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
@@ -530,11 +527,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     Frame = 2999;
                                 }
 
-                                J = Random(5) + 5;
+                                j = Random(5) + 5;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -542,15 +539,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(20) + 20) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 20) / 10);
-                                        Z = 0;
+                                        z = 0;
                                         var count8 = Path.Count;
                                         var path = Path[count8 - 1];
                                         var count9 = Path.Count;
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
@@ -569,9 +565,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 }
 
                                 {
-                                    I = 0;
+                                    i = 0;
                                     int last = Path.Count - 1;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                         effect.AbilityIndex = AbilityIndex;
@@ -579,19 +575,18 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(25) + 25) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 40) / 10);
-                                        Z = 0;
-                                        var pathY = Path[I];
-                                        var pathZ = Path[I];
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(Path[I].X, pathY.Y - pathZ.Z, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 0;
+                                        var pathY = Path[i];
+                                        var pathZ = Path[i];
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
-                                J = Random(10) + 100;
+                                j = Random(10) + 100;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                         effect.AbilityIndex = AbilityIndex;
@@ -599,15 +594,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(50) + 50) / 10);
                                         gravity = (float)0.1;
                                         vz = (float)((double)(Random(5) + 5) / 10);
-                                        Z = 0;
+                                        z = 0;
                                         var count8 = Path.Count;
                                         var path = Path[count8 - 1];
                                         var count9 = Path.Count;
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
@@ -634,8 +628,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 }
 
                                 {
-                                    I = 1;
-                                    for (; I <= 20; I += 1)
+                                    i = 1;
+                                    for (; i <= 20; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -645,15 +639,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + Frame / 4, I % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + Frame / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
                                     }
                                 }
 
                                 break;
                             case >= 30 and <= 59:
                                 {
-                                    I = 1;
-                                    for (; I <= 20; I += 1)
+                                    i = 1;
+                                    for (; i <= 20; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -663,15 +657,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - Frame) / 4, I % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - Frame) / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
                                     }
                                 }
 
                                 break;
                             case >= 60 and <= 89:
                                 {
-                                    I = 1;
-                                    for (; I <= 20; I += 1)
+                                    i = 1;
+                                    for (; i <= 20; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -681,15 +675,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame - 60) / 2, I % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame - 60) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
                                     }
                                 }
 
                                 break;
                             case >= 90 and <= 119:
                                 {
-                                    I = 1;
-                                    for (; I <= 20; I += 1)
+                                    i = 1;
+                                    for (; i <= 20; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -699,7 +693,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - Frame) / 2, I % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - Frame) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
                                     }
                                 }
 
@@ -717,31 +711,31 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     }
                                 }
 
-                                X = 200;
-                                Y = 200;
-                                J = Random(5);
+                                x = 200;
+                                y = 200;
+                                j = Random(5);
                                 {
-                                    I = 0;
-                                    for (; I <= 359; I += 1)
+                                    i = 0;
+                                    for (; i <= 359; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
                                         effect.SpellIndex = SpellIndex;
-                                        X = -X;
+                                        x = -x;
                                         var pi = Math.PI;
-                                        var sin = Math.Sin((double)((double)(I + J) * pi) / 180);
+                                        var sin = Math.Sin((double)((double)(i + j) * pi) / 180);
                                         var random = Random(10);
                                         var pathY = Path[0];
                                         var mathPI = Math.PI;
-                                        var cos = Math.Cos((double)((double)(I + J) * mathPI) / 180);
+                                        var cos = Math.Cos((double)((double)(i + j) * mathPI) / 180);
                                         var random2 = Random(10);
                                         var pathX = Path[0];
                                         var path = Path[0];
-                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + X)), pathY.Y + Round((double)sin * (random + Y)) / 2, 75, ref effect.Path);
-                                        if (I % 10 == 0)
+                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + Round((double)sin * (random + y)) / 2, 75, ref effect.Path);
+                                        if (i % 10 == 0)
                                         {
-                                            K = 1;
-                                            for (; K <= 10; K += 1)
+                                            k = 1;
+                                            for (; k <= 10; k += 1)
                                             {
                                                 effect2 = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                                 effect2.AbilityIndex = AbilityIndex;
@@ -751,7 +745,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 var count8 = effect.Path.Count;
                                                 var path3 = effect.Path[count8 - 1];
                                                 var path4 = Path[0];
-                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, K * 5 + 75, ref effect2.Path);
+                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, k * 5 + 75, ref effect2.Path);
                                             }
                                         }
                                     }
@@ -761,16 +755,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 151 and <= 169:
                             case >= 210 and <= 229:
                                 var path5 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path5.Y, out X, out Y);
+                                HexGeometry.PixelToHex(Path[0].X, path5.Y, out x, out y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 1;
                                 message.Result = -1;
                                 {
-                                    I = 1;
-                                    for (; I <= 36; I += 1)
+                                    i = 1;
+                                    for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                                        CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMessage(ref message);
+                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
 
@@ -778,47 +772,47 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 170 and <= 184:
                             case >= 195 and <= 209:
                                 var path6 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path6.Y, out X, out Y);
+                                HexGeometry.PixelToHex(Path[0].X, path6.Y, out x, out y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 2;
                                 message.Result = -1;
                                 {
-                                    I = 1;
-                                    for (; I <= 36; I += 1)
+                                    i = 1;
+                                    for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                                        CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMessage(ref message);
+                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
 
                                 break;
                             case >= 185 and <= 194:
                                 var path7 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path7.Y, out X, out Y);
+                                HexGeometry.PixelToHex(Path[0].X, path7.Y, out x, out y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 3;
                                 message.Result = -1;
                                 {
-                                    I = 1;
-                                    for (; I <= 36; I += 1)
+                                    i = 1;
+                                    for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                                        CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMessage(ref message);
+                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
 
                                 break;
                             case 230:
                                 var path8 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path8.Y, out X, out Y);
+                                HexGeometry.PixelToHex(Path[0].X, path8.Y, out x, out y);
                                 message.MessageId = 200721;
                                 message.Result = -1;
                                 {
-                                    I = 1;
-                                    for (; I <= 36; I += 1)
+                                    i = 1;
+                                    for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                                        CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMessage(ref message);
+                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
 
@@ -851,8 +845,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var count8 = Path.Count;
                                         var path = Path[count8 - 1];
                                         var count9 = Path.Count;
-                                        HexGeometry.PixelToHex(Path[count9 - 1].X, path.Y, out J, out K);
-                                        var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[J, K];
+                                        HexGeometry.PixelToHex(Path[count9 - 1].X, path.Y, out j, out k);
+                                        var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k];
                                         ((TacticalBattleUnit)Target).UnitHexSprite.MoveTo(mapField, 0);
                                         ((TacticalBattleUnit)Target).UnitHexSprite.OffsetX = 0;
                                         ((TacticalBattleUnit)Target).UnitHexSprite.OffsetY = 0;
@@ -897,15 +891,15 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         }
                                     }
 
-                                    I = Frame - 20;
+                                    i = Frame - 20;
                                     int last = Frame;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
-                                        bool condition = I >= 0;
+                                        bool condition = i >= 0;
                                         if (condition)
                                         {
                                             var count8 = Path.Count;
-                                            condition = I < count8;
+                                            condition = i < count8;
                                         }
 
                                         if (condition)
@@ -914,14 +908,14 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                             var random = Random(360);
-                                            var pathX = Path[I];
+                                            var pathX = Path[i];
                                             var random2 = Random(10);
-                                            var pathY = Path[I];
-                                            var pathZ = Path[I];
+                                            var pathY = Path[i];
+                                            var pathZ = Path[i];
                                             var random3 = Random(10);
                                             var random4 = Random(2);
                                             var count8 = Path.Count;
-                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - I) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref effect.Path);
+                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref effect.Path);
                                         }
                                     }
                                 }
@@ -946,13 +940,13 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     }
                                 }
 
-                                J = Random(6) + 10;
+                                j = Random(6) + 10;
                                 var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
-                                HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out K, out X);
+                                HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out k, out x);
                                 {
-                                    I = 1;
-                                    int last = J - 1;
-                                    for (; I <= last; I += 1)
+                                    i = 1;
+                                    int last = j - 1;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                         effect.AbilityIndex = AbilityIndex;
@@ -960,8 +954,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(25) + 25) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + Frame) / 10);
-                                        Z = 0;
-                                        EffectPaths.MakeArcPath(K + 16, X + 16, I * 360 / J, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 0;
+                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                     }
                                 }
 
@@ -989,11 +983,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             }
                                         }
 
-                                        J = Random(10) + 100;
+                                        j = Random(10) + 100;
                                         {
-                                            I = 0;
-                                            int last = J;
-                                            for (; I <= last; I += 1)
+                                            i = 0;
+                                            int last = j;
+                                            for (; i <= last; i += 1)
                                             {
                                                 effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                                 effect.AbilityIndex = AbilityIndex;
@@ -1001,9 +995,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 speed = (float)((double)(Random(50) + 50) / 10);
                                                 gravity = (float)0.1;
                                                 vz = (float)((double)(Random(5) + 5) / 10);
-                                                Z = 0;
-                                                var random = Random(360);
-                                                EffectPaths.MakeArcPath(K + 16, X + 16, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                                z = 0;
+                                                EffectPaths.MakeArcPath(angle: Random(360), x: k + 16, y: x + 16, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                             }
                                         }
 
@@ -1015,8 +1008,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 if (Frame == 125)
                                 {
                                     var path = Path[0];
-                                    HexGeometry.PixelToHex(Path[0].X, path.Y, out I, out J);
-                                    CombatMap.Current.CenterViewTo(I, J - 3, 0);
+                                    HexGeometry.PixelToHex(Path[0].X, path.Y, out i, out j);
+                                    CombatMap.Current.CenterViewTo(i, j - 3, 0);
                                 }
 
                                 if (CombatMap.Current.PlaySounds)
@@ -1031,17 +1024,17 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     }
                                 }
 
-                                J = Random(6) + 10;
+                                j = Random(6) + 10;
                                 var pathX = Path[0];
                                 var random2 = Random(160);
-                                K = pathX.X + random2 - 80;
+                                k = pathX.X + random2 - 80;
                                 var pathY = Path[0];
                                 var random3 = Random(80);
-                                X = pathY.Y + random3 - 40;
+                                x = pathY.Y + random3 - 40;
                                 {
-                                    I = 1;
-                                    int last = J - 1;
-                                    for (; I <= last; I += 1)
+                                    i = 1;
+                                    int last = j - 1;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                         effect.AbilityIndex = AbilityIndex;
@@ -1049,16 +1042,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(50) + 25) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 100) / 10);
-                                        Z = 0;
-                                        EffectPaths.MakeArcPath(K, X, I * 360 / J, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 0;
+                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                     }
                                 }
 
-                                J = Random(10) + 50;
+                                j = Random(10) + 50;
                                 {
-                                    I = 0;
-                                    int last = J;
-                                    for (; I <= last; I += 1)
+                                    i = 0;
+                                    int last = j;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.Frost);
                                         effect.AbilityIndex = AbilityIndex;
@@ -1066,9 +1059,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(50) + 50) / 10);
                                         gravity = (float)0.1;
                                         vz = (float)((double)(Random(5) + 5) / 10);
-                                        Z = 0;
-                                        var random = Random(360);
-                                        EffectPaths.MakeArcPath(K, X, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 0;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k, y: x, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
                                 }
 
@@ -1085,13 +1077,13 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 0 and <= 49:
                                 if (Frame % 2 > 0)
                                 {
-                                    I = 0;
+                                    i = 0;
                                     int last = Frame;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
-                                        J = 0;
-                                        int limit = I / 25;
-                                        for (; J <= limit; J += 1)
+                                        j = 0;
+                                        int limit = i / 25;
+                                        for (; j <= limit; j += 1)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                             effect.AbilityIndex = AbilityIndex;
@@ -1100,7 +1092,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var pathX = Path[0];
                                             var pathY = Path[0];
                                             var random2 = Random(2);
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (SwarmDirection)random2, ref effect.Path);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref effect.Path);
                                         }
                                     }
                                 }
@@ -1109,12 +1101,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 50 and <= 149:
                                 if (Frame % 2 > 0)
                                 {
-                                    I = 0;
-                                    for (; I <= 50; I += 1)
+                                    i = 0;
+                                    for (; i <= 50; i += 1)
                                     {
-                                        J = 0;
-                                        int last = I / 25;
-                                        for (; J <= last; J += 1)
+                                        j = 0;
+                                        int last = i / 25;
+                                        for (; j <= last; j += 1)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                             effect.AbilityIndex = AbilityIndex;
@@ -1123,7 +1115,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var pathX = Path[0];
                                             var pathY = Path[0];
                                             var random2 = Random(2);
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (SwarmDirection)random2, ref effect.Path);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref effect.Path);
                                         }
                                     }
                                 }
@@ -1143,27 +1135,26 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     var path2 = Path[0];
                                     var random5 = Random(50);
                                     EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, ref effect.Path);
-                                    I = 0;
-                                    for (; I <= 10; I += 1)
+                                    i = 0;
+                                    for (; i <= 10; i += 1)
                                     {
                                         speed = (float)((double)(Random(50) + 50) / 10);
                                         gravity = (float)1.5;
                                         vz = (float)((double)(Random(25) + 25) / 10);
-                                        Z = 0;
+                                        z = 0;
                                         var count7 = effect.Path.Count;
                                         var path3 = effect.Path[count7 - 1];
                                         var count8 = effect.Path.Count;
                                         var pathZ = effect.Path[count8 - 1];
                                         var count9 = effect.Path.Count;
                                         var path4 = effect.Path[count9 - 1];
-                                        var random6 = Random(360);
-                                        EffectPaths.MakeArcPath(path4.X, path3.Y - pathZ.Z, random6, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                                     }
 
-                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref J, ref K);
+                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
-                                    HexGeometry.HexToPixel(J, K, out X, out Y);
-                                    unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
+                                    HexGeometry.HexToPixel(j, k, out x, out y);
+                                    unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild(2228484);
                                     if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide())
                                     {
                                         effect.Target = unitHexSprite.Unit;
@@ -1181,10 +1172,10 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var count8 = effect.Path.Count;
                                         var pathZ = effect.Path[count8 - 1];
                                         var count9 = effect.Path.Count;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(X + 16), (short)(Y - 8), (short)(random6 + 6), 100, ref effect.Path);
-                                        I = 0;
+                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, ref effect.Path);
+                                        i = 0;
                                         int last = Random(3) + 5;
-                                        for (; I <= last; I += 1)
+                                        for (; i <= last; i += 1)
                                         {
                                             var count10 = effect.Path.Count;
                                             var path4 = effect.Path[count10 - 1];
@@ -1224,53 +1215,53 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                         break;
                     case BattleEffectType.Chain:
                         newPath = new Point3DList();
-                        I = 0;
-                        J = 0;
-                        K = 0;
+                        i = 0;
+                        j = 0;
+                        k = 0;
                         while (true)
                         {
                             var count7 = Path.Count;
-                            if (!(I < count7))
+                            if (!(i < count7))
                                 break;
-                            if (Path[I].Z > 0)
+                            if (Path[i].Z > 0)
                             {
-                                if (Path[I].Z > 1)
+                                if (Path[i].Z > 1)
                                 {
-                                    K = Path[I].Z;
+                                    k = Path[i].Z;
                                 }
 
-                                var pathY = Path[I];
-                                var pathX = Path[I];
-                                var path = Path[J];
-                                EffectPaths.MakeLightningPath(Path[J].X, path.Y, pathX.X, pathY.Y, ref newPath);
-                                switch (K)
+                                var pathY = Path[i];
+                                var pathX = Path[i];
+                                var path = Path[j];
+                                EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, ref newPath);
+                                switch (k)
                                 {
                                     case -1:
                                         var newPathCount = newPath.Count;
                                         newPath[newPathCount - 1].Z = 16;
                                         Frame = newPath.Count - 1;
-                                        K = 0;
+                                        k = 0;
                                         break;
                                     case >= 2 and <= 16:
                                         var count8 = newPath.Count;
-                                        newPath[count8 - 1].Z = K - 1;
+                                        newPath[count8 - 1].Z = k - 1;
                                         Frame = newPath.Count - 1;
-                                        if (K == 2)
+                                        if (k == 2)
                                         {
-                                            K = -1;
+                                            k = -1;
                                         }
                                         else
                                         {
-                                            K = 0;
+                                            k = 0;
                                         }
 
                                         break;
                                 }
 
-                                J = I;
+                                j = i;
                             }
 
-                            I += 1;
+                            i += 1;
                         }
 
                         Path?.Dispose();
@@ -1301,8 +1292,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
-                            CombatMap.Current.MakeVisible(I, J, 0, 3);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, 3);
                         }
 
                         break;
@@ -1608,18 +1599,18 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case 90:
                             case 95:
                                 {
-                                    I = 0;
+                                    i = 0;
                                     int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
-                                        if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).CombatPlayer == Target.CombatPlayer)
+                                        if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
-                                            var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, out J, out K);
-                                            J = Random(20) + (J + 6);
-                                            K = Random(20) + (K + 6);
-                                            EffectPaths.MakeLinePath(J, K - 100, J, K, 50, ref effect.Path);
+                                            var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX(), hexY, out j, out k);
+                                            j = Random(20) + (j + 6);
+                                            k = Random(20) + (k + 6);
+                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, ref effect.Path);
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                         }
@@ -1629,22 +1620,22 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 break;
                             case 100:
                                 {
-                                    I = 0;
+                                    i = 0;
                                     int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
-                                        if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).CombatPlayer == Target.CombatPlayer)
+                                        if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.PrayerGlow);
-                                            var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, out J, out K);
+                                            var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX(), hexY, out j, out k);
                                             var xyz = new Point3D();
                                             effect.Path.Add(xyz);
-                                            effect.Path[0].X = J + 16;
-                                            effect.Path[0].Y = K + 16;
+                                            effect.Path[0].X = j + 16;
+                                            effect.Path[0].Y = k + 16;
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
-                                            var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
+                                            var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
                                             effect.Target = combatObject;
                                         }
                                     }
@@ -1722,11 +1713,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     ((TacticalBattleUnit)Target).UnitHexSprite.Busy = true;
                                 }
 
-                                J = Random(6) + 20;
+                                j = Random(6) + 20;
                                 {
-                                    I = 1;
-                                    int last = J - 1;
-                                    for (; I <= last; I += 1)
+                                    i = 1;
+                                    int last = j - 1;
+                                    for (; i <= last; i += 1)
                                     {
                                         effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                         effect.AbilityIndex = AbilityIndex;
@@ -1734,9 +1725,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(10) + 10) / 10);
                                         gravity = (float)0.5;
                                         vz = (float)((double)((double)Random(50) + (double)(Frame * 3) * 0.5) / 10);
-                                        Z = 0;
+                                        z = 0;
                                         var path = Path[0];
-                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, I * 360 / J, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                     }
                                 }
 

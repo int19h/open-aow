@@ -103,14 +103,14 @@ public partial class FastBattle : Battle
     // AIGroup.pas:7144
     public int GetRoundDistanceMax()
     {
-        int I;
+        int i;
         CombatObject objectValue;
         int result = 0;
-        I = CombatData.GetCount();
-        while (I != 0)
+        i = CombatData.GetCount();
+        while (i != 0)
         {
-            I -= 1;
-            objectValue = CombatData.GetObjects(I);
+            i -= 1;
+            objectValue = CombatData.GetObjects(i);
             if (objectValue.GetEnabled())
             {
                 if (result < objectValue.FastBattleRoundDistance())
@@ -127,15 +127,15 @@ public partial class FastBattle : Battle
     public bool AttackerCanCrushWall()
     {
         CombatSide side;
-        int I;
+        int i;
         bool canCrush;
         side = Sides[(int)CombatSideIndex.Attacker];
-        I = side.Count;
+        i = side.Count;
         canCrush = false;
-        while (I != 0 && !canCrush)
+        while (i != 0 && !canCrush)
         {
-            I -= 1;
-            canCrush = !side.GetObjects(I).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(I).WallCombatFeatures().Contains(WallCombatFeaturesElement.WallBreaching);
+            i -= 1;
+            canCrush = !side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).WallCombatFeatures().Contains(WallCombatFeaturesElement.WallBreaching);
         }
 
         return canCrush;
@@ -148,11 +148,11 @@ public partial class FastBattle : Battle
         CombatSide side;
         combatValue = 0;
         side = Sides[(int)CombatSideIndex.Attacker];
-        for (int I = 0, last = side.Count - 1; I <= last; I++)
+        for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
-            if (!side.GetObjects(I).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(I).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
+            if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
             {
-                combatValue += side.GetObjects(I).CombatValue;
+                combatValue += side.GetObjects(i).CombatValue;
             }
         }
 
@@ -166,11 +166,11 @@ public partial class FastBattle : Battle
         CombatSide side;
         combatValue = 0;
         side = Sides[(int)CombatSideIndex.Defender];
-        for (int I = 0, last = side.Count - 1; I <= last; I++)
+        for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
-            if (!side.GetObjects(I).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(I).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
+            if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
             {
-                combatValue += side.GetObjects(I).CombatValue;
+                combatValue += side.GetObjects(i).CombatValue;
             }
         }
 
@@ -200,7 +200,7 @@ public partial class FastBattle : Battle
     public void ExecuteCombatRound()
     {
         bool idle;
-        int I;
+        int i;
         int moveCost;
         CombatObjectList objects;
         CombatObject objectValue;
@@ -213,10 +213,10 @@ public partial class FastBattle : Battle
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);
             objects.Clear();
-            I = CombatData.GetCount() - 1;
-            for (; I >= 0; I -= 1)
+            i = CombatData.GetCount() - 1;
+            for (; i >= 0; i -= 1)
             {
-                objectValue = CombatData.GetObjects(I);
+                objectValue = CombatData.GetObjects(i);
                 if (objectValue.CombatPlayer == (sbyte)CombatData.CurrentPlayer && objectValue.GetEnabled() && !objectValue.GetLocked() && !objectValue.Status.Contains(CombatObjectStatusElement.TurnDone))
                 {
                     objects.Add(objectValue);
@@ -226,16 +226,16 @@ public partial class FastBattle : Battle
             moveCost = 0;
             do
             {
-                I = objects.Count;
-                while (I != 0)
+                i = objects.Count;
+                while (i != 0)
                 {
-                    I -= 1;
-                    if (objects.GetObject(I).GetEnabled())
+                    i -= 1;
+                    if (objects.GetObject(i).GetEnabled())
                     {
-                        if (objects.GetObject(I).FastBattleExecute(moveCost))
+                        if (objects.GetObject(i).FastBattleExecute(moveCost))
                         {
                             idle = false;
-                            objects.Delete(I);
+                            objects.Delete(i);
                         }
                     }
                 }

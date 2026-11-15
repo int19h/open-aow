@@ -27,8 +27,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         {
             if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
             {
-                var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-                if (GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType)
+                if (GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY) == info.MapField.TerrainType)
                 {
                     result = CanChangeOwnTerrain(info.HexNumber);
                 }
@@ -55,21 +54,20 @@ public partial class TerrainMapObject : MultiHexMapObject
     {
         sbyte terrainType;
         sbyte newTerrainType;
-        TerrainMapObjectResource R;
+        TerrainMapObjectResource r;
         MapField oldOwner;
         terrainType = _resource.TerrainList.GetTerrain(info.HexNumber);
         if (terrainType >= 0 && terrainType != info.TerrainType)
         {
-            var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-            newTerrainType = GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain);
+            newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY);
             if (newTerrainType != terrainType)
             {
-                R = FindTerrainResource((byte)newTerrainType);
-                if (R != null)
+                r = FindTerrainResource((byte)newTerrainType);
+                if (r != null)
                 {
                     oldOwner = Owner;
                     RemoveFromMap();
-                    SetResource(R);
+                    SetResource(r);
                     Owner = oldOwner;
                     PlaceOnMap();
                     if (_resource.Level <= 15)
@@ -136,27 +134,27 @@ public partial class TerrainMapObject : MultiHexMapObject
         int hexX;
         int hexY;
         int hexLevel;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         TerrainList terrainList;
         GameMap map;
-        TerrainMapObjectResource R;
+        TerrainMapObjectResource r;
         MapObjectResourceList resources;
-        int I;
+        int i;
         bool found;
         if (_resource.TerrainList.UsedTerrain() > 1)
         {
-            R = null;
+            r = null;
             resources = GetResourceList(_resource.Engine);
-            I = resources.Count;
+            i = resources.Count;
             found = false;
-            while (!found && I != 0)
+            while (!found && i != 0)
             {
-                I -= 1;
-                if (resources[I] is TerrainMapObjectResource terrain)
+                i -= 1;
+                if (resources[i] is TerrainMapObjectResource terrain)
                 {
-                    R = terrain;
-                    found = R.EngineClass.ClassId == _resource.EngineClass.ClassId && R.DecorationType == ((TerrainMapObjectResource)_resource).DecorationType && R.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                    r = terrain;
+                    found = r.EngineClass.ClassId == _resource.EngineClass.ClassId && r.DecorationType == ((TerrainMapObjectResource)_resource).DecorationType && r.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -168,14 +166,14 @@ public partial class TerrainMapObject : MultiHexMapObject
                 map = Owner.Owner.Map;
                 terrainList = _resource.TerrainList;
                 Dispose();
-                I = 0;
+                i = 0;
                 int last = terrainList.Count - 1;
-                for (; I <= last; I += 1)
+                for (; i <= last; i += 1)
                 {
-                    if (terrainList.GetTerrain(I) >= 0 && I != hexNumber)
+                    if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
                     {
-                        HexGeometry.CenterHexNumberToHex(hexX, hexY, I, ref X, ref Y);
-                        R.PlaceResourceUser(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
+                        HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
+                        r.PlaceResourceUser(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
                     }
                 }
             }
@@ -196,17 +194,17 @@ public partial class TerrainMapObject : MultiHexMapObject
         TerrainMapObjectResource result;
         DelphiList<TerrainMapObjectResource> candidates;
         MapObjectResourceList resources;
-        TerrainMapObjectResource R;
+        TerrainMapObjectResource r;
         candidates = new DelphiList<TerrainMapObjectResource>();
         resources = GetResourceList(_resource.Engine);
-        for (int I = 0, last = resources.Count - 1; I <= last; I++)
+        for (int i = 0, last = resources.Count - 1; i <= last; i++)
         {
-            if (resources[I] is TerrainMapObjectResource terrain)
+            if (resources[i] is TerrainMapObjectResource terrain)
             {
-                R = terrain;
-                if (R.EngineClass.ClassId == _resource.EngineClass.ClassId && R.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && R.DecorationType == decorationType && R != _resource && R.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                r = terrain;
+                if (r.EngineClass.ClassId == _resource.EngineClass.ClassId && r.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && r.DecorationType == decorationType && r != _resource && r.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
-                    candidates.Add(R);
+                    candidates.Add(r);
                 }
             }
         }

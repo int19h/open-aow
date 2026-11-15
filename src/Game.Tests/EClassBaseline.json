@@ -117,7 +117,7 @@
   },
   "Aow.Game.AI.Groups.AIGroup": {
     "id": 136272,
-    "parent": "Aow.Game.Units.UnitUserList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.AI.Groups.AIGroupControl": {
     "id": 80,
@@ -149,7 +149,7 @@
   },
   "Aow.Game.AI.Groups.AIGroupManager": {
     "id": 256,
-    "parent": "Aow.Game.AI.Groups.AIGroupList"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.AI.Groups.AIGroupProduction": {
     "id": 80,
@@ -825,7 +825,7 @@
   },
   "Aow.Game.Units.HeroLibrary": {
     "id": 256,
-    "parent": "Aow.Game.Units.HeroList"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Units.HeroLibraryManager": {
     "id": 80,
@@ -1425,7 +1425,7 @@
   },
   "Aow.Game.Units.UnitUserList": {
     "id": 265,
-    "parent": "Aow.Game.Units.UnitList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Combat.Actions.UpdateHeaderCombatAction": {
     "id": 131766,

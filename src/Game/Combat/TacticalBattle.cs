@@ -38,61 +38,61 @@ public partial class TacticalBattle : Battle
         CombatData.TurnOrder.Clear();
         CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
         HostPlayer = -1;
-        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
             if (HostPlayer == -1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
+                if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated)
+                    if (StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated)
                     {
-                        HostPlayer = (sbyte)I;
+                        HostPlayer = (sbyte)i;
                     }
                 }
             }
         }
 
-        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
         {
-            if (CombatData.TurnOrder.IndexOf((byte)I) == -1)
+            if (CombatData.TurnOrder.IndexOf((byte)i) == -1)
             {
-                if (CombatData.Players.GetPlayers((sbyte)I).SideIndex == 0)
+                if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 0)
                 {
-                    CombatData.TurnOrder.Add((byte)I);
+                    CombatData.TurnOrder.Add((byte)i);
                 }
             }
 
-            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
                 if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
                 {
                     var playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
-                    var player = CombatData.Players.GetPlayers((sbyte)I);
+                    var player = CombatData.Players.GetPlayers((sbyte)i);
                     ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
                     var playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
-                    var player2 = CombatData.Players.GetPlayers((sbyte)I);
+                    var player2 = CombatData.Players.GetPlayers((sbyte)i);
                     ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
         }
 
-        for (int I = 0, last = StrategicMap.Current.TokenManager.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.TokenManager.GetCount() - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.TokenManager.GetTokenControl(I).Local() || StrategicMap.Current.TokenManager.GetTokenControl(I).Global())
+            if (StrategicMap.Current.TokenManager.GetTokenControl(i).Local() || StrategicMap.Current.TokenManager.GetTokenControl(i).Global())
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(I).ClearEvents();
+                StrategicMap.Current.TokenManager.GetTokenControl(i).ClearEvents();
             }
         }
 
         CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
-        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
         {
-            if (CombatData.TurnOrder.IndexOf((byte)I) == -1)
+            if (CombatData.TurnOrder.IndexOf((byte)i) == -1)
             {
-                if (CombatData.Players.GetPlayers((sbyte)I).SideIndex == 1)
+                if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 1)
                 {
-                    CombatData.TurnOrder.Add((byte)I);
+                    CombatData.TurnOrder.Add((byte)i);
                 }
             }
         }
@@ -114,15 +114,15 @@ public partial class TacticalBattle : Battle
     // AoWTC.pas:5145
     public bool ValidateWallCombat()
     {
-        int I;
+        int i;
         CombatSide side;
         side = Sides[(int)CombatSideIndex.Attacker];
         bool result = CombatData.Parties.GetParty(0).Wall == 0;
-        I = side.GetCount();
-        while (!result && I > 0)
+        i = side.GetCount();
+        while (!result && i > 0)
         {
-            I -= 1;
-            result = (side.GetObjects(I).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
+            i -= 1;
+            result = (side.GetObjects(i).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
         }
 
         return result;
@@ -170,12 +170,12 @@ public partial class TacticalBattle : Battle
                     CombatMap.Current.PlaySounds = condition;
                     if (!CombatMap.Current.PlaySounds)
                     {
-                        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
+                        for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                         {
-                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
                             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = CombatData.Players.GetPlayers((sbyte)I);
+                                var player = CombatData.Players.GetPlayers((sbyte)i);
                                 if (StrategicMap.Current.Players.GetPlayers(player.Player).GetLocal())
                                 {
                                     CombatMap.Current.PlaySounds = true;
@@ -186,20 +186,20 @@ public partial class TacticalBattle : Battle
 
                     CombatMap.Current.DeselectEventsStore.Raise(this);
                     seated = -1;
-                    for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
+                    for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                     {
                         if (seated == -1)
                         {
-                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
                             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = CombatData.Players.GetPlayers((sbyte)I);
+                                var player = CombatData.Players.GetPlayers((sbyte)i);
                                 if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
                                 {
-                                    var player2 = CombatData.Players.GetPlayers((sbyte)I);
+                                    var player2 = CombatData.Players.GetPlayers((sbyte)i);
                                     if (StrategicMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
                                     {
-                                        seated = I;
+                                        seated = i;
                                     }
                                 }
                             }

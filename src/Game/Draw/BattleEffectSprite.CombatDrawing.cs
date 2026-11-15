@@ -20,8 +20,8 @@ public partial class BattleEffectSprite
         ImageSequence sequence;
         int index;
         ImageSequence firstSequence;
-        int I = default;
-        int J = default;
+        int i = default;
+        int j = default;
         void SelectSequence(int number)
         {
             if (AbilityIndex == 52)
@@ -46,33 +46,33 @@ public partial class BattleEffectSprite
 
         void SelectDamageSequence()
         {
-            int N = default;
+            int n = default;
             switch (EffectType)
             {
                 case BattleEffectType.DamLightning:
-                    N = 40;
+                    n = 40;
                     break;
                 case BattleEffectType.DamFire:
-                    N = 41;
+                    n = 41;
                     break;
                 case BattleEffectType.DamPoison:
-                    N = 42;
+                    n = 42;
                     break;
                 case BattleEffectType.DamMagic:
-                    N = 43;
+                    n = 43;
                     break;
                 case BattleEffectType.DamHoly:
-                    N = 44;
+                    n = 44;
                     break;
                 case BattleEffectType.DamDeath:
-                    N = 45;
+                    n = 45;
                     break;
                 default:
-                    N = 46;
+                    n = 46;
                     break;
             }
 
-            sequence = GamePack.Current.ImageSequences.ImageSequences[N];
+            sequence = GamePack.Current.ImageSequences.ImageSequences[n];
         }
 
         void ShowMovingLoop()
@@ -116,9 +116,9 @@ public partial class BattleEffectSprite
             if (sequence != null)
             {
                 lastFrame = sequence.GetTotalSequenceFrames() - 1;
-                for (int N = 0; N <= lastFrame; N++)
+                for (int n = 0; n <= lastFrame; n++)
                 {
-                    half = N / 2;
+                    half = n / 2;
                     bool condition = Frame - 9 + half + 5 > -1;
                     if (condition)
                     {
@@ -128,11 +128,11 @@ public partial class BattleEffectSprite
 
                     if (condition)
                     {
-                        index = sequence.GetUnloopedFrameIndex(lastFrame - N);
+                        index = sequence.GetUnloopedFrameIndex(lastFrame - n);
                         if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                         {
                             var count = Path.Count;
-                            if (Frame - 9 + half + 5 == count - 1 || half * 2 == N)
+                            if (Frame - 9 + half + 5 == count - 1 || half * 2 == n)
                             {
                                 var pathY = Path[Frame - 9 + half + 5];
                                 var pathZ = Path[Frame - 9 + half + 5];
@@ -159,14 +159,14 @@ public partial class BattleEffectSprite
         {
             if (sequence != null)
             {
-                for (int N = 0, last = Frame; N <= last; N++)
+                for (int n = 0, last = Frame; n <= last; n++)
                 {
                     index = sequence.GetUnloopedFrameIndex(0);
                     if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                     {
-                        var pathY = Path[N];
-                        var pathZ = Path[N];
-                        var pathX = Path[N];
+                        var pathY = Path[n];
+                        var pathZ = Path[n];
+                        var pathX = Path[n];
                         sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                     }
                 }
@@ -175,7 +175,7 @@ public partial class BattleEffectSprite
 
         void ShowFrostBeam()
         {
-            int N = default;
+            int n = default;
             int alpha = default;
             switch (Frame)
             {
@@ -189,8 +189,8 @@ public partial class BattleEffectSprite
 
             if (sequence != null)
             {
-                N = 0;
-                while (N <= Frame && N < Path.Count)
+                n = 0;
+                while (n <= Frame && n < Path.Count)
                 {
                     switch (Frame)
                     {
@@ -201,7 +201,7 @@ public partial class BattleEffectSprite
                             index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
                             break;
                         case >= 2000 and <= 2998:
-                            if (N <= Frame - 2000)
+                            if (n <= Frame - 2000)
                             {
                                 var count = Path.Count;
                                 alpha = (Frame - 2000) * 75 / (count - 1) + 25;
@@ -209,7 +209,7 @@ public partial class BattleEffectSprite
                             }
                             else
                             {
-                                if (N == Frame - 1999)
+                                if (n == Frame - 1999)
                                 {
                                     SelectSequence(0);
                                 }
@@ -229,13 +229,13 @@ public partial class BattleEffectSprite
                     // { Stop at the path end in the loop condition. }
                     if (index != -1)
                     {
-                        var pathY = Path[N];
-                        var pathZ = Path[N];
-                        var pathX = Path[N];
+                        var pathY = Path[n];
+                        var pathZ = Path[n];
+                        var pathX = Path[n];
                         sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                     }
 
-                    N += 1;
+                    n += 1;
                 }
             }
         }
@@ -521,17 +521,17 @@ public partial class BattleEffectSprite
                                 index = sequence.GetUnloopedFrameIndex(0);
                                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                                 {
-                                    I = 0;
+                                    i = 0;
                                     int last = lockedSurfaceValue.Width / sequence.ImageLibrary[index].Width;
-                                    for (; I <= last; I += 1)
+                                    for (; i <= last; i += 1)
                                     {
-                                        J = 0;
+                                        j = 0;
                                         int limit = lockedSurfaceValue.Height / sequence.ImageLibrary[index].Height;
-                                        for (; J <= limit; J += 1)
+                                        for (; j <= limit; j += 1)
                                         {
                                             var imageLibraryHeight = sequence.ImageLibrary[index];
                                             var imageLibraryWidth = sequence.ImageLibrary[index];
-                                            sequence.ImageLibrary[index].ShowClipped(imageLibraryWidth.Width * I, imageLibraryHeight.Height * J, lockedSurfaceValue);
+                                            sequence.ImageLibrary[index].ShowClipped(imageLibraryWidth.Width * i, imageLibraryHeight.Height * j, lockedSurfaceValue);
                                         }
                                     }
                                 }
@@ -551,8 +551,8 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.SWComet:
                         var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
-                        HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out I, out J);
-                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)I, (short)J, 25, 50, ref Path);
+                        HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out i, out j);
+                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)i, (short)j, 25, 50, ref Path);
                         EffectType = BattleEffectType.Comet;
                         SelectSequence(0);
                         ShowTrail();

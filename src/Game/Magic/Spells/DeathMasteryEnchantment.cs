@@ -99,20 +99,20 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         bool border;
         flags = [];
         mask = MapField.ExploredFlag(player);
-        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
             index = 0;
             Array.Resize(ref flags, mapLevel.Width * mapLevel.Height);
             Array.Clear(flags);
-            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
+            for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
             {
-                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+                for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
                 {
-                    if ((mapLevel.GetField(X, Y).FieldFlags & mask) != 0)
+                    if ((mapLevel.GetField(x, y).FieldFlags & mask) != 0)
                     {
                         border = false;
-                        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
+                        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 1);
                         while (walk.Radius == 1 && !border)
                         {
                             if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)
@@ -134,13 +134,13 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
             }
 
             index = 0;
-            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
+            for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
             {
-                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+                for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
                 {
                     if (flags[index] != 0)
                     {
-                        mapLevel.GetField(X, Y).SetExplored(player, false);
+                        mapLevel.GetField(x, y).SetExplored(player, false);
                     }
 
                     index += 1;

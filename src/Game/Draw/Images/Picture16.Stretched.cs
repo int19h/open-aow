@@ -10,7 +10,7 @@ public partial class Picture16
     {
         Span<int> rowTable;
         Span<int> columnTable;
-        int W;
+        int w;
         SurfaceView destination;
         int xPosition;
         int yPosition;
@@ -20,35 +20,35 @@ public partial class Picture16
         int sy;
         float xScale;
         float yScale;
-        int H;
-        int L;
-        int T;
+        int h;
+        int l;
+        int t;
         int rt;
-        int B;
-        int C;
-        int D;
-        W = R.Right - R.Left;
-        H = R.Bottom - R.Top;
-        if (W > 0 && H > 0)
+        int b;
+        int c;
+        int d;
+        w = R.Right - R.Left;
+        h = R.Bottom - R.Top;
+        if (w > 0 && h > 0)
         {
-            xScale = (float)((double)W / _dataWidth);
-            yScale = (float)((double)H / _height);
-            L = R.Left;
-            if (L < lockedSurface.ClipRectangle.Left)
+            xScale = (float)((double)w / _dataWidth);
+            yScale = (float)((double)h / _height);
+            l = R.Left;
+            if (l < lockedSurface.ClipRectangle.Left)
             {
-                sx = lockedSurface.ClipRectangle.Left - L;
-                L += sx;
+                sx = lockedSurface.ClipRectangle.Left - l;
+                l += sx;
             }
             else
             {
                 sx = 0;
             }
 
-            T = R.Top;
-            if (T < lockedSurface.ClipRectangle.Top)
+            t = R.Top;
+            if (t < lockedSurface.ClipRectangle.Top)
             {
-                sy = lockedSurface.ClipRectangle.Top - T;
-                T += sy;
+                sy = lockedSurface.ClipRectangle.Top - t;
+                t += sy;
             }
             else
             {
@@ -58,26 +58,26 @@ public partial class Picture16
             rt = R.Right;
             if (rt > lockedSurface.ClipRectangle.Right)
             {
-                D = rt - lockedSurface.ClipRectangle.Right;
-                rt -= D;
+                d = rt - lockedSurface.ClipRectangle.Right;
+                rt -= d;
             }
 
-            B = R.Bottom;
-            if (B > lockedSurface.ClipRectangle.Bottom)
+            b = R.Bottom;
+            if (b > lockedSurface.ClipRectangle.Bottom)
             {
-                D = B - lockedSurface.ClipRectangle.Bottom;
-                B -= D;
+                d = b - lockedSurface.ClipRectangle.Bottom;
+                b -= d;
             }
 
-            W = rt - L;
-            H = B - T;
-            if (W > 0 && H > 0)
+            w = rt - l;
+            h = b - t;
+            if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View(L * 2 + lockedSurface.Pitch * T);
+                destination = lockedSurface.View(l * 2 + lockedSurface.Pitch * t);
                 // One table of H row offsets followed by W columns, as the original's GetMem.
-                int[] tables = new int[W + H];
-                rowTable = tables.AsSpan(0, H);
-                columnTable = tables.AsSpan(H, W);
+                int[] tables = new int[w + h];
+                rowTable = tables.AsSpan(0, h);
+                columnTable = tables.AsSpan(h, w);
                 xStep = RtlUnit.Round((double)65535 / xScale);
                 if (sx != 0)
                 {
@@ -88,15 +88,15 @@ public partial class Picture16
                     xPosition = 0;
                 }
 
-                for (int I = 0; I <= W - 1; I++)
+                for (int i = 0; i <= w - 1; i++)
                 {
-                    C = (int)(((uint)xPosition) >> 16);
-                    if (C >= _dataWidth)
+                    c = (int)(((uint)xPosition) >> 16);
+                    if (c >= _dataWidth)
                     {
-                        C = _dataWidth - 1;
+                        c = _dataWidth - 1;
                     }
 
-                    columnTable[I] = C;
+                    columnTable[i] = c;
                     xPosition += xStep;
                 }
 
@@ -113,21 +113,21 @@ public partial class Picture16
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    for (int I = 0; I <= H - 1; I++)
+                    for (int i = 0; i <= h - 1; i++)
                     {
-                        C = (int)(((uint)yPosition) >> 16);
-                        if (C >= _dataHeight)
+                        c = (int)(((uint)yPosition) >> 16);
+                        if (c >= _dataHeight)
                         {
-                            C = _dataHeight - 1;
+                            c = _dataHeight - 1;
                         }
 
-                        rowTable[I] = C * _pitch;
+                        rowTable[i] = c * _pitch;
                         yPosition += yStep;
                     }
 
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, w, h);
                     }
                     else
                     {
@@ -136,7 +136,7 @@ public partial class Picture16
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, w, h);
                     }
 
                     if (_loadMode == LoadMode.LoadFreeOnDemand)
@@ -146,21 +146,21 @@ public partial class Picture16
                 }
                 else
                 {
-                    for (int I = 0; I <= H - 1; I++)
+                    for (int i = 0; i <= h - 1; i++)
                     {
-                        C = (int)(((uint)yPosition) >> 16);
-                        if (C >= _dataHeight)
+                        c = (int)(((uint)yPosition) >> 16);
+                        if (c >= _dataHeight)
                         {
-                            C = _dataHeight - 1;
+                            c = _dataHeight - 1;
                         }
 
-                        rowTable[I] = C * _pitch;
+                        rowTable[i] = c * _pitch;
                         yPosition += yStep;
                     }
 
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, w, h);
                     }
                     else
                     {
@@ -169,7 +169,7 @@ public partial class Picture16
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, w, h);
                     }
                 }
             }
@@ -180,8 +180,8 @@ public partial class Picture16
     {
         Span<int> rowTable;
         Span<int> columnTable;
-        int W;
-        int H;
+        int w;
+        int h;
         int rt;
         SurfaceView destination;
         int xPosition;
@@ -192,33 +192,33 @@ public partial class Picture16
         int sy;
         float xScale;
         float yScale;
-        int L;
-        int T;
-        int B;
-        int C;
-        int D;
-        W = R.Right - R.Left;
-        H = R.Bottom - R.Top;
-        if (W > 0 && H > 0)
+        int l;
+        int t;
+        int b;
+        int c;
+        int d;
+        w = R.Right - R.Left;
+        h = R.Bottom - R.Top;
+        if (w > 0 && h > 0)
         {
-            xScale = (float)((double)W / _dataWidth);
-            yScale = (float)((double)H / _height);
-            L = R.Left;
-            if (L < lockedSurface.ClipRectangle.Left)
+            xScale = (float)((double)w / _dataWidth);
+            yScale = (float)((double)h / _height);
+            l = R.Left;
+            if (l < lockedSurface.ClipRectangle.Left)
             {
-                sx = lockedSurface.ClipRectangle.Left - L;
-                L += sx;
+                sx = lockedSurface.ClipRectangle.Left - l;
+                l += sx;
             }
             else
             {
                 sx = 0;
             }
 
-            T = R.Top;
-            if (T < lockedSurface.ClipRectangle.Top)
+            t = R.Top;
+            if (t < lockedSurface.ClipRectangle.Top)
             {
-                sy = lockedSurface.ClipRectangle.Top - T;
-                T += sy;
+                sy = lockedSurface.ClipRectangle.Top - t;
+                t += sy;
             }
             else
             {
@@ -228,26 +228,26 @@ public partial class Picture16
             rt = R.Right;
             if (rt > lockedSurface.ClipRectangle.Right)
             {
-                D = rt - lockedSurface.ClipRectangle.Right;
-                rt -= D;
+                d = rt - lockedSurface.ClipRectangle.Right;
+                rt -= d;
             }
 
-            B = R.Bottom;
-            if (B > lockedSurface.ClipRectangle.Bottom)
+            b = R.Bottom;
+            if (b > lockedSurface.ClipRectangle.Bottom)
             {
-                D = B - lockedSurface.ClipRectangle.Bottom;
-                B -= D;
+                d = b - lockedSurface.ClipRectangle.Bottom;
+                b -= d;
             }
 
-            W = rt - L;
-            H = B - T;
-            if (W > 0 && H > 0)
+            w = rt - l;
+            h = b - t;
+            if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View(L * 2 + lockedSurface.Pitch * T);
+                destination = lockedSurface.View(l * 2 + lockedSurface.Pitch * t);
                 // One table of H row offsets followed by W columns, as the original's GetMem.
-                int[] tables = new int[W + H];
-                rowTable = tables.AsSpan(0, H);
-                columnTable = tables.AsSpan(H, W);
+                int[] tables = new int[w + h];
+                rowTable = tables.AsSpan(0, h);
+                columnTable = tables.AsSpan(h, w);
                 xStep = RtlUnit.Round((double)65535 / xScale);
                 if (sx != 0)
                 {
@@ -258,15 +258,15 @@ public partial class Picture16
                     xPosition = 0;
                 }
 
-                for (int I = 0; I <= W - 1; I++)
+                for (int i = 0; i <= w - 1; i++)
                 {
-                    C = (int)(((uint)xPosition) >> 16);
-                    if (C >= _dataWidth)
+                    c = (int)(((uint)xPosition) >> 16);
+                    if (c >= _dataWidth)
                     {
-                        C = _dataWidth - 1;
+                        c = _dataWidth - 1;
                     }
 
-                    columnTable[I] = C;
+                    columnTable[i] = c;
                     xPosition += xStep;
                 }
 
@@ -283,15 +283,15 @@ public partial class Picture16
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    for (int I = 0; I <= H - 1; I++)
+                    for (int i = 0; i <= h - 1; i++)
                     {
-                        C = (int)(((uint)yPosition) >> 16);
-                        if (C >= _dataHeight)
+                        c = (int)(((uint)yPosition) >> 16);
+                        if (c >= _dataHeight)
                         {
-                            C = _dataHeight - 1;
+                            c = _dataHeight - 1;
                         }
 
-                        rowTable[I] = C * _pitch;
+                        rowTable[i] = c * _pitch;
                         yPosition += yStep;
                     }
 
@@ -300,10 +300,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -317,10 +317,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -332,15 +332,15 @@ public partial class Picture16
                 }
                 else
                 {
-                    for (int I = 0; I <= H - 1; I++)
+                    for (int i = 0; i <= h - 1; i++)
                     {
-                        C = (int)(((uint)yPosition) >> 16);
-                        if (C >= _dataHeight)
+                        c = (int)(((uint)yPosition) >> 16);
+                        if (c >= _dataHeight)
                         {
-                            C = _dataHeight - 1;
+                            c = _dataHeight - 1;
                         }
 
-                        rowTable[I] = C * _pitch;
+                        rowTable[i] = c * _pitch;
                         yPosition += yStep;
                     }
 
@@ -349,10 +349,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -366,10 +366,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }

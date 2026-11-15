@@ -52,9 +52,9 @@ public partial class FastBattleUnit : CombatUnit
             combatValue = 0;
             damageValue = 0;
             abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
-            for (int I = abilities.Count - 1; I >= 0; I--)
+            for (int i = abilities.Count - 1; i >= 0; i--)
             {
-                ability = abilities.GetAbility(I);
+                ability = abilities.GetAbility(i);
                 if (troop.GetAbilityEnabled(ability.AbilityId))
                 {
                     ability.FastBattleGetDamageValues(this, target, WallSituation.None, ref values);
@@ -132,9 +132,9 @@ public partial class FastBattleUnit : CombatUnit
         }
 
         abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
-        for (int I = abilities.Count - 1; I >= 0; I--)
+        for (int i = abilities.Count - 1; i >= 0; i--)
         {
-            ability = abilities.GetAbility(I);
+            ability = abilities.GetAbility(i);
             if (troop.GetAbilityEnabled(ability.AbilityId))
             {
                 ability.FastBattleGetDamageValues(this, target, wall, ref values);
@@ -160,7 +160,7 @@ public partial class FastBattleUnit : CombatUnit
     // AIGroup.pas:6946
     public override int GetTargetPriority()
     {
-        int I;
+        int i;
         int combatValue;
         CombatObject target;
         int count;
@@ -172,33 +172,33 @@ public partial class FastBattleUnit : CombatUnit
                 {
                     TargetPriority = 0;
                     count = 0;
-                    I = TargetedBy.Count - 1;
-                    for (; I >= 0; I -= 1)
+                    i = TargetedBy.Count - 1;
+                    for (; i >= 0; i -= 1)
                     {
-                        if (TargetedBy.List[I].Second == 0)
+                        if (TargetedBy.List[i].Second == 0)
                         {
                             count += 1;
                         }
                     }
 
-                    I = Targets.Count - 1;
-                    for (; I >= 0; I -= 1)
+                    i = Targets.Count - 1;
+                    for (; i >= 0; i -= 1)
                     {
-                        combatValue = Targets.List[I].Second;
+                        combatValue = Targets.List[i].Second;
                         if (combatValue != 0)
                         {
-                            target = Targets.List[I].First;
+                            target = Targets.List[i].First;
                             combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
                             TargetPriority += combatValue;
                         }
                     }
 
                     TargetPriority = TargetPriority * (count + 2);
-                    I = TargetedBy.Count;
+                    i = TargetedBy.Count;
                     // { The original stores normalized priority in the target-strength field. }
-                    if (I != 0)
+                    if (i != 0)
                     {
-                        TargetStrength = TargetPriority / I;
+                        TargetStrength = TargetPriority / i;
                     }
                     else
                     {
@@ -209,32 +209,32 @@ public partial class FastBattleUnit : CombatUnit
                 {
                     TargetPriority = 0;
                     count = 0;
-                    I = TargetedBy.Count - 1;
-                    for (; I >= 0; I -= 1)
+                    i = TargetedBy.Count - 1;
+                    for (; i >= 0; i -= 1)
                     {
-                        if (TargetedBy.List[I].Third == 0)
+                        if (TargetedBy.List[i].Third == 0)
                         {
                             count += 1;
                         }
                     }
 
-                    I = Targets.Count - 1;
-                    for (; I >= 0; I -= 1)
+                    i = Targets.Count - 1;
+                    for (; i >= 0; i -= 1)
                     {
-                        combatValue = Targets.List[I].Third;
+                        combatValue = Targets.List[i].Third;
                         if (combatValue != 0)
                         {
-                            target = Targets.List[I].First;
+                            target = Targets.List[i].First;
                             combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
                             TargetPriority += combatValue;
                         }
                     }
 
                     TargetPriority = TargetPriority * (count + 2);
-                    I = TargetedBy.Count;
-                    if (I != 0)
+                    i = TargetedBy.Count;
+                    if (i != 0)
                     {
-                        TargetStrength = TargetPriority / I;
+                        TargetStrength = TargetPriority / i;
                     }
                     else
                     {
@@ -313,24 +313,24 @@ public partial class FastBattleUnit : CombatUnit
     public override bool FastBattleExecute(int moveCost)
     {
         FastBattle combat;
-        FastBattleCommandList Commands;
+        FastBattleCommandList fastBattleCommandList;
         Troop troop;
         FleeCombatAction action;
         bool executed;
         combat = (FastBattle)Combat;
         var side = GetSide();
-        Commands = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
+        fastBattleCommandList = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
         troop = Troop;
-        for (int I = troop.GetAbilityCount() - 1; I >= 0; I--)
+        for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
         {
-            if (troop.GetAbilityEnabled(I))
+            if (troop.GetAbilityEnabled(i))
             {
-                var ability = GamePack.Current.AbilityControl.GetAbility(I);
-                ability.FastBattlePrefetchCombatCommands(Commands);
+                var ability = GamePack.Current.AbilityControl.GetAbility(i);
+                ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
             }
         }
 
-        if (Commands.GetCount() == 0)
+        if (fastBattleCommandList.GetCount() == 0)
         {
             if (FastBattleBehindWall())
             {
@@ -338,12 +338,12 @@ public partial class FastBattleUnit : CombatUnit
                 {
                     State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                     troop = Troop;
-                    for (int I = troop.GetAbilityCount() - 1; I >= 0; I--)
+                    for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
                     {
-                        if (troop.GetAbilityEnabled(I))
+                        if (troop.GetAbilityEnabled(i))
                         {
-                            var ability = GamePack.Current.AbilityControl.GetAbility(I);
-                            ability.FastBattlePrefetchCombatCommands(Commands);
+                            var ability = GamePack.Current.AbilityControl.GetAbility(i);
+                            ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
                         }
                     }
 
@@ -354,26 +354,26 @@ public partial class FastBattleUnit : CombatUnit
 
         if (GetSide() == CombatSideIndex.Defender && AttackerCount == 0 && !Combat.CombatData.GetSideLeaderInvolved(1))
         {
-            for (int I = Commands.GetCount() - 1; I >= 0; I--)
+            for (int i = fastBattleCommandList.GetCount() - 1; i >= 0; i--)
             {
-                var commands = Commands.GetCommands(I);
+                var commands = fastBattleCommandList.GetCommands(i);
                 var hitPoints = GetHitPoints();
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
-                    Commands.Delete(I);
+                    fastBattleCommandList.Delete(i);
                 }
             }
         }
 
-        if (Commands.GetCount() != 0)
+        if (fastBattleCommandList.GetCount() != 0)
         {
-            Commands.Sort();
-            if (Commands.GetCommands(0).MoveCost <= moveCost)
+            fastBattleCommandList.Sort();
+            if (fastBattleCommandList.GetCommands(0).MoveCost <= moveCost)
             {
-                var commands = Commands.GetCommands(0);
-                var commandsCommands = Commands.GetCommands(0);
+                var commands = fastBattleCommandList.GetCommands(0);
+                var commandsCommands = fastBattleCommandList.GetCommands(0);
                 executed = GamePack.Current.AbilityControl.GetAbility(commandsCommands.AbilityId).FastBattleExecuteCombatCommand(this, commands);
-                if (Commands.GetCommands(0).AbilityId == 52)
+                if (fastBattleCommandList.GetCommands(0).AbilityId == 52)
                 {
                     UpdateWallSiegeObjectRegistration();
                 }
@@ -408,7 +408,7 @@ public partial class FastBattleUnit : CombatUnit
             }
         }
 
-        Commands?.Dispose();
+        fastBattleCommandList?.Dispose();
         return executed;
     }
 

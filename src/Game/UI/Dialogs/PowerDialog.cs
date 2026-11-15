@@ -101,25 +101,25 @@ public partial class PowerDialog : UIModule
     // AoWPowerDlg.pas:115
     public void PAManaDraw(Image sender, LockedSurface lockedSurface)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         int intensity;
-        X = sender.Window.WinLeft;
-        Y = sender.Window.WinTop;
+        x = sender.Window.WinLeft;
+        y = sender.Window.WinTop;
         intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:128
     public void PAResDraw(Image sender, LockedSurface lockedSurface)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         int intensity;
-        X = sender.Window.WinLeft;
-        Y = sender.Window.WinTop;
+        x = sender.Window.WinLeft;
+        y = sender.Window.WinTop;
         intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:141

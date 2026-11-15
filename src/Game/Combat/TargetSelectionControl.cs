@@ -217,32 +217,32 @@ public partial class TargetSelectionControl : IDisposable
     {
         int deltaX = default;
         int deltaY = default;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int xs;
         int ys;
         if (Status.Contains(TargetSelectionStatusElement.Activated) && TargetX != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
-            HexGeometry.HexToPixel(TargetX, TargetY, out X, out Y);
-            X -= pixelXSurface;
-            Y -= pixelYSurface;
-            for (int I = 0, last = HexNumbers.Count - 1; I <= last; I++)
+            HexGeometry.HexToPixel(TargetX, TargetY, out x, out y);
+            x -= pixelXSurface;
+            y -= pixelYSurface;
+            for (int i = 0, last = HexNumbers.Count - 1; i <= last; i++)
             {
-                if (HexNumbers[I] >= 0)
+                if (HexNumbers[i] >= 0)
                 {
-                    HexGeometry.HexNumberToPixel(I, ref deltaX, ref deltaY);
-                    xs = X + deltaX;
-                    ys = Y + deltaY;
+                    HexGeometry.HexNumberToPixel(i, ref deltaX, ref deltaY);
+                    xs = x + deltaX;
+                    ys = y + deltaY;
                     if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
                         if (OnShow != null)
                         {
-                            OnShow(this, I, xs, ys, lockedSurface);
+                            OnShow(this, i, xs, ys, lockedSurface);
                         }
                     }
                     else
                     {
-                        var item = HexNumbers[I];
+                        var item = HexNumbers[i];
                         ImageLibrary.Get(item).Show(xs - 8, ys, lockedSurface);
                     }
                 }

@@ -139,7 +139,7 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5302
     public void GenerateItems()
     {
-        byte I = default;
+        byte i = default;
         Item item = default;
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
@@ -153,7 +153,7 @@ public partial class ItemHexSprite : SingleHexSprite
             Items.Clear();
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
-                I = (byte)iOrdinal;
+                i = (byte)iOrdinal;
                 item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
                 if (item != null)
                 {

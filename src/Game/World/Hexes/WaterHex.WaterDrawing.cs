@@ -15,8 +15,8 @@ public partial class WaterHex
     {
         int pixelX = default;
         int pixelY = default;
-        int X;
-        int Y;
+        int x;
+        int y;
         CustomImageLibrary imageLibrary;
         int variant;
         ImageSequence sequence;
@@ -109,43 +109,43 @@ public partial class WaterHex
 
         if (OpenSides != 0)
         {
-            X = pixelX - 19;
-            Y = pixelY - 32;
+            x = pixelX - 19;
+            y = pixelY - 32;
             if ((OpenSides & 1) != 0)
             {
                 if ((OpenSides & 35) == 35)
                 {
-                    imageLibrary[ShoreTerrain[1 - 1] + 6].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[1 - 1] + 6].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 35) == 1)
                     {
-                        imageLibrary[ShoreTerrain[1 - 1] + 13].Show(X, Y, lockedSurface);
+                        imageLibrary[ShoreTerrain[1 - 1] + 13].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 7) == 7)
                 {
-                    imageLibrary[ShoreTerrain[2 - 1] + 25].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[2 - 1] + 25].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 3) == 3)
                     {
-                        imageLibrary[variant + 3 + ShoreTerrain[2 - 1]].Show(X, Y, lockedSurface);
+                        imageLibrary[variant + 3 + ShoreTerrain[2 - 1]].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 49) == 49)
                 {
-                    imageLibrary[ShoreTerrain[6 - 1] + 24].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[6 - 1] + 24].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 33) == 33)
                     {
-                        imageLibrary[variant + ShoreTerrain[6 - 1]].Show(X, Y, lockedSurface);
+                        imageLibrary[variant + ShoreTerrain[6 - 1]].Show(x, y, lockedSurface);
                     }
                 }
             }
@@ -153,25 +153,25 @@ public partial class WaterHex
             {
                 if ((OpenSides & 6) == 6)
                 {
-                    imageLibrary[variant + 10 + ShoreTerrain[3 - 1]].Show(X, Y, lockedSurface);
+                    imageLibrary[variant + 10 + ShoreTerrain[3 - 1]].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 2) == 2)
                     {
-                        imageLibrary[ShoreTerrain[2 - 1] + 17].Show(X, Y, lockedSurface);
+                        imageLibrary[ShoreTerrain[2 - 1] + 17].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 48) == 48)
                 {
-                    imageLibrary[variant + 7 + ShoreTerrain[5 - 1]].Show(X, Y, lockedSurface);
+                    imageLibrary[variant + 7 + ShoreTerrain[5 - 1]].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 32) == 32)
                     {
-                        imageLibrary[ShoreTerrain[6 - 1] + 16].Show(X, Y, lockedSurface);
+                        imageLibrary[ShoreTerrain[6 - 1] + 16].Show(x, y, lockedSurface);
                     }
                 }
             }
@@ -180,7 +180,7 @@ public partial class WaterHex
             {
                 if ((OpenSides & 14) == 14)
                 {
-                    imageLibrary[ShoreTerrain[3 - 1] + 22].Show(X, Y + 1, lockedSurface);
+                    imageLibrary[ShoreTerrain[3 - 1] + 22].Show(x, y + 1, lockedSurface);
                 }
                 else
                 {
@@ -188,18 +188,18 @@ public partial class WaterHex
                     {
                         if (variant == 2)
                         {
-                            imageLibrary[ShoreTerrain[3 - 1] + 19].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[ShoreTerrain[3 - 1] + 19].Show(x, y + 1, lockedSurface);
                         }
                         else
                         {
-                            imageLibrary[variant + 30 + ShoreTerrain[3 - 1]].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[variant + 30 + ShoreTerrain[3 - 1]].Show(x, y + 1, lockedSurface);
                         }
                     }
                 }
 
                 if ((OpenSides & 56) == 56)
                 {
-                    imageLibrary[ShoreTerrain[5 - 1] + 21].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[5 - 1] + 21].Show(x, y, lockedSurface);
                 }
                 else
                 {
@@ -207,31 +207,31 @@ public partial class WaterHex
                     {
                         if (variant == 2)
                         {
-                            imageLibrary[ShoreTerrain[5 - 1] + 18].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[ShoreTerrain[5 - 1] + 18].Show(x, y + 1, lockedSurface);
                         }
                         else
                         {
-                            imageLibrary[variant + 28 + ShoreTerrain[5 - 1]].Show(X, Y, lockedSurface);
+                            imageLibrary[variant + 28 + ShoreTerrain[5 - 1]].Show(x, y, lockedSurface);
                         }
                     }
                 }
 
                 if ((OpenSides & 28) == 8)
                 {
-                    imageLibrary[ShoreTerrain[4 - 1] + 23].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[4 - 1] + 23].Show(x, y, lockedSurface);
                 }
             }
             else
             {
                 if ((OpenSides & 14) == 4)
                 {
-                    imageLibrary[ShoreTerrain[3 - 1] + 15].Show(X, Y, lockedSurface);
+                    imageLibrary[ShoreTerrain[3 - 1] + 15].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 56) == 16)
                     {
-                        imageLibrary[ShoreTerrain[5 - 1] + 14].Show(X, Y, lockedSurface);
+                        imageLibrary[ShoreTerrain[5 - 1] + 14].Show(x, y, lockedSurface);
                     }
                 }
             }

@@ -174,11 +174,11 @@ public partial class TaskBar : UIModule
         position = 0;
         if (StrategicMap.Current != null)
         {
-            for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
-                if (StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
+                if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    race = StrategicMap.Current.Players.GetPlayers(I).PlayerRace;
+                    race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
                     if (race == -1)
                     {
                         race = 12;
@@ -187,7 +187,7 @@ public partial class TaskBar : UIModule
                     UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
-                        if (I == StrategicMap.Current.CurrentPlayer)
+                        if (i == StrategicMap.Current.CurrentPlayer)
                         {
                             CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + position * 5;
                             CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;
@@ -195,7 +195,7 @@ public partial class TaskBar : UIModule
                     }
                     else
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(I).SingleProcessCycle)
+                        if (StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle)
                         {
                             UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
                         }
@@ -253,9 +253,9 @@ public partial class TaskBar : UIModule
         int position;
         int race;
         position = 0;
-        for (int I = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; I <= last; I++)
+        for (int i = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
         {
-            var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[I];
+            var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
             var player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
             race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
@@ -264,7 +264,7 @@ public partial class TaskBar : UIModule
             }
 
             UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + position * 5, CombatPlayerIndicatorFrame.WinTop + 2, surface);
-            if (CombatMap.Current.Combat.CombatData.TurnOrder[I] == CombatMap.Current.CurrentCombatPlayer)
+            if (CombatMap.Current.Combat.CombatData.TurnOrder[i] == CombatMap.Current.CurrentCombatPlayer)
             {
                 CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + position * 5;
                 CombatCurrentPlayerImage.WinTop = CombatPlayerIndicatorFrame.WinTop + 11;

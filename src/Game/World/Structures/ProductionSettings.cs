@@ -52,7 +52,7 @@ public partial class ProductionSettings : EngineObject
     // Structur.PAS:135
     public override void Clear()
     {
-        Troop U;
+        Troop u;
         TurnsLeft = 0;
         Gold = 0;
         Mana = 0;
@@ -60,10 +60,10 @@ public partial class ProductionSettings : EngineObject
         Player = 0;
         GroupId = 0;
         UnitProductionIndex = -1;
-        U = Unit;
-        if (U != null)
+        u = Unit;
+        if (u != null)
         {
-            U.Release();
+            u.Release();
             Unit = null;
         }
     }

@@ -56,9 +56,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
                     magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
                     if (!magic.GetCheatEnabled())
                     {
-                        for (int I = magic.Spells.Count - 1; I >= 0; I--)
+                        for (int i = magic.Spells.Count - 1; i >= 0; i--)
                         {
-                            var item = magic.Spells[I];
+                            var item = magic.Spells[i];
                             spell = GamePack.Current.SpellControl.GetSpell(item);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
@@ -74,9 +74,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
                     }
                     else
                     {
-                        for (int I = 0, last = GamePack.Current.SpellControl.GetCount() - 1; I <= last; I++)
+                        for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                         {
-                            spell = GamePack.Current.SpellControl.GetSpell(I);
+                            spell = GamePack.Current.SpellControl.GetSpell(i);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
                                 spell.FastBattlePrefetchCombatCommands(commands);
@@ -150,9 +150,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
             var player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = ((CombatUnit)attacker).Troop;
-            for (int I = magic.Spells.Count - 1; I >= 0; I--)
+            for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
-                var item = magic.Spells[I];
+                var item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
@@ -179,9 +179,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
             var player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = ((CombatUnit)attacker).Troop;
-            for (int I = magic.Spells.Count - 1; I >= 0; I--)
+            for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
-                var item = magic.Spells[I];
+                var item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
@@ -228,7 +228,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     public bool CanCastBreachWallSpell(Troop troop)
     {
         bool result;
-        int I;
+        int i;
         Spell spell;
         SpellCombatInfo info = default;
         string error = "";
@@ -237,11 +237,11 @@ public partial class SpellCastingAbility : MultiLevelAbility
         {
             magic = StrategicMap.Current.Players.GetPlayers(troop.Player).MagicControl;
             result = magic.GetCheatEnabled();
-            I = magic.Spells.Count;
-            while (!result && I != 0)
+            i = magic.Spells.Count;
+            while (!result && i != 0)
             {
-                I -= 1;
-                var item = magic.Spells[I];
+                i -= 1;
+                var item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellType == SpellType.Combat)
                 {
@@ -249,8 +249,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
                     bool condition = info.DamageTypes.Contains(DamageType.Wall);
                     if (condition)
                     {
-                        var fSpellsItem = magic.Spells[I];
-                        condition = ((Hero)troop).CanCastCombatSpell(fSpellsItem, ref error);
+                        condition = ((Hero)troop).CanCastCombatSpell(magic.Spells[i], reason: ref error);
                     }
 
                     result = condition;

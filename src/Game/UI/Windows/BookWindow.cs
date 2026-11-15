@@ -24,11 +24,11 @@ public partial class BookWindow : Window
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
-        Surface S;
-        S = _pageSurface;
-        if (S != null)
+        Surface s;
+        s = _pageSurface;
+        if (s != null)
         {
-            S?.Dispose();
+            s?.Dispose();
         }
 
         base.Dispose();
@@ -62,16 +62,16 @@ public partial class BookWindow : Window
     // AoWBookWindow.pas:59
     public override void SetVisible(bool value)
     {
-        Surface S;
+        Surface s;
         if (value != Visible)
         {
             Animating = false;
             if (_freeSurfaceOnHide)
             {
-                S = _pageSurface;
-                if (S != null)
+                s = _pageSurface;
+                if (s != null)
                 {
-                    S?.Dispose();
+                    s?.Dispose();
                     _pageSurface = null;
                 }
             }
@@ -138,13 +138,13 @@ public partial class BookWindow : Window
     {
         LockedSurface source = default;
         LockedSurface destination = default;
-        Rect R;
+        Rect r;
         if (BackSurface != null && _pageSurface != null)
         {
-            R = new Rect(0, 0, WinWidth, WinHeight);
+            r = new Rect(0, 0, WinWidth, WinHeight);
             BackSurface.Lock(ref source);
             _pageSurface.Lock(ref destination);
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, R, destination, 0, 0);
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, r, destination, 0, 0);
             _pageSurface.Unlock();
             BackSurface.Unlock();
             PageTurn.SetPageDimensions(271, 368);

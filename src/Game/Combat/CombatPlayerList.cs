@@ -40,13 +40,13 @@ public partial class CombatPlayerList : ENode, IChildList<CombatPlayer>
     // Combat2.pas:146
     public int IndexOf(byte player, byte relation)
     {
-        CombatPlayer P;
+        CombatPlayer p;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            P = this[result];
-            if ((sbyte)player == P.Player && P.IndependentRelation == relation)
+            p = this[result];
+            if ((sbyte)player == p.Player && p.IndependentRelation == relation)
             {
                 return result;
             }

@@ -36,11 +36,11 @@ public partial class SpellControl : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        for (int I = 0, last = RegisteredSpells.Count - 1; I <= last; I++)
+        for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (RegisteredSpells[I] != null)
+            if (RegisteredSpells[i] != null)
             {
-                persister.ObjectSlot("RegisteredSpells", slot: I, objectValue: RegisteredSpells[I]);
+                persister.ObjectSlot("RegisteredSpells", slot: i, objectValue: RegisteredSpells[i]);
             }
         }
 
@@ -54,7 +54,7 @@ public partial class SpellControl : EngineObject
     public Spell GetSpell(int index)
     {
         Spell result;
-        Spell P;
+        Spell p;
         if (index < 0)
         {
             // { Preserve the original assertion diagnostic. }
@@ -63,8 +63,8 @@ public partial class SpellControl : EngineObject
 
         if (index < RegisteredSpells.Count)
         {
-            P = RegisteredSpells[index];
-            result = P;
+            p = RegisteredSpells[index];
+            result = p;
         }
         else
         {
@@ -137,11 +137,11 @@ public partial class SpellControl : EngineObject
     // Spells.PAS:651
     public void UnregisterAll()
     {
-        for (int I = RegisteredSpells.Count - 1; I >= 0; I--)
+        for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            if (RegisteredSpells[I] != null)
+            if (RegisteredSpells[i] != null)
             {
-                UnregisterSpell(RegisteredSpells[I]);
+                UnregisterSpell(RegisteredSpells[i]);
             }
         }
     }
@@ -150,11 +150,11 @@ public partial class SpellControl : EngineObject
     public void ListSpells(StringCollection spellStrings, Set<MagicSphere> spheres)
     {
         spellStrings.Clear();
-        for (int I = 0, last = this.RegisteredSpells.Count - 1; I <= last; I++)
+        for (int i = 0, last = this.RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (this.RegisteredSpells[I] != null && spheres.Contains((this.RegisteredSpells[I]).MagicSphere))
+            if (this.RegisteredSpells[i] != null && spheres.Contains((this.RegisteredSpells[i]).MagicSphere))
             {
-                spellStrings.AddObject((this.RegisteredSpells[I]).SpellName, IntToObject(I));
+                spellStrings.AddObject((this.RegisteredSpells[i]).SpellName, IntToObject(i));
             }
         }
     }
@@ -166,12 +166,12 @@ public partial class SpellControl : EngineObject
         Int32List candidates;
         Spell spell;
         candidates = new Int32List();
-        for (int I = this.RegisteredSpells.Count - 1; I >= 0; I--)
+        for (int i = this.RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            spell = this.RegisteredSpells[I];
+            spell = this.RegisteredSpells[i];
             if (spell != null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
-                candidates.Add(I);
+                candidates.Add(i);
             }
         }
 

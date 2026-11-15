@@ -32,18 +32,18 @@ public partial class CombatRoad : AbstractRoad
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary images;
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        X = X - pixelXSurface - 8;
-        Y = Y - pixelYSurface;
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        x = x - pixelXSurface - 8;
+        y = y - pixelYSurface;
         images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
-        images.Get(_images[0]).Show(X, Y, lockedSurface);
-        for (int I = 1; I <= 6; I++)
+        images.Get(_images[0]).Show(x, y, lockedSurface);
+        for (int i = 1; i <= 6; i++)
         {
-            if (_images[I] != 255)
+            if (_images[i] != 255)
             {
-                images.Get(_images[I]).Show(X - 8, Y - 16, lockedSurface);
+                images.Get(_images[i]).Show(x - 8, y - 16, lockedSurface);
             }
         }
     }
@@ -93,9 +93,9 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:101
     public override void UpdateTransitions()
     {
-        for (int I = 1; I <= 6; I++)
+        for (int i = 1; i <= 6; i++)
         {
-            UpdateTransition((byte)I);
+            UpdateTransition((byte)i);
         }
     }
 
@@ -104,13 +104,13 @@ public partial class CombatRoad : AbstractRoad
     {
         MapLevel mapLevel;
         sbyte overlay;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         mapLevel = Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref X, ref Y);
-        if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref x, ref y);
+        if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            overlay = mapLevel.GetField(X, Y).OverlayType;
+            overlay = mapLevel.GetField(x, y).OverlayType;
             if (overlay != 4)
             {
                 switch (hexNumber)

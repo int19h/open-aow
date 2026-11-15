@@ -34,11 +34,11 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public string UsedIndexString()
     {
         string result = "";
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (List[I] != null)
+            if (List[i] != null)
             {
-                result = result + IntToStr(I) + ",";
+                result = result + IntToStr(i) + ",";
             }
         }
 
@@ -53,14 +53,14 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // ImageLib.pas:8928
     public void DestroyItems()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (List[I] != null)
+            if (List[i] != null)
             {
-                ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+                ((List[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
 
-            base.Delete(I);
+            base.Delete(i);
         }
     }
 
@@ -107,9 +107,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         ReduceCount();
         var entries = new List<IReadOnlyList<SequenceLayer>>(Count);
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            entries.Add(List[I]?.SaveLayers());
+            entries.Add(List[i]?.SaveLayers());
         }
 
         return entries;
@@ -217,24 +217,24 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // { Original bug: a Sequence that is not in the chain runs past its end (nil dereference). }
     public int IndexOfSub(int index, ImageSequence sequence)
     {
-        ImageSequence S;
+        ImageSequence s;
         int result = 0;
         if (index < Count)
         {
-            S = List[index];
+            s = List[index];
         }
         else
         {
-            S = null;
+            s = null;
         }
 
-        while (S != sequence)
+        while (s != sequence)
         {
-            S = S.Next;
+            s = s.Next;
             result += 1;
         }
 
-        if (S == null)
+        if (s == null)
         {
             result = -1;
         }
@@ -246,8 +246,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public ImageSequence GetSubImageSequence(int index, int subIndex)
     {
         ImageSequence result;
-        int I;
-        I = 0;
+        int i;
+        i = 0;
         if (index < Count)
         {
             result = List[index];
@@ -257,10 +257,10 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             result = null;
         }
 
-        while (result != null && I != subIndex)
+        while (result != null && i != subIndex)
         {
             result = result.Next;
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -271,40 +271,40 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     //   only detected after the first link, not at the head of the chain. }
     public void Add(int index, ImageSequence sequence)
     {
-        ImageSequence S;
+        ImageSequence s;
         ImageSequence previous;
         if (index < Count)
         {
-            S = List[index];
+            s = List[index];
         }
         else
         {
-            S = null;
+            s = null;
         }
 
-        if (S != null)
+        if (s != null)
         {
             previous = null;
-            while (S != null && S._layer < sequence._layer)
+            while (s != null && s._layer < sequence._layer)
             {
-                previous = S;
-                S = S.Next;
+                previous = s;
+                s = s.Next;
             }
 
             if (previous != null)
             {
-                if (S != null && sequence._layer == S._layer)
+                if (s != null && sequence._layer == s._layer)
                 {
                     throw new InvalidOperationException("Layer does already exist");
                 }
 
                 previous.Next = sequence;
-                sequence.Next = S;
+                sequence.Next = s;
             }
             else
             {
                 List[index] = sequence;
-                sequence.Next = S;
+                sequence.Next = s;
             }
         }
         else
@@ -317,30 +317,30 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // { Takes Sequence out of the chain of Index (it is not freed) }
     public void Delete(int index, ImageSequence sequence)
     {
-        ImageSequence S;
+        ImageSequence s;
         ImageSequence previous;
         if (index < Count)
         {
             previous = null;
-            S = List[index];
-            while (S != null && S != sequence)
+            s = List[index];
+            while (s != null && s != sequence)
             {
-                previous = S;
-                S = S.Next;
+                previous = s;
+                s = s.Next;
             }
 
-            if (S != null && S == sequence)
+            if (s != null && s == sequence)
             {
                 if (previous != null)
                 {
-                    previous.Next = S.Next;
+                    previous.Next = s.Next;
                 }
                 else
                 {
-                    List[index] = S.Next;
+                    List[index] = s.Next;
                 }
 
-                S.Next = null;
+                s.Next = null;
             }
         }
     }
@@ -352,9 +352,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         if (!_linked)
         {
             _linked = true;
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                sequence = List[I];
+                sequence = List[i];
                 while (sequence != null)
                 {
                     sequence.LinkToImageLibrary();
@@ -371,9 +371,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         if (_linked)
         {
             _linked = false;
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                sequence = List[I];
+                sequence = List[i];
                 while (sequence != null)
                 {
                     sequence.ReleaseImageLibrary();
@@ -386,20 +386,20 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // ImageLib.pas:9209
     public bool Animating()
     {
-        int I;
+        int i;
         ImageSequence sequence;
         bool result = false;
-        I = 0;
-        while (I != Count && !result)
+        i = 0;
+        while (i != Count && !result)
         {
-            sequence = List[I];
+            sequence = List[i];
             while (sequence != null && !result)
             {
                 result = sequence._sequenceMode != SequenceMode.None;
                 sequence = sequence.Next;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -408,20 +408,20 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // ImageLib.pas:9228
     public LibraryImage GetPreviewImage()
     {
-        int I;
+        int i;
         ImageSequence sequence;
         LibraryImage result = null;
-        I = 0;
-        while (I != Count && result == null)
+        i = 0;
+        while (i != Count && result == null)
         {
-            sequence = List[I];
+            sequence = List[i];
             while (sequence != null && result == null)
             {
                 result = sequence.GetPreviewImage();
                 sequence = sequence.Next;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -454,20 +454,20 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public bool Show(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
         ImageSequence sequence;
-        int I;
+        int i;
         bool result = false;
         if (index < Count)
         {
             sequence = List[index];
             while (sequence != null)
             {
-                I = sequence.GetUnloopedFrameIndex(frame);
-                if (I != -1)
+                i = sequence.GetUnloopedFrameIndex(frame);
+                if (i != -1)
                 {
                     result = true;
-                    if (sequence.ImageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
@@ -482,17 +482,17 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public int GetFramesCount(int index)
     {
         ImageSequence sequence;
-        int N;
+        int n;
         int result = 0;
         if (index < Count)
         {
             sequence = List[index];
             while (sequence != null)
             {
-                N = sequence.GetTotalSequenceFrames();
-                if (N > result)
+                n = sequence.GetTotalSequenceFrames();
+                if (n > result)
                 {
-                    result = N;
+                    result = n;
                 }
 
                 sequence = sequence.Next;
@@ -506,18 +506,18 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public void ShowLooped(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
         ImageSequence sequence;
-        int I;
+        int i;
         if (index < Count)
         {
             sequence = List[index];
             while (sequence != null)
             {
-                I = sequence.GetFrameIndex(frame, 0);
-                if (I != -1)
+                i = sequence.GetFrameIndex(frame, 0);
+                if (i != -1)
                 {
-                    if (sequence.ImageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
@@ -530,18 +530,18 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public void ShowLooped(int index, int X, int Y, int frame, int offset, in LockedSurface lockedSurface)
     {
         ImageSequence sequence;
-        int I;
+        int i;
         if (index < Count)
         {
             sequence = List[index];
             while (sequence != null)
             {
-                I = sequence.GetFrameIndex(frame, offset);
-                if (I != -1)
+                i = sequence.GetFrameIndex(frame, offset);
+                if (i != -1)
                 {
-                    if (sequence.ImageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 

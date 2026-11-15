@@ -427,9 +427,7 @@ public partial class ProductionPlace : PlayerStructure
             log.HexX = HexX;
             log.HexY = HexY;
             log.HexLevel = HexLevel;
-            var hexY = HexY;
-            var hexX = HexX;
-            EventLog.DistributeLocationEventLog(log, Player, hexX, hexY, HexLevel, false);
+            EventLog.DistributeLocationEventLog(y: HexY, x: HexX, log: log, player: Player, level: HexLevel, execute: false);
             log.Release();
         }
     }
@@ -466,9 +464,9 @@ public partial class ProductionPlace : PlayerStructure
                 {
                     units = new UnitIndexList();
                     var unitIndexListCollection = ((StructureResource)Resource).Defenders;
-                    for (int I = unitIndexListCollection.GetCollectionCount(collection) - 1; I >= 0; I--)
+                    for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {
-                        units.Add(unitIndexListCollection.GetU(collection, I));
+                        units.Add(unitIndexListCollection.GetU(collection, i));
                     }
 
                     var hexY = HexY;
@@ -697,14 +695,14 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:671
     public void ResetProductions()
     {
-        ProductionPlaceResource R;
+        ProductionPlaceResource r;
         ProductionControl.UnitProductions.Clear();
         if (GetMagicSphere() == MagicSphere.None)
         {
-            R = (ProductionPlaceResource)Resource;
-            for (int I = 0, last = R.Units.Count - 1; I <= last; I++)
+            r = (ProductionPlaceResource)Resource;
+            for (int i = 0, last = r.Units.Count - 1; i <= last; i++)
             {
-                var unit = R.Units[I];
+                var unit = r.Units[i];
                 ProductionControl.UnitProductions.Add(unit, false);
             }
 

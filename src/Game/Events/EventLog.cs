@@ -222,14 +222,14 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         }
     }
 
-    internal static void DistributeLocationEventLog(EventLog log, sbyte player, sbyte X, sbyte Y, sbyte L, bool execute)
+    internal static void DistributeLocationEventLog(EventLog log, sbyte player, sbyte x, sbyte y, sbyte level, bool execute)
     {
         Player targetPlayer;
         EventLog copyLog;
         for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
             targetPlayer = StrategicMap.Current.Players.GetPlayers(I);
-            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !StrategicMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
+            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)I)))
             {
                 copyLog = (EventLog)log.Copy(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);

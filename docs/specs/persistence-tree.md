@@ -72,11 +72,18 @@ through `AddChild`, and then releases the reference each loaded child took when 
 the same bracket as `MainReadWrite`. `UnitList.MainPersist` (Delphi `TUnitList`) then calls `Release` on every child,
 the same loop as `MainReadWrite`. `Army.MainPersist` does the same, because an army no longer derives from `UnitList`
 (issue 158 part 4) and keeps the unit list's part itself. Its children are its troops, written through
-`NodeChildren` with the same slots, class ids and stored-child test. `HeroInventory.MainPersist`,
+`NodeChildren` with the same slots, class ids and stored-child test. `AIGroup.MainPersist` does the same release,
+because an AI group no longer derives from `UnitUserList` (issue 158 part 7) and keeps the unit list's part itself.
+Its children are its troops, written through `NodeChildren` with the same slots, class ids and stored-child test
+(a child the group owns). A group holds its troops as references, so a troop whose owner is its army is not stored
+on the group. `UnitUserList.MainPersist` does the same release, because a unit user list no longer derives from `UnitList` (issue 158 part 8) and keeps the unit list's part itself. Its children are its troops, written through `NodeChildren` with the same slots, class ids and stored-child test. A list holds its troops as references and does not set their owner, so a troop whose owner is its army is not stored on the list. `AIGroupManager` no longer derives from `AIGroupList`. It stores the groups it owns as node children of an `ENode`, with the same slots, class ids and stored-child test, because `AIGroupList` did not override the child write. `HeroInventory.MainPersist`,
 `HeroItems.MainPersist` and `ItemLibrary.MainPersist` do the same release, because a hero's inventory,
 the items a hero wears and an item library no longer derive from `ItemList` (issue 158 part 5) and keep
 the item list's part themselves. Their children are their items, written through `NodeChildren` with the
-same slots, class ids and stored-child test. The game's loads and saves of the
+same slots, class ids and stored-child test. `HeroLibrary` (Delphi `THeroLibrary`) no longer derives from
+`HeroList` (issue 158 part 6). Its heroes stay its node children, written through `ReferenceChildren` with
+the same slots, class ids and stored-child test, because it derives from `EReferenceNode` and keeps that
+write. The game's loads and saves of the
 in-scope profiles (section 12) and its copies, assignments, comparisons and original object files
 (section 13) go through the tree, and so do the packets (sections 15 and 16).
 

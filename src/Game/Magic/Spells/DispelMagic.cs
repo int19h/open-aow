@@ -77,14 +77,14 @@ public partial class DispelMagic : UnitSpell
             count = 0;
             enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
             target.ListEnchantments(enchantments);
-            for (int I = enchantments.GetCount() - 1; I >= 0; I--)
+            for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
                 var dispelMana = GetDispelMana(source);
-                chance = enchantments.GetEnchantments(I).DispelChance(dispelMana);
+                chance = enchantments.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
-                    enchantments.GetEnchantments(I).Dispel();
+                    enchantments.GetEnchantments(i).Dispel();
                 }
             }
 

@@ -73,9 +73,9 @@ public partial class ImageLibraryManager : Component
                 }
             }
 
-            for (int I = 0, last = list.Count - 1; I <= last; I++)
+            for (int i = 0, last = list.Count - 1; i <= last; i++)
             {
-                SearchDirectory(list[I]);
+                SearchDirectory(list[i]);
             }
 
             list?.Dispose();

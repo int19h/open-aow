@@ -91,9 +91,9 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         public void ActivateMessage()
         {
             _padSize = 0;
-            for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
+            for (int i = 0, last = TerrainList.Count - 1; i <= last; i++)
             {
-                if (TerrainList.GetTerrain(I) >= -1)
+                if (TerrainList.GetTerrain(i) >= -1)
                 {
                     _padSize = (byte)(_padSize + 1);
                 }

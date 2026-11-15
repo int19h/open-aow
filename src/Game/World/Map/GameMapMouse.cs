@@ -142,46 +142,46 @@ public partial class GameMapMouse : HexSpriteMapMouse
     // AoWHSMap.PAS:1104
     public void StopRectangleSelection(int pixelX, int pixelY)
     {
-        Rect R = default;
+        Rect r = default;
         SelectionRectangle.Right = pixelX;
         SelectionRectangle.Bottom = pixelY;
         if (SelectionRectangle.Left < SelectionRectangle.Right)
         {
-            R.Left = SelectionRectangle.Left;
+            r.Left = SelectionRectangle.Left;
         }
         else
         {
-            R.Left = SelectionRectangle.Right;
+            r.Left = SelectionRectangle.Right;
         }
 
         if (SelectionRectangle.Right > SelectionRectangle.Left)
         {
-            R.Right = SelectionRectangle.Right;
+            r.Right = SelectionRectangle.Right;
         }
         else
         {
-            R.Right = SelectionRectangle.Left;
+            r.Right = SelectionRectangle.Left;
         }
 
         if (SelectionRectangle.Top < SelectionRectangle.Bottom)
         {
-            R.Top = SelectionRectangle.Top;
+            r.Top = SelectionRectangle.Top;
         }
         else
         {
-            R.Top = SelectionRectangle.Bottom;
+            r.Top = SelectionRectangle.Bottom;
         }
 
         if (SelectionRectangle.Bottom > SelectionRectangle.Top)
         {
-            R.Bottom = SelectionRectangle.Bottom;
+            r.Bottom = SelectionRectangle.Bottom;
         }
         else
         {
-            R.Bottom = SelectionRectangle.Top;
+            r.Bottom = SelectionRectangle.Top;
         }
 
-        SelectionRectangle = R;
+        SelectionRectangle = r;
         RectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }

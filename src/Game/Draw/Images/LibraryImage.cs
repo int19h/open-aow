@@ -168,9 +168,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1727
     public virtual void WriteImageData(Stream stream)
     {
-        byte V;
-        V = ClassVersion();
-        stream.Write(Bytes.Of(ref V, 1));
+        byte v;
+        v = ClassVersion();
+        stream.Write(Bytes.Of(ref v, 1));
         LibraryDrawing.WriteStringToStream(_fileName, stream);
         stream.Write(Bytes.Of(ref _dataWidth, 4));
         stream.Write(Bytes.Of(ref _dataHeight, 4));
@@ -225,11 +225,11 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1859
     public virtual void SaveToStream(Stream stream, Stream dataStream)
     {
-        int P;
-        P = _dataPosition;
+        int p;
+        p = _dataPosition;
         _dataPosition = (int)(dataStream.Position);
         WriteImageData(stream);
-        _dataPosition = P;
+        _dataPosition = p;
         if (!_dataLoaded)
         {
             LoadDiscardableImageData();
@@ -347,11 +347,11 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1778
     public virtual void SaveToStream(Stream stream)
     {
-        int P;
-        P = _dataPosition;
+        int p;
+        p = _dataPosition;
         _dataPosition = -1;
         WriteImageData(stream);
-        _dataPosition = P;
+        _dataPosition = p;
         if (!_dataLoaded)
         {
             LoadDiscardableImageData();
@@ -370,7 +370,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1796
     public virtual void LoadFromStream(Stream stream)
     {
-        int P;
+        int p;
         Clear();
         ReadImageData(stream);
         if (_version < 2)
@@ -393,10 +393,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             {
                 if (_dataPosition != -1)
                 {
-                    P = (int)(stream.Position);
+                    p = (int)(stream.Position);
                     stream.Position = _owner.DataOffset + _dataPosition;
                     ReadDiscardableImageData(stream);
-                    stream.Position = P;
+                    stream.Position = p;
                 }
                 else
                 {
@@ -455,12 +455,12 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2040
-    public virtual void ShowStretched(in Rect R, in LockedSurface lockedSurface)
+    public virtual void ShowStretched(in Rect r, in LockedSurface lockedSurface)
     {
         switch (_showInfo.ShowMode)
         {
             case ShowMode.Opaque:
-                ShowOpaqueStretched(R, lockedSurface);
+                ShowOpaqueStretched(r, lockedSurface);
                 break;
             case ShowMode.Blended:
                 switch (_showInfo.BlendMode)
@@ -468,24 +468,24 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                     case BlendMode.User:
                         if (_showInfo.Blend is BlendTable table)
                         {
-                            ShowBlendedStretched(R, lockedSurface, table);
+                            ShowBlendedStretched(r, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlendedStretched(R, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlendedStretched(R, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlendedStretched(R, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlendedStretched(R, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlendedStretched(R, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                 }
 

@@ -25,7 +25,7 @@ public partial class UnitWindow
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {
-                    HeroItemPosition position = check == HeadSlotCheckBox ? HeroItemPosition.HeadSlot :
+                    hero.PlaceItem(position: check == HeadSlotCheckBox ? HeroItemPosition.HeadSlot :
                         check == TorsoSlotCheckBox ? HeroItemPosition.TorsoSlot :
                         check == AttackSlotCheckBox ? HeroItemPosition.AttackSlot :
                         check == DefendSlotCheckBox ? HeroItemPosition.DefenseSlot :
@@ -38,8 +38,7 @@ public partial class UnitWindow
                         check == Backpack5CheckBox ? HeroItemPosition.InventorySlot5 :
                         check == Backpack6CheckBox ? HeroItemPosition.InventorySlot6 :
                         check == Backpack7CheckBox ? HeroItemPosition.InventorySlot7 :
-                        check == Backpack8CheckBox ? HeroItemPosition.InventorySlot8 : HeroItemPosition.Ground;
-                    hero.PlaceItem(selected.Tag, position);
+                        check == Backpack8CheckBox ? HeroItemPosition.InventorySlot8 : HeroItemPosition.Ground, itemId: selected.Tag);
                 }
                 check.Checked = false;
                 selected.Checked = false;

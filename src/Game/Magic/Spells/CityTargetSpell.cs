@@ -88,7 +88,7 @@ public partial class CityTargetSpell : Spell
     public virtual void PlayDefaultCityEffects(Troop source, City targetCity)
     {
         MapLevel level;
-        ImageSequenceAnimation A;
+        ImageSequenceAnimation a;
         HexNumberWalkData walk = default;
         bool playSound;
         playSound = false;
@@ -111,12 +111,12 @@ public partial class CityTargetSpell : Spell
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
-                    A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                    A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                    A.FrameCounter = Random(5);
-                    A.AnimationLevel = 27;
+                    a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                    a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                    a.FrameCounter = Random(5);
+                    a.AnimationLevel = 27;
                     var targetCityHexLevel = targetCity.GetHexLevel();
-                    StrategicMap.Current.PlaceHex(A, walk.X, walk.Y, targetCityHexLevel);
+                    StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
                     bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
@@ -143,9 +143,9 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:323
     public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
         var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
@@ -155,10 +155,10 @@ public partial class CityTargetSpell : Spell
         targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
-        source.GetLocation(out X, out Y, out L);
-        targetSelection.SourceX = X;
-        targetSelection.SourceY = Y;
-        targetSelection.SourceL = L;
+        source.GetLocation(out x, out y, out l);
+        targetSelection.SourceX = x;
+        targetSelection.SourceY = y;
+        targetSelection.SourceL = l;
         targetSelection.Range = 12;
         if (targetSelection.OnChangeStore.Count > 1)
         {
@@ -201,16 +201,16 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:248
     public virtual bool ValidTargetCity(Troop source, City targetCity)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         City found;
         bool result = (CityTargetMode.Contains(CityTargetModeElement.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModeElement.Enemy) && targetCity.Player != source.Player);
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
-            source.GetLocation(out X, out Y, out L);
-            found = (City)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+            source.GetLocation(out x, out y, out l);
+            found = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
             result = targetCity != found;
         }
 

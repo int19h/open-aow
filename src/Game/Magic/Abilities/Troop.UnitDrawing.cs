@@ -114,8 +114,7 @@ public partial class Troop
 
         if (info.Overlays.Contains(UnitOverlayModesElement.HitPoints))
         {
-            var hits = GetHits();
-            var hitPointsToHitPercent = (byte)HitChance.HitPointsToHitPercent(GetHitPoints(), hits);
+            var hitPointsToHitPercent = (byte)HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints());
             HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
         }
 

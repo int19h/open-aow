@@ -184,9 +184,9 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4770
     public void SetSceneWidth(int value)
     {
-        GameMap M;
-        M = _hexSpriteMap;
-        if (M != null && value > 0)
+        GameMap m;
+        m = _hexSpriteMap;
+        if (m != null && value > 0)
         {
             _sceneWidth = value;
             SetSceneX(_sceneX);
@@ -196,9 +196,9 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4782
     public void SetSceneHeight(int value)
     {
-        GameMap M;
-        M = _hexSpriteMap;
-        if (M != null && value > 0)
+        GameMap m;
+        m = _hexSpriteMap;
+        if (m != null && value > 0)
         {
             _sceneHeight = value;
             SetSceneY(_sceneY);
@@ -215,10 +215,10 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4843
     public void ShowScene(int X, int Y, Surface surface)
     {
-        GameMap M;
+        GameMap m;
         object mp;
         LockedSurface lockedSurface = default;
-        Rect R = default;
+        Rect r = default;
         Surface target = surface;
         int targetX = X;
         int targetY = Y;
@@ -227,8 +227,8 @@ public partial class HexSpriteMapViewer : Component
             mp = _hexSpriteMap;
             if (mp != null)
             {
-                M = (GameMap)mp;
-                if (M.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
+                m = (GameMap)mp;
+                if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
                 {
                     OnSceneChanged(this);
                 }
@@ -248,18 +248,18 @@ public partial class HexSpriteMapViewer : Component
                 }
 
                 VerifyStaticSurface(surface);
-                R.Left = X;
-                R.Right = _sceneWidth + X;
-                R.Top = Y;
-                R.Bottom = _sceneHeight + Y;
-                if (M.StaticSceneInvalid)
+                r.Left = X;
+                r.Right = _sceneWidth + X;
+                r.Top = Y;
+                r.Bottom = _sceneHeight + Y;
+                if (m.StaticSceneInvalid)
                 {
-                    M.UpdateStaticScene();
-                    M.UpdateDynamicScene();
-                    if (surface.Lock(ref lockedSurface, R) >= 0)
+                    m.UpdateStaticScene();
+                    m.UpdateDynamicScene();
+                    if (surface.Lock(ref lockedSurface, r) >= 0)
                     {
-                        M.DrawStaticScene(ref lockedSurface);
-                        M.DrawDynamicScene(ref lockedSurface);
+                        m.DrawStaticScene(ref lockedSurface);
+                        m.DrawDynamicScene(ref lockedSurface);
                         surface.Unlock(lockedSurface);
                     }
 
@@ -270,29 +270,29 @@ public partial class HexSpriteMapViewer : Component
                     if (_staticSurfaceValid)
                     {
                         _staticSurface.BlitClipped(surface, X, Y);
-                        M.UpdateDynamicScene();
-                        if (surface.Lock(ref lockedSurface, R) >= 0)
+                        m.UpdateDynamicScene();
+                        if (surface.Lock(ref lockedSurface, r) >= 0)
                         {
-                            M.DrawDynamicScene(ref lockedSurface);
+                            m.DrawDynamicScene(ref lockedSurface);
                             surface.Unlock(lockedSurface);
                         }
                     }
                     else
                     {
-                        M.UpdateStaticScene();
+                        m.UpdateStaticScene();
                         if (_staticSurface.Lock(ref lockedSurface) >= 0)
                         {
-                            M.DrawStaticScene(ref lockedSurface);
+                            m.DrawStaticScene(ref lockedSurface);
                             _staticSurface.Unlock();
                             _staticSurfaceValid = true;
                         }
 
                         if (_staticSurface.BlitClipped(surface, X, Y) >= 0)
                         {
-                            M.UpdateDynamicScene();
-                            if (surface.Lock(ref lockedSurface, R) >= 0)
+                            m.UpdateDynamicScene();
+                            if (surface.Lock(ref lockedSurface, r) >= 0)
                             {
-                                M.DrawDynamicScene(ref lockedSurface);
+                                m.DrawDynamicScene(ref lockedSurface);
                                 surface.Unlock(lockedSurface);
                             }
                         }
@@ -319,30 +319,30 @@ public partial class HexSpriteMapViewer : Component
     // where the scene fits inside the map it spans the scene.
     public Rect GetMapSceneRectangle()
     {
-        Rect R = default;
+        Rect r = default;
         if (_hexSpriteMap != null)
         {
-            R.Left = Math.Max(16 - _sceneX, 0);
-            R.Top = Math.Max(16 - _sceneY, 0);
-            R.Right = Math.Min(_hexSpriteMap.GetMaxPixelX() - 16 - _sceneX, _sceneWidth);
-            R.Bottom = Math.Min(_hexSpriteMap.GetMaxPixelY() - 16 - _sceneY, _sceneHeight);
+            r.Left = Math.Max(16 - _sceneX, 0);
+            r.Top = Math.Max(16 - _sceneY, 0);
+            r.Right = Math.Min(_hexSpriteMap.GetMaxPixelX() - 16 - _sceneX, _sceneWidth);
+            r.Bottom = Math.Min(_hexSpriteMap.GetMaxPixelY() - 16 - _sceneY, _sceneHeight);
         }
 
-        return R;
+        return r;
     }
 
     // Port extension: where ShowScene shows the map, centered in the scene. It equals
     // GetMapSceneRect when the scene fits inside the map.
     public Rect GetMapDisplayRectangle()
     {
-        Rect R = GetMapSceneRectangle();
-        int width = R.Right - R.Left;
-        int height = R.Bottom - R.Top;
-        R.Left = (_sceneWidth - width) >> 1;
-        R.Top = (_sceneHeight - height) >> 1;
-        R.Right = R.Left + width;
-        R.Bottom = R.Top + height;
-        return R;
+        Rect r = GetMapSceneRectangle();
+        int width = r.Right - r.Left;
+        int height = r.Bottom - r.Top;
+        r.Left = (_sceneWidth - width) >> 1;
+        r.Top = (_sceneHeight - height) >> 1;
+        r.Right = r.Left + width;
+        r.Bottom = r.Top + height;
+        return r;
     }
 
     // Port extension: turns a point of the shown scene into the scene point of the original clamp,

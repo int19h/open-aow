@@ -140,16 +140,16 @@ public partial class MapEvents : UIModule
     {
         int count;
         count = 0;
-        for (int I = 0; I <= 7; I++)
+        for (int i = 0; i <= 7; i++)
         {
-            UI.General.SelectedUnits[I] = -1;
+            UI.General.SelectedUnits[i] = -1;
         }
 
-        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer))
+            if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer))
             {
-                UI.General.SelectedUnits[count] = I;
+                UI.General.SelectedUnits[count] = i;
                 count += 1;
             }
         }

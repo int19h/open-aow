@@ -291,7 +291,7 @@ public partial class Cave : Structure
     // Cave.pas:412
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        int L;
+        int l;
         ArmyHexSprite armyHexSprite;
         base.ArmyPlaced(placedArmy);
         armyHexSprite = placedArmy;
@@ -299,17 +299,17 @@ public partial class Cave : Structure
         {
             if (Entrance == CaveEntrance.Down)
             {
-                L = GetHexLevel() + 1;
+                l = GetHexLevel() + 1;
             }
             else
             {
-                L = GetHexLevel() - 1;
+                l = GetHexLevel() - 1;
             }
 
             var visibilityRange = armyHexSprite.Army.VisibilityRange();
             var hexY = armyHexSprite.GetHexY();
             var hexX = armyHexSprite.GetHexX();
-            StrategicMap.Current.MapContainer.GetMapLevel(L).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
+            StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
         }
     }
 
@@ -317,47 +317,47 @@ public partial class Cave : Structure
     public sbyte EnterMovePoints(Army army, byte selection)
     {
         MapField field;
-        int L;
+        int l;
         if (Entrance == CaveEntrance.Down)
         {
-            L = GetHexLevel() + 1;
+            l = GetHexLevel() + 1;
         }
         else
         {
-            L = GetHexLevel() - 1;
+            l = GetHexLevel() - 1;
         }
 
         var hexY = GetHexY();
         var hexX = GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, L);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
     }
 
     // Cave.pas:300
     public byte CanEnterSelection(UnitCollection units)
     {
-        int L;
+        int l;
         MapField field;
         Troop troop;
         if (Entrance == CaveEntrance.Down)
         {
-            L = GetHexLevel() + 1;
+            l = GetHexLevel() + 1;
         }
         else
         {
-            L = GetHexLevel() - 1;
+            l = GetHexLevel() - 1;
         }
 
         var hexY = GetHexY();
         var hexX = GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, L);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         byte result = 0;
-        for (int I = 0, last = units.Count - 1; I <= last; I++)
+        for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            troop = units.GetUnit(I);
+            troop = units.GetUnit(i);
             if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
             {
-                result = (byte)(result + (1 << I));
+                result = (byte)(result + (1 << i));
             }
         }
 
@@ -378,7 +378,7 @@ public partial class Cave : Structure
         bool result;
         byte selection;
         MovePath path;
-        sbyte L;
+        sbyte l;
         string messageText;
         ArmyHexSprite armyHexSprite;
         MapField field;
@@ -387,28 +387,24 @@ public partial class Cave : Structure
         if (armyHexSprite != null && CanEnter(armyHexSprite.Army.Player))
         {
             selection = CanEnterSelection(armyHexSprite.Army.Units);
-            L = 0;
+            l = 0;
             path = new MovePath();
             switch (Entrance)
             {
                 case CaveEntrance.Down:
-                    L = (sbyte)(GetHexLevel() + 1);
+                    l = (sbyte)(GetHexLevel() + 1);
                     break;
                 case CaveEntrance.Up:
-                    L = (sbyte)(GetHexLevel() - 1);
+                    l = (sbyte)(GetHexLevel() - 1);
                     break;
             }
-
-            var hexY = GetHexY();
-            path.AddMapCoordinate(GetHexX(), hexY, L);
+            path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);
             var enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
             path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
-            var hexLevel = GetHexLevel();
-            var hexY2 = GetHexY();
-            path.AddMapCoordinate(GetHexX(), hexY2, hexLevel);
+            path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
             var hexY3 = GetHexY();
             var hexX = GetHexX();
-            field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, L);
+            field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)
             {
@@ -448,7 +444,7 @@ public partial class Cave : Structure
 
                 if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
                 {
-                    StrategicMap.Current.ViewLevel(L);
+                    StrategicMap.Current.ViewLevel(l);
                     StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
                 }
             }

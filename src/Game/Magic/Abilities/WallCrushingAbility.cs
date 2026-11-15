@@ -47,9 +47,7 @@ public partial class WallCrushingAbility : TouchAbility
             var protectionTypes = defender.GetProtectionTypes();
             var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var defenderProtectionTypes = defender.GetProtectionTypes();
-            var defenderImmunityTypes = defender.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
@@ -86,9 +84,7 @@ public partial class WallCrushingAbility : TouchAbility
             var protectionTypes = defender.GetProtectionTypes();
             var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var defenderProtectionTypes = defender.GetProtectionTypes();
-            var defenderImmunityTypes = defender.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
@@ -115,9 +111,7 @@ public partial class WallCrushingAbility : TouchAbility
             var protectionTypes = defender.GetProtectionTypes();
             var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var defenderProtectionTypes = defender.GetProtectionTypes();
-            var defenderImmunityTypes = defender.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;

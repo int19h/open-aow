@@ -7,7 +7,7 @@ public partial class DiplomaticActionList : EReferenceNode, IChildList<Diplomati
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticAction, so the cast never fails.
-    public DiplomaticAction this[int index] => (DiplomaticAction)GetChild(index);
+    public DiplomaticAction this[int index] => Actions[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticAction;
 
@@ -16,28 +16,15 @@ public partial class DiplomaticActionList : EReferenceNode, IChildList<Diplomati
     public DiplomaticActionList(ECustomNode owner) : base(owner)
     { }
 
+    /// <summary>The actions of this list, in their stored order.</summary>
+    public DiplomaticActionCollection Actions => new(this);
+
     // Diplomacy.pas:1097
-    public DiplomaticAction GetDiplomaticActions(int index) => this[index];
+    public DiplomaticAction GetDiplomaticActions(int index) => Actions.GetDiplomaticActions(index);
 
     // Diplomacy.pas:1100
-    public DiplomaticAction FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
-    {
-        int I;
-        DiplomaticAction candidate;
-        DiplomaticAction result = null;
-        I = Count;
-        while (result == null && I != 0)
-        {
-            I -= 1;
-            candidate = this[I];
-            if (candidate.Proposal.ToFields().Kind == kind && candidate.Reaction == reaction && (source == candidate.Source || source == -1) && (candidate.Target == target || target == -1) && (candidate.OtherPlayer == other || other == -1))
-            {
-                result = candidate;
-            }
-        }
-
-        return result;
-    }
+    public DiplomaticAction FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other) =>
+        Actions.FindLastAction(kind, reaction: reaction, source: source, target: target, other: other);
 
     // Engine.pas:631
 

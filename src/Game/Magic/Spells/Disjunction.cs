@@ -29,9 +29,9 @@ public partial class Disjunction : Spell
         int count;
         string reason = "";
         count = 0;
-        for (int I = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).CanDispel(source.Player, ref reason))
+            if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).CanDispel(source.Player, ref reason))
             {
                 count += 1;
             }

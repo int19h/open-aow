@@ -94,14 +94,11 @@ public partial class ItemExplorationSite : ExplorationSite
             log._player = army.Army.Player;
             log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);
             log.Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel());
-            for (int I = _items.Count - 1; I >= 0; I--)
+            for (int i = _items.Count - 1; i >= 0; i--)
             {
-                item = _items.GetItem(I);
+                item = _items.GetItem(i);
                 log.ItemIds.Add(item.ItemId);
-                var hexLevel2 = GetHexLevel();
-                var hexY2 = GetHexY();
-                var hexX2 = GetHexX();
-                item.PlaceOnMap(StrategicMap.Current, hexX2, hexY2, hexLevel2);
+                item.PlaceOnMap(level: GetHexLevel(), y: GetHexY(), x: GetHexX(), map: StrategicMap.Current);
             }
 
             // { Original parses the formatted text as CSV. }

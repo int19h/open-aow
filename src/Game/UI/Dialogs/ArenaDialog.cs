@@ -42,15 +42,15 @@ public partial class ArenaDialog : UIModule
         Rect saveRectangle;
         UnitShowInfo info;
         LibraryImage image;
-        Troop U;
+        Troop u;
         Units.Alignment alignment;
         if (index < _event.GetCount())
         {
-            U = _event.GetUnit(index);
+            u = _event.GetUnit(index);
             saveRectangle = lockedSurface.ClipRectangle;
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
-            alignment = U.GetAlignment();
+            alignment = u.GetAlignment();
             if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -60,7 +60,7 @@ public partial class ArenaDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            U.Show(X - 8, Y - 5, lockedSurface, info);
+            u.Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
@@ -71,7 +71,7 @@ public partial class ArenaDialog : UIModule
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) != 0)
             {
                 UI.Fonts.Age8.Color = 0;
-                var unitTrainCost = _event.Arena.UnitTrainCost(U);
+                var unitTrainCost = _event.Arena.UnitTrainCost(u);
                 UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
             }
         }
@@ -188,32 +188,32 @@ public partial class ArenaDialog : UIModule
     // AoWArenaDlg.pas:206
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         LockedSurface mapSurfaceDescription = default;
-        Rect R;
-        int W;
-        int H;
-        R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-        W = R.Right - R.Left;
-        H = R.Bottom - R.Top;
+        Rect r;
+        int w;
+        int h;
+        r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+        w = r.Right - r.Left;
+        h = r.Bottom - r.Top;
         var hexY = _event.Arena.GetHexY();
-        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out X, out Y);
-        X = X + 16 - (int)(((uint)W) >> 1);
-        Y = Y + 16 - (int)(((uint)H) >> 1);
-        if (X < 16)
+        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out x, out y);
+        x = x + 16 - (int)(((uint)w) >> 1);
+        y = y + 16 - (int)(((uint)h) >> 1);
+        if (x < 16)
         {
-            X = 16;
+            x = 16;
         }
 
-        if (Y < 16)
+        if (y < 16)
         {
-            Y = 16;
+            y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, out mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
         var hexLevel = _event.Arena.GetHexLevel();
-        StrategicMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
+        StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);

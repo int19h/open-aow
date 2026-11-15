@@ -62,8 +62,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
             base.MakeVisible(visibilityList);
             if (_shadow != null)
             {
-                var showPriority = _shadow.GetShowPriority();
-                visibilityList.AddSortChild(_shadow, showPriority);
+                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
         }
     }

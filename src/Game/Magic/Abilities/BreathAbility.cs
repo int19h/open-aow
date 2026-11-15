@@ -38,10 +38,10 @@ public partial class BreathAbility : RangedAttackAbility
             combat = source.Combat;
             targets = new DelphiList<CombatObject>();
             target = command.Target;
-            for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
+            for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 var side = target.GetSide();
-                other = combat.Sides[(int)side].GetObjects(I);
+                other = combat.Sides[(int)side].GetObjects(i);
                 bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= combat.GetRoundDistance();
                 if (condition)
                 {
@@ -93,10 +93,10 @@ public partial class BreathAbility : RangedAttackAbility
         {
             combat = attacker.Combat;
             count = 0;
-            for (int I = combat.Sides[(int)defender.GetSide()].GetCount() - 1; I >= 0; I--)
+            for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 var side = defender.GetSide();
-                target = combat.Sides[(int)side].GetObjects(I);
+                target = combat.Sides[(int)side].GetObjects(i);
                 bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.GetRoundDistance();
                 if (condition)
                 {

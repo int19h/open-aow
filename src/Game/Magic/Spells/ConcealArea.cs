@@ -35,8 +35,8 @@ public partial class ConcealArea : Spell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         MapField mapField;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         HexNumberWalkData walk = default;
         MapLevel level;
@@ -44,11 +44,11 @@ public partial class ConcealArea : Spell
         ConcealAreaHexSprite conceal;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        source.GetLocation(out X, out Y, out layer);
+        source.GetLocation(out x, out y, out layer);
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             conceal = new ConcealAreaHexSprite(null) { Holder = CreationHolder() };
-            conceal.StartAnimation(X, Y, layer, 14);
+            conceal.StartAnimation(x, y, layer, 14);
         }
 
         for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
@@ -57,7 +57,7 @@ public partial class ConcealArea : Spell
             if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, (sbyte)player) == DiplomaticRelation.War && player != source.Player)
             {
                 log = null;
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
                 while (walk.Radius <= 14)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -86,11 +86,11 @@ public partial class ConcealArea : Spell
             }
             else
             {
-                if (StrategicMap.Current.VisibleForPlayer(X, Y, layer, (sbyte)player))
+                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, (sbyte)player))
                 {
                     log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                    log.HexX = X;
-                    log.HexY = Y;
+                    log.HexX = x;
+                    log.HexY = y;
                     log.HexLevel = layer;
                     log._player = source.Player;
                     var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);

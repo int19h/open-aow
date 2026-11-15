@@ -3,6 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
+using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -24,6 +25,8 @@ public sealed class OwnershipTroopTests
     {
         Army => "army",
         UnitList => "units",
+        UnitUserList => "users",
+        HeroLibrary => "library",
         HeroList => "heroes",
         null => "none",
     };
@@ -151,6 +154,55 @@ public sealed class OwnershipTroopTests
         Assert.Empty(army.Units);
     }
 
+    // Issue 158 part 7: an AI group is not a unit list. It holds troop references in its node
+    // children and reads them through Units. The troop's owner stays the army.
+    [Fact]
+    public void AnAIGroupHoldsTroopReferencesAndDoesNotOwnThem()
+    {
+        var group = new AIGroup(null!) { Holder = EngineFixture.Engine };
+        var army = new Army(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
+        Assert.False(typeof(UnitList).IsAssignableFrom(typeof(AIGroup)));
+        Assert.False(typeof(UnitUserList).IsAssignableFrom(typeof(AIGroup)));
+        Assert.True(army.Units.AddUnit(troop));
+        Assert.True(group.AddUnit(troop));
+        Assert.Same(army, troop.Owner);
+        Assert.Same(group, troop.Group);
+        Assert.Same(troop, group.Units[0]);
+        Assert.Same(troop, group.GetChild(0));
+        Assert.Same(troop, group.Units.FindId(7));
+        Assert.Same(group, group.Units.Holder);
+        IOwner<Troop> typed = group;
+        Assert.Same(troop, typed[0]);
+        Assert.Throws<ArgumentException>(() => troop.SetOwner(group));
+        Assert.Same(army, troop.Owner);
+    }
+
+    // Issue 158 part 8: a unit user list is not a unit list. It holds troop references in its
+    // node children and reads them through Units. AddUnit leaves the owner alone. SetOwner
+    // accepts the list.
+    [Fact]
+    public void AUnitUserListHoldsTroopReferencesAndCanOwnThem()
+    {
+        var list = new UnitUserList(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        Assert.False(typeof(UnitList).IsAssignableFrom(typeof(UnitUserList)));
+        Assert.True(list.AddUnit(troop));
+        Assert.Null(troop.Owner);
+        Assert.Same(troop, list.Units[0]);
+        Assert.Same(troop, list.GetChild(0));
+        Assert.Same(list, list.Units.Holder);
+        troop.SetOwner(list);
+        Assert.Same(list, troop.Owner);
+        Assert.Same(list, troop.UnitHolder);
+        Assert.Equal("users", Kind(((IOwned<TroopOwner>)troop).Owner));
+        Assert.Same(list, troop.OwnerUnits.Holder);
+        Assert.Throws<InvalidCastException>(() => troop.ArmyOwner);
+        list.Clear();
+        Assert.Empty(list.Units);
+        Assert.Same(list, troop.Owner);
+    }
+
     [Fact]
     public void ItemTakesAnItemHolderOnly()
     {
@@ -216,6 +268,43 @@ public sealed class OwnershipTroopTests
         ground.SetOwner(site);
         Assert.True(ground.Owner is ItemList);
         Assert.Same(site, ground.Owner);
+    }
+
+    // Issue 158 part 6: a hero library is not a hero list. It holds its heroes as references and
+    // reads them through Heroes. A player's hero list stays a hero list, and a hero that joins it
+    // stays ownerless.
+    [Fact]
+    public void ALibraryHoldsItsHeroesInHeroes()
+    {
+        var library = new HeroLibrary(null!) { Holder = EngineFixture.Engine };
+        var list = new HeroList(null!) { Holder = EngineFixture.Engine };
+        var stored = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 3 };
+        Assert.False(typeof(HeroList).IsAssignableFrom(typeof(HeroLibrary)));
+        Assert.True(typeof(EReferenceNode).IsAssignableFrom(typeof(HeroLibrary)));
+        Assert.True(typeof(HeroList).IsAssignableFrom(list.GetType()));
+
+        stored.SetOwner(library);
+        Assert.Same(library, stored.Owner);
+        Assert.False(stored.Owner is HeroList);
+        Assert.True(stored.Owner is HeroLibrary);
+        Assert.Same(library, ((IOwned<TroopOwner>)stored).Owner.Node);
+        Assert.Equal("library", Kind(((IOwned<TroopOwner>)stored).Owner));
+        Assert.Same(stored, library.Heroes[0]);
+        Assert.Same(stored, library.GetChild(0));
+        Assert.Same(library, library.Heroes.Holder);
+        Assert.Same(stored, library.Heroes.FindHero(3));
+        Assert.Same(stored, library.Heroes.GetHero(0));
+        Assert.Null(library.Heroes.GetHero(1));
+        Assert.Null(stored.ArmyOwner);
+        Assert.Null(stored.UnitHolder);
+
+        var referenced = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        referenced.SetOwner(list);
+        Assert.Null(referenced.Owner);
+        Assert.True(referenced.Owner is not HeroLibrary);
+        Assert.Same(referenced, list.Heroes[0]);
+        Assert.Same(referenced, list.GetHero(0));
+        Assert.Same(list, list.Heroes.Holder);
     }
 
     // A dungeon combat hands the items left on the battlefield to the prisoners. They lie in the

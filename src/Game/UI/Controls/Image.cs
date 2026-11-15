@@ -40,7 +40,7 @@ public partial class Image : Control
     // AoWImage.pas:145
     public override void Update()
     {
-        int I;
+        int i;
         if (Visible && _animate == true)
         {
             if (_frameCount > 0)
@@ -50,13 +50,13 @@ public partial class Image : Control
             else
             {
                 _frameCount = _animationFrameDelay;
-                I = _currentImage + 1;
-                if (I > _animationEnd)
+                i = _currentImage + 1;
+                if (i > _animationEnd)
                 {
-                    I = _animationStart;
+                    i = _animationStart;
                 }
 
-                SetCurrent(I);
+                SetCurrent(i);
             }
         }
 

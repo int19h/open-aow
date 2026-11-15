@@ -44,21 +44,21 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6291
     public override void LoadFromStream(Stream stream)
     {
-        int I;
+        int i;
         base.LoadFromStream(stream);
         _height = 0;
-        I = 0;
-        while (I < Count)
+        i = 0;
+        while (i < Count)
         {
-            if (this[I] != null)
+            if (this[i] != null)
             {
-                if (this[I].Height > _height)
+                if (this[i].Height > _height)
                 {
-                    _height = this[I].Height;
+                    _height = this[i].Height;
                 }
             }
 
-            I += 1;
+            i += 1;
         }
     }
 
@@ -88,33 +88,33 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6378
     public int GetTextHeight(string text)
     {
-        int H;
-        int C;
-        string S;
+        int h;
+        int c;
+        string s;
         switch (_charCase)
         {
             case EditCharCase.LowerCase:
-                S = LowerCase(text);
+                s = LowerCase(text);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(text);
+                s = UpperCase(text);
                 break;
             default:
-                S = text;
+                s = text;
                 break;
         }
 
-        H = 0;
-        for (int I = 1; I <= S.Length; I++)
+        h = 0;
+        for (int i = 1; i <= s.Length; i++)
         {
-            C = Cp1252.Byte(S[I - 1]);
-            if (C < Count && this[C] != null && this[C].Height > H)
+            c = Cp1252.Byte(s[i - 1]);
+            if (c < Count && this[c] != null && this[c].Height > h)
             {
-                H = this[C].Height;
+                h = this[c].Height;
             }
         }
 
-        return H;
+        return h;
     }
 
     // ImageLib.pas:6399
@@ -137,7 +137,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6408
     public void SetTextCentered(int X, int Y, string text, in LockedSurface lockedSurface)
     {
-        string S;
+        string s;
         switch (_charCase)
         {
             case EditCharCase.Normal:
@@ -145,14 +145,14 @@ public partial class ImageLibraryFont : CustomImageLibrary
                 ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
-                S = LowerCase(text);
-                X = X - (int)(((uint)TextWidth(S)) >> 1);
-                ShowText(X, Y, S, lockedSurface);
+                s = LowerCase(text);
+                X = X - (int)(((uint)TextWidth(s)) >> 1);
+                ShowText(X, Y, s, lockedSurface);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(text);
-                X = X - (int)(((uint)TextWidth(S)) >> 1);
-                ShowText(X, Y, S, lockedSurface);
+                s = UpperCase(text);
+                X = X - (int)(((uint)TextWidth(s)) >> 1);
+                ShowText(X, Y, s, lockedSurface);
                 break;
         }
     }
@@ -160,33 +160,33 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6433
     public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, Set<SetTextModeElement> mode, in ShowInfo showInfo)
     {
-        int C;
-        string S;
+        int c;
+        string s;
         switch (_charCase)
         {
             case EditCharCase.LowerCase:
-                S = LowerCase(text);
+                s = LowerCase(text);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(text);
+                s = UpperCase(text);
                 break;
             default:
-                S = text;
+                s = text;
                 break;
         }
 
         if (mode.Contains(SetTextModeElement.Center))
         {
-            X = X - (int)(((uint)TextWidth(S)) >> 1);
+            X = X - (int)(((uint)TextWidth(s)) >> 1);
         }
 
-        for (int I = 1; I <= S.Length; I++)
+        for (int i = 1; i <= s.Length; i++)
         {
-            C = Cp1252.Byte(S[I - 1]);
-            if (C < Count && this[C] != null)
+            c = Cp1252.Byte(s[i - 1]);
+            if (c < Count && this[c] != null)
             {
-                this[C].Show(X, Y, lockedSurface, showInfo);
-                X += this[C].Width + _characterDistance;
+                this[c].Show(X, Y, lockedSurface, showInfo);
+                X += this[c].Width + _characterDistance;
             }
             else
             {

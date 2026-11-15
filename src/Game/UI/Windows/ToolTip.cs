@@ -74,8 +74,8 @@ public partial class ToolTip : GenericWindow
     //   top left corner twice (original bugs). }
     public override void SetSize()
     {
-        int I;
-        int W;
+        int i;
+        int w;
         bool moved;
         bool done;
         if (_ownerItem != 0)
@@ -106,18 +106,18 @@ public partial class ToolTip : GenericWindow
         }
 
         _lines.Clear();
-        I = 0;
+        i = 0;
         int last = _items.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            var item = _items[I];
+            var item = _items[i];
             _lines.Add(item);
         }
 
         if (_lines.Count > 0)
         {
-            I = 0;
-            while (I < _lines.Count)
+            i = 0;
+            while (i < _lines.Count)
             {
                 moved = false;
                 done = true;
@@ -126,51 +126,51 @@ public partial class ToolTip : GenericWindow
                     bool notDone = !done;
                     if (!notDone)
                     {
-                        var line = _lines[I];
+                        var line = _lines[i];
                         var textWidth = _font.GetTextWidth(line);
                         var imageLibraryFrame2 = _imageLibraryFrame[3];
                         var imageLibraryFrame3 = _imageLibraryFrame[4];
                         notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - _borderWidth * 2;
                     }
 
-                    if (!(notDone && _lines[I].Length > 1))
+                    if (!(notDone && _lines[i].Length > 1))
                         break;
                     done = false;
-                    if (I < _lines.Count - 1)
+                    if (i < _lines.Count - 1)
                     {
                         if (moved == true)
                         {
-                            var lineLength = _lines[I];
-                            var line = _lines[I];
-                            var line2 = _lines[I + 1];
-                            _lines[I + 1] = Copy(line, lineLength.Length, 1) + line2;
+                            var lineLength = _lines[i];
+                            var line = _lines[i];
+                            var line2 = _lines[i + 1];
+                            _lines[i + 1] = Copy(line, lineLength.Length, 1) + line2;
                         }
                         else
                         {
-                            var lineLength = _lines[I];
-                            var line = _lines[I];
-                            _lines.Insert(I + 1, Copy(line, lineLength.Length, 1));
+                            var lineLength = _lines[i];
+                            var line = _lines[i];
+                            _lines.Insert(i + 1, Copy(line, lineLength.Length, 1));
                         }
                     }
                     else
                     {
-                        var lineLength = _lines[I];
-                        var line = _lines[I];
+                        var lineLength = _lines[i];
+                        var line = _lines[i];
                         _lines.Add(Copy(line, lineLength.Length, 1));
                     }
 
-                    var line3 = _lines[I];
-                    var line4 = _lines[I];
-                    _lines[I] = Copy(line4, 1, line3.Length - 1);
+                    var line3 = _lines[i];
+                    var line4 = _lines[i];
+                    _lines[i] = Copy(line4, 1, line3.Length - 1);
                     moved = true;
-                    var line5 = _lines[I];
-                    if (Copy(_lines[I], line5.Length, 1) == " ")
+                    var line5 = _lines[i];
+                    if (Copy(_lines[i], line5.Length, 1) == " ")
                     {
                         done = true;
                     }
                 }
 
-                I += 1;
+                i += 1;
             }
 
             var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
@@ -178,14 +178,14 @@ public partial class ToolTip : GenericWindow
             var count = _lines.Count;
             SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + _borderHeight * 2 + count * _itemHeight);
             var line6 = _lines[0];
-            W = _font.GetTextWidth(line6);
+            w = _font.GetTextWidth(line6);
             var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame];
             var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-            if (W < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - _borderWidth * 2)
+            if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - _borderWidth * 2)
             {
                 var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                SetWinWidthWithoutInvalidate(W + imageLibraryFrame2.Width + imageLibraryFrame3.Width + _borderWidth * 2);
+                SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + _borderWidth * 2);
             }
         }
 
@@ -222,11 +222,11 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:162
     public override void Update()
     {
-        bool B;
-        B = _doubleBuffered;
+        bool b;
+        b = _doubleBuffered;
         _doubleBuffered = false;
         base.Update();
-        _doubleBuffered = B;
+        _doubleBuffered = b;
     }
 
     // AOWToolTip.pas:186
@@ -295,7 +295,7 @@ public partial class ToolTip : GenericWindow
                 oldClip = lockedSurface.ClipRectangle;
                 if (_lines.Count > 0)
                 {
-                    for (int I = 0, last = _lines.Count - 1; I <= last; I++)
+                    for (int i = 0, last = _lines.Count - 1; i <= last; i++)
                     {
                         var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
@@ -304,12 +304,12 @@ public partial class ToolTip : GenericWindow
                             lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
                         }
 
-                        if (I < _lines.Count && _lines.Count > 0)
+                        if (i < _lines.Count && _lines.Count > 0)
                         {
-                            var line = _lines[I];
+                            var line = _lines[i];
                             var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame];
                             var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame7.Width, WinTop + _borderHeight + imageLibraryFrame6.Height + _itemHeight * I, line, lockedSurface);
+                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame7.Width, WinTop + _borderHeight + imageLibraryFrame6.Height + _itemHeight * i, line, lockedSurface);
                             var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
@@ -343,11 +343,11 @@ public partial class ToolTip : GenericWindow
     {
         _lines.Clear();
         _items.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _lines.Add(valueValue);
-            var valueValue2 = value[I];
+            var valueValue2 = value[i];
             _items.Add(valueValue2);
         }
 

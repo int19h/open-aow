@@ -184,11 +184,11 @@ public partial class FileDialogWindow : UIModule
         string extension;
         string directory;
         FileTime stamp;
-        for (int I = 0, last = DateList.Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = DateList.Items.Count - 1; i <= last; i++)
         {
-            if (DateList.Items.Objects[I] != null)
+            if (DateList.Items.Objects[i] != null)
             {
-                (DateList.Items.Objects[I] as IDisposable)?.Dispose();
+                (DateList.Items.Objects[i] as IDisposable)?.Dispose();
             }
         }
 
@@ -244,15 +244,15 @@ public partial class FileDialogWindow : UIModule
         FileList.Items.AddStrings(Files);
         SaveList.Items.AddStrings(FileList.Items);
         PathEdit.Text = directory + "\\";
-        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
+        for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
             DateList.Items.Add("");
         }
 
-        for (int I = 0, last = Files.Count - 1; I <= last; I++)
+        for (int i = 0, last = Files.Count - 1; i <= last; i++)
         {
-            var dateTimeToString = DateTimeToStr(Files.Objects[I].Time);
-            var objectValue = Files.Objects[I];
+            var dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
+            var objectValue = Files.Objects[i];
             DateList.Items.AddObject(dateTimeToString, objectValue);
         }
 
@@ -272,11 +272,11 @@ public partial class FileDialogWindow : UIModule
     // AoWFileDialog.pas:305
     public void FileDialogWindowDestroy()
     {
-        for (int I = 0, last = DateList.Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = DateList.Items.Count - 1; i <= last; i++)
         {
-            if (DateList.Items.Objects[I] != null)
+            if (DateList.Items.Objects[i] != null)
             {
-                (DateList.Items.Objects[I] as IDisposable)?.Dispose();
+                (DateList.Items.Objects[i] as IDisposable)?.Dispose();
             }
         }
 
@@ -638,7 +638,7 @@ public partial class FileDialogWindow : UIModule
             selected = FileList.Items[FileList.Selected];
         }
 
-        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
+        for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
             SaveList.Items.Delete(0);
             DateList.Items.Delete(0);
@@ -657,11 +657,11 @@ public partial class FileDialogWindow : UIModule
             }
         }
 
-        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
+        for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
-            var directory = Directories[I];
-            SaveList.Items.Insert(I, directory);
-            DateList.Items.Insert(I, "");
+            var directory = Directories[i];
+            SaveList.Items.Insert(i, directory);
+            DateList.Items.Insert(i, "");
         }
 
         if (!IsEmpty(selected))
@@ -691,10 +691,10 @@ public partial class FileDialogWindow : UIModule
 
         if (Mode == 1 || Mode == 0)
         {
-            for (int I = 0, last = SaveList.Items.Count - 1; I <= last; I++)
+            for (int i = 0, last = SaveList.Items.Count - 1; i <= last; i++)
             {
-                var objectValue = DateList.Items.Objects[I];
-                SaveList.Items.Objects[I] = objectValue;
+                var objectValue = DateList.Items.Objects[i];
+                SaveList.Items.Objects[i] = objectValue;
             }
 
             StringSorting.SortStrings(SaveList.Items, CompareFileDates, [DateList.Items, FileList.Items]);
@@ -703,10 +703,10 @@ public partial class FileDialogWindow : UIModule
         {
             if (Mode == 2)
             {
-                for (int I = 0, last = FileList.Items.Count - 1; I <= last; I++)
+                for (int i = 0, last = FileList.Items.Count - 1; i <= last; i++)
                 {
-                    var objectValue = DateList.Items.Objects[I];
-                    FileList.Items.Objects[I] = objectValue;
+                    var objectValue = DateList.Items.Objects[i];
+                    FileList.Items.Objects[i] = objectValue;
                 }
 
                 StringSorting.SortStrings(FileList.Items, CompareFileDates, [DateList.Items, SaveList.Items]);

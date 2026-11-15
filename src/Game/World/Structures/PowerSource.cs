@@ -27,14 +27,14 @@ public partial class PowerSource : EngineObject
     // Spells.PAS:1796
     public virtual void CenterToLocation()
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        GetLocation(out X, out Y, out L);
-        if (X != -1)
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        GetLocation(out x, out y, out l);
+        if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(X, Y, L);
-            StrategicMap.Current.PlayCenterAnimation(X, Y, L);
+            StrategicMap.Current.CenterViewTo(x, y, l);
+            StrategicMap.Current.PlayCenterAnimation(x, y, l);
         }
     }
 

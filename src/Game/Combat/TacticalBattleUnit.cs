@@ -54,15 +54,15 @@ public partial class TacticalBattleUnit : CombatUnit
         float speed = default;
         float vz = default;
         float gravity = default;
-        float Z = default;
-        int X = default;
-        int Y = default;
-        Rect R;
+        float z = default;
+        int x = default;
+        int y = default;
+        Rect r;
         void MakeBlood()
         {
             int count;
-            int X = default;
-            int Y = default;
+            int x2 = default;
+            int y2 = default;
             int direction;
             TacticalBattleBloodHexSprite blood;
             if (GetEnabled() && UnitHexSprite != null && Troop.GetBloodType() != BloodType.None)
@@ -86,10 +86,10 @@ public partial class TacticalBattleUnit : CombatUnit
                     }
 
                     var hexY = UnitHexSprite.GetHexY();
-                    HexGeometry.CenterHexNumberToHex(UnitHexSprite.GetHexX(), hexY, direction, ref X, ref Y);
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 9)
+                    HexGeometry.CenterHexNumberToHex(UnitHexSprite.GetHexX(), hexY, direction, ref x2, ref y2);
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 9)
                     {
-                        blood = new TacticalBattleBloodHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y]);
+                        blood = new TacticalBattleBloodHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
                         blood.Activate();
                         blood.OffsetX = Random(32) - 32;
                         blood.OffsetY = Random(32) - 32;
@@ -110,31 +110,30 @@ public partial class TacticalBattleUnit : CombatUnit
                 if (GetAbilityEnabled(131))
                 {
                     MakeHitBlood(this, 100);
-                    for (int I = 0; I <= 9; I++)
+                    for (int i = 0; i <= 9; i++)
                     {
                         effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
                         var hexY = UnitHexSprite.GetHexY();
-                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out X, out Y);
+                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out x, out y);
                         var xyz = new Point3D();
                         effect.Path.Add(xyz);
-                        effect.Path[0].X = X + 16;
-                        effect.Path[0].Y = Y + 8;
-                        for (int J = 0; J <= 10; J++)
+                        effect.Path[0].X = x + 16;
+                        effect.Path[0].Y = y + 8;
+                        for (int j = 0; j <= 10; j++)
                         {
                             speed = (float)((double)(Random(50) + 50) * 0.05);
                             gravity = (float)1.5;
                             vz = (float)((double)(Random(25) + 25) * 0.05);
-                            Z = 0;
+                            z = 0;
                             var count = effect.Path.Count;
                             var path = effect.Path[count - 1];
                             var fPathCount = effect.Path.Count;
                             var pathZ = effect.Path[fPathCount - 1];
                             var count2 = effect.Path.Count;
                             var pathX = effect.Path[count2 - 1];
-                            var random = Random(360);
-                            EffectPaths.MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                            EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
                         }
                     }
                 }
@@ -202,10 +201,10 @@ public partial class TacticalBattleUnit : CombatUnit
                 var hexY2 = UnitHexSprite.GetHexY();
                 var hexX2 = UnitHexSprite.GetHexX();
                 var hexY3 = UnitHexSprite.GetHexY();
-                R = new Rect(UnitHexSprite.GetHexX(), hexY3, hexX2 + 1, hexY2 + 1);
+                r = new Rect(UnitHexSprite.GetHexX(), hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
-                CombatMap.Current.TriggerMapChangedEvent(R, 0);
+                CombatMap.Current.TriggerMapChangedEvent(r, 0);
             }
         }
         else
@@ -328,9 +327,9 @@ public partial class TacticalBattleUnit : CombatUnit
             if (index < path.Count - 1)
             {
                 newPath = new MovePath();
-                for (int I = index, last = path.Count - 1; I <= last; I++)
+                for (int i = index, last = path.Count - 1; i <= last; i++)
                 {
-                    newPath.Add(path[I]);
+                    newPath.Add(path[i]);
                 }
 
                 eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);

@@ -114,7 +114,7 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5530
     public virtual int GetTargetPriority()
     {
-        int I;
+        int i;
         int combatValue;
         CombatObject target;
         int count;
@@ -122,33 +122,33 @@ public partial class CombatObject : EngineObject
         {
             TargetPriority = 0;
             count = 0;
-            I = TargetedBy.Count - 1;
-            for (; I >= 0; I -= 1)
+            i = TargetedBy.Count - 1;
+            for (; i >= 0; i -= 1)
             {
-                if (TargetedBy.List[I].Second == 0)
+                if (TargetedBy.List[i].Second == 0)
                 {
                     count += 1;
                 }
             }
 
-            I = Targets.Count - 1;
-            for (; I >= 0; I -= 1)
+            i = Targets.Count - 1;
+            for (; i >= 0; i -= 1)
             {
-                combatValue = Targets.List[I].Second;
+                combatValue = Targets.List[i].Second;
                 if (combatValue != 0)
                 {
-                    target = Targets.List[I].First;
+                    target = Targets.List[i].First;
                     combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
                     TargetPriority += combatValue;
                 }
             }
 
             TargetPriority = (count + 2) * TargetPriority;
-            I = TargetedBy.Count;
+            i = TargetedBy.Count;
             // { Original bug: the normalized priority is stored in FTargetStrength. }
-            if (I != 0)
+            if (i != 0)
             {
-                TargetStrength = TargetPriority / I;
+                TargetStrength = TargetPriority / i;
             }
             else
             {
@@ -167,9 +167,9 @@ public partial class CombatObject : EngineObject
         if (TargetStrengthInvalid)
         {
             TargetStrength = 0;
-            for (int I = Targets.Count - 1; I >= 0; I--)
+            for (int i = Targets.Count - 1; i >= 0; i--)
             {
-                TargetStrength += Targets.List[I].Fourth;
+                TargetStrength += Targets.List[i].Fourth;
             }
 
             if (TargetStrength != 0)
@@ -550,11 +550,11 @@ public partial class CombatObject : EngineObject
     {
         SetHitPoints(0);
         Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
-        for (int I = GetAbilityCount() - 1; I >= 0; I--)
+        for (int i = GetAbilityCount() - 1; i >= 0; i--)
         {
-            if (GetAbilityEnabled(I))
+            if (GetAbilityEnabled(i))
             {
-                GamePack.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
+                GamePack.Current.AbilityControl.GetAbility(i).CombatObjectDestroyed(this);
             }
         }
 
@@ -601,11 +601,11 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5663
     public virtual void TurnDone()
     {
-        CombatObjectTurnDoneCombatAction A;
-        A = new CombatObjectTurnDoneCombatAction(null) { Holder = CreationHolder() };
-        A.CombatObjectId = Id;
-        Combat.ExecuteCombatAction(A);
-        A.Release();
+        CombatObjectTurnDoneCombatAction a;
+        a = new CombatObjectTurnDoneCombatAction(null) { Holder = CreationHolder() };
+        a.CombatObjectId = Id;
+        Combat.ExecuteCombatAction(a);
+        a.Release();
     }
 
     // Combat.pas:5776
@@ -692,9 +692,9 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5518
     public void ResetTargets()
     {
-        for (int I = Targets.Count - 1; I >= 0; I--)
+        for (int i = Targets.Count - 1; i >= 0; i--)
         {
-            DeleteTarget(I);
+            DeleteTarget(i);
         }
     }
 
@@ -708,9 +708,9 @@ public partial class CombatObject : EngineObject
         CombatSide side;
         var opponentSide = GetOpponentSide();
         side = Combat.Sides[(int)opponentSide];
-        for (int I = side.Count - 1; I >= 0; I--)
+        for (int i = side.Count - 1; i >= 0; i--)
         {
-            target = side.GetObjects(I);
+            target = side.GetObjects(i);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 GetTargetCombatValueDamageValue(target, out combatValue, out damageValue);

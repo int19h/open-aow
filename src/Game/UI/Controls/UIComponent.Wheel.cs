@@ -49,9 +49,9 @@ public partial class UIComponent
 
     protected UIComponent TopWheelChild(int X, int Y)
     {
-        for (int I = Children.Count - 1; I >= 0; I--)
+        for (int i = Children.Count - 1; i >= 0; i--)
         {
-            var child = Children[I];
+            var child = Children[i];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y)) return child;
         }
 
@@ -70,9 +70,9 @@ public partial class UIComponent
         }
 
         VerticalScrollBar bar = null;
-        for (int I = 0; I < Children.Count; I++)
+        for (int i = 0; i < Children.Count; i++)
         {
-            if (Children[I] is VerticalScrollBar candidate && candidate._visible && candidate._captureInput)
+            if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate._captureInput)
             {
                 if (bar != null) return false;
                 bar = candidate;

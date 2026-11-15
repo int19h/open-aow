@@ -189,13 +189,13 @@ public partial class HeroUpgradeDialog : UIModule
         Ability ability;
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        for (int I = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; I <= last; I++)
+        for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            ability = GamePack.Current.AbilityControl.GetAbility(I);
+            ability = GamePack.Current.AbilityControl.GetAbility(i);
             if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 var expandName = ability.ExpandName(_editedHero);
-                AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(I));
+                AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
                 var expandCost = ability.ExpandCost(_editedHero);
                 AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
             }
@@ -203,13 +203,13 @@ public partial class HeroUpgradeDialog : UIModule
 
         SelectedAbilitiesList.Items.Clear();
         SelectedAbilitiesCostList.Items.Clear();
-        for (int I = 1, last = _editedHero.GetAbCount() - 1; I <= last; I++)
+        for (int i = 1, last = _editedHero.GetAbCount() - 1; i <= last; i++)
         {
-            if (_editedHero.GetInherentAbility(I))
+            if (_editedHero.GetInherentAbility(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(i);
                 name = ability.GetName(_editedHero);
-                if (_hero.GetAbEnabled(I) && _hero.GetInherentAbilityLevel(I) == _editedHero.GetInherentAbilityLevel(I))
+                if (_hero.GetAbEnabled(i) && _hero.GetInherentAbilityLevel(i) == _editedHero.GetInherentAbilityLevel(i))
                 {
                     name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
@@ -220,7 +220,7 @@ public partial class HeroUpgradeDialog : UIModule
                 }
 
                 SelectedAbilitiesCostList.Items.Add(cost);
-                SelectedAbilitiesList.Items.AddObject(name, IntToObject(I));
+                SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
             }
         }
 
@@ -272,13 +272,13 @@ public partial class HeroUpgradeDialog : UIModule
     // AoWHeroUpgradeDlg.pas:308
     public void FaceFramePreDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        Rect R;
+        Rect r;
         if (ValidateHero())
         {
             var image = sender;
-            R = new Rect(TopPanel.WinLeft + image.WinLeft + 2, TopPanel.WinTop + image.WinTop, TopPanel.WinLeft + image.WinLeft + image.WinWidth - 2, TopPanel.WinTop + image.WinTop + image.WinHeight - 2);
+            r = new Rect(TopPanel.WinLeft + image.WinLeft + 2, TopPanel.WinTop + image.WinTop, TopPanel.WinLeft + image.WinLeft + image.WinWidth - 2, TopPanel.WinTop + image.WinTop + image.WinHeight - 2);
 
-            _hero.GetFace().ShowStretched(R, lockedSurface);
+            _hero.GetFace().ShowStretched(r, lockedSurface);
         }
     }
 
@@ -591,8 +591,7 @@ public partial class HeroUpgradeDialog : UIModule
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
-                var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
         }
     }
@@ -607,8 +606,7 @@ public partial class HeroUpgradeDialog : UIModule
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
-                var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
         }
     }

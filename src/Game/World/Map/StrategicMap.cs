@@ -377,13 +377,13 @@ public partial class StrategicMap : GameMap
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
         MoveControl?.Dispose();
-        for (int I = Effects.Count - 1; I >= 0; I--)
+        for (int i = Effects.Count - 1; i >= 0; i--)
         {
-            var animation = Effects[I];
+            var animation = Effects[i];
             DynamicFixedVisibleHexSprite.RemoveChild((EngineObject)animation);
-            var fEffectsItem = Effects[I];
+            var fEffectsItem = Effects[i];
             DynamicVisibleHexSprite.RemoveChild((EngineObject)fEffectsItem);
-            (Effects[I] as IDisposable)?.Dispose();
+            (Effects[i] as IDisposable)?.Dispose();
         }
 
         Effects?.Clear();
@@ -883,21 +883,21 @@ public partial class StrategicMap : GameMap
         Races.Update();
         Players.SetNumberOfPlayers(2);
         Players.ValidateRaces(Races);
-        for (int L = 0, last = MapContainer.LevelCount - 1; L <= last; L++)
+        for (int l = 0, last = MapContainer.LevelCount - 1; l <= last; l++)
         {
-            InitializeMapLevel((sbyte)L);
+            InitializeMapLevel((sbyte)l);
         }
 
-        for (int I = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; i <= last; i++)
         {
-            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(I).Copy(GetEngine());
+            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(i).Copy(GetEngine());
             ItemControl.RegisterItem((Item)objectValue);
             objectValue.Release();
         }
 
-        for (int I = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Count - 1; I <= last; I++)
+        for (int i = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.Count - 1; i <= last; i++)
         {
-            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GetEngine());
+            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.GetHero(i).Copy(GetEngine());
             HeroControl.RegisterHero((Hero)objectValue);
             objectValue.Release();
         }
@@ -927,12 +927,11 @@ public partial class StrategicMap : GameMap
         if (Day == 0 || GameSongs.Songs.Count == 0)
         {
             GameSongs.Songs.Clear();
-            for (int I = 0, last = Current.StartupSongs.Songs.Count - 1; I <= last; I++)
+            for (int i = 0, last = Current.StartupSongs.Songs.Count - 1; i <= last; i++)
             {
-                var fileNotFound = AbilityRules.TranslateResourceString(GetEngine(), GameText.FileNotFoundText);
-                if (CompareText(Current.StartupSongs.SongNames[I], fileNotFound) != 0)
+                if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), GameText.FileNotFoundText), a: Current.StartupSongs.SongNames[i]) != 0)
                 {
-                    var item = Current.StartupSongs.Songs[I];
+                    var item = Current.StartupSongs.Songs[i];
                     GameSongs.Songs.Add(item);
                 }
             }
@@ -943,12 +942,12 @@ public partial class StrategicMap : GameMap
         GlobalMagicControl.Update();
         Players.BeginUpdate();
         Players.EndUpdate();
-        for (int I = 0, last = Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
-            if (Players.GetPlayers(I).Behavior == PlayerBehavior.Random)
+            if (Players.GetPlayers(i).Behavior == PlayerBehavior.Random)
             {
                 var random = Current.Random(5);
-                Players.GetPlayers(I).Behavior = (PlayerBehavior)random;
+                Players.GetPlayers(i).Behavior = (PlayerBehavior)random;
             }
         }
 
@@ -1084,9 +1083,9 @@ public partial class StrategicMap : GameMap
         TurnOrder.Clear();
         if (TurnOrderMode == StrategicMapTurnOrderMode.Fixed)
         {
-            for (int I = 0, last = Players.Count - 1; I <= last; I++)
+            for (int i = 0, last = Players.Count - 1; i <= last; i++)
             {
-                TurnOrder.Add((byte)I);
+                TurnOrder.Add((byte)i);
             }
         }
 
@@ -1095,25 +1094,25 @@ public partial class StrategicMap : GameMap
             GenerateNewTurnOrder();
         }
 
-        for (int I = 0, last = Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
-            var players = Players.GetPlayers(I);
-            Players.GetPlayers(I).SetGems(players.InitialGold);
-            var fPlayersPlayers = Players.GetPlayers(I);
-            Players.GetPlayers(I).MagicControl.SetMana(fPlayersPlayers.MagicControl.ExternalMana);
-            switch (Players.GetPlayers(I).PlayerType)
+            var players = Players.GetPlayers(i);
+            Players.GetPlayers(i).SetGems(players.InitialGold);
+            var fPlayersPlayers = Players.GetPlayers(i);
+            Players.GetPlayers(i).MagicControl.SetMana(fPlayersPlayers.MagicControl.ExternalMana);
+            switch (Players.GetPlayers(i).PlayerType)
             {
                 case PlayerType.Cpu4:
-                    var players2 = Players.GetPlayers(I);
-                    Players.GetPlayers(I).SetGems(players2.Gems + 250);
-                    var players3 = Players.GetPlayers(I);
-                    Players.GetPlayers(I).MagicControl.SetMana(players3.MagicControl.Mana + 250);
+                    var players2 = Players.GetPlayers(i);
+                    Players.GetPlayers(i).SetGems(players2.Gems + 250);
+                    var players3 = Players.GetPlayers(i);
+                    Players.GetPlayers(i).MagicControl.SetMana(players3.MagicControl.Mana + 250);
                     break;
                 case PlayerType.Cpu5:
-                    var players4 = Players.GetPlayers(I);
-                    Players.GetPlayers(I).SetGems(players4.Gems + 500);
-                    var players5 = Players.GetPlayers(I);
-                    Players.GetPlayers(I).MagicControl.SetMana(players5.MagicControl.Mana + 500);
+                    var players4 = Players.GetPlayers(i);
+                    Players.GetPlayers(i).SetGems(players4.Gems + 500);
+                    var players5 = Players.GetPlayers(i);
+                    Players.GetPlayers(i).MagicControl.SetMana(players5.MagicControl.Mana + 500);
                     break;
             }
         }
@@ -1386,7 +1385,7 @@ public partial class StrategicMap : GameMap
     public bool SelectNextHero()
     {
         Player player;
-        int I;
+        int i;
         int left;
         Army army;
         int pixelX = default;
@@ -1395,33 +1394,33 @@ public partial class StrategicMap : GameMap
         if (player.Armies.Count != 0)
         {
             left = player.Armies.Count;
-            I = player.HeroJoinDay;
-            if (I < 0 || I >= player.Armies.Count)
+            i = player.HeroJoinDay;
+            if (i < 0 || i >= player.Armies.Count)
             {
-                I = 0;
+                i = 0;
             }
 
             while (true)
             {
-                I += 1;
+                i += 1;
                 left -= 1;
-                if (I == player.Armies.Count)
+                if (i == player.Armies.Count)
                 {
-                    I = 0;
+                    i = 0;
                 }
 
-                if (left == 0 || player.Armies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+                if (left == 0 || player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
                     break;
             }
 
-            if (player.Armies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+            if (player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
             {
-                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
                 HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
-                player.HeroJoinDay = I;
+                player.HeroJoinDay = i;
             }
             else
             {
@@ -1436,7 +1435,7 @@ public partial class StrategicMap : GameMap
     public bool SelectNextArmy()
     {
         Player player;
-        int I;
+        int i;
         int left;
         Army army;
         int pixelX = default;
@@ -1445,33 +1444,33 @@ public partial class StrategicMap : GameMap
         if (player.Armies.Count != 0)
         {
             left = player.Armies.Count;
-            I = player.BaseHeroJoinDay;
-            if (I < 0 || I >= player.Armies.Count)
+            i = player.BaseHeroJoinDay;
+            if (i < 0 || i >= player.Armies.Count)
             {
-                I = 0;
+                i = 0;
             }
 
             while (true)
             {
-                I += 1;
+                i += 1;
                 left -= 1;
-                if (I == player.Armies.Count)
+                if (i == player.Armies.Count)
                 {
-                    I = 0;
+                    i = 0;
                 }
 
-                if (left == 0 || player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+                if (left == 0 || player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
                     break;
             }
 
-            if (player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
-                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
                 HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
-                player.BaseHeroJoinDay = I;
+                player.BaseHeroJoinDay = i;
             }
             else
             {
@@ -1486,7 +1485,7 @@ public partial class StrategicMap : GameMap
     public bool SelectPreviousArmy()
     {
         Player player;
-        int I;
+        int i;
         int left;
         Army army;
         int pixelX = default;
@@ -1494,34 +1493,34 @@ public partial class StrategicMap : GameMap
         player = Players.GetPlayers(SeatedPlayer);
         if (player.Armies.Count != 0)
         {
-            I = player.BaseHeroJoinDay;
-            if (I < 0 || I >= player.Armies.Count)
+            i = player.BaseHeroJoinDay;
+            if (i < 0 || i >= player.Armies.Count)
             {
-                I = 0;
+                i = 0;
             }
 
             left = player.Armies.Count;
             while (true)
             {
-                I -= 1;
+                i -= 1;
                 left -= 1;
-                if (I < 0)
+                if (i < 0)
                 {
-                    I = player.Armies.Count - 1;
+                    i = player.Armies.Count - 1;
                 }
 
-                if (left == 0 || player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+                if (left == 0 || player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
                     break;
             }
 
-            if (player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
-                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
                 HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
-                player.BaseHeroJoinDay = I;
+                player.BaseHeroJoinDay = i;
             }
             else
             {
@@ -1792,23 +1791,23 @@ public partial class StrategicMap : GameMap
     {
         Player player;
         GameOverEventLog log;
-        for (int I = 1, last = Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = Current.Players.Count - 1; i <= last; i++)
         {
-            player = Current.Players.GetPlayers(I);
-            if (I == eventValue._player || player.GameOverStatus == GameOverStatus.None)
+            player = Current.Players.GetPlayers(i);
+            if (i == eventValue._player || player.GameOverStatus == GameOverStatus.None)
             {
                 log = (GameOverEventLog)eventValue.Copy(GetEngine());
                 if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
-                    if (I == Current.SeatedPlayer)
+                    if (i == Current.SeatedPlayer)
                     {
                         log.Execute(false, ExecuteTrigger.Event, null);
                     }
                 }
                 else
                 {
-                    log.TargetPlayer = (sbyte)I;
+                    log.TargetPlayer = (sbyte)i;
                     _executeEventLogBuffer.AddEvent(log);
                 }
 
@@ -1890,48 +1889,48 @@ public partial class StrategicMap : GameMap
         control = Engine.HexSpriteSet.HexControl;
         if (level == 0)
         {
-            for (int X = 6, last = MapContainer.Width - 7; X <= last; X++)
+            for (int x = 6, last = MapContainer.Width - 7; x <= last; x++)
             {
-                for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
+                for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
                 {
-                    control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 0);
+                    control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 0);
                 }
             }
         }
         else
         {
-            for (int X = 1, last = MapContainer.Width - 7; X <= last; X++)
+            for (int x = 1, last = MapContainer.Width - 7; x <= last; x++)
             {
-                for (int Y = 1, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
+                for (int y = 1, lastY = MapContainer.Height - 7; y <= lastY; y++)
                 {
-                    control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 7);
+                    control.Place(MapContainer, (sbyte)x, (sbyte)y, level, 7);
                 }
             }
         }
 
-        for (int X = 0, last = MapContainer.Width - 1; X <= last; X++)
+        for (int x = 0, last = MapContainer.Width - 1; x <= last; x++)
         {
-            for (int Y = 0; Y <= 5; Y++)
+            for (int y = 0; y <= 5; y++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, level, 15);
             }
 
-            for (int Y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; Y <= lastY; Y++)
+            for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, level, 15);
             }
         }
 
-        for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
+        for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
         {
-            for (int X = 0; X <= 5; X++)
+            for (int x = 0; x <= 5; x++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, level, 15);
             }
 
-            for (int X = MapContainer.Width - 6, last = MapContainer.Width - 1; X <= last; X++)
+            for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, level, 15);
             }
         }
     }
@@ -1992,11 +1991,11 @@ public partial class StrategicMap : GameMap
                     if (message.Result.Int != -1 && message.Result.Int != player)
                     {
                         Current.Players.GetPlayers(player).PlayerSeen((sbyte)message.Result.Int);
-                        for (int I = 0, last = Players.Count - 1; I <= last; I++)
+                        for (int i = 0, last = Players.Count - 1; i <= last; i++)
                         {
-                            if (I != player && Players.GetDiplomaticRelation((sbyte)player, (sbyte)I) == DiplomaticRelation.Alliance)
+                            if (i != player && Players.GetDiplomaticRelation((sbyte)player, (sbyte)i) == DiplomaticRelation.Alliance)
                             {
-                                Current.Players.GetPlayers(I).PlayerSeen((sbyte)message.Result.Int);
+                                Current.Players.GetPlayers(i).PlayerSeen((sbyte)message.Result.Int);
                             }
                         }
                     }
@@ -2323,9 +2322,9 @@ public partial class StrategicMap : GameMap
         int index;
         ByteList list;
         list = new ByteList();
-        for (int I = 1, last = Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = Players.Count - 1; i <= last; i++)
         {
-            list.Add((byte)I);
+            list.Add((byte)i);
         }
 
         TurnOrder.Clear();
@@ -2424,9 +2423,9 @@ public partial class StrategicMap : GameMap
     {
         if (MapContainer != null)
         {
-            for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
+            for (int i = 0, last = MapContainer.LevelCount - 1; i <= last; i++)
             {
-                MapContainer.GetMapLevel(I).Reset();
+                MapContainer.GetMapLevel(i).Reset();
             }
         }
     }
@@ -2440,18 +2439,18 @@ public partial class StrategicMap : GameMap
     public void InitializeCombatMap(Battle combat, string fileName)
     {
         Player player = default;
-        int X = default;
-        int Y = default;
-        int L = default;
+        int x = default;
+        int y = default;
+        int l = default;
         if (CombatMap == null)
         {
             if (SeatedPlayer != -1)
             {
                 player = Players.GetPlayers(SeatedPlayer);
-                GetViewCenter(out X, out Y, out L);
-                player.ViewX = (byte)X;
-                player.ViewY = (byte)Y;
-                player.ViewMapLevel = (byte)L;
+                GetViewCenter(out x, out y, out l);
+                player.ViewX = (byte)x;
+                player.ViewY = (byte)y;
+                player.ViewMapLevel = (byte)l;
             }
 
             CombatMap = (CombatMap)GetEngine().LoadHsmMap(FileBoundary.ReadName(GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
@@ -2693,23 +2692,23 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3144
     public void CenterOnLeader(sbyte player, bool select, bool animate)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         ArmyHexSprite army;
         if (Current.Players.GetPlayers(player).Leader != null)
         {
-            Current.Players.GetPlayers(player).Leader.GetLocation(out X, out Y, out L);
+            Current.Players.GetPlayers(player).Leader.GetLocation(out x, out y, out l);
             // { Original excludes X = 0. }
-            if (X > 0)
+            if (x > 0)
             {
-                Current.CenterViewTo(X, Y, L);
+                Current.CenterViewTo(x, y, l);
                 if (animate)
                 {
-                    Current.PlayCenterAnimation(X, Y, L);
+                    Current.PlayCenterAnimation(x, y, l);
                 }
 
-                army = Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+                army = Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
                 if (army != null)
                 {
                     Selection.UnselectLocation();
@@ -2731,9 +2730,9 @@ public partial class StrategicMap : GameMap
         {
             candidates = new DelphiList<MapObjectResource>();
             candidates.Clear();
-            for (int I = 0, last = resources.Count - 1; I <= last; I++)
+            for (int i = 0, last = resources.Count - 1; i <= last; i++)
             {
-                resource = resources[I];
+                resource = resources[i];
                 if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
                 {
                     candidates.Add(resource);
@@ -2756,24 +2755,24 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3195
     public void UpdateEffects()
     {
-        int I;
+        int i;
         WorldEffectHexSprite effect;
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            I = 0;
-            while (I < Effects.Count)
+            i = 0;
+            while (i < Effects.Count)
             {
-                effect = Effects[I];
+                effect = Effects[i];
                 if (effect.Done)
                 {
                     DynamicFixedVisibleHexSprite.RemoveChild(effect);
                     DynamicVisibleHexSprite.RemoveChild(effect);
                     effect?.Dispose();
-                    Effects.RemoveAt(I);
+                    Effects.RemoveAt(i);
                 }
                 else
                 {
-                    I += 1;
+                    i += 1;
                 }
             }
         }

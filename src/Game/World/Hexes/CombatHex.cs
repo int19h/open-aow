@@ -112,13 +112,13 @@ public partial class CombatHex : AbstractHexagon
         int imageIndex;
         sbyte neighbourTerrain;
         sbyte terrainType;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         mapLevel = Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref X, ref Y);
-        if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref x, ref y);
+        if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            neighbourTerrain = mapLevel.GetField(X, Y).TerrainType;
+            neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
             terrainType = _resource.TerrainList.GetTerrain(0);
             imageIndex = -1;
             if (neighbourTerrain != terrainType && neighbourTerrain != 7)

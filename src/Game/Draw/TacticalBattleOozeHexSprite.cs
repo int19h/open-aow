@@ -31,12 +31,12 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        pixelXSurface = X - pixelXSurface - 16;
-        pixelYSurface = Y - 48 - pixelYSurface;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        pixelXSurface = x - pixelXSurface - 16;
+        pixelYSurface = y - 48 - pixelYSurface;
         switch (Owner.TerrainType)
         {
             case 3:
@@ -54,8 +54,7 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
 
         while (sequence != null)
         {
-            var totalSequenceFrames = sequence.GetTotalSequenceFrames();
-            frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
+            frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
             if (frame != -1)
             {
                 sequence.ImageLibrary[frame].Show(pixelXSurface, pixelYSurface, lockedSurface);

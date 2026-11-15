@@ -89,9 +89,9 @@ public partial class SoundDialog : UIModule
     public void SoundSetup()
     {
         PlayList.Items.Clear();
-        for (int I = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; I <= last; I++)
+        for (int i = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; i <= last; i++)
         {
-            var songName = AudioHost.SongPlayer.SongNames[I];
+            var songName = AudioHost.SongPlayer.SongNames[i];
             PlayList.Items.Add(songName);
         }
 

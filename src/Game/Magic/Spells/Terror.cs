@@ -83,9 +83,9 @@ public partial class Terror : CombatSpell
         value = 0;
         var opponentSide = commands.Source.GetOpponentSide();
         side = commands.Combat.Sides[(int)opponentSide];
-        for (int I = side.GetCount() - 1; I >= 0; I--)
+        for (int i = side.GetCount() - 1; i >= 0; i--)
         {
-            target = side.GetObjects(I);
+            target = side.GetObjects(i);
             if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
             {
                 value += target.GetTargetPriority();
@@ -124,9 +124,9 @@ public partial class Terror : CombatSpell
         value = 0;
         var opponentSide = source.GetOpponentSide();
         side = source.Combat.Sides[(int)opponentSide];
-        for (int I = side.GetCount() - 1; I >= 0; I--)
+        for (int i = side.GetCount() - 1; i >= 0; i--)
         {
-            opponent = side.GetObjects(I);
+            opponent = side.GetObjects(i);
             if (!opponent.GetAbilityEnabled(108) && opponent.CombatValue != 0 && opponent is CombatUnit && !opponent.GetImmunityTypes().Contains(DamageType.Death))
             {
                 value += Round((double)HitChance.HitRoleProbability(6 - opponent.GetResistance()) * 100);

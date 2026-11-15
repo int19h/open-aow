@@ -15,8 +15,8 @@ public partial class LowerIsometricHex
         int pixelX = default;
         int pixelY = default;
         int variant;
-        int X;
-        int Y;
+        int x;
+        int y;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
@@ -29,43 +29,43 @@ public partial class LowerIsometricHex
 
         if (OpenSides != 0)
         {
-            X = pixelX - 19;
-            Y = pixelY - 32;
+            x = pixelX - 19;
+            y = pixelY - 32;
             if ((OpenSides & 1) != 0)
             {
                 if ((OpenSides & 35) == 35)
                 {
-                    imageLibrary[6].Show(X, Y, lockedSurface);
+                    imageLibrary[6].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 35) == 1)
                     {
-                        imageLibrary[13].Show(X, Y, lockedSurface);
+                        imageLibrary[13].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 7) == 7)
                 {
-                    imageLibrary[25].Show(X, Y, lockedSurface);
+                    imageLibrary[25].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 3) == 3)
                     {
-                        imageLibrary[variant + 3].Show(X, Y, lockedSurface);
+                        imageLibrary[variant + 3].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 49) == 49)
                 {
-                    imageLibrary[24].Show(X, Y, lockedSurface);
+                    imageLibrary[24].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 33) == 33)
                     {
-                        imageLibrary[variant + 0].Show(X, Y, lockedSurface);
+                        imageLibrary[variant + 0].Show(x, y, lockedSurface);
                     }
                 }
             }
@@ -73,25 +73,25 @@ public partial class LowerIsometricHex
             {
                 if ((OpenSides & 6) == 6)
                 {
-                    imageLibrary[variant + 10].Show(X, Y, lockedSurface);
+                    imageLibrary[variant + 10].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 2) == 2)
                     {
-                        imageLibrary[17].Show(X, Y, lockedSurface);
+                        imageLibrary[17].Show(x, y, lockedSurface);
                     }
                 }
 
                 if ((OpenSides & 48) == 48)
                 {
-                    imageLibrary[variant + 7].Show(X, Y, lockedSurface);
+                    imageLibrary[variant + 7].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 32) == 32)
                     {
-                        imageLibrary[16].Show(X, Y, lockedSurface);
+                        imageLibrary[16].Show(x, y, lockedSurface);
                     }
                 }
             }
@@ -100,7 +100,7 @@ public partial class LowerIsometricHex
             {
                 if ((OpenSides & 14) == 14)
                 {
-                    imageLibrary[22].Show(X, Y + 1, lockedSurface);
+                    imageLibrary[22].Show(x, y + 1, lockedSurface);
                 }
                 else
                 {
@@ -108,18 +108,18 @@ public partial class LowerIsometricHex
                     {
                         if (variant == 2)
                         {
-                            imageLibrary[19].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[19].Show(x, y + 1, lockedSurface);
                         }
                         else
                         {
-                            imageLibrary[variant + 30].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[variant + 30].Show(x, y + 1, lockedSurface);
                         }
                     }
                 }
 
                 if ((OpenSides & 56) == 56)
                 {
-                    imageLibrary[21].Show(X, Y, lockedSurface);
+                    imageLibrary[21].Show(x, y, lockedSurface);
                 }
                 else
                 {
@@ -127,31 +127,31 @@ public partial class LowerIsometricHex
                     {
                         if (variant == 2)
                         {
-                            imageLibrary[18].Show(X, Y + 1, lockedSurface);
+                            imageLibrary[18].Show(x, y + 1, lockedSurface);
                         }
                         else
                         {
-                            imageLibrary[variant + 28].Show(X, Y, lockedSurface);
+                            imageLibrary[variant + 28].Show(x, y, lockedSurface);
                         }
                     }
                 }
 
                 if ((OpenSides & 28) == 8)
                 {
-                    imageLibrary[23].Show(X, Y, lockedSurface);
+                    imageLibrary[23].Show(x, y, lockedSurface);
                 }
             }
             else
             {
                 if ((OpenSides & 14) == 4)
                 {
-                    imageLibrary[15].Show(X, Y, lockedSurface);
+                    imageLibrary[15].Show(x, y, lockedSurface);
                 }
                 else
                 {
                     if ((OpenSides & 56) == 16)
                     {
-                        imageLibrary[14].Show(X, Y, lockedSurface);
+                        imageLibrary[14].Show(x, y, lockedSurface);
                     }
                 }
             }

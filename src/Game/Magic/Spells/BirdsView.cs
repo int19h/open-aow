@@ -28,19 +28,19 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:505
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        source.GetLocation(out X, out Y, out layer);
+        source.GetLocation(out x, out y, out layer);
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             var birdsViewHexSprite = new BirdsViewHexSprite(null) { Holder = CreationHolder() };
-            birdsViewHexSprite.StartAnimation(X, Y, layer, 14);
+            birdsViewHexSprite.StartAnimation(x, y, layer, 14);
         }
 
-        StrategicMap.Current.ExploreArea(X, Y, layer, source.Player, 14);
+        StrategicMap.Current.ExploreArea(x, y, layer, source.Player, 14);
         return false;
     }
 
@@ -50,13 +50,13 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            source.GetLocation(out X, out Y, out layer);
+            source.GetLocation(out x, out y, out layer);
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);

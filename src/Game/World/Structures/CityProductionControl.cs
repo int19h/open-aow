@@ -74,9 +74,7 @@ public partial class CityProductionControl : ProductionControl
         var name = Settings.Unit.GetName();
         var fCityName = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
-        var cityHexLevel = city.GetHexLevel();
-        var hexY2 = city.GetHexY();
-        log.SetLocation(city.GetHexX(), hexY2, cityHexLevel);
+        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
         return valid;
@@ -95,9 +93,7 @@ public partial class CityProductionControl : ProductionControl
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
-        var hexLevel = city.GetHexLevel();
-        var hexY = city.GetHexY();
-        log.SetLocation(city.GetHexX(), hexY, hexLevel);
+        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
     }

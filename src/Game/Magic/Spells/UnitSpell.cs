@@ -71,7 +71,7 @@ public partial class UnitSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     result = false;
                 }
@@ -123,7 +123,7 @@ public partial class UnitSpell : Spell
             if (TargetRange == 0)
             {
                 caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty.Units);
@@ -207,17 +207,17 @@ public partial class UnitSpell : Spell
     public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(Troop source, UnitList targets, ref byte selection)
+    public virtual void ValidateUnitSelection(Troop source, UnitUserList targets, ref byte selection)
     {
         var count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
-        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
         {
-            if ((selection & (1 << I)) != 0)
+            if ((selection & (1 << i)) != 0)
             {
-                if (!ValidTargetUnit(source, targets.GetUnit(I)))
+                if (!ValidTargetUnit(source, targets.GetUnit(i)))
                 {
-                    selection = (byte)(selection & ~(1 << I));
+                    selection = (byte)(selection & ~(1 << i));
                 }
             }
         }
@@ -228,11 +228,11 @@ public partial class UnitSpell : Spell
     {
         caster.CasterSourceId = source.UnitId;
         caster.CasterSpellId = SpellId;
-        for (int I = 0, last = targets.Count - 1; I <= last; I++)
+        for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
-            if (!((Army)targets.Holder).GetUnitConcealedForPlayer(I, source.Player))
+            if (!((Army)targets.Holder).GetUnitConcealedForPlayer(i, source.Player))
             {
-                var troop = targets.GetUnit(I);
+                var troop = targets.GetUnit(i);
                 caster.TargetUnits.AddUnit(troop);
             }
         }
@@ -240,17 +240,17 @@ public partial class UnitSpell : Spell
         caster.TargetUnits.SortUnits();
         caster.AllowMultipleTargets = AllowMultipleTargets;
         caster.ValidSelection = 0;
-        for (int I = caster.TargetUnits.GetCount() - 1; I >= 0; I--)
+        for (int i = caster.TargetUnits.GetCount() - 1; i >= 0; i--)
         {
-            if (ValidTargetUnit(source, caster.TargetUnits.GetUnit(I)))
+            if (ValidTargetUnit(source, caster.TargetUnits.GetUnit(i)))
             {
-                caster.ValidSelection = (byte)(caster.ValidSelection | (1 << I));
+                caster.ValidSelection = (byte)(caster.ValidSelection | (1 << i));
             }
         }
     }
 
     // Spells.PAS:1254
-    public virtual bool CastSpell(Troop source, UnitList targets)
+    public virtual bool CastSpell(Troop source, UnitUserList targets)
     {
         bool result;
         UnitSpellTokenEvent eventValue;
@@ -258,8 +258,7 @@ public partial class UnitSpell : Spell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
-            var castingMana = ((Hero)source).CastingMana(this);
-            eventValue.Initialize(SpellId, source, targets, castingMana);
+            eventValue.Initialize(mana: ((Hero)source).CastingMana(this), spellId: SpellId, source: source, targets: targets);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
@@ -333,12 +332,12 @@ public partial class UnitSpell : Spell
         DoubleItemList<Troop> list;
         int value;
         list = new DoubleItemList<Troop>();
-        for (int I = 0, last = targets.Count - 1; I <= last; I++)
+        for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
-            if (ValidTargetUnit(source, targets.GetUnit(I)) && targets.GetUnit(I).GetUnitType() != UnitType.Machine)
+            if (ValidTargetUnit(source, targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
             {
-                value = targets.GetUnit(I).GetUnitLevel() + AIValue;
-                list.AddAbility(targets.GetUnit(I), value);
+                value = targets.GetUnit(i).GetUnitLevel() + AIValue;
+                list.AddAbility(targets.GetUnit(i), value);
             }
         }
 
@@ -432,9 +431,9 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1318
     public void SetupTargetSelection(Troop source, TargetSelectionControl control)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         control.Initialize(source);
         control.TargetMode = control.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
         if (TargetRange != -1)
@@ -447,10 +446,10 @@ public partial class UnitSpell : Spell
             control.Range = 0;
         }
 
-        source.GetLocation(out X, out Y, out L);
-        control.SourceX = X;
-        control.SourceY = Y;
-        control.SourceL = L;
+        source.GetLocation(out x, out y, out l);
+        control.SourceX = x;
+        control.SourceY = y;
+        control.SourceL = l;
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);

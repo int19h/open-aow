@@ -30,12 +30,12 @@ public partial class FleeLocation : MapObject
     // FleeLoc.pas:151
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (_alpha > 0)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-            _resource.ImageLibrary.Get(0).ShowBlended(X - pixelXSurface - 8, Y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+            _resource.ImageLibrary.Get(0).ShowBlended(x - pixelXSurface - 8, y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
         }
     }
 

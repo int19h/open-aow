@@ -29,9 +29,9 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
                 PrisonersArmy prisoners => prisoners.Items,
                 var other => (ItemList)other,
             };
-            for (int I = Items.GetCount() - 1; I >= 0; I--)
+            for (int i = Items.GetCount() - 1; i >= 0; i--)
             {
-                Items.GetItem(I).SetOwner(items);
+                Items.GetItem(i).SetOwner(items);
             }
         }
         else
@@ -43,9 +43,9 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
                 StrategicMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.MapLevel);
             }
 
-            for (int I = Items.GetCount() - 1; I >= 0; I--)
+            for (int i = Items.GetCount() - 1; i >= 0; i--)
             {
-                Items.GetItem(I).SetOwner(itemHexSprite.Items);
+                Items.GetItem(i).SetOwner(itemHexSprite.Items);
             }
         }
 

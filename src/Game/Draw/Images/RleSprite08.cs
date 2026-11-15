@@ -71,11 +71,11 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7535
     public override void SetWidth(int value)
     {
-        int W;
-        W = _xshift + _rleLeft + _rleWidth;
-        if (value < W)
+        int w;
+        w = _xshift + _rleLeft + _rleWidth;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetWidth(value);
@@ -84,11 +84,11 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7544
     public override void SetHeight(int value)
     {
-        int H;
-        H = _yshift + _rleTop + _rleHeight;
-        if (value < H)
+        int h;
+        h = _yshift + _rleTop + _rleHeight;
+        if (value < h)
         {
-            value = H;
+            value = h;
         }
 
         base.SetHeight(value);
@@ -222,7 +222,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         object temporary;
         int line;
         Rect minRectangle = default;
-        int B;
+        int b;
         int left;
         int top;
         int bottom;
@@ -302,18 +302,18 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     _rleWidth = minRectangle.Right - left;
                     bottom = minRectangle.Bottom;
                     _rleHeight = bottom - top;
-                    for (int Y = top; Y <= bottom - 1; Y++)
+                    for (int y = top; y <= bottom - 1; y++)
                     {
                         // Line is the byte index of row Y in the surface's memory.
-                        line = lockedSurface.DataIndex + lockedSurface.Pitch * Y;
+                        line = lockedSurface.DataIndex + lockedSurface.Pitch * y;
                         StartLine();
-                        for (int X = minRectangle.Left, last = minRectangle.Right - 1; X <= last; X++)
+                        for (int x = minRectangle.Left, last = minRectangle.Right - 1; x <= last; x++)
                         {
-                            B = lockedSurface.Data[line + X];
-                            if (B != _transparentColor)
+                            b = lockedSurface.Data[line + x];
+                            if (b != _transparentColor)
                             {
                                 FlushTransparent();
-                                AddByte((byte)B);
+                                AddByte((byte)b);
                             }
                             else
                             {

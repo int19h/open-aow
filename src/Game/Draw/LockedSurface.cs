@@ -38,14 +38,14 @@ public struct LockedSurface
     {
         int result;
         int key;
-        SurfaceView S;
-        SurfaceView D;
+        SurfaceView s;
+        SurfaceView d;
         if (source.BitCount == 16 && destination.PixelFormatId == source.PixelFormatId)
         {
             key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-            S = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
-            D = destination.View(destination.Pitch * Y + X * 2);
-            BlitRects.BlitColorKey16(S, D, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, key);
+            s = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
+            d = destination.View(destination.Pitch * Y + X * 2);
+            BlitRects.BlitColorKey16(s, d, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, key);
             result = PixelFormats.GFXE_OK;
         }
         else
@@ -59,10 +59,10 @@ public struct LockedSurface
     internal static int BlitSurfaceDescriptionRectangleClipped(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y)
     {
         int result;
-        int W;
-        int H;
-        SurfaceView S;
-        SurfaceView D;
+        int w;
+        int h;
+        SurfaceView s;
+        SurfaceView d;
         if (sourceRectangle.Right > source.ClipRectangle.Right)
         {
             sourceRectangle.Right = source.ClipRectangle.Right;
@@ -80,10 +80,10 @@ public struct LockedSurface
             X = destination.ClipRectangle.Left;
         }
 
-        W = sourceRectangle.Right - sourceRectangle.Left;
-        if (X + W > destination.ClipRectangle.Right)
+        w = sourceRectangle.Right - sourceRectangle.Left;
+        if (X + w > destination.ClipRectangle.Right)
         {
-            W = W - (X + W - destination.ClipRectangle.Right);
+            w = w - (X + w - destination.ClipRectangle.Right);
         }
 
         if (sourceRectangle.Bottom > source.ClipRectangle.Bottom)
@@ -103,20 +103,20 @@ public struct LockedSurface
             Y = destination.ClipRectangle.Top;
         }
 
-        H = sourceRectangle.Bottom - sourceRectangle.Top;
-        if (Y + H > destination.ClipRectangle.Bottom)
+        h = sourceRectangle.Bottom - sourceRectangle.Top;
+        if (Y + h > destination.ClipRectangle.Bottom)
         {
-            H = H - (Y + H - destination.ClipRectangle.Bottom);
+            h = h - (Y + h - destination.ClipRectangle.Bottom);
         }
 
         if (source.PixelFormatId == destination.PixelFormatId)
         {
-            if (W > 0 && H > 0)
+            if (w > 0 && h > 0)
             {
-                W = (int)(((uint)(source.BitCount * W)) >> 3);
-                S = source.View(source.Pitch * sourceRectangle.Top + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
-                D = destination.View(destination.Pitch * Y + (int)(((uint)(destination.BitCount * X)) >> 3));
-                BlitRects.BlitRectangle(S, D, W, H);
+                w = (int)(((uint)(source.BitCount * w)) >> 3);
+                s = source.View(source.Pitch * sourceRectangle.Top + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
+                d = destination.View(destination.Pitch * Y + (int)(((uint)(destination.BitCount * X)) >> 3));
+                BlitRects.BlitRectangle(s, d, w, h);
             }
 
             result = PixelFormats.GFXE_OK;
@@ -132,10 +132,10 @@ public struct LockedSurface
     internal static int BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
     {
         int result;
-        int W;
-        int H;
-        SurfaceView S;
-        SurfaceView D;
+        int w;
+        int h;
+        SurfaceView s;
+        SurfaceView d;
         int key;
         if (source.BitCount == 16 && destination.BitCount == 16)
         {
@@ -156,10 +156,10 @@ public struct LockedSurface
                 X = destination.ClipRectangle.Left;
             }
 
-            W = sourceRectangle.Right - sourceRectangle.Left;
-            if (W + X > destination.ClipRectangle.Right)
+            w = sourceRectangle.Right - sourceRectangle.Left;
+            if (w + X > destination.ClipRectangle.Right)
             {
-                W = W - (W + X - destination.ClipRectangle.Right);
+                w = w - (w + X - destination.ClipRectangle.Right);
             }
 
             if (sourceRectangle.Bottom > source.ClipRectangle.Bottom)
@@ -179,20 +179,20 @@ public struct LockedSurface
                 Y = destination.ClipRectangle.Top;
             }
 
-            H = sourceRectangle.Bottom - sourceRectangle.Top;
-            if (Y + H > destination.ClipRectangle.Bottom)
+            h = sourceRectangle.Bottom - sourceRectangle.Top;
+            if (Y + h > destination.ClipRectangle.Bottom)
             {
-                H = H - (Y + H - destination.ClipRectangle.Bottom);
+                h = h - (Y + h - destination.ClipRectangle.Bottom);
             }
 
-            if (W > 0 && H > 0)
+            if (w > 0 && h > 0)
             {
                 key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-                S = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
-                D = destination.View(destination.Pitch * Y);
+                s = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
+                d = destination.View(destination.Pitch * Y);
                 X += X;
-                D = D.At(X);
-                BlitRects.BlitColorKey16(S, D, W, H, key);
+                d = d.At(X);
+                BlitRects.BlitColorKey16(s, d, w, h, key);
             }
 
             result = PixelFormats.GFXE_OK;
@@ -220,8 +220,8 @@ public struct LockedSurface
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
         bool found;
-        int X;
-        int Y;
+        int x;
+        int y;
         Rect rectangle;
         int GetPixel(int X, int Y)
         {
@@ -252,11 +252,11 @@ public struct LockedSurface
         found = false;
         while (!found && rectangle.Top < rectangle.Bottom)
         {
-            X = rectangle.Left;
-            while (!found && X != rectangle.Right)
+            x = rectangle.Left;
+            while (!found && x != rectangle.Right)
             {
-                found = GetPixel(X, rectangle.Top) != transparentColor;
-                X += 1;
+                found = GetPixel(x, rectangle.Top) != transparentColor;
+                x += 1;
             }
 
             if (!found)
@@ -268,11 +268,11 @@ public struct LockedSurface
         found = false;
         while (!found && rectangle.Bottom > rectangle.Top)
         {
-            X = rectangle.Left;
-            while (!found && X != rectangle.Right)
+            x = rectangle.Left;
+            while (!found && x != rectangle.Right)
             {
-                found = GetPixel(X, rectangle.Bottom - 1) != transparentColor;
-                X += 1;
+                found = GetPixel(x, rectangle.Bottom - 1) != transparentColor;
+                x += 1;
             }
 
             if (!found)
@@ -284,11 +284,11 @@ public struct LockedSurface
         found = false;
         while (!found && rectangle.Left < rectangle.Right)
         {
-            Y = rectangle.Top;
-            while (!found && Y != rectangle.Bottom)
+            y = rectangle.Top;
+            while (!found && y != rectangle.Bottom)
             {
-                found = GetPixel(rectangle.Left, Y) != transparentColor;
-                Y += 1;
+                found = GetPixel(rectangle.Left, y) != transparentColor;
+                y += 1;
             }
 
             if (!found)
@@ -300,11 +300,11 @@ public struct LockedSurface
         found = false;
         while (!found && rectangle.Right > rectangle.Left)
         {
-            Y = rectangle.Top;
-            while (!found && Y != rectangle.Bottom)
+            y = rectangle.Top;
+            while (!found && y != rectangle.Bottom)
             {
-                found = GetPixel(rectangle.Right - 1, Y) != transparentColor;
-                Y += 1;
+                found = GetPixel(rectangle.Right - 1, y) != transparentColor;
+                y += 1;
             }
 
             if (!found)
@@ -318,8 +318,8 @@ public struct LockedSurface
 
     internal static int RemapSurfacePart(in LockedSurface source, int sourceX, int sourceY, int width, int height, in LockedSurface destination, int destinationX, int destinationY)
     {
-        SurfaceView S;
-        SurfaceView D;
+        SurfaceView s;
+        SurfaceView d;
         int result = PixelFormats.GFXE_OK;
         if (sourceX + width > source.Width)
         {
@@ -371,24 +371,24 @@ public struct LockedSurface
 
         if (width > 0 && height > 0)
         {
-            S = source.View(source.Pitch * sourceY + (int)(((uint)(source.BitCount + 7)) >> 3) * sourceX);
-            D = destination.View(destination.Pitch * destinationY + (int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX);
+            s = source.View(source.Pitch * sourceY + (int)(((uint)(source.BitCount + 7)) >> 3) * sourceX);
+            d = destination.View(destination.Pitch * destinationY + (int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX);
             switch (source.PixelFormatId)
             {
                 case PixelFormats.pfPAL8:
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormats.pfRGB565:
-                            PixelRemap.RemapSurface08To565(S, D, width, height, source.Palette);
+                            PixelRemap.RemapSurface08To565(s, d, width, height, source.Palette);
                             break;
                         case PixelFormats.pfRGB555:
-                            PixelRemap.RemapSurface08To555(S, D, width, height, source.Palette);
+                            PixelRemap.RemapSurface08To555(s, d, width, height, source.Palette);
                             break;
                         case PixelFormats.pfRGB24:
-                            PixelRemap.RemapSurface08To24(S, D, width, height, source.Palette);
+                            PixelRemap.RemapSurface08To24(s, d, width, height, source.Palette);
                             break;
                         case PixelFormats.pfPAL8:
-                            BlitRects.BlitRectangle(S, D, width, height);
+                            BlitRects.BlitRectangle(s, d, width, height);
                             break;
                         default:
                             result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -401,16 +401,16 @@ public struct LockedSurface
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormats.pfRGB24:
-                            PixelRemap.RemapSurface555To24(S, D, width, height);
+                            PixelRemap.RemapSurface555To24(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB32:
-                            PixelRemap.RemapSurface555To32(S, D, width, height);
+                            PixelRemap.RemapSurface555To32(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB565:
-                            PixelRemap.RemapSurface555To565(S, D, width, height);
+                            PixelRemap.RemapSurface555To565(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB555:
-                            BlitRects.BlitRectangle(S, D, width * 2, height);
+                            BlitRects.BlitRectangle(s, d, width * 2, height);
                             break;
                         default:
                             result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -422,16 +422,16 @@ public struct LockedSurface
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormats.pfRGB24:
-                            PixelRemap.RemapSurface565To24(S, D, width, height);
+                            PixelRemap.RemapSurface565To24(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB32:
-                            PixelRemap.RemapSurface565To32(S, D, width, height);
+                            PixelRemap.RemapSurface565To32(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB555:
-                            PixelRemap.RemapSurface565To555(S, D, width, height);
+                            PixelRemap.RemapSurface565To555(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB565:
-                            BlitRects.BlitRectangle(S, D, width * 2, height);
+                            BlitRects.BlitRectangle(s, d, width * 2, height);
                             break;
                         default:
                             result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -443,13 +443,13 @@ public struct LockedSurface
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormats.pfRGB565:
-                            PixelRemap.RemapSurface24To565(S, D, width, height);
+                            PixelRemap.RemapSurface24To565(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB555:
-                            PixelRemap.RemapSurface24To555(S, D, width, height);
+                            PixelRemap.RemapSurface24To555(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB24:
-                            BlitRects.BlitRectangle(S, D, width * 3, height);
+                            BlitRects.BlitRectangle(s, d, width * 3, height);
                             break;
                         default:
                             result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -461,13 +461,13 @@ public struct LockedSurface
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormats.pfRGB565:
-                            PixelRemap.RemapSurface32To565(S, D, width, height);
+                            PixelRemap.RemapSurface32To565(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB555:
-                            PixelRemap.RemapSurface32To555(S, D, width, height);
+                            PixelRemap.RemapSurface32To555(s, d, width, height);
                             break;
                         case PixelFormats.pfRGB32:
-                            BlitRects.BlitRectangle(S, D, width * 4, height);
+                            BlitRects.BlitRectangle(s, d, width * 4, height);
                             break;
                         default:
                             result = PixelFormats.GFXE_NOTSUPPORTED;

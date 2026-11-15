@@ -59,11 +59,11 @@ public partial class CombatLogbook : EngineObject
     // Combat2.pas:387
     public override int Release()
     {
-        int N;
+        int n;
         _refCount -= 1;
-        N = _refCount;
-        int result = N;
-        if (N == 0)
+        n = _refCount;
+        int result = n;
+        if (n == 0)
         {
             Dispose();
         }
