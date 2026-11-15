@@ -164,9 +164,9 @@ public partial class TacticalBattle : Battle
                 {
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     generator = new RandomBattleMapGenerator(this);
-                    generator.RandomMap(this, CombatData.X, CombatData.Y, CombatData.MapLevel);
+                    generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel);
                     generator?.Dispose();
-                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.X, CombatData.Y, CombatData.MapLevel, StrategicMap.Current.SeatedPlayer);
+                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, StrategicMap.Current.SeatedPlayer);
                     CombatMap.Current.PlaySounds = condition;
                     if (!CombatMap.Current.PlaySounds)
                     {

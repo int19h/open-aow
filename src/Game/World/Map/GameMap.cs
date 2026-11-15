@@ -1381,7 +1381,10 @@ public partial class GameMap : OwningNode
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        hero.GetLocation(out x, out y, out l);
+        var coordinate30 = hero.GetLocation();
+        x = coordinate30.X;
+        y = coordinate30.Y;
+        l = coordinate30.MapLevel;
         item.PlaceOnMap(this, x, y, l);
     }
 
@@ -1393,7 +1396,10 @@ public partial class GameMap : OwningNode
         sbyte l = default;
         ItemHexSprite items;
         ItemList result = null;
-        hero.GetLocation(out x, out y, out l);
+        var coordinate31 = hero.GetLocation();
+        x = coordinate31.X;
+        y = coordinate31.Y;
+        l = coordinate31.MapLevel;
         if (x != -1)
         {
             items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131697);

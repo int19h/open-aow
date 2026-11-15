@@ -287,8 +287,11 @@ public partial class PlayerMagicControl : EngineObject
                 log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                 log.Player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
-                Enchantments.GetEnchantments(index).GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                log.Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                var coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
+                sbyte locationX = coordinate25.X;
+                sbyte locationY = coordinate25.Y;
+                sbyte locationMapLevel = coordinate25.MapLevel;
+                log.Location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
                 log.Release();

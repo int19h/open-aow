@@ -96,9 +96,7 @@ public partial class Sign : Structure
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
             eventValue = new UpdateSignTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.HexX = GetHexX();
-            eventValue.HexY = GetHexY();
-            eventValue.HexLevel = GetHexLevel();
+            eventValue.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             eventValue.Text.Assign(text);
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();

@@ -92,7 +92,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     settings.Reset();
                     settings.MovePointsMax = Executor.MovePointsMax;
                     settings.SetupArmy(armyHexSprite, armySelection);
-                    settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
+                    settings.SetDestinationPosition(Executor.Destination);
                     StrategicMap.Current.MoveControl.ProcessMove(settings);
                     adjacent = new AdjacentArmy(_adjacentArmies);
                     adjacent.Path.Assign(settings.Path);

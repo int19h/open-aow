@@ -106,9 +106,7 @@ public sealed class ObjectCastCrashTests
     private static Animation AnimationAtOrigin()
     {
         var animation = new Animation(null!) { Holder = EngineFixture.Engine };
-        animation.StoredHexX = 0;
-        animation.StoredHexY = 0;
-        animation.StoredHexLevel = 0;
+        animation.Location = new MapCoordinate(0, 0, 0);
         return animation;
     }
 

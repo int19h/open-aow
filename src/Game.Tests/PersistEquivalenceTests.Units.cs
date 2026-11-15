@@ -122,7 +122,7 @@ public sealed partial class PersistEquivalenceTests
     public void ArmyIdMatchesTheConverter()
     {
         Check("ArmyId", new ArmyId(null!) { Holder = EngineFixture.Engine });
-        var full = new ArmyId(null!) { Holder = EngineFixture.Engine, Player = -1, X = sbyte.MinValue, Y = sbyte.MaxValue, MapLevel = 1 };
+        var full = new ArmyId(null!) { Holder = EngineFixture.Engine, Player = -1, Location = new MapCoordinate(sbyte.MinValue, sbyte.MaxValue, 1) };
         full.UnitIds.Add(int.MinValue);
         full.UnitIds.Add(0);
         full.UnitIds.Add(int.MaxValue);

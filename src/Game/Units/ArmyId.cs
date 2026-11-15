@@ -23,9 +23,7 @@ public partial class ArmyId : EngineObject
 
     public sbyte Player { get; set; }
 
-    public sbyte X { get; set; }
-    public sbyte Y { get; set; }
-    public sbyte MapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     // The fourth byte of the packed location stored at id 11, 0 from every writer, kept so that a
     // loaded value saves back unchanged.
@@ -44,9 +42,9 @@ public partial class ArmyId : EngineObject
         bool result;
         ArmyHexSprite armyHexSprite;
         int i;
-        if (X != -1)
+        if (Location.X != -1)
         {
-            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
                 i = UnitIds.Count;
@@ -77,10 +75,10 @@ public partial class ArmyId : EngineObject
         bool result;
         int i;
         int index;
-        if (X != -1)
+        if (Location.X != -1)
         {
             selection = 0;
-            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
                 i = UnitIds.Count;

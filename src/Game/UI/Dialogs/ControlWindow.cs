@@ -314,10 +314,10 @@ public partial class ControlWindow : UIModule
     {
         UI.General.PlayButtonSound(0);
         var army = UI.General.UnitList;
-        StrategicMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
+        StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
         var army2 = UI.General.UnitList;
-        StrategicMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
+        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, army2.Location.MapLevel);
     }
 
     // AOWControlWin.pas:422

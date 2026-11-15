@@ -497,7 +497,7 @@ public partial class FastBattleUnit : CombatUnit
         if (troop is Hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
             var combatData = Combat.CombatData;
-            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
+            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.Location.X, (sbyte)combatData.Location.Y, (sbyte)combatData.Location.MapLevel);
         }
 
         base.KillUnit();

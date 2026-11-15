@@ -128,8 +128,11 @@ public partial class AIMoveExecutor : EngineObject
             throw new InvalidOperationException("Unit already exists! (TAIMoveExecuter)");
         }
 
-        troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-        location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+        var coordinate103 = troop.GetLocation();
+        sbyte locationX = coordinate103.X;
+        sbyte locationY = coordinate103.Y;
+        sbyte locationMapLevel = coordinate103.MapLevel;
+        location = new MapCoordinate(locationX, locationY, locationMapLevel);
         unitEntry = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
         unitEntry.Owner = Units;
@@ -175,8 +178,11 @@ public partial class AIMoveExecutor : EngineObject
             Units.GetUnits(index)?.Dispose();
         }
 
-        troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-        location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+        var coordinate104 = troop.GetLocation();
+        sbyte locationX = coordinate104.X;
+        sbyte locationY = coordinate104.Y;
+        sbyte locationMapLevel = coordinate104.MapLevel;
+        location = new MapCoordinate(locationX, locationY, locationMapLevel);
         Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
     }
@@ -566,7 +572,7 @@ public partial class AIMoveExecutor : EngineObject
         {
             State = 0;
             _processCycles = 0;
-            Destination = new MapCoordinate(X: X, Y: Y, MapLevel: L);
+            Destination = new MapCoordinate(X, Y, L);
             aiMoveExecutorArmyList = CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Idle));
             for (int i = 0, last = aiMoveExecutorArmyList.Count - 1; i <= last; i++)
             {

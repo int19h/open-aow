@@ -61,16 +61,17 @@ public partial class HeroJoinEventLog : JoinEventLog
         if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
-            u.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+            var coordinate18 = u.GetLocation();
+            sbyte locationX = coordinate18.X;
+            sbyte locationY = coordinate18.Y;
+            sbyte locationMapLevel = coordinate18.MapLevel;
+            location = new MapCoordinate(locationX, locationY, locationMapLevel);
             tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Player = Player;
             tokenEvent.Object = NegotiateObject.Army;
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
-            tokenEvent.X = (byte)location.X;
-            tokenEvent.Y = (byte)location.Y;
-            tokenEvent.MapLevel = (byte)location.MapLevel;
+            tokenEvent.Location = new MapCoordinate(unchecked((sbyte)((byte)location.X)), unchecked((sbyte)((byte)location.Y)), unchecked((sbyte)((byte)location.MapLevel)));
             tokenEvent.Mode = Set<NegotiateModeElement>.Of();
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             tokenEvent.EventLogId = JoinIndex;

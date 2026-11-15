@@ -47,7 +47,10 @@ public partial class ResurrectHero : Spell
         ArmyInfoEventLog infoLog = default;
         if (executeCount == 0)
         {
-            source.GetLocation(out x, out y, out layer);
+            var coordinate75 = source.GetLocation();
+            x = coordinate75.X;
+            y = coordinate75.Y;
+            layer = coordinate75.MapLevel;
             StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
             animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
@@ -72,7 +75,10 @@ public partial class ResurrectHero : Spell
 
             if (heroes.Count != 0)
             {
-                source.GetLocation(out x, out y, out layer);
+                var coordinate76 = source.GetLocation();
+                x = coordinate76.X;
+                y = coordinate76.Y;
+                layer = coordinate76.MapLevel;
                 var count = heroes.Count;
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();

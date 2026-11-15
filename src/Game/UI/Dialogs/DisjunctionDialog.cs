@@ -29,9 +29,8 @@ public partial class DisjunctionDialog : UIModule
 
     private DisjunctionSpellCaster _caster;
     private int _sortOrder;
-    private sbyte _mapX;
-    private sbyte _mapY;
-    private sbyte _mapL;
+
+    private MapCoordinate Location { get; set; }
 
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
@@ -134,18 +133,22 @@ public partial class DisjunctionDialog : UIModule
             if (enchantment != null)
             {
                 location = enchantment.GetLocation();
-                _mapX = location.X;
-                _mapY = location.Y;
-                _mapL = location.MapLevel;
+                Location = new MapCoordinate(location.X, location.Y, location.MapLevel);
             }
             else
             {
-                _mapX = -1;
+                Location = Location with { X = -1 };
             }
 
-            if (_mapX == -1)
+            if (Location.X == -1)
             {
-                _caster.GetSource().GetLocation(out _mapX, out _mapY, out _mapL);
+                {
+                    var coordinate41 = _caster.GetSource().GetLocation();
+                    sbyte coordinateX = coordinate41.X;
+                    sbyte coordinateY = coordinate41.Y;
+                    sbyte coordinateMapLevel = coordinate41.MapLevel;
+                    Location = new MapCoordinate(coordinateX, coordinateY, coordinateMapLevel);
+                }
             }
 
             UpdateChance();
@@ -281,7 +284,7 @@ public partial class DisjunctionDialog : UIModule
         r = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         w = r.Right - r.Left;
         h = r.Bottom - r.Top;
-        HexGeometry.HexToPixel(_mapX, _mapY, out x, out y);
+        HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
         if (x < 16)
@@ -295,7 +298,7 @@ public partial class DisjunctionDialog : UIModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
-        StrategicMap.Current.SetViewPort(x, y, _mapL, r.Right - r.Left, r.Bottom - r.Top);
+        StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);

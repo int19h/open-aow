@@ -44,7 +44,10 @@ public partial class ConcealArea : Spell
         ConcealAreaHexSprite conceal;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        source.GetLocation(out x, out y, out layer);
+        var coordinate60 = source.GetLocation();
+        x = coordinate60.X;
+        y = coordinate60.Y;
+        layer = coordinate60.MapLevel;
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             conceal = new ConcealAreaHexSprite(null) { Holder = CreationHolder() };
@@ -69,9 +72,7 @@ public partial class ConcealArea : Spell
                             if (log == null)
                             {
                                 log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                                log.HexX = (sbyte)walk.X;
-                                log.HexY = (sbyte)walk.Y;
-                                log.HexLevel = layer;
+                                log.Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer);
                                 log.Player = source.Player;
                                 var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
@@ -89,9 +90,7 @@ public partial class ConcealArea : Spell
                 if (StrategicMap.Current.VisibleForPlayer(x, y, layer, (sbyte)player))
                 {
                     log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                    log.HexX = x;
-                    log.HexY = y;
-                    log.HexLevel = layer;
+                    log.Location = new MapCoordinate(x, y, layer);
                     log.Player = source.Player;
                     var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);

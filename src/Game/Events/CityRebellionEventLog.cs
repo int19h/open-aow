@@ -1,4 +1,5 @@
 // Translated from City.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -12,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// HexX, HexY, HexLevel, CityName
+// Location, CityName
 public partial class CityRebellionEventLog : EventLog
 {
     public CityRebellionEventLog(CustomNode owner) : base(owner)
@@ -21,18 +22,14 @@ public partial class CityRebellionEventLog : EventLog
     // City.pas:2675
     public new const int ClassId = 131346;
 
-    public int HexX { get; set; }
-    public int HexY { get; set; }
-    public int HexLevel { get; set; }
+    public MapCoordinate Location { get; set; }
     public string CityName { get; set; } = "";
 
     // City.pas:2680
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        HexX = persister.Int32("HexX", value: HexX);
-        HexY = persister.Int32("HexY", value: HexY);
-        HexLevel = persister.Int32("HexLevel", value: HexLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
         CityName = persister.String("CityName", value: CityName);
     }
 
@@ -62,7 +59,7 @@ public partial class CityRebellionEventLog : EventLog
     // City.pas:2694
     public override void ViewLocation()
     {
-        CenterViewTo((sbyte)HexX, (sbyte)HexY, (sbyte)HexLevel);
+        CenterViewTo((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel);
     }
 
     private static readonly string s_cityRebellionFormat = "%s rebelled";

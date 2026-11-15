@@ -44,7 +44,10 @@ public partial class Crusade : Spell
         Unit newUnit;
         if (executeCount == 0)
         {
-            source.GetLocation(out x, out y, out layer);
+            var coordinate61 = source.GetLocation();
+            x = coordinate61.X;
+            y = coordinate61.Y;
+            layer = coordinate61.MapLevel;
             StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
             HexGeometry.HexToPixel(x, y, out pixelX, out pixelY);
             var worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
@@ -159,7 +162,10 @@ public partial class Crusade : Spell
         sbyte y = default;
         sbyte layer = default;
         ImageSequenceAnimation animation;
-        source.GetLocation(out x, out y, out layer);
+        var coordinate62 = source.GetLocation();
+        x = coordinate62.X;
+        y = coordinate62.Y;
+        layer = coordinate62.MapLevel;
         var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))

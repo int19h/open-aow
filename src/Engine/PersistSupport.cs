@@ -14,6 +14,16 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine;
 
+/// <summary>The original width of a stored map coordinate.</summary>
+public enum CoordinateWidth
+{
+    /// <summary>An unsigned byte, the two's complement byte of an sbyte.</summary>
+    Byte,
+
+    /// <summary>A signed 32-bit integer in the range -128 to 127.</summary>
+    Int32,
+}
+
 public static class PersistSupport
 {
     /// <summary>The engine of a tree load, which <c>ReadWrite</c> reads as <c>Stream.Engine</c>.</summary>
@@ -38,6 +48,41 @@ public static class PersistSupport
     /// <summary>A signed byte stored as an unsigned one (Delphi <c>rwByte</c> on a shortint), with its unsigned fallback.</summary>
     public static sbyte UnsignedByte(IPersister persister, string name, sbyte value, byte fallback = 0) =>
         unchecked((sbyte)persister.Byte(name, unchecked((byte)value), fallback));
+
+    /// <summary>
+    /// A map coordinate stored as X, Y and MapLevel. Byte width is an unsigned byte.
+    /// Int32 width is a signed 32-bit integer, and a loaded value outside -128 to 127 is refused.
+    /// </summary>
+    public static MapCoordinate Coordinate(IPersister persister, string name, MapCoordinate value, CoordinateWidth width)
+    {
+        MapCoordinate loaded = value;
+        persister.Record(name, body =>
+        {
+            if (width == CoordinateWidth.Byte)
+            {
+                sbyte x = UnsignedByte(body, "X", value.X);
+                sbyte y = UnsignedByte(body, "Y", value.Y);
+                sbyte level = UnsignedByte(body, "MapLevel", value.MapLevel);
+                if (body.Loading) loaded = new MapCoordinate(x, y, level);
+            }
+            else
+            {
+                int x = body.Int32("X", value.X);
+                int y = body.Int32("Y", value.Y);
+                int level = body.Int32("MapLevel", value.MapLevel);
+                if (body.Loading)
+                    loaded = new MapCoordinate(InRange(name, "X", x), InRange(name, "Y", y), InRange(name, "MapLevel", level));
+            }
+        });
+        return persister.Loading ? loaded : value;
+    }
+
+    private static sbyte InRange(string name, string component, int stored)
+    {
+        if (stored is < -128 or > 127)
+            throw new InvalidOperationException(name + "." + component + " is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside -128 to 127.");
+        return (sbyte)stored;
+    }
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {

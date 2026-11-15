@@ -25,9 +25,7 @@ public partial class UpdateSignTokenEvent : TokenEvent
 
     public StringList Text { get; }
 
-    public sbyte HexX { get; set; }
-    public sbyte HexY { get; set; }
-    public sbyte HexLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     // Sign.pas:199
     public override void Dispose()
@@ -41,9 +39,7 @@ public partial class UpdateSignTokenEvent : TokenEvent
     {
         base.PersistFields(persister);
         PersistSupport.Lines(persister, name: "Text", lines: Text);
-        HexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: HexX);
-        HexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: HexY);
-        HexLevel = PersistSupport.UnsignedByte(persister, name: "HexLevel", value: HexLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
     // Sign.pas:196
@@ -53,7 +49,7 @@ public partial class UpdateSignTokenEvent : TokenEvent
     {
         ExecuteResult result;
         Sign sign;
-        sign = (Sign)StrategicMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindOwnedChild(131330);
+        sign = (Sign)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(131330);
         if (sign != null)
         {
             sign.SetText(Text);

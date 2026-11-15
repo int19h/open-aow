@@ -24,17 +24,13 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
 
     private Storm _storm;
 
-    public sbyte X { get; set; }
-    public sbyte Y { get; set; }
-    public sbyte MapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     // Storms.pas:735
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
-        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
-        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
     // Storms.pas:743
@@ -45,7 +41,7 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
         if (value == 0)
         {
             _storm = ((StormSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
-            _storm.InitializeStorm(source.Player, X, Y, MapLevel);
+            _storm.InitializeStorm(source.Player, Location.X, Location.Y, Location.MapLevel);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 

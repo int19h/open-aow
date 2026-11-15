@@ -106,9 +106,9 @@ public partial class ArmyInfoEventLog : EventLog
     {
         ArmyView army;
         army = ArmyView;
-        if (army != null && army.X != -1)
+        if (army != null && army.Location.X != -1)
         {
-            CenterViewTo(army.X, army.Y, army.MapLevel);
+            CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
         }
     }
 

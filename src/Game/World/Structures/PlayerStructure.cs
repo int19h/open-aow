@@ -663,9 +663,7 @@ public partial class PlayerStructure : Structure
             log.Player = newPlayer;
             var editName = EditName();
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
-            log.HexX = GetHexX();
-            log.HexY = GetHexY();
-            log.HexLevel = GetHexLevel();
+            log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
             log.Release();
         }

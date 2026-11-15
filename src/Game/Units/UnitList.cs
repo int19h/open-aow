@@ -104,12 +104,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
-    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
-    {
-        hexX = -1;
-        hexY = -1;
-        hexLevel = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();

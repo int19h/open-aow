@@ -114,7 +114,7 @@ public partial class CombatChoice : UIModule
         r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         w = r.Right - r.Left;
         h = r.Bottom - r.Top;
-        HexGeometry.HexToPixel(_request.X, _request.Y, out x, out y);
+        HexGeometry.HexToPixel(_request.Location.X, _request.Location.Y, out x, out y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
         if (x < 16)
@@ -128,7 +128,7 @@ public partial class CombatChoice : UIModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out viewSurfaceDescription);
-        StrategicMap.Current.SetViewPort(x, y, _request.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        StrategicMap.Current.SetViewPort(x, y, _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref viewSurfaceDescription);

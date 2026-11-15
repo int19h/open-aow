@@ -31,7 +31,10 @@ public partial class SpellWard : GlobalEnchantmentSpell
         sbyte y = default;
         sbyte l = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out x, out y, out l);
+        var coordinate79 = source.GetLocation();
+        x = coordinate79.X;
+        y = coordinate79.Y;
+        l = coordinate79.MapLevel;
         StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
         CastSounds.Play(0);

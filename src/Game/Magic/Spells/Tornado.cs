@@ -127,7 +127,7 @@ public partial class Tornado : GlobalTargetSpell
             if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, mapField.HexLevel))
             {
                 found = true;
-                result = mapField.MapCoordinate;
+                result = mapField.Location;
             }
             else
             {

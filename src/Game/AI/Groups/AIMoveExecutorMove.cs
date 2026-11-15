@@ -22,12 +22,8 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     public MovePath Path { get; private set; }
     public int MovePoints { get; set; }
     public int Moves { get; set; }
-    public sbyte SourceX { get; set; }
-    public sbyte SourceY { get; set; }
-    public sbyte SourceL { get; set; }
-    public sbyte DestinationX { get; set; }
-    public sbyte DestinationY { get; set; }
-    public sbyte DestinationL { get; set; }
+    public MapCoordinate Source { get; set; }
+    public MapCoordinate Destination { get; set; }
 
     // AIGroup.pas:4446
     public override void Dispose()
@@ -84,7 +80,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     {
         bool result;
         int index;
-        army = StrategicMap.Current.MapContainer.GetField(SourceX, SourceY, SourceL).GetArmyHexSprite();
+        army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
         if (army != null)
         {
             selection = 0;

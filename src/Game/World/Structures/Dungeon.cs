@@ -116,9 +116,7 @@ public partial class Dungeon : ExplorationSite
         {
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             log = new PrisonersJoinEventLog(null) { Holder = CreationHolder() };
-            log.X = GetHexX();
-            log.Y = GetHexY();
-            log.MapLevel = GetHexLevel();
+            log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             log.Player = army.Army.Player;
             log.Selection = 255;
             log.Gold = 0;
@@ -190,11 +188,11 @@ public partial class Dungeon : ExplorationSite
         armyLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
         var hexX = GetHexX();
-        armyLog.ArmyView.X = hexX;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = hexX };
         var hexY3 = GetHexY();
-        armyLog.ArmyView.Y = hexY3;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { Y = hexY3 };
         var hexLevel3 = GetHexLevel();
-        armyLog.ArmyView.MapLevel = hexLevel3;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { MapLevel = hexLevel3 };
         armyLog.Selection = 255;
         armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), PrisonerLiberationText);

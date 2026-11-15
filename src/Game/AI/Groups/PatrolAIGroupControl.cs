@@ -166,8 +166,8 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 settings.Player = Group.Player;
                 settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                settings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
-                settings.SetDestinationPosition(((PatrolAIGroup)Group).PatrolFrom.X, ((PatrolAIGroup)Group).PatrolFrom.Y, ((PatrolAIGroup)Group).PatrolFrom.MapLevel);
+                settings.SetSourcePosition(Location);
+                settings.SetDestinationPosition(((PatrolAIGroup)Group).PatrolFrom);
                 settings.MovePointsMax = 48;
                 settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
                 settings.ArmyHexSprite = ArmyHexSprite;
@@ -213,7 +213,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
-        settings.SetSourcePosition(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolFrom.MapLevel);
+        settings.SetSourcePosition(group.PatrolFrom);
         settings.MovePointsMax = 48;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
         settings.ArmyHexSprite = ArmyHexSprite;

@@ -60,7 +60,10 @@ public partial class StormSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                source.GetLocation(out x, out y, out l);
+                var coordinate80 = source.GetLocation();
+                x = coordinate80.X;
+                y = coordinate80.Y;
+                l = coordinate80.MapLevel;
                 storm = CreateStorm();
                 if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out info))
                 {
@@ -104,7 +107,10 @@ public partial class StormSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate81 = source.GetLocation();
+            x = coordinate81.X;
+            y = coordinate81.Y;
+            l = coordinate81.MapLevel;
             if (l != 0)
             {
                 result = false;
@@ -128,14 +134,15 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             _source = source;
-            source.GetLocation(out x, out y, out l);
+            var coordinate82 = source.GetLocation();
+            x = coordinate82.X;
+            y = coordinate82.Y;
+            l = coordinate82.MapLevel;
             selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            selection.SourceX = x;
-            selection.SourceY = y;
-            selection.SourceL = l;
+            selection.SourceLocation = new MapCoordinate(x, y, l);
             StrategicMap.Current.MakeVisible(x, y, l, 5);
             var name = _targetStorm.Name();
             var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
@@ -174,9 +181,7 @@ public partial class StormSpell : Spell
         {
             tokenEvent = new StormSpellTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            tokenEvent.X = X;
-            tokenEvent.Y = Y;
-            tokenEvent.MapLevel = L;
+            tokenEvent.Location = new MapCoordinate(X, Y, L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
@@ -204,7 +209,10 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             result = -1;
-            source.GetLocation(out x, out y, out l);
+            var coordinate83 = source.GetLocation();
+            x = coordinate83.X;
+            y = coordinate83.Y;
+            l = coordinate83.MapLevel;
             if (l == 0)
             {
                 storm = CreateStorm();
@@ -240,7 +248,7 @@ public partial class StormSpell : Spell
                 break;
             case TargetSelectionChange.Selected:
                 selection.Changed -= OnTargetSelectionChange;
-                if (ExecuteStormSpell(_source, selection.TargetX, selection.TargetY, selection.TargetL))
+                if (ExecuteStormSpell(_source, selection.Target.X, selection.Target.Y, selection.Target.MapLevel))
                 {
                     selection.Deactivate();
                 }

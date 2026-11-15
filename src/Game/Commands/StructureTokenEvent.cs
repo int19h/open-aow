@@ -21,9 +21,7 @@ public partial class StructureTokenEvent : TokenEvent
 
     public new const int ClassId = 135440;
 
-    private sbyte _x;
-    private sbyte _y;
-    private sbyte _mapLevel;
+    private MapCoordinate Location { get; set; }
 
     public sbyte Player { get; private set; }
 
@@ -42,9 +40,7 @@ public partial class StructureTokenEvent : TokenEvent
     {
         base.PersistFields(persister);
         Action = persister.Int32("Action", value: Action);
-        _x = PersistSupport.UnsignedByte(persister, name: "X", value: _x);
-        _y = PersistSupport.UnsignedByte(persister, name: "Y", value: _y);
-        _mapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: _mapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
         _razed = persister.Boolean("Razed", value: _razed);
@@ -58,7 +54,7 @@ public partial class StructureTokenEvent : TokenEvent
         ExecuteResult result;
         if (tokenEvent.ExecuteCount != 0 || Validate())
         {
-            result = ((Structure)StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent);
+            result = ((Structure)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent);
         }
         else
         {
@@ -74,7 +70,7 @@ public partial class StructureTokenEvent : TokenEvent
         bool result;
         Structure structure;
         MapField mapField;
-        mapField = StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel);
+        mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         structure = (Structure)mapField.FindOwnedChild(_structureClassId);
         if (structure != null && structure.EngineClass.ClassId == _structureClassId)
         {
@@ -93,15 +89,17 @@ public partial class StructureTokenEvent : TokenEvent
     {
         MapField mapField;
         Structure structure;
-        this._x = x;
-        this._y = y;
-        _mapLevel = mapLevel;
-        mapField = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel);
+        {
+            this.Location = this.Location with { X = x };
+            this.Location = this.Location with { Y = y };
+        }
+        Location = Location with { MapLevel = mapLevel };
+        mapField = StrategicMap.Current.MapContainer.GetField(this.Location.X, this.Location.Y, Location.MapLevel);
         structure = (Structure)mapField.FindOwnedChild(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();
-        Player = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel).GetPlayer();
+        Player = StrategicMap.Current.MapContainer.GetField(this.Location.X, this.Location.Y, Location.MapLevel).GetPlayer();
     }
 
     // NetworkE.pas:230

@@ -366,7 +366,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             control = (MoveControl)info.Sender;
             if (Army.Player == control.Player)
             {
-                if (!(control.Mode.Contains(MoveModeElement.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.DestinationX && Owner.HexY == control.DestinationY && Owner.HexLevel == control.DestinationL && !Army.CanCombine(control.ArmyHexSprite.Army, (byte)control.Selection)))
+                if (!(control.Mode.Contains(MoveModeElement.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.Destination.X && Owner.HexY == control.Destination.Y && Owner.HexLevel == control.Destination.MapLevel && !Army.CanCombine(control.ArmyHexSprite.Army, (byte)control.Selection)))
                 {
                     if (control.ArmyHexSprite != null && Army.IndexOfTransporter(255) != -1 && control.ArmyHexSprite.Army.Transporter((byte)control.Selection) == null)
                     {

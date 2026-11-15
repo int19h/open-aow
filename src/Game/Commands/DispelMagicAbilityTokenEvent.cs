@@ -96,7 +96,10 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             }
 
             ability.SetEnabled(source, false);
-            target.GetLocation(out x, out y, out l);
+            var coordinate8 = target.GetLocation();
+            x = coordinate8.X;
+            y = coordinate8.Y;
+            l = coordinate8.MapLevel;
             StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {

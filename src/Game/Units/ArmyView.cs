@@ -45,12 +45,7 @@ public partial class ArmyView : Army
     }
 
     // Army.PAS:138
-    public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
-    {
-        hexX = X;
-        hexY = Y;
-        hexLevel = MapLevel;
-    }
+    public override MapCoordinate GetLocation() => Location;
 
     // Army.PAS:89
     public override bool GetUnitConcealedForPlayer(int index, sbyte player) => (((int)(((uint)UnitConcealment[index]) >> (player - 1))) & 1) != 0;
@@ -63,9 +58,7 @@ public partial class ArmyView : Army
     {
         Troop troop;
         AssignSettings(army);
-        X = army.X;
-        Y = army.Y;
-        MapLevel = army.MapLevel;
+        Location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)

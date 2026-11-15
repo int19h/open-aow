@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
@@ -19,12 +19,10 @@ public partial class PlayerStructureIncomeSource : IncomeSource
     public override int Income() => _structure.GetIncome();
 
     // Structur.PAS:2496
-    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = _structure.HexX;
-        Y = _structure.HexY;
-        L = _structure.HexLevel;
-    }
+    public override MapCoordinate GetLocation() => new MapCoordinate(
+        _structure.HexX,
+        _structure.HexY,
+        _structure.HexLevel);
 
     // Structur.PAS:2481
     // (Structure)

@@ -883,7 +883,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             {
                                 if (u.GetSide() == CombatSideIndex.Defender)
                                 {
-                                    if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
+                                    if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
                                     {
                                     }
                                 }
@@ -923,15 +923,15 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         if (CombatMap.Current.PositionStatus[0] != 1)
         {
-            if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
+            if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
             {
                 position = 1;
                 while (position < 7)
                 {
                     if (CombatMap.Current.PositionStatus[position] == 1)
                     {
-                        HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref j, ref temporary);
-                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[j, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
+                        HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, position, ref j, ref temporary);
+                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[j, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
                         {
                             _homePosition = position;
                             CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;
@@ -1153,7 +1153,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
         while (!(slot != 8 && targetHexSprite == null));
         CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
-        if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.AttackerX, CombatMap.Current.Combat.CombatData.AttackerY) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
+        if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
             var xhx = unitHexSprite.GetHexX();
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX = xhx;

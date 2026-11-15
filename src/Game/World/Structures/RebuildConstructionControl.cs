@@ -19,7 +19,10 @@ public partial class RebuildConstructionControl : ConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        troop.GetLocation(out x, out y, out l);
+        var coordinate36 = troop.GetLocation();
+        x = coordinate36.X;
+        y = coordinate36.Y;
+        l = coordinate36.MapLevel;
         Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(Structure));
         if (result != null)
         {

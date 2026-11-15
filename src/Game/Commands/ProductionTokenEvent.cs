@@ -20,9 +20,7 @@ public partial class ProductionTokenEvent : TokenEvent
 
     public new const int ClassId = 131736;
 
-    public sbyte X { get; internal set; }
-    public sbyte Y { get; internal set; }
-    public sbyte MapLevel { get; internal set; }
+    public MapCoordinate Location { get; internal set; }
 
     public sbyte Player { get; set; }
     public int Command { get; set; }
@@ -52,9 +50,7 @@ public partial class ProductionTokenEvent : TokenEvent
     {
         base.PersistFields(persister);
         Command = persister.Int32("Command", value: Command);
-        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
-        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
-        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         Item = persister.Created("Item", objectValue: Item);
         Index = persister.Int32("Index", value: Index);
@@ -67,7 +63,7 @@ public partial class ProductionTokenEvent : TokenEvent
     {
         ExecuteResult result;
         ProductionControl control;
-        control = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetProductionControl();
+        control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
         if (control != null)
         {
             result = control.ExecuteProductionTokenEvent(this);

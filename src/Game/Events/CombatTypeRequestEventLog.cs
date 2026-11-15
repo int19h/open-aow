@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Commands;
 
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
@@ -18,9 +19,7 @@ public partial class CombatTypeRequestEventLog : EventLog
     public CombatType CombatType { get; private set; }
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
-    public sbyte X { get; set; }
-    public sbyte Y { get; set; }
-    public sbyte MapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     private EngineObject _tokenEvent;
 
@@ -69,9 +68,11 @@ public partial class CombatTypeRequestEventLog : EventLog
     // Combat2.pas:30
     public void SetCenterLocation(byte X, byte Y, int L)
     {
-        this.X = (sbyte)X;
-        this.Y = (sbyte)Y;
-        MapLevel = (sbyte)L;
+        {
+            this.Location = this.Location with { X = (sbyte)X };
+            this.Location = this.Location with { Y = (sbyte)Y };
+        }
+        Location = Location with { MapLevel = (sbyte)L };
     }
 
 }

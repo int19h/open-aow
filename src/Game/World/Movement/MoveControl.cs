@@ -35,13 +35,9 @@ public partial class MoveControl : IDisposable
     public sbyte Player { get; private set; }
     public Set<MoveModeElement> Mode { get; private set; }
 
-    private int _sourceX;
-    private int _sourceY;
-    private int _sourceL;
+    private MapCoordinate Source { get; set; }
 
-    public int DestinationX { get; set; }
-    public int DestinationY { get; set; }
-    public int DestinationL { get; private set; }
+    public MapCoordinate Destination { get; set; }
     public MapLevel MapLevel { get; set; }
 
     private int _processedCount;
@@ -96,23 +92,23 @@ public partial class MoveControl : IDisposable
         }
 
         // { Original bug: the Y bound also uses the map width. }
-        if (!(MapLevel != null && _sourceX >= 0 && _sourceX < MapLevel.Width && _sourceY >= 0 && _sourceY < MapLevel.Width))
+        if (!(MapLevel != null && Source.X >= 0 && Source.X < MapLevel.Width && Source.Y >= 0 && Source.Y < MapLevel.Width))
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid settings (TMoveControl)", "D:\\AoWDev\\AoWE\\inc\\MoveT.PAS", 32187);
         }
 
-        if ((Settings.SourceX != Settings.DestinationX || Settings.SourceY != Settings.DestinationY || Settings.SourceL != Settings.DestinationL) && (DestinationX == -1 || ValidLocation(DestinationX, DestinationY, DestinationL)))
+        if ((Settings.Source.X != Settings.Destination.X || Settings.Source.Y != Settings.Destination.Y || Settings.Source.MapLevel != Settings.Destination.MapLevel) && (Destination.X == -1 || ValidLocation(Destination.X, Destination.Y, Destination.MapLevel)))
         {
-            Settings.SetupLevel(Settings.SourceL);
-            if (Settings.DestinationL != -1)
+            Settings.SetupLevel(Settings.Source.MapLevel);
+            if (Settings.Destination.MapLevel != -1)
             {
-                Settings.SetupLevel(Settings.DestinationL);
+                Settings.SetupLevel(Settings.Destination.MapLevel);
             }
 
-            if (_sourceL == DestinationL && MovePointsLimit > 40 && DestinationX != -1)
+            if (Source.MapLevel == Destination.MapLevel && MovePointsLimit > 40 && Destination.X != -1)
             {
-                MovePointsLimit = GetMovePointsCostFast(_sourceX, _sourceY, DestinationX, DestinationY);
+                MovePointsLimit = GetMovePointsCostFast(Source.X, Source.Y, Destination.X, Destination.Y);
                 if (MovePointsLimit == -1 || MovePointsLimit > Settings.MovePointsMax)
                 {
                     MovePointsLimit = Settings.MovePointsMax;
@@ -121,8 +117,8 @@ public partial class MoveControl : IDisposable
                 StrategicMap.Current.AIExecutor.UseProcessTime(MovePointsLimit);
             }
 
-            Settings.SetMovePoints(_sourceX, _sourceY, _sourceL, 0);
-            field = MapLevel.GetField(_sourceX, _sourceY);
+            Settings.SetMovePoints(Source.X, Source.Y, Source.MapLevel, 0);
+            field = MapLevel.GetField(Source.X, Source.Y);
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
             {
                 _processedMapFields.Add(field);
@@ -139,8 +135,8 @@ public partial class MoveControl : IDisposable
         }
         else
         {
-            Settings.SetupLevel(Settings.SourceL);
-            Settings.SetMovePoints(_sourceX, _sourceY, _sourceL, 0);
+            Settings.SetupLevel(Settings.Source.MapLevel);
+            Settings.SetMovePoints(Source.X, Source.Y, Source.MapLevel, 0);
             Settings.Status = MoveControlSettingsStatus.Processed;
         }
 
@@ -150,7 +146,7 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1515
     public virtual void ProcessMove(MoveControlSettings settings)
     {
-        if (settings.SourceX != settings.DestinationX || settings.SourceY != settings.DestinationY || settings.SourceL != settings.DestinationL)
+        if (settings.Source.X != settings.Destination.X || settings.Source.Y != settings.Destination.Y || settings.Source.MapLevel != settings.Destination.MapLevel)
         {
             if (Activate(settings))
             {
@@ -159,9 +155,9 @@ public partial class MoveControl : IDisposable
                 {
                 }
                 while (!!Process());
-                if (DestinationX != -1)
+                if (Destination.X != -1)
                 {
-                    CalculatePath(settings.Path, (sbyte)DestinationX, (sbyte)DestinationY, (sbyte)DestinationL);
+                    CalculatePath(settings.Path, (sbyte)Destination.X, (sbyte)Destination.Y, (sbyte)Destination.MapLevel);
                     if (settings.Path.Count == 0)
                     {
                         settings.Status = MoveControlSettingsStatus.Failed;
@@ -174,7 +170,7 @@ public partial class MoveControl : IDisposable
         else
         {
             settings.Path.Clear();
-            settings.Path.AddMapCoordinate((sbyte)settings.SourceX, (sbyte)settings.SourceY, (sbyte)settings.SourceL);
+            settings.Path.AddMapCoordinate((sbyte)settings.Source.X, (sbyte)settings.Source.Y, (sbyte)settings.Source.MapLevel);
             settings.Status = MoveControlSettingsStatus.Processed;
         }
     }
@@ -185,12 +181,8 @@ public partial class MoveControl : IDisposable
         Deactivate();
         Player = -1;
         MapLevel = null;
-        _sourceX = -1;
-        _sourceY = -1;
-        _sourceL = -1;
-        DestinationX = -1;
-        DestinationY = -1;
-        DestinationL = -1;
+        Source = new MapCoordinate(-1, -1, -1);
+        Destination = new MapCoordinate(-1, -1, -1);
         _processedCount = 0;
         OnMovePoint = DefaultMoveOnMovePointProc;
         _processedMapFields = null;
@@ -288,7 +280,7 @@ public partial class MoveControl : IDisposable
                 }
 
                 Settings.SetMovePoints(target.HexX, target.HexY, target.HexLevel, points);
-                if (target.HexX == DestinationX && target.HexY == DestinationY && target.HexLevel == DestinationL)
+                if (target.HexX == Destination.X && target.HexY == Destination.Y && target.HexLevel == Destination.MapLevel)
                 {
                     MovePointsLimit = points;
                 }
@@ -347,9 +339,9 @@ public partial class MoveControl : IDisposable
 
         if (overCode != 0)
         {
-            if (Settings.DestinationX != -1)
+            if (Settings.Destination.X != -1)
             {
-                direction = HexGeometry.DeltaHexToHexDirection(mapField.HexX, mapField.HexY, Settings.DestinationX, Settings.DestinationY);
+                direction = HexGeometry.DeltaHexToHexDirection(mapField.HexX, mapField.HexY, Settings.Destination.X, Settings.Destination.Y);
                 if (direction == 0)
                 {
                     direction = 1;
@@ -489,17 +481,17 @@ public partial class MoveControl : IDisposable
     public int CanMove(MoveControlSettings settings, Set<CanMoveModeElement> mode)
     {
         int points;
-        if (settings.SourceX != settings.DestinationX || settings.SourceY != settings.DestinationY || settings.SourceL != settings.DestinationL)
+        if (settings.Source.X != settings.Destination.X || settings.Source.Y != settings.Destination.Y || settings.Source.MapLevel != settings.Destination.MapLevel)
         {
             settings.ResetState();
             if (Activate(settings))
             {
                 points = -1;
-                if (DestinationX == -1 || ValidLocation(DestinationX, DestinationY, DestinationL))
+                if (Destination.X == -1 || ValidLocation(Destination.X, Destination.Y, Destination.MapLevel))
                 {
-                    if (_sourceL == DestinationL && mode.Contains(CanMoveModeElement.Fast))
+                    if (Source.MapLevel == Destination.MapLevel && mode.Contains(CanMoveModeElement.Fast))
                     {
-                        points = GetMovePointsCostFast(_sourceX, _sourceY, DestinationX, DestinationY);
+                        points = GetMovePointsCostFast(Source.X, Source.Y, Destination.X, Destination.Y);
                     }
 
                     if (points == -1 && mode.Contains(CanMoveModeElement.Exact))
@@ -508,7 +500,7 @@ public partial class MoveControl : IDisposable
                         {
                         }
                         while (!!Process());
-                        points = Settings.GetMovePoints(DestinationX, DestinationY, DestinationL);
+                        points = Settings.GetMovePoints(Destination.X, Destination.Y, Destination.MapLevel);
                         if (points == 16777215)
                         {
                             points = -1;

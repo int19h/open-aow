@@ -43,7 +43,10 @@ public partial class CallHero : Spell
         ArmyHexSprite army;
         ImageSequenceAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out x, out y, out layer);
+        var coordinate55 = source.GetLocation();
+        x = coordinate55.X;
+        y = coordinate55.Y;
+        layer = coordinate55.MapLevel;
         hero = FindCallHero(source);
         if (hero != null)
         {
@@ -164,7 +167,7 @@ public partial class CallHero : Spell
         for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
         {
             hero = StrategicMap.Current.HeroControl.GetHero(i);
-            if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.X != -1)
+            if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.Location.X != -1)
             {
                 if (hero.OfferToJoin(source.Player))
                 {

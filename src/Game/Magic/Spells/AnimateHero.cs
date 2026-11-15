@@ -47,7 +47,10 @@ public partial class AnimateHero : Spell
         ArmyInfoEventLog infoLog = default;
         if (executeCount == 0)
         {
-            source.GetLocation(out x, out y, out layer);
+            var coordinate51 = source.GetLocation();
+            x = coordinate51.X;
+            y = coordinate51.Y;
+            layer = coordinate51.MapLevel;
             StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
             animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
@@ -72,7 +75,10 @@ public partial class AnimateHero : Spell
 
             if (heroes.Count != 0)
             {
-                source.GetLocation(out x, out y, out layer);
+                var coordinate52 = source.GetLocation();
+                x = coordinate52.X;
+                y = coordinate52.Y;
+                layer = coordinate52.MapLevel;
                 var count = heroes.Count;
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Animate();

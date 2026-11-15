@@ -244,11 +244,14 @@ public partial class AIMoveControl : EngineObject
                     {
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
-                        Settings.Transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                        mapCoordinate = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
-                        _pathSettings.SetSourcePosition(mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel);
+                        var coordinate102 = Settings.Transporter.GetLocation();
+                        sbyte locationX = coordinate102.X;
+                        sbyte locationY = coordinate102.Y;
+                        sbyte locationMapLevel = coordinate102.MapLevel;
+                        mapCoordinate = new MapCoordinate(locationX, locationY, locationMapLevel);
+                        _pathSettings.SetSourcePosition(mapCoordinate);
                         var location = Settings.TransportSource;
-                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location);
 
                         if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
@@ -284,7 +287,7 @@ public partial class AIMoveControl : EngineObject
                     {
                         // { Original repeats the first gap source before continuing. }
                         var location = Settings.TransportSource;
-                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location);
 
                         _multipleTransportGaps = false;
                         if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
@@ -314,7 +317,7 @@ public partial class AIMoveControl : EngineObject
                     if (_multipleTransportGaps)
                     {
                         var location = Settings.TransportDestination;
-                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location);
 
                         _multipleTransportGaps = false;
                         _state = 2;
@@ -372,10 +375,10 @@ public partial class AIMoveControl : EngineObject
         Initialize(settings);
         Status = AIMoveControlStatus.Processing;
         _pathSettings.Reset();
-        _pathSettings.SetSourcePosition(this.Settings.SourceX, this.Settings.SourceY, this.Settings.SourceL);
+        _pathSettings.SetSourcePosition(this.Settings.Source);
 
         _pathSettings.Player = Settings.Player;
-        _pathSettings.SetDestinationPosition(Settings.DestinationX, Settings.DestinationY, Settings.DestinationL);
+        _pathSettings.SetDestinationPosition(Settings.Destination);
         _pathSettings.MovePointsMax = Settings.MovePointsMax;
         _pathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
         _pathSettings.Selection = Settings.Selection;
@@ -384,7 +387,7 @@ public partial class AIMoveControl : EngineObject
         {
             _mode = AIMoveControlMode.CanMove;
             _pathSettings.MovePointTable = _movePointTable;
-            if (Settings.SourceL == Settings.DestinationL)
+            if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {
                 _state = 0;
                 if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
@@ -404,7 +407,7 @@ public partial class AIMoveControl : EngineObject
             _mode = AIMoveControlMode.TransporterCanMove;
             var armyHexSprite = Settings.Transporter.Owner is IHeroHolder ? null : Settings.Transporter.ArmyOwner.GetArmyHexSprite();
             _pathSettings.TransporterArmy = armyHexSprite;
-            if (Settings.SourceL == Settings.DestinationL)
+            if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {
                 _state = 0;
                 if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)

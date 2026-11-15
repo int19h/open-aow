@@ -1,12 +1,10 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -97,12 +95,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
-    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
-    {
-        hexX = -1;
-        hexY = -1;
-        hexLevel = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();

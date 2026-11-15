@@ -58,7 +58,10 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         City targetCity;
         if (AIPriority != -1)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate56 = source.GetLocation();
+            x = coordinate56.X;
+            y = coordinate56.Y;
+            l = coordinate56.MapLevel;
             targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
             bool condition = targetCity != null;
             if (condition)
@@ -92,7 +95,10 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         sbyte y = default;
         sbyte l = default;
         City targetCity;
-        source.GetLocation(out x, out y, out l);
+        var coordinate57 = source.GetLocation();
+        x = coordinate57.X;
+        y = coordinate57.Y;
+        l = coordinate57.MapLevel;
         targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
         if (targetCity != null && ValidTargetCity(source, targetCity) && ((Hero)source).CanCastSpell(SpellId, ref reason))
         {

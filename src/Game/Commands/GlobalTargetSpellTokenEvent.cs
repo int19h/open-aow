@@ -34,10 +34,13 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:412
-    public void SetLocation(sbyte X, sbyte Y, sbyte layer)
+    public void SetLocation(MapCoordinate location)
     {
-        Location = new MapCoordinate(X: X, Y: Y, MapLevel: layer);
+        Location = location;
     }
+
+    public void SetLocation(sbyte x, sbyte y, sbyte layer) =>
+        SetLocation(new MapCoordinate(x, y, layer));
 
     // GlobalTargetSpells.pas:419
     public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)

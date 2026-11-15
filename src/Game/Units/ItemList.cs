@@ -1,9 +1,8 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -124,12 +123,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
     public virtual Item GetItem(int index) => Items.GetItem(index);
 
     // Army.PAS:4596
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Army.PAS:4570
     public Item FindItem(int itemId) => Items.FindItem(itemId);

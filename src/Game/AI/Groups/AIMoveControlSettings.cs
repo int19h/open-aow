@@ -28,12 +28,8 @@ public partial class AIMoveControlSettings : EngineObject
 
     public int RefCount { get; private set; }
     public sbyte Player { get; private set; }
-    public int SourceX { get; private set; }
-    public int SourceY { get; private set; }
-    public int SourceL { get; private set; }
-    public int DestinationX { get; private set; }
-    public int DestinationY { get; private set; }
-    public int DestinationL { get; private set; }
+    public MapCoordinate Source { get; private set; }
+    public MapCoordinate Destination { get; private set; }
 
     public MovePointTable MovePointTable { get; private set; }
 
@@ -102,27 +98,27 @@ public partial class AIMoveControlSettings : EngineObject
         TransportDestination = TransportDestination with { Y = -1 };
         MovePoints = -1;
         TransportPath.Clear();
-        DestinationX = -1;
-        DestinationY = -1;
-        DestinationL = -1;
+        Destination = new MapCoordinate(-1, -1, -1);
         Selection = 0;
     }
 
     // AIGroup.pas:3887
-    public void SetSourcePosition(int X, int Y, int L)
+    public void SetSourcePosition(MapCoordinate source)
     {
-        SourceX = X;
-        SourceY = Y;
-        SourceL = L;
+        Source = source;
     }
 
+    public void SetSourcePosition(int x, int y, int level) =>
+        SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+
     // AIGroup.pas:3894
-    public void SetDestinationPosition(int X, int Y, int L)
+    public void SetDestinationPosition(MapCoordinate destination)
     {
-        DestinationX = X;
-        DestinationY = Y;
-        DestinationL = L;
+        Destination = destination;
     }
+
+    public void SetDestinationPosition(int x, int y, int level) =>
+        SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3901
     public void Setup(ArmyHexSprite army, byte selection, int X, int Y, int L)

@@ -1,5 +1,6 @@
 
 using Aow.Game.Draw;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
@@ -9,10 +10,8 @@ public partial class ItemHSList
 
     public override GameEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 
-    public override void GetLocation(out sbyte x, out sbyte y, out sbyte level)
-    {
-        x = Sprite.GetHexX();
-        y = Sprite.GetHexY();
-        level = Sprite.GetHexLevel();
-    }
+    public override MapCoordinate GetLocation() => new MapCoordinate(
+        Sprite.GetHexX(),
+        Sprite.GetHexY(),
+        Sprite.GetHexLevel());
 }

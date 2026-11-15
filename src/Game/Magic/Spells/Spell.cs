@@ -166,7 +166,10 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate77 = source.GetLocation();
+            x = coordinate77.X;
+            y = coordinate77.Y;
+            l = coordinate77.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
@@ -184,7 +187,10 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate78 = source.GetLocation();
+            x = coordinate78.X;
+            y = coordinate78.Y;
+            l = coordinate78.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);

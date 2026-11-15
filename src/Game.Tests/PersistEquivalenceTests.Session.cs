@@ -115,7 +115,7 @@ public sealed partial class PersistEquivalenceTests
             var player = NewPlayer(index: 2);
             player.BaseHeroJoinDay = 6;
             var document = DocumentBackend.Write(TreeWriter.Write(player, factory: Factory), classValue: s_schema.Get("Player"), schema: s_schema, engine: "game");
-            Assert.Equal(network, document["ViewX"] is null);
+            Assert.Equal(network, document["View"] is null);
             Assert.Equal(network, document["BaseHeroJoinDay"] is null);
             Check("Player", objectValue: player, converterRead: false);
         });
@@ -153,7 +153,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 var leaderDocument = PilotImage.Decode(Image(leader), className: "Leader");
                 leaderDocument.Members.Insert(0, item: new JsonMember("$class", value: new JsonString("Leader")));
-                int at = document.Members.FindIndex(member => member.Name == "ViewX");
+                int at = document.Members.FindIndex(member => member.Name == "View");
                 document.Members.Insert(at < 0 ? document.Members.Count : at, item: new JsonMember("Leader", value: leaderDocument));
             }
             var image = PilotImage.Encode(document, className: "Player");
@@ -331,7 +331,7 @@ public sealed partial class PersistEquivalenceTests
             map.SeatedPlayer = 2;
             using var player = NewPlayer(index: 2);
             player.Settings = "Easy";
-            player.ViewX = 7;
+            player.View = player.View with { X = 7 };
             typeof(Player).GetField("_description", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(player, value: "Lord");
             using (var stream = new DictionaryStream(dictionary))
             {
@@ -342,7 +342,7 @@ public sealed partial class PersistEquivalenceTests
                 Assert.Contains("DiplomaticActionList", stream.Objects);
             }
             Assert.Equal("Easy", player.Settings);
-            Assert.Equal(7, player.ViewX);
+            Assert.Equal(7, unchecked((byte)(player.View.X)));
 
             using var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
             var log = new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "First" };

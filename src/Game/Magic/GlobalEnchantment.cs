@@ -210,7 +210,7 @@ public partial class GlobalEnchantment : EngineObject
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log.Player = (sbyte)player;
                     log.EnchantmentPlayer = PlayerIndex;
-                    log.SetLocation(location.X, location.Y, location.MapLevel);
+                    log.SetLocation(location);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
@@ -263,7 +263,7 @@ public partial class GlobalEnchantment : EngineObject
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log.Player = PlayerIndex;
                     log.EnchantmentPlayer = PlayerIndex;
-                    log.SetLocation(location.X, location.Y, location.MapLevel);
+                    log.SetLocation(location);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);

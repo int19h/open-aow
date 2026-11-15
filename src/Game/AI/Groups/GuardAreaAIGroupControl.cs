@@ -105,7 +105,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                         settings.Player = Army.Player;
                         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                        settings.SetSourcePosition(Army.X, Army.Y, Army.MapLevel);
+                        settings.SetSourcePosition(Army.Location);
                         settings.MovePointsMax = Army.MovePoints(Selection);
                         settings.ArmyHexSprite = ArmyHexSprite;
                         settings.Selection = Selection;

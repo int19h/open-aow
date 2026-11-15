@@ -64,10 +64,10 @@ public partial class CityTargetSpell : Spell
                     targetSelection.Deactivate();
                     break;
                 case TargetSelectionChange.Selected:
-                    ValidateTarget(targetSelection, targetSelection.TargetX, targetSelection.TargetY, targetSelection.TargetL, ref valid);
+                    ValidateTarget(targetSelection, targetSelection.Target.X, targetSelection.Target.Y, targetSelection.Target.MapLevel, ref valid);
                     if (valid)
                     {
-                        if (TargetSelected(source, targetSelection.TargetX, targetSelection.TargetY, targetSelection.TargetL))
+                        if (TargetSelected(source, targetSelection.Target.X, targetSelection.Target.Y, targetSelection.Target.MapLevel))
                         {
                             targetSelection.Changed -= OnTargetSelectionChange;
                             targetSelection.Deactivate();
@@ -155,10 +155,11 @@ public partial class CityTargetSpell : Spell
         targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
-        source.GetLocation(out x, out y, out l);
-        targetSelection.SourceX = x;
-        targetSelection.SourceY = y;
-        targetSelection.SourceL = l;
+        var coordinate58 = source.GetLocation();
+        x = coordinate58.X;
+        y = coordinate58.Y;
+        l = coordinate58.MapLevel;
+        targetSelection.SourceLocation = new MapCoordinate(x, y, l);
         targetSelection.Range = 12;
         if (targetSelection.OnChangeStore.Count > 1)
         {
@@ -209,7 +210,10 @@ public partial class CityTargetSpell : Spell
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate59 = source.GetLocation();
+            x = coordinate59.X;
+            y = coordinate59.Y;
+            l = coordinate59.MapLevel;
             found = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
             result = targetCity != found;
         }

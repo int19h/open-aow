@@ -98,7 +98,7 @@ public sealed class ProductionOrderTests
             Assert.Equal(itemBytes, Write(engine, item));
             item.Dispose();
 
-            var tokenEvent = new ProductionTokenEvent(null!) { Holder = EngineFixture.Engine, X = 3, Y = 4, MapLevel = 1, Player = 2, Queue = true, Index = 1 };
+            var tokenEvent = new ProductionTokenEvent(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(3, 4, 1), Player = 2, Queue = true, Index = 1 };
             tokenEvent.Item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(eventBytes, Write(engine, tokenEvent));
             tokenEvent.Dispose();

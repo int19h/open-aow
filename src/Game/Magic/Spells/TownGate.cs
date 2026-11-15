@@ -43,7 +43,10 @@ public partial class TownGate : CityTargetSpell
         sbyte y = default;
         sbyte l = default;
         ImageSequenceAnimation a;
-        source.GetLocation(out x, out y, out l);
+        var coordinate84 = source.GetLocation();
+        x = coordinate84.X;
+        y = coordinate84.Y;
+        l = coordinate84.MapLevel;
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation);
         army.Army.ResetDestinationPosition();

@@ -39,7 +39,10 @@ public partial class FireMastery : GlobalEnchantmentSpell
         sbyte l = default;
         if (executeCount == 0)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate66 = source.GetLocation();
+            x = coordinate66.X;
+            y = coordinate66.Y;
+            l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             var animation = new Animation(null) { Holder = CreationHolder() };

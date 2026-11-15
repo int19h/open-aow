@@ -52,7 +52,7 @@ public partial class CityRebelDialog : UIModule
     {
         UI.General.PlayButtonSound(0);
         var cityRebellionEventLog = _event;
-        StrategicMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
+        StrategicMap.Current.CenterViewTo(cityRebellionEventLog.Location.X, cityRebellionEventLog.Location.Y, cityRebellionEventLog.Location.MapLevel);
     }
 
     // AoWCityRebelDlg.pas:72
