@@ -13,9 +13,6 @@ public partial class BlendTable5Bit : BlendTable
 
     public Rows RowView => new(Table);
 
-    // The 32 by 32 bytes of the table in one span, as the blenders read it.
-    public ReadOnlySpan<byte> Bytes => Table;
-
     // GFXE.pas:9609
     public BlendTable5Bit() => Initialize(5, new byte[32 * 32]);
 

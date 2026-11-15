@@ -69,7 +69,7 @@ public partial class SelectedArmy : MoveSelector
                 {
                     var hexY = StrategicMap.Current.Mouse.HexY;
                     var hexX = StrategicMap.Current.Mouse.HexX;
-                    armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindOwnedChild(131607);
+                    armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                     {
                         index = MoveSettingsList.IndexOfMoveObject(armyHexSprite);
@@ -100,7 +100,7 @@ public partial class SelectedArmy : MoveSelector
                     {
                         var hexY = StrategicMap.Current.Mouse.HexY;
                         var hexX = StrategicMap.Current.Mouse.HexX;
-                        armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindOwnedChild(131607);
+                        armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).GetArmyHexSprite();
                         if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                         {
                             index = MoveSettingsList.IndexOfMoveObject(armyHexSprite);
@@ -1041,7 +1041,7 @@ public partial class SelectedArmy : MoveSelector
             AddArmy((ArmyHexSprite)moves.GetMoveSettings(index).MoveObject, (byte)moveSettings2.Selection);
             MapCoordinate moveLocation = moves.GetMoveSettings(index).GetMoveLocation();
             MapField mapField = StrategicMap.Current.MapContainer.GetField(moveLocation.X, moveLocation.Y, moveLocation.MapLevel);
-            ArmyHexSprite armyHexSprite = (ArmyHexSprite)mapField.FindOwnedChild(131607);
+            ArmyHexSprite armyHexSprite = mapField.GetArmyHexSprite();
             if (armyHexSprite != null)
             {
                 AddArmy(armyHexSprite, 255);

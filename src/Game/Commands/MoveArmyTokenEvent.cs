@@ -78,7 +78,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         }
         else
         {
-            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[i].Location).FindOwnedChild(131607);
+            ArmyHexSprite = GetMapField(Path[i].Location).GetArmyHexSprite();
             if (ArmyHexSprite == null)
             {
                 result = false;
@@ -503,9 +503,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         for (int i = field.Count - 1; i >= 0; i--)
         {
             var sprite = field.HexSpriteList[i];
-            if (sprite.EngineClass.ClassId == 0x20217 && sprite.Owner == field)
+            // The list holds every hex sprite on the field. Only ArmyHexSprite registers 131607.
+            if (sprite is ArmyHexSprite army && sprite.Owner == field)
             {
-                var army = (ArmyHexSprite)sprite;
                 if (!army.Army.Mode.Contains(ArmyModeElement.Moving))
                 {
                     return army;

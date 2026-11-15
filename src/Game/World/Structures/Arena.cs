@@ -208,7 +208,7 @@ public partial class Arena : Structure
     {
         bool result;
         ArmyHexSprite army;
-        army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        army = Owner.GetArmyHexSprite();
         if (army == null || army.Army.Player != player)
         {
             result = false;
@@ -231,7 +231,7 @@ public partial class Arena : Structure
         {
             log = new EnterArenaEventLog(null) { Holder = CreationHolder() };
             log.Arena = this;
-            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            army = Owner.GetArmyHexSprite();
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
                 var troop = army.Army.Units.GetUnit(i);

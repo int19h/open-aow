@@ -521,7 +521,7 @@ public partial class CombatPredictor : IDisposable
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite != army)
                     {
                         side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
@@ -586,7 +586,7 @@ public partial class CombatPredictor : IDisposable
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite != null)
                     {
                         side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);

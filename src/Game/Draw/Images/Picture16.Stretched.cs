@@ -300,10 +300,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                         }
                     }
@@ -317,10 +317,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                         }
                     }
@@ -349,10 +349,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                         }
                     }
@@ -366,10 +366,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
                         }
                     }

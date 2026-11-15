@@ -256,7 +256,7 @@ public partial class BattleAI : IDisposable
     // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
     // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
     // wall reaches the same comparison.
-    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref PathStepList path, ref int value, TacticalBattleUnit unit, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
+    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref MovePath path, ref int value, TacticalBattleUnit unit, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
     {
         int result;
         int j;
@@ -835,9 +835,9 @@ public partial class BattleAI : IDisposable
         int ability;
         int spell;
         int value = default;
-        PathStepList pathStepList;
-        PathStepList detourPathPathStepList;
-        PathStepList basePath;
+        MovePath pathStepList;
+        MovePath detourPathPathStepList;
+        MovePath basePath;
         MeleeRound round;
         AbilityCombatInfo abilityInfo = default;
         SpellCombatInfo spellInfo = default;
@@ -854,7 +854,7 @@ public partial class BattleAI : IDisposable
         distance = HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.GetHexX(), yhx, x2, y2);
         if (unit.MovePoints > 0)
         {
-            CombatMap.Current.MoveControl.CalculatePath(settings, (MovePath)basePath, (sbyte)x2, (sbyte)y2, 0);
+            CombatMap.Current.MoveControl.CalculatePath(settings, basePath, (sbyte)x2, (sbyte)y2, 0);
             pathCost = MakeTerrainPath(settings, ref basePath, ref terrainValue, unit, target, true, target is TacticalBattleUnit && _side == CombatSideIndex.Attacker, 1);
             i = 0;
             int last = basePath.Count - 1;
@@ -880,7 +880,7 @@ public partial class BattleAI : IDisposable
                     round.Calculate(unit, target);
                     if (round.GetAttackerDamageValue() > 0)
                     {
-                        adjacent = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints) == 0;
+                        adjacent = pathStepList.MovePointsToPosition(unit.MovePoints) == 0;
                         unit.CanFlee = false;
                         if (target is CombatWall)
                         {
@@ -905,7 +905,7 @@ public partial class BattleAI : IDisposable
                         else
                         {
                             i = -1;
-                            bestIndex = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                            bestIndex = pathStepList.MovePointsToPosition(unit.MovePoints);
                             var pathY = pathStepList[bestIndex];
                             safeValue = UnitSafe(unit, pathStepList[bestIndex].Location.X, pathY.Location.Y);
                             while (bestIndex < pathStepList.Count - 1 && safeValue < 0)
@@ -1083,7 +1083,7 @@ public partial class BattleAI : IDisposable
 
                                             if (unit.MovePoints > 0)
                                             {
-                                                i = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                                                i = pathStepList.MovePointsToPosition(unit.MovePoints);
                                                 var pathY = pathStepList[i];
                                                 d = HexGeometry.DeltaHexToRadius(pathStepList[i].Location.X, pathY.Location.Y, x2, y2);
                                                 if (d <= range || distance <= range)
@@ -1369,7 +1369,7 @@ public partial class BattleAI : IDisposable
                                                             terrainValue = 0;
                                                             pathCost = MakeTerrainPath(settings, ref detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
                                                             pathValue += bestValue;
-                                                            pathCost = ((MovePath)pathStepList).PositionToMovePoints(0);
+                                                            pathCost = pathStepList.PositionToMovePoints(0);
                                                         }
                                                     }
 
@@ -1379,7 +1379,7 @@ public partial class BattleAI : IDisposable
                                                     for (; i <= last3; i += 1)
                                                     {
                                                         var path = pathStepList[i];
-                                                        if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && ((MovePath)pathStepList).PositionToMovePoints(i) <= unit.MovePoints)
+                                                        if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && pathStepList.PositionToMovePoints(i) <= unit.MovePoints)
                                                         {
                                                             cost = 1000;
                                                             var pathX = pathStepList[i];
@@ -1401,7 +1401,7 @@ public partial class BattleAI : IDisposable
                                                         }
                                                     }
 
-                                                    pathCost = ((MovePath)pathStepList).PositionToMovePoints(0);
+                                                    pathCost = pathStepList.PositionToMovePoints(0);
                                                 }
 
                                                 // { Keep move selection inside the positive movement guard. }
@@ -1418,7 +1418,7 @@ public partial class BattleAI : IDisposable
                                                 else
                                                 {
                                                     i = -1;
-                                                    bestIndex = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                                                    bestIndex = pathStepList.MovePointsToPosition(unit.MovePoints);
                                                     var path = pathStepList[bestIndex];
                                                     safeValue = UnitSafe(unit, pathStepList[bestIndex].Location.X, path.Location.Y);
                                                     while (bestIndex < pathStepList.Count - 1 && safeValue < 0)
@@ -1504,7 +1504,7 @@ public partial class BattleAI : IDisposable
                                         GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(unit, target, ref values);
                                         if (values.SourceDamage > 0)
                                         {
-                                            adjacent = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints) == 0;
+                                            adjacent = pathStepList.MovePointsToPosition(unit.MovePoints) == 0;
                                             unit.CanFlee = false;
                                             if (target is CombatWall)
                                             {
@@ -1542,7 +1542,7 @@ public partial class BattleAI : IDisposable
                                                 value -= 10000;
                                             }
 
-                                            if (unit.MovePoints > 0 && ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints) == 0)
+                                            if (unit.MovePoints > 0 && pathStepList.MovePointsToPosition(unit.MovePoints) == 0)
                                             {
                                                 switch (ability)
                                                 {
@@ -1568,7 +1568,7 @@ public partial class BattleAI : IDisposable
                                             else
                                             {
                                                 i = -1;
-                                                bestIndex = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                                                bestIndex = pathStepList.MovePointsToPosition(unit.MovePoints);
                                                 var pathY = pathStepList[bestIndex];
                                                 safeValue = UnitSafe(unit, pathStepList[bestIndex].Location.X, pathY.Location.Y);
                                                 while (bestIndex < pathStepList.Count - 1 && safeValue < 0)
@@ -1699,7 +1699,7 @@ public partial class BattleAI : IDisposable
 
                                         if (unit.MovePoints > 0)
                                         {
-                                            i = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                                            i = pathStepList.MovePointsToPosition(unit.MovePoints);
                                             var pathY = pathStepList[i];
                                             d = HexGeometry.DeltaHexToRadius(pathStepList[i].Location.X, pathY.Location.Y, x2, y2);
                                             if (d <= range || distance <= range)
@@ -1798,7 +1798,7 @@ public partial class BattleAI : IDisposable
                                                         terrainValue = 0;
                                                         pathCost = MakeTerrainPath(settings, ref detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
                                                         pathValue += bestValue;
-                                                        pathCost = ((MovePath)pathStepList).PositionToMovePoints(0);
+                                                        pathCost = pathStepList.PositionToMovePoints(0);
                                                     }
                                                 }
 
@@ -1808,7 +1808,7 @@ public partial class BattleAI : IDisposable
                                                 for (; i <= last3; i += 1)
                                                 {
                                                     var path = pathStepList[i];
-                                                    if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && ((MovePath)pathStepList).PositionToMovePoints(i) <= unit.MovePoints)
+                                                    if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && pathStepList.PositionToMovePoints(i) <= unit.MovePoints)
                                                     {
                                                         cost = 1000;
                                                         var pathX = pathStepList[i];
@@ -1830,7 +1830,7 @@ public partial class BattleAI : IDisposable
                                                     }
                                                 }
 
-                                                pathCost = ((MovePath)pathStepList).PositionToMovePoints(0);
+                                                pathCost = pathStepList.PositionToMovePoints(0);
                                             }
 
                                             // { Keep move selection inside the positive movement guard. }
@@ -1847,7 +1847,7 @@ public partial class BattleAI : IDisposable
                                             else
                                             {
                                                 i = -1;
-                                                bestIndex = ((MovePath)pathStepList).MovePointsToPosition(unit.MovePoints);
+                                                bestIndex = pathStepList.MovePointsToPosition(unit.MovePoints);
                                                 var path = pathStepList[bestIndex];
                                                 safeValue = UnitSafe(unit, pathStepList[bestIndex].Location.X, path.Location.Y);
                                                 while (bestIndex < pathStepList.Count - 1 && safeValue < 0)
@@ -1962,7 +1962,7 @@ public partial class BattleAI : IDisposable
         int pathCost;
         List<int> bonuses;
         string reason = "";
-        PathStepList pathStepList = default;
+        MovePath pathStepList = default;
         AbilityCombatInfo aiInfo = default;
         SpellCombatInfo spellInfo = default;
         CityWall cityWall;
@@ -2906,15 +2906,15 @@ public partial class BattleAI : IDisposable
                                                     {
                                                         if (move.MoveType == BattleAIMoveType.MoveRanged)
                                                         {
-                                                            value = ((MovePath)pathStepList).PositionToMovePoints(0);
+                                                            value = pathStepList.PositionToMovePoints(0);
                                                             if (value < move.UnitHexSprite.Unit.MovePoints)
                                                             {
                                                                 move.UnitHexSprite.Unit.MovePoints = value;
                                                             }
                                                         }
 
-                                                        value = ((MovePath)pathStepList).MovePointsToPosition(move.UnitHexSprite.Unit.MovePoints);
-                                                        value = ((MovePath)pathStepList).PositionToMovePoints(value);
+                                                        value = pathStepList.MovePointsToPosition(move.UnitHexSprite.Unit.MovePoints);
+                                                        value = pathStepList.PositionToMovePoints(value);
                                                         if (value > 0 && value < move.UnitHexSprite.Unit.MovePoints)
                                                         {
                                                             move.UnitHexSprite.Unit.MovePoints = value;
@@ -2922,7 +2922,7 @@ public partial class BattleAI : IDisposable
 
                                                         // { Original repeats X. }
                                                         Creator.GetEngine().OutputDebugString("AI moves to X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
-                                                        moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, (MovePath)pathStepList);
+                                                        moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, pathStepList);
                                                         if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
                                                             var unitHexSpriteHexY = move.UnitHexSprite.GetHexY();
@@ -2964,7 +2964,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
-                                                moved = move.UnitHexSprite.MeleeMoveTacticalBattle((MovePath)pathStepList);
+                                                moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
                                                     var hexY = move.UnitHexSprite.GetHexY();
@@ -3007,7 +3007,7 @@ public partial class BattleAI : IDisposable
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString("AI melees at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
-                                                moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle((MovePath)pathStepList);
+                                                moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
                                                     var hexY = move.UnitHexSprite.GetHexY();

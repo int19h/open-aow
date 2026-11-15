@@ -246,7 +246,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     public void NewTurn(sbyte player)
     {
         ArmyHexSprite army;
-        army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        army = Owner.GetArmyHexSprite();
         if (army != null && player == army.Army.Player)
         {
             TriggerArmyDamage(army);

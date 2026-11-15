@@ -175,7 +175,7 @@ public partial class Teleport : Structure
     public bool CanTeleport(sbyte player)
     {
         ArmyHexSprite armyHexSprite;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         // { Original only checks destination X here; X=0 is rejected. }
         return armyHexSprite != null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && Destination.X > 0;
     }
@@ -191,7 +191,7 @@ public partial class Teleport : Structure
         string messageText;
         if (CanTeleport(player))
         {
-            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            armyHexSprite = Owner.GetArmyHexSprite();
             if (CanTeleportArmy(armyHexSprite))
             {
                 armyHexSprite.Army.ResetDestinationPosition();

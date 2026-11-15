@@ -2074,7 +2074,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             fieldPlayer = field.GetPlayer();
             if (mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+                armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 if (armyHexSprite != null)
                 {
                     if (mode.Contains(UnitPlaceModeElement.CreateNewArmy) || (player != -1 && armyHexSprite.Army.Player != player) || !armyHexSprite.Army.CanAddUnit(this))
@@ -2115,7 +2115,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (CanPlace(walk.X, walk.Y, L, player, mode))
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, L).FindOwnedChild(131607);
+                armyHexSprite = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, L).GetArmyHexSprite();
                 if (armyHexSprite == null)
                 {
                     armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };

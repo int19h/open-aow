@@ -87,7 +87,7 @@ public partial class ItemExplorationSite : ExplorationSite
         Item item = default;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            army = Owner.GetArmyHexSprite();
             log = new ItemExplorationSiteEventLog(null) { Holder = CreationHolder() };
             log.Player = army.Army.Player;
             log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);

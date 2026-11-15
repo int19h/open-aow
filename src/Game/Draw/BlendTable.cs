@@ -28,15 +28,18 @@ public partial class BlendTable
     public int Bits => _bits;
     public byte[] Table => _table;
 
+    // The bytes of the table in one span, as the blenders read them.
+    public ReadOnlySpan<byte> Bytes => Table;
+
     internal static void GenerateAlphaBlendTable(BlendTable table, float alpha)
     {
-        if (table is BlendTable5Bit)
+        if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    ((BlendTable5Bit)table).RowView[i][j] = (byte)Round((double)((double)i * alpha) + ((double)((double)1 - alpha) * j));
+                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * alpha) + ((double)((double)1 - alpha) * j));
                 }
             }
         }
@@ -50,7 +53,7 @@ public partial class BlendTable
     {
         int v;
         float f;
-        if (table is BlendTable5Bit)
+        if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
@@ -71,7 +74,7 @@ public partial class BlendTable
                         v = 31;
                     }
 
-                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
+                    fiveBit.RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -81,7 +84,7 @@ public partial class BlendTable
     {
         int v;
         float f;
-        if (table is BlendTable5Bit)
+        if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
@@ -99,7 +102,7 @@ public partial class BlendTable
                         v = j;
                     }
 
-                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
+                    fiveBit.RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -108,7 +111,7 @@ public partial class BlendTable
     internal static void GenerateBrightenBlendTable(BlendTable table, float brighten)
     {
         int v;
-        if (table is BlendTable5Bit)
+        if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
@@ -120,7 +123,7 @@ public partial class BlendTable
                         v = j;
                     }
 
-                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
+                    fiveBit.RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -129,7 +132,7 @@ public partial class BlendTable
     internal static void GenerateLinearAlphaBlendTable(BlendTable table, float alpha)
     {
         float f;
-        if (table is BlendTable5Bit)
+        if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
@@ -149,7 +152,7 @@ public partial class BlendTable
 
                 for (int j = 0; j <= 31; j++)
                 {
-                    ((BlendTable5Bit)table).RowView[i][j] = (byte)Round((double)((double)i * f) + ((double)((double)1 - f) * j));
+                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * f) + ((double)((double)1 - f) * j));
                 }
             }
         }

@@ -718,7 +718,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).FindOwnedChild(131607);
+                armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite != null)
                 {
                     army = armyHexSprite.Army;
@@ -760,7 +760,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             }
             else
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).FindOwnedChild(131607);
+                armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite != null)
                 {
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)

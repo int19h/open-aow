@@ -606,7 +606,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:214
-    public ArmyHexSprite GetArmyHexSprite() => (ArmyHexSprite)FindOwnedChild(131607);
+    // Only ArmyHexSprite registers 131607, and the game has no subclass of it.
+    public ArmyHexSprite GetArmyHexSprite() => FindOwnedChild<ArmyHexSprite>(131607);
 
     // AoWHSMap.PAS:218
     public void RestoreTerrain()

@@ -364,7 +364,7 @@ public partial class Cave : Structure
     public bool CanEnter(sbyte player)
     {
         ArmyHexSprite armyHexSprite;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         return armyHexSprite != null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
     }
 
@@ -379,7 +379,7 @@ public partial class Cave : Structure
         ArmyHexSprite armyHexSprite;
         MapField field;
         TokenEvent eventValue;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite != null && CanEnter(armyHexSprite.Army.Player))
         {
             selection = CanEnterSelection(armyHexSprite.Army.Units);
@@ -478,7 +478,7 @@ public partial class Cave : Structure
         EnterCaveEventLog log;
         if (CanEnter(player))
         {
-            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            armyHexSprite = Owner.GetArmyHexSprite();
             if (CanEnterSelection(armyHexSprite.Army.Units) != armyHexSprite.Army.ValidateSelection(255))
             {
                 log = new EnterCaveEventLog(null, holder: CreationHolder());

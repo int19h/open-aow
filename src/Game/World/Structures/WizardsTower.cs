@@ -174,7 +174,7 @@ public partial class WizardsTower : Structure
     {
         bool result;
         ArmyHexSprite armyHexSprite;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite == null || armyHexSprite.Army.Player != player)
         {
             result = false;
