@@ -529,7 +529,8 @@ public partial class SetupControl : Component
         if (remoteId != 0)
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
-            // reads, for an own document as for an original (own-formats.md 4.1).
+            // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
+            // LoadOrRaise refuses it through the packet profile, and this sends nothing.
             stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
             if (OnSendMap != null)
             {
@@ -1568,7 +1569,8 @@ public partial class SetupControl : Component
             Settings.MapName = fileName;
             Settings.MapDay = preview.Day;
             Settings.FileName = preview.MapName;
-            // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
+            // The map CRC covers the engine image, so an own copy and its original agree (own-formats.md 4.1).
+            // A document with no image uses the canonical document bytes, as ImageCrc32 states.
             var fileCrc = FileBoundary.ImageCrc32(_engine.StartupDirectory + fileName, GameProfile.WorldMap);
             Settings.MapCrc = fileCrc;
             Settings.SetCrc = GamePack.Current.HssCrc;

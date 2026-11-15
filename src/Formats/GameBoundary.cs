@@ -75,20 +75,39 @@ public sealed class GameFileReport
 }
 
 /// <summary>
-/// A prepared load or save. A load holds the engine image of the validated document, which the CRC
-/// forms, the header listings and the network transfer read, and the document. A save holds the
-/// document bytes. A refusal holds neither.
+/// A prepared load or save. <see cref="Bytes"/> is an engine image only when <see cref="HasImage"/>
+/// is true. A load of a document the original image cannot carry leaves <see cref="Bytes"/> null,
+/// keeps the validated document and records <see cref="ImageRefusal"/>. A save holds the document
+/// bytes and <see cref="HasImage"/> is false. A refusal holds neither bytes nor a document.
 /// </summary>
 public sealed class GameFileResult
 {
+    /// <summary>
+    /// The engine image when <see cref="HasImage"/> is true. The document bytes when this is a
+    /// save. Null when a load's document has no engine image, and null on a refusal.
+    /// </summary>
     public byte[]? Bytes { get; init; }
+
     public JsonObject? Document { get; init; }
     public required GameFileReport Report { get; init; }
 
     /// <summary>Whether a load read an own document, which the tree reads through the document backend.</summary>
     public bool Own { get; init; }
 
-    public bool Succeeded => Bytes is not null;
+    /// <summary>
+    /// Whether <see cref="Bytes"/> is an engine image. A save is false. A load of a document the
+    /// original image cannot carry is false, and <see cref="Bytes"/> is null.
+    /// </summary>
+    public bool HasImage { get; init; }
+
+    /// <summary>
+    /// The export finding of a load that has no engine image. The load itself succeeded. A
+    /// transfer refuses again through the packet profile and does not send these bytes.
+    /// </summary>
+    public FormatDiagnostic? ImageRefusal { get; init; }
+
+    /// <summary>A refusal has an error and no document. A load or a save that passed has a document.</summary>
+    public bool Succeeded => Report.Error is null && Document is not null;
 }
 
 /// <summary>
@@ -137,8 +156,22 @@ public static class GameBoundary
         if (!use.Kinds.Contains(kind))
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"The document has kind {kind}, the game opens {string.Join(", ", use.Kinds)} here.")
             { File = fileName, Path = "$kind", Value = kind, Span = read.Document["$kind"]!.Span });
-        var image = Validate(read.Document, fileName, validators, report);
-        return new GameFileResult { Bytes = image, Document = read.Document, Report = report, Own = true };
+        Validate(read.Document, fileName: fileName, validators: validators, report: report);
+        try
+        {
+            byte[] image = GameFiles.ExportImage(read.Document, fileName);
+            return new GameFileResult { Bytes = image, Document = read.Document, Report = report, Own = true, HasImage = true };
+        }
+        catch (ConversionException error) when (LacksImage(error))
+        {
+            // The file bytes stay out of Bytes. Callers that want an image see HasImage false.
+            return new GameFileResult { Document = read.Document, Report = report, Own = true, ImageRefusal = error.Diagnostic };
+        }
+        catch (ConversionException)
+        {
+            report.Validation = "refused";
+            throw;
+        }
     }
 
     private static GameFileResult LoadOriginal(byte[] bytes, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
@@ -148,7 +181,17 @@ public static class GameBoundary
         string kind = suggested is not null && use.Kinds.Contains(suggested) ? suggested : use.Kinds[0];
         report.Kind = kind;
         var imported = GameFiles.Import(bytes, use.Profile, kind, fileName);
-        var image = Validate(imported.Document, fileName, validators, report);
+        Validate(imported.Document, fileName: fileName, validators: validators, report: report);
+        byte[] image;
+        try
+        {
+            image = GameFiles.ExportImage(imported.Document, fileName);
+        }
+        catch (ConversionException)
+        {
+            report.Validation = "refused";
+            throw;
+        }
         var container = (JsonObject)imported.Document["$container"]!;
         if (GameFiles.FirstG1Difference(bytes, use.Profile, container, image) is long offset)
         {
@@ -157,22 +200,30 @@ public static class GameBoundary
             { File = fileName, Offset = offset, Profile = use.Profile.Name, Decompressed = container["compression"] is JsonString { Value: "cfs" } });
         }
         report.OriginalRoundTrip = "equal";
-        return new GameFileResult { Bytes = image, Document = imported.Document, Report = report };
+        return new GameFileResult { Bytes = image, Document = imported.Document, Report = report, HasImage = true };
     }
 
     /// <summary>
     /// The validation before a destructive load step and before a save is written
-    /// (<see cref="DocumentValidation.Check"/>): the strict image encoding, then the game
-    /// validators. The first finding refuses. It returns the engine image of the document.
+    /// (<see cref="DocumentValidation.Check"/>): a document read, then the game validators. The
+    /// first finding refuses. The read accepts port-only state. Export keeps its own refusal.
     /// </summary>
-    private static byte[] Validate(JsonObject document, string? fileName, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
+    private static void Validate(JsonObject document, string? fileName, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
     {
         report.Validation = "refused";
         var check = DocumentValidation.Check(document, validators: validators, file: fileName);
         if (check.Findings.Count != 0) throw new ConversionException(check.Findings[0]);
         report.Validation = "passed";
-        return check.Image!;
     }
+
+    /// <summary>
+    /// A valid own document whose original image cannot carry a present member. The truncation
+    /// refusal is the fixed-array codec. Every other export failure still fails the load. A
+    /// campaign map keeps this document and nests it. Strict export still refuses it.
+    /// </summary>
+    public static bool LacksImage(ConversionException error) =>
+        error.Diagnostic.Code == Codes.Unrepresentable
+        || (error.Diagnostic.Code == Codes.Range && error.Diagnostic.Message.Contains("does not truncate", StringComparison.Ordinal));
 
     /// <summary>
     /// The tree of a prepared load. An own document reads through the document backend, an
@@ -180,24 +231,30 @@ public static class GameBoundary
     /// </summary>
     public static GameFileTree ReadTree(GameFileResult result, GameProfile use)
     {
-        if (result.Bytes is null) throw new InvalidOperationException("A refused load has no tree.");
-        if (!result.Own || result.Document is null) return ReadImageTree(result.Bytes, use: use);
-        var schema = FormatSchema.Current;
-        var profile = use.Profile;
-        var root = (JsonObject)result.Document["root"]!;
-        SchemaClass classValue;
-        if (profile.RootHasClass)
+        if (!result.Succeeded) throw new InvalidOperationException("A refused load has no tree.");
+        // An own document is read here, including one whose original image cannot carry it.
+        // Bytes of that load is null and is not an image.
+        if (result.Own && result.Document is not null)
         {
-            // The validation resolved the class. The root's $class names the stored class and is
-            // no member of it.
-            classValue = schema.Get(((JsonString)root["$class"]!).Value);
-            var members = new JsonObject();
-            foreach (var member in root.Members)
-                if (member.Name != "$class") members.Members.Add(member);
-            root = members;
+            var schema = FormatSchema.Current;
+            var profile = use.Profile;
+            var root = (JsonObject)result.Document["root"]!;
+            SchemaClass classValue;
+            if (profile.RootHasClass)
+            {
+                // The validation resolved the class. The root's $class names the stored class and is
+                // no member of it.
+                classValue = schema.Get(((JsonString)root["$class"]!).Value);
+                var members = new JsonObject();
+                foreach (var member in root.Members)
+                    if (member.Name != "$class") members.Members.Add(member);
+                root = members;
+            }
+            else classValue = schema.Get(profile.RootFamily);
+            return new GameFileTree(Root: DocumentBackend.Read(root, classValue: classValue, schema: schema, engine: profile.Engine), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
         }
-        else classValue = schema.Get(profile.RootFamily);
-        return new GameFileTree(Root: DocumentBackend.Read(root, classValue: classValue, schema: schema, engine: profile.Engine), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
+        if (result.HasImage && result.Bytes is not null) return ReadImageTree(result.Bytes, use: use);
+        throw new InvalidOperationException("A load without an image has no tree.");
     }
 
     /// <summary>

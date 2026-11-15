@@ -469,8 +469,9 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         crCs.Add(GetFileCrc(path + "FACERES.PFS", false));
         crCs.Add(GetFileCrc(path + "COMB_RES.PFS", false));
         crCs.Add(GetFileCrc(path + "SPELLS.PFS", false));
-        // The scenario set's stored CRC comes from its engine image, so an own document agrees
-        // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
+        // The scenario set's stored CRC is the tail of its engine image, so an own document agrees
+        // with its original (own-formats.md 4.1). A document with no image has no stored CRC and
+        // the call refuses through the packet profile. The PFS files keep their original bytes.
         crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(path + "RELEASE.HSS"), GameProfile.ScenarioSet));
         int result = EngineServices.GetCrc32(MemoryMarshal.AsBytes(crCs.List.AsSpan()), crCs.Count * 4);
         crCs?.Dispose();

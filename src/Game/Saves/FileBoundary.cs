@@ -6,6 +6,9 @@ using System.Security.Cryptography;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
+using Aow.Formats.Json;
+using Aow.Formats.Original;
+using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -29,12 +32,12 @@ public static class FileBoundary
     public static FileLogRecord? LastFailure { get; private set; }
 
     /// <summary>
-    /// Reads a file and prepares the engine image of its validated document, for the CRC forms,
-    /// the header listings and the network transfer. A refusal returns null, is logged and leaves
-    /// the current game and the file untouched.
+    /// The engine image of a validated file. A refusal returns null. A document the original
+    /// image cannot carry has no image, and this returns null rather than the file bytes. The
+    /// current game and the file stay untouched.
     /// </summary>
     public static byte[]? Load(string fileName, GameProfile profile, string operation = "open") =>
-        Prepare(fileName, profile: profile, operation: operation) is { } prepared ? prepared.Image : null;
+        Prepare(fileName, profile: profile, operation: operation) is { Image: { } image } ? image : null;
 
     /// <summary>
     /// Reads a file and prepares the tree the engine loads (own-formats.md 4.1, persistence-tree.md
@@ -47,7 +50,9 @@ public static class FileBoundary
         if (Prepare(fileName, profile: profile, operation: operation) is not { } prepared) return null;
         try
         {
-            return prepared.Result is { } result ? GameBoundary.ReadTree(result, use: profile) : GameBoundary.ReadImageTree(prepared.Image, use: profile);
+            if (prepared.Result is { } result) return GameBoundary.ReadTree(result, use: profile);
+            if (prepared.Image is { } image) return GameBoundary.ReadImageTree(image, use: profile);
+            return null;
         }
         catch (ConversionException error)
         {
@@ -66,8 +71,9 @@ public static class FileBoundary
     public static GameFileTree OpenOrRaise(string fileName, GameProfile profile) =>
         Open(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
 
-    // One preflight: the result of a fresh one, or the image of a cached preview.
-    private sealed record Prepared(byte[] Image, GameFileReport Report, GameFileResult? Result);
+    // One preflight. Image is the engine image, or null when the validated document has none.
+    // It is never the own document's file bytes. A cached preview has an image and no result.
+    private sealed record Prepared(byte[]? Image, GameFileReport Report, GameFileResult? Result);
 
     private static Prepared? Prepare(string fileName, GameProfile profile, string operation)
     {
@@ -85,7 +91,8 @@ public static class FileBoundary
         }
         string layer = LayerOf(files, fileName);
         // Previews and listings reuse a validated image of the same bytes (own-formats.md 4.3).
-        // A final open always validates the actual bytes.
+        // A final open always validates the actual bytes. A document the original image cannot
+        // carry has no image, so a preview of it is not cached.
         bool preview = operation != "open";
         var key = preview ? new PreviewKey(layer, fileName, profile.Name, OwnFormat.CurrentVersion, Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
         if (preview && Previews.TryGet(key, out var cached))
@@ -95,20 +102,30 @@ public static class FileBoundary
         }
         var result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
         Record(new FileLogRecord(fileName, layer, result.Report));
-        if (result.Bytes is null) return null;
-        if (preview) Previews.Add(key, new PreviewEntry(result.Bytes, result.Report));
-        return new Prepared(result.Bytes, Report: result.Report, Result: result);
+        if (!result.Succeeded) return null;
+        // HasImage is the only way Bytes is an engine image. A save's document bytes and a
+        // port-only load never land in Image.
+        byte[]? image = result.HasImage ? result.Bytes : null;
+        if (preview && image is not null) Previews.Add(key, new PreviewEntry(image, result.Report));
+        return new Prepared(image, Report: result.Report, Result: result);
     }
 
     /// <summary>The session preview cache. Only successful preflights enter it.</summary>
     public static PreviewCache Previews { get; } = new(64L << 20);
 
     /// <summary>
-    /// Like Load, for the routines whose original raised on a failed open: the refusal raises
-    /// EGameFileError after it is logged, before the caller changes anything.
+    /// The engine image of a file whose original raised on a failed open. A refusal raises
+    /// EGameFileError after it is logged. A document the original image cannot carry raises the
+    /// packet profile's refusal at the member path and returns no bytes.
     /// </summary>
-    public static byte[] LoadOrRaise(string fileName, GameProfile profile) =>
-        Load(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
+    public static byte[] LoadOrRaise(string fileName, GameProfile profile)
+    {
+        if (Prepare(fileName, profile: profile, operation: "open") is not { } prepared)
+            throw new GameFileErrorException(LastFailure!);
+        if (prepared.Image is { } image) return image;
+        RefuseThroughPacket(prepared, profile);
+        throw new InvalidOperationException("A document without an engine image produced a packet.");
+    }
 
     /// <summary>
     /// Writes an object through the tree (own-formats.md 4.2, persistence-tree.md 6): the tree
@@ -154,7 +171,8 @@ public static class FileBoundary
     /// <summary>
     /// The leading bytes of a listed file's engine image, for header listings such as
     /// THSEngine.GetHSSetFiles. An original lists its own leading bytes as before. An own
-    /// document lists the header of its validated image. A file that fails lists nothing.
+    /// document with an image lists that image's header. A document the image cannot carry
+    /// lists the header taken from the validated document. A file that fails lists nothing.
     /// </summary>
     public static byte[] ListingHeader(string fileName, GameProfile profile, int count)
     {
@@ -186,27 +204,99 @@ public static class FileBoundary
             });
             return head.Length == count ? head : [];
         }
-        var image = Load(fileName, profile, "list");
-        return image is not null && image.Length >= count ? image[..count] : [];
+        if (Prepare(fileName, profile: profile, operation: "list") is not { } prepared) return [];
+        if (prepared.Image is { } image)
+            return image.Length >= count ? image[..count] : [];
+        if (prepared.Result?.Document is not JsonObject document) return [];
+        var header = ListingHeaderFromDocument(document, profile);
+        return header.Length >= count ? header[..count] : [];
     }
 
     /// <summary>
-    /// The CRC forms of in-scope files (own-formats.md 4.1): Engine.GetCRC32 over the engine image,
-    /// so an original and its own document give one CRC. A refused file gives 0, which matches
-    /// no stored CRC, and is logged.
+    /// The CRC forms of in-scope files (own-formats.md 4.1). When the file has an engine image, the
+    /// input is that image, so an original and its own document give one CRC. When the document has
+    /// no engine image, the input is the canonical document bytes from <c>GameFiles.Write</c> of the
+    /// validated document. A refused file gives 0, which matches no stored CRC, and is logged. A
+    /// transfer of a document with no image is refused, so this value is never compared with a
+    /// received image.
     /// </summary>
-    public static int ImageCrc32(string fileName, GameProfile profile) =>
-        Load(fileName, profile, "crc") is { } image ? EngineServices.GetCrc32(image, image.Length) : 0;
+    public static int ImageCrc32(string fileName, GameProfile profile)
+    {
+        if (Prepare(fileName, profile: profile, operation: "crc") is not { } prepared) return 0;
+        if (prepared.Image is { } image) return EngineServices.GetCrc32(image, image.Length);
+        if (prepared.Result?.Document is not JsonObject document) return 0;
+        byte[] text = GameFiles.Write(document);
+        return EngineServices.GetCrc32(text, text.Length);
+    }
 
     /// <summary>
     /// The four bytes at the end of the engine image, the stored CRC of a scenario set that
-    /// TAoWHSSet.RetrieveHSSCRC reads. A refusal raises, as the original's failed open did.
+    /// TAoWHSSet.RetrieveHSSCRC reads. A refusal raises, as the original's failed open did. A
+    /// document the original image cannot carry has no image and therefore no stored CRC. The
+    /// call refuses through the packet profile and does not read the document bytes.
     /// </summary>
     public static int ImageTailInt32(string fileName, GameProfile profile)
     {
-        // A scenario set image passed its preflight, so it holds its header and trailing CRC.
-        var image = Load(fileName, profile, "crc") ?? throw new GameFileErrorException(LastFailure!);
+        if (Prepare(fileName, profile: profile, operation: "crc") is not { } prepared)
+            throw new GameFileErrorException(LastFailure!);
+        if (prepared.Image is not { } image)
+        {
+            RefuseThroughPacket(prepared, profile);
+            throw new InvalidOperationException("A document without an engine image has no stored CRC.");
+        }
         return BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
+    }
+
+    // The packet profile names the member a transfer cannot carry. WritePacket throws, and the
+    // caller sends nothing. A nil packet is not an image of the file.
+    private static void RefuseThroughPacket(Prepared prepared, GameProfile profile)
+    {
+        var result = prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result.");
+        var tree = GameBoundary.ReadTree(result, use: profile);
+        GameBoundary.WritePacket(tree.Root, classId: tree.ClassId, className: tree.ClassName);
+    }
+
+    // The header a listing shows when the document has no engine image. A scenario set's 52
+    // bytes are size, the HSS identifier, the short-string name from $container.header.Name and
+    // zeros. An HSM's 16 bytes are size, the HSM magic, the reserved word and the root class id.
+    // Neither form is a parse of the file bytes.
+    private static byte[] ListingHeaderFromDocument(JsonObject document, GameProfile profile)
+    {
+        if (profile.Profile is ScenarioSetProfile) return ScenarioSetHeader(document);
+        if (profile.Profile is HsmProfile) return HsmHeader(document);
+        return [];
+    }
+
+    private static byte[] ScenarioSetHeader(JsonObject document)
+    {
+        if (document["$container"] is not JsonObject container) return [];
+        if (container["header"] is not JsonObject header) return [];
+        if (header["Name"] is not JsonString name) return [];
+        byte[] encoded = Cp1252.Encode(name.Value);
+        if (encoded.Length > 40) return [];
+        var head = new byte[52];
+        BinaryPrimitives.WriteInt32LittleEndian(head, 52);
+        head[4] = 4;
+        "HSS\0"u8.CopyTo(head.AsSpan(5));
+        head[9] = (byte)encoded.Length;
+        encoded.CopyTo(head.AsSpan(10));
+        return head;
+    }
+
+    private static byte[] HsmHeader(JsonObject document)
+    {
+        if (document["root"] is not JsonObject root) return [];
+        if (root["$class"] is not JsonString className) return [];
+        if (FormatSchema.Current.Find(className.Value)?.Id is not int classId) return [];
+        int reserved = 0;
+        if (document["$container"] is JsonObject container && container["header"] is JsonObject header && header["Reserved"] is JsonInteger word)
+            reserved = (int)word.Value;
+        var head = new byte[16];
+        BinaryPrimitives.WriteInt32LittleEndian(head, 16);
+        HsmProfile.Magic.CopyTo(head.AsSpan(4));
+        BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(8), reserved);
+        BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(12), classId);
+        return head;
     }
 
     /// <summary>

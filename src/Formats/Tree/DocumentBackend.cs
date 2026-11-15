@@ -14,8 +14,8 @@ public static class DocumentBackend
     public static JsonObject Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
         WriteObject(node, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
-    public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
-        ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
+    public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null, string? file = null) =>
+        ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root, file), created: false, slotted: false);
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
@@ -132,12 +132,12 @@ public static class DocumentBackend
         return name.Value;
     }
 
-    private static DocumentSite Site(FormatSchema schema, string engine, DocumentNodePath path) => new()
+    private static DocumentSite Site(FormatSchema schema, string engine, DocumentNodePath path, string? file = null) => new()
     {
         Path = path,
         Schema = schema,
         Engine = engine,
-        Context = new EncodeContext(schema, engine, "tree", null, FormatLimits.Default, ExportOptions.Default),
+        Context = new EncodeContext(schema, engine, "tree", file, FormatLimits.Default, ExportOptions.Default),
     };
 }
 

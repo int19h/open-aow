@@ -205,7 +205,8 @@ public partial class GameEngine : OwningNode
             foreach (var entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
             {
                 header = default;
-                // An own scenario set lists the header of its validated image (own-formats.md 4.1).
+                // An own scenario set lists the 52-byte header of its validated image, or the header
+                // taken from the document when that image cannot carry the set (own-formats.md 4.1).
                 var head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
                 if (head.Length == 52)
                 {
@@ -373,8 +374,9 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:5251
-    // The stream holds an original map file (a campaign's map, a map a network host sent). The
-    // original backend reads its tree from the inflated image, and the map loads through the tree.
+    // The stream holds an original map file (a campaign's map, a map a network host sent) or the
+    // map's own document. An image inflates and the original backend reads its root. A document
+    // is read through the document backend, which keeps port-only state. A network map is an image.
     public void LoadHsmFromStream(Stream stream, bool edit, Aow.Engine.ProgressEvent progress)
     {
         CompressStream cStream;
@@ -390,7 +392,10 @@ public partial class GameEngine : OwningNode
             try
             {
                 cStream.LoadFromStream(stream);
-                var tree = GameBoundary.ReadImageTree(cStream.ToArray(), use: GameProfile.WorldMap);
+                byte[] payload = cStream.ToArray();
+                var tree = IsOwnMapDocument(payload)
+                    ? ReadOwnMap(payload)
+                    : GameBoundary.ReadImageTree(payload, use: GameProfile.WorldMap);
                 SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
                 _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                 if (edit)
@@ -425,27 +430,58 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:5316
-    // The original backend writes the image of the map's tree, the 16-byte header and the root,
-    // which the stream compresses as before.
+    // A map the original image can carry is written and compressed as before. A map it cannot
+    // carry is stored as that map's own document, uncompressed, so the campaign document nests
+    // the map and keeps the port-only members.
     public void SaveHsmToStream(Stream stream, Aow.Engine.ProgressEvent progress)
     {
-        CompressStream cStream;
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap == null) return;
+        _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+        try
         {
-            cStream = new CompressStream();
-            _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+            var tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
+            string className = NameTable.Stored(_hexSpriteMap.GetType());
+            byte[] image;
             try
             {
-                var tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
-                cStream.Write(GameBoundary.WriteImage(tree, className: NameTable.Stored(_hexSpriteMap.GetType()), use: GameProfile.WorldMap));
+                image = GameBoundary.WriteImage(tree, className: className, use: GameProfile.WorldMap);
+            }
+            catch (ConversionException error) when (GameBoundary.LacksImage(error))
+            {
+                var prepared = GameBoundary.PrepareSave(tree, className: className, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
+                if (!prepared.Succeeded || prepared.Bytes is null)
+                    throw new ConversionException(prepared.Report.Error ?? error.Diagnostic);
+                stream.Write(prepared.Bytes);
+                return;
+            }
+
+            var cStream = new CompressStream();
+            try
+            {
+                cStream.Write(image);
                 cStream.SaveToStream(stream);
             }
             finally
             {
-                _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
-                cStream?.Dispose();
+                cStream.Dispose();
             }
         }
+        finally
+        {
+            _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+        }
+    }
+
+    // An own document is not an HSM image. CompressStream leaves those bytes unchanged.
+    private static bool IsOwnMapDocument(byte[] payload) =>
+        GameFiles.IsGzip(payload) || GameFiles.IsJsonCandidate(payload);
+
+    private static GameFileTree ReadOwnMap(byte[] payload)
+    {
+        var prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
+        if (!prepared.Succeeded)
+            throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."));
+        return GameBoundary.ReadTree(prepared, use: GameProfile.WorldMap);
     }
 
     // HSEngine.pas:5341

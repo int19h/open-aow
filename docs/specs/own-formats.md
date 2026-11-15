@@ -221,7 +221,7 @@ candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
 `src/Formats/versions.json` pins the current version (6) with the schema's SHA-256
-`ecb0ee7cfa8ed6480ff18f5c864c108f3173763a325bef91ba7a18997b542965`, the codec contracts of that
+`d66843c346f3bd0fb27bf28ddc70a8d749ff3ce1bb436d55d9d7d37ceea8245e`, the codec contracts of that
 version (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
 `written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-1`,
 `bit-array-1`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-1`, `single-1`,
@@ -462,10 +462,11 @@ narrow named rules backed by original fixtures, not blanket integer exemptions.
 
 What runs in version 1. `DocumentValidation.Run` and `DocumentValidation.Check`
 (`src/Formats/Validation.cs`) run before every destructive game load and before every game save
-is written. Structural validation is the strict image encoding of
-`GameFiles.ExportImage`: unknown members, classes and properties, incompatible families,
-duplicate slots, dimensions and row lengths, storage ranges and mistyped reserved members fail
-there. The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
+is written. Structural validation is a `DocumentBackend` read of the root, after the profile's
+root-class check. Unknown members, classes and properties, incompatible families, duplicate
+slots, dimensions and row lengths, storage ranges and mistyped reserved members fail there. A
+document that holds port-only state is valid. The original export still refuses that state
+(`persistence-tree.md` 17). The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
 rules that `ClassRegistry` registers in its third block: `StrategicMap.CurrentPlayer` and
 `StrategicMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
 `StrategicMap` needs its `MapContainer` child, and a `MapContainer` holds as many `MapLevel` (Delphi `TMapLevel`)
@@ -720,9 +721,11 @@ Saves write the tree of the saved object, write its document through the documen
 backend, validate and finish serialization before replacement. Until PE-3-g the engine
 wrote an image through `ReadWrite` and the boundary imported it. Since PE-3-g no engine
 image is on the own disk path (section 6.3). `LoadHsmFromStream` and `SaveHsmToStream`
-read and write the original image of a campaign map in memory through the original
-backend. Internal port images do not pass for original exports, which undergo strict
-representability checks separately.
+carry a campaign map in memory. A map the original image can carry stays that image,
+through the original backend, and the stream compresses it as before. A map the image
+cannot carry is the map's own document, uncompressed, and the campaign document nests it
+as `Map`. The load reads either form. Strict export refuses the port-only member and names
+its path.
 
 In-scope callers of `LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `SaveHsm`, `LoadHss`,
 `RetrieveFromFile`, `StoreInFile`, `ReadFromFile`, `WriteToFile` and CRC forms take
@@ -741,15 +744,21 @@ canonical bytes. `FileBoundary` in `src/Game/Saves/FileBoundary.cs` reads and wr
 `tactical-map`, `campaign` (writes `campaign-save`), `scenario-set`, `hero-list` and
 `item-list`. `LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `LoadPreviewHsm`, `SaveHsm`, `LoadHss`,
 `SaveHss`, `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` take a
-`GameProfile` parameter, and every product caller passes one. `FileBoundary.Load` returns null
-on a refusal and `LoadOrRaise` raises `GameFileErrorException` for the routines whose original raised on
-a failed open. `GetHexSpriteSetFiles` reads its 52 header bytes through `FileBoundary.ListingHeader`.
+`GameProfile` parameter, and every product caller passes one. `FileBoundary.Load` returns the
+engine image, or null on a refusal and when the document has no image. It does not return the
+file bytes in the image's place. `LoadOrRaise` raises `GameFileErrorException` for the routines
+whose original raised on a failed open. For a document with no image it raises the packet
+profile's refusal at the member path and returns no bytes. `GetHexSpriteSetFiles` reads its 52
+header bytes through `FileBoundary.ListingHeader`, from the image or from the document's header
+when there is no image. The save and load dialogs take their listing from the preview tree.
 
 The CRC forms run over the engine image, so an original and its own document give one CRC.
-`FileBoundary.ImageCrc32` serves the map CRCs of the multiplayer setup (`AoWSetup.cs`
-`ValidateMap` and `PickMap`), and the host sends the engine image of its map, so the client's
-CRC of the received stream agrees. `FileBoundary.ImageTailInt32` reads the stored CRC of
-`RELEASE.HSS` for `GamePack.RetrieveHssCrc`. The PFS CRCs keep their original routines.
+A document with no image has no image CRC. `FileBoundary.ImageCrc32` then covers the canonical
+document bytes. It serves the map CRCs of the multiplayer setup (`AoWSetup.cs` `ValidateMap` and
+`PickMap`). The host sends the engine image of its map, so the client's CRC of the received
+stream agrees. A map with no image is not sent. `FileBoundary.ImageTailInt32` reads the stored
+CRC of `RELEASE.HSS` for `GamePack.RetrieveHssCrc`. A scenario set with no image has no stored
+CRC and the call refuses through the packet profile. The PFS CRCs keep their original routines.
 
 ### 4.2 User data and atomic replacement
 
@@ -892,9 +901,8 @@ matches. A refused batch writes `failure.json` and leaves nothing readable. `asg
 `ModelReader` refuse an own document, so a reader that skips the resolution fails. Since 9.7-3
 the gate passes `--require-own` in the oracle, frames, language-frames and scenarios layers.
 Two of the negative checks differ from the plan above: the removed child is a map field, refused
-at validation with `E_DIMENSIONS`, and the port-only state is refused while `aowconv` reads the
-JSON (`E_UNKNOWN_MEMBER`), before export starts, since the version 1 schema has no port-feature
-member. The mapping anchors take their ids and bytes from the engine's `ReadWrite` methods, the
+at validation with `E_DIMENSIONS`, and the port-only state is a non-empty `PrisonersArmy.Items`, refused at strict export with
+`E_UNREPRESENTABLE` and the member's path. The mapping anchors take their ids and bytes from the engine's `ReadWrite` methods, the
 case anchors included (a `Migrate` order, an `OfferPeace` proposal and an unknown kind).
 
 Own-document resumption checks load actual own saves through the game. Compare
@@ -988,13 +996,15 @@ Strict export refuses it. This is the concrete cost behind X28 and issue #72.
 ### 6.2 Port state and mods
 
 Property ids `0x40000000` to `0x4FFFFFFF` are port features. Mod property ids start
-at `0x50000000`. Unmodded baseline gameplay writes neither range. The `rw*Ex`
-zero rule omits extension state and rules identity when empty, so the unmodded
-oracle needs no extension mask. Own documents name this state.
-The legacy packet refuses a present member in either range and names its document path
-(`persistence-tree.md` 16). It writes no such id.
-No code writes either range in 9.7, and the version 1 schema has no member there, so a
-document member for one is an unknown member and refused.
+at `0x50000000`. Unmodded play writes the port range when a dungeon combat leaves an item on
+the prisoners. It writes no mod-range id. The `rw*Ex` zero rule omits extension state and
+rules identity when empty. The oracle's scenarios leave the prisoners list empty and need no
+extension mask. Own documents name this state.
+The original image refuses a present member in either range and names its document path
+(`persistence-tree.md` 17). It writes no such id. `PrisonersArmy.Items` is the first member
+in the port range. An empty list is absent. A list that holds an item is stored, and that save
+has no engine image. A campaign save nests the current map's document, so the list is there
+after the campaign loads. Strict export of that campaign refuses the list and names the path.
 
 The stronger F5 and F10 contract overrides roadmap amendment 4 and X15: strict
 export refuses unrepresentable state rather than dropping it with a report or
@@ -1087,9 +1097,10 @@ That is the legacy packet adapter of step 4. PE-4-b gives that adapter the trans
 the same schema classes (`persistence-tree.md` 16). A packet is a profile of that schema. The
 disk containers stay the file profiles, and the class table stays the one schema. A value the
 legacy image cannot carry, including port-range state and a list longer than its original array,
-is refused with its document path and is not truncated. The own document keeps it. The adapter
-stays that legacy image until `docs/specs/networking.md` replaces it. This specification does not
-define that file. Step 5 is not implemented. The private roadmap allocates the five steps as briefs
+is refused with its document path and is not truncated. The own document keeps it. The same
+refusal applies to the disk image (`persistence-tree.md` 17). The adapter stays that legacy
+image until `docs/specs/networking.md` replaces it. This specification does not define that
+file. PE-5-a is the first part of step 5. The rest of step 5 is not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.
 
