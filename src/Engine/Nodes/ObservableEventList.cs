@@ -22,7 +22,7 @@ public partial class ObservableEventList : ObservableNode
     }
 
     // Engine.pas:8137
-    public override void Changed()
+    protected override void OnChange()
     {
         _eventsStore.Raise(this);
     }

@@ -122,8 +122,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     {
         var codec = FieldCodec(field);
         var copy = bytes.ToArray();
-        var nested = new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() };
-        var value = codec.Decode(nested, 0, copy.Length, site);
+        var value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
         if (field.OmitsDocument(value)) return null;
         return value;
     }
@@ -297,15 +296,13 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        int count = CountOf(site.Owner, null, CountName, context, site.Path);
-        var (indices, residue) = Unpack(count, context.Data.AsSpan(start, end - start), context, site.Path);
+        var (indices, residue) = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
         return Document(indices, residue);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        int count = CountOf(site.Owner, null, CountName, context, site.Path);
-        data.Bytes(Pack(count, value, context, site.Path, site.Property?.Name ?? "The value"));
+        data.Bytes(Pack(CountOf(site.Owner, null, CountName, context, site.Path), value: value, context: context, path: site.Path, name: site.Property?.Name ?? "The value"));
     }
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)

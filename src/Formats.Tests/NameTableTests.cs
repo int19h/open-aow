@@ -70,18 +70,14 @@ public sealed class NameTableTests : FormatsTest
             Assert.Equal(nameof(OldNameBox), NameTable.Stored(typeof(OldNameBox)));
             Assert.Equal("oldGold", NameTable.DelphiMember(typeof(SampleRank), "Gold"));
             Assert.Equal("Gold", NameTable.StoredMember(typeof(SampleRank), "oldGold"));
-
-            var old = new JsonObject()
+            var loaded = DocumentBackend.Read(new JsonObject()
                 .Add("Rank", new JsonString("oldGold"))
-                .Add("Child", new JsonObject().Add("$class", new JsonString("OldBox")));
-            var loaded = DocumentBackend.Read(old, holder, schema, "game");
+                .Add("Child", new JsonObject().Add("$class", new JsonString("OldBox"))), classValue: holder, schema: schema, engine: "game");
             Assert.Equal(1, ((EnumNode)loaded.Find("Rank")!).Value);
             Assert.Equal("OldBox", ((ObjectNode)loaded.Find("Child")!).ClassName);
-
-            var current = new JsonObject()
+            var again = DocumentBackend.Read(new JsonObject()
                 .Add("Rank", new JsonString("Gold"))
-                .Add("Child", new JsonObject().Add("$class", new JsonString("OldNameBox")));
-            var again = DocumentBackend.Read(current, holder, schema, "game");
+                .Add("Child", new JsonObject().Add("$class", new JsonString("OldNameBox"))), classValue: holder, schema: schema, engine: "game");
             Assert.Equal(1, ((EnumNode)again.Find("Rank")!).Value);
             Assert.Equal(nameof(OldNameBox), ((ObjectNode)again.Find("Child")!).ClassName);
 
@@ -151,8 +147,7 @@ public sealed class NameTableTests : FormatsTest
         Assert.Empty(loadedBridge.Members);
 
         var group = schema.Get("TAIGroup");
-        var old = new JsonObject().Add("TargetType", new JsonString("gtsIdle"));
-        var loaded = DocumentBackend.Read(old, group, schema, "game");
+        var loaded = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("gtsIdle")), classValue: group, schema: schema, engine: "game");
         var status = Assert.IsType<EnumNode>(loaded.Find("TargetType"));
         var current = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("Idle")), group, schema, "game");
         var again = Assert.IsType<EnumNode>(current.Find("TargetType"));

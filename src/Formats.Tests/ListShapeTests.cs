@@ -70,8 +70,7 @@ public sealed class ListShapeTests : FormatsTest
         var other = Decode("ExplorationSiteResource", "DefenderCollections", RunList(5, full));
         Assert.Equal("""{"default":5,"groups":[[1,-1,2],[4,4,4,4,4,4,4,4]]}""", Compact(other));
         Assert.Equal(RunList(5, full), Encode("ExplorationSiteResource", "DefenderCollections", other));
-        var empty = Decode("StructureResource", "Defenders", RunList(-1, []));
-        Assert.Equal("""{"groups":[]}""", Compact(empty));
+        Assert.Equal("""{"groups":[]}""", Compact(Decode("StructureResource", "Defenders", RunList(-1, []))));
     }
 
     [Theory]
@@ -103,8 +102,7 @@ public sealed class ListShapeTests : FormatsTest
         var value = Decode("RaceResource", "UnitIndexes", bytes);
         Assert.Equal("""{"default":-1,"items":[12,-1,-1,40]}""", Compact(value));
         Assert.Equal(bytes, Encode("RaceResource", "UnitIndexes", value));
-        var relations = Decode("Player", "LegacyNewRelations", [3, 2, 0, 0, 0, 2, 3, 1]);
-        Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(relations));
+        Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(Decode("Player", "LegacyNewRelations", [3, 2, 0, 0, 0, 2, 3, 1])));
     }
 
     private static SchemaProperty Property(string className, string property) =>

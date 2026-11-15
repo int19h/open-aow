@@ -41,8 +41,7 @@ public sealed class SymbolicTests : FormatsTest
         Assert.Equal("Gold", ((JsonString)document["Rank"]!).Value);
         Assert.Equal(["None", 7L], Items(document["Marks"]!));
         Assert.Equal([(long)int.MinValue, 0L], Items(document["Scores"]!));
-        var image = OriginalBackend.Write(node, classValue, schema, "game");
-        var back = DocumentBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue, schema, "game");
+        var back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
         Assert.Equal(JsonWriter.ToUtf8(document), JsonWriter.ToUtf8(back));
         var unnamed = new ObjectNode(null, null);
         unnamed.Add("Rank", new EnumNode("TSampleRank", 1, false, 9));
@@ -54,9 +53,7 @@ public sealed class SymbolicTests : FormatsTest
     {
         var schema = Sample;
         var classValue = schema.Get("TSampleHolder");
-        var document = new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(7)));
-        var image = OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue, schema, "game");
-        var back = DocumentBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue, schema, "game");
+        var back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(DocumentBackend.Read(new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(7))), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
         Assert.Equal([7L, 0L], Items(back["Scores"]!));
     }
 
@@ -93,8 +90,7 @@ public sealed class SymbolicTests : FormatsTest
     {
         var schema = Sample;
         var classValue = schema.Get("TSampleHolder");
-        var document = new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(1)).Add(new JsonInteger(2)).Add(new JsonInteger(3)));
-        var node = DocumentBackend.Read(document, classValue, schema, "game");
+        var node = DocumentBackend.Read(new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(1)).Add(new JsonInteger(2)).Add(new JsonInteger(3))), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(3, ((ListNode)node.Find("Scores")!).Items.Count);
         var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue, schema, "game"));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
@@ -124,12 +120,12 @@ public sealed class SymbolicTests : FormatsTest
         Assert.Equal("sample.json", direct.Diagnostic.File);
         Assert.Contains("TNoSuchEnum", direct.Diagnostic.Message);
 
-        const string Missing = """
+        const string missing = """
             {"version":2,"classes":[{"name":"TSampleHolder","id":7,"engines":["game"],"properties":[
               {"name":"Rank","id":1,"codec":"enum","enum":"TNoSuchEnum","width":1,"signed":false}
             ]}]}
             """;
-        var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(Missing), "missing.json");
+        var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(missing), "missing.json");
         var error = Assert.Throws<ConversionException>(() => Pilot(schema.Get("TSampleHolder"), schema, new JsonObject().Add("Rank", new JsonInteger(0))));
         Assert.Equal(Codes.Type, error.Diagnostic.Code);
         Assert.Equal("root.Rank", error.Diagnostic.Path);
@@ -154,10 +150,8 @@ public sealed class SymbolicTests : FormatsTest
         var document = DocumentBackend.Write(node, classValue, schema, "game");
         AssertMembers(document, ("$case", "ProduceUnit"), ("Index", 5L), ("GroupId", 3L));
         var image = OriginalBackend.Write(node, classValue, schema, "game");
-        var fromImage = OriginalBackend.Read(image, classValue, schema, "game");
-        Assert.Equal(image, OriginalBackend.Write(fromImage, classValue, schema, "game"));
-        var fromDocument = DocumentBackend.Read(document, classValue, schema, "game");
-        Assert.Equal(image, OriginalBackend.Write(fromDocument, classValue, schema, "game"));
+        Assert.Equal(image, OriginalBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
+        Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
 
         // A key no case registers keeps every stored member in the unknown case.
         var unknown = DocumentBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, "game");

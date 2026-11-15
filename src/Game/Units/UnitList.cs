@@ -183,6 +183,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     public void SetUnit(int index, Troop troop)
     {
         CheckChild(troop);
+        EngineObject previous = index < Count ? GetChild(index) : null;
         if (index >= Count)
         {
             // Pads the slots up to index with empty ones, as the original adds nil slots.
@@ -197,7 +198,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         PlaceChild(index, child: troop);
         if (UpdateCount == 0)
         {
-            Changed();
+            RaiseChange(ObservableChange.Replaced(index, item: troop, previous: previous));
         }
     }
 

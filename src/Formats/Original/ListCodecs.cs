@@ -404,8 +404,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         var set = new List<int>();
         for (int i = 0; i < count; i++)
             if ((bytes[5 + (i >> 3)] & (1 << (i & 7))) != 0) set.Add(i);
-        byte residue = used != 0 ? (byte)(bytes[^1] & (byte)(0xFF << used)) : (byte)0;
-        return new Tree.BitListNode(bytes[0], count, [.. set], residue);
+        return new Tree.BitListNode(residue: used != 0 ? (byte)(bytes[^1] & (byte)(0xFF << used)) : (byte)0, defaultValue: bytes[0], count: count, indices: [.. set]);
     }
 
     private static byte[] Bits(Tree.BitListNode node)

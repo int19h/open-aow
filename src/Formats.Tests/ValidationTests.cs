@@ -27,8 +27,7 @@ public sealed class ValidationTests : FormatsTest
     private static JsonObject Map()
     {
         var bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, "Scenario", "Custom", "Mountain Clash.hsm"));
-        var document = GameFiles.Import(bytes, FileProfile.Find("world-hsm")!, "map").Document;
-        return GameFiles.Read(GameFiles.Write(document)).Document;
+        return GameFiles.Read(GameFiles.Write(GameFiles.Import(bytes, FileProfile.Find("world-hsm")!, "map").Document)).Document;
     }
 
     [GameFact]
@@ -39,8 +38,7 @@ public sealed class ValidationTests : FormatsTest
     {
         var text = GameFiles.Write(Map()).AsSpan().ToArray();
         var edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
-        var document = GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document;
-        var finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()], "edited.hsm"));
+        var finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
         Assert.Equal(Codes.Reference, finding.Code);
         Assert.Equal("root.CurrentPlayer", finding.Path);
         Assert.Equal(12, finding.Span.Line);

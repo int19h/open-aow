@@ -26,8 +26,7 @@ internal static class ImageTree
 
     internal static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine)
     {
-        var context = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
-        return ReadBody(context, 0, image.Length, classValue, DocumentNodePath.Root, null, null);
+        return ReadBody(new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts()), start: 0, end: image.Length, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
     }
 
     /// <summary>Reads the object image between two offsets of a decode context, such as the root of an engine image.</summary>
@@ -36,8 +35,7 @@ internal static class ImageTree
 
     internal static void WriteBody(ObjectNode node, SchemaClass classValue, EncodeContext context, ByteBuffer data, DocumentNodePath path, bool allowIdentity)
     {
-        var writer = WriteMembers(node, classValue: classValue, context: context, path: path, allowIdentity: allowIdentity);
-        ObjectImage.Place(context, writer, null, null, null, s_marker, path, data);
+        ObjectImage.Place(writer: WriteMembers(node, classValue: classValue, context: context, path: path, allowIdentity: allowIdentity), context: context, layout: null, property: null, resolve: null, at: s_marker, path: path, output: data);
         context.Leave();
     }
 

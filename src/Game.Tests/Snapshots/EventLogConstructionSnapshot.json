@@ -83,6 +83,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -213,6 +214,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -372,6 +374,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -502,6 +505,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -649,6 +653,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -776,6 +781,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -941,6 +947,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -1068,6 +1075,7 @@
               0,
               0
             ],
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,

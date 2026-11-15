@@ -132,9 +132,9 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     }
 
     // Army.PAS:4564
-    public override void Changed()
+    protected override void OnChange()
     {
-        base.Changed();
+        base.OnChange();
         if (OnChanged != null)
         {
             OnChanged(this);

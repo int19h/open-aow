@@ -70,8 +70,7 @@ public static class DocumentValidation
                 throw new ConversionException(new FormatDiagnostic(Codes.Type, "The root is an object.")
                 { File = file, Span = rootValue.Span, Path = "root" });
             var schema = GameFiles.Schema;
-            var encode = new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default, ExportOptions.Default);
-            SchemaClass classValue = profile.RootClass(encode, root);
+            SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default, ExportOptions.Default), root: root);
             JsonObject body = root;
             if (profile.RootHasClass)
             {
