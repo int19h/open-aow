@@ -417,7 +417,7 @@ public sealed class SweepConstructionTests
         using var fixture = new Fixture();
         Type type = typeof(Spell).Assembly.GetType(name)!;
         Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(GameMap)] : [];
-        var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
+        var value = Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try
         {
             ConstructionSnapshot.Check("SweepConstruction", name, Snapshot(value));

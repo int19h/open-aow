@@ -175,10 +175,10 @@ public partial class ByteList : Persistent
         if (source is ByteList)
         {
             var byteList = (ByteList)source;
-            this._count = byteList._count;
-            this.SetCapacity(byteList._count);
-            Array.Copy(byteList._list, 0, this._list, 0, this._count * 1);
-            this._default = byteList._default;
+            _count = byteList._count;
+            SetCapacity(byteList._count);
+            Array.Copy(byteList._list, 0, _list, 0, _count * 1);
+            _default = byteList._default;
         }
         else
         {
@@ -406,7 +406,7 @@ public partial class ByteList : Persistent
     // Engine.pas:3645
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortByte(Span<byte> sortList, int L, int R, ByteSortCompare sCompare)

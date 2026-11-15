@@ -5,13 +5,9 @@ using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -154,7 +150,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
             eventValue = new LocationTextEventLog(null) { Holder = CreationHolder() };
             eventValue.Player = armyHexSprite.Army.Player;
-            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
+            eventValue.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
             eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             eventValue.Release();

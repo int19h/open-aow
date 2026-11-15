@@ -198,7 +198,7 @@ public partial class FactionSelectionWindow : UIModule
                 }
             }
 
-            r = new Rect(this.FactionPanel.WinLeft, this.FactionPanel.WinTop, this.FactionPanel.WinLeft + this.FactionPanel.WinWidth, FactionPanel.WinTop + this.FactionPanel.WinHeight);
+            r = new Rect(FactionPanel.WinLeft, FactionPanel.WinTop, FactionPanel.WinLeft + FactionPanel.WinWidth, FactionPanel.WinTop + FactionPanel.WinHeight);
 
             UI.TitleWindow.MainWindow.AddBlitRectangle(ref r, null);
         }
@@ -234,7 +234,7 @@ public partial class FactionSelectionWindow : UIModule
                 GamePack.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
                 break;
         }
-        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
+        ParseFontText(value.Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
         WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.GetCampaign());
@@ -248,7 +248,7 @@ public partial class FactionSelectionWindow : UIModule
         hexSpriteMap?.Dispose();
         if (value != null)
         {
-            ((Persistent)value).Dispose();
+            value.Dispose();
         }
     }
 
@@ -265,13 +265,13 @@ public partial class FactionSelectionWindow : UIModule
         int j;
         for (int length = text.Length; i <= length; i += j)
         {
-            if (Set<byte>.WithBounds(0, 255).With((byte)13).With((byte)32)
+            if (Set<byte>.WithBounds(0, 255).With(13).With(32)
                 .Contains(Cp1252.Byte(text[i - 1])))
             {
                 i++;
             }
-            for (j = 0; i + j <= length && !Set<byte>.WithBounds(0, 255).With((byte)10).With((byte)13)
-                .With((byte)32)
+            for (j = 0; i + j <= length && !Set<byte>.WithBounds(0, 255).With(10).With(13)
+                .With(32)
                 .Contains(Cp1252.Byte(text[i + j - 1])); j++)
             {
             }

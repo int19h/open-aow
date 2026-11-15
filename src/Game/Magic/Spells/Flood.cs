@@ -36,7 +36,10 @@ public partial class Flood : GlobalEnchantmentSpell
         sbyte l = default;
         TwinkleAnimation twinkle;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out x, out y, out l);
+        var coordinate67 = source.GetLocation();
+        x = coordinate67.X;
+        y = coordinate67.Y;
+        l = coordinate67.MapLevel;
         StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);

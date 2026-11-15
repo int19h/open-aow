@@ -419,12 +419,12 @@ public partial class CombatUnit : CombatObject
                         var player = GetPlayer();
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
-                            placed = Troop.Place(party.X, party.Y, party.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
                         else
                         {
                             var player2 = GetPlayer();
-                            placed = Troop.Place(party.X, party.Y, party.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
 
                         if (placed != null)
@@ -445,17 +445,17 @@ public partial class CombatUnit : CombatObject
                     party = null;
                 }
 
-                if (party == null || party.X != -1)
+                if (party == null || party.Location.X != -1)
                 {
                     var player = GetPlayer();
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
-                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                     else
                     {
                         var player2 = GetPlayer();
-                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
 
                     Dispose();
@@ -465,7 +465,7 @@ public partial class CombatUnit : CombatObject
                     if (party != null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
                         var player = GetPlayer();
-                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                 }
             }

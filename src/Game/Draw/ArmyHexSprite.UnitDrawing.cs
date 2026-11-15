@@ -1,12 +1,9 @@
 #nullable disable
 
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Host;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;

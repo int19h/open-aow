@@ -57,7 +57,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.Object == NegotiateObject.City) return "CityNegotiation";
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
-                var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.X, negotiateRequestEventLog.Y, negotiateRequestEventLog.MapLevel).FindOwnedChild(131607);
+                var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
                     var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
@@ -289,9 +289,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             var request = (NegotiateRequestEventLog)log;
             request.Object = what;
             request.Player = Seated;
-            request.X = 0;
-            request.Y = 0;
-            request.MapLevel = 0;
+            request.Hex = new MapCoordinate(0, 0, 0);
             while (_field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
             {
                 _field.RemoveHexSprite(standing);

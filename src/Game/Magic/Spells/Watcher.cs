@@ -19,7 +19,7 @@ public partial class Watcher : GlobalTargetSpell
     public Watcher(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_watcherText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_watcherText);
         SpellId = 57;
         AboveGroundOnly = false;
     }

@@ -137,12 +137,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual bool GetVisible() => true;
 
     // EventLog.pas:425
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // EventLog.pas:444
     public virtual void PlayLoggedSfx(EventLogbook logbook)
@@ -187,7 +182,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        GetLocation(out x, out y, out l);
+        var coordinate16 = GetLocation();
+        x = coordinate16.X;
+        y = coordinate16.Y;
+        l = coordinate16.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

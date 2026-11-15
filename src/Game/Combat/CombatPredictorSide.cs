@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Combat;

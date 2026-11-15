@@ -76,7 +76,7 @@ public partial class ItemExplorationSite : ExplorationSite
     public override bool GetExplored() => _items.Count == 0;
 
     // ItemExpS.pas:146
-    public override void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
+    public override void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         base.SetupCombat(combat, army);
         combat.Items = _items;
@@ -105,7 +105,7 @@ public partial class ItemExplorationSite : ExplorationSite
             // { Original parses the formatted text as CSV. }
             var itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
             var resourceEditName = Resource.ResourceEditName();
-            var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
+            var format = Format(itemsExplored, [resourceEditName]);
             log.Messages.CommaText = format;
             log.Execute(false, ExecuteTrigger.Event, null);
             log.Release();

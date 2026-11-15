@@ -22,10 +22,10 @@ public sealed class JsonReader
 
     private JsonReader(string text, string? file, bool decompressed, FormatLimits limits)
     {
-        this._text = text;
-        this._file = file;
-        this._decompressed = decompressed;
-        this._limits = limits;
+        _text = text;
+        _file = file;
+        _decompressed = decompressed;
+        _limits = limits;
     }
 
     /// <summary>Decodes strict UTF-8 and parses it. The bytes are never retried as another format.</summary>

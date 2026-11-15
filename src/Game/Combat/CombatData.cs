@@ -2,9 +2,8 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
+using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
@@ -26,12 +25,8 @@ public partial class CombatData : EngineObject
         InvolvedLeaders = new ByteList();
     }
 
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int MapLevel { get; set; }
-    public int AttackerX { get; set; }
-    public int AttackerY { get; set; }
-    public int AttackerMapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
+    public MapCoordinate AttackerLocation { get; set; }
 
     public byte[] TerrainAndOverlayTypes { get; } = new byte[2];
 

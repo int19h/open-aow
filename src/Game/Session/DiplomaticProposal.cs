@@ -133,7 +133,7 @@ public abstract partial record DiplomaticProposal
         if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
             var players = StrategicMap.Current.Players.GetPlayers(other);
-            return Round((double)((StrategicMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier) * 0.01);
+            return Round((StrategicMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier * 0.01);
         }
 
         return modifier;

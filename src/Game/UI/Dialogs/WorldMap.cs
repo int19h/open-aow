@@ -268,14 +268,14 @@ public partial class WorldMap : UIModule
                     }
 
                     {
-                        if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
+                        if (PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                         {
-                            this.PlayerPawnImage.Priority = 10;
+                            PlayerPawnImage.Priority = 10;
                             EnemyPawnImage.Priority = 5;
                         }
                         else
                         {
-                            this.PlayerPawnImage.Priority = 5;
+                            PlayerPawnImage.Priority = 5;
                             EnemyPawnImage.Priority = 10;
                         }
                     }
@@ -673,10 +673,10 @@ public partial class WorldMap : UIModule
         button.CaptureInput = false;
         button.Visible = false;
 
-        this.Book.Drawn = false;
-        if (this.Book.BackSurface != null)
+        Book.Drawn = false;
+        if (Book.BackSurface != null)
         {
-            this.Book.BackSurface.Clear(this.Book.MaskColor);
+            Book.BackSurface.Clear(Book.MaskColor);
         }
 
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -744,14 +744,14 @@ public partial class WorldMap : UIModule
                     var campaign6 = GetCampaign();
                     var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
                     PlayerPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
-                    if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
+                    if (PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                     {
-                        this.PlayerPawnImage.Priority = 10;
+                        PlayerPawnImage.Priority = 10;
                         EnemyPawnImage.Priority = 5;
                     }
                     else
                     {
-                        this.PlayerPawnImage.Priority = 5;
+                        PlayerPawnImage.Priority = 5;
                         EnemyPawnImage.Priority = 10;
                     }
                 }
@@ -768,7 +768,7 @@ public partial class WorldMap : UIModule
                         var campaign3 = GetCampaign();
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.NextScenarioId);
                         DescriptionLabel.Text = campaignScenario2.Description;
-                        this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
+                        DescriptionLabel.WinTop = 460 - DescriptionLabel.WinHeight;
 
                         _descriptionHandled = true;
                     }
@@ -798,14 +798,14 @@ public partial class WorldMap : UIModule
                         var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         EnemyPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
-                        if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
+                        if (PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                         {
-                            this.PlayerPawnImage.Priority = 10;
+                            PlayerPawnImage.Priority = 10;
                             EnemyPawnImage.Priority = 5;
                         }
                         else
                         {
-                            this.PlayerPawnImage.Priority = 5;
+                            PlayerPawnImage.Priority = 5;
                             EnemyPawnImage.Priority = 10;
                         }
                     }
@@ -948,7 +948,7 @@ public partial class WorldMap : UIModule
         if (DescriptionLabel.Text != description && !IsEmpty(description))
         {
             DescriptionLabel.Text = description;
-            this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
+            DescriptionLabel.WinTop = 460 - DescriptionLabel.WinHeight;
         }
 
         _descriptionHandled = true;
@@ -969,7 +969,7 @@ public partial class WorldMap : UIModule
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
                 DescriptionLabel.Text = campaignScenario2.PathDescription;
-                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
+                DescriptionLabel.WinTop = 460 - DescriptionLabel.WinHeight;
             }
         }
 
@@ -990,7 +990,7 @@ public partial class WorldMap : UIModule
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
                 DescriptionLabel.Text = campaignScenario2.PathDescription;
-                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
+                DescriptionLabel.WinTop = 460 - DescriptionLabel.WinHeight;
             }
         }
 
@@ -1011,7 +1011,7 @@ public partial class WorldMap : UIModule
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
                 DescriptionLabel.Text = campaignScenario2.PathDescription;
-                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
+                DescriptionLabel.WinTop = 460 - DescriptionLabel.WinHeight;
             }
         }
 
@@ -1025,9 +1025,9 @@ public partial class WorldMap : UIModule
         {
             if (GetCampaign().State == 1)
             {
-                if (!IsEmpty(this.DescriptionLabel.Text))
+                if (!IsEmpty(DescriptionLabel.Text))
                 {
-                    this.DescriptionLabel.Text = "";
+                    DescriptionLabel.Text = "";
                 }
             }
         }

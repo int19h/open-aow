@@ -97,9 +97,12 @@
             },
             "EngineObject._owner": null,
             "MoveControlSettings.ArmyHexSprite": null,
-            "MoveControlSettings.DestinationL": -1,
-            "MoveControlSettings.DestinationX": -1,
-            "MoveControlSettings.DestinationY": -1,
+            "MoveControlSettings.Destination": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "MoveControlSettings.EvenOffsets": [
               0,
               0,
@@ -445,31 +448,34 @@
               "DelphiList\u00601.items": []
             },
             "MoveControlSettings.Selection": 0,
-            "MoveControlSettings.SourceL": -1,
-            "MoveControlSettings.SourceX": -1,
-            "MoveControlSettings.SourceY": -1,
+            "MoveControlSettings.Source": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "MoveControlSettings.Status": 0,
             "MoveControlSettings.SubMoveIndex": 0,
             "MoveControlSettings.SubMoves": {
               "$type": "Aow.Game.World.Movement.SubMoveList",
+              "EngineObject._owner": null,
               "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
-              },
-              "EngineObject._owner": null
+              }
             },
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "EngineObject._owner": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": "$ref:$.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
               },
-              "ObservableNode._updateCount": 0,
-              "EngineObject._owner": null
+              "ObservableNode._updateCount": 0
             },
             "MoveControlSettings._height": 0,
             "MoveControlSettings._levelCount": 0,
@@ -481,12 +487,12 @@
           },
           "MoveSelector.MoveSettingsList": {
             "$type": "Aow.Game.World.Movement.MoveSettingsList",
+            "EngineObject._owner": null,
             "OwningNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-            },
-            "EngineObject._owner": null
+            }
           },
           "MoveSelector.Status": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

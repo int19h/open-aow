@@ -1,12 +1,8 @@
 using System.Reflection;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
-
 using Aow.Game.Audio;
 using Aow.Game.Draw.Images;
-using Aow.Game.Net;
-
 using Aow.Game.World;
 using Aow.Game.World.Map;
 
@@ -40,7 +36,7 @@ public sealed class ControlStyleConstructionTests
         {
             0 => new ControlStyleObject(argument),
             1 => new ResourceEditSettings(argument),
-            _ => (ControlStyleObject)new PadControl(argument)
+            _ => new PadControl(argument)
         };
         EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
@@ -208,8 +204,8 @@ public sealed class ControlStyleConstructionTests
 
         internal FlagFiles(string root)
         {
-            this._root = Path.GetFullPath(root);
-            Assert.True(_files.SetCurrentDirectory(this._root));
+            _root = Path.GetFullPath(root);
+            Assert.True(_files.SetCurrentDirectory(_root));
         }
 
         private string Checked(string path)

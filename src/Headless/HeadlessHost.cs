@@ -112,7 +112,7 @@ internal sealed class RunFiles : IFileSystem
         string name = RtlUnit.ExtractFileName(path).ToString();
         // The autosave goes to the day file under either extension, the one this host writes and
         // the original one (own-formats.md 4.2).
-        var save = Aow.Formats.DocumentKind.Save;
+        var save = Formats.DocumentKind.Save;
         foreach (var extension in new[] { save.OwnExtension, save.OriginalExtension })
         {
             string autosave = "autosave" + extension;

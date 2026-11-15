@@ -151,11 +151,11 @@ public partial class SpellControl : EngineObject
     public void ListSpells(StringCollection spellStrings, Set<MagicSphere> spheres)
     {
         spellStrings.Clear();
-        for (int i = 0, last = this.RegisteredSpells.Count - 1; i <= last; i++)
+        for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (this.RegisteredSpells[i] != null && spheres.Contains((this.RegisteredSpells[i]).MagicSphere))
+            if (RegisteredSpells[i] != null && spheres.Contains((RegisteredSpells[i]).MagicSphere))
             {
-                spellStrings.AddObject((this.RegisteredSpells[i]).SpellName, IntToObject(i));
+                spellStrings.AddObject((RegisteredSpells[i]).SpellName, IntToObject(i));
             }
         }
     }
@@ -167,9 +167,9 @@ public partial class SpellControl : EngineObject
         Int32List candidates;
         Spell spell;
         candidates = new Int32List();
-        for (int i = this.RegisteredSpells.Count - 1; i >= 0; i--)
+        for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            spell = this.RegisteredSpells[i];
+            spell = RegisteredSpells[i];
             if (spell != null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
                 candidates.Add(i);

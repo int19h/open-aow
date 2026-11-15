@@ -416,12 +416,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
                     move.MovePoints = movePoints;
                     move.Moves = armyHexSprite.Army.Moves(255);
-                    move.SourceX = armyHexSprite.HexX;
-                    move.SourceY = armyHexSprite.HexY;
-                    move.SourceL = armyHexSprite.HexLevel;
-                    move.DestinationX = X;
-                    move.DestinationY = Y;
-                    move.DestinationL = L;
+                    move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
+                    move.Destination = new MapCoordinate(X, Y, L);
                     if (queue)
                     {
                         move.Owner = Executor.Moves;
@@ -629,8 +625,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, out armyHexSprite, out selection);
                 settings.SetupArmy(armyHexSprite, selection);
-                settings.SetSourcePosition(_meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel);
-                settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
+                settings.SetSourcePosition(_meetingPoint.Location);
+                settings.SetDestinationPosition(Executor.Destination);
                 StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
                 {

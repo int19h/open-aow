@@ -185,7 +185,7 @@ public sealed class LayeredFileSystem : IFileSystem
     private bool Mutate(Action action)
     {
         try { action(); return true; }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; }
         finally { _userListings.Clear(); }
     }
 

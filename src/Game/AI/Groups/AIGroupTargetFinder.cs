@@ -1,13 +1,8 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -80,9 +75,9 @@ public partial class AIGroupTargetFinder : AIGroupTask
     public virtual void Reset()
     {
         Selector.Reset();
-        this.Selector.SetTargetFoundHandler(TargetFoundEvent);
-        this.Selector.MovePointsMax = 200;
-        this.Selector.MovePointsMin = 150;
+        Selector.SetTargetFoundHandler(TargetFoundEvent);
+        Selector.MovePointsMax = 200;
+        Selector.MovePointsMin = 150;
         Range = 9;
         _targetRange = 9;
         _step = 4;

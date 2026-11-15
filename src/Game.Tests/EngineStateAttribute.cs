@@ -1,5 +1,4 @@
 using System.Reflection;
-
 using Xunit.Sdk;
 
 namespace Aow.Game.Tests;

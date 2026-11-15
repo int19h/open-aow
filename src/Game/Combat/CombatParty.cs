@@ -1,9 +1,11 @@
 #nullable disable
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
@@ -20,9 +22,7 @@ public partial class CombatParty : EngineObject
 
     public Army Army { get; }
 
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int MapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
     public byte Wall { get; set; }
     public byte Position { get; set; }
     public byte PlayerIndex { get; set; }
@@ -39,9 +39,7 @@ public partial class CombatParty : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        X = persister.Int32("X", value: X);
-        Y = persister.Int32("Y", value: Y);
-        MapLevel = persister.Int32("MapLevel", value: MapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Wall = persister.RawByte("Wall", value: Wall);
         Position = persister.Byte("Position", value: Position);

@@ -1,6 +1,5 @@
 // Translated from PageTurnCtrl.pas.
 using System.Runtime.InteropServices;
-using Aow.Engine.Buffers;
 using Aow.Game.Draw;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -34,7 +33,7 @@ public partial class PageTurnControl
     {
         _scale = (float)0.5;
         Speed = 2;
-        _shade = (float)2;
+        _shade = 2;
         GenerateInverseCosTable();
     }
 
@@ -73,7 +72,7 @@ public partial class PageTurnControl
         int i;
         angle = 0;
         i = 511;
-        while ((double)angle < (double)Math.PI / 2)
+        while ((double)angle < Math.PI / 2)
         {
             cosValue = (float)Math.Cos(angle);
             target = (float)((double)i / 511);
@@ -147,12 +146,12 @@ public partial class PageTurnControl
         {
             case PageTurnMode.Left:
                 _radius = _halfWidth;
-                _shadow = (float)((double)_radius * 0.5);
+                _shadow = (float)(_radius * 0.5);
                 _position = _width;
                 break;
             case PageTurnMode.Right:
                 _radius = 1;
-                _shadow = (float)((double)_radius * 0.5);
+                _shadow = (float)(_radius * 0.5);
                 _position = 0;
                 break;
             case PageTurnMode.Open:
@@ -185,30 +184,30 @@ public partial class PageTurnControl
                     if ((double)_radius > 0)
                     {
                         var pi = Math.PI;
-                        _radius = (float)((double)_radius - (double)((double)((double)Speed * 1.25) * 2) / pi);
+                        _radius = (float)(_radius - (double)((double)(Speed * 1.25) * 2) / pi);
                         if ((double)_radius < 1)
                         {
                             _radius = 0;
                         }
 
-                        _shadow = (float)((double)_radius * 0.5);
+                        _shadow = (float)(_radius * 0.5);
                     }
                 }
 
                 result = (double)_radius >= 1;
                 break;
             case PageTurnMode.Right:
-                _shade = (float)2;
+                _shade = 2;
                 if ((double)_radius < _halfWidth)
                 {
                     var pi = Math.PI;
-                    _radius = (float)((double)_radius + (double)((double)((double)Speed * 1.5) * 2) / pi);
+                    _radius = (float)(_radius + (double)((double)(Speed * 1.5) * 2) / pi);
                     if ((double)_radius > _halfWidth)
                     {
                         _radius = _halfWidth;
                     }
 
-                    _shadow = (float)((double)_radius * 0.5);
+                    _shadow = (float)(_radius * 0.5);
                 }
                 else
                 {
@@ -285,7 +284,7 @@ public partial class PageTurnControl
             var mathPI = Math.PI;
             arcLength = Round((double)((double)mathPI * _radius) * 0.25);
             sourceBase = _width + _position;
-            radiusFactor = (float)((double)((double)2 / Math.PI) * arcLength);
+            radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
             baseX = X + _width + _position;
             span = Round(_shadow);
             limit = _width - _position;
@@ -317,7 +316,7 @@ public partial class PageTurnControl
             var pi2 = Math.PI;
             arcLength = Round((double)((double)pi2 * _radius) * 0.25);
             sourceBase = _width * 3 - _position - arcLength;
-            radiusFactor = (float)((double)((double)2 / Math.PI) * arcLength);
+            radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
             baseX = X + _width + _position;
             span = Round(_shadow);
             i = span;
@@ -351,7 +350,7 @@ public partial class PageTurnControl
             step = (float)((double)0.707 / ((double)_shadow * _shade));
             if ((double)step > 1)
             {
-                step = (float)1;
+                step = 1;
             }
 
             while (sourceOffset >= limit && i >= 0)
@@ -359,7 +358,7 @@ public partial class PageTurnControl
                 angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                sourceOffset = Round((double)((double)arcLength * ((double)angle - (double)pi4 / 4)) * ((double)4 / pi5));
+                sourceOffset = Round((double)(arcLength * ((double)angle - (double)pi4 / 4)) * (4 / pi5));
                 offset = Round((double)((double)Math.Sin(angle) * height) - width);
                 if (sourceOffset >= limit)
                 {
@@ -379,8 +378,8 @@ public partial class PageTurnControl
                 angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                sourceOffset = -Round((double)((double)arcLength * ((double)4 / pi4)) * ((double)angle - (double)pi5 / 4));
-                offset = Round((double)((double)1 - Math.Sin(angle)) * height);
+                sourceOffset = -Round((double)(arcLength * (4 / pi4)) * ((double)angle - (double)pi5 / 4));
+                offset = Round((double)(1 - Math.Sin(angle)) * height);
                 if (sourceOffset >= limit)
                 {
                     BlitVerticalScanLine(sourceBase + sourceOffset, baseX + i, Y - offset, destination, 0, _height);
@@ -391,7 +390,7 @@ public partial class PageTurnControl
 
             r.Left = _sourceX2;
             r.Top = _sourceY2;
-            r.Right = _sourceX2 + _width - _position - Round((double)originalLength * ((double)((double)2 * _shade) + 2));
+            r.Right = _sourceX2 + _width - _position - Round(originalLength * ((double)((double)2 * _shade) + 2));
             r.Bottom = _sourceY2 + _height;
             if (r.Right > r.Left)
             {
@@ -417,9 +416,9 @@ public partial class PageTurnControl
         r.Bottom = _sourceY2 + _height;
         LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
         var pi = Math.PI;
-        height = Round((double)Math.Sin((double)((double)_position * pi) / 180) * _width);
+        height = Round((double)Math.Sin((double)(_position * pi) / 180) * _width);
         var mathPI = Math.PI;
-        width = Round((double)Math.Cos((double)((double)_position * mathPI) / 180) * _width);
+        width = Round((double)Math.Cos((double)(_position * mathPI) / 180) * _width);
         if (width > 0)
         {
             step = (float)((double)_width / width);
@@ -493,7 +492,7 @@ public partial class PageTurnControl
                 R.Left = X;
                 R.Right = X + _width * 2;
                 var pi = Math.PI;
-                var sin = Math.Sin((double)((double)_position * pi) / 180);
+                var sin = Math.Sin((double)(_position * pi) / 180);
                 R.Top = Y - Round((double)((double)((double)sin * _scale) * _width) + 1);
                 R.Bottom = Y + _height;
                 break;
@@ -508,7 +507,7 @@ public partial class PageTurnControl
                 R.Left = X;
                 R.Right = X + _width * 2;
                 var mathPI = Math.PI;
-                var mathSin = Math.Sin((double)((double)_position * mathPI) / 180);
+                var mathSin = Math.Sin((double)(_position * mathPI) / 180);
                 R.Top = Y - Round((double)((double)((double)mathSin * _scale) * _width) + 1);
                 R.Bottom = Y + _height;
                 break;
@@ -520,7 +519,7 @@ public partial class PageTurnControl
         while (height > 0)
         {
             ushort number = MemoryMarshal.Read<ushort>(sourceMemory.Slice(source, 2));
-            MemoryMarshal.Write<ushort>(destinationMemory.Slice(destination, 2), in number);
+            MemoryMarshal.Write(destinationMemory.Slice(destination, 2), in number);
             source += sourcePitch;
             destination += destinationPitch;
             height--;

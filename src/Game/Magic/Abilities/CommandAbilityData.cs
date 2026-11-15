@@ -43,7 +43,7 @@ public partial class CommandAbilityData : AbilityData
     public override int GetAbilityId() => AbilityId;
 
     // AoWAb.PAS:4973
-    public int CommandingTargetPriority(Combat.Battle combat)
+    public int CommandingTargetPriority(Battle combat)
     {
         CombatObject target;
         int result = 0;
@@ -60,7 +60,7 @@ public partial class CommandAbilityData : AbilityData
     }
 
     // AoWAb.PAS:4985
-    public int CommandingTargetStrength(Combat.Battle combat)
+    public int CommandingTargetStrength(Battle combat)
     {
         CombatObject target;
         int result = 0;

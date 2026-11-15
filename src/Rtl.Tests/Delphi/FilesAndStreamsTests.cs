@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 
@@ -181,7 +180,7 @@ public sealed class FilesAndStreamsTests
         Assert.Equal(0, memory.Write(pointer, -1)); Assert.Equal(0, memory.Read(pointer, -1));
         Assert.Equal(0, memory.Write(new byte[1], -1)); Assert.Equal(0, memory.Read(new byte[1], -1));
         memory.Clear(); Assert.Equal(1, memory.Write(new byte[] { 9, 8 }, 1)); Assert.Equal(0, memory.Read(new byte[2], 1));
-        memory.ReadBuffer(default(Ptr<byte>), 0); memory.WriteBuffer(default(Ptr<byte>), 0);
+        memory.ReadBuffer(default, 0); memory.WriteBuffer(default, 0);
         using var shortStream = new ShortStream();
         shortStream.ReadBuffer([]); shortStream.WriteBuffer([]); Assert.Equal(0, shortStream.Calls);
         Assert.Throws<EndOfStreamException>(() => shortStream.ReadBuffer(new byte[1])); Assert.Throws<IOException>(() => shortStream.WriteBuffer(new byte[1])); Assert.Equal(2, shortStream.Calls);

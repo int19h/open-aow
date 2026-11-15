@@ -182,11 +182,11 @@ public partial class Memo : Control
             start = 0;
             if (!NoFrame)
             {
-                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + base.BorderWidth * 2;
+                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + BorderWidth * 2;
             }
             else
             {
-                w = base.BorderWidth * 2;
+                w = BorderWidth * 2;
             }
 
             string item = NullTerminatedText(_items[i]);
@@ -221,11 +221,11 @@ public partial class Memo : Control
                         ColorList.Add(colorChange2);
                         if (!NoFrame)
                         {
-                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + base.BorderWidth * 2);
+                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + BorderWidth * 2);
                         }
                         else
                         {
-                            w = tw + base.BorderWidth * 2;
+                            w = tw + BorderWidth * 2;
                         }
                     }
                     else
@@ -282,7 +282,7 @@ public partial class Memo : Control
                 _verticalScrollBar.WinHeight = WinHeight;
                 _verticalScrollBar.LargeChange = _numberVisible - 1;
                 _verticalScrollBar.Visible = Visible;
-                if (_verticalScrollBar.VanishWhenFull == true && Lines.Count - 1 < _numberVisible)
+                if (_verticalScrollBar.VanishWhenFull && Lines.Count - 1 < _numberVisible)
                 {
                     _verticalScrollBar.Visible = false;
                 }
@@ -325,7 +325,7 @@ public partial class Memo : Control
                     }
 
                     Drawn = false;
-                    if (NoFrame == true)
+                    if (NoFrame)
                     {
                         if (Window != null)
                         {
@@ -335,13 +335,13 @@ public partial class Memo : Control
                 }
             }
 
-            if (_editable && _blinkDelay > 0 && Redraw == true)
+            if (_editable && _blinkDelay > 0 && Redraw)
             {
                 _blinkCount = (byte)(_blinkCount + 1);
                 if (_blinkCount > _blinkDelay)
                 {
                     Drawn = false;
-                    if (NoFrame == true)
+                    if (NoFrame)
                     {
                         if (Window != null)
                         {
@@ -350,7 +350,7 @@ public partial class Memo : Control
                     }
 
                     _blinkCount = 0;
-                    if (_blink == true)
+                    if (_blink)
                     {
                         _blink = false;
                     }
@@ -451,19 +451,19 @@ public partial class Memo : Control
                         {
                             case TextAlignment.Left:
                                 var line = Lines[_topItem + i];
-                                base.Font.SetText(base.BorderWidth + x, base.BorderHeight + y + _itemHeight * i, line, lockedSurface);
+                                base.Font.SetText(BorderWidth + x, BorderHeight + y + _itemHeight * i, line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var line2 = Lines[_topItem + i];
                                 var textWidth = base.Font.GetTextWidth(line2);
                                 var line3 = Lines[_topItem + i];
-                                base.Font.SetText(x + w - base.BorderWidth - textWidth, base.BorderHeight + y + _itemHeight * i, line3, lockedSurface);
+                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + _itemHeight * i, line3, lockedSurface);
                                 break;
                             default:
                                 var line4 = Lines[_topItem + i];
                                 var fontTextWidth = base.Font.GetTextWidth(line4);
                                 var line5 = Lines[_topItem + i];
-                                base.Font.SetText(x + w / 2 - fontTextWidth / 2, base.BorderHeight + y + _itemHeight * i, line5, lockedSurface);
+                                base.Font.SetText(x + w / 2 - fontTextWidth / 2, BorderHeight + y + _itemHeight * i, line5, lockedSurface);
                                 break;
                         }
                         _itemRectangle = new Rect(x, y + _itemHeight * i, x + w, y + (i + 1) * _itemHeight);
@@ -487,11 +487,11 @@ public partial class Memo : Control
                     condition = _currentLine - _topItem < count;
                 }
 
-                if (condition && Redraw == true && _editable && _blink == true)
+                if (condition && Redraw && _editable && _blink)
                 {
                     var line = Lines[_currentLine];
                     var textWidth = base.Font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    base.Font.SetText(base.BorderWidth + x + textWidth, base.BorderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -523,7 +523,7 @@ public partial class Memo : Control
         if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_editable == true)
+            if (_editable)
             {
                 Window.Cursor = -4;
             }
@@ -543,7 +543,7 @@ public partial class Memo : Control
         Handled = Redraw;
         changed = false;
         moved = false;
-        if (_editable && Redraw == true && Valid == true && Visible == true)
+        if (_editable && Redraw && Valid && Visible)
         {
             switch (key)
             {
@@ -621,12 +621,12 @@ public partial class Memo : Control
                     break;
             }
 
-            if (moved == true)
+            if (moved)
             {
                 CurrentToReal();
             }
 
-            if (changed == true)
+            if (changed)
             {
                 RealToCurrent();
             }
@@ -651,7 +651,7 @@ public partial class Memo : Control
         Handled = Redraw;
         changed = false;
         moved = false;
-        if (_editable && Redraw == true && Valid == true && Visible == true)
+        if (_editable && Redraw && Valid && Visible)
         {
             switch (key)
             {
@@ -761,12 +761,12 @@ public partial class Memo : Control
                     break;
             }
 
-            if (changed == true)
+            if (changed)
             {
                 RealToCurrent();
             }
 
-            if (moved == true)
+            if (moved)
             {
                 CurrentToReal();
             }
@@ -961,7 +961,7 @@ public partial class Memo : Control
         _blink = true;
         _blinkCount = 0;
         Drawn = false;
-        if (NoFrame == true)
+        if (NoFrame)
         {
             if (Window != null)
             {

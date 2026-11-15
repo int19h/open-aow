@@ -1,6 +1,5 @@
 using System.Text;
 using Aow.Formats;
-
 using Aow.Game.Saves;
 using Aow.Game.UI.Dialogs;
 using Aow.Platform;

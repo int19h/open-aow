@@ -3,11 +3,9 @@
 using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
@@ -32,12 +30,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     { }
 
     // Army.PAS:4596
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     public string Name { get; set; } = "";
 

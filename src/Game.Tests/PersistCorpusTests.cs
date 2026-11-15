@@ -4,13 +4,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-
 using Aow.Game.Units;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -87,7 +85,7 @@ public sealed class PersistCorpusTests
     // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
     private static StrategicMap? s_reaper;
 
-    public PersistCorpusTests(ITestOutputHelper output) => this._output = output;
+    public PersistCorpusTests(ITestOutputHelper output) => _output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()

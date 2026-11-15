@@ -22,7 +22,7 @@ public partial class FireBarrier : GlobalTargetSpell
     public FireBarrier(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_fireBarrierText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_fireBarrierText);
         SpellId = 11;
         BaseManaCost = 5;
         SpellLevel = 3;

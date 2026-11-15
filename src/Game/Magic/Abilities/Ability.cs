@@ -208,7 +208,7 @@ public partial class Ability : EngineObject
     {
         bool result;
         AbilityActivation info;
-        if (this.CanActivateCombat(owner, out reason))
+        if (CanActivateCombat(owner, out reason))
         {
             info = new AbilityActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
@@ -295,7 +295,7 @@ public partial class Ability : EngineObject
     public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target)
     {
         AbilityDamageValues values = default;
-        this.TacticalBattleGetDamageValues(source, target, ref values);
+        TacticalBattleGetDamageValues(source, target, ref values);
         return values.SourceDamage;
     }
 
@@ -322,33 +322,33 @@ public partial class Ability : EngineObject
         int strength = default;
         string damageNames;
         DamageType damageType;
-        text.Add("Name: " + this.GetName(null));
+        text.Add("Name: " + GetName(null));
         text.Add("-------------------------------------------------");
         if (mode.Contains(AbilityInfoModeElement.Id))
         {
             text.Add("ID: " + IntToStr(AbilityId));
         }
 
-        var abilityType = this.GetAbilityType();
+        var abilityType = GetAbilityType();
         text.Add("Type: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
-        if (this.GetAttack(null) != 0)
+        if (GetAttack(null) != 0)
         {
-            text.Add("Attack modifier: " + IntToStr(this.GetAttack(null)));
+            text.Add("Attack modifier: " + IntToStr(GetAttack(null)));
         }
 
-        if (this.GetDefense(null) != 0)
+        if (GetDefense(null) != 0)
         {
-            text.Add("Defense modifier: " + IntToStr(this.GetDefense(null)));
+            text.Add("Defense modifier: " + IntToStr(GetDefense(null)));
         }
 
-        if (this.GetDamage(null) != 0)
+        if (GetDamage(null) != 0)
         {
-            text.Add("Damage modifier: " + IntToStr(this.GetDamage(null)));
+            text.Add("Damage modifier: " + IntToStr(GetDamage(null)));
         }
 
-        if (this.GetResistance(null) != 0)
+        if (GetResistance(null) != 0)
         {
-            text.Add("Resistance modifier: " + IntToStr(this.GetResistance(null)));
+            text.Add("Resistance modifier: " + IntToStr(GetResistance(null)));
         }
 
         if (mode.Contains(AbilityInfoModeElement.Description))
@@ -357,15 +357,15 @@ public partial class Ability : EngineObject
             text.AddStrings(Description);
         }
 
-        if (this.GetCombatMode(null) != CombatMode.None)
+        if (GetCombatMode(null) != CombatMode.None)
         {
-            var combatMode = this.GetCombatMode(null);
+            var combatMode = GetCombatMode(null);
             text.Add("Combat mode: " + AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode]));
         }
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
         {
-            this.GetCombatInfo(null, ref info);
+            GetCombatInfo(null, ref info);
             if (info.Attack != -1)
             {
                 text.Add("Attack: " + IntToStr(info.Attack));
@@ -404,7 +404,7 @@ public partial class Ability : EngineObject
 
         if (mode.Contains(AbilityInfoModeElement.Strength))
         {
-            this.GetOffensiveStrength(null, ref strength, ref types);
+            GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
             {
                 text.Add("Strength: " + IntToStr(strength));
@@ -426,7 +426,7 @@ public partial class Ability : EngineObject
     // class receiver
     public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface)
     {
-        font.SetText(X, Y, this.GetName(owner), surface);
+        font.SetText(X, Y, GetName(owner), surface);
     }
 
     // Ability.PAS:1260
@@ -438,7 +438,7 @@ public partial class Ability : EngineObject
     // Ability.PAS:1445
     public virtual EngineClass AbilityDataClass() => default;
 
-    public virtual bool CanExpand(AbilityOwner owner) => !owner.GetAbilitySetAt(AbilityId) && (owner.GetAbilitySelectionTypes() & SelectionTypes) != default(Set<AbilitySelectionType>);
+    public virtual bool CanExpand(AbilityOwner owner) => !owner.GetAbilitySetAt(AbilityId) && (owner.GetAbilitySelectionTypes() & SelectionTypes) != default;
     public virtual int ExpandCost(AbilityOwner owner) => SkillPointCost;
 
     public virtual bool Remove(AbilityOwner owner)

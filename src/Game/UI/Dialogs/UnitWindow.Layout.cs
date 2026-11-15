@@ -497,7 +497,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortName.TextColor = 0;
         t1SortName.TextSelectedColor = 16777215;
         t1SortName.WinWidth = 168;
-        t1SortName.OnClick += _ => T1SortNameClick(default(int));
+        t1SortName.OnClick += _ => T1SortNameClick(default);
         session.EndRead(t1SortName);
         Button t1SortType = new Button(this);
         session.BeginRead(t1SortType);
@@ -528,7 +528,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortType.TextColor = 0;
         t1SortType.TextSelectedColor = 16777215;
         t1SortType.WinWidth = 85;
-        t1SortType.OnClick += _ => T1SortTypeClick(default(int));
+        t1SortType.OnClick += _ => T1SortTypeClick(default);
         session.EndRead(t1SortType);
         Button t1SortSource = new Button(this);
         session.BeginRead(t1SortSource);
@@ -559,7 +559,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortSource.TextColor = 0;
         t1SortSource.TextSelectedColor = 16777215;
         t1SortSource.WinWidth = 118;
-        t1SortSource.OnClick += _ => T1SortSourceClick(default(int));
+        t1SortSource.OnClick += _ => T1SortSourceClick(default);
         session.EndRead(t1SortSource);
         Label t1UseMsg = new Label(this);
         session.BeginRead(t1UseMsg);

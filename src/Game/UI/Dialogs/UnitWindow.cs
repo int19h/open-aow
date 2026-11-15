@@ -324,10 +324,10 @@ public partial class UnitWindow : UIModule
     // AoWUnitWindow.pas:575
     public void UnitWinResize()
     {
-        this.MainWindow.Alignment.LeftOffset = this.MainWindow.WinLeft;
-        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
-        this.MainWindow.Alignment.AlignHeight = AlignHeight.Top;
-        this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
+        MainWindow.Alignment.LeftOffset = MainWindow.WinLeft;
+        MainWindow.Alignment.TopOffset = MainWindow.WinTop;
+        MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        MainWindow.Alignment.AlignWidth = AlignWidth.Left;
     }
 
     // AoWUnitWindow.pas:586
@@ -799,14 +799,14 @@ public partial class UnitWindow : UIModule
 
     private int CompareUnitAbilities(string s1, string s2, object o1, object o2)
     {
-        Ability ability = GamePack.Current.AbilityControl.GetAbility(RtlUnit.ObjectToInt(o1));
-        Ability ability2 = GamePack.Current.AbilityControl.GetAbility(RtlUnit.ObjectToInt(o2));
+        Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o1));
+        Ability ability2 = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o2));
         int number = ((ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
         int number2 = ((ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
         int number3 = number2 - number;
         if (number3 == 0)
         {
-            number3 = RtlUnit.CompareStr(s1, s2);
+            number3 = CompareStr(s1, s2);
         }
         return number3;
     }

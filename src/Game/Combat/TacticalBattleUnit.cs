@@ -128,9 +128,9 @@ public partial class TacticalBattleUnit : CombatUnit
                         effect.Path = path3;
                         for (int j = 0; j <= 10; j++)
                         {
-                            speed = (float)((double)(Random(50) + 50) * 0.05);
+                            speed = (float)((Random(50) + 50) * 0.05);
                             gravity = (float)1.5;
-                            vz = (float)((double)(Random(25) + 25) * 0.05);
+                            vz = (float)((Random(25) + 25) * 0.05);
                             z = 0;
                             var count = effect.Path.Count;
                             var path = effect.Path[count - 1];

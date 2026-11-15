@@ -159,7 +159,7 @@ internal static class DelphiListCore
                 }
             }
             while (i <= j);
-            if (left < j) QuickSort<T, TCompare>(items, left, j, compare);
+            if (left < j) QuickSort(items, left, j, compare);
             left = i;
         }
         while (i < right);

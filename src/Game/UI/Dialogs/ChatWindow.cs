@@ -42,9 +42,9 @@ public partial class ChatWindow : UIModule
     // AOWChatWin.pas:67
     public void ChatWinResize()
     {
-        var alignment = this.MainWindow.Alignment;
-        alignment.LeftOffset = this.MainWindow.WinLeft;
-        alignment.BottomOffset = this.MainWindow.WindowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
+        var alignment = MainWindow.Alignment;
+        alignment.LeftOffset = MainWindow.WinLeft;
+        alignment.BottomOffset = MainWindow.WindowManager.WinHeight - MainWindow.WinTop - MainWindow.WinHeight;
         alignment.AlignWidth = AlignWidth.Left;
 
         ScrollPending = true;
@@ -68,7 +68,7 @@ public partial class ChatWindow : UIModule
     {
         if (ScrollPending)
         {
-            this.ChatScrollBar.Position = this.ChatScrollBar.Max + 1 - this.ChatScrollBar.NumberVisible;
+            ChatScrollBar.Position = ChatScrollBar.Max + 1 - ChatScrollBar.NumberVisible;
 
             ScrollPending = false;
         }

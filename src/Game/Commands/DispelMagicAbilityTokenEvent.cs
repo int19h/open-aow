@@ -1,17 +1,12 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Net;
-
 using Aow.Game.World.Map;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
@@ -97,7 +92,10 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             }
 
             ability.SetEnabled(source, false);
-            target.GetLocation(out x, out y, out l);
+            var coordinate8 = target.GetLocation();
+            x = coordinate8.X;
+            y = coordinate8.Y;
+            l = coordinate8.MapLevel;
             StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {

@@ -19,7 +19,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
 {
     private readonly Host _host;
 
-    public WheelLayoutTests(Host host) => this._host = host;
+    public WheelLayoutTests(Host host) => _host = host;
 
     public sealed class Host : IDisposable
     {

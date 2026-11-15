@@ -53,7 +53,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         {
             _frame += 1;
             intensity = 100 - _frame * 2;
-            HexGeometry.HexToPixel(this._x, this._y, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
             for (int i = 0, last = _hexes.Count - 1; i <= last; i++)
@@ -89,8 +89,8 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        this._x = X;
-        this._y = Y;
+        _x = X;
+        _y = Y;
         _layer = layer;
         _frame = 0;
         GamePack.Current.SpellControl.GetSpell(2).CastSounds.Play(0);

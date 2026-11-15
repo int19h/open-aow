@@ -140,7 +140,7 @@ public partial class ComboBox : Control
             _verticalScrollBar.SetFPosition(_firstShownItem);
             _verticalScrollBar.SetFNumber(_openListRows - 1);
             var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
-            _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (_itemHeight * _openListRows + base.BorderHeight);
+            _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (_itemHeight * _openListRows + BorderHeight);
             _verticalScrollBar.SetLarge(_openListRows - 1);
             _verticalScrollBar.Visible = _open;
             if (_verticalScrollBar.VanishWhenFull && _items.Count - 1 < _openListRows)
@@ -212,11 +212,11 @@ public partial class ComboBox : Control
                 if (_selected > -1 && _items.Count > _selected)
                 {
                     var item = _items[_selected];
-                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, item, lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, item, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                if (_open == true)
+                if (_open)
                 {
                     var imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 1];
                     var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
@@ -310,7 +310,7 @@ public partial class ComboBox : Control
             if (button == MouseButton.Left)
             {
                 MouseDown = true;
-                if (Valid == true && Visible == true)
+                if (Valid && Visible)
                 {
                     if (_open)
                     {
@@ -369,9 +369,9 @@ public partial class ComboBox : Control
                             _verticalScrollBar.SetFPosition(_firstShownItem);
                             _verticalScrollBar.SetFNumber(_openListRows);
                             var imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 6];
-                            _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (_itemHeight * _openListRows + base.BorderHeight);
+                            _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (_itemHeight * _openListRows + BorderHeight);
                             _verticalScrollBar.Visible = true;
-                            if (_verticalScrollBar.VanishWhenFull == true && _items.Count - 1 < _openListRows)
+                            if (_verticalScrollBar.VanishWhenFull && _items.Count - 1 < _openListRows)
                             {
                                 _verticalScrollBar.Visible = false;
                             }
@@ -394,7 +394,7 @@ public partial class ComboBox : Control
                 }
                 else
                 {
-                    if (_open == true)
+                    if (_open)
                     {
                         if (_priorityBeforeOpen != Priority)
                         {
@@ -471,7 +471,7 @@ public partial class ComboBox : Control
         }
         else
         {
-            if (button == MouseButton.Left && Valid == true && Visible == true && _open == true)
+            if (button == MouseButton.Left && Valid && Visible && _open)
             {
                 bool test = X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth;
                 if (test)
@@ -485,7 +485,7 @@ public partial class ComboBox : Control
                     if (X < Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth)
                     {
                         var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                        i = (Y - Window.WinTop - WinTop - base.BorderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
+                        i = (Y - Window.WinTop - WinTop - BorderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
                         if (i < _items.Count)
                         {
                             _selected = i;
@@ -542,24 +542,24 @@ public partial class ComboBox : Control
             if (_open)
             {
                 var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
-                bool condition = Y >= Window.WinTop + WinTop + base.BorderHeight + imageLibraryEditHeight.Height;
+                bool condition = Y >= Window.WinTop + WinTop + BorderHeight + imageLibraryEditHeight.Height;
                 if (condition)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    condition = Y < Window.WinTop + WinTop + imageLibraryEdit.Height + base.BorderHeight + _itemHeight * _openListRows;
+                    condition = Y < Window.WinTop + WinTop + imageLibraryEdit.Height + BorderHeight + _itemHeight * _openListRows;
                 }
 
                 if (condition)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    _hoverItem = (Y - Window.WinTop - WinTop - base.BorderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
+                    _hoverItem = (Y - Window.WinTop - WinTop - BorderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
                 }
             }
 
             RaiseMouseMove(this, shift, X, Y);
         }
 
-        if (_open == true && oldItem != _hoverItem)
+        if (_open && oldItem != _hoverItem)
         {
             Drawn = false;
             if (_verticalScrollBar != null)

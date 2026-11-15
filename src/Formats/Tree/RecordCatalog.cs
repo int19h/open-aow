@@ -115,7 +115,7 @@ public static class RecordCatalog
         { File = file, Path = path });
 }
 
-sealed class ReflectionRecordCatalog : IRecordCatalog
+internal sealed class ReflectionRecordCatalog : IRecordCatalog
 {
     private readonly Dictionary<string, List<Type>> _types = new();
     private readonly Dictionary<string, RecordTypeInfo> _described = new();
@@ -333,6 +333,6 @@ internal sealed partial class RecordTypeInfo
     private static int SetStorage(Type setType)
     {
         object value = Activator.CreateInstance(setType)!;
-        return (int)setType.GetProperty(nameof(Set<byte>.StorageSize))!.GetValue(value)!;
+        return (int)setType.GetProperty(nameof(Set<>.StorageSize))!.GetValue(value)!;
     }
 }

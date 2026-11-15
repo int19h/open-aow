@@ -452,9 +452,9 @@ public partial class FastBattleWindow : UIModule
                     }
 
                     {
-                        if (image != this.GlowImage.CurrentImage)
+                        if (image != GlowImage.CurrentImage)
                         {
-                            this.GlowImage.CurrentImage = image + 20;
+                            GlowImage.CurrentImage = image + 20;
                         }
                     }
 
@@ -481,8 +481,8 @@ public partial class FastBattleWindow : UIModule
                     }
 
                     {
-                        var endPosition = this._viewer.GetEndPosition();
-                        if (this._viewer.Position >= endPosition)
+                        var endPosition = _viewer.GetEndPosition();
+                        if (_viewer.Position >= endPosition)
                         {
                             SetPhase(2);
                         }
@@ -497,9 +497,9 @@ public partial class FastBattleWindow : UIModule
                     }
 
                     {
-                        if (image != this.GlowImage.CurrentImage)
+                        if (image != GlowImage.CurrentImage)
                         {
-                            this.GlowImage.CurrentImage = image + 20;
+                            GlowImage.CurrentImage = image + 20;
                         }
                     }
 

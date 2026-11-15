@@ -1,10 +1,8 @@
 #nullable disable
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
@@ -19,8 +17,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
@@ -39,13 +35,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     private sbyte _player;
 
     public sbyte TargetPlayer { get; private set; }
-    public sbyte TargetX { get; private set; }
-    public sbyte TargetY { get; private set; }
-    public sbyte TargetMapLevel { get; private set; }
+    public MapCoordinate Target { get; private set; }
 
-    private sbyte _destinationX;
-    private sbyte _destinationY;
-    private sbyte _destinationMapLevel;
+    private MapCoordinate Destination { get; set; }
+
     private bool _animate;
 
     // MoveT.PAS:2066
@@ -61,14 +54,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         base.PersistFields(persister);
         PersistSupport.Int32List(persister, name: "UnitIds", list: _unitIds);
         _player = PersistSupport.UnsignedByte(persister, name: "Player", value: _player);
-        TargetX = PersistSupport.UnsignedByte(persister, name: "TargetX", value: TargetX);
-        TargetY = PersistSupport.UnsignedByte(persister, name: "TargetY", value: TargetY);
-        TargetMapLevel = PersistSupport.UnsignedByte(persister, name: "TargetMapLevel", value: TargetMapLevel);
+        Target = PersistSupport.Coordinate(persister, name: "Target", value: Target, width: CoordinateWidth.Byte);
         TargetPlayer = PersistSupport.UnsignedByte(persister, name: "TargetPlayer", value: TargetPlayer);
         Mode = persister.Set("Mode", value: Mode);
-        _destinationX = PersistSupport.UnsignedByte(persister, name: "DestinationX", value: _destinationX);
-        _destinationY = PersistSupport.UnsignedByte(persister, name: "DestinationY", value: _destinationY);
-        _destinationMapLevel = PersistSupport.UnsignedByte(persister, name: "DestinationMapLevel", value: _destinationMapLevel);
+        Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
     }
 
     // MoveT.PAS:2060
@@ -125,7 +114,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
                 result = result && StrategicMap.Current.MoveControl.ValidPath(settings, Path);
                 result = result && ArmyHexSprite.Army.Player == _player;
-                targetPlayer = StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetMapLevel).GetPlayer();
+                targetPlayer = StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer();
                 result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
                 if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
                 {
@@ -191,9 +180,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
         var army = ArmyHexSprite.Army;
         army.Mode = army.Mode.With(ArmyModeElement.Moving);
-        army.DestinationX = this._destinationX;
-        army.DestinationY = this._destinationY;
-        army.DestinationMapLevel = this._destinationMapLevel;
+        army.Destination = new MapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
     }
 
     // MoveT.PAS:2221
@@ -454,9 +441,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             _player = armyHexSprite.Army.Player;
             Mode = mode;
             TargetPlayer = GetMapField(path[0].Location).GetPlayer();
-            TargetX = path[0].Location.X;
-            TargetY = path[0].Location.Y;
-            TargetMapLevel = path[0].Location.MapLevel;
+            Target = new MapCoordinate(path[0].Location.X, path[0].Location.Y, path[0].Location.MapLevel);
             Selection = armyHexSprite.Army.ValidateSelection(selection);
             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
             {
@@ -467,9 +452,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 }
             }
 
-            _destinationX = ArmyHexSprite.Army.DestinationX;
-            _destinationY = ArmyHexSprite.Army.DestinationY;
-            _destinationMapLevel = ArmyHexSprite.Army.DestinationMapLevel;
+            Destination = new MapCoordinate(ArmyHexSprite.Army.Destination.X, ArmyHexSprite.Army.Destination.Y, ArmyHexSprite.Army.Destination.MapLevel);
             result = true;
         }
         else

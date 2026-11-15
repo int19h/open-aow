@@ -221,11 +221,12 @@ candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
 `src/Formats/versions.json` pins the current version (6) with the schema's SHA-256
-`d66843c346f3bd0fb27bf28ddc70a8d749ff3ce1bb436d55d9d7d37ceea8245e`, the codec contracts of that
+`66ee8c3ae93053736a3e9446b8b3c995f703a568e5121a6fa71af73ebc713d02`, the codec contracts of that
 version (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
 `written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-1`,
 `bit-array-1`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-1`, `single-1`,
-`terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1`, `fixed-slot-1`) and the mapping
+`terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1`, `fixed-slot-1`,
+`coordinate-1`) and the mapping
 contracts `DiplomaticProposal-1` and `ProductionOrder-1`. `unitMappings` names the persisted
 classes whose game load needs a unit mapping (`DiplomaticAction`, `MapContainer`,
 `ProductionItem`, `StrategicMap`). `flatMappings`, the kind classes that keep a flat mapping, is
@@ -239,8 +240,20 @@ payloads with the fixed dynamic members' `$slot` (version 5). Twenty-seven list 
 `domain`, the reference domain of their values (`unit-id`, `unit-resource-index`, `spell-id`,
 `player-slot` and the like). A domain is an annotation: no value and no check depends on it yet.
 No property is `stream` or `float32`, and `DiplomaticAction.Kind` is the one `data` property, on
-its case mapping. Version 6 renames the members to their C# names (issue 230). It changes no
-codec, id or order.
+its case mapping. Version 6 renames the members to their C# names (issue 230) and, in place,
+stores each map position as one `coordinate` member (issue 202). The original image keeps one
+entry per present component at the same ids, a present zero included, and writes nothing for an
+empty coordinate. The document stores one object `{X, Y, MapLevel}`, omits a zero component and
+omits an empty member. Width 1 is an unsigned byte, the two's complement of an `sbyte`. Width 4
+is a signed 32-bit integer, and a value outside -128 to 127 is refused on read and on write.
+`NegotiateRequestEventLog.Hex` is that member, because its parent `JoinEventLog` already stores
+a packed `Location` integer. Packed `Location` words stay one `i32`: `ArmyId`, `JoinEventLog`,
+`GlobalTargetSpellTokenEvent` and `PlayerMagicEventLog`. The change adds the `coordinate` codec
+and leaves every original image id in place. Own formats are not stable yet, so the schema hash
+moves with the file and no older document shape loads. A document written before this change
+still says version 6 and names the separate members. Export it with the previous aowconv
+(`aowconv to-original <own> <original>`) and import that image with this aowconv
+(`aowconv to-own <original> <own>`). The original bytes do not change.
 
 Class names are the C# names, member names the names of the C# members they bind, and record
 fields and enum members their C# names. A type row of `names.csv` can pin a stored class name

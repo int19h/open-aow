@@ -1,9 +1,5 @@
 #nullable disable
 using System.Collections;
-
-using Aow.Engine.Nodes;
-
-using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.AI;
@@ -41,7 +37,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     // AIGroup.pas:800
     public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
-        Aow.Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
+        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
         return this[index];
     }
 

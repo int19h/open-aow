@@ -183,14 +183,14 @@ public sealed class StringRoutineTests
     public void NullArgumentsBehaveAsEmptyText()
     {
         using var mode = new StringMode(false);
-        Assert.Equal(0, RtlUnit.Length((string?)null));
-        Assert.Equal("", RtlUnit.Copy((string?)null, 1, 3));
-        Assert.Equal("", RtlUnit.Delete((string?)null, 1, 3));
-        Assert.Equal("x", RtlUnit.Insert("x", (string?)null, 1));
-        Assert.Equal("x", RtlUnit.Insert((string?)null, "x", 1));
-        Assert.Equal(0, RtlUnit.Pos((string?)null, "x"));
-        Assert.Equal(0, RtlUnit.Pos("x", (string?)null));
-        Assert.Equal(0, RtlUnit.AnsiPos((string?)null, null));
+        Assert.Equal(0, RtlUnit.Length(null));
+        Assert.Equal("", RtlUnit.Copy(null, 1, 3));
+        Assert.Equal("", RtlUnit.Delete(null, 1, 3));
+        Assert.Equal("x", RtlUnit.Insert("x", null, 1));
+        Assert.Equal("x", RtlUnit.Insert(null, "x", 1));
+        Assert.Equal(0, RtlUnit.Pos(null, "x"));
+        Assert.Equal(0, RtlUnit.Pos("x", null));
+        Assert.Equal(0, RtlUnit.AnsiPos(null, null));
         Assert.Equal("\0\0", RtlUnit.Resized(null, 2));
         Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
         string value = null!;
@@ -211,10 +211,10 @@ public sealed class StringRoutineTests
             Assert.Equal(0, function(null, ""));
             Assert.Equal(0, function("", null));
         }
-        Assert.Equal("''", RtlUnit.QuotedStr((string?)null));
-        Assert.Equal(91, RtlUnit.StrToIntDef((string?)null, 91));
-        Assert.Throws<FormatException>(() => RtlUnit.StrToInt((string?)null));
-        Assert.Equal("", RtlUnit.Format((string?)null));
+        Assert.Equal("''", RtlUnit.QuotedStr(null));
+        Assert.Equal(91, RtlUnit.StrToIntDef(null, 91));
+        Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
+        Assert.Equal("", RtlUnit.Format(null));
         Assert.Equal("", RtlUnit.Format("%s", (string?)null));
     }
 
@@ -230,6 +230,6 @@ public sealed class StringRoutineTests
             Assert.Equal(expected.Message, actual.Message);
         }
         Assert.Equal("Assertion failed (unit.pas, line 1)",
-            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, (string?)null, "unit.pas", 1)).Message);
+            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, null, "unit.pas", 1)).Message);
     }
 }

@@ -1,11 +1,9 @@
 #nullable disable warnings
 using System.Runtime.CompilerServices;
-
 using Aow.Formats;
 using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
-
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;

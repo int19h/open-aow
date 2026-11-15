@@ -490,9 +490,9 @@ public partial class ProductionScreen : UIModule
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
                 ActiveActionTurnsLabel.TextColor = 6783862;
-                this.ActiveActionTurnsBar.Min = 0;
-                this.ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
-                this.ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
+                ActiveActionTurnsBar.Min = 0;
+                ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
+                ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
 
                 ActiveActionTurnsBar.Visible = true;
             }

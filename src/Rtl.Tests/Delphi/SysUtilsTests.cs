@@ -134,8 +134,8 @@ public sealed class SysUtilsTests
             ushort yearWord = 0, monthWord = 0, dayWord = 0, hourWord = 0, minuteWord = 0, secondWord = 0, millisecondsWord = 0;
             DecodeDate(date, out yearWord, out monthWord, out dayWord);
             DecodeTime(time, out hourWord, out minuteWord, out secondWord, out millisecondsWord);
-            Assert.Equal((2024, 2, 29), ((int)yearWord, (int)monthWord, (int)dayWord));
-            Assert.Equal((12, 34, 56, 789), ((int)hourWord, (int)minuteWord, (int)secondWord, (int)millisecondsWord));
+            Assert.Equal((2024, 2, 29), (yearWord, monthWord, dayWord));
+            Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
             Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
             foreach (var (h, m, s, milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));

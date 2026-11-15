@@ -315,7 +315,7 @@ public sealed class RecordShapeTests : FormatsTest
             BinaryPrimitives.WriteUInt32LittleEndian(bytes, number);
             var site = new ValueSite { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
             var decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, site);
-            Assert.Equal((long)number, ((JsonInteger)decoded).Value);
+            Assert.Equal(number, ((JsonInteger)decoded).Value);
             var encode = new EncodeContext(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
             var buffer = new ByteBuffer();
             codec.Encode(encode, decoded, buffer, site);
@@ -324,7 +324,7 @@ public sealed class RecordShapeTests : FormatsTest
             var read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, frame);
             Assert.Equal(4, read.Width);
             Assert.False(read.Signed);
-            Assert.Equal((long)number, read.Value);
+            Assert.Equal(number, read.Value);
             var written = new ByteBuffer();
             codec.WriteImage(read, encode, written, frame);
             Assert.Equal(bytes, written.ToArray());
@@ -335,9 +335,9 @@ public sealed class RecordShapeTests : FormatsTest
             node.Add("Value", record);
             var image = OriginalBackend.Write(node, classValue, schema, "game");
             var back = OriginalBackend.Read(image, classValue, schema, "game");
-            Assert.Equal((long)number, ((IntegerNode)((RecordNode)back.Find("Value")!).Find("U32")!).Value);
+            Assert.Equal(number, ((IntegerNode)((RecordNode)back.Find("Value")!).Find("U32")!).Value);
             var document = DocumentBackend.Write(back, classValue, schema, "game");
-            Assert.Equal((long)number, ((JsonInteger)((JsonObject)document["Value"]!)["U32"]!).Value);
+            Assert.Equal(number, ((JsonInteger)((JsonObject)document["Value"]!)["U32"]!).Value);
             Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
         }
     }

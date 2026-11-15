@@ -32,7 +32,10 @@ public partial class Harmony : GlobalEnchantmentSpell
         sbyte y = default;
         sbyte l = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out x, out y, out l);
+        var coordinate71 = source.GetLocation();
+        x = coordinate71.X;
+        y = coordinate71.Y;
+        l = coordinate71.MapLevel;
         StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         StrategicMap.Current.AddEffect(WorldEffectType.Tranquility);
         CastSounds.Play(0);

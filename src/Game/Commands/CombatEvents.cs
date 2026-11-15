@@ -27,15 +27,15 @@ internal static class CombatEvents
             for (int i = 1; i <= count - 1; i++)
             {
                 effect = CombatMap.Current.AddEffect(effectType);
-                speed = (float)((double)(Random(10) + 10) * 0.1);
+                speed = (float)((Random(10) + 10) * 0.1);
                 gravity = (float)0.5;
                 if (resisted || effectType == BattleEffectType.DamMagic)
                 {
-                    vz = (float)((double)(Random(50) + 50) * 0.1);
+                    vz = (float)((Random(50) + 50) * 0.1);
                 }
                 else
                 {
-                    vz = (float)((double)(Random(25) + 25) * 0.1);
+                    vz = (float)((Random(25) + 25) * 0.1);
                 }
 
                 z = 0;

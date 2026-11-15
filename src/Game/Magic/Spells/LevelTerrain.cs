@@ -22,7 +22,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     public LevelTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_levelTerrainText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_levelTerrainText);
         SpellId = 18;
         BaseManaCost = 5;
         SpellLevel = 3;

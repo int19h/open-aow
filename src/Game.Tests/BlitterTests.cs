@@ -85,8 +85,8 @@ public sealed class BlitterTests
         ("BltStretched16", (s, rows, cols, d, w, h) => Blit.BlitStretched16(ViewOf(s), rows, cols, ViewOf(d), w, h)),
         ("BlendStretched555", (s, rows, cols, d, w, h) => Blit.BlendStretched555(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
         ("BlendStretched565", (s, rows, cols, d, w, h) => Blit.BlendStretched565(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
-        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Game.Draw.Images.Picture16.BlitStretched16(ViewOf(s), rows, cols, ViewOf(d), w, h)),
-        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Game.Draw.Images.Picture16.BlendStretched555(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
+        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlitStretched16(ViewOf(s), rows, cols, ViewOf(d), w, h)),
+        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlendStretched555(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
     ];
 
     private static readonly (string Name, Sprite Call)[] s_sprites16 =

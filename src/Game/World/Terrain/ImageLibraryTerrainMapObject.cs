@@ -95,13 +95,13 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
-        if (this.Resource.ImageSequenceList == null)
+        if (Resource.ImageSequenceList == null)
         {
-            this.Resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)this.Resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)this.Resource).ImageOffsetY, lockedSurface);
+            Resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetY, lockedSurface);
         }
         else
         {
-            this.Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, _imageIndex, (uint)(pixelX + pixelY));
+            Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, _imageIndex, (uint)(pixelX + pixelY));
         }
     }
 

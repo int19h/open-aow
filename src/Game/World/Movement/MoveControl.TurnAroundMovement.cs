@@ -34,7 +34,7 @@ public partial class MoveControl
                 points = OnMovePoint(next, over);
                 nextOver = 1;
                 if (points >= 0 && (next.FieldFlags & MapField.MoveOverFlag) != 0 &&
-                    (next.HexX != DestinationX || next.HexY != DestinationY))
+                    (next.HexX != Destination.X || next.HexY != Destination.Y))
                 {
                     nextOver = next.CanMoveOver(this);
                     if (nextOver == 0) points = -1;

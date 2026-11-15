@@ -21,9 +21,9 @@ public sealed class UIConstructionTests
     {
         internal List<string> Observations { get; } = [];
 
-        public override void Notification(Component child, Component.Operation operation)
+        public override void Notification(Component child, Operation operation)
         {
-            if (operation == Component.Operation.Insert) Observations.Add(Snapshot(child));
+            if (operation == Operation.Insert) Observations.Add(Snapshot(child));
             base.Notification(child, operation);
         }
     }

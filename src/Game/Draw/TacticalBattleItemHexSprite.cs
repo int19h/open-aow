@@ -37,11 +37,11 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
         }
         else
         {
-            itemHexSprite = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.MapLevel).FindOwnedChild(131697);
+            itemHexSprite = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild(131697);
             if (itemHexSprite == null)
             {
                 itemHexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
-                StrategicMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.MapLevel);
+                StrategicMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel);
             }
 
             for (int i = Items.GetCount() - 1; i >= 0; i--)

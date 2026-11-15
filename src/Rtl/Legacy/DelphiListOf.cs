@@ -105,7 +105,7 @@ public class DelphiList<T> : IDisposable where T : class
         where TItem : class, T
     {
         TraceSort?.Invoke(this, compare);
-        DelphiListCore.SortAs<T, TItem>(items, count, compare);
+        DelphiListCore.SortAs(items, count, compare);
     }
 
     // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
@@ -119,7 +119,7 @@ public class DelphiList<T> : IDisposable where T : class
         where TItem : class, T
     {
         TraceSort?.Invoke(this, compare);
-        DelphiListCore.SortStableAs<T, TItem>(items, count, compare);
+        DelphiListCore.SortStableAs(items, count, compare);
     }
 
     // CLASSES.PAS TList.Destroy.

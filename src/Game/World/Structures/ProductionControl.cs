@@ -78,9 +78,9 @@ public partial class ProductionControl : EngineObject
         int result;
         if (Status == ProductionControlStatus.Producing)
         {
-            if (this.Settings.TurnsTotal != 0)
+            if (Settings.TurnsTotal != 0)
             {
-                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Gold) / this.Settings.TurnsTotal);
+                result = Round((double)(Settings.TurnsLeft * Settings.Gold) / Settings.TurnsTotal);
             }
             else
             {
@@ -101,9 +101,9 @@ public partial class ProductionControl : EngineObject
         int result;
         if (Status == ProductionControlStatus.Producing)
         {
-            if (this.Settings.TurnsTotal != 0)
+            if (Settings.TurnsTotal != 0)
             {
-                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Mana) / this.Settings.TurnsTotal);
+                result = Round((double)(Settings.TurnsLeft * Settings.Mana) / Settings.TurnsTotal);
             }
             else
             {
@@ -305,24 +305,20 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
-        var x = eventValue.X;
-        var y = eventValue.Y;
-        var mapLevel = eventValue.MapLevel;
-        GetLocation(out x, out y, out mapLevel);
-        eventValue.X = x;
-        eventValue.Y = y;
-        eventValue.MapLevel = mapLevel;
+        var x = eventValue.Location.X;
+        var y = eventValue.Location.Y;
+        var mapLevel = eventValue.Location.MapLevel;
+        var coordinate35 = GetLocation();
+        x = coordinate35.X;
+        y = coordinate35.Y;
+        mapLevel = coordinate35.MapLevel;
+        eventValue.Location = new MapCoordinate(x, y, mapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
     }
 
     // Structur.PAS:776
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // intf_P1_02.inc:133
     public virtual sbyte GetPlayer()
@@ -898,7 +894,7 @@ public partial class ProductionControl : EngineObject
         {
             productions.SortDescendingItemB();
             result = 0;
-            minimum = Round((double)productions[0].Second * 0.8);
+            minimum = Round(productions[0].Second * 0.8);
             while (result + 1 < productions.Count && productions[result + 1].Second >= minimum)
             {
                 result += 1;

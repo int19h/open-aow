@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
@@ -16,7 +15,6 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -496,7 +494,7 @@ public sealed partial class PersistEquivalenceTests
         {
             var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
             var city = new CityEnchantment(null!) { Holder = EngineFixture.Engine, CityEnchantmentId = value };
-            city.EnchantmentLocation = new MapCoordinate(X: 9, Y: 0, MapLevel: 0);
+            city.EnchantmentLocation = new MapCoordinate(9, 0, 0);
             city.SetOwner(control.Enchantments);
             Check("GlobalMagicControl", control, converterRead: false);
         });
@@ -803,20 +801,16 @@ public sealed partial class PersistEquivalenceTests
         {
             map.ConnectionType = PlayerConnectionType.Network;
             var army = new Army(null!) { Holder = EngineFixture.Engine };
-            army.DestinationX = 3;
-            army.DestinationY = 4;
-            army.DestinationMapLevel = 1;
+            army.Destination = new MapCoordinate(3, 4, 1);
             army.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             var classValue = s_schema.Get("Army");
             var document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, "game");
-            Assert.Null(document.Find("DestinationX"));
-            Assert.Null(document.Find("DestinationY"));
-            Assert.Null(document.Find("DestinationMapLevel"));
+            Assert.Null(document.Find("Destination"));
             Assert.Null(document.Find("UserMode"));
             Check("Army", army);
 
             map.ConnectionType = PlayerConnectionType.Local;
-            var source = new Army(null!) { Holder = EngineFixture.Engine, DestinationX = 3, DestinationY = 4, DestinationMapLevel = 1 };
+            var source = new Army(null!) { Holder = EngineFixture.Engine, Destination = new MapCoordinate(3, 4, 1) };
             source.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             var image = Image(source);
             source.Dispose();
@@ -827,13 +821,13 @@ public sealed partial class PersistEquivalenceTests
             {
                 TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
                 Load(viaReadWrite, image);
-                Assert.Equal(3, viaPersist.DestinationX);
-                Assert.Equal(4, viaPersist.DestinationY);
-                Assert.Equal(1, viaPersist.DestinationMapLevel);
+                Assert.Equal(3, viaPersist.Destination.X);
+                Assert.Equal(4, viaPersist.Destination.Y);
+                Assert.Equal(1, viaPersist.Destination.MapLevel);
                 Assert.True(viaPersist.UserMode.Contains(ArmyUserModeElement.Guard));
-                Assert.Equal(3, viaReadWrite.DestinationX);
-                Assert.Equal(4, viaReadWrite.DestinationY);
-                Assert.Equal(1, viaReadWrite.DestinationMapLevel);
+                Assert.Equal(3, viaReadWrite.Destination.X);
+                Assert.Equal(4, viaReadWrite.Destination.Y);
+                Assert.Equal(1, viaReadWrite.Destination.MapLevel);
                 Assert.True(viaReadWrite.UserMode.Contains(ArmyUserModeElement.Guard));
                 EqualBytes(Image(viaPersist), Image(viaReadWrite), "Army network load");
             }
@@ -883,10 +877,8 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             Dimensions = new Rect { Left = int.MinValue, Top = -1, Right = int.MaxValue, Bottom = 4 },
-            StoredHexX = -1,
-            StoredHexY = sbyte.MinValue,
-            StoredHexLevel = sbyte.MaxValue,
-            FrameCounter = int.MinValue,
+            Location = new MapCoordinate(-1, sbyte.MinValue, sbyte.MaxValue),
+            FrameCounter = int.MinValue
         };
         Check("Animation", edge);
     }

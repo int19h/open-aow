@@ -60,7 +60,7 @@ internal sealed class ProbeLines(string name)
         },
     };
 
-    internal string DelphiName(System.Exception error) =>
+    internal string DelphiName(Exception error) =>
         s_delphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
         && table.TryGetValue(error.GetType(), out string? delphi)
             ? delphi
@@ -72,7 +72,7 @@ internal sealed class ProbeLines(string name)
         {
             action();
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             return DelphiName(error);
         }

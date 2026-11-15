@@ -143,7 +143,7 @@ public partial class Altar : PlayerStructure
             if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
-                if ((double)value > (double)TargetMana() * 0.75)
+                if (value > TargetMana() * 0.75)
                 {
                     var playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
                     var targetMana = TargetMana();
@@ -253,9 +253,7 @@ public partial class Altar : PlayerStructure
         {
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            selection.SourceX = GetHexX();
-            selection.SourceY = GetHexY();
-            selection.SourceL = GetHexLevel();
+            selection.SourceLocation = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
             _storm = CreateStorm();
@@ -314,7 +312,7 @@ public partial class Altar : PlayerStructure
                 break;
             case TargetSelectionChange.Selected:
                 selection.Changed -= OnTargetSelectionChange;
-                if (StormTargetSelected(selection.TargetX, selection.TargetY, selection.TargetL))
+                if (StormTargetSelected(selection.Target.X, selection.Target.Y, selection.Target.MapLevel))
                 {
                     selection.Deactivate();
                 }

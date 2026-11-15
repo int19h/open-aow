@@ -1,7 +1,7 @@
 
 namespace Aow.Game.Tests;
 
-/// <summary>Pins the unit table of <see cref="global::Aow.Game.Startup"/>: the order of the initialization and
+/// <summary>Pins the unit table of <see cref="Startup"/>: the order of the initialization and
 /// finalization sections, for the full set and for a selection, as the nested chain before the
 /// table ran them.</summary>
 public sealed class StartupOrderTests
@@ -22,7 +22,7 @@ public sealed class StartupOrderTests
         ("AoWTitleScene", "Aow.Game.UI.Dialogs.TitleCaptions", "Initialize", ""),
     ];
 
-    private static string[] Split(string text) => text.Split((char[])[' ', '\n'], StringSplitOptions.RemoveEmptyEntries);
+    private static string[] Split(string text) => text.Split([' ', '\n'], StringSplitOptions.RemoveEmptyEntries);
 
     private static void AssertDelegate(Action? section, string type, string name)
     {

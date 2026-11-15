@@ -1134,7 +1134,7 @@ public partial class SpellBook : UIModule
     }
 
     // AoWSpellBook.pas:325
-    public void ResearchIcnDraw(Controls.Control sender, LockedSurface lockedSurface)
+    public void ResearchIcnDraw(Control sender, LockedSurface lockedSurface)
     {
         Spell spell;
         int x;
@@ -1153,7 +1153,7 @@ public partial class SpellBook : UIModule
     }
 
     // AoWSpellBook.pas:337
-    public void CastingIcnDraw(Controls.Control sender, LockedSurface lockedSurface)
+    public void CastingIcnDraw(Control sender, LockedSurface lockedSurface)
     {
         Spell spell;
         int x;

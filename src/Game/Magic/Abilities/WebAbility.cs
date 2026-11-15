@@ -76,7 +76,7 @@ public partial class WebAbility : TouchAbility
             var defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
             var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             var damage = defender.GetDamage();
             damageValues.TargetCost = damage;
             damageValues.DamageTypes = Set<DamageType>.Of();
@@ -96,7 +96,7 @@ public partial class WebAbility : TouchAbility
     {
         if (owner is Troop troop)
         {
-            strength = Round((double)(troop.GetAttack() * 4 * 4) * 0.1);
+            strength = Round(troop.GetAttack() * 4 * 4 * 0.1);
             types = Set<DamageType>.Of(DamageType.None);
         }
     }
@@ -113,7 +113,7 @@ public partial class WebAbility : TouchAbility
             var defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
             var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of();

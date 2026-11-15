@@ -461,12 +461,12 @@ public partial class CampaignTransferSettings : EngineObject
         TransferPointsMax = map.CampaignSettings.TransferPointsMax;
         if (GetEngine().Campaign.DifficultyLevel == CampaignDifficultyLevel.Easy)
         {
-            TransferPointsMax = Round((double)TransferPointsMax * 1.5);
+            TransferPointsMax = Round(TransferPointsMax * 1.5);
         }
 
         if (GetEngine().Campaign.DifficultyLevel == CampaignDifficultyLevel.Hard)
         {
-            TransferPointsMax = Round((double)TransferPointsMax * 0.5);
+            TransferPointsMax = Round(TransferPointsMax * 0.5);
         }
 
         TransferGoldMax = map.CampaignSettings.TransferGoldMax;
@@ -584,7 +584,10 @@ public partial class CampaignTransferSettings : EngineObject
             var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
-            leader.GetLocation(out x, out y, out l);
+            var coordinate23 = leader.GetLocation();
+            x = coordinate23.X;
+            y = coordinate23.Y;
+            l = coordinate23.MapLevel;
             if (Leader != null)
             {
                 leader.Deactivate();

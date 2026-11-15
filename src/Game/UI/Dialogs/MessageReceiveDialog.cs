@@ -5,8 +5,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event

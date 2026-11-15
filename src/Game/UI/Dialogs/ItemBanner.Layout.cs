@@ -3,7 +3,6 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -43,7 +42,7 @@ public partial class ItemBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "IBannerPopup";
-        BannerMenu.OnMouseDown += (_, button, _, _, _) => IBannerPopupMouseDown(default(int), (byte)button, default(int), default(int), default(int));
+        BannerMenu.OnMouseDown += (_, button, _, _, _) => IBannerPopupMouseDown(default, (byte)button, default, default, default);
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;

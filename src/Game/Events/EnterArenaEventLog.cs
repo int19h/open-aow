@@ -2,12 +2,9 @@
 // Translated from Arena.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Events;
@@ -117,7 +114,7 @@ public partial class EnterArenaEventLog : EventLog
 
         if (total != 0)
         {
-            result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]);
+            result = Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]);
         }
         else
         {

@@ -7,57 +7,63 @@
           "ArmyHexSprite.Army": {
             "$type": "Aow.Game.Units.Army",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationMapLevel": -1,
-            "Army.DestinationX": -1,
-            "Army.DestinationY": -1,
+            "Army.Destination": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "Army.IndependentRelation": -1,
-            "Army.MapLevel": -1,
+            "Army.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "Army.Mode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
             "Army.OnUpdate": null,
             "Army.Player": 0,
             "Army.Status": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
+            },
+            "Army.UserMode": {
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
             },
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
-            },
             "Army._visibilityRanges": 0,
-            "Army.X": -1,
-            "Army.Y": -1,
+            "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList`1.count": 0,
-              "DelphiList`1.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null
+            "ObservableNode._updateCount": 0
           },
           "ArmyHexSprite.MoveSteps": 0,
           "ArmyHexSprite._unitIndex": 0,
@@ -66,10 +72,10 @@
           "UnitHexSprite.Direction": 3,
           "UnitHexSprite.FlagId": 0,
           "UnitHexSprite.MoveStep": -1,
-          "UnitHexSprite._shadow": null,
-          "UnitHexSprite._showPriority": 1744830464,
           "UnitHexSprite.Status": 0,
-          "UnitHexSprite.UnitGraphicsResource": null
+          "UnitHexSprite.UnitGraphicsResource": null,
+          "UnitHexSprite._shadow": null,
+          "UnitHexSprite._showPriority": 1744830464
         }
       },
       "Events": null,
@@ -94,57 +100,63 @@
           "ArmyHexSprite.Army": {
             "$type": "Aow.Game.Units.Army",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationMapLevel": -1,
-            "Army.DestinationX": -1,
-            "Army.DestinationY": -1,
+            "Army.Destination": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "Army.IndependentRelation": -1,
-            "Army.MapLevel": -1,
+            "Army.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            },
             "Army.Mode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
             "Army.OnUpdate": null,
             "Army.Player": 0,
             "Army.Status": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
+            },
+            "Army.UserMode": {
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set\u00601.a": 0,
+              "Set\u00601.b": 0,
+              "Set\u00601.bounded": false,
+              "Set\u00601.c": 0,
+              "Set\u00601.d": 0,
+              "Set\u00601.high": 0,
+              "Set\u00601.low": 0
             },
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
-            },
             "Army._visibilityRanges": 0,
-            "Army.X": -1,
-            "Army.Y": -1,
+            "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList`1.count": 0,
-              "DelphiList`1.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null
+            "ObservableNode._updateCount": 0
           },
           "ArmyHexSprite.MoveSteps": 0,
           "ArmyHexSprite._unitIndex": 0,
@@ -153,10 +165,10 @@
           "UnitHexSprite.Direction": 3,
           "UnitHexSprite.FlagId": 0,
           "UnitHexSprite.MoveStep": -1,
-          "UnitHexSprite._shadow": null,
-          "UnitHexSprite._showPriority": 1744830464,
           "UnitHexSprite.Status": 0,
-          "UnitHexSprite.UnitGraphicsResource": null
+          "UnitHexSprite.UnitGraphicsResource": null,
+          "UnitHexSprite._shadow": null,
+          "UnitHexSprite._showPriority": 1744830464
         }
       },
       "Events": [
@@ -171,10 +183,10 @@
             "UnitHexSprite.Direction": 0,
             "UnitHexSprite.FlagId": 0,
             "UnitHexSprite.MoveStep": 0,
-            "UnitHexSprite._shadow": null,
-            "UnitHexSprite._showPriority": 0,
             "UnitHexSprite.Status": 0,
-            "UnitHexSprite.UnitGraphicsResource": null
+            "UnitHexSprite.UnitGraphicsResource": null,
+            "UnitHexSprite._shadow": null,
+            "UnitHexSprite._showPriority": 0
           }
         }
       ],

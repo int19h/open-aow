@@ -4,7 +4,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -58,7 +57,7 @@ public partial class MultiWindow : UIModule
             // leaves the window as it is when the connection fails.
             if (result != 0)
             {
-                RtlUnit.ShowMessage(NetworkPlayNotAvailableText);
+                ShowMessage(NetworkPlayNotAvailableText);
             }
         }
 

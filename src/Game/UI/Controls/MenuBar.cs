@@ -133,7 +133,7 @@ public partial class MenuBar : Control
                             base.Font.Color = SelectedColor;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + BorderWidth, Window.WinTop + WinTop + BorderHeight, item, lockedSurface);
                         }
                     }
                     else
@@ -147,7 +147,7 @@ public partial class MenuBar : Control
                             base.Font.Color = Color;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight + 1, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + BorderWidth, Window.WinTop + WinTop + BorderHeight + 1, item, lockedSurface);
                         }
                     }
                 }
@@ -195,7 +195,7 @@ public partial class MenuBar : Control
                         for (; i <= last; i += 1)
                         {
                             var component = Menus[i];
-                            if (component.OwnerItem == this._selected)
+                            if (component.OwnerItem == _selected)
                             {
                                 component.SetVisible(true);
                             }
@@ -226,7 +226,7 @@ public partial class MenuBar : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);

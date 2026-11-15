@@ -13,9 +13,9 @@ public sealed class SdlHost : IRtlHost, IDisposable
         Display = new SdlDisplayHost("OpenAoW", scale: scale, hidden: hidden);
         try
         {
-            Display.Fullscreen = fullscreen ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\Display Mode") is int mode ? mode != 0 : true);
+            Display.Fullscreen = fullscreen ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\Display Mode") is not int mode || mode != 0);
             // The port's own setting, absent from the original: on unless it reads 0.
-            Display.VSync = vsync ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\VSync") is int interval ? interval != 0 : true);
+            Display.VSync = vsync ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\VSync") is not int interval || interval != 0);
         }
         catch { Display.Dispose(); throw; }
         Dialogs = dialogs ?? new DisplayDialogs(Display);
@@ -56,12 +56,12 @@ public sealed class SdlHost : IRtlHost, IDisposable
     {
         // The game's catch blocks drop the exception and show only a message (as the original
         // did), so the host keeps the last one thrown on each thread for the log.
-        [ThreadStatic] private static System.Exception? t_last;
+        [ThreadStatic] private static Exception? t_last;
         private readonly SdlDisplayHost _display;
 
         public DisplayDialogs(SdlDisplayHost display)
         {
-            this._display = display;
+            _display = display;
             AppDomain.CurrentDomain.FirstChanceException += (_, e) => t_last = e.Exception;
         }
 

@@ -66,7 +66,7 @@ public partial class SummonSpell : Spell
             AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = this.Activate(source);
+                result = Activate(source);
             }
             else
             {

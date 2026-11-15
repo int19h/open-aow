@@ -98,8 +98,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         BaseHeroJoinDay = -1;
         HeroJoinDay = -1;
         PlayerRace = -1;
-        ViewX = 255;
-        ViewY = 255;
+        {
+            View = View with { X = -1 };
+            View = View with { Y = -1 };
+        }
     }
 
     private int _updateCount;
@@ -148,9 +150,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public ArmyCollection Armies => new(_armies);
     public bool SingleProcessCycle { get; private set; }
 
-    public byte ViewX { get; set; }
-    public byte ViewY { get; set; }
-    public byte ViewMapLevel { get; set; }
+    public MapCoordinate View { get; set; }
 
     private string _password = "";
     private StringList _messages;
@@ -428,19 +428,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
                 StrategicMap.Current.GetViewCenter(out x, out y, out l);
-                ViewX = (byte)x;
-                ViewY = (byte)y;
-                ViewMapLevel = (byte)l;
-                ViewX = persister.Byte("ViewX", value: ViewX);
-                ViewY = persister.Byte("ViewY", value: ViewY);
-                ViewMapLevel = persister.Byte("ViewMapLevel", value: ViewMapLevel);
+                View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
+                View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
             }
         }
         else
         {
-            ViewX = persister.Byte("ViewX", value: ViewX);
-            ViewY = persister.Byte("ViewY", value: ViewY);
-            ViewMapLevel = persister.Byte("ViewMapLevel", value: ViewMapLevel);
+            View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
         }
 
         if (!persister.Preview)
@@ -554,7 +548,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 UpdateLogbook();
                 if (StrategicMap.Current.Day == 1)
                 {
-                    ViewX = 255;
+                    View = View with { X = -1 };
                     if (StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.FixedLeaders && Leader != null)
                     {
                         Leader.Owner = null;
@@ -598,9 +592,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (message.MessageId == 536870920 && StrategicMap.Current.Day == 0)
         {
-            ViewX = 255;
-            ViewY = 255;
-            ViewMapLevel = 255;
+            View = new MapCoordinate(-1, -1, -1);
         }
 
         MagicControl.MessageProc(ref message, sender);
@@ -923,7 +915,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 if (PlayerType == PlayerType.Cpu4)
                 {
-                    Income = Round((double)Income * 2.5) + 50;
+                    Income = Round(Income * 2.5) + 50;
                 }
                 else
                 {
@@ -1230,7 +1222,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
                         var playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
-                        if (Set<Session.Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
+                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
                         {
                             var level = hero.GetLevel();
                             heroes.AddAbility(hero, (level - 2) * 1000 + 1);
@@ -1377,7 +1369,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (days < 0)
         {
-            result += Round((double)((double)(result * days) + 2.5) / 5);
+            result += Round((double)(result * days + 2.5) / 5);
             if (result < 0)
             {
                 result = 0;
@@ -1401,7 +1393,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         string name;
         if (StrategicMap.Current != null && PlayerIndex != 0)
         {
-            heroType = Units.HeroType.HeroLeader;
+            heroType = HeroType.HeroLeader;
             if (Leader != null && Leader.GetHeroType() != heroType)
             {
                 name = Leader.HeroName;
@@ -1599,7 +1591,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     {
         if (Leader?.UnitHolder is { } holder)
         {
-            holder.GetLocation(out X, out Y, out L);
+            var coordinate24 = holder.GetLocation();
+            X = coordinate24.X;
+            Y = coordinate24.Y;
+            L = coordinate24.MapLevel;
         }
         else
         {
@@ -2086,7 +2081,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
             string errorText = "";
-            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance)
+            if (Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance)
             {
                 action.Accept(ref errorText);
             }
@@ -2161,7 +2156,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
             string errorText = "";
-            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War)
+            if (Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War)
             {
                 action.Accept(ref errorText);
             }

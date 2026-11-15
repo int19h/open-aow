@@ -328,12 +328,12 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 }
             }
 
-            if (GetHexX() != ((MoveControl)info.Sender).DestinationX && ((MoveControl)info.Sender).DestinationX != -1)
+            if (GetHexX() != ((MoveControl)info.Sender).Destination.X && ((MoveControl)info.Sender).Destination.X != -1)
             {
                 return;
             }
 
-            if (GetHexY() != ((MoveControl)info.Sender).DestinationY && ((MoveControl)info.Sender).DestinationY != -1)
+            if (GetHexY() != ((MoveControl)info.Sender).Destination.Y && ((MoveControl)info.Sender).Destination.Y != -1)
             {
                 return;
             }
@@ -404,7 +404,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 return;
             }
 
-            if (GetHexX() == ((MoveControl)info.Sender).DestinationX && GetHexY() == ((MoveControl)info.Sender).DestinationY)
+            if (GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y)
             {
                 return;
             }
@@ -429,9 +429,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 return;
             }
 
-            if (((MoveControl)info.Sender).DestinationX >= 0 && ((MoveControl)info.Sender).DestinationY >= 0 && HexGeometry.DeltaHexToRadius(x, y, ((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY) <= 1)
+            if (((MoveControl)info.Sender).Destination.X >= 0 && ((MoveControl)info.Sender).Destination.Y >= 0 && HexGeometry.DeltaHexToRadius(x, y, ((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y) <= 1)
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY].FindOwnedChild(2228484) != null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y].FindOwnedChild(2228484) != null)
                 {
                     return;
                 }
@@ -766,18 +766,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             var ability = Abilities[i];
-            names.AddObject(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
+            names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
             if (types != null)
             {
                 var ability2 = Abilities[i];
-                var abilityType = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
+                var abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
                 types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
                 var ability2 = Abilities[i];
-                sources.Add(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
+                sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
             }
         }
     }
@@ -867,7 +867,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     public static void OriginalUnitAssert(string message, string fileName, int lineNumber)
     {
-        RtlUnit.Assert(false, message, fileName, lineNumber);
+        Assert(false, message, fileName, lineNumber);
     }
 
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)

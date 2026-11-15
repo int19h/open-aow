@@ -7,8 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 

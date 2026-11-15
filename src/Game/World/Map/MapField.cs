@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
-// _hexSpriteList, _capacity, _count, _staticCount, _status, _hexX, _hexY, _hexLevel, FReserved, _terrainType,
+// _hexSpriteList, _capacity, _count, _staticCount, _status, _location, FReserved, _terrainType,
 // FOverlayType. A hexagon field of a map level. The original pooled all fields of a level in
 // one block and freed it with the level. The port allocates each field through the base
 // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
@@ -37,9 +37,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     private byte _staticCount;
     private Set<MapFieldStatusElement> _status;
-    private sbyte _hexX;
-    private sbyte _hexY;
-    private sbyte _hexLevel;
+    private MapCoordinate _location;
     private sbyte _terrainType;
     private sbyte _overlayType;
 
@@ -164,7 +162,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1938
-    public MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(_hexX, _hexY, _hexLevel);
+    public MapCoordinate GetMapCoordinate() => _location;
 
     // HSEngine.pas:1955
     public int HexSpriteListDataSize() => (_capacity << 2) + ((_capacity + 3) & 252);
@@ -262,7 +260,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         bool done;
         int i;
         int level;
-        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(_location.X, _location.Y, out pixelX, out pixelY);
         i = StoredCount - 1;
         // { Preserve the original stack slot. }
         done = false;
@@ -337,7 +335,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         info.MapField = this;
         info.TerrainType = _terrainType;
         info.OverlayType = _overlayType;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _location.X, _location.Y, 0);
         for (int i = 1; i <= 6; i++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -353,10 +351,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public byte Capacity { get => _capacity; }
     public byte StaticCount { get => _staticCount; }
     public Set<MapFieldStatusElement> Status { get => _status; set => _status = value; }
-    public sbyte HexX { get => _hexX; set => _hexX = value; }
-    public sbyte HexY { get => _hexY; set => _hexY = value; }
-    public sbyte HexLevel { get => _hexLevel; set => _hexLevel = value; }
-    public MapCoordinate MapCoordinate { get => GetMapCoordinate(); }
+    public sbyte HexX { get => _location.X; set => _location = _location with { X = value }; }
+    public sbyte HexY { get => _location.Y; set => _location = _location with { Y = value }; }
+    public sbyte HexLevel { get => _location.MapLevel; set => _location = _location with { MapLevel = value }; }
+    public MapCoordinate Location => _location;
     public sbyte TerrainType { get => _terrainType; set => _terrainType = value; }
     public sbyte OverlayType { get => _overlayType; set => _overlayType = value; }
 

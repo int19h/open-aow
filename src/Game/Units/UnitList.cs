@@ -82,7 +82,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         int result;
         CheckChild(child);
         var unit = child;
-        if (this.CanAddUnit((Troop)child))
+        if (CanAddUnit((Troop)child))
         {
             unit.AddRef();
             result = base.AddChild(child);
@@ -105,12 +105,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
-    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
-    {
-        hexX = -1;
-        hexY = -1;
-        hexLevel = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();
@@ -270,8 +265,8 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 troop = units[i];
                 alignmentAlignment = troop.GetAlignment();
-                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(alignmentAlignment));
-                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(alignmentAlignment));
+                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
+                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 

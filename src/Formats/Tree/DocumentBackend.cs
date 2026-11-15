@@ -141,7 +141,7 @@ public static class DocumentBackend
     };
 }
 
-static class DocumentSiteNames
+internal static class DocumentSiteNames
 {
     public static DocumentSite ForName(this DocumentSite site, string name) => site.At(site.Path.Member(name), false);
 }

@@ -1,10 +1,8 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -2210,7 +2208,7 @@ public partial class InfoWindow : ILayoutModule
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
-        ItemBagList.OnDrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, default(int), surface);
+        ItemBagList.OnDrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, default, surface);
         ItemBagList.TextColor = 9415072;
         ItemBagList.TextSelectedColor = 0;
         ItemBagList.ImageLibraryIndexFrame = 40;

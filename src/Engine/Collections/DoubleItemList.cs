@@ -118,10 +118,10 @@ public partial class DoubleItemList : Persistent
         if (source is DoubleItemList)
         {
             var doubleItemList = (DoubleItemList)source;
-            this._count = doubleItemList._count;
-            this.SetCapacity(doubleItemList._count);
-            Array.Copy(doubleItemList._list, 0, this._list, 0, this._count);
-            this._default = doubleItemList._default;
+            _count = doubleItemList._count;
+            SetCapacity(doubleItemList._count);
+            Array.Copy(doubleItemList._list, 0, _list, 0, _count);
+            _default = doubleItemList._default;
         }
         else
         {
@@ -466,12 +466,12 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5107
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, DoubleItemSortCompare sCompare)
     {
-        DoubleItem doubleItem = default(DoubleItem);
+        DoubleItem doubleItem = default;
         int number;
         do
         {

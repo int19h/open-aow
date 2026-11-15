@@ -28,7 +28,7 @@ public partial class ArmyCombatMoveTokenEvent
         ArmyHexSprite otherArmyHexSprite = default;
         ArmyHexSprite armyHexSprite = default;
         ArmyHexSprite movedArmyHexSprite = default;
-        Combat.Battle combat = default;
+        Battle combat = default;
         MapFieldMessage message = default;
         UserEventLog log = default;
         ImageSequenceAnimation animation = default;
@@ -117,7 +117,7 @@ public partial class ArmyCombatMoveTokenEvent
         combat.Activate();
         combatResult = combat.Execute();
         _combatMode = ArmyCombatMoveTokenEventMode.CombatExecuted;
-        if (combatResult != Game.Combat.CombatResult.Busy)
+        if (combatResult != CombatResult.Busy)
         {
             combat.Deactivate();
             combat.Finalize();
@@ -136,7 +136,7 @@ public partial class ArmyCombatMoveTokenEvent
                 }
             }
 
-            bool condition = combatResult != Game.Combat.CombatResult.NoDefenders;
+            bool condition = combatResult != CombatResult.NoDefenders;
             if (condition)
             {
                 var item3 = Path[0];
@@ -158,7 +158,7 @@ public partial class ArmyCombatMoveTokenEvent
             StrategicMap.Current.DestroyCombat();
             StrategicMap.Current.UnlockGameOverEvent();
             ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[MoveIndex].Location).FindOwnedChild(131607);
-            if (ArmyHexSprite != null && Set<CombatResult>.Of(Game.Combat.CombatResult.CannotInflictDamage, Game.Combat.CombatResult.Undecided, Game.Combat.CombatResult.CannotBreachWall, Game.Combat.CombatResult.Fled).Contains(combatResult))
+            if (ArmyHexSprite != null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
             {
                 FinishMove();
                 ArmyHexSprite = null;
@@ -213,7 +213,7 @@ public partial class ArmyCombatMoveTokenEvent
                     ArmyHexSprite = movedArmyHexSprite;
                     movedArmyHexSprite.Army.Mode = movedArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
                     Selection = 255;
-                    if (Set<CombatResult>.Of(Game.Combat.CombatResult.Victory, Game.Combat.CombatResult.NoDefenders).Contains(combatResult) || base.CanMoveNext())
+                    if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult) || base.CanMoveNext())
                     {
                         var direction = GetDirection(MoveIndex);
                         ArmyHexSprite.MoveFirst(direction, false);

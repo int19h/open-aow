@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Game.Combat;
-
 using Aow.Game.Draw;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
@@ -50,7 +47,7 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     }
 
     // Combat2.pas:713
-    public virtual string GetName() => this.GetType().Name;
+    public virtual string GetName() => GetType().Name;
 
     // intf_P3_02.inc:42
     public virtual void Execute(Battle combat)

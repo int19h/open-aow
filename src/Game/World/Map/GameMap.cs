@@ -106,7 +106,7 @@ public partial class GameMap : OwningNode
 
     internal void ClearViewLevelHandler() => OnViewLevel = null;
 
-    public event Aow.Engine.ProgressEvent OnProgress;
+    public event Engine.ProgressEvent OnProgress;
 
     protected void RaiseProgress(EngineObject sender, string message, int progression)
     {
@@ -118,7 +118,7 @@ public partial class GameMap : OwningNode
 
     protected bool HasProgressHandlers => OnProgress != null;
 
-    internal void SetProgressHandler(Aow.Engine.ProgressEvent handler) => OnProgress = handler;
+    internal void SetProgressHandler(Engine.ProgressEvent handler) => OnProgress = handler;
 
     internal void ClearProgressHandler() => OnProgress = null;
 
@@ -947,7 +947,7 @@ public partial class GameMap : OwningNode
     {
         int x = default;
         int y = default;
-        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, out x, out y);
+        HexGeometry.HexToPixel(_mapContainer.Width - 1, _mapContainer.Height - 1, out x, out y);
 
         x += 40;
         return x;
@@ -958,13 +958,13 @@ public partial class GameMap : OwningNode
     {
         int y = default;
         int x = default;
-        if (this._mapContainer.Height > 1)
+        if (_mapContainer.Height > 1)
         {
-            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, out x, out y);
+            HexGeometry.HexToPixel(1, _mapContainer.Height - 1, out x, out y);
         }
         else
         {
-            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, out x, out y);
+            HexGeometry.HexToPixel(0, _mapContainer.Height - 1, out x, out y);
         }
 
         y += 32;
@@ -1382,7 +1382,10 @@ public partial class GameMap : OwningNode
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        hero.GetLocation(out x, out y, out l);
+        var coordinate30 = hero.GetLocation();
+        x = coordinate30.X;
+        y = coordinate30.Y;
+        l = coordinate30.MapLevel;
         item.PlaceOnMap(this, x, y, l);
     }
 
@@ -1394,7 +1397,10 @@ public partial class GameMap : OwningNode
         sbyte l = default;
         ItemHexSprite items;
         ItemList result = null;
-        hero.GetLocation(out x, out y, out l);
+        var coordinate31 = hero.GetLocation();
+        x = coordinate31.X;
+        y = coordinate31.Y;
+        l = coordinate31.MapLevel;
         if (x != -1)
         {
             items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131697);

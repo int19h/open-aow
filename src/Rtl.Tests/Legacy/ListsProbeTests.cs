@@ -50,7 +50,7 @@ public sealed class ListsProbeTests
         }
         void Add(string tag, string s, int id)
         {
-            try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (System.Exception e) { p.Fact(tag + "_error", p.DelphiName(e)); }
+            try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (Exception e) { p.Fact(tag + "_error", p.DelphiName(e)); }
             StringState(tag);
         }
         void Lookup(string tag, string s)

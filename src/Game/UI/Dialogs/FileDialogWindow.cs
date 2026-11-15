@@ -448,7 +448,7 @@ public partial class FileDialogWindow : UIModule
         FileList.Selected = list.Selected;
         SaveList.Selected = list.Selected;
         DateList.Selected = list.Selected;
-        if (Directories.Count - 1 < this.FileList.Selected)
+        if (Directories.Count - 1 < FileList.Selected)
         {
             var item = FileList.Items[FileList.Selected];
             SaveFileNameEdit.Text = item;

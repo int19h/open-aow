@@ -48,7 +48,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.Same(table, user.Value);
             Assert.Throws<InvalidCastException>(() => user.Percentage);
 
-            BlendValue nil = (BlendTable)null!;
+            BlendValue nil = null!;
             Assert.False(nil.HasValue);
             Assert.Equal(0, nil.Percentage);
         }

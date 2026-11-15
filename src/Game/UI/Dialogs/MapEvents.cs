@@ -755,12 +755,12 @@ public partial class MapEvents : UIModule
             string text2 = dialog.UI.Engine.TranslateResourceString(s_pickupText);
             dialog.MainButton.Text = text2;
             dialog.ItemBagList.Visible = true;
-            ((StringCollection)dialog.ItemBagList.Items).Clear();
+            dialog.ItemBagList.Items.Clear();
             dialog.ItemBagScrollBar.Visible = true;
             int i = 0;
             for (int number = items.Items.Count - 1; i <= number; i++)
             {
-                ((StringCollection)dialog.ItemBagList.Items).Add("");
+                dialog.ItemBagList.Items.Add("");
             }
             dialog.ItemsInBagLabel.Visible = true;
         }
@@ -805,7 +805,7 @@ public partial class MapEvents : UIModule
         dialog.ProductionOrbTurnsLabel.Visible = false;
         dialog.RazePanel.Visible = false;
         dialog.MainButton.Visible = false;
-        ((StringCollection)dialog.SingleButtonMemo.Items).Clear();
+        dialog.SingleButtonMemo.Items.Clear();
         dialog.PopulationRaceLabel.Visible = false;
         dialog.PopulationLabel.Visible = false;
         string text = dialog.UI.Engine.TranslateResourceString(GameText.StructureText);
@@ -820,16 +820,16 @@ public partial class MapEvents : UIModule
                 {
                     dialog.HeaderLabel.Text = control.Title;
                     dialog.MainButton.Text = control.CancelText;
-                    ((Persistent)dialog.DefaultMemo.Items).Assign((Persistent)(object)control.Text);
+                    dialog.DefaultMemo.Items.Assign((Persistent)(object)control.Text);
                     dialog.Window.Visible = true;
                     if (!control.TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
                     {
                         string text = dialog.UI.Engine.TranslateResourceString(UnlimitedText);
-                        dialog.TargetLabel.Text = RtlUnit.LowerCase(text);
+                        dialog.TargetLabel.Text = LowerCase(text);
                     }
                     else
                     {
-                        dialog.TargetLabel.Text = RtlUnit.IntToStr(control.Range);
+                        dialog.TargetLabel.Text = IntToStr(control.Range);
                     }
                     dialog.BorderLine.ImageTop = control.SourceImage;
                     dialog.BorderLine.ImageMiddle = control.ValidTargetImage;
@@ -871,9 +871,9 @@ public partial class MapEvents : UIModule
             {
                 text,
                 ": ",
-                RtlUnit.IntToStr((int)castingPoints),
+                IntToStr(castingPoints),
                 "/",
-                RtlUnit.IntToStr((int)castingPointsMax)
+                IntToStr(castingPointsMax)
             });
         }
         Spell spell = GamePack.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
@@ -885,7 +885,7 @@ public partial class MapEvents : UIModule
         {
             text2,
             ": ",
-            RtlUnit.IntToStr(number),
+            IntToStr(number),
             " ",
             text3
         });
@@ -895,13 +895,13 @@ public partial class MapEvents : UIModule
         {
             text4,
             ": ",
-            RtlUnit.IntToStr(spell.ManaUpkeep),
+            IntToStr(spell.ManaUpkeep),
             " ",
             text5
         });
         Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
         string text6 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
-        dialog.CastingManaLabel.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
+        dialog.CastingManaLabel.Text = text6 + ": " + IntToStr(players.MagicControl.Mana);
         dialog.Unit1CheckBox.Checked = false;
         dialog.Unit2CheckBox.Checked = false;
         dialog.Unit3CheckBox.Checked = false;

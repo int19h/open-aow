@@ -13,7 +13,7 @@ namespace Aow.Game.UI.Grids;
 // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
 // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
 // surfaces, update step, incremental
-public partial class Scanner : Controls.Control
+public partial class Scanner : Control
 {
     private int _halfRowInset;
     private ImageLibrary _tilesImageLibrary;
@@ -292,7 +292,7 @@ public partial class Scanner : Controls.Control
         if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            if (MouseDown == true)
+            if (MouseDown)
             {
                 oldLeft = TLeft;
                 oldTop = TTop;
@@ -794,12 +794,12 @@ public partial class Scanner : Controls.Control
                                         }
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && _showHighlights == true && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && _showHighlights && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
                                     {
                                         _highlightImageLibrary[1].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && _showHighlights == true && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && _showHighlights && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
                                     {
                                         _highlightImageLibrary[0].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }

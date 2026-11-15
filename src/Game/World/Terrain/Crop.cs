@@ -95,7 +95,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         if (CropOwner != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             var playerCropStructure = CropOwner;
-            this.CropOwner = null;
+            CropOwner = null;
             playerCropStructure.CropsChanged();
         }
 
@@ -139,7 +139,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
     {
         int index;
         index = GetTerrainTypeImage(TerrainType);
-        this.ImageIndex = index;
+        ImageIndex = index;
         if (!base.Resource.ImageLibrary.ImageExist(index))
         {
             Dispose();

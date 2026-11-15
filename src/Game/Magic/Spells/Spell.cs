@@ -167,7 +167,10 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate77 = source.GetLocation();
+            x = coordinate77.X;
+            y = coordinate77.Y;
+            l = coordinate77.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
@@ -185,7 +188,10 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out x, out y, out l);
+            var coordinate78 = source.GetLocation();
+            x = coordinate78.X;
+            y = coordinate78.Y;
+            l = coordinate78.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
@@ -236,10 +242,10 @@ public partial class Spell : EngineObject
     }
 
     // Spells.PAS:326
-    public virtual void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values) => this.GetCombatDamageValues(source, target, ref values);
+    public virtual void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values) => GetCombatDamageValues(source, target, ref values);
 
     // Spells.PAS:339
-    public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target) => this.GetCombatDamageValue(source, target);
+    public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target) => GetCombatDamageValue(source, target);
 
     // Spells.PAS:320
     public virtual void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -285,7 +291,7 @@ public partial class Spell : EngineObject
         AIBudgetManager manager;
         if (upkeep > 0)
         {
-            mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round((double)upkeep * 0.8));
+            mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round(upkeep * 0.8));
             if (mana < 0)
             {
                 mana = 0;

@@ -48,7 +48,7 @@ public static class Program
         {
             return Usage(errors, error.Message);
         }
-        catch (System.Exception error) when (error is IOException or UnauthorizedAccessException or JsonException)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or JsonException)
         {
             errors.WriteLine($"{Codes.Output}: {error.Message}");
             return Error;
@@ -72,7 +72,7 @@ public static class Program
     }
 }
 
-public sealed class UsageException(string message) : System.Exception(message);
+public sealed class UsageException(string message) : Exception(message);
 
 /// <summary>The parsed command line.</summary>
 public sealed class Options

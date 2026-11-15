@@ -132,7 +132,7 @@ public partial class CommandAbility : TouchAbility
             var defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
             var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             var damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }
@@ -152,7 +152,7 @@ public partial class CommandAbility : TouchAbility
     {
         if (owner is Troop troop)
         {
-            strength = Round((double)(GetTouchAttack(GetLevel(troop)) * (troop.GetAttack() * 5)) * 0.1);
+            strength = Round(GetTouchAttack(GetLevel(troop)) * (troop.GetAttack() * 5) * 0.1);
             types = Set<DamageType>.Of(DamageType.None);
         }
     }
@@ -169,7 +169,7 @@ public partial class CommandAbility : TouchAbility
             var defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
             var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             var damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }

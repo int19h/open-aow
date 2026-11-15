@@ -1,14 +1,10 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Net;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -57,7 +53,10 @@ public partial class HealingTokenEvent : TokenEvent
             {
                 ability.SetEnabled(source, false);
                 ability.HealUnit(target);
-                target.GetLocation(out x, out y, out l);
+                var coordinate9 = target.GetLocation();
+                x = coordinate9.X;
+                y = coordinate9.Y;
+                l = coordinate9.MapLevel;
                 StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
                 if (StrategicMap.Current.Visible(x, y, l, 0))
                 {

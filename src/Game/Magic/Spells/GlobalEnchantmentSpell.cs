@@ -61,7 +61,7 @@ public partial class GlobalEnchantmentSpell : Spell
             AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = this.Activate(source);
+                result = Activate(source);
             }
             else
             {

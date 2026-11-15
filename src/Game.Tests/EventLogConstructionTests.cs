@@ -125,7 +125,7 @@ public sealed class EventLogConstructionTests
                         }
                         catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
-                        actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.RefCount }));
+                        actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;
                         StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
