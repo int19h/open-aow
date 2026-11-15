@@ -24,14 +24,14 @@ public sealed class TacticalBattleWallCastTests
     [Fact]
     public void TerrainPathAcceptsTheCombatWallAsIgnore()
     {
-        var ai = new BattleAI(EngineFixture.Engine);
-        var settings = new CombatMoveControlSettings(null!) { Holder = EngineFixture.Engine };
-        MovePath path = new MovePath();
+        BattleAI ai = new(EngineFixture.Engine);
+        CombatMoveControlSettings settings = new(null!) { Holder = EngineFixture.Engine };
+        MovePath path = new();
         int value = 7;
-        var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
-        var objects = combat.CombatData.CombatObjects;
-        var unit = new TacticalBattleUnit(objects) { Combat = combat };
-        var wall = new CombatWall(objects) { Combat = combat };
+        TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode objects = combat.CombatData.CombatObjects;
+        TacticalBattleUnit unit = new(objects) { Combat = combat };
+        CombatWall wall = new(objects) { Combat = combat };
         wall.Setup(1, 1, 0);
         Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, wall, true, true, 1));
         Assert.Equal(0, value);
@@ -46,17 +46,17 @@ public sealed class TacticalBattleWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        var previous = CombatMap.Current;
-        var map = new CombatMap(null!) { Holder = EngineFixture.Engine };
+        CombatMap previous = CombatMap.Current;
+        CombatMap map = new(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
+            TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
             map.SetCombat(combat);
-            var objects = combat.CombatData.CombatObjects;
-            var hero = new Troop(null!) { Holder = EngineFixture.Engine };
-            var wall = new CombatWall(objects) { Combat = combat };
+            OwningNode objects = combat.CombatData.CombatObjects;
+            Troop hero = new(null!) { Holder = EngineFixture.Engine };
+            CombatWall wall = new(objects) { Combat = combat };
             wall.Setup(1, 1, 0);
-            var unit = new TacticalBattleUnit(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
+            TacticalBattleUnit unit = new(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
             unit.UnitHexSprite = new PlacedUnitHexSprite(null!) { Holder = EngineFixture.Engine, Unit = unit };
             sbyte x = 0;
             sbyte y = 0;

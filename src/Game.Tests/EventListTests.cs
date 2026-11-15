@@ -14,8 +14,8 @@ public sealed class EventListTests
     [Fact]
     public void RaiseRunsFromTheLastSubscriberToTheFirst()
     {
-        var store = new EventStore<string>();
-        var log = new List<string>();
+        EventStore<string> store = new();
+        List<string> log = new();
         void HandlerA(string sender) => log.Add("A" + sender);
         void HandlerB(string sender) => log.Add("B" + sender);
         void HandlerC(string sender) => log.Add("C" + sender);
@@ -31,8 +31,8 @@ public sealed class EventListTests
     [Fact]
     public void HandlerThatRemovesItselfStillRunsTheSubscribersBelowIt()
     {
-        var store = new EventStore<string>();
-        var log = new List<string>();
+        EventStore<string> store = new();
+        List<string> log = new();
         void HandlerA(string sender) => log.Add("A");
         void HandlerB(string sender) => log.Add("B");
         void HandlerC(string sender)
@@ -53,8 +53,8 @@ public sealed class EventListTests
     [Fact]
     public void RemovingALowerSubscriberRecallsTheCurrentHandler()
     {
-        var store = new EventStore<string>();
-        var log = new List<string>();
+        EventStore<string> store = new();
+        List<string> log = new();
         void HandlerA(string sender) => log.Add("A");
         void HandlerB(string sender) => log.Add("B");
         void HandlerC(string sender)
@@ -75,8 +75,8 @@ public sealed class EventListTests
     [Fact]
     public void SubscriberAddedDuringTheRaiseWaitsForTheNextRaise()
     {
-        var store = new EventStore<string>();
-        var log = new List<string>();
+        EventStore<string> store = new();
+        List<string> log = new();
         void Added(string sender) => log.Add("added");
         void First(string sender) => log.Add("first");
         void Last(string sender)
@@ -99,7 +99,7 @@ public sealed class EventListTests
     [Fact]
     public void DuplicateMethodGroupRemovedOnceStaysSubscribedOnce()
     {
-        var store = new EventStore<string>();
+        EventStore<string> store = new();
         int runs = 0;
         void Handler(string sender) => runs++;
         store.Add(Handler);
@@ -116,7 +116,7 @@ public sealed class EventListTests
     [Fact]
     public void IntegerPayloadReachesTheSubscriber()
     {
-        var store = new EventStore<sbyte>();
+        EventStore<sbyte> store = new();
         sbyte seen = -1;
         store.Add(player => seen = player);
 
@@ -128,10 +128,10 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        var previous = StrategicMap.Current;
-        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
+        StrategicMap previous = StrategicMap.Current;
+        StrategicMap map = new(null!, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
-        var player = new Player(null!) { Holder = EngineFixture.Engine };
+        Player player = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             sbyte seen = -2;

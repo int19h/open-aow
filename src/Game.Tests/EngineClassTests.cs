@@ -20,14 +20,14 @@ public sealed class EngineClassTests
     [Fact]
     public void TableMatchesTheBaseCommitSnapshot()
     {
-        var expected = s_baseline.RootElement.EnumerateObject().ToDictionary(e => e.Name, e => e.Value);
-        var table = ProductClasses.ToDictionary(c => c.Type.FullName!);
+        Dictionary<string, JsonElement> expected = s_baseline.RootElement.EnumerateObject().ToDictionary(e => e.Name, e => e.Value);
+        Dictionary<string, EngineClass> table = ProductClasses.ToDictionary(c => c.Type.FullName!);
         Assert.Equal(expected.Keys.Order(StringComparer.Ordinal), table.Keys.Order(StringComparer.Ordinal));
-        foreach (var (name, entry) in expected)
+        foreach ((string? name, JsonElement entry) in expected)
         {
-            var engineClass = table[name];
+            EngineClass engineClass = table[name];
             Assert.Equal(entry.GetProperty("id").GetInt32(), engineClass.ClassId);
-            var parent = entry.GetProperty("parent");
+            JsonElement parent = entry.GetProperty("parent");
             if (parent.ValueKind == JsonValueKind.Null)
             {
                 Assert.Equal(typeof(EngineObject), engineClass.Type);
@@ -46,8 +46,8 @@ public sealed class EngineClassTests
     [Fact]
     public void RegistrationFollowsInheritance()
     {
-        var seen = new HashSet<EngineClass>();
-        foreach (var engineClass in EngineClass.All)
+        HashSet<EngineClass> seen = new();
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
             Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType!)), engineClass.StorageKey);
             Assert.True(seen.Add(engineClass));
@@ -64,8 +64,8 @@ public sealed class EngineClassTests
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
-        using GameEngine engine = new GameEngine(null!);
-        var engines = new List<GameEngine> { engine };
+        using GameEngine engine = new(null!);
+        List<GameEngine> engines = new() { engine };
         // The full engine of the fixture, when a test of the engine collection built it.
         if (EngineFixture.Engine is { } full)
         {
@@ -75,11 +75,11 @@ public sealed class EngineClassTests
         Assert.Contains(EngineClass.Of<ControlStyleObject>(), ProductRegistered(engine));
         foreach (GameEngine registered in engines)
         {
-            var classes = ProductRegistered(registered);
+            List<EngineClass> classes = ProductRegistered(registered);
             Assert.NotEmpty(classes);
-            foreach (var engineClass in classes)
+            foreach (EngineClass engineClass in classes)
             {
-                var entry = s_baseline.RootElement.GetProperty(engineClass.Type.FullName!);
+                JsonElement entry = s_baseline.RootElement.GetProperty(engineClass.Type.FullName!);
                 Assert.Equal(entry.GetProperty("id").GetInt32(), engineClass.ClassId);
                 Assert.Same(engineClass, registered.GetEngineClass(engineClass.ClassId));
                 Assert.Same(engineClass, EngineClass.Of(engineClass.Type));
@@ -89,10 +89,10 @@ public sealed class EngineClassTests
 
     private static List<EngineClass> ProductRegistered(GameEngine engine)
     {
-        var result = new List<EngineClass>();
+        List<EngineClass> result = new();
         for (int i = 0; i < engine.EngineClasses.Count; i++)
         {
-            var engineClass = engine.EngineClasses[i];
+            EngineClass engineClass = engine.EngineClasses[i];
             if (engineClass.Type.Assembly == typeof(EngineObject).Assembly)
             {
                 result.Add(engineClass);
@@ -104,14 +104,14 @@ public sealed class EngineClassTests
     [Fact]
     public void EveryDescriptorWalksToTokenEventObjectThroughTheBaseTypes()
     {
-        var root = EngineClass.Of<EngineObject>();
-        foreach (var engineClass in EngineClass.All)
+        EngineClass root = EngineClass.Of<EngineObject>();
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
-            var c = engineClass;
+            EngineClass c = engineClass;
             int steps = 0;
             while (c.Type != typeof(EngineObject))
             {
-                var parent = EngineClass.Of(c.Type.BaseType!);
+                EngineClass parent = EngineClass.Of(c.Type.BaseType!);
                 Assert.Equal(c.Type.BaseType, parent.Type);
                 c = parent;
                 Assert.True(++steps < 64, engineClass.StorageKey);
@@ -123,7 +123,7 @@ public sealed class EngineClassTests
     [Fact]
     public void InstancesReachTheirDescriptorThroughTheCachedProperty()
     {
-        var created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null!, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(EngineClass.Of<ResourceEditSettings>(), created.EngineClass);
@@ -137,10 +137,10 @@ public sealed class EngineClassTests
     [Fact]
     public void CreationThroughTheDescriptorKeepsTheExactTypeAndThrowsWhenUnregistered()
     {
-        var created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<ControlStyleObject>(created); }
         finally { created?.Dispose(); }
-        var split = EngineClass.Of<ResourceCollection>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject split = EngineClass.Of<ResourceCollection>().CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<ResourceCollection>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
@@ -167,15 +167,15 @@ public sealed class EngineClassTests
     [Fact]
     public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()
     {
-        var previous = EngineClass.All;
-        var descriptor = EngineClass.Register(EngineObject.ClassId, static owner => new Registered(owner));
+        IReadOnlyList<EngineClass> previous = EngineClass.All;
+        EngineClass descriptor = EngineClass.Register(EngineObject.ClassId, static owner => new Registered(owner));
         Assert.Same(descriptor, EngineClass.Of<Registered>());
         Assert.Same(descriptor, EngineClass.Of(typeof(Registered)));
         Assert.Same(EngineClass.Of<EngineObject>(), EngineClass.Of(descriptor.Type.BaseType!));
         Assert.Equal(previous.Count + 1, EngineClass.All.Count);
         Assert.Same(descriptor, EngineClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);
-        var instance = descriptor.CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject instance = descriptor.CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));

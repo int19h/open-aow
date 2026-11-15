@@ -16,7 +16,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void LibraryItemsGrowInBlocksOfEightAndShift()
     {
-        using var library = new ImageLibrary(null!);
+        using ImageLibrary library = new(null!);
         library.SetImageReference(0, 5);
         Assert.Equal(1, library.Count);
         Assert.Equal(7, library.Capacity);
@@ -44,8 +44,8 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void ImageNodeShiftsItsImages()
     {
-        var node = new ImageNode(null!);
-        var images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null!)).ToArray();
+        ImageNode node = new(null!);
+        ImageNode[] images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null!)).ToArray();
         try
         {
             node.Add(images[0]);
@@ -70,7 +70,7 @@ public sealed class GraphicsArrayTests
         {
             node.Count = 0;
             node.Dispose();
-            foreach (var image in images)
+            foreach (ImageNode? image in images)
             {
                 image.Dispose();
             }
@@ -83,8 +83,8 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void FrameTableListGrowsFillsAndShifts()
     {
-        var list = new FrameTableList { DefaultValue = 7 };
-        var copy = new FrameTableList();
+        FrameTableList list = new() { DefaultValue = 7 };
+        FrameTableList copy = new();
         try
         {
             Assert.Equal(0, list.Add(5));
@@ -128,7 +128,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void MatrixKeepsItsValuesRowByRow()
     {
-        var matrix = new Matrix(4, 3);
+        Matrix matrix = new(4, 3);
         Assert.Equal(12, matrix.Data.Length);
         Assert.All(matrix.Data, value => Assert.Equal(0, value));
         matrix.SetValue(1, 2, 5);
@@ -141,7 +141,7 @@ public sealed class GraphicsArrayTests
         Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetValue(4, 0));
         matrix.Dispose();
         Assert.Null(matrix.Data);
-        var empty = new Matrix(0, 3);
+        Matrix empty = new(0, 3);
         Assert.Null(empty.Data);
         Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetValue(0, 0));
     }
@@ -157,10 +157,10 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
-        using var owner = new Component(null!);
-        var displayController = new DisplayController(owner);
-        var matrix = new Matrix(4, 4);
-        foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) })
+        using Component owner = new(null!);
+        DisplayController displayController = new(owner);
+        Matrix matrix = new(4, 4);
+        foreach ((int x, int y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) })
         {
             matrix.SetValue((byte)x, (byte)y, 1);
         }
@@ -173,7 +173,7 @@ public sealed class GraphicsArrayTests
         bw = bh = -1;
         Assert.Equal(0, displayController.GetInverseBlockSize(0, 2, matrix, ref bw, ref bh));
         Assert.Equal((-1, -1), (bw, bh));
-        var column = new Matrix(4, 4);
+        Matrix column = new(4, 4);
         foreach (int y in new[] { 0, 1, 2 })
         {
             column.SetValue(0, (byte)y, 1);

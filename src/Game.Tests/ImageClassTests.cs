@@ -20,7 +20,7 @@ public sealed class ImageClassTests
         Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<Picture08>());
         Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<BmpImageFile>());
         Assert.Equal("Picture08", LibraryImageClass.Of<Picture08>().StorageKey);
-        var types = typeof(LibraryImage).Assembly.GetTypes();
+        Type[] types = typeof(LibraryImage).Assembly.GetTypes();
         Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
             LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(LibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
         Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
@@ -33,13 +33,13 @@ public sealed class ImageClassTests
     public void LibraryLoadKeepsEveryRegisteredImageClassAgainstBaseSnapshot()
     {
         // Captured from the public image-class registry at b635b9f before the descriptor edits.
-        using var baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageClassSnapshot.json")!;
-        var baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
-        var previousClasses = ImageLibraries.LibraryImageClasses;
+        using Stream baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageClassSnapshot.json")!;
+        Baseline[] baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
-        var source = new ImageLibrary(null!);
-        var loaded = new ImageLibrary(null!);
-        var stream = new MemoryStream();
+        ImageLibrary source = new(null!);
+        ImageLibrary loaded = new(null!);
+        MemoryStream stream = new();
         try
         {
             ImageLibraries.RegisterLibraryImageClasses([
@@ -50,19 +50,19 @@ public sealed class ImageClassTests
             Assert.Equal(baseline.Length, LibraryCatalog.LibraryImageClassCount());
             for (int i = 0; i < baseline.Length; i++)
             {
-                var expected = baseline[i];
-                var descriptor = LibraryCatalog.GetLibraryImageClass(i);
+                Baseline expected = baseline[i];
+                LibraryImageClass descriptor = LibraryCatalog.GetLibraryImageClass(i);
                 Assert.Equal(expected.Type, descriptor.Type.FullName);
                 Assert.Equal(expected.ClassId, descriptor.ClassId);
                 Assert.Equal(expected.ClassVersion, descriptor.ClassVersion);
                 Assert.Equal(expected.Name, descriptor.Name);
                 Assert.Same(descriptor, LibraryCatalog.FindLibraryImageClass(expected.ClassId));
                 Assert.Same(descriptor, LibraryImageClass.Of(descriptor.Type));
-                var image = descriptor.CreateInstance(source);
+                LibraryImage image = descriptor.CreateInstance(source);
                 image.ReadDiscardableImageData(stream);
                 if (image is Image08 indexed)
                 {
-                    var palette = new Palette();
+                    Palette palette = new();
                     { indexed.CreateLibraryImagePalette(palette); }
                 }
                 source.SetImage(i, image);
@@ -73,8 +73,8 @@ public sealed class ImageClassTests
             Assert.Equal(baseline.Length, loaded.Count);
             for (int i = 0; i < baseline.Length; i++)
             {
-                var expected = baseline[i];
-                var image = loaded[i];
+                Baseline expected = baseline[i];
+                LibraryImage image = loaded[i];
                 Assert.Equal(expected.Type, image.GetType().FullName);
                 Assert.Equal(expected.ClassVersion, image.ClassVersion());
                 Assert.Equal(expected.Name, image.Name());
@@ -98,16 +98,16 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabInfoDescriptorCopiesTheRuntimeTypeAndAllFields()
     {
-        var descriptor = BitMask.GrabInfo.Descriptor;
+        GrabInfoClass descriptor = BitMask.GrabInfo.Descriptor;
         Assert.Equal("BitMask.GrabInfo", descriptor.Name);
-        var value = Assert.IsType<BitMask.GrabInfo>(descriptor.CreateInstance());
+        BitMask.GrabInfo value = Assert.IsType<BitMask.GrabInfo>(descriptor.CreateInstance());
         value.TransparentColor = 19;
         value.FindRectangles = true;
         value.TransparentPixel = 23;
         value.FileName = "mask.bmp";
         value.FileIndex = 7;
         value.Inverse = true;
-        var copy = Assert.IsType<BitMask.GrabInfo>(value.Copy());
+        BitMask.GrabInfo copy = Assert.IsType<BitMask.GrabInfo>(value.Copy());
         Assert.Same(descriptor, copy.GrabInfoClass());
         Assert.Equal(value.TransparentColor, copy.TransparentColor);
         Assert.Equal(value.FindRectangles, copy.FindRectangles);
@@ -120,7 +120,7 @@ public sealed class ImageClassTests
     [Fact]
     public void ImageFileDescriptorKeepsIdentityAndBitmapDispatch()
     {
-        var descriptor = ImageFileClass.Of<BmpImageFile>();
+        ImageFileClass descriptor = ImageFileClass.Of<BmpImageFile>();
         Assert.Same(descriptor, ImageFileClass.Of<BmpImageFile>());
         Assert.Equal(typeof(BmpImageFile), descriptor.Type);
         Assert.Same(descriptor, ImageFileClass.Of(typeof(BmpImageFile)));
@@ -128,7 +128,7 @@ public sealed class ImageClassTests
         Assert.Equal("BMP", descriptor.Extension);
         Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
         Assert.Throws<AbstractErrorException>(() => descriptor.Name);
-        using var classes = new ImageFileClassList();
+        using ImageFileClassList classes = new();
         classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
         Assert.Null(classes.FindClass("png"));
@@ -137,18 +137,18 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
-        var library = new ImageLibrary(null!);
-        var surface = new DataSurface(2, 3, PixelFormats.pfRGB555, null!);
-        var previousClasses = ImageLibraries.LibraryImageClasses;
+        ImageLibrary library = new(null!);
+        DataSurface surface = new(2, 3, PixelFormats.pfRGB555, null!);
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         LockedSurface lockedSurface = default;
         Assert.Equal(0, surface.Lock(ref lockedSurface));
-        var grab = new GrabInfo { FileName = "grab.bmp", FindRectangles = false };
+        GrabInfo grab = new() { FileName = "grab.bmp", FindRectangles = false };
         try
         {
             Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null!));
-            var image = Assert.IsType<Picture16>(library[0]);
+            Picture16 image = Assert.IsType<Picture16>(library[0]);
             Assert.Equal(2, image.Width);
             Assert.Equal(3, image.Height);
             Assert.Same(library, image.Owner);

@@ -37,12 +37,12 @@ public sealed class RemainingConstructionTests
     {
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
-        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
+        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
+            GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
             StrategicMap.Current = null!;
             GamePack.Current.UnitGraphicsResources = null!;
@@ -60,7 +60,7 @@ public sealed class RemainingConstructionTests
 
     private static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -123,7 +123,7 @@ public sealed class RemainingConstructionTests
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
@@ -262,8 +262,8 @@ public sealed class RemainingConstructionTests
 
         if (route == 2)
         {
-            using GameEngine engine = new GameEngine(null!);
-            var meta = EngineClass.Of(type);
+            using GameEngine engine = new(null!);
+            EngineClass meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -272,13 +272,13 @@ public sealed class RemainingConstructionTests
         }
         if (route == 3)
         {
-            var meta = EngineClass.Of(type);
+            EngineClass meta = EngineClass.Of(type);
             return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
-        var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
+        MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         bool node = typeof(EngineObject).IsAssignableFrom(type);
         // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
-        var constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
+        ConstructorInfo? constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
         if (factory is not null)
         {
             return Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
@@ -304,11 +304,11 @@ public sealed class RemainingConstructionTests
         {
             for (int route = 0; route < (engineObject ? 4 : 1); route++)
             {
-                using var fixture = new Fixture();
-                var owner = ownerMode == 0 ? null : new RemainingOwner();
+                using Fixture fixture = new();
+                RemainingOwner? owner = ownerMode == 0 ? null : new RemainingOwner();
                 object? value = null;
                 string state;
-                var states = new List<string>();
+                List<string> states = new();
                 try
                 {
                     value = Create(type, owner!, route);
@@ -346,9 +346,9 @@ public sealed class RemainingConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         for (int route = 0; route < 4; route++)
         {
-            using var fixture = new Fixture();
-            var owner = new RemainingOwner();
-            var value = Assert.IsAssignableFrom<Spell>(Create(type, owner, route));
+            using Fixture fixture = new();
+            RemainingOwner owner = new();
+            Spell value = Assert.IsAssignableFrom<Spell>(Create(type, owner, route));
             Assert.IsType(type, value);
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));

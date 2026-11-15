@@ -7,6 +7,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Session;
+using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -29,21 +30,21 @@ public sealed class PrisonersSaveListingTests
     public void APrisonersItemSurvivesTheLoadDialogListingAndTheOpen()
     {
         GameEngine engine = EngineFixture.Engine;
-        var previous = engine.HexSpriteMap;
+        GameMap previous = engine.HexSpriteMap;
         // LoadHsm disposes the engine's current map. Park it so this case can put it back.
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
         Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-source.oasg");
         string saved = Path.Combine(directory, "prisoners.oasg");
-        var resources = engine.HexSpriteSet.MapObjectResourceList;
-        var resource = new StructureResource(null!) { Holder = engine, ResourceId = PackResourceId };
+        MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
+        StructureResource resource = new(null!) { Holder = engine, ResourceId = PackResourceId };
         // An explored dungeon reads this list while it activates. An empty list keeps that read in range.
         resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null!);
         // Activation stores the engine on the resource. A structure reads that engine while it chooses a terrain type.
         engine.ActivateEngineObject(resource);
         // The fixture engine does not run GameClasses.Register. The running game registers a dungeon there.
-        var dungeonClass = EngineClass.Of<Dungeon>();
+        EngineClass dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);
         if (registerDungeon)
         {
@@ -52,7 +53,7 @@ public sealed class PrisonersSaveListingTests
         // The fixture host records calls and does not replace a finished save. The physical
         // service does, and it reads the same paths this case writes.
         IFileSystem recordedFiles = Runtime.Files;
-        var physical = new PhysicalFileSystem();
+        PhysicalFileSystem physical = new();
         physical.SetCurrentDirectory(EngineFixture.Root);
         Runtime.Files = physical;
         try
@@ -60,14 +61,14 @@ public sealed class PrisonersSaveListingTests
             resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
-            var live = engine.HexSpriteMap as StrategicMap;
+            StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
                 Surface(engine, source);
             }
 
             Assert.NotNull(live);
-            var planted = PrisonerItem(live);
+            Item planted = PrisonerItem(live);
             planted.Attack = -2;
             planted.LibraryId = 3;
             int players = live.Players.GetCount() - 1;
@@ -82,27 +83,27 @@ public sealed class PrisonersSaveListingTests
 
             engine.SaveHsm(saved, progress: null!, profile: GameProfile.WorldMap);
             byte[] fileBytes = File.ReadAllBytes(saved);
-            var listed = ListLikeTheLoadDialog(engine, saved);
+            (int Players, int Width, int Towns, int Day) listed = ListLikeTheLoadDialog(engine, saved);
             Assert.Equal(players, listed.Players);
             Assert.Equal(width, listed.Width);
             Assert.Equal(towns, listed.Towns);
             Assert.Equal(day, listed.Day);
 
             engine.LoadHsm(saved, edit: false, progress: null!, profile: GameProfile.WorldMap);
-            var opened = engine.HexSpriteMap as StrategicMap;
+            StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             if (opened is null)
             {
                 Surface(engine, saved);
             }
 
-            var item = PrisonerItem(opened!);
+            Item item = PrisonerItem(opened!);
             Assert.Equal("Blade", item.Name);
             Assert.Equal(7, item.ItemId);
             Assert.Equal(-2, item.Attack);
             Assert.Equal(3, item.LibraryId);
 
             Assert.Null(FileBoundary.Load(saved, GameProfile.WorldMap));
-            var prepared = GameBoundary.PrepareLoad(fileBytes, saved, GameProfile.WorldMap, FormatMapping.Validators);
+            GameFileResult prepared = GameBoundary.PrepareLoad(fileBytes, saved, GameProfile.WorldMap, FormatMapping.Validators);
             Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
             Assert.False(prepared.HasImage);
             Assert.Null(prepared.Bytes);
@@ -111,7 +112,7 @@ public sealed class PrisonersSaveListingTests
             Assert.EndsWith(".Items", prepared.ImageRefusal.Path);
             byte[] canonical = GameFiles.Write(prepared.Document!);
             Assert.Equal(EngineServices.GetCrc32(canonical, canonical.Length), FileBoundary.ImageCrc32(saved, GameProfile.WorldMap));
-            var refused = Assert.Throws<ConversionException>(() => FileBoundary.LoadOrRaise(saved, GameProfile.WorldMap));
+            ConversionException refused = Assert.Throws<ConversionException>(() => FileBoundary.LoadOrRaise(saved, GameProfile.WorldMap));
             Assert.Equal(Codes.Unrepresentable, refused.Diagnostic.Code);
             Assert.EndsWith(".Items", refused.Diagnostic.Path);
             Assert.Equal("1073741824", refused.Diagnostic.Value);
@@ -157,17 +158,17 @@ public sealed class PrisonersSaveListingTests
     public void ACampaignSaveKeepsAPrisonersItem()
     {
         GameEngine engine = EngineFixture.Engine;
-        var previous = engine.HexSpriteMap;
+        GameMap previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
         Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
         string saved = Path.Combine(directory, "prisoners" + FileBoundary.WriteExtension(DocumentKind.CampaignSave));
-        var resources = engine.HexSpriteSet.MapObjectResourceList;
-        var resource = new StructureResource(null!) { Holder = engine, ResourceId = PackResourceId };
+        MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
+        StructureResource resource = new(null!) { Holder = engine, ResourceId = PackResourceId };
         resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null!);
         engine.ActivateEngineObject(resource);
-        var dungeonClass = EngineClass.Of<Dungeon>();
+        EngineClass dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);
         if (registerDungeon)
         {
@@ -175,7 +176,7 @@ public sealed class PrisonersSaveListingTests
         }
 
         IFileSystem recordedFiles = Runtime.Files;
-        var physical = new PhysicalFileSystem();
+        PhysicalFileSystem physical = new();
         physical.SetCurrentDirectory(EngineFixture.Root);
         Runtime.Files = physical;
         try
@@ -183,19 +184,19 @@ public sealed class PrisonersSaveListingTests
             resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
-            var live = engine.HexSpriteMap as StrategicMap;
+            StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
                 Surface(engine, source);
             }
 
-            var planted = PrisonerItem(live!);
+            Item planted = PrisonerItem(live!);
             planted.Attack = -2;
             planted.LibraryId = 3;
 
             engine.NewCampaign(EngineClass.Of<Campaign>().ClassId);
             engine.SaveCampaign(saved);
-            var prepared = GameBoundary.PrepareLoad(File.ReadAllBytes(saved), fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
+            GameFileResult prepared = GameBoundary.PrepareLoad(File.ReadAllBytes(saved), fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
             Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
             Assert.False(prepared.HasImage);
             Assert.Null(prepared.Bytes);
@@ -204,16 +205,16 @@ public sealed class PrisonersSaveListingTests
             Assert.EndsWith(".Items", prepared.ImageRefusal.Path);
             Assert.Equal("1073741824", prepared.ImageRefusal.Value);
             Assert.Contains("PrisonersArmy.Items", prepared.ImageRefusal.Message);
-            var exported = Assert.Throws<ConversionException>(() => GameFiles.Export(prepared.Document!));
+            ConversionException exported = Assert.Throws<ConversionException>(() => GameFiles.Export(prepared.Document!));
             Assert.Equal(prepared.ImageRefusal.Path, exported.Diagnostic.Path);
             Assert.Equal(Codes.Unrepresentable, exported.Diagnostic.Code);
 
             engine.LoadCampaign(saved);
             Assert.True(GameFiles.IsJsonCandidate(engine.Campaign!.Stream.GetBuffer().AsSpan(0, (int)engine.Campaign.Stream.Length)));
             engine.LoadCampaignMap(null!);
-            var opened = engine.HexSpriteMap as StrategicMap;
+            StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             Assert.NotNull(opened);
-            var item = PrisonerItem(opened!);
+            Item item = PrisonerItem(opened!);
             Assert.Equal("Blade", item.Name);
             Assert.Equal(7, item.ItemId);
             Assert.Equal(-2, item.Attack);
@@ -258,7 +259,7 @@ public sealed class PrisonersSaveListingTests
     // count minus the independent player, the size letter of the width, the city count and the day.
     private static (int Players, int Width, int Towns, int Day) ListLikeTheLoadDialog(GameEngine engine, string file)
     {
-        var map = engine.CreatePreviewHsm(file, GameProfile.WorldMap) as StrategicMap;
+        StrategicMap map = engine.CreatePreviewHsm(file, GameProfile.WorldMap) as StrategicMap;
         if (map is null)
         {
             Surface(engine, file);
@@ -276,9 +277,9 @@ public sealed class PrisonersSaveListingTests
 
     private static void Surface(GameEngine engine, string file)
     {
-        var tree = FileBoundary.OpenOrRaise(file, GameProfile.WorldMap);
-        var map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, engine);
-        var previous = StrategicMap.Current;
+        GameFileTree tree = FileBoundary.OpenOrRaise(file, GameProfile.WorldMap);
+        StrategicMap map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, engine);
+        StrategicMap previous = StrategicMap.Current;
         StrategicMap.Current = map;
         Exception? caught = null;
         try
@@ -308,10 +309,10 @@ public sealed class PrisonersSaveListingTests
     // A hex sprite accepts only a field as its owner, so the dungeon stands on the one field.
     private static Item PrisonerItem(StrategicMap map)
     {
-        var level = map.MapContainer[0];
+        MapLevel level = map.MapContainer[0];
         for (int fieldIndex = 0; fieldIndex < level.GetCount(); fieldIndex++)
         {
-            var field = (MapField)level.GetChild(fieldIndex);
+            MapField field = (MapField)level.GetChild(fieldIndex);
             for (int spriteIndex = 0; spriteIndex < field.GetCount(); spriteIndex++)
             {
                 if (field.GetChild(spriteIndex) is Dungeon dungeon)
@@ -327,23 +328,23 @@ public sealed class PrisonersSaveListingTests
 
     private static JsonObject Document()
     {
-        var blade = new JsonObject()
+        JsonObject blade = new JsonObject()
             .Add("$class", new JsonString("Item"))
             .Add("$slot", new JsonInteger(0))
             .Add("Name", new JsonString("Blade"))
             .Add("ItemId", new JsonInteger(7))
             .Add("LibraryId", new JsonInteger(3));
-        var dungeon = new JsonObject()
+        JsonObject dungeon = new JsonObject()
             .Add("$class", new JsonString("Dungeon"))
             .Add("ResourceId", new JsonInteger(PackResourceId))
             .Add("Prisoners", new JsonObject().Add("Items", new JsonObject().Add("Children", new JsonArray().Add(blade))));
-        var level = new JsonObject()
+        JsonObject level = new JsonObject()
             .Add("$class", new JsonString("MapLevel"))
             .Add("$slot", new JsonInteger(0))
             .Add("Width", new JsonInteger(1))
             .Add("Height", new JsonInteger(1))
             .Add("Fields", new JsonArray().Add(new JsonArray().Add(new JsonObject().Add("HexSpriteList", new JsonArray().Add(dungeon)))));
-        var container = new JsonObject()
+        JsonObject container = new JsonObject()
             .Add("$class", new JsonString("MapContainer"))
             .Add("$slot", new JsonInteger(6))
             .Add("Width", new JsonInteger(48))
@@ -353,10 +354,10 @@ public sealed class PrisonersSaveListingTests
         // A load clears the player list the constructor built. The independent player and one
         // ruler are what the load dialog counts, and an army leaves the independent player's list
         // when the map closes.
-        var players = new JsonObject().Add("Children", new JsonArray()
+        JsonObject players = new JsonObject().Add("Children", new JsonArray()
             .Add(new JsonObject().Add("$class", new JsonString("Player")).Add("$slot", new JsonInteger(0)).Add("PlayerIndex", new JsonInteger(0)))
             .Add(new JsonObject().Add("$class", new JsonString("Player")).Add("$slot", new JsonInteger(1)).Add("PlayerIndex", new JsonInteger(1))));
-        var root = new JsonObject()
+        JsonObject root = new JsonObject()
             .Add("$class", new JsonString("StrategicMap"))
             .Add("Day", new JsonInteger(4))
             .Add("Players", players)

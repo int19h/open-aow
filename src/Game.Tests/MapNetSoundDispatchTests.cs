@@ -45,7 +45,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()
     {
-        using var converted = new ConvertedMap(null!) { Holder = EngineFixture.Engine };
+        using ConvertedMap converted = new(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(1, converted.MouseCalls);
         Assert.Same(converted, converted.Mouse.HexSpriteMap);
         Assert.NotNull(converted.Selection);
@@ -54,7 +54,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void DynamicFieldsKeepTheirExactTypeAndCoordinates()
     {
-        var level = new SpecializedLevel(null!) { Holder = EngineFixture.Engine };
+        SpecializedLevel level = new(null!) { Holder = EngineFixture.Engine };
         level.HexLevel = 2;
         level.CreateMapFieldList(3, 2);
         Assert.Equal(6, level.Fields.Length);
@@ -62,7 +62,7 @@ public sealed class MapNetSoundDispatchTests
         {
             for (int x = 0; x < 3; x++)
             {
-                var field = Assert.IsType<SpecializedField>(level.GetField(x, y));
+                SpecializedField field = Assert.IsType<SpecializedField>(level.GetField(x, y));
                 Assert.Same(level, field.Owner);
                 Assert.Equal(x, field.HexX);
                 Assert.Equal(y, field.HexY);
@@ -76,7 +76,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void LegacyMouseStartsWithEmptyEvents()
     {
-        var mouse = new GameMapMouse();
+        GameMapMouse mouse = new();
         Assert.Equal(0, mouse.OnUpStore.Count);
         Assert.Equal(0, mouse.OnDownStore.Count);
         Assert.Equal(0, mouse.OnMoveStore.Count);
@@ -123,11 +123,11 @@ public sealed class MapNetSoundDispatchTests
     [InlineData(true)]
     public void SoundDataRoutesKeepTypeCacheAndReferenceCounts(bool memory)
     {
-        using var state = new SoundState();
-        var meta = SampleData.Descriptor;
-        var direct = memory ? SampleData.Create(Format, new byte[] { 128 }, 1) : SampleData.Create("direct");
-        var dynamic = memory ? meta.CreateInstance(Format, new byte[] { 128 }, 1) : meta.CreateInstance("dynamic");
-        foreach (var value in new[] { direct, dynamic })
+        using SoundState state = new();
+        SampleDataClass meta = SampleData.Descriptor;
+        SampleData direct = memory ? SampleData.Create(Format, new byte[] { 128 }, 1) : SampleData.Create("direct");
+        SampleData dynamic = memory ? meta.CreateInstance(Format, new byte[] { 128 }, 1) : meta.CreateInstance("dynamic");
+        foreach (SampleData? value in new[] { direct, dynamic })
         {
             Assert.IsType<SampleData>(value);
             Assert.Equal(1, value.RefCount);
@@ -138,8 +138,8 @@ public sealed class MapNetSoundDispatchTests
             }
         }
         Assert.Equal(memory ? 0 : 2, AudioHost.SampleDataList.Count);
-        var sample = Sample.Create(direct);
-        var dynamicSample = Sample.Descriptor.CreateInstance(dynamic);
+        Sample sample = Sample.Create(direct);
+        Sample dynamicSample = Sample.Descriptor.CreateInstance(dynamic);
         Assert.IsType<Sample>(sample);
         Assert.IsType<Sample>(dynamicSample);
         Assert.Equal(2, direct.RefCount);
@@ -160,9 +160,9 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void SoundAliasesKeepDistinctDescriptorsOverOneRuntimeType()
     {
-        using var state = new SoundState();
-        var sdl = AudioHost.SoundSystems.Find("SDL");
-        var galaxy = AudioHost.SoundSystems.Find("Galaxy");
+        using SoundState state = new();
+        SoundSystemClass sdl = AudioHost.SoundSystems.Find("SDL");
+        SoundSystemClass galaxy = AudioHost.SoundSystems.Find("Galaxy");
         Assert.NotSame(sdl, galaxy);
         Assert.Equal("SDL", sdl.Name);
         Assert.Equal("Galaxy", galaxy.Name);
@@ -174,7 +174,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(2, AudioHost.SoundSystems.Count);
         Assert.Same(sdl, AudioHost.SoundSystems.Find("SDL"));
         Assert.Same(galaxy, AudioHost.SoundSystems.Find("Galaxy"));
-        var error = Assert.Throws<InvalidOperationException>(() => NullSoundSystem.RegisterSoundSystem(sdl));
+        InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => NullSoundSystem.RegisterSoundSystem(sdl));
         Assert.Equal("Sound System with name: SDL already registered", error.Message);
     }
 
@@ -183,21 +183,21 @@ public sealed class MapNetSoundDispatchTests
     [InlineData("Galaxy")]
     public void SdlFacadesCreateExactSilentTypes(string name)
     {
-        using var state = new SoundState();
-        var meta = AudioHost.SoundSystems.Find(name);
-        var system = meta.CreateInstance();
+        using SoundState state = new();
+        SoundSystemClass meta = AudioHost.SoundSystems.Find(name);
+        SoundSystem system = meta.CreateInstance();
         Assert.IsType<SdlSoundSystem>(system);
         Assert.Equal(1, system.RefCount);
         system.Dispose();
         Assert.True(AudioPlayback.InitializeSoundSystem(name,
             new SoundSettings { SampleRate = 8000, SampleVoices = 1, SfxEnabled = true }));
-        var sampleDataMeta = SdlSoundSystem.SampleData;
-        var data = sampleDataMeta.CreateInstance(Format, new byte[] { 128 }, 1);
+        SampleDataClass sampleDataMeta = SdlSoundSystem.SampleData;
+        SampleData data = sampleDataMeta.CreateInstance(Format, new byte[] { 128 }, 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
         Assert.Equal(1, data.RefCount);
         Assert.Equal(0, AudioHost.SampleDataList.Count);
-        var sampleMeta = SdlSoundSystem.Samples;
-        var sample = sampleMeta.CreateInstance(data);
+        SampleClass sampleMeta = SdlSoundSystem.Samples;
+        Sample sample = sampleMeta.CreateInstance(data);
         Assert.Equal("SdlSample", sample.GetType().Name);
         Assert.Equal(-1, sample.Volume);
         Assert.False(sample.Playing);
@@ -214,8 +214,8 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void InvalidMemoryWaveLeavesBothListsUnchanged()
     {
-        using var state = new SoundState();
-        var meta = SdlSoundSystem.SampleData;
+        using SoundState state = new();
+        SampleDataClass meta = SdlSoundSystem.SampleData;
         Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, new byte[1], 1));
         Assert.Equal(0, AudioHost.SampleList.Count);
         Assert.Equal(0, AudioHost.SampleDataList.Count);
@@ -224,14 +224,14 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void NullBackendKeepsCompletedSampleCreation()
     {
-        using var state = new SoundState();
+        using SoundState state = new();
         AudioHost.SoundSystems.Clear();
         NullSoundSystem.Install();
-        var system = NullSoundSystem.Descriptor.CreateInstance();
+        SoundSystem system = NullSoundSystem.Descriptor.CreateInstance();
         Assert.IsType<NullSoundSystem>(system);
         Assert.Equal(1, system.RefCount);
-        var data = SampleData.Create("silent");
-        var sample = NullSoundSystem.Samples.CreateInstance(data);
+        SampleData data = SampleData.Create("silent");
+        Sample sample = NullSoundSystem.Samples.CreateInstance(data);
         Assert.Equal("NullSample", sample.GetType().Name);
         Assert.Equal(2, data.RefCount);
         Assert.False(sample.Playing);

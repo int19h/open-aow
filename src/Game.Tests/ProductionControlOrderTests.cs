@@ -13,15 +13,15 @@ public sealed class ProductionControlOrderTests
     [Fact]
     public void BothKindsKeepRegistrationOrderThroughTheReaders()
     {
-        var previous = StrategicMap.Current;
+        StrategicMap previous = StrategicMap.Current;
         StrategicMap.Current = null!;
-        var player = new Player(null!) { Holder = EngineFixture.Engine };
-        var action = new AutoProduceAIPlayerAction(null!) { Holder = EngineFixture.Engine };
+        Player player = new(null!) { Holder = EngineFixture.Engine };
+        AutoProduceAIPlayerAction action = new(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var city = new CityProductionControl(null!) { Holder = EngineFixture.Engine };
-            var place = new ProductionPlaceControl(null!) { Holder = EngineFixture.Engine };
-            var later = new CityProductionControl(null!) { Holder = EngineFixture.Engine };
+            CityProductionControl city = new(null!) { Holder = EngineFixture.Engine };
+            ProductionPlaceControl place = new(null!) { Holder = EngineFixture.Engine };
+            CityProductionControl later = new(null!) { Holder = EngineFixture.Engine };
             Assert.Equal(0, player.ProductionControls.Add(city));
             Assert.Equal(1, player.ProductionControls.Add(place));
             Assert.Equal(2, player.ProductionControls.Add(later));
@@ -41,7 +41,7 @@ public sealed class ProductionControlOrderTests
             Assert.False(action.ProducingTransporter());
             Assert.False(action.ResearchingTransporter());
 
-            var seen = new List<ProductionControl>();
+            List<ProductionControl> seen = new();
             for (int i = player.ProductionControls.Count - 1; i >= 0; i--)
             {
                 seen.Add(player.ProductionControls.GetPC(i));

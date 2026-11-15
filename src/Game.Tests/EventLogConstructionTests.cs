@@ -33,11 +33,11 @@ public sealed class EventLogConstructionTests
                     return;
                 }
 
-                var child = GetEvents(GetCount() - 1);
+                EventLog child = GetEvents(GetCount() - 1);
                 bool nil = true;
                 for (Type? type = child.GetType(); type != typeof(EventLog); type = type!.BaseType)
                 {
-                    foreach (var field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                    foreach (FieldInfo field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                     {
                         if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null)
                         {
@@ -115,7 +115,7 @@ public sealed class EventLogConstructionTests
     [Fact]
     public void StateInsertionAndOffsetsMatchBaseCommit()
     {
-        var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
         foreach (string name in s_names)
         {
             for (int mapped = 0; mapped < 2; mapped++)
@@ -125,13 +125,13 @@ public sealed class EventLogConstructionTests
                     for (int route = 0; route < 4; route++)
                     {
                         Type type = typeof(EventLog).Assembly.GetType(name)!;
-                        using var fixture = new OrderingRecording.Fixture(type);
+                        using OrderingRecording.Fixture fixture = new(type);
                         if (mapped == 1)
                         {
                             StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
                         }
 
-                        var owner = owned == 1 ? new EventListOwner() : null;
+                        EventListOwner? owner = owned == 1 ? new EventListOwner() : null;
                         EventLog? value = null;
                         string state;
                         try

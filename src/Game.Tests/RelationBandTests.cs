@@ -62,7 +62,7 @@ public sealed class RelationBandTests
 
     private static RecordingRelWindow CreateWindow(UIContext ui)
     {
-        var window = new RecordingRelWindow(ui);
+        RecordingRelWindow window = new(ui);
         window.Player1Image = new Image(null!);
         window.Player2Image = new Image(null!);
         window.Player3Image = new Image(null!);
@@ -130,7 +130,7 @@ public sealed class RelationBandTests
 
     private static void MarkChecks(RelationWindow window)
     {
-        foreach (var check in window.FChecks)
+        foreach (CheckBox check in window.FChecks)
         {
             check.Checked = true;
             check.Alignment.TopOffset = 99;
@@ -140,9 +140,9 @@ public sealed class RelationBandTests
     [Fact]
     public void FillPlayersUsesThePlayerCheckBand()
     {
-        using var scope = new MapScope();
-        using var dialogs = new DialogScope();
-        var window = CreateWindow(dialogs.UI);
+        using MapScope scope = new();
+        using DialogScope dialogs = new();
+        RecordingRelWindow window = CreateWindow(dialogs.UI);
         window.Race1CheckBox.Visible = false;
         window.FillPlayers();
         Assert.False(window.Player1CheckBox.Visible);
@@ -151,10 +151,10 @@ public sealed class RelationBandTests
 
         scope.Map.Players.SetNumberOfPlayers(12);
         scope.Map.SeatedPlayer = 1;
-        var seated = scope.Map.Players.GetPlayers(1);
+        Player seated = scope.Map.Players.GetPlayers(1);
         for (int i = 1; i <= 12; i++)
         {
-            var player = scope.Map.Players.GetPlayers(i);
+            Player player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
             player.Name = "P" + i;
             if (i != 1)
@@ -176,9 +176,9 @@ public sealed class RelationBandTests
     [Fact]
     public void ShowRelationsSkipsImageSlotsAndChecksThePlayerBand()
     {
-        using var scope = new MapScope();
-        using var dialogs = new DialogScope();
-        var window = CreateWindow(dialogs.UI);
+        using MapScope scope = new();
+        using DialogScope dialogs = new();
+        RecordingRelWindow window = CreateWindow(dialogs.UI);
         window.Player1Image.Checked = true;
         window.Race12Image.Checked = true;
 
@@ -207,10 +207,10 @@ public sealed class RelationBandTests
 
         scope.Map.Players.SetNumberOfPlayers(12);
         scope.Map.SeatedPlayer = 12;
-        var seated = scope.Map.Players.GetPlayers(12);
+        Player seated = scope.Map.Players.GetPlayers(12);
         for (int i = 1; i <= 12; i++)
         {
-            var player = scope.Map.Players.GetPlayers(i);
+            Player player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
             player.Name = "S" + i;
             if (i != 12)
@@ -229,8 +229,8 @@ public sealed class RelationBandTests
     [Fact]
     public void ResetChecksClearsBothCheckBands()
     {
-        using var dialogs = new DialogScope();
-        var window = CreateWindow(dialogs.UI);
+        using DialogScope dialogs = new();
+        RecordingRelWindow window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.Player1Image.CurrentImage = 7;
         window.ResetChecks();
@@ -249,9 +249,9 @@ public sealed class RelationBandTests
     [Fact]
     public void HighlightPlayerReachesThePlayerImageAndCheckForEachEnd()
     {
-        using var scope = new MapScope();
-        using var dialogs = new DialogScope();
-        var window = CreateWindow(dialogs.UI);
+        using MapScope scope = new();
+        using DialogScope dialogs = new();
+        RecordingRelWindow window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.HighlightPlayer(4);
         Assert.Equal(-1, window.SelectedIndex);
@@ -295,8 +295,8 @@ public sealed class RelationBandTests
     [Fact]
     public void HighlightRaceOnAMissingRaceUsesP12CB()
     {
-        using var dialogs = new DialogScope();
-        var window = CreateWindow(dialogs.UI);
+        using DialogScope dialogs = new();
+        RecordingRelWindow window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.HighlightRace(7);
         Assert.Equal(7, window.SelectedRace);

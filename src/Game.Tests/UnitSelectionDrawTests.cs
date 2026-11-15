@@ -15,7 +15,7 @@ public sealed class UnitSelectionDrawTests
     [Fact]
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
-        var dialog = new UnitSelectionDialog(null!);
+        UnitSelectionDialog dialog = new(null!);
         try
         {
             // The layout (UnitSelectionDialog.Layout.cs) makes each slot a check box with this handler.

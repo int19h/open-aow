@@ -26,13 +26,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         string[] files = InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
-        var entries = new List<Entry>();
-        var classes = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        List<Entry> entries = new();
+        SortedDictionary<string, int> classes = new(StringComparer.Ordinal);
         WithImageClasses(() =>
         {
             foreach (string file in files)
             {
-                var hash = new Fnv();
+                Fnv hash = new();
                 int count = 0;
                 Decode(file, onDemand: false, image =>
                 {
@@ -45,7 +45,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             }
         });
 
-        foreach (var (name, count) in classes)
+        foreach ((string? name, int count) in classes)
         {
             output.WriteLine($"{name}: {count}");
         }
@@ -69,10 +69,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             return;
         }
 
-        using var stream = typeof(ImageDecodeTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageDecodeSnapshot.json")!;
-        var expected = JsonSerializer.Deserialize<Dictionary<string, Entry[]>>(stream)![section];
+        using Stream stream = typeof(ImageDecodeTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageDecodeSnapshot.json")!;
+        Entry[] expected = JsonSerializer.Deserialize<Dictionary<string, Entry[]>>(stream)![section];
         Assert.Equal(expected.Select(e => e.Library), entries.Select(e => e.Library));
-        foreach (var (want, got) in expected.Zip(entries))
+        foreach ((Entry? want, Entry? got) in expected.Zip(entries))
         {
             Assert.Equal(want, got);
         }
@@ -95,7 +95,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         string[] files = InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
-        var entries = new List<Entry>();
+        List<Entry> entries = new();
         WithImageClasses(() =>
         {
             int seen = 0;
@@ -122,18 +122,18 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void GrabAll(LibraryImage source, string label, List<Entry> entries)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
-        var palette = new Palette();
+        Palette palette = new();
         for (int i = 0; i < 256; i++)
         {
             palette[i] = new TPaletteEntry { Red = (byte)(i * 5), Green = (byte)((i * 7) + 3), Blue = (byte)((i * 13) + 1) };
         }
 
         palette.PixelFormatId = PixelFormats.pfBGR24;
-        var s555 = new DataSurface(w, h, PixelFormats.pfRGB555, null!);
-        var s565 = new DataSurface(w, h, PixelFormats.pfRGB565, null!);
-        var s8 = new DataSurface(w, h, PixelFormats.pfPAL8, palette);
-        var s24 = new DataSurface(w, h, PixelFormats.pfRGB24, null!);
-        var hash = new Fnv();
+        DataSurface s555 = new(w, h, PixelFormats.pfRGB555, null!);
+        DataSurface s565 = new(w, h, PixelFormats.pfRGB565, null!);
+        DataSurface s8 = new(w, h, PixelFormats.pfPAL8, palette);
+        DataSurface s24 = new(w, h, PixelFormats.pfRGB24, null!);
+        Fnv hash = new();
         int grabs = 0;
         try
         {
@@ -142,7 +142,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             s565.Lock(ref d565);
             s8.Lock(ref d8);
             s24.Lock(ref d24);
-            var words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
+            Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
             words.Fill(Magenta555);
             try { source.Show(0, 0, d555); }
             catch (Exception) { }
@@ -154,7 +154,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
                     d565.View().UInt16(value: (r << 11) | (g << 6) | ((g >> 4) << 5) | b, offset: (y * d565.Pitch) + (x * 2));
                     d8.View()[(y * d8.Pitch) + x] = c == Magenta555 ? (byte)0 : (byte)(1 + ((r ^ (g << 3) ^ (b << 5)) % 255));
-                    var p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), 3);
+                    Span<byte> p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), 3);
                     p24[0] = (byte)(b << 3);
                     p24[1] = (byte)(g << 3);
                     p24[2] = (byte)(r << 3);
@@ -162,22 +162,22 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             }
 
             int key565 = 0xF81F, key24 = 0xF800F8;
-            var sources = new (string Name, LockedSurface SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
-            var rects = new[] { new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
-            var grabbers = new Func<LibraryImage>[]
+            (string Name, LockedSurface SD, int Key)[] sources = new (string Name, LockedSurface SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
+            Rect[] rects = new[] { new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
+            Func<LibraryImage>[] grabbers = new Func<LibraryImage>[]
             {
                 () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             };
-            foreach (var (name, lockedSurface, key) in sources)
+            foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
             {
-                foreach (var rectangle in rects)
+                foreach (Rect rectangle in rects)
                 {
-                    foreach (var create in grabbers)
+                    foreach (Func<LibraryImage> create in grabbers)
                     {
                         foreach (bool inverse in new[] { false, true })
                         {
-                            var image = create();
+                            LibraryImage image = create();
                             if (!image.SupportGrabPixelFormat(lockedSurface.PixelFormatId) || (inverse && image is not BitMask))
                             {
                                 image.Dispose();
@@ -185,7 +185,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             }
                             hash.Add($"{RecordedTypeName(image.GetType())} {name} {rectangle.Left} {inverse}");
                             grabs++;
-                            var grab = image.CreateGrabInfo();
+                            GrabInfo grab = image.CreateGrabInfo();
                             grab.TransparentPixel = key;
                             grab.FileName = "grab.bmp";
                             if (grab is BitMask.GrabInfo mask)
@@ -232,13 +232,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // Writes the image to a stream, reads it back and pins the copy.
     private static void RoundTrip(LibraryImage image, Fnv hash)
     {
-        using var stream = new MemoryStream();
+        using MemoryStream stream = new();
         try
         {
             LibraryImage.WriteImageToStream(image, stream);
             hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
             stream.Position = 0;
-            var copy = ImageStreams.ReadImageFromStream(stream, null!);
+            LibraryImage copy = ImageStreams.ReadImageFromStream(stream, null!);
             try { Pin(copy, hash); }
             finally { copy.Dispose(); }
         }
@@ -255,8 +255,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     [Fact]
     public void PixelReadersReadEveryFormatAsRecorded()
     {
-        var entries = new List<Entry>();
-        var palette = new Palette();
+        List<Entry> entries = new();
+        Palette palette = new();
         for (int i = 0; i < 256; i++)
         {
             palette[i] = new TPaletteEntry { Red = (byte)i, Green = (byte)(i * 3), Blue = (byte)(i * 11) };
@@ -269,13 +269,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + (w % 3);
-                    var surface = new DataSurface(w, h, format, format == PixelFormats.pfPAL8 ? palette : null!);
-                    var hash = new Fnv();
+                    DataSurface surface = new(w, h, format, format == PixelFormats.pfPAL8 ? palette : null!);
+                    Fnv hash = new();
                     try
                     {
                         LockedSurface lockedSurface = default;
                         surface.Lock(ref lockedSurface);
-                        var bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
+                        Span<byte> bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++)
                         {
                             bytes[i] = (byte)(((i * 7) + w) % 5 == 0 ? 0xC3 : (i * 29) + 1);
@@ -294,9 +294,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
 
                         foreach (int key in new[] { Read(() => BitMask.GetPixelInfo(lockedSurface, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
                         {
-                            var whole = new Rect(0, 0, w, h);
-                            var inset = new Rect(0, 1, Math.Max(0, w - 1), h);
-                            foreach (var rectangle in new[] { whole, inset })
+                            Rect whole = new(0, 0, w, h);
+                            Rect inset = new(0, 1, Math.Max(0, w - 1), h);
+                            foreach (Rect rectangle in new[] { whole, inset })
                             {
                                 Rect found = default;
                                 hash.Add(Read(() => { LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, out found); return 0; }));
@@ -343,19 +343,19 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     [Fact]
     public void BlendTablesHoldTheirBytesAsRecorded()
     {
-        var entries = new List<Entry>();
+        List<Entry> entries = new();
         WithImageClasses(() =>
         {
-            foreach (var (name, collection) in new[] { ("alpha", GraphicsState.AlphaBlendTable), ("intensity", GraphicsState.IntensityBlendTable),
+            foreach ((string? name, LookupBlendTableCollection100? collection) in new[] { ("alpha", GraphicsState.AlphaBlendTable), ("intensity", GraphicsState.IntensityBlendTable),
                          ("brighten", GraphicsState.BrightenBlendTable), ("shadow", GraphicsState.ShadowBlendTable), ("linear", GraphicsState.LinearAlphaBlendTable) })
             {
-                var hash = new Fnv();
+                Fnv hash = new();
                 for (int k = 0; k < collection.Tables.Count; k++)
                 {
-                    var table = (BlendTable5Bit)collection.Tables.Tables[k];
+                    BlendTable5Bit table = (BlendTable5Bit)collection.Tables.Tables[k];
                     Assert.Equal(5, table.Bits);
                     hash.Add(table.Bytes);
-                    var copy = (BlendTable5Bit)table.Copy();
+                    BlendTable5Bit copy = (BlendTable5Bit)table.Copy();
                     {
                         for (int i = 0; i < 32; i++)
                         {
@@ -401,7 +401,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         try { return reader(); }
         catch (Exception error)
         {
-            var name = new Fnv();
+            Fnv name = new();
             name.Add(error.GetType().Name);
             return (int)(name.Value & 0x3FFFFFFF) | (1 << 30);
         }
@@ -410,7 +410,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // Loads a library and hands every image to the action, the images of the nodes in order.
     private static void Decode(string file, bool onDemand, Action<LibraryImage> action)
     {
-        using var library = new ImageLibrary(null!);
+        using ImageLibrary library = new(null!);
         library.LoadOnDemand = onDemand;
         library.LoadFromFile(file);
         for (int i = 0; i < library.Count; i++)
@@ -464,8 +464,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
 
         AddBuffer(image, hash);
         int w = image.Width, h = image.Height;
-        var stretched = new Rect(1, 1, 1 + Math.Max(1, w * 3 / 2), 1 + Math.Max(1, h * 2 / 3));
-        var shrunk = new Rect(-w / 4, 2, (-w / 4) + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
+        Rect stretched = new(1, 1, 1 + Math.Max(1, w * 3 / 2), 1 + Math.Max(1, h * 2 / 3));
+        Rect shrunk = new(-w / 4, 2, (-w / 4) + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
         if (image is Image08)
         {
             hash.Add(Draw(image, PixelFormats.pfPAL8, 3, 2, d => image.ShowOpaque(3, 2, d)));
@@ -490,10 +490,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // The image's decoded buffer as the class holds it, a byte array.
     private static void AddBuffer(LibraryImage image, Fnv hash)
     {
-        var type = image.GetType();
+        Type type = image.GetType();
         const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        var field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, fields)).FirstOrDefault(f => f is not null);
-        var pitch = MemberNames.Field(type, "_pitch", fields);
+        FieldInfo? field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, fields)).FirstOrDefault(f => f is not null);
+        FieldInfo? pitch = MemberNames.Field(type, "_pitch", fields);
         hash.Add(pitch is null ? -1 : (int)pitch.GetValue(image)!);
         byte[]? bytes = field?.GetValue(image) switch
         {
@@ -514,13 +514,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static ulong Draw(LibraryImage image, int format, int x, int y, Action<LockedSurface> draw)
     {
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
-        var surface = new DataSurface(palette: new Palette(), width: w, height: h, pixelFormatId: format);
-        var hash = new Fnv();
+        DataSurface surface = new(palette: new Palette(), width: w, height: h, pixelFormatId: format);
+        Fnv hash = new();
         try
         {
             LockedSurface lockedSurface = default;
             Assert.Equal(0, surface.Lock(ref lockedSurface));
-            var pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
+            Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
             for (int i = 0; i < pixels.Length; i++)
             {
                 pixels[i] = (byte)((i * 37) + (x * 5) + y);
@@ -542,12 +542,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // The classes registered and the blend tables built, as at game start.
     private static void WithImageClasses(Action body)
     {
-        var previousClasses = ImageLibraries.LibraryImageClasses;
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         // Engine startup sets the base to the startup directory, so a library stores its name
         // relative to it and loads its on-demand images from there.
-        var previousBase = ImageLibraries.BaseImageLibraryPath;
+        string previousBase = ImageLibraries.BaseImageLibraryPath;
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
-        var previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
+        (LookupBlendTableCollection100 AlphaBlendTable, LookupBlendTableCollection100 IntensityBlendTable, LookupBlendTableCollection100 BrightenBlendTable, LookupBlendTableCollection100 ShadowBlendTable, LookupBlendTableCollection100 LinearAlphaBlendTable) previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
         (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();

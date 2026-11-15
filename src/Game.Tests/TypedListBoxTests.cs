@@ -8,8 +8,8 @@ public sealed class TypedListBoxTests
     [Fact]
     public void ItemsAreOneTypedStringListThatRefusesOtherClasses()
     {
-        var box = new ListBox<FileTime>(null!);
-        var stamp = new FileTime { Time = 2 };
+        ListBox<FileTime> box = new(null!);
+        FileTime stamp = new() { Time = 2 };
         box.Items.AddObject("a", stamp);
         ListBox plain = box;
         Assert.Same(box.Items, plain.Items);

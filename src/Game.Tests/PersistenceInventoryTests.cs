@@ -32,8 +32,8 @@ public sealed class PersistenceInventoryTests
     public void AllowedSitesNameAReason()
     {
         Assert.NotEmpty(PersistenceInventory.AllowedSites);
-        var names = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var site in PersistenceInventory.AllowedSites)
+        HashSet<string> names = new(StringComparer.Ordinal);
+        foreach (AllowedSite site in PersistenceInventory.AllowedSites)
         {
             Assert.False(string.IsNullOrWhiteSpace(site.TypeName));
             Assert.False(string.IsNullOrWhiteSpace(site.MethodName));
@@ -48,8 +48,8 @@ public sealed class PersistenceInventoryTests
         Assert.Contains(Product, static assembly => assembly.GetName().Name == "Aow.Formats");
         Assert.Contains(Product, static assembly => assembly == typeof(Engine.PersistSupport).Assembly);
         Assert.Contains(Product, static assembly => assembly == typeof(GameEngine).Assembly);
-        var reaches = PersistenceInventory.BackendReaches(Product);
-        var exposed = PersistenceInventory.ExposedMembers(Product);
+        IReadOnlyList<BackendReach> reaches = PersistenceInventory.BackendReaches(Product);
+        IReadOnlyList<ExposedMember> exposed = PersistenceInventory.ExposedMembers(Product);
         Assert.True(reaches.Count == 0, "Own-path reaches:\n" + string.Join("\n", reaches));
         Assert.True(exposed.Count == 0, "Exposed members:\n" + string.Join("\n", exposed));
     }

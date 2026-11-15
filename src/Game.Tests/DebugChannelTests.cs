@@ -21,7 +21,7 @@ public sealed class DebugChannelTests
             (DebugChannel.Magic, 5, "MAGIC"),
         ];
         Assert.Equal(registered.Length, Enum.GetValues<DebugChannel>().Length);
-        foreach (var (channel, id, label) in registered)
+        foreach ((DebugChannel channel, int id, string? label) in registered)
         {
             Assert.Equal(id, (int)channel);
             Assert.Equal(label, channel.Label);
@@ -31,8 +31,8 @@ public sealed class DebugChannelTests
     [Fact]
     public void MessagesCarryTheirChannel()
     {
-        using var engine = new GameEngine(null!);
-        var received = new List<(DebugChannel Channel, string Text)>();
+        using GameEngine engine = new(null!);
+        List<(DebugChannel Channel, string Text)> received = new();
         void Handler(EngineDebugNotification notification) => received.Add((notification.Info.Channel, notification.Info.Text));
         engine.DebugEvents += Handler;
         engine.OutputDebugMessage(DebugChannel.Combat, "combat");

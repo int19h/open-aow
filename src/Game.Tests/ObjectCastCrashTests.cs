@@ -31,8 +31,8 @@ public sealed class ObjectCastCrashTests
         public MapScope()
         {
             Map = new StrategicMap(null!, holder: EngineFixture.Engine);
-            var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
-            var level = new MapLevel(container);
+            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapLevel level = new(container);
             level.CreateMapFieldList(1, 1);
             container.Map = Map;
             Map.MapContainer = container;
@@ -55,7 +55,7 @@ public sealed class ObjectCastCrashTests
 
         public override bool ExpandAbility(int abilityId)
         {
-            var data = new UnitEnchantmentAbilityData(null!) { Holder = EngineFixture.Engine };
+            UnitEnchantmentAbilityData data = new(null!) { Holder = EngineFixture.Engine };
             data.EnchantmentAbilityId = (ushort)abilityId;
             data.Enchantment = new UnitEnchantment(null!) { Holder = EngineFixture.Engine };
             data.Enchantment.Upkeep = 5;
@@ -103,7 +103,7 @@ public sealed class ObjectCastCrashTests
 
     private static Animation AnimationAtOrigin()
     {
-        var animation = new Animation(null!) { Holder = EngineFixture.Engine };
+        Animation animation = new(null!) { Holder = EngineFixture.Engine };
         animation.Location = new MapCoordinate(0, 0, 0);
         return animation;
     }
@@ -111,10 +111,10 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void SummonFrameClearsTheModeFromTheField()
     {
-        using var scope = new MapScope();
-        var animation = AnimationAtOrigin();
+        using MapScope scope = new();
+        Animation animation = AnimationAtOrigin();
 
-        var holy = new HolyGround(null!) { Holder = EngineFixture.Engine };
+        HolyGround holy = new(null!) { Holder = EngineFixture.Engine };
         Own(holy, scope.Field);
         holy.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
         holy.NewFrameSummonAnimation(animation, 8);
@@ -122,7 +122,7 @@ public sealed class ObjectCastCrashTests
         holy.NewFrameSummonAnimation(animation, 9);
         Assert.False(holy.Mode.Contains(HolySummoning.Summoning));
 
-        var unholy = new UnholyGround(null!) { Holder = EngineFixture.Engine };
+        UnholyGround unholy = new(null!) { Holder = EngineFixture.Engine };
         Own(unholy, scope.Field);
         unholy.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         unholy.NewFrameSummonAnimation(animation, 8);
@@ -130,7 +130,7 @@ public sealed class ObjectCastCrashTests
         unholy.NewFrameSummonAnimation(animation, 9);
         Assert.False(unholy.Mode.Contains(UnholySummoning.Summoning));
 
-        var plant = new PoisonPlant(null!) { Holder = EngineFixture.Engine };
+        PoisonPlant plant = new(null!) { Holder = EngineFixture.Engine };
         Own(plant, scope.Field);
         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         plant.NewFrameSummonAnimation(animation, 8);
@@ -138,7 +138,7 @@ public sealed class ObjectCastCrashTests
         plant.NewFrameSummonAnimation(animation, 9);
         Assert.False(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
 
-        var mountain = new RaisedMountain(null!) { Holder = EngineFixture.Engine };
+        RaisedMountain mountain = new(null!) { Holder = EngineFixture.Engine };
         Own(mountain, scope.Field);
         mountain.Mode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         mountain.NewFrameRaiseTerrainAnimation(animation, 8);
@@ -150,19 +150,19 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = GamePack.Current.SpellControl;
+        SpellControl control = GamePack.Current.SpellControl;
         control.RegisterSpell(new StoneSkin(null!, holder: EngineFixture.Engine));
         control.RegisterSpell(new Bless(null!, holder: EngineFixture.Engine));
         try
         {
-            var unit = new MasteryUnit();
+            MasteryUnit unit = new();
             unit.SetEarthMasteryStoneSkin();
             unit.SetFireMasteryProtection();
             unit.SetLifeMasteryBlessing();
 
-            var earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).Enchantment;
-            var fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).Enchantment;
-            var life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).Enchantment;
+            UnitEnchantment earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).Enchantment;
+            UnitEnchantment fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).Enchantment;
+            UnitEnchantment life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).Enchantment;
             Assert.Equal(0, earth.Upkeep);
             Assert.Equal(-2, earth.Source);
             Assert.Equal(3, earth.DispelResistance);
@@ -193,26 +193,26 @@ public sealed class ObjectCastCrashTests
         int seed = Runtime.RandSeed;
         try
         {
-            var list = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
+            MapObjectResourceList list = new(null!) { Holder = EngineFixture.Engine };
             list.AddChild(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
-            var match = new TerrainMapObjectResource(null!) { Holder = EngineFixture.Engine };
+            TerrainMapObjectResource match = new(null!) { Holder = EngineFixture.Engine };
             match.TerrainType = 4;
             match.DecorationType = 2;
             list.AddChild(match);
 
-            var resource = new TerrainMapObjectResource(null!) { Holder = EngineFixture.Engine };
+            TerrainMapObjectResource resource = new(null!) { Holder = EngineFixture.Engine };
             resource.TerrainType = 4;
             resource.DecorationType = 9;
-            var finder = new ListedTerrain(list);
+            ListedTerrain finder = new(list);
             finder.SetResourceWithoutOverrides(resource);
             Assert.Same(match, finder.FindDecorationResource(2));
 
-            var clearing = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
+            MapObjectResourceList clearing = new(null!) { Holder = EngineFixture.Engine };
             clearing.AddChild(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
-            var wide = new TerrainMapObjectResource(null!) { Holder = EngineFixture.Engine };
+            TerrainMapObjectResource wide = new(null!) { Holder = EngineFixture.Engine };
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
-            var terrain = new ListedTerrain(clearing);
+            ListedTerrain terrain = new(clearing);
             terrain.SetResourceWithoutOverrides(wide);
             terrain.ClearTerrain(null!, 0);
             Assert.True(terrain.Destroyed);
@@ -226,14 +226,14 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void ShowRelationsSkipsAnImageAndChecksABox()
     {
-        using var scope = new MapScope();
-        var previousSound = AudioHost.SoundSystem;
+        using MapScope scope = new();
+        SoundSystem previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
-        var ui = new UIContext(EngineFixture.Engine);
+        UIContext ui = new(EngineFixture.Engine);
         ui.Add(new General(ui)).Manager = new WindowManager(null!);
         try
         {
-            var window = new RecordingRelationWindow(ui);
+            RecordingRelationWindow window = new(ui);
             window.Player1Image = new Image(null!);
             window.Player2Image = new Image(null!);
             window.Player3Image = new Image(null!);
@@ -309,7 +309,7 @@ public sealed class ObjectCastCrashTests
             Assert.False(window.MainWindow.Drawn);
             Assert.Equal(0, window.ShowCount);
 
-            var player = scope.Map.Players.GetPlayers(1);
+            Player player = scope.Map.Players.GetPlayers(1);
             player.PlayerIndex = 1;
             player.Status = PlayerStatus.Playing;
             scope.Map.SeatedPlayer = 1;
@@ -330,14 +330,14 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void PlaceHexRefreshesNoFieldThroughThePreviousFieldsLevel()
     {
-        using (var scope = new MapScope())
+        using (MapScope scope = new())
         {
-            var level = scope.Field.Owner;
-            var marker = new MapField(level);
+            MapLevel level = scope.Field.Owner;
+            MapField marker = new(level);
             marker.HexX = 20;
             marker.HexY = 20;
             marker.OverlayType = 4;
-            var bridge = new HexBridge(marker);
+            HexBridge bridge = new(marker);
             bridge.SetResourceWithoutOverrides(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
             Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
@@ -350,7 +350,7 @@ public sealed class ObjectCastCrashTests
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
         Assert.Null(GamePack.Current.SpellControl.GetSpell(155));
-        var unit = new Unit(null!) { Holder = EngineFixture.Engine };
+        Unit unit = new(null!) { Holder = EngineFixture.Engine };
         unit.UnitResource = new UnitResource(null!) { Holder = EngineFixture.Engine, Level = 2 };
         Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));
         Assert.Equal(5, SummonedAbility.GetDefaultDispelResistance(unit));
@@ -364,16 +364,16 @@ public sealed class ObjectCastCrashTests
         StrategicMap previous = StrategicMap.Current;
         try
         {
-            var map = new StrategicMap(null!, holder: EngineFixture.Engine);
-            var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
-            var level = new MapLevel(container);
+            StrategicMap map = new(null!, holder: EngineFixture.Engine);
+            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapLevel level = new(container);
             level.CreateMapFieldList(2, 1);
             container.Map = map;
             map.MapContainer = container;
             StrategicMap.Current = map;
-            var first = container.GetField(0, 0, 0);
-            var second = container.GetField(1, 0, 0);
-            var bridge = new Bridge(null!) { Holder = EngineFixture.Engine };
+            MapField first = container.GetField(0, 0, 0);
+            MapField second = container.GetField(1, 0, 0);
+            Bridge bridge = new(null!) { Holder = EngineFixture.Engine };
             bridge.SetResourceWithoutOverrides(new Bridge.Resource(null!) { Holder = EngineFixture.Engine });
             Assert.True(bridge.PlaceHex(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);

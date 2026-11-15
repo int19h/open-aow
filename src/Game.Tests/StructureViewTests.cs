@@ -89,7 +89,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         if (structure is City city)
         {
-            var war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
+            Set<City.ModeElement> war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
             city.Mode = state.War ? city.Mode + war : city.Mode - war;
         }
         Assert.Equal(state.Razed, structure.GetRazed());
@@ -370,8 +370,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
         {
-            var owner = new ArmyOwner { Holder = EngineFixture.Engine };
-            var structure = (Structure)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+            ArmyOwner owner = new() { Holder = EngineFixture.Engine };
+            Structure structure = (Structure)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
             Assert.IsType(type, structure);
             _created.Add(structure);
             return (structure, owner);
@@ -382,7 +382,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             StrategicMap.Current = _previousMap;
             EngineFixture.Engine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
-            foreach (var structure in _created)
+            foreach (Structure structure in _created)
             {
                 _ = Record.Exception(structure.Dispose);
             }
@@ -399,7 +399,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void EveryStructureClassIsCovered()
     {
-        var types = StructureTypes();
+        Type[] types = StructureTypes();
         Assert.Equal(40, types.Length);
         Assert.Contains(typeof(Structure), types);
         Assert.DoesNotContain(types, t => t.Assembly != typeof(Structure).Assembly);
@@ -408,18 +408,18 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void InfoPanelMatchesTheOldCascade()
     {
-        var mismatches = new List<string>();
-        var table = new StringBuilder();
-        using var scene = new Scene();
-        foreach (var type in StructureTypes())
+        List<string> mismatches = new();
+        StringBuilder table = new();
+        using Scene scene = new();
+        foreach (Type type in StructureTypes())
         {
-            var (structure, _) = scene.Create(type);
-            var row = new List<string>();
-            foreach (var state in States(type))
+            (Structure structure, ArmyOwner _) = scene.Create(type);
+            List<string> row = new();
+            foreach (State state in States(type))
             {
                 Apply(structure, state);
                 string expected = OldInfoPanel(structure, Viewer);
-                var view = structure.InfoPanel(Viewer);
+                StructureView view = structure.InfoPanel(Viewer);
                 Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
                 if (view.Name != expected)
                 {
@@ -442,24 +442,24 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void InfoButtonMatchesTheOldCascade()
     {
-        var mismatches = new List<string>();
-        using var scene = new Scene();
-        foreach (var type in StructureTypes())
+        List<string> mismatches = new();
+        using Scene scene = new();
+        foreach (Type type in StructureTypes())
         {
             foreach (bool owned in new[] { true, false })
             {
-                var (structure, owner) = scene.Create(type);
+                (Structure structure, ArmyOwner owner) = scene.Create(type);
                 if (structure is PlayerStructure player)
                 {
                     player.Player = owned ? Viewer : OtherPlayer;
                 }
                 // Targeting under way from this structure, the state the altar arm tests first.
-                var selection = scene.Map.TargetSelection;
+                TargetSelectionControl selection = scene.Map.TargetSelection;
                 selection.Status = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
                 selection.Source = structure;
                 int queries = owner.ArmyQueries;
                 string expected = OldInfoButton(structure);
-                var view = structure.InfoButton(Viewer);
+                StructureView view = structure.InfoButton(Viewer);
                 bool cancelled = !selection.Status.Contains(TargetSelectionStatusElement.Activated);
                 selection.Status = Set<TargetSelectionStatusElement>.Of();
                 selection.Source = null;
@@ -483,13 +483,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void DoubleClickMatchesTheOldCascade()
     {
-        var mismatches = new List<string>();
-        using var scene = new Scene();
-        foreach (var type in StructureTypes())
+        List<string> mismatches = new();
+        using Scene scene = new();
+        foreach (Type type in StructureTypes())
         {
             foreach (bool owned in new[] { true, false })
             {
-                var (structure, owner) = scene.Create(type);
+                (Structure structure, ArmyOwner owner) = scene.Create(type);
                 if (structure is PlayerStructure player)
                 {
                     player.Player = owned ? Viewer : OtherPlayer;
@@ -499,7 +499,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 string expected = OldDoubleClick(structure, Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
                 Assert.Equal(queries, owner.ArmyQueries);
-                var view = structure.DoubleClick(Viewer);
+                StructureView view = structure.DoubleClick(Viewer);
                 if (view != StructureView.None)
                 {
                     Assert.True(MapEvents.StructureScreens.TryGet(view, out _), $"{type.Name}: no screen renderer for {view}");
@@ -521,23 +521,23 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     public void CombatMapNameMatchesTheOldSwitch()
     {
         int[][] neighbors = [[], [2, 5], [1, 2, 3, 4, 5, 6], [6]];
-        var mismatches = new List<string>();
+        List<string> mismatches = new();
         int previousSeed = Runtime.RandSeed;
-        using var scene = new Scene();
+        using Scene scene = new();
         try
         {
-            foreach (var type in StructureTypes())
+            foreach (Type type in StructureTypes())
             {
-                var (structure, _) = scene.Create(type);
-                var names = new SortedSet<string>(StringComparer.Ordinal);
+                (Structure structure, ArmyOwner _) = scene.Create(type);
+                SortedSet<string> names = new(StringComparer.Ordinal);
                 foreach (bool siteCombat in new[] { false, true })
                 {
                     foreach (bool randomTerrain in new[] { false, true })
                     {
-                        foreach (var pattern in neighbors)
+                        foreach (int[] pattern in neighbors)
                         {
                             Runtime.RandSeed = 0x5EED + pattern.Length;
-                            var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
+                            CombatMapSite site = new(siteCombat, randomTerrain, (direction, kind) =>
                             {
                                 Assert.Equal(typeof(City), kind);
                                 return pattern.Contains(direction);
@@ -591,12 +591,12 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void NoStructureInheritsAnotherClassMapName()
     {
-        var resolved = new StringBuilder();
-        foreach (var type in StructureTypes())
+        StringBuilder resolved = new();
+        foreach (Type type in StructureTypes())
         {
-            var declaring = type.GetMethod(nameof(Structure.CombatMapName))!.DeclaringType!;
+            Type declaring = type.GetMethod(nameof(Structure.CombatMapName))!.DeclaringType!;
             Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
-            var owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
             resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType!.Name})") + ", " +
                 $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +
@@ -613,7 +613,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         Assert.Equal(2, MapEvents.StructureScreens.All.Count);
         Assert.False(InfoWindow.StructureButtons.TryGet(StructureView.None, out _));
         Assert.False(MapEvents.StructureScreens.TryGet(StructureView.None, out _));
-        var duplicate = Assert.Throws<InvalidOperationException>(() =>
+        InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() =>
             InfoWindow.StructurePanels.Add(StructureView.Generic, static (_, _) => { }));
         Assert.Contains("structure info panel", duplicate.Message);
     }

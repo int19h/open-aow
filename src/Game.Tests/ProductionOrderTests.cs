@@ -53,8 +53,8 @@ public sealed class ProductionOrderTests
 
     private static MemoryStream Memory(string hex)
     {
-        var bytes = Convert.FromHexString(hex);
-        var memory = new MemoryStream();
+        byte[] bytes = Convert.FromHexString(hex);
+        MemoryStream memory = new();
         memory.WriteBuffer(bytes);
         memory.Position = 0;
         return memory;
@@ -62,7 +62,7 @@ public sealed class ProductionOrderTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new GameEngine(null!);
+        GameEngine engine = new(null!);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         engine.RegisterEngineClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
         return engine;
@@ -70,14 +70,14 @@ public sealed class ProductionOrderTests
 
     private static string Write(GameEngine engine, EngineObject value)
     {
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         engine.StoreEngineObject(memory, objectValue: value, progress: null);
         return Hex(memory);
     }
 
     private static T Read<T>(GameEngine engine, string hex) where T : EngineObject
     {
-        using var memory = Memory(hex);
+        using MemoryStream memory = Memory(hex);
         return Assert.IsType<T>(engine.RetrieveEngineObject(memory, progress: null));
     }
 
@@ -88,25 +88,25 @@ public sealed class ProductionOrderTests
         GameEngine engine = CreateEngine();
         try
         {
-            var order = ProductionOrder.FromFields(id, parameter, groupId);
+            ProductionOrder order = ProductionOrder.FromFields(id, parameter, groupId);
             Assert.Equal(Expected(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
 
-            var item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
+            ProductionItem item = new(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(itemBytes, Write(engine, item));
             item.Dispose();
 
-            var tokenEvent = new ProductionTokenEvent(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(3, 4, 1), Player = 2, Queue = true, Index = 1 };
+            ProductionTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(3, 4, 1), Player = 2, Queue = true, Index = 1 };
             tokenEvent.Item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(eventBytes, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
-            var loaded = Read<ProductionItem>(engine, itemBytes);
+            ProductionItem loaded = Read<ProductionItem>(engine, itemBytes);
             Assert.Equal(Expected(id, parameter, groupId), loaded.Order);
             Assert.Equal(itemBytes, Write(engine, loaded));
             loaded.Dispose();
 
-            var loadedEvent = Read<ProductionTokenEvent>(engine, eventBytes);
+            ProductionTokenEvent loadedEvent = Read<ProductionTokenEvent>(engine, eventBytes);
             Assert.Equal(Expected(id, parameter, groupId), loadedEvent.Item.Order);
             Assert.Equal(eventBytes, Write(engine, loadedEvent));
             loadedEvent.Dispose();
@@ -120,9 +120,9 @@ public sealed class ProductionOrderTests
     [Fact]
     public void UnknownIdsWriteBackUnchanged()
     {
-        foreach (var (id, parameter, groupId) in new[] { (99, 7, 3), (0, 0, 0), (3, -5, 8), (15, 1, 1) })
+        foreach ((int id, int parameter, int groupId) in new[] { (99, 7, 3), (0, 0, 0), (3, -5, 8), (15, 1, 1) })
         {
-            var order = ProductionOrder.FromFields(id, parameter, groupId);
+            ProductionOrder order = ProductionOrder.FromFields(id, parameter, groupId);
             Assert.Equal(new UnknownOrder(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
         }
@@ -146,8 +146,8 @@ public sealed class ProductionOrderTests
     [Fact]
     public void QueueFindsAnEqualOrder()
     {
-        using var queue = new ProductionQueue(null!) { Holder = EngineFixture.Engine };
-        foreach (var order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
+        using ProductionQueue queue = new(null!) { Holder = EngineFixture.Engine };
+        foreach (ProductionOrder order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
         {
             _ = new ProductionItem(queue) { Order = order };
         }
@@ -274,26 +274,26 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        var previousMap = StrategicMap.Current;
-        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
+        StrategicMap previousMap = StrategicMap.Current;
+        StrategicMap map = new(null!, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
-        var owner = new EngineFixture.FieldOwner(new EngineFixture.Owner());
-        var city = (City)EngineClass.Of<City>().CreateInstance(owner, holder: EngineFixture.Engine);
-        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner, holder: EngineFixture.Engine);
-        var node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner, holder: EngineFixture.Engine);
+        EngineFixture.FieldOwner owner = new(new EngineFixture.Owner());
+        City city = (City)EngineClass.Of<City>().CreateInstance(owner, holder: EngineFixture.Engine);
+        BuildersGuild guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner, holder: EngineFixture.Engine);
+        LifeNode node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner, holder: EngineFixture.Engine);
         try
         {
             ProductionControl[] controls = [city.Production, guild.ProductionControl, node.ProductionControl];
             int checks = 0;
-            foreach (var (id, parameter, groupId) in s_kinds)
+            foreach ((int id, int parameter, int groupId) in s_kinds)
             {
-                var order = ProductionOrder.FromFields(id, parameter, groupId);
-                var action = OldCityAction(id);
+                ProductionOrder order = ProductionOrder.FromFields(id, parameter, groupId);
+                CityAction action = OldCityAction(id);
                 Assert.Equal(action, order.CityAction);
-                foreach (var control in controls)
+                foreach (ProductionControl control in controls)
                 {
                     bool inCity = control is CityProductionControl;
-                    var sphere = control is ProductionPlaceControl place ? place.ProductionPlace.GetMagicSphere() : MagicSphere.None;
+                    MagicSphere sphere = control is ProductionPlaceControl place ? place.ProductionPlace.GetMagicSphere() : MagicSphere.None;
                     string where = order + " in " + control.GetType().Name;
                     Assert.True(OldLoopable(id, inCity) == order.Loopable(control), where);
                     Assert.True(OldLocksQueue(id, inCity) == order.LocksQueue(control), where);
