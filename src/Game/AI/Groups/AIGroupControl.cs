@@ -18,8 +18,6 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Game.AI.Groups;
 
 // cycles, group, status, location, army, army sprite, selection, targets, strengths, max
@@ -137,8 +135,11 @@ public partial class AIGroupControl : EngineObject
         bool result;
         if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
-            Group.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-            Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+            var coordinate97 = Group.GetLocation();
+            sbyte locationX = coordinate97.X;
+            sbyte locationY = coordinate97.Y;
+            sbyte locationMapLevel = coordinate97.MapLevel;
+            Location = new MapCoordinate(locationX, locationY, locationMapLevel);
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
@@ -197,7 +198,10 @@ public partial class AIGroupControl : EngineObject
             while (!found && i != 0)
             {
                 i -= 1;
-                Group.Units.GetUnit(i).GetLocation(out x, out y, out l);
+                var coordinate98 = Group.Units.GetUnit(i).GetLocation();
+                x = coordinate98.X;
+                y = coordinate98.Y;
+                l = coordinate98.MapLevel;
                 found = x != Location.X || y != Location.Y || l != Location.MapLevel;
             }
 
@@ -209,7 +213,10 @@ public partial class AIGroupControl : EngineObject
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
                 {
-                    Group.Units.GetUnit(i).GetLocation(out unitX, out unitY, out unitL);
+                    var coordinate99 = Group.Units.GetUnit(i).GetLocation();
+                    unitX = coordinate99.X;
+                    unitY = coordinate99.Y;
+                    unitL = coordinate99.MapLevel;
                     if (x == unitX && y == unitY && l == unitL)
                     {
                         group.AddUnit(Group.Units.GetUnit(i));
@@ -468,10 +475,10 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        if (this._aiGroupTask != null)
+        if (_aiGroupTask != null)
         {
-            this._aiGroupTask.Release();
-            this._aiGroupTask = null;
+            _aiGroupTask.Release();
+            _aiGroupTask = null;
         }
     }
 
@@ -559,8 +566,11 @@ public partial class AIGroupControl : EngineObject
             troop = player.Armies.GetArmy(i).Transporter(255);
             if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
             {
-                troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                var coordinate100 = troop.GetLocation();
+                sbyte locationX = coordinate100.X;
+                sbyte locationY = coordinate100.Y;
+                sbyte locationMapLevel = coordinate100.MapLevel;
+                location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {

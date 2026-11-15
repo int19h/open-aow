@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Host;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World;
@@ -20,7 +19,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private FrameDiagnostics(string output)
     {
-        this._output = output;
+        _output = output;
         _writer = new(Path.Combine(output, "diagnostic-trace.jsonl")) { NewLine = "\n", AutoFlush = true };
         _previousRandom = RtlUnit.RandomTrace;
         _previousCost = HeadlessHooks.ProcessCost;

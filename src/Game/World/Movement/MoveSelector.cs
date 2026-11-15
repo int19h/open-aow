@@ -184,8 +184,8 @@ public partial class MoveSelector : IDisposable
         MapField mapField;
         if (Status.Contains(MoveSelectorStatusElement.Activated) && MoveSettingsList.Count != 0)
         {
-            maxX = this.Map.ViewHexX + this.Map.ViewWidthHex - 1;
-            maxY = this.Map.ViewHexY + this.Map.ViewHeightHex - 1;
+            maxX = Map.ViewHexX + Map.ViewWidthHex - 1;
+            maxY = Map.ViewHexY + Map.ViewHeightHex - 1;
 
             for (int i = 0, last = MoveSettingsList.Count - 1; i <= last; i++)
             {

@@ -1,10 +1,8 @@
 #nullable disable
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -35,10 +33,13 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:412
-    public void SetLocation(sbyte X, sbyte Y, sbyte layer)
+    public void SetLocation(MapCoordinate location)
     {
-        Location = new MapCoordinate(X: X, Y: Y, MapLevel: layer);
+        Location = location;
     }
+
+    public void SetLocation(sbyte x, sbyte y, sbyte layer) =>
+        SetLocation(new MapCoordinate(x, y, layer));
 
     // GlobalTargetSpells.pas:419
     public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)

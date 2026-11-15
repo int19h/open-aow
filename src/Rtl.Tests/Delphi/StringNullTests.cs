@@ -30,32 +30,32 @@ public sealed class StringNullTests
             () => Cp1252.Encode(null), () => Cp1252.Normalize(null),
             () => Cp1252.Compare(null, ""), () => Cp1252.Compare("", null),
             () => Cp1252.Comparer.Compare(null, ""), () => Cp1252.Comparer.Compare("", null),
-            () => { Assert.Equal(actual: Cp1252.Normalize((string?)null), expected: ""); },
+            () => { Assert.Equal(actual: Cp1252.Normalize(null), expected: ""); },
             () => { FormatArg value = (string?)null; Assert.True(value is string text && text.Length == 0); },
-            () => RtlUnit.Length((string?)null), () => RtlUnit.IsEmpty(null),
-            () => RtlUnit.Copy((string?)null, 1, 1), () => RtlUnit.Delete((string?)null, 1, 1),
-            () => RtlUnit.Insert((string?)null, "", 1), () => RtlUnit.Insert("", (string?)null, 1),
+            () => RtlUnit.Length(null), () => RtlUnit.IsEmpty(null),
+            () => RtlUnit.Copy(null, 1, 1), () => RtlUnit.Delete(null, 1, 1),
+            () => RtlUnit.Insert(null, "", 1), () => RtlUnit.Insert("", null, 1),
             () => { string value = null!; RtlUnit.Delete(ref value, 1, 1); },
             () => { string value = null!; RtlUnit.Insert("", ref value, 1); },
             () => { string value = ""; RtlUnit.Insert(null, ref value, 1); },
             () => { string value = null!; RtlUnit.SetLength(ref value, 1); },
-            () => RtlUnit.Pos((string?)null, ""), () => RtlUnit.Pos("", (string?)null),
-            () => RtlUnit.AnsiPos((string?)null, ""), () => RtlUnit.AnsiPos("", (string?)null),
-            () => RtlUnit.Resized(null, 1), () => RtlUnit.NullTerminatedText((string?)null),
-            () => RtlUnit.UpperCase((string?)null), () => RtlUnit.LowerCase((string?)null),
-            () => RtlUnit.AnsiUpperCase((string?)null), () => RtlUnit.AnsiLowerCase((string?)null),
-            () => RtlUnit.CompareStr((string?)null, ""), () => RtlUnit.CompareStr("", (string?)null),
-            () => RtlUnit.CompareText((string?)null, ""), () => RtlUnit.CompareText("", (string?)null),
-            () => RtlUnit.AnsiCompareStr((string?)null, ""), () => RtlUnit.AnsiCompareStr("", (string?)null),
-            () => RtlUnit.AnsiCompareText((string?)null, ""), () => RtlUnit.AnsiCompareText("", (string?)null),
-            () => RtlUnit.Trim((string?)null), () => RtlUnit.TrimLeft((string?)null), () => RtlUnit.TrimRight((string?)null),
-            () => RtlUnit.QuotedStr((string?)null), () => RtlUnit.StrToIntDef((string?)null, 1),
-            () => RtlUnit.Format((string?)null), () => RtlUnit.Format("%s", (string?)null),
-            () => RtlUnit.Assert(true, (string?)null, "file.pas", 1),
-            () => RtlUnit.ExtractFileName((string?)null), () => RtlUnit.ExtractFileDrive((string?)null),
-            () => RtlUnit.ExtractFilePath((string?)null), () => RtlUnit.ExtractFileDir((string?)null),
-            () => RtlUnit.ExtractFileExt((string?)null), () => RtlUnit.ExpandFileName((string?)null),
-            () => RtlUnit.ChangeFileExt((string?)null, ""), () => RtlUnit.ChangeFileExt("", (string?)null)
+            () => RtlUnit.Pos(null, ""), () => RtlUnit.Pos("", null),
+            () => RtlUnit.AnsiPos(null, ""), () => RtlUnit.AnsiPos("", null),
+            () => RtlUnit.Resized(null, 1), () => RtlUnit.NullTerminatedText(null),
+            () => RtlUnit.UpperCase(null), () => RtlUnit.LowerCase(null),
+            () => RtlUnit.AnsiUpperCase(null), () => RtlUnit.AnsiLowerCase(null),
+            () => RtlUnit.CompareStr(null, ""), () => RtlUnit.CompareStr("", null),
+            () => RtlUnit.CompareText(null, ""), () => RtlUnit.CompareText("", null),
+            () => RtlUnit.AnsiCompareStr(null, ""), () => RtlUnit.AnsiCompareStr("", null),
+            () => RtlUnit.AnsiCompareText(null, ""), () => RtlUnit.AnsiCompareText("", null),
+            () => RtlUnit.Trim(null), () => RtlUnit.TrimLeft(null), () => RtlUnit.TrimRight(null),
+            () => RtlUnit.QuotedStr(null), () => RtlUnit.StrToIntDef(null, 1),
+            () => RtlUnit.Format(null), () => RtlUnit.Format("%s", (string?)null),
+            () => RtlUnit.Assert(true, null, "file.pas", 1),
+            () => RtlUnit.ExtractFileName(null), () => RtlUnit.ExtractFileDrive(null),
+            () => RtlUnit.ExtractFilePath(null), () => RtlUnit.ExtractFileDir(null),
+            () => RtlUnit.ExtractFileExt(null), () => RtlUnit.ExpandFileName(null),
+            () => RtlUnit.ChangeFileExt(null, ""), () => RtlUnit.ChangeFileExt("", null)
         ];
         foreach (Action read in reads)
         {
@@ -65,14 +65,14 @@ public sealed class StringNullTests
         if (strict)
         {
             Assert.Throws<NullStringException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            Assert.Throws<NullStringException>(() => RtlUnit.StrToInt((string?)null));
-            Assert.Throws<NullStringException>(() => RtlUnit.Assert(false, (string?)null, "file.pas", 1));
+            Assert.Throws<NullStringException>(() => RtlUnit.StrToInt(null));
+            Assert.Throws<NullStringException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
         }
         else
         {
             Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            Assert.Throws<FormatException>(() => RtlUnit.StrToInt((string?)null));
-            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, (string?)null, "file.pas", 1));
+            Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
+            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));
             Assert.True(RtlUnit.IsEmpty(null));

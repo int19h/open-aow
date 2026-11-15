@@ -5,7 +5,6 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Host;
 using Aow.Game.Layout;
 using Aow.Game.Session;
@@ -36,7 +35,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private MainForm(IDisplayHost host, LayoutSession layouts, UIContext ui)
     {
-        this._host = host;
+        _host = host;
         Layouts = layouts;
         UI = ui;
         GameHost.MainForm = this;

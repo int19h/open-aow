@@ -103,7 +103,7 @@ public partial class PossessAbility : TouchAbility
     {
         if (owner is Troop troop)
         {
-            strength = Round((double)(troop.GetAttack() * 25) * 0.1);
+            strength = Round(troop.GetAttack() * 25 * 0.1);
             types = Set<DamageType>.Of(DamageType.None);
         }
     }

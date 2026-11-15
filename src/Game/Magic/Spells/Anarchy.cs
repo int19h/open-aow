@@ -43,7 +43,7 @@ public partial class Anarchy : CityTargetSpell
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log.Player = source.Player;
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
+            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
             log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
             StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
             log.Release();

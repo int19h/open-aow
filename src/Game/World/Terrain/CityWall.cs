@@ -185,7 +185,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 }
                 else
                 {
-                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).DestinationX && GetHexY() == ((MoveControl)info.Sender).DestinationY)
+                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y)
                     {
                         moveResult.Code = 0;
                     }
@@ -303,7 +303,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 var hexY = GetHexY();
                 var hexX = GetHexX();
                 UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), hexX, hexY);
-                this.Dispose();
+                Dispose();
             }
             else
             {

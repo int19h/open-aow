@@ -154,7 +154,7 @@ public sealed partial class RuleConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         var constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
@@ -167,8 +167,8 @@ public sealed partial class RuleConstructionTests
             : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!) { Holder = EngineFixture.Engine }
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!) { Holder = EngineFixture.Engine }
             : null).ToArray();
-        try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
-        finally { foreach (object? argument in arguments) if (argument is FastBattle or CombatSide) ((((object)argument) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        try { return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
+        finally { foreach (object? argument in arguments) if (argument is FastBattle or CombatSide) ((argument ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -281,7 +281,7 @@ public sealed partial class RuleConstructionTests
         var settings = new ObservedAISettings(null!) { Holder = EngineFixture.Engine };
         Assert.True(settings.SawInitializedFields);
         Assert.Equal(175, settings.MovePointsMax);
-        Assert.Equal(-1, settings.DestinationX);
+        Assert.Equal(-1, settings.Destination.X);
         settings.Dispose();
         using var selector = new ObservedSelector();
         Assert.True(selector.SawPreAssignmentFields);

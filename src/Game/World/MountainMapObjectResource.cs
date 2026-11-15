@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Hexes;
-
 namespace Aow.Game.World;
 
 public partial class MountainMapObjectResource : Hexes.Terrain.Resource

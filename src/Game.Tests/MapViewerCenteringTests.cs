@@ -67,7 +67,7 @@ public sealed class MapViewerCenteringTests
         }
 
         // Every target pixel: stale outside the scene, black outside the shown map, the map inside.
-        public void AssertPicture(Aow.Rtl.Rect shown, int edgeX, int edgeY)
+        public void AssertPicture(Rect shown, int edgeX, int edgeY)
         {
             for (int y = 0; y < 320; y++)
             {

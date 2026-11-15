@@ -363,18 +363,14 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4320
-    public void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
+    public MapCoordinate GetLocation()
     {
         if (Owner is IItemHolder holder)
         {
-            holder.GetLocation(out X, out Y, out L);
+            return holder.GetLocation();
         }
-        else
-        {
-            X = -1;
-            Y = -1;
-            L = -1;
-        }
+
+        return MapCoordinate.None;
     }
 
     // Army.PAS:4353
@@ -438,7 +434,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             {
                 if (Owner == null)
                 {
-                    this.Dispose();
+                    Dispose();
                 }
                 else
                 {

@@ -224,17 +224,13 @@ public partial class Battle : EngineObject
         }
 
         data = CombatData;
-        data.X = X;
-        data.Y = Y;
-        data.MapLevel = L;
-        data.AttackerX = attackerX;
-        data.AttackerY = attackerY;
-        data.AttackerMapLevel = attackerL;
+        data.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
+        data.AttackerLocation = new MapCoordinate((sbyte)attackerX, (sbyte)attackerY, (sbyte)attackerL);
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, attackerRelation, CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, defenderRelation, CombatSideIndex.Defender);
-        var fieldValue = StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        var fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
-        var mapContainerField = StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        var mapContainerField = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType;
         return true;
     }
@@ -373,14 +369,14 @@ public partial class Battle : EngineObject
         }
 
         finalData = CombatData;
-        if (finalData.X != -1)
+        if (finalData.Location.X != -1)
         {
             message.MessageId = 4368;
             var param = message.Param;
             param[0] = this;
             message.Param = param;
             message.Result = 0;
-            StrategicMap.Current.MapContainer.GetField(finalData.X, finalData.Y, finalData.MapLevel).SendMapFieldMessage(ref message);
+            StrategicMap.Current.MapContainer.GetField(finalData.Location.X, finalData.Location.Y, finalData.Location.MapLevel).SendMapFieldMessage(ref message);
         }
 
         UnlockExecuted();
@@ -470,7 +466,7 @@ public partial class Battle : EngineObject
     {
         int distance;
         distance = (CombatData.Round - 1) * 2;
-        if (this.CombatData.Players.GetPlayers((sbyte)this.CombatData.CurrentPlayer).SideIndex == 0)
+        if (CombatData.Players.GetPlayers((sbyte)CombatData.CurrentPlayer).SideIndex == 0)
         {
             distance += 1;
         }
@@ -640,8 +636,8 @@ public partial class Battle : EngineObject
         ArmyHexSprite armyHexSprite;
         CombatSideIndex side;
         data = CombatData;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(data.MapLevel);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, data.X, data.Y, 0);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(data.Location.MapLevel);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, data.Location.X, data.Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -663,7 +659,7 @@ public partial class Battle : EngineObject
 
                     if (side != CombatSideIndex.Neutral)
                     {
-                        AddArmy(armyHexSprite.Army, side, walk.X, walk.Y, data.MapLevel);
+                        AddArmy(armyHexSprite.Army, side, walk.X, walk.Y, data.Location.MapLevel);
                     }
                 }
                 else
@@ -671,7 +667,7 @@ public partial class Battle : EngineObject
                     if (walk.HexNumber == 0)
                     {
                         var players = data.Players.GetPlayers(data.DefenderPlayer);
-                        AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, walk.X, walk.Y, data.MapLevel);
+                        AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, walk.X, walk.Y, data.Location.MapLevel);
                     }
                 }
             }
@@ -687,9 +683,9 @@ public partial class Battle : EngineObject
         byte result;
         CombatData data;
         data = CombatData;
-        if (layer == data.MapLevel && HexGeometry.DeltaHexToRadius(data.X, data.Y, X, Y) <= 1)
+        if (layer == data.Location.MapLevel && HexGeometry.DeltaHexToRadius(data.Location.X, data.Location.Y, X, Y) <= 1)
         {
-            result = (byte)HexGeometry.DeltaHexToHexNumberFast(data.X, data.Y, X, Y);
+            result = (byte)HexGeometry.DeltaHexToHexNumberFast(data.Location.X, data.Location.Y, X, Y);
         }
         else
         {
@@ -764,7 +760,7 @@ public partial class Battle : EngineObject
                 message.Param = param;
                 message.Result = 0;
                 data = CombatData;
-                StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
+                StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).SendMapFieldMessage(ref message);
                 if (message.Result.Int != 0)
                 {
                     party.Wall = (byte)message.Result.Int;
@@ -850,15 +846,15 @@ public partial class Battle : EngineObject
         {
             ExplorationSite = 2;
             AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
-            armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).FindOwnedChild(131607);
+            armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).FindOwnedChild(131607);
             if (armyHexSprite != null)
             {
-                AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.X, data.Y, data.MapLevel);
+                AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.Location.X, data.Location.Y, data.Location.MapLevel);
             }
             else
             {
                 var players = data.Players.GetPlayers(data.DefenderPlayer);
-                AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, data.X, data.Y, data.MapLevel);
+                AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, data.Location.X, data.Location.Y, data.Location.MapLevel);
             }
         }
         else
@@ -898,7 +894,7 @@ public partial class Battle : EngineObject
         param[0] = this;
         message.Param = param;
         // { direct combat data }
-        StrategicMap.Current.MapContainer.GetField(CombatData.X, CombatData.Y, CombatData.MapLevel).SendMapFieldMessage(ref message);
+        StrategicMap.Current.MapContainer.GetField(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel).SendMapFieldMessage(ref message);
         // Handlers write the query through the message. The text read here is that write.
         result = query.Text;
         if (IsEmpty(result))

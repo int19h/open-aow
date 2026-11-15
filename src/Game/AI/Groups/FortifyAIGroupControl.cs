@@ -562,7 +562,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = Group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-        settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
+        settings.SetSourcePosition(location);
         settings.MovePointsMax = radius;
         settings.ArmyHexSprite = null;
         settings.Selection = 0;
@@ -614,7 +614,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
         if (_requiredStrength > 0 && StrategicMap.Current.Day < 10)
         {
-            _requiredStrength = Round((double)(_requiredStrength * StrategicMap.Current.Day) * 0.1);
+            _requiredStrength = Round(_requiredStrength * StrategicMap.Current.Day * 0.1);
         }
 
         statistics = StrategicMap.Current.Players.GetPlayers(Group.Player).Statistics;
@@ -628,7 +628,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             }
 
             var fTurnInfoCount = statistics.TurnInfo.Count;
-            strength = Round((double)statistics.TurnInfo.GetTurnInfo(fTurnInfoCount - 1).ArmyStrength * 0.1);
+            strength = Round(statistics.TurnInfo.GetTurnInfo(fTurnInfoCount - 1).ArmyStrength * 0.1);
             if (strength > 50000)
             {
                 strength = 50000;
@@ -636,7 +636,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
             if (StrategicMap.Current.Day < 10)
             {
-                strength = Round((double)(strength * StrategicMap.Current.Day) * 0.1);
+                strength = Round(strength * StrategicMap.Current.Day * 0.1);
             }
 
             if (strength > _requiredStrength)

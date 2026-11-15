@@ -35,7 +35,10 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         if (result)
         {
             result = false;
-            troop.GetLocation(out x, out y, out l);
+            var coordinate37 = troop.GetLocation();
+            x = coordinate37.X;
+            y = coordinate37.Y;
+            l = coordinate37.MapLevel;
             mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
             HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
             while (walk.HexNumber < 7 && !result)
@@ -65,7 +68,10 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        troop.GetLocation(out x, out y, out l);
+        var coordinate38 = troop.GetLocation();
+        x = coordinate38.X;
+        y = coordinate38.Y;
+        l = coordinate38.MapLevel;
         if (l == 0)
         {
             result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60);

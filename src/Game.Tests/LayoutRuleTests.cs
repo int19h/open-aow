@@ -72,7 +72,7 @@ public sealed class LayoutRuleTests
         Assert.True(HasLayout(typeof(PlantedExplicit)));
         Assert.True(HasLayout(typeof(PlantedPacked)));
         Assert.False(HasLayout(typeof(PlantedNatural)));
-        Assert.True(IsStored(typeof(Aow.Game.World.Map.HsmHeader)));
+        Assert.True(IsStored(typeof(World.Map.HsmHeader)));
     }
 
     [StructLayout(LayoutKind.Explicit)]

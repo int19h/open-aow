@@ -1,12 +1,8 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
-using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
@@ -50,7 +46,7 @@ public partial class MultiLevelAbility : AdjustableAbility
         return level >= MaxLevel ? 0 : LevelCosts.Get(level + 1);
     }
 
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != default(Set<AbilitySelectionType>) && GetInherentLevel(owner) < MaxLevel;
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != default && GetInherentLevel(owner) < MaxLevel;
 
     public override int GetSkillPoints(AbilityOwner owner)
     {

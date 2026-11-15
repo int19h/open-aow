@@ -1,6 +1,3 @@
-
-using Aow.Engine.Buffers;
-
 namespace Aow.Game.Magic.Abilities;
 
 internal static class RankTables

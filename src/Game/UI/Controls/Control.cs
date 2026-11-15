@@ -48,7 +48,7 @@ public partial class Control : UIComponent
                 {
                     if (ToolTipCount > 0)
                     {
-                        if (_toolTipShown > 0 && MouseIn == true && _toolTip.ShowDuration > 0)
+                        if (_toolTipShown > 0 && MouseIn && _toolTip.ShowDuration > 0)
                         {
                             if (_toolTipShown < _toolTip.ShowDuration)
                             {
@@ -105,7 +105,7 @@ public partial class Control : UIComponent
                     }
                     else
                     {
-                        if (MouseIn == true)
+                        if (MouseIn)
                         {
                             if (!_toolTip.ToolTipStatic && _toolTip != null)
                             {

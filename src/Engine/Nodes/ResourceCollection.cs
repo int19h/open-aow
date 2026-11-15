@@ -40,9 +40,9 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
         bool found;
         found = false;
         i = 0;
-        while (!found && i != this.Count)
+        while (!found && i != Count)
         {
-            found = this.GetChild(i) != null && id == this[i].ResourceId;
+            found = GetChild(i) != null && id == this[i].ResourceId;
             i += 1;
         }
 

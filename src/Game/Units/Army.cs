@@ -52,12 +52,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // Army.PAS:324
     public Army(CustomNode owner) : base(owner)
     {
-        X = -1;
-        Y = -1;
-        MapLevel = -1;
-        DestinationX = -1;
-        DestinationY = -1;
-        DestinationMapLevel = -1;
+        Location = new MapCoordinate(-1, -1, -1);
+        Destination = new MapCoordinate(-1, -1, -1);
         IndependentRelation = -1;
     }
 
@@ -65,9 +61,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
     public Set<ArmyModeElement> Mode { get; set; }
     public sbyte Player { get; set; }
-    public sbyte X { get; set; }
-    public sbyte Y { get; set; }
-    public sbyte MapLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     public sbyte IndependentRelation { get; private set; }
 
@@ -81,9 +75,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     internal void ClearUpdateHandler() => OnUpdate = null;
 
     public GroupBehavior OldAIBehavior { get; set; }
-    public sbyte DestinationX { get; set; }
-    public sbyte DestinationY { get; set; }
-    public sbyte DestinationMapLevel { get; set; }
+    public MapCoordinate Destination { get; set; }
     public Set<ArmyUserModeElement> UserMode { get; set; }
 
     private byte _visibilityRanges;
@@ -107,14 +99,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         base.PersistFields(persister);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
-        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
-        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
         if (persister.Loading || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            DestinationX = PersistSupport.UnsignedByte(persister, name: "DestinationX", value: DestinationX);
-            DestinationY = PersistSupport.UnsignedByte(persister, name: "DestinationY", value: DestinationY);
-            DestinationMapLevel = PersistSupport.UnsignedByte(persister, name: "DestinationMapLevel", value: DestinationMapLevel);
+            Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
             UserMode = persister.Set("UserMode", value: UserMode);
         }
 
@@ -303,20 +291,14 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public sbyte GetPlayer() => Player;
 
     // Army.PAS:1874
-    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
+    public virtual MapCoordinate GetLocation()
     {
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            hexX = X;
-            hexY = Y;
-            hexLevel = MapLevel;
+            return Location;
         }
-        else
-        {
-            hexX = -1;
-            hexY = -1;
-            hexLevel = -1;
-        }
+
+        return MapCoordinate.None;
     }
 
     // Army.PAS:1719
@@ -329,10 +311,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         {
             result = Units.Count < MaxSize() && troop.CanAddToList(Units);
             hasTransporter = IndexOfTransporter(255) != -1;
-            if (result && !hasTransporter && X != -1 && X != 0 && !Mode.Contains(ArmyModeElement.DisableTerrainValidation))
+            if (result && !hasTransporter && Location.X != -1 && Location.X != 0 && !Mode.Contains(ArmyModeElement.DisableTerrainValidation))
             {
                 // { Original skips terrain validation on the zero X column. }
-                field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
+                field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
                 result = troop.ValidTerrain(field.TerrainType, field.OverlayType);
             }
 
@@ -426,13 +408,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         if (player != -1)
         {
             result = true;
-            level = StrategicMap.Current.MapContainer.MapLevels[MapLevel];
+            level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
             message.MessageId = 4363;
             message.Result = 0;
             var param = message.Param;
             param[1] = player;
             message.Param = param;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
             while (result && walk.Radius < 8)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -754,7 +736,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off)
                 {
-                    if (X != -1 && StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
+                    if (Location.X != -1 && StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
                         if (IndependentRelation >= 0)
                         {
@@ -806,9 +788,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             }
             else
             {
-                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off && X != -1)
+                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off && Location.X != -1)
                 {
-                    if (StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
+                    if (StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
                         if (IndependentRelation >= 0)
                         {
@@ -842,9 +824,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         ArmyId id;
         id = new ArmyId(null) { Holder = CreationHolder() };
-        id.X = X;
-        id.Y = Y;
-        id.MapLevel = MapLevel;
+        id.Location = new MapCoordinate(Location.X, Location.Y, Location.MapLevel);
         id.Player = Player;
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
@@ -866,7 +846,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        GetLocation(out x, out y, out l);
+        var coordinate26 = GetLocation();
+        x = coordinate26.X;
+        y = coordinate26.Y;
+        l = coordinate26.MapLevel;
         if (x != -1)
         {
             result = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131607);
@@ -882,9 +865,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // Army.PAS:591
     public void AssignSettings(Army army)
     {
-        DestinationX = army.DestinationX;
-        DestinationY = army.DestinationY;
-        DestinationMapLevel = army.DestinationMapLevel;
+        Destination = new MapCoordinate(army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
         Player = army.Player;
     }
 
@@ -902,9 +883,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
             }
 
-            if (Status.Contains(ArmyStatusElement.Activated) && X != -1)
+            if (Status.Contains(ArmyStatusElement.Activated) && Location.X != -1)
             {
-                StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, 0);
             }
         }
     }
@@ -980,16 +961,17 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:639
-    public void SetMapCoordinate(sbyte X, sbyte Y, sbyte L)
+    public void SetMapCoordinate(MapCoordinate location)
     {
-        this.X = X;
-        this.Y = Y;
-        MapLevel = L;
+        Location = location;
         if (UpdateCount == 0)
         {
             UpdateConcealedUnits();
         }
     }
+
+    public void SetMapCoordinate(sbyte x, sbyte y, sbyte level) =>
+        SetMapCoordinate(new MapCoordinate(x, y, level));
 
     // Army.PAS:647
     public int GetRace(byte selection)
@@ -1033,17 +1015,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // Army.PAS:669
     public void ResetDestinationPosition()
     {
-        DestinationX = -1;
-        DestinationY = -1;
-        DestinationMapLevel = -1;
+        Destination = new MapCoordinate(-1, -1, -1);
     }
 
     // Army.PAS:672
     public void SetDestinationPosition(sbyte X, sbyte Y, sbyte L)
     {
-        DestinationX = X;
-        DestinationY = Y;
-        DestinationMapLevel = L;
+        Destination = new MapCoordinate(X, Y, L);
     }
 
     // Army.PAS:675
@@ -1070,11 +1048,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         int i;
         MapField field;
-        if (X != -1 && MapLevel != -1 && Status.Contains(ArmyStatusElement.Activated))
+        if (Location.X != -1 && Location.MapLevel != -1 && Status.Contains(ArmyStatusElement.Activated))
         {
             ConcealedUnits = 0;
             i = Units.Count;
-            field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
+            field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             while (i != 0)
             {
                 i -= 1;
@@ -1188,7 +1166,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     }
 
                     log.ValidateGameOver();
-                    EventLog.DistributeLocationEventLog(log, Player, X, Y, MapLevel, true);
+                    EventLog.DistributeLocationEventLog(log, Player, Location.X, Location.Y, Location.MapLevel, true);
                     log.Release();
                 }
             }
@@ -1289,9 +1267,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             UpdateConcealment();
             UpdateFormation();
             UpdateIndependentRelation();
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && X != -1)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Location.X != -1)
             {
-                StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, 0);
             }
 
             UnlockChanged();
@@ -1339,11 +1317,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         }
 
         // { Original treats X = 0 as an unset location. }
-        if (X == 0)
+        if (Location.X == 0)
         {
-            X = -1;
-            Y = -1;
-            MapLevel = -1;
+            Location = new MapCoordinate(-1, -1, -1);
         }
 
         Update();
@@ -1357,7 +1333,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         {
             if (_unfogRange != 0)
             {
-                StrategicMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
+                StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, _unfogRange);
                 _unfogRange = 0;
             }
 
@@ -1431,7 +1407,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public bool GetUnitConcealed(int index)
     {
         MapField field;
-        field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units[index].ConcealedOnMapField(field);
     }
 
@@ -1486,9 +1462,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         Units[i].SetPlayer(Player);
                     }
 
-                    if (X != -1)
+                    if (Location.X != -1)
                     {
-                        StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                        StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, 0);
                     }
 
                     if (Player > 0 && StrategicMap.Current.Day > 0)
@@ -1664,8 +1640,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         transport = Transporter(selection);
         if (transport == null)
         {
-            common = Set<MoveType>.Of().WithRange(World.Movement.MoveType.Walking, World.Movement.MoveType.Tunneling);
-            moveType = (int)World.Movement.MoveType.Flying;
+            common = Set<MoveType>.Of().WithRange(MoveType.Walking, MoveType.Tunneling);
+            moveType = (int)MoveType.Flying;
             for (int i = 0, last = Units.Count - 1; i <= last; i++)
             {
                 if (((1 << i) & selection) != 0)
@@ -1674,34 +1650,34 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     common = common & moves;
                     if (moveType != -1)
                     {
-                        if ((MoveType)moveType == World.Movement.MoveType.Flying)
+                        if ((MoveType)moveType == MoveType.Flying)
                         {
-                            if (!moves.Contains(World.Movement.MoveType.Flying))
+                            if (!moves.Contains(MoveType.Flying))
                             {
-                                if (moves.Contains(World.Movement.MoveType.Swimming))
+                                if (moves.Contains(MoveType.Swimming))
                                 {
-                                    moveType = (int)World.Movement.MoveType.Swimming;
+                                    moveType = (int)MoveType.Swimming;
                                 }
                                 else
                                 {
-                                    moveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)MoveType.Walking;
                                 }
                             }
                         }
                         else
                         {
-                            if ((MoveType)moveType == World.Movement.MoveType.Swimming)
+                            if ((MoveType)moveType == MoveType.Swimming)
                             {
-                                if ((Set<MoveType>.Of(World.Movement.MoveType.Flying, World.Movement.MoveType.Swimming) & moves) == Set<MoveType>.Of())
+                                if ((Set<MoveType>.Of(MoveType.Flying, MoveType.Swimming) & moves) == Set<MoveType>.Of())
                                 {
-                                    moveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)MoveType.Walking;
                                 }
                             }
                             else
                             {
-                                if ((MoveType)moveType == World.Movement.MoveType.Walking)
+                                if ((MoveType)moveType == MoveType.Walking)
                                 {
-                                    if ((Set<MoveType>.Of(World.Movement.MoveType.Walking, World.Movement.MoveType.Flying).WithRange(World.Movement.MoveType.Forestry, World.Movement.MoveType.LavaCrossing) & moves) == Set<MoveType>.Of())
+                                    if ((Set<MoveType>.Of(MoveType.Walking, MoveType.Flying).WithRange(MoveType.Forestry, MoveType.LavaCrossing) & moves) == Set<MoveType>.Of())
                                     {
                                         moveType = -1;
                                     }
@@ -2009,9 +1985,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         byte result;
         int i;
         MapField field;
-        if (X != -1)
+        if (Location.X != -1)
         {
-            field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
+            field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             i = 0;
             result = 0;
             while (i != Units.Count)
@@ -2073,7 +2049,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             range = _unfogRange;
             if (range != 0)
             {
-                StrategicMap.Current.FogArea(X, Y, MapLevel, range);
+                StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range);
                 _unfogRange = 0;
             }
         }
@@ -2089,7 +2065,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
                     var visibilityRange = VisibilityRange();
-                    StrategicMap.Current.ExploreArea(X, Y, MapLevel, (sbyte)player, visibilityRange);
+                    StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, (sbyte)player, visibilityRange);
                 }
             }
         }
@@ -2114,15 +2090,15 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (_unfogRange != 0)
                 {
-                    StrategicMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
+                    StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, _unfogRange);
                 }
 
                 _unfogRange = (byte)range;
-                if (X != -1)
+                if (Location.X != -1)
                 {
                     if (_unfogRange != 0)
                     {
-                        StrategicMap.Current.UnFogArea(X, Y, MapLevel, _unfogRange);
+                        StrategicMap.Current.UnFogArea(Location.X, Location.Y, Location.MapLevel, _unfogRange);
                     }
                 }
                 else
@@ -2520,9 +2496,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 }
             }
 
-            x2 = this.X;
-            y2 = this.Y;
-            l2 = MapLevel;
+            x2 = Location.X;
+            y2 = Location.Y;
+            l2 = Location.MapLevel;
         }
         for (int i = 0, last = races.Count - 1; i <= last; i++)
         {
@@ -2609,11 +2585,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
             if (valid && race == -1)
             {
-                if (X != -1)
+                if (Location.X != -1)
                 {
                     race = IndependentRelation;
                     IndependentRelation = -1;
-                    IndependentRelation = (sbyte)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetIndependentRelation();
+                    IndependentRelation = (sbyte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetIndependentRelation();
                     if (IndependentRelation >= 0)
                     {
                         race = IndependentRelation;
@@ -2663,8 +2639,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 {
                     troop = Units[i];
                     alignmentAlignment = troop.GetAlignment();
-                    evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(alignmentAlignment));
-                    good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(alignmentAlignment));
+                    evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
+                    good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                     neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
                 }
 
@@ -2781,7 +2757,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             }
         }
 
-        EventLog.DistributeLocationEventLog(log, -1, X, Y, MapLevel, true);
+        EventLog.DistributeLocationEventLog(log, -1, Location.X, Location.Y, Location.MapLevel, true);
         log.Release();
         for (int i = Units.Count - 1; i >= 0; i--)
         {
@@ -2904,7 +2880,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         PartyStatus status;
         int chance;
         byte selection;
-        if (X != -1 && Player != 0)
+        if (Location.X != -1 && Player != 0)
         {
             status = GetPartyStatus(255);
             if (Set<PartyStatus>.Of(PartyStatus.Unruly, PartyStatus.Unrest).Contains(status))
@@ -3009,13 +2985,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         if (StrategicMap.Current.Day == 1)
         {
             ResetDestinationPosition();
-            if (X != -1 && Player > 0)
+            if (Location.X != -1 && Player > 0)
             {
                 var visibilityRange = VisibilityRange();
-                StrategicMap.Current.ExploreArea(X, Y, MapLevel, Player, visibilityRange);
+                StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, Player, visibilityRange);
                 var visibilityRange2 = VisibilityRange();
                 var trueVisionRange = TrueVisionRange();
-                StrategicMap.Current.UpdatePlayerSeen(Player, X, Y, MapLevel, visibilityRange2, trueVisionRange);
+                StrategicMap.Current.UpdatePlayerSeen(Player, Location.X, Location.Y, Location.MapLevel, visibilityRange2, trueVisionRange);
             }
 
             InitializeGroupBehavior();
@@ -3216,7 +3192,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             log.Messages.Text = format;
                         }
 
-                        EventLog.DistributeLocationEventLog(log, -1, this.X, this.Y, MapLevel, false);
+                        EventLog.DistributeLocationEventLog(log, -1, Location.X, Location.Y, Location.MapLevel, false);
                         log.Release();
                         if (ValidateSelection(255) != selection)
                         {
@@ -3225,10 +3201,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             {
                                 var hexY = offer.ArmyHexSprite.GetHexY();
                                 var hexX = offer.ArmyHexSprite.GetHexX();
-                                direction = HexGeometry.DeltaHexToHexNumberFast(this.X, this.Y, hexX, hexY);
+                                direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
                                 if (direction > 0 && direction <= 6)
                                 {
-                                    locations.AddMapCoordinate(this.X, this.Y, MapLevel);
+                                    locations.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                                     side = direction + 1;
                                     if (side > 6)
                                     {
@@ -3236,16 +3212,16 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                                     }
 
                                     // { Original sign extends the wrapped byte coordinates here. }
-                                    HexGeometry.CenterHexNumberToHex((sbyte)offer.X, (sbyte)offer.Y, side, ref x, ref y);
-                                    locations.AddMapCoordinate((sbyte)x, (sbyte)y, MapLevel);
+                                    HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, side, ref x, ref y);
+                                    locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
                                     side = direction - 1;
                                     if (side == 0)
                                     {
                                         side = 6;
                                     }
 
-                                    HexGeometry.CenterHexNumberToHex((sbyte)offer.X, (sbyte)offer.Y, side, ref x, ref y);
-                                    locations.AddMapCoordinate((sbyte)x, (sbyte)y, MapLevel);
+                                    HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, side, ref x, ref y);
+                                    locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
                                 }
                             }
 
@@ -3271,7 +3247,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
                                     if (!placed)
                                     {
-                                        Units.GetUnit(i).Place(this.X, this.Y, MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                                        Units.GetUnit(i).Place(Location.X, Location.Y, Location.MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                                     }
                                 }
                             }
@@ -3359,7 +3335,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             log.ValidateGameOver();
             if (damaged)
             {
-                EventLog.DistributeLocationEventLog(log, -1, X, Y, MapLevel, true);
+                EventLog.DistributeLocationEventLog(log, -1, Location.X, Location.Y, Location.MapLevel, true);
             }
 
             log.Release();
@@ -3467,7 +3443,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             if (damaged)
             {
                 log.ValidateGameOver();
-                EventLog.DistributeLocationEventLog(log, Player, X, Y, MapLevel, true);
+                EventLog.DistributeLocationEventLog(log, Player, Location.X, Location.Y, Location.MapLevel, true);
             }
 
             log.Release();
@@ -3643,8 +3619,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // intf_P2_07.inc:445
     public virtual bool GetUnitConcealedForPlayer(int index, sbyte player)
     {
-        if (player == Player || player == -1 || X == -1) return false;
-        var field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        if (player == Player || player == -1 || Location.X == -1) return false;
+        var field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units.GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 

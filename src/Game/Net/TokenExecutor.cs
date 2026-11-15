@@ -345,7 +345,7 @@ public partial class TokenExecutor : IDisposable
             i = 0;
             prefetched = true;
             r = ExecuteResult.Done;
-            while (_lockCount == 0 && prefetched == true && r == ExecuteResult.Done && i < TacticalBattleList.Count)
+            while (_lockCount == 0 && prefetched && r == ExecuteResult.Done && i < TacticalBattleList.Count)
             {
                 if (!_state.Contains(TokenExecutorState.Executing))
                 {
@@ -353,7 +353,7 @@ public partial class TokenExecutor : IDisposable
                     Events.Clear();
                     prefetched = _activeTacticalBattle.PrefetchTokenEvents(this);
                     _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
-                    if (prefetched == true)
+                    if (prefetched)
                     {
                         _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
                         _prefetchTacticalBattle = _activeTacticalBattle;

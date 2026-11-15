@@ -22,12 +22,10 @@ public partial class PlayerStructurePowerSource : PowerSource
     public override int Power() => _structure.GetPower();
 
     // Structur.PAS:2519
-    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = _structure.HexX;
-        Y = _structure.HexY;
-        L = _structure.HexLevel;
-    }
+    public override MapCoordinate GetLocation() => new MapCoordinate(
+        _structure.HexX,
+        _structure.HexY,
+        _structure.HexLevel);
 
     // Structur.PAS:2526
     public override void Select()

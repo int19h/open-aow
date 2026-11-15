@@ -30,7 +30,7 @@ public partial class MapWindow : UIModule
     public AlignHeight MapAlignHeight { get; set; }
 
     // AOWMWindow.pas:61
-    public bool InsideMap(int X, int Y) => X > this.MainWindow.WinLeft + 12 && X < this.MainWindow.WinLeft + this.MainWindow.WinWidth - 12 && Y > this.MainWindow.WinTop + 12 && Y < this.MainWindow.WinTop + this.MainWindow.WinHeight - 12;
+    public bool InsideMap(int X, int Y) => X > MainWindow.WinLeft + 12 && X < MainWindow.WinLeft + MainWindow.WinWidth - 12 && Y > MainWindow.WinTop + 12 && Y < MainWindow.WinTop + MainWindow.WinHeight - 12;
 
     // AOWMWindow.pas:53
     public void MWindowCreate()
@@ -141,10 +141,10 @@ public partial class MapWindow : UIModule
     // AOWMWindow.pas:122
     public void MapWindowResize()
     {
-        this.MainWindow.Alignment.LeftOffset = this.MainWindow.WinLeft;
-        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
-        this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
-        this.MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        MainWindow.Alignment.LeftOffset = MainWindow.WinLeft;
+        MainWindow.Alignment.TopOffset = MainWindow.WinTop;
+        MainWindow.Alignment.AlignWidth = AlignWidth.Left;
+        MainWindow.Alignment.AlignHeight = AlignHeight.Top;
 
         MapViewer.SceneWidth = MainWindow.WinWidth - 24;
         MapViewer.SceneHeight = MainWindow.WinHeight - 24;

@@ -14,7 +14,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 {
     private readonly Host _host;
 
-    public TypedEventTests(Host host) => this._host = host;
+    public TypedEventTests(Host host) => _host = host;
 
     [Fact]
     public void LayoutSlotReachesTheSharedHandler()

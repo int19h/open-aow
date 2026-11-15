@@ -670,7 +670,7 @@ public partial class RealmWindow : ILayoutModule
         t2SName.TextColor = 0;
         t2SName.TextSelectedColor = 16777215;
         t2SName.WinWidth = 113;
-        t2SName.OnClick += _ => T2SNameClick(default(int));
+        t2SName.OnClick += _ => T2SNameClick(default);
         session.EndRead(t2SName);
         Button t2SRace = new Button(this);
         session.BeginRead(t2SRace);
@@ -705,7 +705,7 @@ public partial class RealmWindow : ILayoutModule
         t2SRace.TextColor = 0;
         t2SRace.TextSelectedColor = 16777215;
         t2SRace.WinWidth = 88;
-        t2SRace.OnClick += _ => T2SRaceClick(default(int));
+        t2SRace.OnClick += _ => T2SRaceClick(default);
         session.EndRead(t2SRace);
         Button t2SIn = new Button(this);
         session.BeginRead(t2SIn);
@@ -740,7 +740,7 @@ public partial class RealmWindow : ILayoutModule
         t2SIn.TextColor = 0;
         t2SIn.TextSelectedColor = 16777215;
         t2SIn.WinWidth = 26;
-        t2SIn.OnClick += _ => T2SInClick(default(int));
+        t2SIn.OnClick += _ => T2SInClick(default);
         session.EndRead(t2SIn);
         Button t2SWall = new Button(this);
         session.BeginRead(t2SWall);
@@ -775,7 +775,7 @@ public partial class RealmWindow : ILayoutModule
         t2SWall.TextColor = 0;
         t2SWall.TextSelectedColor = 16777215;
         t2SWall.WinWidth = 26;
-        t2SWall.OnClick += _ => T2SWallClick(default(int));
+        t2SWall.OnClick += _ => T2SWallClick(default);
         session.EndRead(t2SWall);
         Button t2SLvl = new Button(this);
         session.BeginRead(t2SLvl);
@@ -810,7 +810,7 @@ public partial class RealmWindow : ILayoutModule
         t2SLvl.TextColor = 0;
         t2SLvl.TextSelectedColor = 16777215;
         t2SLvl.WinWidth = 26;
-        t2SLvl.OnClick += _ => T2SLvlClick(default(int));
+        t2SLvl.OnClick += _ => T2SLvlClick(default);
         session.EndRead(t2SLvl);
         Button t2SSize = new Button(this);
         session.BeginRead(t2SSize);
@@ -845,7 +845,7 @@ public partial class RealmWindow : ILayoutModule
         t2SSize.TextColor = 0;
         t2SSize.TextSelectedColor = 16777215;
         t2SSize.WinWidth = 26;
-        t2SSize.OnClick += _ => T2SSizeClick(default(int));
+        t2SSize.OnClick += _ => T2SSizeClick(default);
         session.EndRead(t2SSize);
         Button t2SEnc = new Button(this);
         session.BeginRead(t2SEnc);
@@ -880,7 +880,7 @@ public partial class RealmWindow : ILayoutModule
         t2SEnc.TextColor = 0;
         t2SEnc.TextSelectedColor = 16777215;
         t2SEnc.WinWidth = 47;
-        t2SEnc.OnClick += _ => T2SEncClick(default(int));
+        t2SEnc.OnClick += _ => T2SEncClick(default);
         session.EndRead(t2SEnc);
         CityActionList = new ListBox(this);
         session.BeginRead(CityActionList);
@@ -952,7 +952,7 @@ public partial class RealmWindow : ILayoutModule
         t2SAct.TextColor = 0;
         t2SAct.TextSelectedColor = 16777215;
         t2SAct.WinWidth = 26;
-        t2SAct.OnClick += _ => T2SActClick(default(int));
+        t2SAct.OnClick += _ => T2SActClick(default);
         session.EndRead(t2SAct);
         CityRelationList = new ListBox(this);
         session.BeginRead(CityRelationList);
@@ -1024,7 +1024,7 @@ public partial class RealmWindow : ILayoutModule
         t2SRel.TextColor = 0;
         t2SRel.TextSelectedColor = 16777215;
         t2SRel.WinWidth = 26;
-        t2SRel.OnClick += _ => T2SRelClick(default(int));
+        t2SRel.OnClick += _ => T2SRelClick(default);
         session.EndRead(t2SRel);
         CityMoraleList = new ListBox(this);
         session.BeginRead(CityMoraleList);
@@ -1096,7 +1096,7 @@ public partial class RealmWindow : ILayoutModule
         t2SMor.TextColor = 0;
         t2SMor.TextSelectedColor = 16777215;
         t2SMor.WinWidth = 26;
-        t2SMor.OnClick += _ => T2SMorClick(default(int));
+        t2SMor.OnClick += _ => T2SMorClick(default);
         session.EndRead(t2SMor);
         CityScrollBar = new VerticalScrollBar(this);
         session.BeginRead(CityScrollBar);
@@ -1204,7 +1204,7 @@ public partial class RealmWindow : ILayoutModule
         t3SName.TextColor = 0;
         t3SName.TextSelectedColor = 16777215;
         t3SName.WinWidth = 209;
-        t3SName.OnClick += _ => T3SNameClick(default(int));
+        t3SName.OnClick += _ => T3SNameClick(default);
         session.EndRead(t3SName);
         PlaceActionList = new ListBox(this);
         session.BeginRead(PlaceActionList);
@@ -1275,7 +1275,7 @@ public partial class RealmWindow : ILayoutModule
         t3Activity.TextColor = 0;
         t3Activity.TextSelectedColor = 16777215;
         t3Activity.WinWidth = 213;
-        t3Activity.OnClick += _ => T3ActivityClick(default(int));
+        t3Activity.OnClick += _ => T3ActivityClick(default);
         session.EndRead(t3Activity);
         PlaceScrollBar = new VerticalScrollBar(this);
         session.BeginRead(PlaceScrollBar);
@@ -1901,7 +1901,7 @@ public partial class RealmWindow : ILayoutModule
         t5SName.TextColor = 0;
         t5SName.TextSelectedColor = 16777215;
         t5SName.WinWidth = 230;
-        t5SName.OnClick += _ => T5SNameClick(default(int));
+        t5SName.OnClick += _ => T5SNameClick(default);
         session.EndRead(t5SName);
         Button t5SHealth = new Button(this);
         session.BeginRead(t5SHealth);
@@ -1936,7 +1936,7 @@ public partial class RealmWindow : ILayoutModule
         t5SHealth.TextColor = 0;
         t5SHealth.TextSelectedColor = 16777215;
         t5SHealth.WinWidth = 72;
-        t5SHealth.OnClick += _ => T5SHealthClick(default(int));
+        t5SHealth.OnClick += _ => T5SHealthClick(default);
         session.EndRead(t5SHealth);
         Button t5SLevel = new Button(this);
         session.BeginRead(t5SLevel);
@@ -1971,7 +1971,7 @@ public partial class RealmWindow : ILayoutModule
         t5SLevel.TextColor = 0;
         t5SLevel.TextSelectedColor = 16777215;
         t5SLevel.WinWidth = 54;
-        t5SLevel.OnClick += _ => T5SLevelClick(default(int));
+        t5SLevel.OnClick += _ => T5SLevelClick(default);
         session.EndRead(t5SLevel);
         HeroHeroInfoPanel = new Panel(this);
         session.BeginRead(HeroHeroInfoPanel);

@@ -62,8 +62,8 @@ public partial class UnitBanner : UIModule
             }
 
             AbilityList.Selected = -1;
-            this.AbilityList.HoverItem = -1;
-            this.AbilityList.ListOffset = 0;
+            AbilityList.HoverItem = -1;
+            AbilityList.ListOffset = 0;
         }
     }
 
@@ -103,7 +103,7 @@ public partial class UnitBanner : UIModule
             if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {
                 var ability = UI.General.Abilities[AbilityList.Selected];
-                GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(UI.General.SelectedUnit, ref reason);
+                GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

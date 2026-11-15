@@ -1,13 +1,9 @@
 // Translated from AoWHex.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
-
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -19,7 +15,7 @@ public partial class WaterHex : LowerIsometricHex
     {
         _animationFrame = (sbyte)(-1 - Random(20));
         var random = Random(4);
-        this.Sides = (byte)(this.Sides | (random << 6));
+        Sides = (byte)(Sides | (random << 6));
     }
 
     // AoWHex.pas:275
@@ -58,7 +54,7 @@ public partial class WaterHex : LowerIsometricHex
     {
         public Resource(CustomNode owner) : base(owner)
         {
-            this.DynamicLevel = 23;
+            DynamicLevel = 23;
         }
 
         // AoWHex.pas:452

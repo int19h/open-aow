@@ -18,7 +18,7 @@ public partial class NegotiateRequestEventLog
 
         if (Object == NegotiateObject.Army)
         {
-            var armyHexSprite = (ArmyHexSprite)World.Map.StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131607);
+            var armyHexSprite = (ArmyHexSprite)World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).FindOwnedChild(131607);
             if (armyHexSprite != null)
             {
                 var joinSelection = armyHexSprite.Army.GetJoinSelection(Player);

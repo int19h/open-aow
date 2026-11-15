@@ -13,9 +13,9 @@ public sealed class ConstructionContextTests
         internal void Number(string label, int value) => Fact(label, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
-    private sealed class Construct(string message) : System.Exception(message);
+    private sealed class Construct(string message) : Exception(message);
 
-    private sealed class Cleanup(string message) : System.Exception(message);
+    private sealed class Cleanup(string message) : Exception(message);
 
     private class Captured
     {
@@ -95,7 +95,7 @@ public sealed class ConstructionContextTests
 
         private Owned(ConstructionContext context, ConstructionTrace trace, List<object> owner) : base(context, trace)
         {
-            this._owner = owner;
+            _owner = owner;
             owner.Add(this);
             trace.Number("owner_inserted", owner.Count);
             throw new Construct("owner");
@@ -271,7 +271,7 @@ public sealed class ConstructionContextTests
     {
         int destroys = 0;
         ConstructionContext? saved = null;
-        var error = Assert.ThrowsAny<System.Exception>(() => ConstructionContext.Create<Counted>(context =>
+        var error = Assert.ThrowsAny<Exception>(() => ConstructionContext.Create<Counted>(context =>
         {
             saved = context;
             var value = new Counted(() =>

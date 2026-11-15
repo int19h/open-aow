@@ -2,18 +2,13 @@
 // Translated from Arena.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -62,7 +57,7 @@ public partial class Arena : Structure
                     }
                     else
                     {
-                        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }

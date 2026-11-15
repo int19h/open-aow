@@ -251,11 +251,11 @@ public partial class EmailGameControl : EngineObject
         MemoryStream value = new MemoryStream();
         try
         {
-            Stream value2 = RtlUnit.OpenFile(fileName, 0);
+            Stream value2 = OpenFile(fileName, 0);
             try
             {
                 StreamExtensions.LoadFromStream(value, value2);
-                result = EngineServices.GetCrc32(size: (int)((Stream)value).Length, buffer: (ReadOnlySpan<byte>)(value.GetBuffer()));
+                result = EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)(value.GetBuffer()));
             }
             finally
             {
@@ -269,7 +269,7 @@ public partial class EmailGameControl : EngineObject
         {
             if (value != null)
             {
-                ((Stream)value).Dispose();
+                value.Dispose();
             }
         }
         return result;

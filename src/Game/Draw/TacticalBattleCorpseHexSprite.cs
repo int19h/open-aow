@@ -133,10 +133,10 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                             }
 
                             var pi = Math.PI;
-                            var sin = Math.Sin((double)((double)(i * 5 + n) * pi) / 180);
+                            var sin = Math.Sin((double)((i * 5 + n) * pi) / 180);
                             var mathPI = Math.PI;
                             var path = effect.Path;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref path);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref path);
                             effect.Path = path;
                         }
                     }
@@ -160,9 +160,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = message.Param[1].Int;
                         // { Original uses this smaller value for horizontal speed. }
-                        speed = (float)((double)(Random(10) + 10) * 0.05);
+                        speed = (float)((Random(10) + 10) * 0.05);
                         gravity = (float)0.5;
-                        vz = (float)((double)(Random(50) + 50) * 0.05);
+                        vz = (float)((Random(50) + 50) * 0.05);
                         z = 0;
                         var path2 = effect.Path;
                         EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref path2);
@@ -195,7 +195,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
                     }
 
-                    this.Dispose();
+                    Dispose();
                 }
             }
         }

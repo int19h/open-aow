@@ -3,7 +3,6 @@
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -32,8 +31,8 @@ public partial class CombatScanner : UIModule
     // AoWTCScanner.pas:51
     public void TCScannerWinDrag()
     {
-        this.CombatScannerWindow.Alignment.RightOffset = this.CombatScannerWindow.WindowManager.WinWidth - this.CombatScannerWindow.WinLeft - this.CombatScannerWindow.WinWidth;
-        this.CombatScannerWindow.Alignment.TopOffset = this.CombatScannerWindow.WinTop;
+        CombatScannerWindow.Alignment.RightOffset = CombatScannerWindow.WindowManager.WinWidth - CombatScannerWindow.WinLeft - CombatScannerWindow.WinWidth;
+        CombatScannerWindow.Alignment.TopOffset = CombatScannerWindow.WinTop;
     }
 
     // AoWTCScanner.pas:60

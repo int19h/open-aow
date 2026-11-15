@@ -20,12 +20,12 @@ public sealed class ImageFileClass
         Func<string, Surface> createSurface, LoadImage loadToSurfaceDescription)
     {
         Type = type;
-        this._getName = getName;
-        this._getExtension = getExtension;
-        this._getDescription = getDescription;
-        this._getPixelFormatId = getPixelFormatId;
-        this._createSurface = createSurface;
-        this._loadToSurfaceDescription = loadToSurfaceDescription;
+        _getName = getName;
+        _getExtension = getExtension;
+        _getDescription = getDescription;
+        _getPixelFormatId = getPixelFormatId;
+        _createSurface = createSurface;
+        _loadToSurfaceDescription = loadToSurfaceDescription;
     }
 
     public Type Type { get; }

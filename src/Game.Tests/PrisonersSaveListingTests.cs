@@ -28,7 +28,7 @@ public sealed class PrisonersSaveListingTests
     [Fact]
     public void APrisonersItemSurvivesTheLoadDialogListingAndTheOpen()
     {
-        Game.GameEngine engine = EngineFixture.Engine;
+        GameEngine engine = EngineFixture.Engine;
         var previous = engine.HexSpriteMap;
         // LoadHsm disposes the engine's current map. Park it so this case can put it back.
         engine.SetHexSpriteMapWithoutCurrentMap(null);
@@ -127,7 +127,7 @@ public sealed class PrisonersSaveListingTests
     [Fact]
     public void ACampaignSaveKeepsAPrisonersItem()
     {
-        Game.GameEngine engine = EngineFixture.Engine;
+        GameEngine engine = EngineFixture.Engine;
         var previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");

@@ -423,8 +423,8 @@ public partial class CustomDisplay : Component
 
     private static int RemapSurface(Surface source, Surface destination)
     {
-        LockedSurface lockedSurface = default(LockedSurface);
-        LockedSurface lockedSurface2 = default(LockedSurface);
+        LockedSurface lockedSurface = default;
+        LockedSurface lockedSurface2 = default;
         source.Lock(ref lockedSurface);
         destination.Lock(ref lockedSurface2);
         int result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);

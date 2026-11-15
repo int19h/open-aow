@@ -34,54 +34,54 @@ public sealed class ResourcePayloadTests
     public void ASequenceListLoadedThroughTheTreeDrawsWhereTheStreamLoadDraws()
     {
         var payload = Sequences();
-        int seed = RtlUnit.RandSeed;
+        int seed = Runtime.RandSeed;
         try
         {
             using var viaStream = new ImageSequenceList(null, null);
-            RtlUnit.RandSeed = Seed;
+            Runtime.RandSeed = Seed;
             StreamLoad(viaStream, payload: payload);
-            int streamSeed = RtlUnit.RandSeed;
+            int streamSeed = Runtime.RandSeed;
             // Three frame-table layers draw three times.
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
             foreach (var tree in Backends(tree: Stored("MapObjectResource", "ImageSequenceList", payload), className: "MapObjectResource"))
             {
                 var viaTree = new Holder((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
-                RtlUnit.RandSeed = Seed;
+                Runtime.RandSeed = Seed;
                 TreeReader.Read(tree, objectValue: viaTree, factory: Factory);
-                Assert.Equal(streamSeed, RtlUnit.RandSeed);
+                Assert.Equal(streamSeed, Runtime.RandSeed);
                 Assert.Equal(Indices(viaStream), Indices(viaTree.Sequences));
                 Assert.Equal(StreamSaved(viaStream), StreamSaved(viaTree.Sequences));
                 viaTree.Dispose();
             }
             // The save writes what SaveToStream writes and draws nothing.
-            RtlUnit.RandSeed = Seed;
+            Runtime.RandSeed = Seed;
             var written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
-            Assert.Equal(Seed, RtlUnit.RandSeed);
+            Assert.Equal(Seed, Runtime.RandSeed);
             Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", "ImageSequenceList", written));
         }
         finally
         {
-            RtlUnit.RandSeed = seed;
+            Runtime.RandSeed = seed;
         }
     }
 
     [Fact]
     public void AnAbsentSequenceListLeavesTheListAndDrawsNothing()
     {
-        int seed = RtlUnit.RandSeed;
+        int seed = Runtime.RandSeed;
         try
         {
             var holder = new Holder((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
             StreamLoad(holder.Sequences, payload: Sequences());
-            RtlUnit.RandSeed = Seed;
+            Runtime.RandSeed = Seed;
             TreeReader.Read(new ObjectNode(null, null), objectValue: holder, factory: Factory);
-            Assert.Equal(Seed, RtlUnit.RandSeed);
+            Assert.Equal(Seed, Runtime.RandSeed);
             Assert.Equal(3, holder.Sequences.Count);
             holder.Dispose();
         }
         finally
         {
-            RtlUnit.RandSeed = seed;
+            Runtime.RandSeed = seed;
         }
     }
 

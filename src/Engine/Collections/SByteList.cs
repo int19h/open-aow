@@ -120,10 +120,10 @@ public partial class SByteList : Persistent
         if (source is SByteList)
         {
             var sByteList = (SByteList)source;
-            this._count = sByteList._count;
-            this.SetCapacity(sByteList._count);
-            Array.Copy(sByteList._list, 0, this._list, 0, this._count * 1);
-            this._default = sByteList._default;
+            _count = sByteList._count;
+            SetCapacity(sByteList._count);
+            Array.Copy(sByteList._list, 0, _list, 0, _count * 1);
+            _default = sByteList._default;
         }
         else
         {
@@ -425,7 +425,7 @@ public partial class SByteList : Persistent
     // Engine.pas:3992
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, ShortIntSortCompare sCompare)

@@ -1,14 +1,11 @@
 #nullable disable
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -79,7 +76,10 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         MapField field;
         ImageSequenceAnimation animation;
         base.Process(source, value);
-        source.GetLocation(out x, out y, out layer);
+        var coordinate15 = source.GetLocation();
+        x = coordinate15.X;
+        y = coordinate15.Y;
+        layer = coordinate15.MapLevel;
         ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
         army.MoveTo(field, 0);

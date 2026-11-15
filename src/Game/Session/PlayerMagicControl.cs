@@ -288,8 +288,11 @@ public partial class PlayerMagicControl : EngineObject
                 log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                 log.Player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
-                Enchantments.GetEnchantments(index).GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                log.Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                var coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
+                sbyte locationX = coordinate25.X;
+                sbyte locationY = coordinate25.Y;
+                sbyte locationMapLevel = coordinate25.MapLevel;
+                log.Location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
                 log.Release();
@@ -465,13 +468,13 @@ public partial class PlayerMagicControl : EngineObject
         switch (Player.PlayerType)
         {
             case PlayerType.Cpu2:
-                result = Round((double)result * 1.25);
+                result = Round(result * 1.25);
                 break;
             case PlayerType.Cpu3:
-                result = Round((double)result * 1.5);
+                result = Round(result * 1.5);
                 break;
             case PlayerType.Cpu4:
-                result = Round((double)result * 1.75);
+                result = Round(result * 1.75);
                 break;
             case PlayerType.Cpu5:
                 result = Round((double)result * 2);
@@ -482,7 +485,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2161
-    public int GetNetPowerToResearch() => Round((double)(GetNetPower() * ResearchPercentage) * 0.01);
+    public int GetNetPowerToResearch() => Round(GetNetPower() * ResearchPercentage * 0.01);
 
     // Spells.PAS:2163
     public int ResearchTurns(int power, int points)

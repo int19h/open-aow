@@ -335,7 +335,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (FastBattleBehindWall())
             {
-                if (((FastBattle)Combat).AttackerCanCrushWall() || (double)((FastBattle)Combat).GetAttackerBallisticCombatValue() > (double)((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
+                if (((FastBattle)Combat).AttackerCanCrushWall() || ((FastBattle)Combat).GetAttackerBallisticCombatValue() > ((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
                 {
                     State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                     troop = Troop;
@@ -498,7 +498,7 @@ public partial class FastBattleUnit : CombatUnit
         if (troop is Hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
             var combatData = Combat.CombatData;
-            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
+            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, combatData.Location.X, combatData.Location.Y, combatData.Location.MapLevel);
         }
 
         base.KillUnit();

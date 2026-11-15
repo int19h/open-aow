@@ -213,7 +213,7 @@ public sealed class StreamsProbeTests
         count = destination.Read(buffer);
         Both("large_readback");
         p.Fact("large_read_count", count);
-        p.Fact("large_checksum", buffer.Take(count).Sum(b => (int)b));
+        p.Fact("large_checksum", buffer.Take(count).Sum(b => b));
         p.Fact("large_boundary_before", buffer[61439]);
         p.Fact("large_boundary_after", buffer[61440]);
         p.End();

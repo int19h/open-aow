@@ -135,6 +135,14 @@ internal static class ObjectImage
                 }
                 value = array;
             }
+            else if (prop.Codec.GroupsEntries)
+            {
+                var images = new SlotImage[list.Count];
+                for (int k = 0; k < list.Count; k++)
+                    images[k] = new SlotImage(list[k].Entry.Id, list[k].Start, list[k].End);
+                var site = new ValueSite { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
+                value = prop.Codec.DecodeGroup(context, images, site);
+            }
             else if (prop.DataId is int dataId)
             {
                 var first = list.FirstOrDefault(s => s.Entry.Id == prop.Id);
@@ -176,7 +184,7 @@ internal static class ObjectImage
             if (ordinal == lastOrdinal)
             {
                 if (s.Property.IsDynamic) element++;
-                else if (s.Property.DataId is null || s.Entry.Id <= lastId) return false;
+                else if ((!s.Property.Codec.GroupsEntries && s.Property.DataId is null) || s.Entry.Id <= lastId) return false;
             }
             else element = 0;
             if (s.Property.IsDynamic && s.Property.SlotBase is null && s.Entry.Id != s.Property.DynamicMinimum + element) return false;

@@ -62,7 +62,7 @@ public partial class GlobalEnchantmentSpell : Spell
             var hero = (Hero)source;
             if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = this.Activate(source);
+                result = Activate(source);
             }
             else
             {

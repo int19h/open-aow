@@ -21,7 +21,7 @@ public sealed class LayoutValueTests
         long lowImage = (long)low.Second << 32 | (uint)low.First;
         long highImage = (long)high.Second << 32 | (uint)high.First;
         Assert.True(lowImage > 1L << 53);
-        Assert.Equal((double)lowImage, (double)highImage);
+        Assert.Equal<double>(lowImage, highImage);
         Assert.NotEqual(low, high);
 
         using var list = new DoubleItemList();

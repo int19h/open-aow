@@ -1,7 +1,6 @@
 #nullable disable
 
 using System.Runtime.InteropServices;
-using Aow.Engine.Buffers;
 using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -14,9 +13,9 @@ public static class PixelFormats
 
     internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, destination, width, height);
 
-    internal static int GetElapsedMilliseconds() => (int)RtlUnit.Clock.TickCount;
+    internal static int GetElapsedMilliseconds() => (int)Clock.TickCount;
 
-    internal static int GetElapsedMicroseconds() => (int)RtlUnit.Clock.TickCount * 1000;
+    internal static int GetElapsedMicroseconds() => (int)Clock.TickCount * 1000;
 
     internal const byte GFXE_OK = 0;
 

@@ -20,7 +20,7 @@ public partial class MoveControl
     public bool Activate(MoveControlSettings settings)
     {
         RtlUnit.Assert(!_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
-        RtlUnit.Assert(settings.SourceX != -1 && settings.SourceY != -1 && settings.SourceL != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
+        RtlUnit.Assert(settings.Source.X != -1 && settings.Source.Y != -1 && settings.Source.MapLevel != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
         if (settings.Status == MoveControlSettingsStatus.Failed) return false;
         _status += Set<StatusElement>.Of(StatusElement.Activated);
         Settings = settings;
@@ -36,12 +36,8 @@ public partial class MoveControl
         Settings.EvenOffsets.CopyTo(_pointOffsets[0]);
         Settings.OddOffsets.CopyTo(_pointOffsets[1]);
         Player = Settings.Player;
-        _sourceX = Settings.SourceX;
-        _sourceY = Settings.SourceY;
-        _sourceL = Settings.SourceL;
-        DestinationX = Settings.DestinationX;
-        DestinationY = Settings.DestinationY;
-        DestinationL = Settings.DestinationL;
+        Source = new MapCoordinate(Settings.Source.X, Settings.Source.Y, Settings.Source.MapLevel);
+        Destination = new MapCoordinate(Settings.Destination.X, Settings.Destination.Y, Settings.Destination.MapLevel);
         MovePointTable = Settings.MovePointTable;
         Mode = Settings.Mode;
         // Tactical movement retains its sprite in TCombatMoveControl.FUnitHS.
@@ -51,7 +47,7 @@ public partial class MoveControl
         Selection = Settings.Selection;
         TransporterArmy = Settings.TransporterArmy;
         _processedMapFields = Settings.ProcessedMapFields;
-        SetMapL(Map.MapContainer.GetMapLevel(_sourceL));
+        SetMapL(Map.MapContainer.GetMapLevel(Source.MapLevel));
         if (Mode.Contains(MoveModeElement.ExploredTerrainOnly) && Player != -1)
         {
             OnMovePoint = ExploredOnlyMoveOnMovePointProc;

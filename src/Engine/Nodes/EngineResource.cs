@@ -75,7 +75,7 @@ public partial class EngineResource : EngineObject
     }
 
     // Engine.pas:8525
-    public virtual void Draw(Canvas canvas, Rect rectangle, Game.Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
+    public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
         Rect r = default;
         LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref r);

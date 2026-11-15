@@ -96,7 +96,7 @@ public partial class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    var format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else

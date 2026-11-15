@@ -16,7 +16,7 @@ public sealed class LibraryImageClass
         ClassId = classId;
         ClassVersion = classVersion;
         Name = name;
-        this._create = create;
+        _create = create;
     }
 
     public Type Type { get; }
@@ -120,7 +120,7 @@ public sealed class LibraryImageClass
             }
             if (onProgress != null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
-                onProgress(null, RtlUnit.Round((double)(number2 * 100) / (double)(lockedSurface.Height - 1)), 0);
+                onProgress(null, RtlUnit.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
             }
         }
         if (rectangleList.Count == 0)

@@ -25,12 +25,10 @@ public partial class CityProductionControl : ProductionControl
     public City City { get; set; }
 
     // City.pas:645
-    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = City.GetHexX();
-        Y = City.GetHexY();
-        L = City.GetHexLevel();
-    }
+    public override MapCoordinate GetLocation() => new MapCoordinate(
+        City.GetHexX(),
+        City.GetHexY(),
+        City.GetHexLevel());
 
     // City.pas:707
     public override sbyte GetPlayer() => City.Player;

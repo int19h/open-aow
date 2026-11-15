@@ -1,8 +1,6 @@
 #nullable disable
 using System.Collections;
 
-using Aow.Engine.Nodes;
-
 namespace Aow.Game.Events;
 
 /// <summary>

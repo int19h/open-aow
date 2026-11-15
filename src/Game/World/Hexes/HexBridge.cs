@@ -392,10 +392,10 @@ public partial class HexBridge : AbstractRoad
 
     private static bool Land(sbyte terrain)
     {
-        return !Set<byte>.WithBounds(0, 255).With((byte)0).With((byte)6)
-            .With((byte)9)
-            .With((byte)10)
-            .With((byte)13)
+        return !Set<byte>.WithBounds(0, 255).With(0).With(6)
+            .With(9)
+            .With(10)
+            .With(13)
             .Contains((byte)terrain);
     }
 

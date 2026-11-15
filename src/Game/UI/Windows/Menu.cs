@@ -365,7 +365,7 @@ public partial class Menu : GenericWindow
             else
             {
                 SetVisibleWithoutUpdate(value);
-                if (Visible == true)
+                if (Visible)
                 {
                     Highlighted = -1;
                     if (WindowManager != null && _ownerMenuBar != null)
@@ -531,7 +531,7 @@ public partial class Menu : GenericWindow
         Redraw = false;
         SelectedItem = -1;
         keep = true;
-        if (Visible == true)
+        if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
@@ -541,7 +541,7 @@ public partial class Menu : GenericWindow
                     c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -592,9 +592,9 @@ public partial class Menu : GenericWindow
                 for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                 {
                     m = SubMenus[i];
-                    if (m.Handled == true)
+                    if (m.Handled)
                     {
-                        if (m.Visible == true)
+                        if (m.Visible)
                         {
                             show = true;
                             Redraw = true;
@@ -610,7 +610,7 @@ public partial class Menu : GenericWindow
                         _subMenuItem = -1;
                     }
 
-                    if (keep == true)
+                    if (keep)
                     {
                     }
                 }
@@ -629,17 +629,17 @@ public partial class Menu : GenericWindow
     {
         UIComponent c = default;
         Handled = false;
-        if (Visible == true)
+        if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if ((!Handled || c.Redraw == true) && c.CaptureInput)
+                if ((!Handled || c.Redraw) && c.CaptureInput)
                 {
                     c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -664,7 +664,7 @@ public partial class Menu : GenericWindow
         // { Keep the child on the stack and I in a register. }
         Handled = false;
         InResizeArea = true;
-        if (Visible == true)
+        if (Visible)
         {
             Redraw = true;
             oldHighlighted = Highlighted;
@@ -673,12 +673,12 @@ public partial class Menu : GenericWindow
             for (; i >= 0; i -= 1)
             {
                 c = Children[i];
-                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.CaptureInput)
+                if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.CaptureInput)
                 {
                     c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -729,9 +729,9 @@ public partial class Menu : GenericWindow
                     for (; i <= last; i += 1)
                     {
                         var component = SubMenus[i];
-                        if (component.Handled == true)
+                        if (component.Handled)
                         {
-                            this.Highlighted = component.OwnerItem;
+                            Highlighted = component.OwnerItem;
                         }
                     }
                 }
@@ -760,7 +760,7 @@ public partial class Menu : GenericWindow
         {
             c = Children[i];
             c.CheckKeyPress(ref key);
-            if (c.Handled == true)
+            if (c.Handled)
             {
                 Handled = true;
             }
@@ -778,7 +778,7 @@ public partial class Menu : GenericWindow
         {
             c = Children[i];
             c.CheckKeyDown(ref key, shift);
-            if (c.Handled == true)
+            if (c.Handled)
             {
                 Handled = true;
             }

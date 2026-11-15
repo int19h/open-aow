@@ -342,7 +342,7 @@ public sealed class RecordNode : TreeValue
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
-            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a record.", path);
+            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a record.", path);
         foreach (var (name, value) in _members)
             value.RejectVersion(version, path.Member(name));
     }
@@ -371,7 +371,7 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
-            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a bit array.", path);
+            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a bit array.", path);
     }
 }
 
@@ -451,7 +451,7 @@ public sealed class SlotListNode : TreeValue
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < _entries.Count; i++)
-            foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]"))
+            foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
                 yield return hit;
     }
 }
@@ -551,7 +551,7 @@ public sealed class ListNode : TreeValue
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < Items.Count; i++)
-            foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]"))
+            foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
                 yield return hit;
     }
 }
@@ -573,7 +573,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < Children.Count; i++)
-            foreach (var hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]"))
+            foreach (var hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
                 yield return hit;
     }
 }

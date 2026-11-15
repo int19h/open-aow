@@ -114,10 +114,10 @@ public partial class FrameTableList : Persistent
         if (source is FrameTableList)
         {
             var frameTableList = (FrameTableList)source;
-            this.SetCapacity(frameTableList._count);
-            this._count = frameTableList._count;
-            MoveElements(frameTableList._list, 0, this._list, 0, this._count);
-            this._defaultValue = frameTableList._defaultValue;
+            SetCapacity(frameTableList._count);
+            _count = frameTableList._count;
+            MoveElements(frameTableList._list, 0, _list, 0, _count);
+            _defaultValue = frameTableList._defaultValue;
         }
         else
         {
@@ -399,7 +399,7 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9401
     public static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)

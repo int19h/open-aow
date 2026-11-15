@@ -5,13 +5,9 @@ using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -169,7 +165,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
         log = new LocationTextEventLog(null) { Holder = CreationHolder() };
         log.Player = (sbyte)(byte)armyHexSprite.Army.Player;
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
+        log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
         log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         log.Release();

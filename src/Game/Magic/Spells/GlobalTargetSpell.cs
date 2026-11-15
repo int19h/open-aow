@@ -41,7 +41,10 @@ public partial class GlobalTargetSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result && AboveGroundOnly)
         {
-            source.GetLocation(out x, out y, out layer);
+            var coordinate68 = source.GetLocation();
+            x = coordinate68.X;
+            y = coordinate68.Y;
+            layer = coordinate68.MapLevel;
             if (layer != 0)
             {
                 result = false;
@@ -83,13 +86,13 @@ public partial class GlobalTargetSpell : Spell
         int y = default;
         int intensity;
         int radius;
-        level = StrategicMap.Current.MapContainer.MapLevels[target.TargetL];
-        HexGeometry.CenterHexNumberToHex(target.TargetX, target.TargetY, hexNumber, ref x, ref y);
+        level = StrategicMap.Current.MapContainer.MapLevels[target.Target.MapLevel];
+        HexGeometry.CenterHexNumberToHex(target.Target.X, target.Target.Y, hexNumber, ref x, ref y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
         if (x >= 0 && y >= 0 && x <= level.Width && y <= level.Height)
         {
             mapField = level.Field[x, y];
-            if (this.ValidTargetSelectionMapField(mapField))
+            if (ValidTargetSelectionMapField(mapField))
             {
                 radius = HexGeometry.HexNumberToRadius(hexNumber);
                 intensity = Math.Abs((StrategicMap.Current.Frame + radius) % 9 - 4) * 20 + 20;
@@ -110,10 +113,11 @@ public partial class GlobalTargetSpell : Spell
         sbyte unitLayer = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        source.GetLocation(out unitX, out unitY, out unitLayer);
-        targetSelection.SourceX = unitX;
-        targetSelection.SourceY = unitY;
-        targetSelection.SourceL = unitLayer;
+        var coordinate69 = source.GetLocation();
+        unitX = coordinate69.X;
+        unitY = coordinate69.Y;
+        unitLayer = coordinate69.MapLevel;
+        targetSelection.SourceLocation = new MapCoordinate(unitX, unitY, unitLayer);
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
         targetSelection.SetShowHandler(ShowTargetSelection);
@@ -157,7 +161,7 @@ public partial class GlobalTargetSpell : Spell
             target.Deactivate();
         }
         else if (target.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
-            TargetSelected(caster, target.TargetX, target.TargetY, target.TargetL))
+            TargetSelected(caster, target.Target.X, target.Target.Y, target.Target.MapLevel))
         {
             target.Changed -= OnTargetSelectionChange;
             target.Deactivate();
@@ -172,7 +176,10 @@ public partial class GlobalTargetSpell : Spell
         bool result = spell.CanActivateStatic(caster, ref messageText);
         if (result && spell.AboveGroundOnly)
         {
-            caster.GetLocation(out x, out y, out layer);
+            var coordinate70 = caster.GetLocation();
+            x = coordinate70.X;
+            y = coordinate70.Y;
+            layer = coordinate70.MapLevel;
             if (layer != 0)
             {
                 result = false;

@@ -93,7 +93,7 @@ public partial class BlendTable
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    f = (float)((double)((double)(31 - i) * ((double)1 / 31)) * shadow);
+                    f = (float)((double)((31 - i) * ((double)1 / 31)) * shadow);
                     v = Round((double)((double)1 - f) * j);
                     if (v < 0)
                     {
@@ -141,7 +141,7 @@ public partial class BlendTable
             {
                 if ((double)alpha > 0)
                 {
-                    f = (float)((double)i / ((double)31 * alpha));
+                    f = (float)(i / ((double)31 * alpha));
                 }
                 else
                 {

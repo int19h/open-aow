@@ -62,7 +62,7 @@ public sealed class ClassesTests
 
     private sealed class Watched(List<string> log) : Component
     {
-        public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component component, Operation operation)
         {
             log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(Rtl.ComponentState.Destroying)}");
             base.Notification(component, operation);

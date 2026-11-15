@@ -121,12 +121,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public void Reset()
     {
         _selector.Reset();
-        this._selector.SetTargetFoundHandler(TargetFoundEvent);
-        this._selector.MovePointsMax = 150;
-        this._selector.MovePointsMin = 0;
-        var targetInfo = this._selector.TargetInfo;
+        _selector.SetTargetFoundHandler(TargetFoundEvent);
+        _selector.MovePointsMax = 150;
+        _selector.MovePointsMin = 0;
+        var targetInfo = _selector.TargetInfo;
         targetInfo.Mode = AITargetMode.Defend;
-        this._selector.TargetInfo = targetInfo;
+        _selector.TargetInfo = targetInfo;
 
         _pathStep = 7;
         _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
@@ -176,7 +176,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     {
         AIGroupControlTarget newTarget;
         newTarget = new AIGroupControlTarget(null) { Holder = CreationHolder() };
-        newTarget.Info = this._selector.TargetInfo;
+        newTarget.Info = _selector.TargetInfo;
 
         newTarget.Data = target.Data;
         newTarget.Location = target.Location;

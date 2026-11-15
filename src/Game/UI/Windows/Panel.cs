@@ -42,7 +42,7 @@ public partial class Panel : BaseWindow
     //   MinHeight; the panel uses the window's window manager }
     public override void SetSize()
     {
-        if (!Visible && _tabPanel != null && _tabPanel.Selected == base.OwnerItem)
+        if (!Visible && _tabPanel != null && _tabPanel.Selected == OwnerItem)
         {
             SetVisibleWithoutUpdate(true);
         }
@@ -131,14 +131,14 @@ public partial class Panel : BaseWindow
                 break;
         }
 
-        if (base.MinWidth > 0 && base.MinWidth > WinWidth)
+        if (MinWidth > 0 && MinWidth > WinWidth)
         {
-            SetWinWidthWithoutInvalidate(base.MinWidth);
+            SetWinWidthWithoutInvalidate(MinWidth);
         }
 
-        if (base.MinHeight > 0 && base.MinHeight > WinHeight)
+        if (MinHeight > 0 && MinHeight > WinHeight)
         {
-            SetWinHeightWithoutInvalidate(base.MinHeight);
+            SetWinHeightWithoutInvalidate(MinHeight);
         }
 
         if (_window.WindowManager != null)
@@ -605,7 +605,7 @@ public partial class Panel : BaseWindow
     {
         UIComponent c = default;
         Handled = false;
-        if (Visible == true)
+        if (Visible)
         {
             int ownLeft = WinLeft;
             int ownTop = WinTop;
@@ -621,17 +621,17 @@ public partial class Panel : BaseWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     c.Redraw = true;
                 }
@@ -653,7 +653,7 @@ public partial class Panel : BaseWindow
     {
         UIComponent c = default;
         Handled = false;
-        if (Visible == true)
+        if (Visible)
         {
             int savedLeft = WinLeft;
             int savedTop = WinTop;
@@ -668,12 +668,12 @@ public partial class Panel : BaseWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw == true) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -699,7 +699,7 @@ public partial class Panel : BaseWindow
     {
         UIComponent c = default;
         Handled = false;
-        if (Visible == true)
+        if (Visible)
         {
             int savedLeft = WinLeft;
             int savedTop = WinTop;
@@ -714,12 +714,12 @@ public partial class Panel : BaseWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }

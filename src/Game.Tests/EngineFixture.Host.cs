@@ -35,7 +35,7 @@ public sealed partial class EngineFixture
 
         internal RecordingHost(string fault)
         {
-            this._fault = fault;
+            _fault = fault;
             foreach (Type type in new[]
             {
                 typeof(GameTables), typeof(AbilityRules), typeof(GameText),

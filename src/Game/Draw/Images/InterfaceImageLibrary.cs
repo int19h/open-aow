@@ -22,7 +22,7 @@ public partial class InterfaceImageLibrary : ImageLibrary
     public InterfaceImageLibrary CheckImageLibrary(int index, int count, Component sender)
     {
         InterfaceImageLibrary result = this;
-        if (index + count > this.Count)
+        if (index + count > Count)
         {
             result = null;
             MessageBox(0, Name + " must have " + IntToStr(index + count) + " Images", "Error - " + sender.Name, 0);

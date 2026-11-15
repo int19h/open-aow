@@ -6,7 +6,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
-
 using Aow.Game.World.Map;
 using Xunit.Sdk;
 
@@ -57,7 +56,7 @@ public sealed class ArmySpriteConstructionTests
                     destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(ArmyHexSprite) && x.GetMethod()?.Name == "Dispose");
                 }
                 Assert.NotNull(value);
-                actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
+                actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, owner?.Members.Count, DestroyEntries = destroyEntries }));
                 StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();

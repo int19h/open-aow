@@ -77,14 +77,14 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                             }
                         }
 
-                        _goldUpkeep = player.AIBudget.GoldUpkeep - Round((double)player.Income * 0.1);
+                        _goldUpkeep = player.AIBudget.GoldUpkeep - Round(player.Income * 0.1);
                         if (_goldUpkeep < 0)
                         {
                             _goldUpkeep = 0;
                         }
 
                         var manaIncome = player.MagicControl.GetManaIncome();
-                        _manaUpkeep = player.AIBudget.ManaUpkeep - Round((double)manaIncome * 0.1);
+                        _manaUpkeep = player.AIBudget.ManaUpkeep - Round(manaIncome * 0.1);
                         if (_manaUpkeep < 0)
                         {
                             _manaUpkeep = 0;
@@ -135,7 +135,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 while (_state == 2 && !Control.Player.GetBusy())
                 {
                     i = 0;
-                    priority = Round((double)_productions[0].Fourth * 0.8);
+                    priority = Round(_productions[0].Fourth * 0.8);
                     while (i + 1 < _productions.Count && _productions[i + 1].Fourth >= priority)
                     {
                         i += 1;
@@ -309,7 +309,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                 var unitResearchGold = control.UnitResearchGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    control.GetLocation(out x, out y, out l);
+                                    var coordinate2 = control.GetLocation();
+                                    x = coordinate2.X;
+                                    y = coordinate2.Y;
+                                    l = coordinate2.MapLevel;
                                     structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                     priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
@@ -322,7 +325,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                             }
                                             else
                                             {
-                                                priority = Round((double)((double)priority * 0.5) * structure.ProductionPriority);
+                                                priority = Round((double)(priority * 0.5) * structure.ProductionPriority);
                                             }
                                         }
 
@@ -402,7 +405,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     var controlUnitProductionGold = control.UnitProductionGold(j);
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        control.GetLocation(out x, out y, out l);
+                                        var coordinate3 = control.GetLocation();
+                                        x = coordinate3.X;
+                                        y = coordinate3.Y;
+                                        l = coordinate3.MapLevel;
                                         structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                         priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
@@ -415,7 +421,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                                 }
                                                 else
                                                 {
-                                                    priority += Round((double)((double)priority * 0.5) * structure.ProductionPriority);
+                                                    priority += Round((double)(priority * 0.5) * structure.ProductionPriority);
                                                 }
                                             }
 

@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.RtlUnit;
@@ -154,7 +153,7 @@ public sealed class CoreTests
         Ptr<int>.Fill(default, -1, 0);
         var box = new PtrBox<int>(pointer);
         Assert.Equal(pointer, box.Pointer);
-        Assert.Equal(pointer, Ptr<int>.Unbox((object)box));
+        Assert.Equal(pointer, Ptr<int>.Unbox(box));
         object slot = box;
         Assert.Equal(pointer, Ptr<int>.Unbox(slot));
         Ptr<int>.Unbox(slot).Value = 42;
@@ -210,7 +209,7 @@ public sealed class CoreTests
         Assert.Equal(129, image[0]);
         Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
         var large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
-        Assert.Equal(large, Set<byte>.WithBounds(0, 255).WithRange((byte)0, (byte)255));
+        Assert.Equal(large, Set<byte>.WithBounds(0, 255).WithRange(0, 255));
         Assert.Equal(256, large.Count);
         image = new byte[32];
         large.CopyImageTo(image);

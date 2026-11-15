@@ -6,13 +6,13 @@ internal static class Program
 {
     public static int Main(string[] arguments)
     {
-        Aow.Rtl.Host.ProcessSafety.Initialize();
-        if (Aow.Rtl.Host.GateSwitches.CultureError("OpenAoW") is { } culture)
+        Rtl.Host.ProcessSafety.Initialize();
+        if (Rtl.Host.GateSwitches.CultureError("OpenAoW") is { } culture)
         {
             Console.Error.WriteLine(culture);
             return 1;
         }
-        Aow.Rtl.Host.GateSwitches.Enter("Game", arguments);
+        Rtl.Host.GateSwitches.Enter("Game", arguments);
         StreamWriter? fileLog = null;
         try
         {
@@ -56,7 +56,7 @@ internal static class Program
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={arguments.Contains("--mute")}");
             return 0;
         }
-        catch (System.Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
+        catch (Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
         finally
         {
             Game.Saves.FileBoundary.Log = null;

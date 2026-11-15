@@ -118,10 +118,10 @@ public partial class QuadItemList : Persistent
         if (source is QuadItemList)
         {
             var quadItemList = (QuadItemList)source;
-            this._count = quadItemList._count;
-            this.SetCapacity(quadItemList._count);
-            Array.Copy(quadItemList._list, 0, this._list, 0, this._count);
-            this._default = quadItemList._default;
+            _count = quadItemList._count;
+            SetCapacity(quadItemList._count);
+            Array.Copy(quadItemList._list, 0, _list, 0, _count);
+            _default = quadItemList._default;
         }
         else
         {
@@ -434,12 +434,12 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5505
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
     {
-        QuadInteger quadInteger = default(QuadInteger);
+        QuadInteger quadInteger = default;
         int number;
         do
         {

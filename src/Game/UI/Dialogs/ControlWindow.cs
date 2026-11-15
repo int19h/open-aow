@@ -123,8 +123,8 @@ public partial class ControlWindow : UIModule
     // AOWControlWin.pas:324
     public void ControlWindowResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
-        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
+        MainWindow.Alignment.RightOffset = MainWindow.WindowManager.WinWidth - MainWindow.WinLeft - MainWindow.WinWidth;
+        MainWindow.Alignment.TopOffset = MainWindow.WinTop;
     }
 
     // AOWControlWin.pas:333
@@ -315,10 +315,10 @@ public partial class ControlWindow : UIModule
     {
         UI.General.PlayButtonSound(0);
         var army = UI.General.UnitList;
-        StrategicMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
+        StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
         var army2 = UI.General.UnitList;
-        StrategicMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
+        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, army2.Location.MapLevel);
     }
 
     // AOWControlWin.pas:422

@@ -1,27 +1,98 @@
 {
-  "Troop": {
+  "Hero": {
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
+          "Hero.CastingManaValue": 0,
+          "Hero.CastingPoints": 0,
+          "Hero.CastingProgress": 0,
+          "Hero.CastingSpellId": 0,
+          "Hero.Experience": 0,
+          "Hero.FaceIndex": 0,
+          "Hero.HeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.HeroName": "",
+          "Hero.HeroResource": null,
+          "Hero.HeroResourceIndex": -1,
+          "Hero.HeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.HitPoints": 0,
+          "Hero.Inventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.Level": 1,
+          "Hero.LibraryId": -1,
+          "Hero.LibraryName": "",
+          "Hero.Mode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.Nickname": "",
+          "Hero.PowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EngineObject._owner": null,
+            "HeroPowerSource.Hero": "$ref:$"
+          },
+          "Hero.Race": 0,
+          "Hero.Registered": false,
+          "Hero.UnitAttack": 0,
+          "Hero.UnitDamage": 0,
+          "Hero.UnitDefense": 0,
+          "Hero.UnitHits": 0,
+          "Hero.UnitMoves": 0,
+          "Hero.UnitResistance": 0,
+          "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
+          "Hero._usedSkillPoints": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -35,34 +106,114 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": "$owner",
+          "Hero.CastingManaValue": 0,
+          "Hero.CastingPoints": 0,
+          "Hero.CastingProgress": 0,
+          "Hero.CastingSpellId": 0,
+          "Hero.Experience": 0,
+          "Hero.FaceIndex": 0,
+          "Hero.HeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.HeroName": "",
+          "Hero.HeroResource": null,
+          "Hero.HeroResourceIndex": -1,
+          "Hero.HeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.HitPoints": 0,
+          "Hero.Inventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.Level": 1,
+          "Hero.LibraryId": -1,
+          "Hero.LibraryName": "",
+          "Hero.Mode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.Nickname": "",
+          "Hero.PowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EngineObject._owner": null,
+            "HeroPowerSource.Hero": "$ref:$"
+          },
+          "Hero.Race": 0,
+          "Hero.Registered": false,
+          "Hero.UnitAttack": 0,
+          "Hero.UnitDamage": 0,
+          "Hero.UnitDefense": 0,
+          "Hero.UnitHits": 0,
+          "Hero.UnitMoves": 0,
+          "Hero.UnitResistance": 0,
+          "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
+          "Hero._usedSkillPoints": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -76,34 +227,114 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": "$owner"
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
-      "insert:2:0:0",
+      "insert:3:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
+          "Hero.CastingManaValue": 0,
+          "Hero.CastingPoints": 0,
+          "Hero.CastingProgress": 0,
+          "Hero.CastingSpellId": 0,
+          "Hero.Experience": 0,
+          "Hero.FaceIndex": 0,
+          "Hero.HeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.HeroName": "",
+          "Hero.HeroResource": null,
+          "Hero.HeroResourceIndex": -1,
+          "Hero.HeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.HitPoints": 0,
+          "Hero.Inventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
+            "ObservableNode.CollectionChanged": null,
+            "ObservableNode._children": {
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
+            },
+            "ObservableNode._updateCount": 0
+          },
+          "Hero.Level": 1,
+          "Hero.LibraryId": -1,
+          "Hero.LibraryName": "",
+          "Hero.Mode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.Nickname": "",
+          "Hero.PowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EngineObject._owner": null,
+            "HeroPowerSource.Hero": "$ref:$"
+          },
+          "Hero.Race": 0,
+          "Hero.Registered": false,
+          "Hero.UnitAttack": 0,
+          "Hero.UnitDamage": 0,
+          "Hero.UnitDefense": 0,
+          "Hero.UnitHits": 0,
+          "Hero.UnitMoves": 0,
+          "Hero.UnitResistance": 0,
+          "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
+          "Hero._usedSkillPoints": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -117,13 +348,22 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
-      "insert:2:0:0"
+      "insert:3:0:0"
     ]
   },
   "HypotheticalUnit": {
@@ -132,37 +372,13 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
+          "CustomAbilityList.AbilityBits": [
+            1,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            32
           ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
+          "CustomAbilityList.AbilityCount": 22,
+          "EngineObject._owner": null,
           "HypotheticalUnit._attack": 4,
           "HypotheticalUnit._damage": 3,
           "HypotheticalUnit._defense": 2,
@@ -189,13 +405,37 @@
             "Set\u00601.low": 0
           },
           "HypotheticalUnit._resistance": 3,
-          "CustomAbilityList.AbilityBits": [
-            1,
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
             0,
-            32
-          ],
-          "CustomAbilityList.AbilityCount": 22,
-          "EngineObject._owner": null
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "",
@@ -203,37 +443,13 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
+          "CustomAbilityList.AbilityBits": [
+            1,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            32
           ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
+          "CustomAbilityList.AbilityCount": 22,
+          "EngineObject._owner": "$owner",
           "HypotheticalUnit._attack": 4,
           "HypotheticalUnit._damage": 3,
           "HypotheticalUnit._defense": 2,
@@ -260,13 +476,37 @@
             "Set\u00601.low": 0
           },
           "HypotheticalUnit._resistance": 3,
-          "CustomAbilityList.AbilityBits": [
-            1,
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
             0,
-            32
-          ],
-          "CustomAbilityList.AbilityCount": 22,
-          "EngineObject._owner": "$owner"
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "insert:2:0:0",
@@ -274,37 +514,13 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
+          "CustomAbilityList.AbilityBits": [
+            1,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            32
           ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
+          "CustomAbilityList.AbilityCount": 22,
+          "EngineObject._owner": null,
           "HypotheticalUnit._attack": 4,
           "HypotheticalUnit._damage": 3,
           "HypotheticalUnit._defense": 2,
@@ -331,383 +547,40 @@
             "Set\u00601.low": 0
           },
           "HypotheticalUnit._resistance": 3,
-          "CustomAbilityList.AbilityBits": [
-            1,
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
             0,
-            32
-          ],
-          "CustomAbilityList.AbilityCount": 22,
-          "EngineObject._owner": null
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "insert:2:0:0"
-    ]
-  },
-  "Hero": {
-    "$lines": [
-      {
-        "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Hero",
-          "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
-          "Hero._castSpellInstantly": false,
-          "Hero.CastingManaValue": 0,
-          "Hero.CastingPoints": 0,
-          "Hero.CastingProgress": 0,
-          "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
-          "Hero.Experience": 0,
-          "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
-          "Hero.HeroItems": {
-            "$type": "Aow.Game.Units.HeroItems",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
-          },
-          "Hero.HeroName": "",
-          "Hero.HeroResource": null,
-          "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero.HitPoints": 0,
-          "Hero.Inventory": {
-            "$type": "Aow.Game.Units.HeroInventory",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
-          },
-          "Hero.Level": 1,
-          "Hero.LibraryId": -1,
-          "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero._movePoints": 0,
-          "Hero.Nickname": "",
-          "Hero.PowerSource": {
-            "$type": "Aow.Game.Units.HeroPowerSource",
-            "EngineObject._owner": null,
-            "HeroPowerSource.Hero": "$ref:$"
-          },
-          "Hero.Race": 0,
-          "Hero.Registered": false,
-          "Hero.UnitAttack": 0,
-          "Hero.UnitDamage": 0,
-          "Hero.UnitDefense": 0,
-          "Hero.UnitHits": 0,
-          "Hero.UnitMoves": 0,
-          "Hero.UnitResistance": 0,
-          "Hero.UpgradePending": false,
-          "Hero._usedSkillPoints": 0
-        }
-      },
-      "",
-      {
-        "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Hero",
-          "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": "$owner",
-          "Hero._castSpellInstantly": false,
-          "Hero.CastingManaValue": 0,
-          "Hero.CastingPoints": 0,
-          "Hero.CastingProgress": 0,
-          "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
-          "Hero.Experience": 0,
-          "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
-          "Hero.HeroItems": {
-            "$type": "Aow.Game.Units.HeroItems",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
-          },
-          "Hero.HeroName": "",
-          "Hero.HeroResource": null,
-          "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero.HitPoints": 0,
-          "Hero.Inventory": {
-            "$type": "Aow.Game.Units.HeroInventory",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
-          },
-          "Hero.Level": 1,
-          "Hero.LibraryId": -1,
-          "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero._movePoints": 0,
-          "Hero.Nickname": "",
-          "Hero.PowerSource": {
-            "$type": "Aow.Game.Units.HeroPowerSource",
-            "EngineObject._owner": null,
-            "HeroPowerSource.Hero": "$ref:$"
-          },
-          "Hero.Race": 0,
-          "Hero.Registered": false,
-          "Hero.UnitAttack": 0,
-          "Hero.UnitDamage": 0,
-          "Hero.UnitDefense": 0,
-          "Hero.UnitHits": 0,
-          "Hero.UnitMoves": 0,
-          "Hero.UnitResistance": 0,
-          "Hero.UpgradePending": false,
-          "Hero._usedSkillPoints": 0
-        }
-      },
-      "insert:3:0:0",
-      {
-        "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Hero",
-          "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
-          "Hero._castSpellInstantly": false,
-          "Hero.CastingManaValue": 0,
-          "Hero.CastingPoints": 0,
-          "Hero.CastingProgress": 0,
-          "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
-          "Hero.Experience": 0,
-          "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
-          "Hero.HeroItems": {
-            "$type": "Aow.Game.Units.HeroItems",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
-          },
-          "Hero.HeroName": "",
-          "Hero.HeroResource": null,
-          "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero.HitPoints": 0,
-          "Hero.Inventory": {
-            "$type": "Aow.Game.Units.HeroInventory",
-            "ObservableNode.CollectionChanged": null,
-            "ObservableNode._children": {
-              "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
-          },
-          "Hero.Level": 1,
-          "Hero.LibraryId": -1,
-          "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Hero._movePoints": 0,
-          "Hero.Nickname": "",
-          "Hero.PowerSource": {
-            "$type": "Aow.Game.Units.HeroPowerSource",
-            "EngineObject._owner": null,
-            "HeroPowerSource.Hero": "$ref:$"
-          },
-          "Hero.Race": 0,
-          "Hero.Registered": false,
-          "Hero.UnitAttack": 0,
-          "Hero.UnitDamage": 0,
-          "Hero.UnitDefense": 0,
-          "Hero.UnitHits": 0,
-          "Hero.UnitMoves": 0,
-          "Hero.UnitResistance": 0,
-          "Hero.UpgradePending": false,
-          "Hero._usedSkillPoints": 0
-        }
-      },
-      "insert:3:0:0"
     ]
   },
   "Leader": {
@@ -716,62 +589,27 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
           "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -789,16 +627,16 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -813,7 +651,6 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -829,6 +666,11 @@
           "Hero.UnitMoves": 0,
           "Hero.UnitResistance": 0,
           "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
@@ -837,7 +679,38 @@
             "ByteList._count": 0,
             "ByteList._default": 0,
             "ByteList._list": []
-          }
+          },
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "",
@@ -845,62 +718,27 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
           "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": "$owner",
-          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -918,16 +756,16 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -942,7 +780,6 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -958,6 +795,11 @@
           "Hero.UnitMoves": 0,
           "Hero.UnitResistance": 0,
           "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
@@ -966,7 +808,38 @@
             "ByteList._count": 0,
             "ByteList._default": 0,
             "ByteList._list": []
-          }
+          },
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "insert:3:0:0",
@@ -974,62 +847,27 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
-          "Troop.Group": null,
-          "Troop.GroupId": 0,
-          "Troop.MaxOffensiveStrength": 0,
-          "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "Troop.Player": 0,
-          "Troop.RefCount": 1,
-          "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
-          "Troop.LegacyGroupBehavior": 0,
           "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero._deathDay": 0,
-          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "EngineObject._owner": null,
+            "HeroItems.Hero": "$ref:$",
+            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -1047,16 +885,16 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "EngineObject._owner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
-            "EngineObject._owner": null,
-            "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null
+            "ObservableNode._updateCount": 0
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -1071,7 +909,6 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -1087,6 +924,11 @@
           "Hero.UnitMoves": 0,
           "Hero.UnitResistance": 0,
           "Hero.UpgradePending": false,
+          "Hero._castSpellInstantly": false,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
+          "Hero._gender": 0,
+          "Hero._movePoints": 0,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
@@ -1095,10 +937,168 @@
             "ByteList._count": 0,
             "ByteList._default": 0,
             "ByteList._list": []
-          }
+          },
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },
       "insert:3:0:0"
+    ]
+  },
+  "Troop": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "AbilityOwner.AbilityData": null,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "AbilityOwner.AbilityData": null,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": "$owner",
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Troop",
+          "AbilityOwner.AbilityData": null,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
+          "Troop.Group": null,
+          "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
+          "Troop.MaxOffensiveStrength": 0,
+          "Troop.MoraleValue": 0,
+          "Troop.Player": 0,
+          "Troop.RefCount": 1,
+          "Troop.UnitId": -1,
+          "Troop.UnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "insert:2:0:0"
     ]
   },
   "Unit": {
@@ -1107,23 +1107,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1137,18 +1128,27 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Unit.AbilityAttack": 0,
+          "Unit.UnitResource": null,
           "Unit._abilityDamage": 0,
           "Unit._abilityDefense": 0,
           "Unit._abilityResistance": 0,
           "Unit._experience": 0,
           "Unit._hitPoints": 0,
-          "Unit._movePoints": 0,
-          "Unit.UnitResource": null
+          "Unit._movePoints": 0
         }
       },
       "",
@@ -1156,23 +1156,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": "$owner",
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1186,18 +1177,27 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": "$owner",
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Unit.AbilityAttack": 0,
+          "Unit.UnitResource": null,
           "Unit._abilityDamage": 0,
           "Unit._abilityDefense": 0,
           "Unit._abilityResistance": 0,
           "Unit._experience": 0,
           "Unit._hitPoints": 0,
-          "Unit._movePoints": 0,
-          "Unit.UnitResource": null
+          "Unit._movePoints": 0
         }
       },
       "insert:2:0:0",
@@ -1205,23 +1205,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1235,18 +1226,27 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Unit.AbilityAttack": 0,
+          "Unit.UnitResource": null,
           "Unit._abilityDamage": 0,
           "Unit._abilityDefense": 0,
           "Unit._abilityResistance": 0,
           "Unit._experience": 0,
           "Unit._hitPoints": 0,
-          "Unit._movePoints": 0,
-          "Unit.UnitResource": null
+          "Unit._movePoints": 0
         }
       },
       "insert:2:0:0"
@@ -1258,23 +1258,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1288,10 +1279,19 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
           "WallCombatant._wallType": 0
@@ -1302,23 +1302,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": "$owner",
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1332,10 +1323,19 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": "$owner",
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
           "WallCombatant._wallType": 0
@@ -1346,23 +1346,14 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop._defensiveStrength": 0,
+          "CustomAbilityList.AbilityBits": [],
+          "CustomAbilityList.AbilityCount": 0,
+          "EngineObject._owner": null,
           "Troop.Group": null,
           "Troop.GroupId": 0,
+          "Troop.LegacyGroupBehavior": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1376,10 +1367,19 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": [],
-          "CustomAbilityList.AbilityCount": 0,
-          "EngineObject._owner": null,
+          "Troop._defensiveStrength": 0,
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
           "WallCombatant._wallType": 0

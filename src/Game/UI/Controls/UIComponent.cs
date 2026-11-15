@@ -272,10 +272,10 @@ public partial class UIComponent : Rtl.Component
     {
         if (_ownerComponent != null && (_alignment.AlignWidth != AlignWidth.None || _alignment.AlignHeight != AlignHeight.None))
         {
-            switch (this._alignment.AlignWidth)
+            switch (_alignment.AlignWidth)
             {
                 case AlignWidth.Left:
-                    _winLeft = _ownerComponent._winWidth * this._alignment.LeftOffsetPercent / 100 + this._alignment.LeftOffset;
+                    _winLeft = _ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100 + _alignment.LeftOffset;
                     if (_alignment.WidthPercent > 0)
                     {
                         _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
@@ -283,15 +283,15 @@ public partial class UIComponent : Rtl.Component
 
                     break;
                 case AlignWidth.Right:
-                    if (this._alignment.WidthPercent > 0)
+                    if (_alignment.WidthPercent > 0)
                     {
-                        _winWidth = _ownerComponent._winWidth * this._alignment.WidthPercent / 100;
+                        _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
                     }
 
                     _winLeft = _ownerComponent._winWidth - _alignment.RightOffset - _winWidth - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
                     break;
                 case AlignWidth.Both:
-                    _winLeft = _ownerComponent._winWidth * this._alignment.LeftOffsetPercent / 100 + this._alignment.LeftOffset;
+                    _winLeft = _ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100 + _alignment.LeftOffset;
                     _winWidth = _ownerComponent._winWidth - _winLeft - _alignment.RightOffset - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
                     break;
                 case AlignWidth.Center:
@@ -299,10 +299,10 @@ public partial class UIComponent : Rtl.Component
                     break;
             }
 
-            switch (this._alignment.AlignHeight)
+            switch (_alignment.AlignHeight)
             {
                 case AlignHeight.Top:
-                    _winTop = _ownerComponent._winHeight * this._alignment.TopOffsetPercent / 100 + this._alignment.TopOffset;
+                    _winTop = _ownerComponent._winHeight * _alignment.TopOffsetPercent / 100 + _alignment.TopOffset;
                     if (_alignment.HeightPercent > 0)
                     {
                         _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
@@ -310,15 +310,15 @@ public partial class UIComponent : Rtl.Component
 
                     break;
                 case AlignHeight.Bottom:
-                    if (this._alignment.HeightPercent > 0)
+                    if (_alignment.HeightPercent > 0)
                     {
-                        _winHeight = _ownerComponent._winHeight * this._alignment.HeightPercent / 100;
+                        _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
                     }
 
                     _winTop = _ownerComponent._winHeight - _alignment.BottomOffset - _winHeight - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
                     break;
                 case AlignHeight.Both:
-                    _winTop = _ownerComponent._winHeight * this._alignment.TopOffsetPercent / 100 + this._alignment.TopOffset;
+                    _winTop = _ownerComponent._winHeight * _alignment.TopOffsetPercent / 100 + _alignment.TopOffset;
                     _winHeight = _ownerComponent._winHeight - _winTop - _alignment.BottomOffset - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
                     break;
                 case AlignHeight.Center:

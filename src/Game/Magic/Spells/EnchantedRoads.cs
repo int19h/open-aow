@@ -39,7 +39,10 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         Animation animation = default;
         TwinkleAnimation twinkle = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out x, out y, out l);
+        var coordinate65 = source.GetLocation();
+        x = coordinate65.X;
+        y = coordinate65.Y;
+        l = coordinate65.MapLevel;
         StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 27;

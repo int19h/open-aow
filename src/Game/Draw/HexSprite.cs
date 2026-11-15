@@ -215,7 +215,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         mapField = Owner;
         if (mapField != null)
         {
-            ((GameEngine)mapField.Owner.Engine).HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
+            mapField.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
         }
     }
 
@@ -255,7 +255,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)Owner.Owner.Engine).HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -866,7 +866,14 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public sbyte HexX { get => GetHexX(); }
     public sbyte HexY { get => GetHexY(); }
     public sbyte HexLevel { get => GetHexLevel(); }
-    public MapCoordinate MapCoordinate { get => GetMapCoordinate(); }
+
+    // Computed from GetHexX, GetHexY and GetHexLevel. A sprite that stores the position overrides this.
+    public virtual MapCoordinate Location
+    {
+        get => GetMapCoordinate();
+        set => throw new InvalidOperationException("This sprite computes its location from its hex.");
+    }
+
     public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority { get => GetShowPriority(); }
 

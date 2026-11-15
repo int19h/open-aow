@@ -11,9 +11,9 @@ public sealed class DocumentNodePath
 
     private DocumentNodePath(DocumentNodePath? parent, string? name, int index)
     {
-        this._parent = parent;
-        this._name = name;
-        this._index = index;
+        _parent = parent;
+        _name = name;
+        _index = index;
     }
 
     public static DocumentNodePath Root { get; } = new(null, "root", -1);

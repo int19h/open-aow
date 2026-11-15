@@ -316,7 +316,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
 
     private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitCollection units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
     {
-        BattleFieldInfo info = default(BattleFieldInfo);
+        BattleFieldInfo info = default;
         BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
         info.EnemyRelations = Set<byte>.WithBounds(0, 7);
         info.Units = units;

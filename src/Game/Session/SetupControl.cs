@@ -1604,7 +1604,7 @@ public partial class SetupControl : Component
                 var player = preview.Players.GetPlayers(i);
                 if (player.Status != PlayerStatus.Terminated)
                 {
-                    settings = new PlayerSetupSettings(this.Settings);
+                    settings = new PlayerSetupSettings(Settings);
                     settings.PlayerId = (byte)i;
                     settings.Race = player.PlayerRace;
                     settings.Leader.Assign(player.LeaderSetup, _engine);
@@ -1682,23 +1682,23 @@ public partial class SetupControl : Component
     {
         Reset();
         _phase = SetupPhase.SetupPlayers;
-        this.Settings.HostRemoteId = remoteId;
-        this.Settings.ConnectionType = mode;
+        Settings.HostRemoteId = remoteId;
+        Settings.ConnectionType = mode;
         switch (mode)
         {
             case 2:
-                this.Settings.PlayMode = 1;
+                Settings.PlayMode = 1;
                 break;
             default:
-                this.Settings.PlayMode = 2;
+                Settings.PlayMode = 2;
                 break;
         }
 
         var validatePlayerName = ValidatePlayerName(name);
         RemotePlayer.Name = validatePlayerName;
-        this.RemotePlayer.RemoteId = remoteId;
-        this.RemotePlayer.PreferredRace = 255;
-        this.RemotePlayer.Version = _engine.Version;
+        RemotePlayer.RemoteId = remoteId;
+        RemotePlayer.PreferredRace = 255;
+        RemotePlayer.Version = _engine.Version;
 
         Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
         if (remoteId != 0)

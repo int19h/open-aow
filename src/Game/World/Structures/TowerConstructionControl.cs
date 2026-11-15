@@ -29,7 +29,10 @@ public partial class TowerConstructionControl : StructureConstructionControl
         sbyte hexX = default;
         sbyte hexY = default;
         sbyte hexLevel = default;
-        troop.GetLocation(out hexX, out hexY, out hexLevel);
+        var coordinate40 = troop.GetLocation();
+        hexX = coordinate40.X;
+        hexY = coordinate40.Y;
+        hexLevel = coordinate40.MapLevel;
         if (hexLevel == 0)
         {
             result = base.CanConstruct(troop, ref reason);

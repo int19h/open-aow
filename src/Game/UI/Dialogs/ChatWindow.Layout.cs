@@ -1,10 +1,8 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -159,7 +157,7 @@ public partial class ChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default(Rect), drawItem, default(LockedSurface));
+        PlayerList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default, drawItem, default);
         PlayerList.TextColor = 9415072;
         PlayerList.TextSelectedColor = 16777215;
         PlayerList.ImageLibraryIndexFrame = 113;

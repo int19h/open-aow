@@ -128,9 +128,9 @@ public partial class CombatMap : GameMap
         while (Effects.Count > 0)
         {
             var effect = Effects[0];
-            DynamicFixedVisibleHexSprite.RemoveChild((EngineObject)effect);
+            DynamicFixedVisibleHexSprite.RemoveChild(effect);
             var effect2 = Effects[0];
-            DynamicVisibleHexSprite.RemoveChild((EngineObject)effect2);
+            DynamicVisibleHexSprite.RemoveChild(effect2);
             (Effects[0] as IDisposable)?.Dispose();
             Effects.RemoveAt(0);
         }
@@ -588,24 +588,24 @@ public partial class CombatMap : GameMap
         start = 0;
         if (U != null)
         {
-            while (i < this.Combat.CombatData.GetCount())
+            while (i < Combat.CombatData.GetCount())
             {
-                if (this.Combat.CombatData.GetObjects(i) == U)
+                if (Combat.CombatData.GetObjects(i) == U)
                 {
                     index = i + step;
                     start = i;
-                    i = this.Combat.CombatData.GetCount();
+                    i = Combat.CombatData.GetCount();
                 }
 
                 i += 1;
             }
         }
 
-        while (index < this.Combat.CombatData.GetCount() && index > -1)
+        while (index < Combat.CombatData.GetCount() && index > -1)
         {
-            if (this.Combat.CombatData.GetObjects(index) != null && this.Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || this.Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && this.Combat.CombatData.GetObjects(index).GetEnabled() && this.Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
+            if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
             {
-                result = this.Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
+                result = Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
                 index = -10;
             }
 
@@ -620,14 +620,14 @@ public partial class CombatMap : GameMap
             }
             else
             {
-                index = this.Combat.CombatData.GetCount() - 1;
+                index = Combat.CombatData.GetCount() - 1;
             }
 
-            while (index != start && index > -1 && index < this.Combat.CombatData.GetCount())
+            while (index != start && index > -1 && index < Combat.CombatData.GetCount())
             {
-                if (this.Combat.CombatData.GetObjects(index) != null && this.Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || this.Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && this.Combat.CombatData.GetObjects(index).GetEnabled() && this.Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
+                if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
                 {
-                    result = this.Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
+                    result = Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
                     index = -10;
                 }
 

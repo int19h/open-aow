@@ -55,7 +55,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
             if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == _layer)
             {
                 intensity = 60 - Math.Abs(_frame * 3 - 60);
-                HexGeometry.HexToPixel(this._x, this._y, out pixelX, out pixelY);
+                HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
                 pixelX = pixelX - pixelXSurface - 8;
                 pixelY -= pixelYSurface;
                 for (int i = _hexes.Count - 1; i >= 0; i--)
@@ -93,13 +93,13 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        this._x = X;
-        this._y = Y;
+        _x = X;
+        _y = Y;
         _layer = layer;
         _frame = 0;
         GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
         StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, this._x, this._y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _x, _y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[_layer];
         while (walk.Radius <= radius)
         {

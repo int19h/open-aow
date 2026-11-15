@@ -25,9 +25,7 @@ public partial class CombatData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        X = persister.Int32("X", value: X);
-        Y = persister.Int32("Y", value: Y);
-        MapLevel = persister.Int32("MapLevel", value: MapLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
         ImmunityTypes = persister.Set("ImmunityTypes", value: ImmunityTypes);
         AttackerPlayer = PersistSupport.UnsignedByte(persister, name: "AttackerPlayer", value: AttackerPlayer);
         DefenderPlayer = PersistSupport.UnsignedByte(persister, name: "DefenderPlayer", value: DefenderPlayer);
@@ -37,9 +35,7 @@ public partial class CombatData
         persister.Object("CombatObjects", objectValue: CombatObjects);
         persister.Object("Parties", objectValue: Parties);
         Header = persister.String("Header", value: Header);
-        AttackerX = persister.Int32("AttackerX", value: AttackerX);
-        AttackerY = persister.Int32("AttackerY", value: AttackerY);
-        AttackerMapLevel = persister.Int32("AttackerMapLevel", value: AttackerMapLevel);
+        AttackerLocation = PersistSupport.Coordinate(persister, name: "AttackerLocation", value: AttackerLocation, width: CoordinateWidth.Int32);
         PersistSupport.ByteList(persister, name: "DefeatedLeaders", list: DefeatedLeaders);
         PersistSupport.ByteList(persister, name: "TurnOrder", list: TurnOrder);
         WallType = persister.RawByte("WallType", value: WallType);
