@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWEmailGameSettingsDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Host;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Animation.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

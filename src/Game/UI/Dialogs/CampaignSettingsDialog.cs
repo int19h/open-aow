@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCampaignSettings.pas.
 using System.Collections.Immutable;
 using Aow.Engine.Buffers;

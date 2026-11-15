@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Storms.pas.
 using System.Runtime.CompilerServices;
 using Aow.Engine;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWVScroll.pas.
 using System.ComponentModel;
 using Aow.Game.Draw.Images;

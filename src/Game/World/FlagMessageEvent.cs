@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from FlagEvents.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

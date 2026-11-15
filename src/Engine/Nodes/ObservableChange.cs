@@ -1,3 +1,4 @@
+#nullable disable
 // The change an ObservableNode reports. The original Changed call carries no arguments, so a
 // call site fills Index, Item and Previous only when it has them, and NewIndex only for a move.
 namespace Aow.Engine.Nodes;

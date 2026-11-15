@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from UnitSpells.pas.
 using Aow.Engine.Nodes;
 

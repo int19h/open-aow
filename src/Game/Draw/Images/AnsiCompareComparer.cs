@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;

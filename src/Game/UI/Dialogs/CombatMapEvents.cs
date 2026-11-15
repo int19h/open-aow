@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from aowTCMapEvents.pas.
 using Aow.Game.Audio;
 using Aow.Game.Combat;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from PowerNode.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;

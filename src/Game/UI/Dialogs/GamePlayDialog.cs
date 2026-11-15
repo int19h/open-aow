@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWGamePlayDlg.pas.
 using System.Collections.Immutable;
 

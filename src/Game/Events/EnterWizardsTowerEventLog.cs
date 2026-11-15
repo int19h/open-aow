@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from WizardsTower.pas.
 using Aow.Engine.Nodes;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from BehaviorAG.pas.
 using Aow.Engine.Nodes;
 

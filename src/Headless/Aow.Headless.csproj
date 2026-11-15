@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Aow.Headless</RootNamespace>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Cave.pas.
 using Aow.Engine.Nodes;
 

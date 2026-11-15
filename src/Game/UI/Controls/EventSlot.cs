@@ -1,3 +1,4 @@
+#nullable disable
 // The typed view of a component event that a derived class publishes. The base class declares
 // the event with its own sender type. A derived class redeclares it with its own type, and the
 // accessors subscribe a view to the base event: the view drops the base sender and calls the

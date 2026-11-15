@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Sound.pas.
 using Aow.Rtl;
 

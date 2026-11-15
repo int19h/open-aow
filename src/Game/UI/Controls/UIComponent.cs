@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWComp.pas.
 using System.ComponentModel;
 using Aow.Game.Draw;

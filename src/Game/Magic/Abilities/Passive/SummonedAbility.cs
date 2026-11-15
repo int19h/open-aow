@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 

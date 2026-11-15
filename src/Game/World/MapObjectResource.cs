@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from HSEngine.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

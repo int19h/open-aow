@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CityWall.pas.
 using Aow.Engine.Nodes;
 

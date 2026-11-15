@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.World.Map;

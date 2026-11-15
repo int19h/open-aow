@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWSetup.pas.
 
 using Aow.Engine;

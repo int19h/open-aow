@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWComp.pas.
 using Aow.Rtl;
 

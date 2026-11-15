@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Buffers;
 
