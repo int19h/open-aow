@@ -16,8 +16,8 @@ public sealed class UnitSelectorTests
         internal WoundedHero(int id, sbyte hits, sbyte hitPoints) : base(null!)
         {
             UnitId = id;
-            this._hits = hits;
-            this._hitPoints = hitPoints;
+            _hits = hits;
+            _hitPoints = hitPoints;
         }
 
         public override int GetUnitGraphicsResourceIndex() => 0;

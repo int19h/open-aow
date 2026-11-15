@@ -1,5 +1,3 @@
-
-using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw;

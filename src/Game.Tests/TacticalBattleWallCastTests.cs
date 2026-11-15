@@ -2,9 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.Tests;

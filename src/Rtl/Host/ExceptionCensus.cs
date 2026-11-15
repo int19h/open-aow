@@ -41,7 +41,7 @@ public static class ExceptionCensus
     }
 
     /// <summary>The index of the kind an exception counts under, or -1.</summary>
-    public static int KindOf(System.Exception exception)
+    public static int KindOf(Exception exception)
     {
         for (Type? type = exception.GetType(); type is not null; type = type.BaseType)
             for (int index = 0; index < Kinds.Count; index++)

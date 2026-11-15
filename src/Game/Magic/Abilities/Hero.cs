@@ -1299,7 +1299,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1071
-    public sbyte GetLevel() => this.ExperienceToLevel(this.Experience);
+    public sbyte GetLevel() => ExperienceToLevel(Experience);
 
     // Hero.PAS:1076
     public void SetLevel(sbyte value)
@@ -1703,7 +1703,7 @@ public partial class Hero : Troop
             {
                 UpgradePending = true;
                 oldLevel = Level;
-                this.Level = (byte)level;
+                Level = (byte)level;
                 log = new HeroUpgradeEventLog(null) { Holder = CreationHolder() };
                 log.OldLevel = (byte)oldLevel;
                 log.NewLevel = Level;

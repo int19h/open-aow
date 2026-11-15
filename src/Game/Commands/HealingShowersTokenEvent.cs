@@ -188,14 +188,14 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 if (frame >= 0 && frame < 50)
                 {
                     frame = frame % 30;
-                    x -= Round((double)(frame * 4) * ((double)speed * 0.2));
-                    y += Round((double)(frame * 20) * ((double)speed * 0.2));
+                    x -= Round(frame * 4 * (speed * 0.2));
+                    y += Round(frame * 20 * (speed * 0.2));
                     if (y < 500)
                     {
                         for (int j = 0; j <= 10; j++)
                         {
-                            xShift = x - Round((double)(j * 2) * 0.1);
-                            yShift = y + Round((double)(j * 10) * 0.1);
+                            xShift = x - Round(j * 2 * 0.1);
+                            yShift = y + Round(j * 10 * 0.1);
                             GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }

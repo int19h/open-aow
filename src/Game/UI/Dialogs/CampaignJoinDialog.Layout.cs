@@ -3,7 +3,6 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -181,7 +180,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel = new Panel(this);
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
-        DefaultFacePanel.OnMouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default(int), default(int), default(int), default(int), default(int));
+        DefaultFacePanel.OnMouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, default, default, default, default);
         DefaultFacePanel.OnDraw += (_, surface) => DefaultFacePnlDraw(surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;

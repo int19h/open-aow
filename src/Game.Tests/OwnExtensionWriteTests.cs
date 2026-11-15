@@ -1,8 +1,6 @@
 using Aow.Formats;
-
 using Aow.Game.Saves;
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
@@ -20,10 +18,10 @@ public sealed class OwnExtensionWriteTests
 
     private static string Save(string name) => Path.Combine(EngineFixture.Root, "Save", name);
 
-    private void Run(Action<Game.GameEngine, StrategicMap> action)
+    private void Run(Action<GameEngine, StrategicMap> action)
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
-        Game.GameEngine engine = EngineFixture.Engine;
+        GameEngine engine = EngineFixture.Engine;
         var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         var previousMap = engine.HexSpriteMap;
         var previousLog = FileBoundary.Log;

@@ -137,7 +137,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // NetworkE.pas:813
     public void Setup(int count, int localSystemId)
     {
-        base.Setup(count);
+        Setup(count);
         _localSystemId = localSystemId;
     }
 

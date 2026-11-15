@@ -67,7 +67,7 @@ public partial class GameEngine : OwningNode
     // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1). The map
     // loads through the tree of the validated document, with the editor's error handler when it
     // loads for editing (persistence-tree.md 7).
-    public virtual void LoadHsm(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
+    public virtual void LoadHsm(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
         var tree = FileBoundary.Open(fileName, profile: profile);
         if (tree == null)
@@ -171,7 +171,7 @@ public partial class GameEngine : OwningNode
     // The tree of the map goes to the file boundary, which writes the document, so a failed
     // conversion or write keeps the old file (own-formats.md 4.2). The header's class is the
     // stored class of the map.
-    public virtual void SaveHsm(string fileName, Aow.Engine.ProgressEvent progress, GameProfile profile)
+    public virtual void SaveHsm(string fileName, ProgressEvent progress, GameProfile profile)
     {
         if (_hexSpriteMap != null)
         {
@@ -246,7 +246,7 @@ public partial class GameEngine : OwningNode
     // The preflight raises before the current set is cleared (own-formats.md 2.7). It checked the
     // header and the CRC of an original, so the set loads through the tree of the validated
     // document.
-    public void LoadHss(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
+    public void LoadHss(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
         EngineMessage message = default;
         var tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
@@ -271,7 +271,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5060
     // The header names the set as the original header does, a short string of at most 40
     // characters. The file boundary writes the header and the tree of the set.
-    public void SaveHss(string fileName, Aow.Engine.ProgressEvent progress, GameProfile profile)
+    public void SaveHss(string fileName, ProgressEvent progress, GameProfile profile)
     {
         HssHeader header = default;
         if (_hexSpriteSet != null)
@@ -330,7 +330,7 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:5171
-    public GameMap LoadHsmMap(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
+    public GameMap LoadHsmMap(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
         string fullName;
         GameMap result = null;
@@ -378,7 +378,7 @@ public partial class GameEngine : OwningNode
     // The stream holds an original map file (a campaign's map, a map a network host sent) or the
     // map's own document. An image inflates and the original backend reads its root. A document
     // is read through the document backend, which keeps port-only state. A network map is an image.
-    public void LoadHsmFromStream(Stream stream, bool edit, Aow.Engine.ProgressEvent progress)
+    public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent progress)
     {
         CompressStream cStream;
         if (_hexSpriteMap != null)
@@ -434,7 +434,7 @@ public partial class GameEngine : OwningNode
     // A map the original image can carry is written and compressed as before. A map it cannot
     // carry is stored as that map's own document, uncompressed, so the campaign document nests
     // the map and keeps the port-only members.
-    public void SaveHsmToStream(Stream stream, Aow.Engine.ProgressEvent progress)
+    public void SaveHsmToStream(Stream stream, ProgressEvent progress)
     {
         if (_hexSpriteMap == null) return;
         _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
@@ -488,7 +488,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5341
     // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
     // first (own-formats.md 2.9).
-    public void InitializeHexSpriteSet(string fileName, Aow.Engine.ProgressEvent progress)
+    public void InitializeHexSpriteSet(string fileName, ProgressEvent progress)
     {
         EngineMessage message = default;
         fileName = FileBoundary.ReadName(fileName);

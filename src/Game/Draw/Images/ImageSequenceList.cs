@@ -61,7 +61,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
                 ((List[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
 
-            base.Delete(i);
+            Delete(i);
         }
     }
 
@@ -93,7 +93,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         int result = Count - 1;
         while (result >= 0 && List[result] == null)
         {
-            base.Delete(result);
+            Delete(result);
             result -= 1;
         }
 
@@ -130,11 +130,11 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             {
                 var sequence = new ImageSequence(this);
                 sequence.LoadLayers(layers, index: 0);
-                base.Add(sequence);
+                Add(sequence);
             }
             else
             {
-                base.Add(null);
+                Add(null);
             }
         }
 
@@ -180,7 +180,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         while (index >= Count)
         {
-            base.Add(null);
+            Add(null);
         }
 
         if (List[index] != null)

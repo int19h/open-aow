@@ -929,7 +929,7 @@ public partial class General : UIModule
         else if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < StrategicMap.Current.StartupSongs.Songs.Count; i++)
-                if (RtlUnit.CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
+                if (CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
                     AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
         }
         else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");

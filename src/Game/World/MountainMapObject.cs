@@ -1,9 +1,6 @@
 // Translated from Mountain.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
-using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World;

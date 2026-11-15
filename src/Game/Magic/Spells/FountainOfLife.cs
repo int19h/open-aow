@@ -77,13 +77,13 @@ public partial class FountainOfLife : CityEnchantmentSpell
         {
             vx = Random(100) - 50;
             vy = Random(5) + 7;
-            offset = Round((double)vx * 0.1);
+            offset = Round(vx * 0.1);
             t = Random(30);
             if (t < animation.FrameCounter && animation.FrameCounter - t < 90)
             {
                 t = (animation.FrameCounter - t) % 30;
                 deltaX = Round((double)(t * vx) / 30);
-                deltaY = vy * t - Round((double)((double)t * 0.25) * t);
+                deltaY = vy * t - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
                     GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);

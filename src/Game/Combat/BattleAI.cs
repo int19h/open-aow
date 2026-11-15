@@ -2401,7 +2401,7 @@ public partial class BattleAI : IDisposable
                                         {
                                             var wall = CombatMap.Current.Walls[j];
                                             var wall2 = CombatMap.Current.Walls[j];
-                                            condition = ((CityWall)wall).HitPoints < TacticalTables.WallMaxHitPoints[((CityWall)wall2).WallType - 1];
+                                            condition = wall.HitPoints < TacticalTables.WallMaxHitPoints[wall2.WallType - 1];
                                         }
 
                                         if (condition)

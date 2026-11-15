@@ -3,12 +3,9 @@ using Aow.Engine.Storage;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 

@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Aow.Game.Draw;
-
 using Aow.Game.Layout;
 using Aow.Game.UI.Dialogs;
 using Aow.Rtl;

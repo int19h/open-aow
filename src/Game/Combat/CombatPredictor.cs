@@ -804,7 +804,7 @@ public partial class CombatPredictor : IDisposable
             maximum = list.Count;
             if (superiority != 0 && GetSuperiority() != 0)
             {
-                budget = Round((double)((double)((double)100 / superiority) - (double)100 / GetSuperiority()) * ((double)total * 0.65));
+                budget = Round((double)((double)((double)100 / superiority) - (double)100 / GetSuperiority()) * (total * 0.65));
                 count = list.Count;
                 while (count > 1 && budget > 0)
                 {

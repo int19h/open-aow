@@ -17,7 +17,7 @@ public partial class HealingShowers : GlobalTargetSpell
     public HealingShowers(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_healingShowersText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_healingShowersText);
         SpellId = 73;
         BaseManaCost = 5;
         SpellLevel = 3;

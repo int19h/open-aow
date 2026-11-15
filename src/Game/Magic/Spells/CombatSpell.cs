@@ -165,7 +165,7 @@ public partial class CombatSpell : Spell
         int distance;
         CombatObject target;
         DelphiList<CombatObject> targets;
-        Combat.Battle combat;
+        Battle combat;
         target = command.Target;
         for (int i = 0, last = CombatInfo.RepeatCount - 1; i <= last; i++)
         {
@@ -252,7 +252,7 @@ public partial class CombatSpell : Spell
         int count;
         int distance;
         CombatObject other;
-        Combat.Battle combat;
+        Battle combat;
         int damage;
         int defense;
         if (wallSituation == WallSituation.None || CombatInfo.Range == -1 || CombatInfo.Range >= 8)
@@ -322,7 +322,7 @@ public partial class CombatSpell : Spell
                         count = CombatInfo.Radius;
                     }
 
-                    values.SourceDamage += Round((double)(values.SourceDamage * count) * 0.5);
+                    values.SourceDamage += Round(values.SourceDamage * count * 0.5);
                 }
             }
         }

@@ -710,7 +710,7 @@ public partial class SelectedArmy : MoveSelector
                     {
                         var army = armyHexSprite.Army;
                         field = StrategicMap.Current.MapContainer.GetField(army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
-                        if (this.ValidateSelection(field))
+                        if (ValidateSelection(field))
                         {
                             CalculateMovePath(i, army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
                         }
@@ -959,11 +959,11 @@ public partial class SelectedArmy : MoveSelector
                     moves.GetEngine().OutputDebugString(string.Concat(new string[6]
                     {
                         "Moving to: ",
-                        RtlUnit.IntToStr((int)mapCoordinate.X),
+                        IntToStr(mapCoordinate.X),
                         ",",
-                        RtlUnit.IntToStr((int)mapCoordinate2.Y),
+                        IntToStr(mapCoordinate2.Y),
                         ",",
-                        RtlUnit.IntToStr((int)mapCoordinate3.MapLevel)
+                        IntToStr(mapCoordinate3.MapLevel)
                     }));
                     if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, (byte)moveSettingsLocal.Selection, movePath, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>())))
                     {
@@ -985,7 +985,7 @@ public partial class SelectedArmy : MoveSelector
             multiMoveTokenEvent.Release();
             if (movePath != null)
             {
-                ((Persistent)movePath).Dispose();
+                movePath.Dispose();
             }
         }
         else

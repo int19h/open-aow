@@ -143,7 +143,7 @@ public partial class Altar : PlayerStructure
             if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
-                if ((double)value > (double)TargetMana() * 0.75)
+                if (value > TargetMana() * 0.75)
                 {
                     var playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
                     var targetMana = TargetMana();

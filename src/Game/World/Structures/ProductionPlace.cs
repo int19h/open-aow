@@ -382,7 +382,7 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
             {
-                income += Round((double)income * 0.25);
+                income += Round(income * 0.25);
             }
         }
 
@@ -424,7 +424,7 @@ public partial class ProductionPlace : PlayerStructure
             log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
             var editName = EditName();
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
+            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(HexX, HexY, HexLevel);
             EventLog.DistributeLocationEventLog(y: HexY, x: HexX, log: log, player: Player, level: HexLevel, execute: false);
             log.Release();
@@ -514,7 +514,7 @@ public partial class ProductionPlace : PlayerStructure
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0)
                 {
                     names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
-                    values.Add(IntToStr(Round((double)GetBaseIncome() * 0.25)));
+                    values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));
                 }
             }
         }
@@ -526,12 +526,12 @@ public partial class ProductionPlace : PlayerStructure
                 picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 var magicSphere2 = GetMagicSphere();
                 var magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.MagicSphereTexts[(int)magicSphere2]);
-                names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
+                names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
                 values.Add(IntToStr(picks * 5));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
                 {
                     names.Add(AbilityRules.TranslateResourceString(GetEngine(), s_extraPowerText));
-                    values.Add(IntToStr(Round((double)(picks * 5) * 0.25)));
+                    values.Add(IntToStr(Round(picks * 5 * 0.25)));
                 }
             }
         }

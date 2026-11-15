@@ -68,10 +68,10 @@ public partial class Unit : Troop
     public override void Changed()
     {
         base.Changed();
-        AbilityAttack = this.GetAbilityAttackAll();
-        _abilityDefense = this.GetAbilityDefenseAll();
-        _abilityResistance = this.GetAbilityResistanceAll();
-        _abilityDamage = this.GetAbilityDamageAll();
+        AbilityAttack = GetAbilityAttackAll();
+        _abilityDefense = GetAbilityDefenseAll();
+        _abilityResistance = GetAbilityResistanceAll();
+        _abilityDamage = GetAbilityDamageAll();
     }
 
     // Unit.PAS:2079
@@ -237,7 +237,7 @@ public partial class Unit : Troop
             return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        faceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).Enchantment).FaceIndex;
+        faceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)GetAbilityData(126)).Enchantment).FaceIndex;
         if (GamePack.Current.FaceResources.GetFaceResource(faceIndex) != null)
         {
             result = GamePack.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage();
@@ -302,7 +302,7 @@ public partial class Unit : Troop
         if (StrategicMap.Current.Day == 1)
         {
             SetAbilityCount(0);
-            for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
+            for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
             {
                 rank = (Rank)rankOrdinal;
                 UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
@@ -475,7 +475,7 @@ public partial class Unit : Troop
             if (UnitResource != null)
             {
                 UpdateMoraleValue();
-                for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
+                for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
                     rank = (Rank)rankOrdinal;
                     UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);

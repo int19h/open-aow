@@ -527,10 +527,10 @@ public partial class MagicWindow : UIModule
     // AoWMagic.pas:434
     public void DlgResize()
     {
-        this.Window.Alignment.AlignWidth = AlignWidth.Left;
-        this.Window.Alignment.AlignHeight = AlignHeight.Top;
-        this.Window.Alignment.LeftOffset = this.Window.WinLeft;
-        this.Window.Alignment.TopOffset = this.Window.WinTop;
+        Window.Alignment.AlignWidth = AlignWidth.Left;
+        Window.Alignment.AlignHeight = AlignHeight.Top;
+        Window.Alignment.LeftOffset = Window.WinLeft;
+        Window.Alignment.TopOffset = Window.WinTop;
     }
 
     // AoWMagic.pas:447

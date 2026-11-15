@@ -178,10 +178,10 @@ public partial class Int32List : Persistent
         if (source is Int32List)
         {
             var int32List = (Int32List)source;
-            this._count = int32List._count;
-            this.SetCapacity(int32List._count);
-            Array.Copy(int32List._list, 0, this._list, 0, this._count);
-            this._default = int32List._default;
+            _count = int32List._count;
+            SetCapacity(int32List._count);
+            Array.Copy(int32List._list, 0, _list, 0, _count);
+            _default = int32List._default;
         }
         else
         {
@@ -490,7 +490,7 @@ public partial class Int32List : Persistent
     // Engine.pas:3310
     protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
     }
 
     private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)

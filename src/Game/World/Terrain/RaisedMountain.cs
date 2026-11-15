@@ -77,7 +77,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         sbyte overlay;
         field = Owner;
         overlay = OriginalOverlay;
-        this.Dispose();
+        Dispose();
         if (overlay > 0)
         {
             StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);

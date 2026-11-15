@@ -1,9 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
@@ -12,27 +10,18 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Game.World.Terrain;
-
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
@@ -132,7 +121,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5962. The HSEngine body closes the map, then the game body clears the current map.
-    public virtual void CloseHsm(Aow.Engine.ProgressEvent progress)
+    public virtual void CloseHsm(Engine.ProgressEvent progress)
     {
         try
         {
@@ -445,7 +434,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:6059
-    public void LoadCampaignMap(Aow.Engine.ProgressEvent progress)
+    public void LoadCampaignMap(Engine.ProgressEvent progress)
     {
         if (Campaign != null && Campaign.Stream != null)
         {

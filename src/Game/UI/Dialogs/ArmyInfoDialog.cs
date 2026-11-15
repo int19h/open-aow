@@ -9,7 +9,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -141,10 +140,10 @@ public partial class ArmyInfoDialog : UIModule
     {
         Rect r = default;
         int i;
-        r.Left = this.FaceFrame.WinLeft + Window.WinLeft;
-        r.Right = this.FaceFrame.WinWidth + r.Left;
-        r.Top = this.FaceFrame.WinTop + Window.WinTop;
-        r.Bottom = this.FaceFrame.WinHeight + r.Top;
+        r.Left = FaceFrame.WinLeft + Window.WinLeft;
+        r.Right = FaceFrame.WinWidth + r.Left;
+        r.Top = FaceFrame.WinTop + Window.WinTop;
+        r.Bottom = FaceFrame.WinHeight + r.Top;
 
         i = 0;
         while ((_event.Selection & (1 << i)) == 0 && i != _event.ArmyView.Units.Count)

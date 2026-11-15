@@ -92,11 +92,11 @@ internal static class Commands
         }
     }
 
-    private static string Describe(Aow.Formats.Json.JsonObject document)
+    private static string Describe(Formats.Json.JsonObject document)
     {
         var (profile, kind, container, _) = GameFiles.Envelope(document, null);
-        string compression = ((Aow.Formats.Json.JsonString)container["compression"]!).Value;
-        string level = container["level"] is Aow.Formats.Json.JsonInteger l ? " level " + l.Value : "";
+        string compression = ((Formats.Json.JsonString)container["compression"]!).Value;
+        string level = container["level"] is Formats.Json.JsonInteger l ? " level " + l.Value : "";
         return $"profile {profile.Name}, kind {kind}, {compression}{level}";
     }
 
@@ -216,7 +216,7 @@ internal static class Commands
     /// The output name a directory conversion derives from an input name: the document kind's own
     /// extension for an import, its original extension for an export, in place of the input's.
     /// </summary>
-    internal static string DerivedName(string relative, Aow.Formats.Json.JsonObject document, bool own)
+    internal static string DerivedName(string relative, Formats.Json.JsonObject document, bool own)
     {
         var (_, kindName, _, _) = GameFiles.Envelope(document, relative);
         var kind = DocumentKind.Find(kindName)!;
@@ -232,7 +232,7 @@ internal static class Commands
         {
             var bytes = File.ReadAllBytes(input);
             var watch = Stopwatch.StartNew();
-            Aow.Formats.Json.JsonObject document;
+            Formats.Json.JsonObject document;
             string format;
             LayoutCounts counts;
             double importMilliseconds, writeMilliseconds, parseMilliseconds = 0;

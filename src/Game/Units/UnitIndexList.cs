@@ -1,10 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
@@ -83,7 +79,7 @@ public partial class UnitIndexList : Int32List
 
     private static int CompareUnitIndexes(int item1, int item2)
     {
-        RtlUnit.Assert(GamePack.Current.UnitResources.GetUnitResource(item1) != null && GamePack.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
+        Assert(GamePack.Current.UnitResources.GetUnitResource(item1) != null && GamePack.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(item2);
         UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;

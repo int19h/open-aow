@@ -303,7 +303,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 var hexY = GetHexY();
                 var hexX = GetHexX();
                 UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), hexX, hexY);
-                this.Dispose();
+                Dispose();
             }
             else
             {

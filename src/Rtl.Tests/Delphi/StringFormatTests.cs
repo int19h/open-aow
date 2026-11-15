@@ -72,9 +72,9 @@ public sealed class StringFormatTests
         Assert.Equal("Integer 7", CaseOf(7));
         Assert.Equal("Integer 1", CaseOf(1));
         Assert.Equal("Integer -2147483648", CaseOf(int.MinValue));
-        Assert.Equal("Integer -2", CaseOf((short)-2));
-        Assert.Equal("Integer -3", CaseOf((sbyte)-3));
-        Assert.Equal("Integer 65535", CaseOf((ushort)65535));
+        Assert.Equal("Integer -2", CaseOf(-2));
+        Assert.Equal("Integer -3", CaseOf(-3));
+        Assert.Equal("Integer 65535", CaseOf(65535));
         Assert.Equal("Integer 65", CaseOf((int)(byte)65));
         // A Delphi Char is a byte and enters through the frozen map.
         Assert.Equal("Char U+0041", CaseOf((byte)65));

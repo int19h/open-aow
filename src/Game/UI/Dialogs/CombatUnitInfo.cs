@@ -52,8 +52,8 @@ public partial class CombatUnitInfo : UIModule
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
-        this.MainWindow.Alignment.BottomOffset = this.MainWindow.WindowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
+        MainWindow.Alignment.RightOffset = MainWindow.WindowManager.WinWidth - MainWindow.WinLeft - MainWindow.WinWidth;
+        MainWindow.Alignment.BottomOffset = MainWindow.WindowManager.WinHeight - MainWindow.WinTop - MainWindow.WinHeight;
     }
 
     // AoWTCUnit.pas:116
@@ -72,7 +72,7 @@ public partial class CombatUnitInfo : UIModule
             if (condition)
             {
                 var ability = UI.General.CombatUnit.Abilities[drawItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[drawItem]).Ability != 52;
                 if (!test)
                 {
@@ -147,7 +147,7 @@ public partial class CombatUnitInfo : UIModule
             if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {
                 var ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
                 {
                     return;

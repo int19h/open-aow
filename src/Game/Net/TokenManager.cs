@@ -1,7 +1,5 @@
 #nullable disable
 // Translated from NetworkE.pas.
-using Aow.Rtl;
-
 namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a

@@ -104,7 +104,7 @@ public partial class AIGroupTask : EngineObject
         }
         catch
         {
-            throw new InvalidOperationException(this.GetType().Name + " exception during state (" + IntToStr(State) + ")");
+            throw new InvalidOperationException(GetType().Name + " exception during state (" + IntToStr(State) + ")");
         }
 
         return State != -1;

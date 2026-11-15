@@ -24,13 +24,13 @@ public partial class Memo
             if (!NoFrame)
             {
                 left = Window.WinLeft + WinLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
-                top = Window.WinTop + WinTop + base.BorderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
+                top = Window.WinTop + WinTop + BorderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
                 bottom = Window.WinTop + WinTop + WinHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
             }
             else
             {
                 left = Window.WinLeft + WinLeft - 1;
-                top = Window.WinTop + WinTop + base.BorderHeight - 1;
+                top = Window.WinTop + WinTop + BorderHeight - 1;
                 bottom = Window.WinTop + WinTop + WinHeight;
             }
             if (_editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)

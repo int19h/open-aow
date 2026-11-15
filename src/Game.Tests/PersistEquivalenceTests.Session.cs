@@ -6,7 +6,6 @@ using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-
 using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Events;
@@ -15,8 +14,6 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 

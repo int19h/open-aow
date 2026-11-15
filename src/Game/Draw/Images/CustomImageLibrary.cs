@@ -260,7 +260,7 @@ public partial class CustomImageLibrary : Component
         if ((double)header.Version < 4)
         {
             _dataOffset = 0;
-            if ((double)header.Version > 1.5)
+            if (header.Version > 1.5)
             {
                 _paletteManager.LoadFromStream(stream);
             }

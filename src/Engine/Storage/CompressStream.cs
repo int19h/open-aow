@@ -74,7 +74,7 @@ public partial class CompressStream : MemoryStream
             try
             {
                 c.CopyFrom(this, 0);
-                result = Round((double)((double)1 - (double)(stream.Length - startSize) / Length) * 100);
+                result = Round((double)(1 - (double)(stream.Length - startSize) / Length) * 100);
             }
             finally
             {

@@ -18,7 +18,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     public SmokeCloudSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
         SpellId = 74;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -44,14 +44,14 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             cloud.Player = source.Player;
             cloud.TurnsRemaining = -1;
             cloud.Enchantment.PlayerIndex = source.Player;
-            cloud.Enchantment.EnchantmentManaUpkeep = this.ManaUpkeep;
+            cloud.Enchantment.EnchantmentManaUpkeep = ManaUpkeep;
             cloud.Drifting = false;
             if (!StrategicMap.Current.PlaceHex(cloud, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel))
             {
                 cloud?.Dispose();
             }
 
-            GamePack.Current.SpellControl.GetSpell(this.SpellId).CastingDone(source, this.BaseManaCost);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
         }
 
         return false;

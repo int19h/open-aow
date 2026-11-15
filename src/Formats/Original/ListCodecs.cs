@@ -399,7 +399,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         var data = new ByteBuffer();
         Encode(site.Context, value, data, new ValueSite { Property = site.Property!, Id = site.Property!.Id ?? 0, Path = site.Path, Owner = site.Owner ?? new JsonObject() });
         var bytes = data.ToArray();
-        int count = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
+        int count = BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
         int used = count & 7;
         var set = new List<int>();
         for (int i = 0; i < count; i++)

@@ -28,7 +28,7 @@ public static class FileSearch
                 .Where(entry => (entry.Attribute & ~attributes & 30) == 0)
                 .OrderBy(entry => entry.Name.ToUpperInvariant(), StringComparer.Ordinal)];
         }
-        catch (System.Exception error) when (error is DirectoryNotFoundException or UnauthorizedAccessException)
+        catch (Exception error) when (error is DirectoryNotFoundException or UnauthorizedAccessException)
         {
             return [];
         }

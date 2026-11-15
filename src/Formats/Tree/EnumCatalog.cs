@@ -85,7 +85,7 @@ public static class EnumCatalog
         { File = file, Path = path });
 }
 
-sealed class ReflectionEnumCatalog : IEnumCatalog
+internal sealed class ReflectionEnumCatalog : IEnumCatalog
 {
     private readonly Dictionary<string, List<EnumTypeInfo>> _types = new();
 

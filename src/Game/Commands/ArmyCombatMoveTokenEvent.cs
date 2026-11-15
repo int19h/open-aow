@@ -2,23 +2,15 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Commands;
@@ -341,7 +333,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     {
         MapField field = default;
         sbyte player2 = default;
-        Combat.Battle combat = default;
+        Battle combat = default;
         MapFieldMessage message = default;
         CombatTypeRequestEventLog request = default;
         NewTurnEventLog log = default;
@@ -565,7 +557,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (_combatType == CombatType.Tactical && _combatMode == ArmyCombatMoveTokenEventMode.SetupReady))
         {
-            combat = new Combat.Battle(null) { Holder = CreationHolder() };
+            combat = new Battle(null) { Holder = CreationHolder() };
             var hexY = ArmyHexSprite.GetHexY();
             var hexLevel = ArmyHexSprite.GetHexLevel();
             var player = field.GetPlayer();
@@ -718,7 +710,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     }
 
     // MoveT.PAS:2801
-    public void CombatExecuted(Combat.Battle combat)
+    public void CombatExecuted(Battle combat)
     {
         ArmyHexSprite armyHexSprite;
         Army army;
@@ -750,11 +742,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                         field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.Location.X, (sbyte)combat.CombatData.Location.Y, (sbyte)combat.CombatData.Location.MapLevel, MoveAction.Normal, Set<ArmyMoveModeElement>.Of());
+                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel, MoveAction.Normal, Set<ArmyMoveModeElement>.Of());
                         }
                         else
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.Location.X, (sbyte)combat.CombatData.Location.Y, (sbyte)combat.CombatData.Location.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (move != null)
                             {
                                 ((ArmyCombatMoveTokenEvent)move)._ignoreDefenders = true;

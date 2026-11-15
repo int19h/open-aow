@@ -6,7 +6,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Aow.Formats;
 using Aow.Game.Combat;
-
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Dialogs;

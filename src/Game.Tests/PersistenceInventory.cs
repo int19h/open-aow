@@ -227,9 +227,7 @@ internal static class PersistenceInventory
         if (type == typeof(byte[])) return true;
         if (!type.IsGenericType) return false;
         var definition = type.GetGenericTypeDefinition();
-        return definition == typeof(ReadOnlyMemory<>) || definition == typeof(Memory<>)
-            ? type.GetGenericArguments()[0] == typeof(byte)
-            : false;
+        return (definition == typeof(ReadOnlyMemory<>) || definition == typeof(Memory<>)) && type.GetGenericArguments()[0] == typeof(byte);
     }
 
     private static bool HasPublicHeight(Type type) =>

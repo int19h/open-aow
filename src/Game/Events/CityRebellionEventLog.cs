@@ -59,7 +59,7 @@ public partial class CityRebellionEventLog : EventLog
     // City.pas:2694
     public override void ViewLocation()
     {
-        CenterViewTo((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel);
+        CenterViewTo(Location.X, Location.Y, Location.MapLevel);
     }
 
     private static readonly string s_cityRebellionFormat = "%s rebelled";

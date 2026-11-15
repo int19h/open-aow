@@ -458,7 +458,7 @@ public partial class BaseWindow : WindowControl
                     destinationRectangle = new Rect(WinLeft, WinTop, WinLeft + WinWidth, WinTop + WinHeight);
                     try
                     {
-                        if (Masked == true)
+                        if (Masked)
                         {
                             LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, MaskColor);
                         }

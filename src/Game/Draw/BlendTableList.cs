@@ -1,6 +1,4 @@
 // Translated from GFXE.pas.
-using Aow.Rtl;
-
 namespace Aow.Game.Draw;
 
 // _list

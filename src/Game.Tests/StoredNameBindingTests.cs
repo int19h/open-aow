@@ -1,7 +1,6 @@
 using System.Reflection;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
@@ -9,8 +8,8 @@ using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Session;
-using Aow.Rtl;
 using Xunit.Abstractions;
+using EngineReferenceNode = Aow.Engine.Nodes.ReferenceNode;
 
 namespace Aow.Game.Tests;
 
@@ -171,7 +170,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         [
             (typeof(CustomNode), "ECustomNode"),
             (typeof(OwningNode), "ENode"),
-            (typeof(global::Aow.Engine.Nodes.ReferenceNode), "EReferenceNode"),
+            (typeof(EngineReferenceNode), "EReferenceNode"),
             (typeof(ObservableNode), "EChangeNotifyNode"),
             (typeof(ObservableEventList), "EChangeNotifyEventList"),
             (typeof(SortedNode), "ESortNode"),
@@ -192,8 +191,8 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         }
         Assert.Equal("ECustomNode.ChildrenAccessor", NameTable.Stored(typeof(CustomNode.ChildrenAccessor)));
         Assert.Equal("ESortNode.SortItem", NameTable.Stored(typeof(SortedNode.SortItem)));
-        Assert.Equal("ReferenceNode", NameTable.Stored(typeof(global::Aow.Formats.Tree.ReferenceNode)));
-        Assert.Equal(typeof(global::Aow.Engine.Nodes.ReferenceNode), NameTable.Find("EReferenceNode"));
+        Assert.Equal("ReferenceNode", NameTable.Stored(typeof(Formats.Tree.ReferenceNode)));
+        Assert.Equal(typeof(EngineReferenceNode), NameTable.Find("EReferenceNode"));
     }
 
     private static Type? TypeOf(string className)

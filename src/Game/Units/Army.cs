@@ -1640,8 +1640,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         transport = Transporter(selection);
         if (transport == null)
         {
-            common = Set<MoveType>.Of().WithRange(World.Movement.MoveType.Walking, World.Movement.MoveType.Tunneling);
-            moveType = (int)World.Movement.MoveType.Flying;
+            common = Set<MoveType>.Of().WithRange(MoveType.Walking, MoveType.Tunneling);
+            moveType = (int)MoveType.Flying;
             for (int i = 0, last = Units.Count - 1; i <= last; i++)
             {
                 if (((1 << i) & selection) != 0)
@@ -1650,34 +1650,34 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     common = common & moves;
                     if (moveType != -1)
                     {
-                        if ((MoveType)moveType == World.Movement.MoveType.Flying)
+                        if ((MoveType)moveType == MoveType.Flying)
                         {
-                            if (!moves.Contains(World.Movement.MoveType.Flying))
+                            if (!moves.Contains(MoveType.Flying))
                             {
-                                if (moves.Contains(World.Movement.MoveType.Swimming))
+                                if (moves.Contains(MoveType.Swimming))
                                 {
-                                    moveType = (int)World.Movement.MoveType.Swimming;
+                                    moveType = (int)MoveType.Swimming;
                                 }
                                 else
                                 {
-                                    moveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)MoveType.Walking;
                                 }
                             }
                         }
                         else
                         {
-                            if ((MoveType)moveType == World.Movement.MoveType.Swimming)
+                            if ((MoveType)moveType == MoveType.Swimming)
                             {
-                                if ((Set<MoveType>.Of(World.Movement.MoveType.Flying, World.Movement.MoveType.Swimming) & moves) == Set<MoveType>.Of())
+                                if ((Set<MoveType>.Of(MoveType.Flying, MoveType.Swimming) & moves) == Set<MoveType>.Of())
                                 {
-                                    moveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)MoveType.Walking;
                                 }
                             }
                             else
                             {
-                                if ((MoveType)moveType == World.Movement.MoveType.Walking)
+                                if ((MoveType)moveType == MoveType.Walking)
                                 {
-                                    if ((Set<MoveType>.Of(World.Movement.MoveType.Walking, World.Movement.MoveType.Flying).WithRange(World.Movement.MoveType.Forestry, World.Movement.MoveType.LavaCrossing) & moves) == Set<MoveType>.Of())
+                                    if ((Set<MoveType>.Of(MoveType.Walking, MoveType.Flying).WithRange(MoveType.Forestry, MoveType.LavaCrossing) & moves) == Set<MoveType>.Of())
                                     {
                                         moveType = -1;
                                     }
@@ -2496,8 +2496,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 }
             }
 
-            x2 = this.Location.X;
-            y2 = this.Location.Y;
+            x2 = Location.X;
+            y2 = Location.Y;
             l2 = Location.MapLevel;
         }
         for (int i = 0, last = races.Count - 1; i <= last; i++)
@@ -2639,8 +2639,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 {
                     troop = Units[i];
                     alignmentAlignment = troop.GetAlignment();
-                    evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(alignmentAlignment));
-                    good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(alignmentAlignment));
+                    evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
+                    good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                     neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
                 }
 
@@ -3192,7 +3192,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             log.Messages.Text = format;
                         }
 
-                        EventLog.DistributeLocationEventLog(log, -1, this.Location.X, this.Location.Y, Location.MapLevel, false);
+                        EventLog.DistributeLocationEventLog(log, -1, Location.X, Location.Y, Location.MapLevel, false);
                         log.Release();
                         if (ValidateSelection(255) != selection)
                         {
@@ -3201,10 +3201,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             {
                                 var hexY = offer.ArmyHexSprite.GetHexY();
                                 var hexX = offer.ArmyHexSprite.GetHexX();
-                                direction = HexGeometry.DeltaHexToHexNumberFast(this.Location.X, this.Location.Y, hexX, hexY);
+                                direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
                                 if (direction > 0 && direction <= 6)
                                 {
-                                    locations.AddMapCoordinate(this.Location.X, this.Location.Y, Location.MapLevel);
+                                    locations.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                                     side = direction + 1;
                                     if (side > 6)
                                     {
@@ -3212,7 +3212,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                                     }
 
                                     // { Original sign extends the wrapped byte coordinates here. }
-                                    HexGeometry.CenterHexNumberToHex((sbyte)offer.Location.X, (sbyte)offer.Location.Y, side, ref x, ref y);
+                                    HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, side, ref x, ref y);
                                     locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
                                     side = direction - 1;
                                     if (side == 0)
@@ -3220,7 +3220,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                                         side = 6;
                                     }
 
-                                    HexGeometry.CenterHexNumberToHex((sbyte)offer.Location.X, (sbyte)offer.Location.Y, side, ref x, ref y);
+                                    HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, side, ref x, ref y);
                                     locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
                                 }
                             }
@@ -3247,7 +3247,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
                                     if (!placed)
                                     {
-                                        Units.GetUnit(i).Place(this.Location.X, this.Location.Y, Location.MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                                        Units.GetUnit(i).Place(Location.X, Location.Y, Location.MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                                     }
                                 }
                             }

@@ -434,7 +434,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             {
                 if (Owner == null)
                 {
-                    this.Dispose();
+                    Dispose();
                 }
                 else
                 {

@@ -3,11 +3,9 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Original;
-using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Net;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.Tests;

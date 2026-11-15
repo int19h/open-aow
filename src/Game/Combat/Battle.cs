@@ -466,7 +466,7 @@ public partial class Battle : EngineObject
     {
         int distance;
         distance = (CombatData.Round - 1) * 2;
-        if (this.CombatData.Players.GetPlayers((sbyte)this.CombatData.CurrentPlayer).SideIndex == 0)
+        if (CombatData.Players.GetPlayers((sbyte)CombatData.CurrentPlayer).SideIndex == 0)
         {
             distance += 1;
         }

@@ -18,7 +18,7 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:54
     public Window(Component owner) : base(owner)
     {
-        base.UseManagerBorders = true;
+        UseManagerBorders = true;
     }
 
     // AoWWindow.pas:63
@@ -51,29 +51,29 @@ public partial class Window : GenericWindow
                         SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                     }
 
-                    if (base.MinWidth > 0 && base.MinWidth > WinWidth)
+                    if (MinWidth > 0 && MinWidth > WinWidth)
                     {
-                        SetWinWidthWithoutInvalidate(base.MinWidth);
+                        SetWinWidthWithoutInvalidate(MinWidth);
                     }
 
-                    if (base.MinHeight > 0 && base.MinHeight > WinHeight)
+                    if (MinHeight > 0 && MinHeight > WinHeight)
                     {
-                        SetWinHeightWithoutInvalidate(base.MinHeight);
+                        SetWinHeightWithoutInvalidate(MinHeight);
                     }
 
-                    if (base.MaxWidth > 0 && base.MaxWidth < WinWidth)
+                    if (MaxWidth > 0 && MaxWidth < WinWidth)
                     {
-                        SetWinWidthWithoutInvalidate(base.MaxWidth);
+                        SetWinWidthWithoutInvalidate(MaxWidth);
                     }
 
-                    if (base.MaxHeight > 0 && base.MaxHeight < WinHeight)
+                    if (MaxHeight > 0 && MaxHeight < WinHeight)
                     {
-                        SetWinHeightWithoutInvalidate(base.MaxHeight);
+                        SetWinHeightWithoutInvalidate(MaxHeight);
                     }
 
                     if (WindowManager.WinWidth > 0 && WindowManager.WinHeight > 0)
                     {
-                        if (base.UseManagerBorders)
+                        if (UseManagerBorders)
                         {
                             if (WindowManager.WinWidth - WindowManager.BorderRight < WinLeft + WinWidth)
                             {
@@ -161,29 +161,29 @@ public partial class Window : GenericWindow
             case Style.Blank:
                 if (ImageLibraryTexture != null || WindowStyle == Style.Blank)
                 {
-                    if (base.MinWidth > 0 && base.MinWidth > WinWidth)
+                    if (MinWidth > 0 && MinWidth > WinWidth)
                     {
-                        SetWinWidthWithoutInvalidate(base.MinWidth);
+                        SetWinWidthWithoutInvalidate(MinWidth);
                     }
 
-                    if (base.MinHeight > 0 && base.MinHeight > WinHeight)
+                    if (MinHeight > 0 && MinHeight > WinHeight)
                     {
-                        SetWinHeightWithoutInvalidate(base.MinHeight);
+                        SetWinHeightWithoutInvalidate(MinHeight);
                     }
 
-                    if (base.MaxWidth > 0 && base.MaxWidth < WinWidth)
+                    if (MaxWidth > 0 && MaxWidth < WinWidth)
                     {
-                        SetWinWidthWithoutInvalidate(base.MaxWidth);
+                        SetWinWidthWithoutInvalidate(MaxWidth);
                     }
 
-                    if (base.MaxHeight > 0 && base.MaxHeight < WinHeight)
+                    if (MaxHeight > 0 && MaxHeight < WinHeight)
                     {
-                        SetWinHeightWithoutInvalidate(base.MaxHeight);
+                        SetWinHeightWithoutInvalidate(MaxHeight);
                     }
 
                     if (WindowManager.WinWidth > 0 && WindowManager.WinHeight > 0)
                     {
-                        if (base.UseManagerBorders)
+                        if (UseManagerBorders)
                         {
                             if (WindowManager.WinWidth - WindowManager.BorderRight < WinLeft + WinWidth)
                             {
@@ -277,7 +277,7 @@ public partial class Window : GenericWindow
     public override void ReAlign()
     {
         base.ReAlign();
-        if (base.UseManagerBorders)
+        if (UseManagerBorders)
         {
             if (Alignment.AlignWidth == AlignWidth.Center)
             {
@@ -342,7 +342,7 @@ public partial class Window : GenericWindow
         Handled = false;
         Redraw = false;
         Dragging = 0;
-        if (WindowManager != null && !WindowManager.Handled && Visible == true)
+        if (WindowManager != null && !WindowManager.Handled && Visible)
         {
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
@@ -353,12 +353,12 @@ public partial class Window : GenericWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     c.Redraw = true;
                     Handled = true;
@@ -370,14 +370,14 @@ public partial class Window : GenericWindow
             {
                 DragX = 0;
                 DragY = 0;
-                if (button == MouseButton.Left && base.Draggable == true && Y < WinTop + BorderHeight + base.DragHeight - 1)
+                if (button == MouseButton.Left && Draggable && Y < WinTop + BorderHeight + DragHeight - 1)
                 {
                     Dragging = 1;
                     DragX = X - WinLeft;
                     DragY = Y - WinTop;
                 }
 
-                if (button == MouseButton.Left && base.Resizable == true)
+                if (button == MouseButton.Left && Resizable)
                 {
                     ResizingX = 0;
                     ResizingY = 0;
@@ -473,7 +473,7 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (base.Modal)
+            if (Modal)
             {
                 Handled = true;
             }
@@ -492,12 +492,12 @@ public partial class Window : GenericWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw == true) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -520,7 +520,7 @@ public partial class Window : GenericWindow
                 RaiseMouseUp(this, button, shift, X, Y);
             }
 
-            if (base.Modal)
+            if (Modal)
             {
                 Handled = true;
             }
@@ -540,14 +540,14 @@ public partial class Window : GenericWindow
         Cursor = WindowCursor;
         InResizeArea = true;
         resized = false;
-        if (Visible == true)
+        if (Visible)
         {
             switch (Dragging)
             {
                 case 1:
                     SetWinLeftWithoutInvalidate(X - DragX);
                     SetWinTopWithoutInvalidate(Y - DragY);
-                    if (WindowManager != null && base.UseManagerBorders)
+                    if (WindowManager != null && UseManagerBorders)
                     {
                         if (WindowManager.BorderLeft > WinLeft)
                         {
@@ -585,7 +585,7 @@ public partial class Window : GenericWindow
                         case 1:
                             if (WinLeft + DragX > X)
                             {
-                                if (WindowManager != null && base.UseManagerBorders)
+                                if (WindowManager != null && UseManagerBorders)
                                 {
                                     if (WindowManager.BorderLeft > X - DragX)
                                     {
@@ -596,14 +596,14 @@ public partial class Window : GenericWindow
 
                             i = WinLeft + WinWidth;
                             SetWinWidthWithoutInvalidate(WinWidth - X + WinLeft + DragX);
-                            if (WinWidth < base.MinWidth)
+                            if (WinWidth < MinWidth)
                             {
-                                SetWinWidthWithoutInvalidate(base.MinWidth);
+                                SetWinWidthWithoutInvalidate(MinWidth);
                             }
 
-                            if (base.MaxWidth < WinWidth && base.MaxWidth > 0)
+                            if (MaxWidth < WinWidth && MaxWidth > 0)
                             {
-                                SetWinWidthWithoutInvalidate(base.MaxWidth);
+                                SetWinWidthWithoutInvalidate(MaxWidth);
                             }
 
                             SetWinLeftWithoutInvalidate(i - WinWidth);
@@ -611,7 +611,7 @@ public partial class Window : GenericWindow
                             break;
                         case 2:
                             SetWinWidthWithoutInvalidate(X + DragX - WinLeft);
-                            if (WindowManager != null && base.UseManagerBorders)
+                            if (WindowManager != null && UseManagerBorders)
                             {
                                 if (WindowManager.WinWidth - WindowManager.BorderRight < WinLeft + WinWidth)
                                 {
@@ -619,14 +619,14 @@ public partial class Window : GenericWindow
                                 }
                             }
 
-                            if (base.MinWidth > WinWidth)
+                            if (MinWidth > WinWidth)
                             {
-                                SetWinWidthWithoutInvalidate(base.MinWidth);
+                                SetWinWidthWithoutInvalidate(MinWidth);
                             }
 
-                            if (base.MaxWidth < WinWidth && base.MaxWidth > 0)
+                            if (MaxWidth < WinWidth && MaxWidth > 0)
                             {
-                                SetWinWidthWithoutInvalidate(base.MaxWidth);
+                                SetWinWidthWithoutInvalidate(MaxWidth);
                             }
 
                             resized = true;
@@ -638,7 +638,7 @@ public partial class Window : GenericWindow
                         case 1:
                             if (WinTop + DragY > Y)
                             {
-                                if (WindowManager != null && base.UseManagerBorders)
+                                if (WindowManager != null && UseManagerBorders)
                                 {
                                     if (WindowManager.BorderTop > Y - DragY)
                                     {
@@ -649,14 +649,14 @@ public partial class Window : GenericWindow
 
                             i = WinTop + WinHeight;
                             SetWinHeightWithoutInvalidate(WinHeight - Y + WinTop + DragY);
-                            if (WinHeight < base.MinHeight)
+                            if (WinHeight < MinHeight)
                             {
-                                SetWinHeightWithoutInvalidate(base.MinHeight);
+                                SetWinHeightWithoutInvalidate(MinHeight);
                             }
 
-                            if (base.MaxHeight < WinHeight && base.MaxHeight > 0)
+                            if (MaxHeight < WinHeight && MaxHeight > 0)
                             {
-                                SetWinHeightWithoutInvalidate(base.MaxHeight);
+                                SetWinHeightWithoutInvalidate(MaxHeight);
                             }
 
                             SetWinTopWithoutInvalidate(i - WinHeight);
@@ -664,7 +664,7 @@ public partial class Window : GenericWindow
                             break;
                         case 2:
                             SetWinHeightWithoutInvalidate(Y + DragY - WinTop);
-                            if (WindowManager != null && base.UseManagerBorders)
+                            if (WindowManager != null && UseManagerBorders)
                             {
                                 if (WindowManager.WinHeight - WindowManager.BorderBottom < WinTop + WinHeight)
                                 {
@@ -672,14 +672,14 @@ public partial class Window : GenericWindow
                                 }
                             }
 
-                            if (base.MinHeight > WinHeight)
+                            if (MinHeight > WinHeight)
                             {
-                                SetWinHeightWithoutInvalidate(base.MinHeight);
+                                SetWinHeightWithoutInvalidate(MinHeight);
                             }
 
-                            if (base.MaxHeight < WinHeight && base.MaxHeight > 0)
+                            if (MaxHeight < WinHeight && MaxHeight > 0)
                             {
-                                SetWinHeightWithoutInvalidate(base.MaxHeight);
+                                SetWinHeightWithoutInvalidate(MaxHeight);
                             }
 
                             resized = true;
@@ -701,12 +701,12 @@ public partial class Window : GenericWindow
             {
                 c = Children[i];
                 c.Handled = false;
-                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.Visible == true && c.CaptureInput)
+                if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {
                     c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -715,7 +715,7 @@ public partial class Window : GenericWindow
             if (!Handled && X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                if (base.Resizable == true)
+                if (Resizable)
                 {
                     if (X < WinLeft + BorderWidth - 1)
                     {
@@ -796,7 +796,7 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (base.Modal)
+            if (Modal)
             {
                 Handled = true;
             }

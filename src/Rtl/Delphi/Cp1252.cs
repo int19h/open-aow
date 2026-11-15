@@ -29,7 +29,7 @@ public static class Cp1252
     public static bool IsMapped(char value) => s_characters[s_bytes[value]] == value;
     public static string Text(byte value) => s_texts[value];
 
-    public static IComparer<string> Comparer { get; } = System.Collections.Generic.Comparer<string>.Create(Compare);
+    public static IComparer<string> Comparer { get; } = Comparer<string>.Create(Compare);
 
     public static string Normalize(string? value)
     {

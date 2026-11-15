@@ -51,19 +51,19 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
         FrozenWaterHexSprite ice;
         if (mapField.GetArmyHexSprite() == null)
         {
-            if (terrainType == (int)World.Map.TerrainType.Water)
+            if (terrainType == (int)TerrainType.Water)
             {
-                terrainType = (int)World.Map.TerrainType.Ice;
+                terrainType = (int)TerrainType.Ice;
             }
             else
             {
-                if (terrainType == (int)World.Map.TerrainType.UndergroundWater)
+                if (terrainType == (int)TerrainType.UndergroundWater)
                 {
-                    terrainType = (int)World.Map.TerrainType.UndergroundIce;
+                    terrainType = (int)TerrainType.UndergroundIce;
                 }
                 else
                 {
-                    if (Set<byte>.WithBounds(0, 255).With((int)World.Map.TerrainType.Ice).With((int)World.Map.TerrainType.UndergroundIce).Contains((byte)terrainType))
+                    if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)terrainType))
                     {
                         ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
                         if (ice != null)

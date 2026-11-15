@@ -12,7 +12,7 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the cast never fails.
-    public Sfx this[int index] => (Sfx)this.GetChild(index);
+    public Sfx this[int index] => (Sfx)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Sfx;
 
@@ -39,9 +39,9 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
     public Sample Play()
     {
         Sample result;
-        if (this.Count != 0)
+        if (Count != 0)
         {
-            result = this[Random(this.Count)].Play();
+            result = this[Random(Count)].Play();
         }
         else
         {
@@ -55,9 +55,9 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         Sample result = default;
-        if (this.Count != 0)
+        if (Count != 0)
         {
-            result = this[Random(this.Count)].Play(volume, looped, delay, panning, callback);
+            result = this[Random(Count)].Play(volume, looped, delay, panning, callback);
         }
         else
         {

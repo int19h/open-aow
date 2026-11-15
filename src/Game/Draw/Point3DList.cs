@@ -1,6 +1,5 @@
 #nullable disable
 
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;

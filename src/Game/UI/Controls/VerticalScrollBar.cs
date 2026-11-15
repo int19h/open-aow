@@ -244,7 +244,7 @@ public partial class VerticalScrollBar : ScrollBar
         int thumbPosition = default;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (Visible == true && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)

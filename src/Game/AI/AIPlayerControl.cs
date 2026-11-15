@@ -169,7 +169,7 @@ public partial class AIPlayerControl : EngineObject
         Reset();
         if (StrategicMap.Current.Day < 10)
         {
-            DefenseStrengthMultiplier = (float)((double)StrategicMap.Current.Day * 0.1);
+            DefenseStrengthMultiplier = (float)(StrategicMap.Current.Day * 0.1);
         }
         else
         {

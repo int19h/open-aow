@@ -169,7 +169,7 @@ public partial class WindowManager : UIComponent
                                 }
                             }
 
-                            if (c.Hidden == true)
+                            if (c.Hidden)
                             {
                                 c.Hidden = false;
                                 r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
@@ -477,7 +477,7 @@ public partial class WindowManager : UIComponent
             {
                 redraw = c.Redraw;
                 c.Handled = false;
-                if (!Handled || redraw == true)
+                if (!Handled || redraw)
                 {
                     c.CheckMouseDown(button, shift, x, y);
                 }
@@ -502,12 +502,12 @@ public partial class WindowManager : UIComponent
             c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
-                if (!Handled || c.Redraw == true)
+                if (!Handled || c.Redraw)
                 {
                     c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -549,10 +549,10 @@ public partial class WindowManager : UIComponent
             c = (WindowControl)Children[i];
             if (c.Priority >= _overlayPriority)
             {
-                if (!Handled || c.Redraw == true)
+                if (!Handled || c.Redraw)
                 {
                     c.CheckMouseMove(shift, X, Y);
-                    if (c.Handled == true)
+                    if (c.Handled)
                     {
                         if (!Handled)
                         {
@@ -616,7 +616,7 @@ public partial class WindowManager : UIComponent
             if (c.Priority >= _overlayPriority)
             {
                 c.CheckKeyPress(ref key);
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }
@@ -637,7 +637,7 @@ public partial class WindowManager : UIComponent
             if (!Handled && c.Priority >= _overlayPriority && c.Visible)
             {
                 c.CheckKeyDown(ref key, shift);
-                if (c.Handled == true)
+                if (c.Handled)
                 {
                     Handled = true;
                 }

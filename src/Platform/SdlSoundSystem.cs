@@ -69,7 +69,7 @@ public class SdlSoundSystem : SoundSystem
         if (s_useOutput)
         {
             try { _output = new(Mixer, value, s_muted); }
-            catch (System.Exception ex) when (ex is InvalidOperationException or DllNotFoundException or EntryPointNotFoundException)
+            catch (Exception ex) when (ex is InvalidOperationException or DllNotFoundException or EntryPointNotFoundException)
             { Console.Error.WriteLine("Audio output is silent: " + ex.Message); }
         }
         return true;
@@ -224,7 +224,7 @@ internal class SdlSample : Sample
 
     private protected SdlSample(ConstructionContext context, AudioMixer mixer, SampleData data) : base(context, data)
     {
-        this._mixer = mixer;
+        _mixer = mixer;
     }
 
     public static SdlSample Create(AudioMixer mixer, SampleData data) =>

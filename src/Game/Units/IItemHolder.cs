@@ -1,4 +1,3 @@
-using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;

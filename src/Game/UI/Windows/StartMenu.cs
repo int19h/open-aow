@@ -39,7 +39,7 @@ public partial class StartMenu : Menu
         if (value != Visible)
         {
             SetVisibleWithoutUpdate(value);
-            if (Visible == true)
+            if (Visible)
             {
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);

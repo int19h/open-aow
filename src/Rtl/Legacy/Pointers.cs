@@ -30,7 +30,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         {
             if (Array is not null) return ref Array[Index + index];
             if (IsNull) throw new NullReferenceException();
-            long offset = (long)ByteIndex + (long)index * Unsafe.SizeOf<T>();
+            long offset = ByteIndex + (long)index * Unsafe.SizeOf<T>();
             if (offset < 0 || offset + Unsafe.SizeOf<T>() > StorageBytes) throw new IndexOutOfRangeException();
             return ref RawReference(index);
         }
@@ -42,7 +42,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     {
         if (count == 0) return Span<T>.Empty;
         if (Array is not null) return Array.AsSpan(Index, count);
-        if (count < 0 || ByteIndex < 0 || (long)ByteIndex + (long)count * Unsafe.SizeOf<T>() > StorageBytes)
+        if (count < 0 || ByteIndex < 0 || ByteIndex + (long)count * Unsafe.SizeOf<T>() > StorageBytes)
             throw new ArgumentOutOfRangeException(nameof(count));
         return MemoryMarshal.CreateSpan(ref Value, count);
     }
@@ -59,12 +59,12 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         if (typeof(U) == typeof(T) && offset == 0) return Unsafe.As<Ptr<T>, Ptr<U>>(ref Unsafe.AsRef(in this));
         // A view addresses the original array at a byte offset. It never captures another view,
         // so reading through a chain of reinterpretations costs one step.
-        var root = (System.Array)Storage!;
+        var root = (Array)Storage!;
         int start = ByteIndex + offset;
         return new Ptr<U> { storage = root, storageBytes = StorageBytes, byteOffset = start, view = View<U>(root, start) };
     }
 
-    private static PointerElement<U> View<U>(System.Array root, int start)
+    private static PointerElement<U> View<U>(Array root, int start)
         => (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + i * Unsafe.SizeOf<U>()));
 
     // The state a view captures, for the tests that pin that views never nest.

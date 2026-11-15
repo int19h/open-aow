@@ -9,7 +9,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
 {
     // The sequence in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a SfxSequence, so the cast never fails.
-    public SfxSequence this[int index] => (SfxSequence)this.GetChild(index);
+    public SfxSequence this[int index] => (SfxSequence)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is SfxSequence;
 
@@ -24,7 +24,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     public SfxSequence GetSfxSequence(int index)
     {
         SfxSequence result;
-        if (index >= 0 && index < this.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -78,7 +78,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
         int i;
         i = 0;
         SfxSequence result = null;
-        while (i != this.Count && result == null)
+        while (i != Count && result == null)
         {
             if (this[i].Id == id)
             {

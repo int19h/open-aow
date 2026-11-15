@@ -97,10 +97,10 @@ public partial class HelpWindow : UIModule
     // aowHelpWin.pas:110
     public void HelpWinResize()
     {
-        this.MainWindow.Alignment.LeftOffset = this.MainWindow.WinLeft;
-        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
-        this.MainWindow.Alignment.AlignHeight = AlignHeight.Top;
-        this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
+        MainWindow.Alignment.LeftOffset = MainWindow.WinLeft;
+        MainWindow.Alignment.TopOffset = MainWindow.WinTop;
+        MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        MainWindow.Alignment.AlignWidth = AlignWidth.Left;
     }
 
     internal void ShowHelp(int helpId)

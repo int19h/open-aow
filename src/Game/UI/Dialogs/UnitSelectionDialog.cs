@@ -235,10 +235,10 @@ public partial class UnitSelectionDialog : UIModule
             u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (u != null)
             {
-                r.Left = this.SourceFace.WinLeft + SourcePanel.WinLeft;
-                r.Right = this.SourceFace.WinWidth + r.Left;
-                r.Top = this.SourceFace.WinTop + SourcePanel.WinTop;
-                r.Bottom = this.SourceFace.WinHeight + r.Top;
+                r.Left = SourceFace.WinLeft + SourcePanel.WinLeft;
+                r.Right = SourceFace.WinWidth + r.Left;
+                r.Top = SourceFace.WinTop + SourcePanel.WinTop;
+                r.Bottom = SourceFace.WinHeight + r.Top;
 
                 if (u.GetFace() != null)
                 {

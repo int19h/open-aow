@@ -273,7 +273,7 @@ public sealed class ThrowingCastTests
             settings.ArmyHexSprite = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
             settings.SetSourcePosition(-1, -1, -1);
             settings.SetDestinationPosition(-1, -1, -1);
-            var control = (CombatMoveControl)combatMap.MoveControl;
+            var control = combatMap.MoveControl;
             control.ProcessMove(settings);
             Assert.Null(control.UnitHexSprite);
 

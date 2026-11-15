@@ -158,7 +158,7 @@ public partial class MoveControl : IDisposable
                 while (!!Process());
                 if (Destination.X != -1)
                 {
-                    CalculatePath(settings.Path, (sbyte)Destination.X, (sbyte)Destination.Y, (sbyte)Destination.MapLevel);
+                    CalculatePath(settings.Path, Destination.X, Destination.Y, Destination.MapLevel);
                     if (settings.Path.Count == 0)
                     {
                         settings.Status = MoveControlSettingsStatus.Failed;
@@ -171,7 +171,7 @@ public partial class MoveControl : IDisposable
         else
         {
             settings.Path.Clear();
-            settings.Path.AddMapCoordinate((sbyte)settings.Source.X, (sbyte)settings.Source.Y, (sbyte)settings.Source.MapLevel);
+            settings.Path.AddMapCoordinate(settings.Source.X, settings.Source.Y, settings.Source.MapLevel);
             settings.Status = MoveControlSettingsStatus.Processed;
         }
     }

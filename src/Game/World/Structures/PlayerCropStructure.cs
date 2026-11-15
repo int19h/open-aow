@@ -287,10 +287,10 @@ public partial class PlayerCropStructure : PlayerStructure
     public void SetIncome(byte value)
     {
         sbyte player;
-        if (value != this.Income && this.Status.Contains(MapObjectStatusElement.Activated))
+        if (value != Income && Status.Contains(MapObjectStatusElement.Activated))
         {
-            this.Income = value;
-            player = this.Player;
+            Income = value;
+            player = Player;
             if (player != -1)
             {
                 StrategicMap.Current.Players.GetPlayers(player).UpdateIncome();

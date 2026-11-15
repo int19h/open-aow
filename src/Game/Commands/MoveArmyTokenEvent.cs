@@ -1,10 +1,8 @@
 #nullable disable
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
@@ -19,8 +17,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
@@ -184,7 +180,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
         var army = ArmyHexSprite.Army;
         army.Mode = army.Mode.With(ArmyModeElement.Moving);
-        army.Destination = new MapCoordinate(this.Destination.X, this.Destination.Y, this.Destination.MapLevel);
+        army.Destination = new MapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
     }
 
     // MoveT.PAS:2221

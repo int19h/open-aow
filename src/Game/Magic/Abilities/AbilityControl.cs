@@ -71,7 +71,7 @@ public partial class AbilityControl : EngineObject
         id = ability.AbilityId;
         if (id != -1)
         {
-            if (id < this.Abilities.Count && this.Abilities[id] != null)
+            if (id < Abilities.Count && Abilities[id] != null)
             {
                 throw new InvalidOperationException("Ability already registered (" + IntToStr(id) + ")");
             }
@@ -135,13 +135,13 @@ public partial class AbilityControl : EngineObject
     public void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
     {
         text.Clear();
-        for (int i = 0, last = this.Abilities.Count - 1; i <= last; i++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (this.Abilities[i] != null)
+            if (Abilities[i] != null)
             {
-                if (((this.Abilities[i]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.Abilities[i]).SelectionTypes == Set<AbilitySelectionType>.Of()))
+                if (((Abilities[i]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (Abilities[i]).SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    text.AddObject((this.Abilities[i]).GetName(null), IntToObject(i));
+                    text.AddObject((Abilities[i]).GetName(null), IntToObject(i));
                 }
             }
         }

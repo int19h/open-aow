@@ -27,7 +27,7 @@ public sealed unsafe class TrackerSong : IDisposable
         throw new DllNotFoundException($"Music is silent: {files[0]} is missing. Install the native libopenmpt libraries next to the game or system-wide.");
     }
 
-    private TrackerSong(nint module) => this._module = module;
+    private TrackerSong(nint module) => _module = module;
 
     public static TrackerSong? Load(ReadOnlySpan<byte> bytes, bool loop = false)
     {
@@ -46,7 +46,7 @@ public sealed unsafe class TrackerSong : IDisposable
             LastError = null;
             return song;
         }
-        catch (System.Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException or InvalidDataException)
+        catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException or InvalidDataException)
         {
             LastError = ex.Message;
             if (LastError != s_reported) Console.Error.WriteLine(s_reported = LastError);

@@ -23,7 +23,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
 
     public SdlAudioOutput(AudioMixer mixer, in SoundSettings settings, bool muted)
     {
-        this._mixer = mixer;
+        _mixer = mixer;
         _channels = settings.OutputMode.Contains(SoundOutputModeElement.Mono) ? 1 : 2;
         _bytesPerSample = settings.OutputMode.Contains(SoundOutputModeElement.Bits8) ? 1 : 2;
         _pcm = new float[Math.Max(1, settings.SampleRate / 20) * 2];
@@ -75,7 +75,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                 frames -= count;
             }
         }
-        catch (System.Exception) { Volatile.Write(ref output._callbackFailed, 1); }
+        catch (Exception) { Volatile.Write(ref output._callbackFailed, 1); }
     }
 
     public void Dispose()

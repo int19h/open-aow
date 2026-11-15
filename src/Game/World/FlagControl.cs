@@ -36,7 +36,7 @@ public partial class FlagControl : ControlStyleObject
     {
         var gameSet = (GamePack)owner;
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
-        this._raceResources = gameSet.RaceResources;
+        _raceResources = gameSet.RaceResources;
 
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }

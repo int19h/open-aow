@@ -91,7 +91,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_generatingPowerFormat), [IntToStr(power)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), s_generatingPowerFormat), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96

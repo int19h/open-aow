@@ -1,10 +1,8 @@
 #nullable disable
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Net;
 
 namespace Aow.Game.Commands;

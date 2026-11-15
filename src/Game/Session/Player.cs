@@ -915,7 +915,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 if (PlayerType == PlayerType.Cpu4)
                 {
-                    Income = Round((double)Income * 2.5) + 50;
+                    Income = Round(Income * 2.5) + 50;
                 }
                 else
                 {
@@ -1222,7 +1222,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
                         var playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
-                        if (Set<Session.Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
+                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
                         {
                             var level = hero.GetLevel();
                             heroes.AddAbility(hero, (level - 2) * 1000 + 1);
@@ -1369,7 +1369,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (days < 0)
         {
-            result += Round((double)((double)(result * days) + 2.5) / 5);
+            result += Round((double)(result * days + 2.5) / 5);
             if (result < 0)
             {
                 result = 0;
@@ -1393,7 +1393,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         string name;
         if (StrategicMap.Current != null && PlayerIndex != 0)
         {
-            heroType = Units.HeroType.HeroLeader;
+            heroType = HeroType.HeroLeader;
             if (Leader != null && Leader.GetHeroType() != heroType)
             {
                 name = Leader.HeroName;
@@ -2081,7 +2081,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
             string errorText = "";
-            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance)
+            if (Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance)
             {
                 action.Accept(ref errorText);
             }
@@ -2156,7 +2156,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
             string errorText = "";
-            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War)
+            if (Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War)
             {
                 action.Accept(ref errorText);
             }

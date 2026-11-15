@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from AOWToolTip.pas.
 using Aow.Game.Draw;
-using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -139,7 +138,7 @@ public partial class ToolTip : GenericWindow
                     done = false;
                     if (i < _lines.Count - 1)
                     {
-                        if (moved == true)
+                        if (moved)
                         {
                             var lineLength = _lines[i];
                             var line = _lines[i];
@@ -271,7 +270,7 @@ public partial class ToolTip : GenericWindow
                 RaiseShow(this);
             }
 
-            if (Visible == true)
+            if (Visible)
             {
                 Hidden = false;
                 SetPriority(Priority);

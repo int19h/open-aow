@@ -202,7 +202,7 @@ public partial class TurnUndeadAbility : TouchAbility
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
@@ -229,7 +229,7 @@ public partial class TurnUndeadAbility : TouchAbility
                 damage = 5;
             }
 
-            strength = Round((double)(troop.GetAttack() * 4 * damage) * 0.1);
+            strength = Round(troop.GetAttack() * 4 * damage * 0.1);
             // { Original reports death damage here, although the attack deals holy damage. }
             types = Set<DamageType>.Of(DamageType.Death);
         }
@@ -247,7 +247,7 @@ public partial class TurnUndeadAbility : TouchAbility
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
-            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);

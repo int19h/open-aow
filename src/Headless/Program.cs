@@ -8,7 +8,6 @@ using Aow.Formats;
 using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
-
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Saves;

@@ -723,9 +723,9 @@ public partial class CityScreen : UIModule
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
                 ActiveActionTurnsLabel.TextColor = 6783862;
-                this.ActiveActionTurnsBar.Min = 0;
-                this.ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
-                this.ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
+                ActiveActionTurnsBar.Min = 0;
+                ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
+                ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
 
                 ActiveActionTurnsBar.Visible = true;
             }

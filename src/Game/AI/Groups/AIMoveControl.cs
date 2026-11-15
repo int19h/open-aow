@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -376,7 +374,7 @@ public partial class AIMoveControl : EngineObject
         Initialize(settings);
         Status = AIMoveControlStatus.Processing;
         _pathSettings.Reset();
-        _pathSettings.SetSourcePosition(this.Settings.Source);
+        _pathSettings.SetSourcePosition(Settings.Source);
 
         _pathSettings.Player = Settings.Player;
         _pathSettings.SetDestinationPosition(Settings.Destination);

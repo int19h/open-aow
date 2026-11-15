@@ -70,8 +70,8 @@ public partial class CombatTypeRequestEventLog : EventLog
     public void SetCenterLocation(byte X, byte Y, int L)
     {
         {
-            this.Location = this.Location with { X = (sbyte)X };
-            this.Location = this.Location with { Y = (sbyte)Y };
+            Location = Location with { X = (sbyte)X };
+            Location = Location with { Y = (sbyte)Y };
         }
         Location = Location with { MapLevel = (sbyte)L };
     }

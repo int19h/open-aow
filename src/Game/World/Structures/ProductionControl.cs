@@ -78,9 +78,9 @@ public partial class ProductionControl : EngineObject
         int result;
         if (Status == ProductionControlStatus.Producing)
         {
-            if (this.Settings.TurnsTotal != 0)
+            if (Settings.TurnsTotal != 0)
             {
-                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Gold) / this.Settings.TurnsTotal);
+                result = Round((double)(Settings.TurnsLeft * Settings.Gold) / Settings.TurnsTotal);
             }
             else
             {
@@ -101,9 +101,9 @@ public partial class ProductionControl : EngineObject
         int result;
         if (Status == ProductionControlStatus.Producing)
         {
-            if (this.Settings.TurnsTotal != 0)
+            if (Settings.TurnsTotal != 0)
             {
-                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Mana) / this.Settings.TurnsTotal);
+                result = Round((double)(Settings.TurnsLeft * Settings.Mana) / Settings.TurnsTotal);
             }
             else
             {
@@ -894,7 +894,7 @@ public partial class ProductionControl : EngineObject
         {
             productions.SortDescendingItemB();
             result = 0;
-            minimum = Round((double)productions[0].Second * 0.8);
+            minimum = Round(productions[0].Second * 0.8);
             while (result + 1 < productions.Count && productions[result + 1].Second >= minimum)
             {
                 result += 1;

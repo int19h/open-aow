@@ -463,7 +463,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 points = _adjacentArmies.GetAdjacentArmies(i).MovePoints;
                 if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                 {
-                    reserve = Round((double)points * 0.75);
+                    reserve = Round(points * 0.75);
                     if (reserve > _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - points)
                     {
                         points = _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - reserve;

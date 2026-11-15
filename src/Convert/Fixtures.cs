@@ -53,7 +53,7 @@ public static partial class Fixtures
             {
                 outcome = c.Run();
             }
-            catch (System.Exception error) when (error is ConversionException or IOException or InvalidOperationException or InvalidCastException or KeyNotFoundException or NullReferenceException)
+            catch (Exception error) when (error is ConversionException or IOException or InvalidOperationException or InvalidCastException or KeyNotFoundException or NullReferenceException)
             {
                 outcome = Fail("unexpected " + error.GetType().Name + ": " + error.Message);
             }

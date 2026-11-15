@@ -22,7 +22,7 @@ public partial class Tornado : GlobalTargetSpell
     public Tornado(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
         SpellId = 68;
         AboveGroundOnly = true;
     }

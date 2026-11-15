@@ -1,26 +1,16 @@
 #nullable disable
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
-
 using Aow.Game.Net;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
@@ -104,7 +94,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             param[0] = this;
             message.Param = param;
             message.Result = 0;
-            StrategicMap.Current.MapContainer.GetField((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel).SendMapFieldMessage(ref message);
+            StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).SendMapFieldMessage(ref message);
         }
 
         return ExecuteResult.Done;
@@ -129,7 +119,7 @@ public partial class NegotiateTokenEvent : TokenEvent
 
         if (result && Location.X != -1)
         {
-            result = (byte)StrategicMap.Current.MapContainer.GetField((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel).GetPlayer() == _ownerPlayer;
+            result = (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
         }
         else
         {
@@ -161,7 +151,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             if (ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
             {
                 path = new MovePath();
-                path.AddMapCoordinate((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel);
+                path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                 path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
                 move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
@@ -181,7 +171,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.AttackOnReject))
         {
             path = new MovePath();
-            path.AddMapCoordinate((sbyte)Location.X, (sbyte)Location.Y, (sbyte)Location.MapLevel);
+            path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
             path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
             move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));

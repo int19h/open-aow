@@ -13,7 +13,7 @@ public partial class BitList
     internal void Put(int index, bool item)
     {
         if ((uint)index >= (uint)_count) SetCount(index + 1);
-        if (List.Equals(default(Memory<byte>))) throw new NullReferenceException();
+        if (List.Equals(default)) throw new NullReferenceException();
         if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)List, out var storage))
             throw new InvalidOperationException("Bit list storage has no backing array");
         ref byte value = ref storage.Array![storage.Offset + (index >> 3)];

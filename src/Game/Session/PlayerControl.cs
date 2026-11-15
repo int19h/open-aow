@@ -249,7 +249,7 @@ public partial class PlayerControl : EngineObject
             }
 
             var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
-            tokenExecutor.SetGetSyncValueHandler(this.GetSyncValue);
+            tokenExecutor.SetGetSyncValueHandler(GetSyncValue);
             tokenExecutor.SetSyncErrorHandler(OutOfSync);
         }
         else

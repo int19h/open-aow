@@ -1,10 +1,7 @@
-
 using Aow.Formats;
 using Aow.Formats.Json;
-
 using Aow.Game.Saves;
 using Aow.Game.Units;
-
 using Aow.Platform;
 
 namespace Aow.Game.Tests;

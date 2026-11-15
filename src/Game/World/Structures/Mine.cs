@@ -81,14 +81,14 @@ public partial class Mine : PlayerStructure
             State = (byte)(Set<byte>.FromMask(State) - Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
 
-        this.ImageIndex = GetTerrainTypeImage(TerrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Mine.pas:93
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 
     // Mine.pas:99

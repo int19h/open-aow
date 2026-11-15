@@ -12,6 +12,7 @@
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <RootNamespace>Aow</RootNamespace>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <NoWarn>$(NoWarn);EnableGenerateDocumentationFile</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <CompilerVisibleProperty Include="RootNamespace" />

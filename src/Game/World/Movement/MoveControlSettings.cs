@@ -1,21 +1,11 @@
 #nullable disable
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
-using Aow.Graphics;
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Movement;
 

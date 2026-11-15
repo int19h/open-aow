@@ -1,4 +1,3 @@
-using System.Reflection;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
@@ -147,7 +146,7 @@ public sealed class GraphicsConstructionTests
         var sequence = new ImageSequence(sequences);
         Assert.Same(sequences, Field(sequence, "_owner"));
         var matrix = new Matrix(3, 2);
-        Assert.Equal((byte)0, matrix.GetValue(2, 1));
+        Assert.Equal(0, matrix.GetValue(2, 1));
         var modes = new DisplayModeList();
         Assert.NotNull(Field(modes, "_list"));
         var blend = new BlendTable5Bit();
@@ -324,9 +323,9 @@ public sealed class GraphicsConstructionTests
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component component, Operation operation)
         {
-            if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDisplayController controller)
+            if (operation == Operation.Insert && component is SdlDisplayController controller)
             {
                 var x = X;
                 var y = Y;
@@ -338,7 +337,7 @@ public sealed class GraphicsConstructionTests
         }
     }
 
-    private sealed class NullDisplayHost : Game.Host.IDisplayHost
+    private sealed class NullDisplayHost : Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -348,7 +347,7 @@ public sealed class GraphicsConstructionTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (7, 9, true);
 
-        public void PumpEvents(Game.Host.IDisplayEvents sink) { }
+        public void PumpEvents(Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

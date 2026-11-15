@@ -115,10 +115,10 @@ public partial class CastUnitSpellDialog : UIModule
         {
             if (u.GetFace() != null)
             {
-                r.Left = this.FaceFrame.WinLeft + TopPanel.WinLeft;
-                r.Right = r.Left + this.FaceFrame.WinWidth;
-                r.Top = this.FaceFrame.WinTop + TopPanel.WinTop;
-                r.Bottom = r.Top + this.FaceFrame.WinHeight;
+                r.Left = FaceFrame.WinLeft + TopPanel.WinLeft;
+                r.Right = r.Left + FaceFrame.WinWidth;
+                r.Top = FaceFrame.WinTop + TopPanel.WinTop;
+                r.Bottom = r.Top + FaceFrame.WinHeight;
 
                 u.GetFace().ShowStretched(r, surface);
             }
@@ -140,10 +140,10 @@ public partial class CastUnitSpellDialog : UIModule
             spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell != null)
             {
-                r.Left = this.SpellFrame.WinLeft + TopPanel.WinLeft;
-                r.Right = r.Left + this.SpellFrame.WinWidth;
-                r.Top = this.SpellFrame.WinTop + TopPanel.WinTop;
-                r.Bottom = r.Top + this.SpellFrame.WinHeight;
+                r.Left = SpellFrame.WinLeft + TopPanel.WinLeft;
+                r.Right = r.Left + SpellFrame.WinWidth;
+                r.Top = SpellFrame.WinTop + TopPanel.WinTop;
+                r.Bottom = r.Top + SpellFrame.WinHeight;
 
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {

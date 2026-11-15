@@ -3,14 +3,9 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Spells;
@@ -94,7 +89,7 @@ public partial class FloodEnchantment : GlobalEnchantment
             if (DaysBeforeActive() != 0)
             {
                 var daysBeforeActive = DaysBeforeActive();
-                result = RtlUnit.Format(s_dueInDaysFormat, [result, daysBeforeActive]);
+                result = Format(s_dueInDaysFormat, [result, daysBeforeActive]);
             }
         }
 
@@ -130,7 +125,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         }
         else
         {
-            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyRemovedFormat), [Name]);
+            reason = Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyRemovedFormat), [Name]);
             result = false;
         }
 

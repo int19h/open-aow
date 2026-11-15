@@ -1,8 +1,4 @@
 // Translated from GFXE.pas.
-using Aow.Engine.Buffers;
-
-using Aow.Rtl;
-
 namespace Aow.Game.Draw;
 
 // a 16 bit DIB section (555 or 565). _handle, _width, _height, _bits, _pitch, _pixelFormatId,

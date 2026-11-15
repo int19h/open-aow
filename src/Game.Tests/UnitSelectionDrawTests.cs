@@ -1,6 +1,3 @@
-
-using Aow.Game.Draw;
-
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.UI.Windows;

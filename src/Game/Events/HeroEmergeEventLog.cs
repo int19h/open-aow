@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 
 using static Aow.Rtl.RtlUnit;
