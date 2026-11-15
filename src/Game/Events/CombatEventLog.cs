@@ -192,6 +192,6 @@ public partial class CombatEventLog : EventLog
     public override void ViewLocation()
     {
         var data = Logbook.FinalData;
-        CenterViewTo((sbyte)data.X, (sbyte)data.Y, (sbyte)data.MapLevel);
+        CenterViewTo((sbyte)data.Location.X, (sbyte)data.Location.Y, (sbyte)data.Location.MapLevel);
     }
 }

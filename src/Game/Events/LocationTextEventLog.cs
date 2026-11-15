@@ -2,6 +2,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
@@ -11,34 +12,23 @@ public partial class LocationTextEventLog : TextEventLog
     // EventLog.pas:725
     public LocationTextEventLog(CustomNode owner) : base(owner)
     {
-        HexX = -1;
-        HexY = -1;
-        HexLevel = -1;
+        Location = new MapCoordinate(-1, -1, -1);
     }
 
     // EventLog.pas:728
     public new const int ClassId = 131816;
 
-    public sbyte HexX { get; set; }
-    public sbyte HexY { get; set; }
-    public sbyte HexLevel { get; set; }
+    public MapCoordinate Location { get; set; }
 
     // EventLog.pas:731
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        HexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: HexX);
-        HexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: HexY);
-        HexLevel = PersistSupport.UnsignedByte(persister, name: "HexLevel", value: HexLevel);
+        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
     // EventLog.pas:740
-    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = HexX;
-        Y = HexY;
-        L = HexLevel;
-    }
+    public override MapCoordinate GetLocation() => Location;
 
     // EventLog.pas:743
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
@@ -53,11 +43,12 @@ public partial class LocationTextEventLog : TextEventLog
     }
 
     // EventLog.pas:737
-    public void SetLocation(sbyte x, sbyte y, sbyte level)
+    public void SetLocation(MapCoordinate location)
     {
-        HexX = x;
-        HexY = y;
-        HexLevel = level;
+        Location = location;
     }
+
+    public void SetLocation(sbyte x, sbyte y, sbyte level) =>
+        SetLocation(new MapCoordinate(x, y, level));
 
 }

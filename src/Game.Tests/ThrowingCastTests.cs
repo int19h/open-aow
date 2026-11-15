@@ -91,9 +91,7 @@ public sealed class ThrowingCastTests
 
         var army = new Army(null!) { Holder = EngineFixture.Engine };
         army.Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
-        army.X = 4;
-        army.Y = 6;
-        army.MapLevel = 1;
+        army.Location = new MapCoordinate(4, 6, 1);
         leader.SetOwnerWithoutNotify(army);
         player.GetLeaderLocation(out x, out y, out level);
         Assert.Equal((sbyte)4, x);

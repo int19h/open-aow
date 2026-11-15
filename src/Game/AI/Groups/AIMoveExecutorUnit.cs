@@ -45,9 +45,9 @@ public partial class AIMoveExecutorUnit : EngineObject
     {
         Troop = troop;
         UnitId = Troop.UnitId;
-        Location = new MapCoordinate(X: X, Y: Y, MapLevel: L);
-        _origin = new MapCoordinate(X: X, Y: Y, MapLevel: L);
-        Destination = new MapCoordinate(X: -1, Y: -1, MapLevel: -1);
+        Location = new MapCoordinate(X, Y, L);
+        _origin = new MapCoordinate(X, Y, L);
+        Destination = new MapCoordinate(-1, -1, -1);
         ResetTransporterSettings();
         Status = AIMoveExecutorUnitStatus.Idle;
         MoveResult = 0;
@@ -61,8 +61,11 @@ public partial class AIMoveExecutorUnit : EngineObject
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)
             {
-                Troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                var coordinate105 = Troop.GetLocation();
+                sbyte locationX = coordinate105.X;
+                sbyte locationY = coordinate105.Y;
+                sbyte locationMapLevel = coordinate105.MapLevel;
+                Location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 Status = AIMoveExecutorUnitStatus.Ready;
             }
         }

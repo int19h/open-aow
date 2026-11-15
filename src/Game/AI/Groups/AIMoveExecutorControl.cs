@@ -160,12 +160,8 @@ public partial class AIMoveExecutorControl : EngineObject
 
                     move.MovePoints = points;
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
-                    move.SourceX = armyHexSprite.GetHexX();
-                    move.SourceY = armyHexSprite.GetHexY();
-                    move.SourceL = armyHexSprite.GetHexLevel();
-                    move.DestinationX = x;
-                    move.DestinationY = y;
-                    move.DestinationL = mapLevel;
+                    move.Source = new MapCoordinate(armyHexSprite.GetHexX(), armyHexSprite.GetHexY(), armyHexSprite.GetHexLevel());
+                    move.Destination = new MapCoordinate(x, y, mapLevel);
                     if (!mode.Contains(CreateMoveModeElement.DoNotQueue))
                     {
                         move.SetOwner(Executor.Moves);
@@ -185,7 +181,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 moveResult = 3;
             }
 
-            if (Executor.Destination.X == settings.SourceX && Executor.Destination.Y == settings.SourceY && Executor.Destination.MapLevel == settings.SourceL)
+            if (Executor.Destination.X == settings.Source.X && Executor.Destination.Y == settings.Source.Y && Executor.Destination.MapLevel == settings.Source.MapLevel)
             {
                 army.SetMoveResult(selection, 2);
                 army.SetStatus(selection, AIMoveExecutorUnitStatus.Done);

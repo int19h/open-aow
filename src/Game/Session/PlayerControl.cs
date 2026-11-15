@@ -490,9 +490,7 @@ public partial class PlayerControl : EngineObject
             if (p != null)
             {
                 StrategicMap.Current.GetViewCenter(out x, out y, out l);
-                p.ViewX = (byte)x;
-                p.ViewY = (byte)y;
-                p.ViewMapLevel = (byte)l;
+                p.View = new MapCoordinate(unchecked((sbyte)((byte)x)), unchecked((sbyte)((byte)y)), unchecked((sbyte)((byte)l)));
             }
         }
 

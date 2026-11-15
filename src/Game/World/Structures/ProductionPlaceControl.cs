@@ -23,12 +23,10 @@ public partial class ProductionPlaceControl : ProductionControl
     public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
-    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = this.ProductionPlace.HexX;
-        Y = this.ProductionPlace.HexY;
-        L = ProductionPlace.HexLevel;
-    }
+    public override MapCoordinate GetLocation() => new MapCoordinate(
+        ProductionPlace.HexX,
+        ProductionPlace.HexY,
+        ProductionPlace.HexLevel);
 
     // PrdPlace.pas:166
     public override sbyte GetPlayer() => ProductionPlace.Player;

@@ -281,7 +281,7 @@ public sealed partial class RuleConstructionTests
         var settings = new ObservedAISettings(null!) { Holder = EngineFixture.Engine };
         Assert.True(settings.SawInitializedFields);
         Assert.Equal(175, settings.MovePointsMax);
-        Assert.Equal(-1, settings.DestinationX);
+        Assert.Equal(-1, settings.Destination.X);
         settings.Dispose();
         using var selector = new ObservedSelector();
         Assert.True(selector.SawPreAssignmentFields);

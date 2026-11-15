@@ -3,6 +3,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.Combat;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
 
@@ -80,12 +81,8 @@ public sealed class CombatDataTests
         var data = new CombatData(null!)
         {
             Holder = EngineFixture.Engine,
-            X = 12,
-            Y = 34,
-            MapLevel = 2,
-            AttackerX = 9,
-            AttackerY = 8,
-            AttackerMapLevel = 1,
+            Location = new MapCoordinate(12, 34, 2),
+            AttackerLocation = new MapCoordinate(9, 8, 1),
             AttackerPlayer = -1,
             DefenderPlayer = 3,
             Round = 7,

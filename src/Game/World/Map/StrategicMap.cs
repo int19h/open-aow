@@ -1420,10 +1420,10 @@ public partial class StrategicMap : GameMap
             if (player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
             {
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
-                CenterViewTo(army.X, army.Y, army.MapLevel);
+                CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
-                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                HexGeometry.HexToPixel(army.Location.X, army.Location.Y, out pixelX, out pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.Location.MapLevel);
                 player.HeroJoinDay = i;
             }
             else
@@ -1470,10 +1470,10 @@ public partial class StrategicMap : GameMap
             if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
-                CenterViewTo(army.X, army.Y, army.MapLevel);
+                CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
-                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                HexGeometry.HexToPixel(army.Location.X, army.Location.Y, out pixelX, out pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.Location.MapLevel);
                 player.BaseHeroJoinDay = i;
             }
             else
@@ -1520,10 +1520,10 @@ public partial class StrategicMap : GameMap
             if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
-                CenterViewTo(army.X, army.Y, army.MapLevel);
+                CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
-                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                HexGeometry.HexToPixel(army.Location.X, army.Location.Y, out pixelX, out pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.Location.MapLevel);
                 player.BaseHeroJoinDay = i;
             }
             else
@@ -2191,24 +2191,24 @@ public partial class StrategicMap : GameMap
         if (SeatedPlayer != -1)
         {
             player = Players.GetPlayers(SeatedPlayer);
-            if ((sbyte)player.ViewX > 0)
+            if ((sbyte)player.View.X > 0)
             {
-                location = new MapCoordinate(X: (sbyte)player.ViewX, Y: (sbyte)player.ViewY, MapLevel: (sbyte)player.ViewMapLevel);
+                location = new MapCoordinate(player.View.X, player.View.Y, player.View.MapLevel);
             }
             else
             {
                 player.GetLeaderLocation(out var locationX, out var locationY, out var locationMapLevel);
-                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 if (location.X == -1)
                 {
                     if (player.Armies.Count == 0)
                     {
-                        location = new MapCoordinate(X: 0, Y: 0, MapLevel: 0);
+                        location = new MapCoordinate(0, 0, 0);
                     }
                     else
                     {
                         army = player.Armies.GetArmy(0);
-                        location = new MapCoordinate(X: army.X, Y: army.Y, MapLevel: army.MapLevel);
+                        location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
                     }
                 }
             }
@@ -2469,9 +2469,7 @@ public partial class StrategicMap : GameMap
             {
                 player = Players.GetPlayers(SeatedPlayer);
                 GetViewCenter(out x, out y, out l);
-                player.ViewX = (byte)x;
-                player.ViewY = (byte)y;
-                player.ViewMapLevel = (byte)l;
+                player.View = new MapCoordinate(unchecked((sbyte)((byte)x)), unchecked((sbyte)((byte)y)), unchecked((sbyte)((byte)l)));
             }
 
             CombatMap = (CombatMap)GetEngine().LoadHsmMap(FileBoundary.ReadName(GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
@@ -2719,7 +2717,10 @@ public partial class StrategicMap : GameMap
         ArmyHexSprite army;
         if (Current.Players.GetPlayers(player).Leader != null)
         {
-            Current.Players.GetPlayers(player).Leader.GetLocation(out x, out y, out l);
+            var coordinate32 = Current.Players.GetPlayers(player).Leader.GetLocation();
+            x = coordinate32.X;
+            y = coordinate32.Y;
+            l = coordinate32.MapLevel;
             // { Original excludes X = 0. }
             if (x > 0)
             {

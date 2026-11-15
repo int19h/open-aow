@@ -63,7 +63,10 @@ public partial class ConstructStructureTokenEvent : TokenEvent
             resource = control.StructureResource(troop);
             if (resource != null)
             {
-                troop.GetLocation(out x, out y, out l);
+                var coordinate4 = troop.GetLocation();
+                x = coordinate4.X;
+                y = coordinate4.Y;
+                l = coordinate4.MapLevel;
                 level = StrategicMap.Current.MapContainer.GetMapLevel(l);
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)

@@ -31,7 +31,10 @@ public partial class BuildRoadsControl : ConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        troop.GetLocation(out x, out y, out l);
+        var coordinate29 = troop.GetLocation();
+        x = coordinate29.X;
+        y = coordinate29.Y;
+        l = coordinate29.MapLevel;
         if (l == 0)
         {
             result = base.CanConstruct(troop, ref reason);

@@ -284,7 +284,10 @@ internal sealed class FrameFixture
                 {
                     var hero = world.HeroControl.GetHero(i);
                     sbyte x = -1, y = -1, level = -1;
-                    hero.GetLocation(out x, out y, out level);
+                    var coordinate1 = hero.GetLocation();
+                    x = coordinate1.X;
+                    y = coordinate1.Y;
+                    level = coordinate1.MapLevel;
                     object[] Items(ItemCollection list) => Enumerable.Range(0, list.Count)
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()

@@ -27,7 +27,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     {
         // { Matches: Assign inherited Validate to Result before the conjunction. }
         bool result = base.Validate();
-        return result && StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetMapLevel).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
+        return result && StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
     }
 
     // MoveT.PAS:2442
@@ -137,9 +137,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
                 negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
                 negotiateRequestEventLog.MovePoints = movePoints;
-                negotiateRequestEventLog.X = (sbyte)(byte)X;
-                negotiateRequestEventLog.Y = (sbyte)(byte)Y;
-                negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
+                negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
                 negotiateRequestEventLog.Player = (sbyte)(byte)player;
                 message.MessageId = 4366;
                 var param = message.Param;
@@ -162,9 +160,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
             negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
             negotiateRequestEventLog.MovePoints = movePoints;
-            negotiateRequestEventLog.X = (sbyte)(byte)X;
-            negotiateRequestEventLog.Y = (sbyte)(byte)Y;
-            negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
+            negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
             negotiateRequestEventLog.Player = (sbyte)(byte)player;
             message.MessageId = 4366;
             var param3 = message.Param;

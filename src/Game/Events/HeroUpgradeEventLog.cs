@@ -114,7 +114,10 @@ public partial class HeroUpgradeEventLog : EventLog
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u != null)
         {
-            u.GetLocation(out x, out y, out l);
+            var coordinate19 = u.GetLocation();
+            x = coordinate19.X;
+            y = coordinate19.Y;
+            l = coordinate19.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);

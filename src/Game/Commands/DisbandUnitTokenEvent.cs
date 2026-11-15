@@ -64,11 +64,17 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
             if (!troop.GetAbilityEnabled(155))
             {
-                troop.GetLocation(out x, out y, out l);
+                var coordinate5 = troop.GetLocation();
+                x = coordinate5.X;
+                y = coordinate5.Y;
+                l = coordinate5.MapLevel;
                 structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                 if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
-                    troop.GetLocation(out x, out y, out l);
+                    var coordinate6 = troop.GetLocation();
+                    x = coordinate6.X;
+                    y = coordinate6.Y;
+                    l = coordinate6.MapLevel;
                     troop.SetOwner(null);
                     armyHexSprite = troop.Place(x, y, l, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 }

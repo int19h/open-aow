@@ -124,10 +124,10 @@ public sealed partial class PersistEquivalenceTests
         {
             WithDestroyingMap(_ =>
             {
-                var data = new CombatData(null!) { Holder = EngineFixture.Engine, X = 4, Y = 5, MapLevel = 1, Round = 2, Header = "Fight" };
+                var data = new CombatData(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 1), Round = 2, Header = "Fight" };
                 data.TurnOrder.Add(1);
                 data.TurnOrder.Add(0);
-                new CombatParty(null!) { Holder = EngineFixture.Engine, X = 4, Y = 5, PlayerIndex = 1 }.SetOwner(data.Parties);
+                new CombatParty(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 0), PlayerIndex = 1 }.SetOwner(data.Parties);
                 var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 1 };
                 var unit = new CombatUnit(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
                 unit.SetUnit(hero);
@@ -138,7 +138,7 @@ public sealed partial class PersistEquivalenceTests
                 var expected = new CombatData(null!) { Holder = EngineFixture.Engine };
                 StreamAssign(expected, data);
                 EqualBytes(Image(expected), actual: Image(logbook.InitialData), label: "CombatLogbook initial data");
-                var other = new CombatData(null!) { Holder = EngineFixture.Engine, X = 9, Header = "Other" };
+                var other = new CombatData(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(9, 0, 0), Header = "Other" };
                 SameCopies(data, other);
                 SameCopies(logbook, new CombatLogbook(null!) { Holder = EngineFixture.Engine });
                 Discard(other);

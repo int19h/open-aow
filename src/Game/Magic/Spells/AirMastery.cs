@@ -40,7 +40,10 @@ public partial class AirMastery : GlobalEnchantmentSpell
         Animation animation = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
-        source.GetLocation(out x, out y, out l);
+        var coordinate50 = source.GetLocation();
+        x = coordinate50.X;
+        y = coordinate50.Y;
+        l = coordinate50.MapLevel;
         StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;

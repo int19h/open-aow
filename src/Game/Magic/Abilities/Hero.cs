@@ -1656,7 +1656,10 @@ public partial class Hero : Troop
         int level;
         int oldLevel;
         HeroUpgradeEventLog log;
-        GetLocation(out x, out y, out l);
+        var coordinate42 = GetLocation();
+        x = coordinate42.X;
+        y = coordinate42.Y;
+        l = coordinate42.MapLevel;
         if (Player != 0 && x != -1)
         {
             UpgradePending = false;
@@ -1939,8 +1942,14 @@ public partial class Hero : Troop
         item = StrategicMap.Current.ItemControl.FindItem(itemId);
         if (item != null)
         {
-            GetLocation(out x, out y, out l);
-            item.GetLocation(out ix, out iy, out imageLibrary);
+            var coordinate43 = GetLocation();
+            x = coordinate43.X;
+            y = coordinate43.Y;
+            l = coordinate43.MapLevel;
+            var coordinate44 = item.GetLocation();
+            ix = coordinate44.X;
+            iy = coordinate44.Y;
+            imageLibrary = coordinate44.MapLevel;
             if (StrategicMap.Current.CombatMap != null || (x == ix && y == iy && l == imageLibrary))
             {
                 if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position))

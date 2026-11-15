@@ -627,9 +627,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
                 request.AttackerPlayer = ArmyHexSprite.Army.Player;
                 request.DefenderPlayer = field.GetPlayer();
-                request.X = field.HexX;
-                request.Y = field.HexY;
-                request.MapLevel = field.HexLevel;
+                request.Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel);
                 request.SetTokenEvent(this);
                 request.CreateNewMove = true;
                 request.ArmyId = ArmyHexSprite.Army.CreateId(Selection);
@@ -705,9 +703,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
             request.AttackerPlayer = ArmyHexSprite.Army.Player;
             request.DefenderPlayer = field.GetPlayer();
-            request.X = field.HexX;
-            request.Y = field.HexY;
-            request.MapLevel = field.HexLevel;
+            request.Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel);
             if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
             {
                 var hexLevel = ArmyHexSprite.GetHexLevel();
@@ -733,7 +729,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerX, combat.CombatData.AttackerY, combat.CombatData.AttackerMapLevel).FindOwnedChild(131607);
+                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
                     army = armyHexSprite.Army;
@@ -751,14 +747,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                     if (selection != 0)
                     {
-                        field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.X, combat.CombatData.Y, combat.CombatData.MapLevel);
+                        field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.X, (sbyte)combat.CombatData.Y, (sbyte)combat.CombatData.MapLevel, MoveAction.Normal, Set<ArmyMoveModeElement>.Of());
+                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.Location.X, (sbyte)combat.CombatData.Location.Y, (sbyte)combat.CombatData.Location.MapLevel, MoveAction.Normal, Set<ArmyMoveModeElement>.Of());
                         }
                         else
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.X, (sbyte)combat.CombatData.Y, (sbyte)combat.CombatData.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.Location.X, (sbyte)combat.CombatData.Location.Y, (sbyte)combat.CombatData.Location.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (move != null)
                             {
                                 ((ArmyCombatMoveTokenEvent)move)._ignoreDefenders = true;
@@ -775,7 +771,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             }
             else
             {
-                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerX, combat.CombatData.AttackerY, combat.CombatData.AttackerMapLevel).FindOwnedChild(131607);
+                armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
@@ -830,7 +826,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         int i = 1;
         for (int number = StrategicMap.Current.Players.GetCount() - 1; i <= number; i++)
         {
-            if (StrategicMap.Current.VisibleForPlayer(fFinalData.X, fFinalData.Y, fFinalData.MapLevel, (sbyte)i) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
+            if (StrategicMap.Current.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, (sbyte)i) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
             {
                 CombatEventLog combatEventLog = new CombatEventLog(null) { Holder = logbook };
                 combatEventLog.SetCombatLogbook(logbook);

@@ -54,14 +54,14 @@ public sealed partial class PersistEquivalenceTests
             {
                 case PatrolAIGroup patrol:
                     Assert.Equal(id == 40 ? 0x00A5 : 0xA500, patrol.UnknownBytes);
-                    Assert.Equal(new MapCoordinate(X: 5, Y: -2, MapLevel: 1), id == 40 ? patrol.PatrolFrom : patrol.PatrolTo);
+                    Assert.Equal(new MapCoordinate(5, -2, 1), id == 40 ? patrol.PatrolFrom : patrol.PatrolTo);
                     break;
                 case TownGateTokenEvent gate when id == 30:
                     Assert.Equal((byte)0xA5, gate.TeleportUnknownBytes);
-                    Assert.Equal(new MapCoordinate(X: 5, Y: -2, MapLevel: 1), gate.TeleportLocation);
+                    Assert.Equal(new MapCoordinate(5, -2, 1), gate.TeleportLocation);
                     break;
                 case AIGroup group when id == 23:
-                    Assert.Equal(new AITargetLocation(Location: new MapCoordinate(X: 5, Y: -2, MapLevel: 1), Marker: 0xA5), group.TargetMapCoordinate);
+                    Assert.Equal(new AITargetLocation(Location: new MapCoordinate(5, -2, 1), Marker: 0xA5), group.TargetMapCoordinate);
                     break;
                 default:
                     Assert.Equal((byte)0xA5, loaded.GetType().GetProperty("UnknownBytes")!.GetValue(loaded));
@@ -83,12 +83,12 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             CityEnchantmentId = CityEnchantmentId.GoldRush,
-            EnchantmentLocation = new MapCoordinate(X: 12, Y: 34, MapLevel: 1),
+            EnchantmentLocation = new MapCoordinate(12, 34, 1),
             UnknownBytes = 0x80,
         };
         city.SetOwner(control.Enchantments);
         Check("GlobalMagicControl", control, converterRead: false);
-        var army = new ArmyId(null!) { Holder = EngineFixture.Engine, Player = 2, X = -1, Y = 7, MapLevel = 2, UnknownBytes = 0xFF };
+        var army = new ArmyId(null!) { Holder = EngineFixture.Engine, Player = 2, Location = new MapCoordinate(-1, 7, 2), UnknownBytes = 0xFF };
         Check("ArmyId", army);
     }
 
@@ -100,7 +100,7 @@ public sealed partial class PersistEquivalenceTests
             AITargetLocation.None,
             AITargetLocation.Cleared,
             AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue)),
-            AITargetLocation.At(new MapCoordinate(X: 40, Y: 21, MapLevel: 1)),
+            AITargetLocation.At(new MapCoordinate(40, 21, 1)),
         })
         {
             var group = new AIGroup(null!) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
@@ -110,7 +110,7 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal(-1, AITargetLocation.Cleared.ToStored().ToInt32());
         Assert.NotEqual(AITargetLocation.None, AITargetLocation.Cleared);
         var minimum = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
-        Assert.Equal(new AITargetLocation(Location: new MapCoordinate(X: 0, Y: 0, MapLevel: 0), Marker: 0x80), minimum);
+        Assert.Equal(new AITargetLocation(Location: new MapCoordinate(0, 0, 0), Marker: 0x80), minimum);
         Assert.Equal(int.MinValue, minimum.ToStored().ToInt32());
     }
 
@@ -134,11 +134,11 @@ public sealed partial class PersistEquivalenceTests
         var stored = new PathStep(Location: MapCoordinate.None, MoveCost: 9);
         Assert.Equal(stored, path.Default);
         Assert.Equal(5, path.Count);
-        Assert.Equal(new PathStep(Location: new MapCoordinate(X: 1, Y: 2, MapLevel: 0), MoveCost: 3), path[0]);
+        Assert.Equal(new PathStep(Location: new MapCoordinate(1, 2, 0), MoveCost: 3), path[0]);
         Assert.Equal(stored, path[1]);
         Assert.Equal(stored, path[2]);
-        Assert.Equal(new PathStep(Location: new MapCoordinate(X: -2, Y: 1, MapLevel: 1), MoveCost: -1), path[3]);
-        Assert.Equal(new PathStep(Location: new MapCoordinate(X: 127, Y: 127, MapLevel: 2), MoveCost: 127), path[4]);
+        Assert.Equal(new PathStep(Location: new MapCoordinate(-2, 1, 1), MoveCost: -1), path[3]);
+        Assert.Equal(new PathStep(Location: new MapCoordinate(127, 127, 2), MoveCost: 127), path[4]);
         using (var output = new MemoryStream())
         {
             path.SaveToStream(output);

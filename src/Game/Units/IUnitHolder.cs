@@ -1,4 +1,5 @@
 using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
@@ -15,7 +16,7 @@ internal interface IUnitHolder
 
     bool AddUnit(Troop troop);
 
-    void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel);
+    MapCoordinate GetLocation();
 
     void Changed();
 }

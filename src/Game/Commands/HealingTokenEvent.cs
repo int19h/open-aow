@@ -57,7 +57,10 @@ public partial class HealingTokenEvent : TokenEvent
             {
                 ability.SetEnabled(source, false);
                 ability.HealUnit(target);
-                target.GetLocation(out x, out y, out l);
+                var coordinate9 = target.GetLocation();
+                x = coordinate9.X;
+                y = coordinate9.Y;
+                l = coordinate9.MapLevel;
                 StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
                 if (StrategicMap.Current.Visible(x, y, l, 0))
                 {

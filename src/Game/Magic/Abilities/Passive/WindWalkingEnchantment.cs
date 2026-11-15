@@ -26,7 +26,10 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            troop.GetLocation(out x, out y, out l);
+            var coordinate90 = troop.GetLocation();
+            x = coordinate90.X;
+            y = coordinate90.Y;
+            l = coordinate90.MapLevel;
             if (x != -1)
             {
                 var mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

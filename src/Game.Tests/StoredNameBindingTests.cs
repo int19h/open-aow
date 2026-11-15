@@ -31,7 +31,6 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     private static readonly Dictionary<(string Class, string Name), string> s_unboundNames = new()
     {
         [("AbilityOwner", "AbilityDataIds")] = "the ability ids of the AbilityData chain, a local list of ReadWrite",
-        [("ArmyId", "Location")] = "a local that packs X, Y, MapLevel and UnknownBytes",
         [("Battle", "AttackerSide")] = "Sides[CombatSideIndex.Attacker]",
         [("Battle", "DefenderSide")] = "Sides[CombatSideIndex.Defender]",
         [("Campaign", "Map")] = "the map stream of the campaign, written through a local",

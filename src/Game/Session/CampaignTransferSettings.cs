@@ -584,7 +584,10 @@ public partial class CampaignTransferSettings : EngineObject
             var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
-            leader.GetLocation(out x, out y, out l);
+            var coordinate23 = leader.GetLocation();
+            x = coordinate23.X;
+            y = coordinate23.Y;
+            l = coordinate23.MapLevel;
             if (Leader != null)
             {
                 leader.Deactivate();

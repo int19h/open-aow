@@ -57,12 +57,8 @@ public partial class MoveControlSettings : EngineObject
     private int _height;
     private int _levelCount;
 
-    public int SourceX { get; private set; }
-    public int SourceY { get; private set; }
-    public int SourceL { get; private set; }
-    public int DestinationX { get; private set; }
-    public int DestinationY { get; private set; }
-    public int DestinationL { get; private set; }
+    public MapCoordinate Source { get; private set; }
+    public MapCoordinate Destination { get; private set; }
     public int MovePointsMax { get; set; }
     public UnitHexSprite ArmyHexSprite { get; set; }
     public int Selection { get; set; }
@@ -146,31 +142,29 @@ public partial class MoveControlSettings : EngineObject
 
         Mode = Set<MoveModeElement>.Of();
         Player = -1;
-        SourceX = -1;
-        SourceY = -1;
-        SourceL = -1;
-        DestinationX = -1;
-        DestinationY = -1;
-        DestinationL = -1;
+        Source = new MapCoordinate(-1, -1, -1);
+        Destination = new MapCoordinate(-1, -1, -1);
         Status = MoveControlSettingsStatus.Idle;
         Units.Clear();
     }
 
     // MoveT.PAS:148
-    public void SetSourcePosition(int x, int y, int level)
+    public void SetSourcePosition(MapCoordinate source)
     {
-        SourceX = x;
-        SourceY = y;
-        SourceL = level;
+        Source = source;
     }
 
+    public void SetSourcePosition(int x, int y, int level) =>
+        SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+
     // MoveT.PAS:155
-    public void SetDestinationPosition(int X, int Y, int L)
+    public void SetDestinationPosition(MapCoordinate destination)
     {
-        DestinationX = X;
-        DestinationY = Y;
-        DestinationL = L;
+        Destination = destination;
     }
+
+    public void SetDestinationPosition(int x, int y, int level) =>
+        SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:162
     public void SetupArmy(ArmyHexSprite army, byte selection)
@@ -178,9 +172,7 @@ public partial class MoveControlSettings : EngineObject
         ArmyHexSprite = army;
         Selection = selection;
         Units.AddUnits(army.Army.Units, selection);
-        SourceX = army.HexX;
-        SourceY = army.HexY;
-        SourceL = army.HexLevel;
+        Source = new MapCoordinate(army.HexX, army.HexY, army.HexLevel);
         Player = army.Army.Player;
         var movePointTable = MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
