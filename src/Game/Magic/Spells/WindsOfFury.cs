@@ -47,7 +47,7 @@ public partial class WindsOfFury : CombatSpell
 
         if (chargeMana && source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
+            action.ManaCost = sourceUnit.Troop.CastingMana(this);
         }
 
         return action;

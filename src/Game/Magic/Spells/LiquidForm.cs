@@ -53,7 +53,7 @@ public partial class LiquidForm : UnitSpell
         {
             if (target.ExpandAbility(166))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(166)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(166).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

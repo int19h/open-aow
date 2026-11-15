@@ -46,7 +46,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
         if (source is CombatUnit sourceUnit)
         {
             var players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
-            if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || ((Hero)sourceUnit.Troop).CastingSpellId == 0)
+            if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || sourceUnit.Troop.GetCastingSpellId() == 0)
             {
                 var side = source.GetSide();
                 var opponentSide = source.GetOpponentSide();
@@ -62,12 +62,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
                             spell = GamePack.Current.SpellControl.GetSpell(item);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
-                                if (sourceUnit.Troop is Hero)
+                                if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
                                 {
-                                    if (((Hero)sourceUnit.Troop).CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
-                                    {
-                                        spell.FastBattlePrefetchCombatCommands(commands);
-                                    }
+                                    spell.FastBattlePrefetchCombatCommands(commands);
                                 }
                             }
                         }
@@ -233,7 +230,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
         SpellCombatInfo info = default;
         string error = "";
         PlayerMagicControl magic;
-        if (troop is Hero)
+        if (troop is Hero hero)
         {
             magic = StrategicMap.Current.Players.GetPlayers(troop.Player).MagicControl;
             result = magic.GetCheatEnabled();
@@ -249,7 +246,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
                     bool condition = info.DamageTypes.Contains(DamageType.Wall);
                     if (condition)
                     {
-                        condition = ((Hero)troop).CanCastCombatSpell(magic.Spells[i], reason: ref error);
+                        condition = hero.CanCastCombatSpell(magic.Spells[i], reason: ref error);
                     }
 
                     result = condition;
@@ -267,12 +264,12 @@ public partial class SpellCastingAbility : MultiLevelAbility
     // AoWAb.PAS:4515
     public bool AICanCastCombatSpell(CombatUnit source)
     {
-        Hero hero;
+        Troop troop;
         int sourceStrength;
         int targetStrength;
         float ratio;
-        hero = (Hero)source.Troop;
-        bool result = StrategicMap.Current.Players.GetPlayers(hero.Player).PlayerType != PlayerType.Human || hero.CastingSpellId == 0;
+        troop = source.Troop;
+        bool result = StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerType != PlayerType.Human || troop.GetCastingSpellId() == 0;
         if (result)
         {
             var side = source.GetSide();
@@ -291,7 +288,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
 
             // { Original divides by zero when the opponent strength is zero. }
             ratio = (float)((double)sourceStrength / targetStrength);
-            if (((double)ratio >= 1.5 || hero.CastingSpellId != 0) && (double)ratio >= 1 && (double)((double)source.GetHitPoints() * ratio) >= 7)
+            if (((double)ratio >= 1.5 || troop.GetCastingSpellId() != 0) && (double)ratio >= 1 && (double)((double)source.GetHitPoints() * ratio) >= 7)
             {
                 result = false;
             }

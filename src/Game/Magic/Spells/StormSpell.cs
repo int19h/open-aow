@@ -59,7 +59,7 @@ public partial class StormSpell : Spell
         if (AICastSpellPriority(source) != -1)
         {
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
-            if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 var coordinate80 = source.GetLocation();
                 x = coordinate80.X;
@@ -80,9 +80,9 @@ public partial class StormSpell : Spell
             }
             else
             {
-                if (((Hero)source).CastingSpellId != SpellId)
+                if (source.GetCastingSpellId() != SpellId)
                 {
-                    ((Hero)source).ExecuteStartCasting(SpellId);
+                    source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else

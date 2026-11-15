@@ -2093,7 +2093,7 @@ public partial class BattleAI : IDisposable
                                                     if (condition)
                                                     {
                                                         var spell = GamePack.Current.SpellControl.GetSpell(n);
-                                                        condition = ((Hero)target.Troop).CanCastSpellInstantly(n, spell.BaseManaCost, ref reason);
+                                                        condition = target.Troop.CanCastSpellInstantly(n, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
@@ -2225,7 +2225,7 @@ public partial class BattleAI : IDisposable
                                                     if (condition)
                                                     {
                                                         var spell = GamePack.Current.SpellControl.GetSpell(k);
-                                                        condition = ((Hero)u.Troop).CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
+                                                        condition = u.Troop.CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
@@ -2316,7 +2316,7 @@ public partial class BattleAI : IDisposable
                                                     if (condition)
                                                     {
                                                         var spell = GamePack.Current.SpellControl.GetSpell(k);
-                                                        condition = ((Hero)u.Troop).CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
+                                                        condition = u.Troop.CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
@@ -2485,7 +2485,7 @@ public partial class BattleAI : IDisposable
                                                     if (condition)
                                                     {
                                                         var spell = GamePack.Current.SpellControl.GetSpell(k);
-                                                        condition = ((Hero)u.Troop).CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
+                                                        condition = u.Troop.CanCastSpellInstantly(k, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)

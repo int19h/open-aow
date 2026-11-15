@@ -628,7 +628,7 @@ public partial class HeroUpgradeDialog : UIModule
         dialog.OnClose = completed;
         if (dialog.ValidateHero())
         {
-            dialog._editedHero = (Hero)dialog._hero.Copy(dialog.UI.Engine);
+            dialog._editedHero = dialog._hero.Copy<Hero>(dialog.UI.Engine);
             dialog.UpdateStatistics();
             dialog.RefreshAbilities();
             dialog.UnitNameEdit.Text = dialog._hero.HeroName;
