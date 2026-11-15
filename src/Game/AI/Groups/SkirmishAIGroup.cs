@@ -10,7 +10,7 @@ public partial class SkirmishAIGroup : BehaviorAIGroup, IAIGroupClass
     public new const int ClassId = 136294;
 
     // BehaviorAG.pas:722
-    public SkirmishAIGroup(ECustomNode owner) : base(owner)
+    public SkirmishAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 12;
         RecruitmentPriority = 12;

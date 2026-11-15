@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class SummonedAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1100
-    public SummonedAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public SummonedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_summonedText);

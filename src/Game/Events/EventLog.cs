@@ -17,11 +17,11 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // The list that holds the log. AcceptsOwner admits only that list, so the cast never fails.
     public new EventLogList Owner { get => (EventLogList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is EventLogList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is EventLogList;
 
     void IOwnedSink<EventLogList>.SetOwner(EventLogList owner) => SetOwner(owner);
 
-    public EventLog(ECustomNode owner) : base(owner)
+    public EventLog(CustomNode owner) : base(owner)
     {
         RefCount = 1;
     }
@@ -34,7 +34,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public int RefCount { get; private set; }
 
     // EventLog.pas:334
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         if (RefCount != 0)
         {

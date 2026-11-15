@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class BurningAbility : DurationAbility
 {
     // PassiveAb.pas:756
-    public BurningAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public BurningAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_burningText);

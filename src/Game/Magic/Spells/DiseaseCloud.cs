@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class DiseaseCloud : CombatSpell
 {
     // CombatSpells.pas:1146
-    public DiseaseCloud(ECustomNode owner, EngineObject holder) : base(owner)
+    public DiseaseCloud(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_diseaseCloudText);

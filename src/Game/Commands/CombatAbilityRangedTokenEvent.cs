@@ -21,7 +21,7 @@ namespace Aow.Game.Commands;
 
 public partial class CombatAbilityRangedTokenEvent : TokenEvent
 {
-    public CombatAbilityRangedTokenEvent(ECustomNode owner) : base(owner)
+    public CombatAbilityRangedTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:917

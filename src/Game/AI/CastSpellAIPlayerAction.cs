@@ -18,7 +18,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
 {
     // Spells.PAS:1543
     // state, casting heroes, idle heroes, pending hero IDs, candidate actions
-    public CastSpellAIPlayerAction(ECustomNode owner) : base(owner)
+    public CastSpellAIPlayerAction(CustomNode owner) : base(owner)
     {
         _castingHeroes = new Int32List();
         _idleHeroes = new Int32List();

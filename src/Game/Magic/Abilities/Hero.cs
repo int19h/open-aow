@@ -108,7 +108,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:683
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         AddRef();
         base.SetOwner(owner);
@@ -2038,42 +2038,42 @@ public partial class Hero : Troop
         bool result;
         Item item1;
         Item item2;
-        EChangeNotifyNode owner1;
-        EChangeNotifyNode owner2;
+        ObservableNode owner1;
+        ObservableNode owner2;
         int index1;
         int index2;
         if (CanSwapItem(itemId1, itemId2))
         {
             item1 = StrategicMap.Current.ItemControl.FindItem(itemId1);
             item2 = StrategicMap.Current.ItemControl.FindItem(itemId2);
-            owner1 = (EChangeNotifyNode)item1.Owner;
-            owner2 = (EChangeNotifyNode)item2.Owner;
-            owner1.BeginUpdate();
-            owner2.BeginUpdate();
-            index1 = item1.Owner.FindChildIndex(item1);
-            index2 = item2.Owner.FindChildIndex(item2);
-            item1.SetOwner(null);
-            item2.SetOwner(null);
-            if (owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+            owner1 = (ObservableNode)item1.Owner;
+            owner2 = (ObservableNode)item2.Owner;
+            using (owner1.BeginUpdate())
+            using (owner2.BeginUpdate())
             {
-                item2.SetArrayOwner(owner1, index1);
-            }
-            else
-            {
-                item2.SetOwner(owner1);
-            }
+                index1 = item1.Owner.FindChildIndex(item1);
+                index2 = item2.Owner.FindChildIndex(item2);
+                item1.SetOwner(null);
+                item2.SetOwner(null);
+                if (owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                {
+                    item2.SetArrayOwner(owner1, index1);
+                }
+                else
+                {
+                    item2.SetOwner(owner1);
+                }
 
-            if (owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
-            {
-                item1.SetArrayOwner(owner2, index2);
-            }
-            else
-            {
-                item1.SetOwner(owner2);
-            }
+                if (owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                {
+                    item1.SetArrayOwner(owner2, index2);
+                }
+                else
+                {
+                    item1.SetOwner(owner2);
+                }
 
-            owner2.EndUpdate();
-            owner1.EndUpdate();
+            }
             Changed();
             result = true;
         }

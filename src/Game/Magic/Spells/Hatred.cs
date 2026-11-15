@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Hatred : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:889
-    public Hatred(ECustomNode owner, EngineObject holder) : base(owner)
+    public Hatred(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HatredText);

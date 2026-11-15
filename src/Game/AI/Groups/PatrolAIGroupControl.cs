@@ -15,7 +15,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
     // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
     public const int HexDirectionSlotCount = 7;
 
-    public PatrolAIGroupControl(ECustomNode owner) : base(owner)
+    public PatrolAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // IndependentAG.pas:415

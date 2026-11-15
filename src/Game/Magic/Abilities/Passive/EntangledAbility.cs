@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class EntangledAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:620
-    public EntangledAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public EntangledAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_entangledText);

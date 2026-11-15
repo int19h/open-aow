@@ -42,7 +42,7 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
     }
 
     // CombatSpells.pas:557
-    public MultiTargetCombatSpellCombatAction(ECustomNode owner) : base(owner)
+    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner)
     {
         TargetIds = new ByteList();
     }

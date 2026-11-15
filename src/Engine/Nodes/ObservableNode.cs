@@ -9,12 +9,12 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Engine.Nodes;
 
 // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
-public partial class EChangeNotifyNode : ECustomNode
+public partial class ObservableNode : CustomNode
 {
     // Engine.pas:7246
     public new const int ClassId = 265;
 
-    public EChangeNotifyNode(ECustomNode owner) : base(owner)
+    public ObservableNode(CustomNode owner) : base(owner)
     {
         _children = new EngineObjectList();
         _updateCount = 0;
@@ -104,9 +104,8 @@ public partial class EChangeNotifyNode : ECustomNode
     // Engine.pas:7263
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        BeginUpdate();
+        using var batch = BeginUpdate();
         base.Assign(source, engine);
-        EndUpdate();
     }
 
     // Engine.pas:7270
@@ -126,10 +125,30 @@ public partial class EChangeNotifyNode : ECustomNode
     {
     }
 
+    // A batch disposes by calling EndUpdate. A default batch does nothing, so a conditional
+    // update is `using var batch = loading ? BeginUpdate() : default`. Nested batches dispose
+    // from the inside out and the count reaches zero once.
+    public readonly struct UpdateBatch : IDisposable
+    {
+        private readonly ObservableNode _node;
+
+        internal UpdateBatch(ObservableNode node) => _node = node;
+
+        public void Dispose()
+        {
+            // A default batch leaves the field null. The units project compiles this file with nullable off.
+            if (_node is not null)
+            {
+                _node.EndUpdate();
+            }
+        }
+    }
+
     // Engine.pas:7284
-    public void BeginUpdate()
+    public UpdateBatch BeginUpdate()
     {
         _updateCount += 1;
+        return new UpdateBatch(this);
     }
 
     // Engine.pas:7957
@@ -814,32 +833,22 @@ public partial class EChangeNotifyNode : ECustomNode
     // Engine.pas:7964
     public void Sort(ListSortCompare<EngineObject> compare)
     {
-        BeginUpdate();
+        using var batch = BeginUpdate();
         _children.Sort(compare);
-        EndUpdate();
     }
 
     // Keeps the order of equal items. Reflecting pool ordering is the only caller.
     public void SortStable(ListSortCompare<EngineObject> compare)
     {
-        BeginUpdate();
+        using var batch = BeginUpdate();
         _children.SortStable(compare);
-        EndUpdate();
     }
 
     // Engine.pas:7971
     public override void MainPersist(IPersister persister)
     {
-        if (persister.Loading)
-        {
-            BeginUpdate();
-        }
-
+        using var batch = persister.Loading ? BeginUpdate() : default;
         base.MainPersist(persister);
-        if (persister.Loading)
-        {
-            EndUpdate();
-        }
     }
 
     // Engine.pas:7978

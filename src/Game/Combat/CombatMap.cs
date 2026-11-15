@@ -159,7 +159,7 @@ public partial class CombatMap : GameMap
     private protected sealed override void InitializeBeforeInherited() => Current = this;
 
     // AoWHSMap.PAS:907, then AoWTC.pas:2186.
-    public CombatMap(ECustomNode owner) : base(owner)
+    public CombatMap(CustomNode owner) : base(owner)
     {
         CombatStartedEventsStore = new();
         AbilityActivatedEventsStore = new();

@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupDefenseControl : AIGroupTask
 {
     // AIGroup.pas:1807
-    public AIGroupDefenseControl(ECustomNode owner) : base(owner)
+    public AIGroupDefenseControl(CustomNode owner) : base(owner)
     {
         _selector = new GroupDefenseSelector(this);
         _mode = Set<ModeElement>.Of();

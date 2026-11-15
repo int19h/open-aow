@@ -8,7 +8,7 @@ namespace Aow.Game.Events;
 // inherited text
 public partial class NewDayEventLog : TextEventLog
 {
-    public NewDayEventLog(ECustomNode owner) : base(owner)
+    public NewDayEventLog(CustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:809

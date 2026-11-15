@@ -28,11 +28,11 @@ namespace Aow.Game.World.Map;
 // (rwInteger). FVersion is a guessed name: nothing but ReadWrite touches it. The original's FTimer
 // (the Delphi timer node, child slot 5) is gone (issue 185 PE-3-i): no file stores it, nothing
 // raised a timer event, and the stored children keep their original slots through ChildSlots
-public partial class GameMap : ENode
+public partial class GameMap : OwningNode
 {
     public new const int ClassId = 66048;
 
-    public GameMap(ECustomNode owner) : base(owner)
+    public GameMap(CustomNode owner) : base(owner)
     {
         _mouse = CreateMouse();
         _mouse.HexSpriteMap = this;

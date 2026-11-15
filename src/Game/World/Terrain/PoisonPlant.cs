@@ -23,7 +23,7 @@ namespace Aow.Game.World.Terrain;
 // summoning status. caster player. remaining turns. original overlay
 public partial class PoisonPlant : ImageLibraryTerrainMapObject
 {
-    public PoisonPlant(ECustomNode owner) : base(owner)
+    public PoisonPlant(CustomNode owner) : base(owner)
     {
         CasterPlayer = -1;
         OriginalOverlay = -1;
@@ -331,7 +331,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // PoisonP.pas:293

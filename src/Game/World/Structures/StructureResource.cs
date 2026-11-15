@@ -20,7 +20,7 @@ namespace Aow.Game.World.Structures;
 // selection Sfx, description, scanner icon. . other recovered resource fields below
 public partial class StructureResource : FixedImageLibraryTerrainMapObjectResource
 {
-    public StructureResource(ECustomNode owner) : base(owner)
+    public StructureResource(CustomNode owner) : base(owner)
     {
         SetLevel(26);
         ConnectRoads = true;

@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 // Enchantment
 public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
 {
-    public GlobalEnchantmentSpellTokenEvent(ECustomNode owner) : base(owner)
+    public GlobalEnchantmentSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalEnchantmentSpells.pas:389

@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonMermaid : SummonSpell
 {
     // SummonSpells.pas:488
-    public SummonMermaid(ECustomNode owner, EngineObject holder) : base(owner)
+    public SummonMermaid(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonMermaidText);

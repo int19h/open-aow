@@ -10,7 +10,7 @@ public partial class ExpanderAIGroup : BehaviorAIGroup, IAIGroupClass
     public new const int ClassId = 136290;
 
     // BehaviorAG.pas:495
-    public ExpanderAIGroup(ECustomNode owner) : base(owner)
+    public ExpanderAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 10;
         RecruitmentPriority = 10;

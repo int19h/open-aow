@@ -20,16 +20,16 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // The Delphi pre-inherited statements run after capture and before any inherited body.
     private protected virtual void InitializeBeforeInherited() { }
 
-    public EngineObject(ECustomNode owner) : this(null, owner) { }
+    public EngineObject(CustomNode owner) : this(null, owner) { }
 
-    private protected EngineObject(ConstructionContext context, ECustomNode owner)
+    private protected EngineObject(ConstructionContext context, CustomNode owner)
     {
         context?.Capture(this);
         InitializeBeforeInherited();
         SetOwner(owner);
     }
 
-    private ECustomNode _owner;
+    private CustomNode _owner;
 
     // Engine.pas:2487. The walk reads each owner through IOwned.
     internal string GetEngineObjectPath()
@@ -50,7 +50,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     public virtual Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored);
 
     // Engine.pas:2568
-    public virtual void SetOwner(ECustomNode owner)
+    public virtual void SetOwner(CustomNode owner)
     {
         if (owner != _owner)
         {
@@ -198,7 +198,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2578
-    public virtual void SetArrayOwner(ECustomNode owner, int index)
+    public virtual void SetArrayOwner(CustomNode owner, int index)
     {
         CheckOwner(owner);
         if (_owner != null)
@@ -230,11 +230,11 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         return result;
     }
 
-    public ECustomNode Owner { get => _owner; set => SetOwner(value); }
+    public CustomNode Owner { get => _owner; set => SetOwner(value); }
 
     IOwner IOwned.Owner => _owner;
 
-    protected internal void SetOwnerWithoutNotify(ECustomNode value)
+    protected internal void SetOwnerWithoutNotify(CustomNode value)
     {
         CheckOwner(value);
         _owner = value;
@@ -246,9 +246,9 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     /// owner, and each checks it here, so the typed owner read needs no check of its own. The
     /// loader passes every owner through one of them.
     /// </summary>
-    protected virtual bool AcceptsOwner(ECustomNode owner) => true;
+    protected virtual bool AcceptsOwner(CustomNode owner) => true;
 
-    private void CheckOwner(ECustomNode owner)
+    private void CheckOwner(CustomNode owner)
     {
         if (owner != null && !AcceptsOwner(owner))
         {

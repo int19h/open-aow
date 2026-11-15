@@ -13,7 +13,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class BloodShrine : Structure
 {
-    public BloodShrine(ECustomNode owner) : base(owner)
+    public BloodShrine(CustomNode owner) : base(owner)
     {
     }
 
@@ -85,7 +85,7 @@ public partial class BloodShrine : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = true;
             ConnectRoads = false;

@@ -562,55 +562,56 @@ public partial class Int32List : Persistent
         testUnit = new Unit(null) { Holder = units.Holder };
         int result = 0;
         tries = 50;
-        units.Holder.BeginUpdate();
-        while (result < value && tries != 0)
+        using (units.Holder.BeginUpdate())
         {
-            tries -= 1;
-            index = indexes[Random(indexes.Count)];
-            if (index != -1)
+            while (result < value && tries != 0)
             {
-                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                if (CanUse(testUnit))
+                tries -= 1;
+                index = indexes[Random(indexes.Count)];
+                if (index != -1)
                 {
-                    if (testUnit.GetObtainValue() + result > value)
+                    testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
+                    if (CanUse(testUnit))
                     {
-                        bestIndex = index;
-                        I = 20;
-                        difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
-                        do
+                        if (testUnit.GetObtainValue() + result > value)
                         {
-                            index = indexes[Random(indexes.Count)];
-                            if (index != -1 && index != bestIndex)
+                            bestIndex = index;
+                            I = 20;
+                            difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                            do
                             {
-                                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                                if (CanUse(testUnit))
+                                index = indexes[Random(indexes.Count)];
+                                if (index != -1 && index != bestIndex)
                                 {
-                                    delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
-                                    if (delta < difference)
+                                    testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
+                                    if (CanUse(testUnit))
                                     {
-                                        bestIndex = index;
-                                        difference = delta;
+                                        delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                                        if (delta < difference)
+                                        {
+                                            bestIndex = index;
+                                            difference = delta;
+                                        }
                                     }
                                 }
+
+                                I -= 1;
                             }
-
-                            I -= 1;
+                            while (!(I == 0));
+                            index = bestIndex;
                         }
-                        while (!(I == 0));
-                        index = bestIndex;
-                    }
 
-                    unit = new Unit(null) { Holder = units.Holder };
-                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                    units.AddUnit(unit);
-                    result += unit.GetObtainValue();
-                    tries = 50;
-                    unit.Release();
+                        unit = new Unit(null) { Holder = units.Holder };
+                        unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
+                        units.AddUnit(unit);
+                        result += unit.GetObtainValue();
+                        tries = 50;
+                        unit.Release();
+                    }
                 }
             }
-        }
 
-        units.Holder.EndUpdate();
+        }
         testUnit.Release();
         return result;
     }

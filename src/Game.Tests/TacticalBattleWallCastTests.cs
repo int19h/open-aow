@@ -15,7 +15,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class TacticalBattleWallCastTests
 {
-    private sealed class PlacedUnitHexSprite(ECustomNode owner) : TacticalBattleUnitHexSprite(owner)
+    private sealed class PlacedUnitHexSprite(CustomNode owner) : TacticalBattleUnitHexSprite(owner)
     {
         public override sbyte GetHexX() => 4;
 

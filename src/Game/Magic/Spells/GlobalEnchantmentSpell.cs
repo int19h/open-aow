@@ -15,7 +15,7 @@ public partial class GlobalEnchantmentSpell : Spell
     public int AIBasePriority { get; protected set; }
 
     // GlobalEnchantmentSpells.pas:413
-    public GlobalEnchantmentSpell(ECustomNode owner) : base(owner)
+    public GlobalEnchantmentSpell(CustomNode owner) : base(owner)
     {
         AIBasePriority = -1;
     }

@@ -11,7 +11,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class CombatDataTests
 {
-    private sealed class ObservedNode() : ENode(null!)
+    private sealed class ObservedNode() : OwningNode(null!)
     {
         internal int DestroyCount { get; private set; }
 
@@ -25,7 +25,7 @@ public sealed class CombatDataTests
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
-    private sealed class ObservedChild(ECustomNode owner) : CombatObject(owner)
+    private sealed class ObservedChild(CustomNode owner) : CombatObject(owner)
     {
         internal int DestroyCount { get; private set; }
 

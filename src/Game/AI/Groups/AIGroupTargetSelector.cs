@@ -27,7 +27,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupTargetSelector : AIGroupTask
 {
     // AIGroup.pas:3041
-    public AIGroupTargetSelector(ECustomNode owner) : base(owner)
+    public AIGroupTargetSelector(CustomNode owner) : base(owner)
     {
         _recruitment = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
         _production = new AIGroupProductionControl(null) { Holder = CreationHolder() };

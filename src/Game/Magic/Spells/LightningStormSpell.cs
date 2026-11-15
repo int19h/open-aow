@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class LightningStormSpell : StormSpell
 {
     // Storms.pas:1014
-    public LightningStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
+    public LightningStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.LightningStormText);

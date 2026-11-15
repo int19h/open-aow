@@ -35,7 +35,7 @@ public sealed partial class RuleConstructionTests
         public override int RemoveChild(EngineObject child) => Members.Remove(child) ? 0 : -1;
     }
 
-    private static Troop CreateUnit(Type type, ECustomNode owner, int route)
+    private static Troop CreateUnit(Type type, CustomNode owner, int route)
     {
         var meta = EngineClass.Of(type);
         if (route == 1) return (Troop)meta.CreateInstance(owner, holder: EngineFixture.Engine);
@@ -49,7 +49,7 @@ public sealed partial class RuleConstructionTests
             return (Troop)engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         var constructor = EngineClassCreation.OwnerConstructor(type)!;
         return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
     }
@@ -140,14 +140,14 @@ public sealed partial class RuleConstructionTests
 
     private static UnitOwner? s_refcountOwner;
 
-    private sealed class ObservedUnit(ECustomNode owner) : Troop(owner)
+    private sealed class ObservedUnit(CustomNode owner) : Troop(owner)
     {
         public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
 
         public override int Release() { int result = base.Release(); s_refcountOwner!.Events.Add("release:" + result); return result; }
     }
 
-    private sealed class ObservedHero(ECustomNode owner) : Hero(owner)
+    private sealed class ObservedHero(CustomNode owner) : Hero(owner)
     {
         public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
 

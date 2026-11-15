@@ -15,7 +15,7 @@ namespace Aow.Game.World.Structures;
 // Mode
 public partial class Farm : PlayerCropStructure
 {
-    public Farm(ECustomNode owner) : base(owner)
+    public Farm(CustomNode owner) : base(owner)
     { }
 
     // Farm.pas:54
@@ -156,7 +156,7 @@ public partial class Farm : PlayerCropStructure
 
     public new partial class Resource : PlayerCropStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             Claimed = false;
             Razeable = true;

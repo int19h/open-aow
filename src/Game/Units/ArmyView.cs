@@ -16,7 +16,7 @@ public partial class ArmyView : Army
 {
     public new const int ClassId = 131609;
 
-    public ArmyView(ECustomNode owner) : base(owner)
+    public ArmyView(CustomNode owner) : base(owner)
     { }
 
     public ushort[] UnitConcealment { get; } = new ushort[8];

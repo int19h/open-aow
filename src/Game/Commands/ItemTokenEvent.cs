@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 // item ID, action, hero ID
 public partial class ItemTokenEvent : TokenEvent
 {
-    public ItemTokenEvent(ECustomNode owner) : base(owner)
+    public ItemTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131698;

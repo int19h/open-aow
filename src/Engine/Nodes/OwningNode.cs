@@ -4,15 +4,15 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _children
-public partial class ENode : ECustomNode
+public partial class OwningNode : CustomNode
 {
     // Engine.pas:2861
     public new const int ClassId = 256;
 
     // Engine.pas:2807
-    public ENode(ECustomNode owner) : this(null, owner) { }
+    public OwningNode(CustomNode owner) : this(null, owner) { }
 
-    private protected ENode(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected OwningNode(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         _children = new EngineObjectList();
     }

@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class ConstructAbility : AdjustableAbility
 {
     // AoWAb.PAS:5537
-    public ConstructAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public ConstructAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_constructText);

@@ -15,7 +15,7 @@ namespace Aow.Game.Units;
 public partial class UnitControl : EngineObject
 {
     // Unit.PAS:1
-    public UnitControl(ECustomNode owner) : base(owner)
+    public UnitControl(CustomNode owner) : base(owner)
     {
         UnitTable = new Dictionary<int, Troop>();
         Units = new List<Troop>();

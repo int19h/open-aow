@@ -18,7 +18,7 @@ public partial class UnitEnchantment : Enchantment
     public new const int ClassId = 135951;
 
     // AoWAb.PAS:785
-    public UnitEnchantment(ECustomNode owner) : base(null)
+    public UnitEnchantment(CustomNode owner) : base(null)
     {
         // { Original ignores the supplied owner. }
 

@@ -16,7 +16,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     public new const int ClassId = 135964;
 
     // AoWAb.PAS:885
-    public CosmeticSurgeryEnchantment(ECustomNode owner) : base(owner)
+    public CosmeticSurgeryEnchantment(CustomNode owner) : base(owner)
     {
     }
 

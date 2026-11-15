@@ -20,7 +20,7 @@ public partial class GlobalEnchantment : EngineObject
 {
 
     // Spells.PAS:2471
-    public GlobalEnchantment(ECustomNode owner) : base(owner)
+    public GlobalEnchantment(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);

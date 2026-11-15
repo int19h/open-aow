@@ -143,7 +143,7 @@ A type is `Foo`. An interface is `IFoo`. A generic parameter is the only name th
 
 A name that clashes with a .NET type is a reason to use the .NET type. A distinct class keeps a short name only when every use refers to the port's type. `Object` and `List` are out of that set. `Component` stays, because the port does not use `System.ComponentModel.Component`.
 
-Own-format documents store the current C# names: a class name, a schema member name equal to the C# member its storage call reads and writes, a record field name and an enum member name (issue 230). Own formats are not stable yet, so no older member name loads. A document of an older version is refused, and the original file is converted again. `src/Rtl/Delphi/names.csv` maps the Delphi type and enum member names. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
+Own-format documents store the current C# names: a class name, a schema member name equal to the C# member its storage call reads and writes, a record field name and an enum member name (issue 230). A type row of `names.csv` can pin a stored class name that stays while the C# name changes. The ownership-tree classes pin the names the schema already stores (`ECustomNode`, `ENode`, `EReferenceNode`, `EChangeNotifyNode`, `EChangeNotifyEventList`, `ESortNode`, `EInverseSortNode`, `ECustomOwner`, `EControlStyleNode`, `EControlStyleInverseSortNode`, `EResourceList` and `PlayerList`). A pin does not bump the document version and does not rewrite an own document. Own formats are not stable yet, so no older member name loads. A document of an older version is refused, and the original file is converted again. `src/Rtl/Delphi/names.csv` maps the Delphi type and enum member names. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
 
 A Delphi citation in these documents keeps the Delphi name. That is a Delphi unit, a Delphi routine, a quoted Delphi source line, or a `.pas` or `.dfm` reference. Where prose names a port type and the Delphi name helps a reader find the source, the C# name comes first and the Delphi name follows once in parentheses.
 
@@ -581,8 +581,8 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   `IOwnedSink<TOwner>` and `IChildSink<TChild>` are the write sides. The generic owner and child
   setters, which the loader uses, check the declared type once (`AcceptsOwner`, `AcceptsChild`),
   so a wrong owner or child is refused where it enters and the typed reads need no check. The
-  owner still lives in the untyped field of `EngineObject`. The children of an `ENode` or an
-  `EChangeNotifyNode` live in a private `EngineObjectList`, a `DelphiList<EngineObject>` that
+  owner still lives in the untyped field of `EngineObject`. The children of an `OwningNode` or an
+  `ObservableNode` live in a private `EngineObjectList`, a `DelphiList<EngineObject>` that
   keeps empty slots in place (the slot is the stored slot). Every write of a child goes through
   the checked adder, setter, `InsertChild`, `AppendChild` or `PlaceChild`. Reads go through
   `GetChild` (the slot without a range check, as the original reads it), `GetChildInRange` and
@@ -627,9 +627,9 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   stays an `AIGroupList`, a runtime index that does not change a group's owner. A player's
   `Armies` is an `ArmyCollection` over the private `ArmyList` that holds the back-pointer, the
   update bracket and the change events. The other reference lists stay list nodes and forward
-  their queries to a struct collection: the player list, a player's diplomatic actions, token
+  their queries to a struct collection: a player's diplomatic actions, token
   events, event logs, move targets, combat actions and the AI's recruitment, target and production
-  lists. The children of those lists take their list as their typed owner. A reference list stores
+  lists. `PlayerCollection` (Delphi `TPlayerList`) is the player list. No struct collection sits beside it, and own documents keep the stored name `PlayerList`. The children of those lists take their list as their typed owner. A reference list stores
   a child that has no owner or that has the list as its owner, and the tree write leaves every
   owner as it is.
 - Every engine object reaches its engine through `GetEngine()` (issue 224), and nothing reads an

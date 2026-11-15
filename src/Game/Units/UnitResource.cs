@@ -23,7 +23,7 @@ public partial class UnitResource : TroopResource
     public new const int ClassId = 131602;
 
     // UnitRes.PAS:73
-    public UnitResource(ECustomNode owner) : base(owner)
+    public UnitResource(CustomNode owner) : base(owner)
     {
         Unit.Rank rank;
 

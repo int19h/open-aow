@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class NaturesBlessingAbility : DurationAbility
 {
     // PassiveAb.pas:514
-    public NaturesBlessingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public NaturesBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_naturesBlessingText);

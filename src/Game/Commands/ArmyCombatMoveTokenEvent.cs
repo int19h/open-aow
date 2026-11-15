@@ -25,7 +25,7 @@ namespace Aow.Game.Commands;
 // combat mode, combat type, ignore defenders
 public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 {
-    public ArmyCombatMoveTokenEvent(ECustomNode owner) : base(owner)
+    public ArmyCombatMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135426;

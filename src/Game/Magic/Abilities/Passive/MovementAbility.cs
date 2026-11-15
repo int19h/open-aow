@@ -13,7 +13,7 @@ public partial class MovementAbility : AdjustableAbility
     public Set<MoveType> MoveTypes { get; set; }
 
     // PassiveAb.pas:1409
-    public MovementAbility(ECustomNode owner) : base(owner)
+    public MovementAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
         AbilityType = AbilityType.Movement;

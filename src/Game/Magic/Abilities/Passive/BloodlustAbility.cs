@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class BloodlustAbility : DurationAbility
 {
     // PassiveAb.pas:546
-    public BloodlustAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public BloodlustAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_bloodlustText);

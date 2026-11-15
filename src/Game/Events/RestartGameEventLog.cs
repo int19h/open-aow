@@ -7,7 +7,7 @@ namespace Aow.Game.Events;
 
 public partial class RestartGameEventLog : MessageEventLog
 {
-    public RestartGameEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
+    public RestartGameEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     // Diplomacy.pas:2450

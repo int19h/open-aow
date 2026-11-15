@@ -5,7 +5,7 @@ namespace Aow.Game.World;
 
 public partial class MapObjectEditor : EngineObjectEditor, IEngineObjectEditorClass
 {
-    public MapObjectEditor(ECustomNode owner) : base(owner)
+    public MapObjectEditor(CustomNode owner) : base(owner)
     { }
 
     // Army.PAS:5753

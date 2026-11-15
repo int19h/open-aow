@@ -9,7 +9,7 @@ namespace Aow.Game.World.Structures;
 // CropLocations
 public partial class PlayerCropStructureResource : PlayerStructureResource
 {
-    public PlayerCropStructureResource(ECustomNode owner) : base(owner)
+    public PlayerCropStructureResource(CustomNode owner) : base(owner)
     { }
 
     // Crops.pas:599

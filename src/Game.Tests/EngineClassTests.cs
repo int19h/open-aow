@@ -126,8 +126,8 @@ public sealed class EngineClassTests
         var created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<ControlStyleObject>(created); }
         finally { created?.Dispose(); }
-        var split = EngineClass.Of<EResourceList>().CreateInstance(null!, holder: EngineFixture.Engine);
-        try { Assert.IsType<EResourceList>(split); }
+        var split = EngineClass.Of<ResourceCollection>().CreateInstance(null!, holder: EngineFixture.Engine);
+        try { Assert.IsType<ResourceCollection>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
         Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!) { Holder = EngineFixture.Engine }));
@@ -148,7 +148,7 @@ public sealed class EngineClassTests
 
     }
 
-    private sealed class Registered(ECustomNode owner) : EngineObject(owner);
+    private sealed class Registered(CustomNode owner) : EngineObject(owner);
 
     [Fact]
     public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()

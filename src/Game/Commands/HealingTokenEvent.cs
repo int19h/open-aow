@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 // (unit IDs, players)
 public partial class HealingTokenEvent : TokenEvent
 {
-    public HealingTokenEvent(ECustomNode owner) : base(owner)
+    public HealingTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131826;

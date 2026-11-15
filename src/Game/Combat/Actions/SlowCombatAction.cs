@@ -12,7 +12,7 @@ public partial class SlowCombatAction : ExclusiveCombatSpellCombatAction
     // CombatSpells.pas:1257
     public new const int ClassId = 131792;
 
-    public SlowCombatAction(ECustomNode owner) : base(owner)
+    public SlowCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1263

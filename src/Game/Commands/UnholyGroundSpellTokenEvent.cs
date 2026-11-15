@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public UnholyGroundSpellTokenEvent(ECustomNode owner) : base(owner)
+    public UnholyGroundSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // UnHolyG.pas:288

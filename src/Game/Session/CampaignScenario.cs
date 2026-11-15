@@ -12,7 +12,7 @@ public partial class CampaignScenario : EngineObject
     public new const int ClassId = 131588;
 
     // Diplomacy.pas:2194
-    public CampaignScenario(ECustomNode owner) : base(owner)
+    public CampaignScenario(CustomNode owner) : base(owner)
     {
 
     }

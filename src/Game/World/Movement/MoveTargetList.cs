@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // reference children
-public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
+public partial class MoveTargetList : ReferenceNode, IChildList<MoveTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveTarget, so the cast never fails.
@@ -16,7 +16,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
 
     int IChildSink<MoveTarget>.AddChild(MoveTarget child) => AddChild(child);
 
-    public MoveTargetList(ECustomNode owner) : base(owner)
+    public MoveTargetList(CustomNode owner) : base(owner)
     { }
 
     /// <summary>The targets of this list, in their stored order.</summary>

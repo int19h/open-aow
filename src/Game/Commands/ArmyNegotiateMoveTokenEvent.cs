@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
 {
-    public ArmyNegotiateMoveTokenEvent(ECustomNode owner) : base(owner)
+    public ArmyNegotiateMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135430;

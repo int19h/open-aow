@@ -29,7 +29,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
 
     // An item lies in an item list, a hero's inventory, the items a hero wears or an item
     // library. AcceptsOwner admits only those.
-    protected sealed override bool AcceptsOwner(ECustomNode owner) =>
+    protected sealed override bool AcceptsOwner(CustomNode owner) =>
         owner is ItemList or HeroInventory or HeroItems or ItemLibrary;
 
     ItemOwner IOwned<ItemOwner>.Owner => ItemOwner.Of(Owner);
@@ -37,7 +37,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     void IOwnedSink<ItemOwner>.SetOwner(ItemOwner owner) => SetOwner(owner.Node);
 
     // Army.PAS:4211
-    public Item(ECustomNode owner) : base(owner)
+    public Item(CustomNode owner) : base(owner)
     {
         _itemGraphicsIndex = -1;
         _description = new StringList();
@@ -89,7 +89,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4241
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         if (owner != Owner)
         {
@@ -190,7 +190,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4311
-    public override void SetArrayOwner(ECustomNode owner, int index)
+    public override void SetArrayOwner(CustomNode owner, int index)
     {
         AddRef();
         base.SetArrayOwner(owner, index);

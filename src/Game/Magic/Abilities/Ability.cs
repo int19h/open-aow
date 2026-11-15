@@ -27,7 +27,7 @@ public partial class Ability : EngineObject
 {
 
     // Ability.PAS:1238
-    public Ability(ECustomNode owner) : base(owner)
+    public Ability(CustomNode owner) : base(owner)
     {
         Description = new StringList();
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };

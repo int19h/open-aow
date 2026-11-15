@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class EnchantedRoads : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:571
-    public EnchantedRoads(ECustomNode owner, EngineObject holder) : base(owner)
+    public EnchantedRoads(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EnchantedRoadsText);

@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 
 public partial class ArmyDefaultMoveTokenEvent : MoveArmyTokenEvent
 {
-    public ArmyDefaultMoveTokenEvent(ECustomNode owner) : base(owner)
+    public ArmyDefaultMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135428;

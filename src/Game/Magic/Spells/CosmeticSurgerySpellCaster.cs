@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Spells;
 // replacement face index, target unit ID
 public partial class CosmeticSurgerySpellCaster : SpellCaster
 {
-    public CosmeticSurgerySpellCaster(ECustomNode owner) : base(owner)
+    public CosmeticSurgerySpellCaster(CustomNode owner) : base(owner)
     { }
 
     public int FaceIndex { get; set; }

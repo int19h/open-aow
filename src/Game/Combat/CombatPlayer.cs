@@ -10,7 +10,7 @@ public partial class CombatPlayer : EngineObject
     // Combat2.pas:115
     public new const int ClassId = 131744;
 
-    public CombatPlayer(ECustomNode owner) : base(owner)
+    public CombatPlayer(CustomNode owner) : base(owner)
     { }
 
     public sbyte Player { get; set; }

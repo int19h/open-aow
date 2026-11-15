@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Haste : UnitSpell
 {
     // UnitSpells.pas:215
-    public Haste(ECustomNode owner, EngineObject holder) : base(owner)
+    public Haste(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);

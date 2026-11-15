@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SmokeCloudSpell : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2325
-    public SmokeCloudSpell(ECustomNode owner, EngineObject holder) : base(owner)
+    public SmokeCloudSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
@@ -36,7 +36,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             GamePack.Current.SpellControl.GetSpell(eventValue.EventSpellId).CastSounds.Play(0);
         }
 
-        resource = (EngineResource)((ECustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild(135747);
+        resource = (EngineResource)((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild(135747);
         if (resource != null)
         {
             cloud = (SmokeCloud)resource.CreateResourceUser();

@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class LifeMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1441
-    public LifeMastery(ECustomNode owner, EngineObject holder) : base(owner)
+    public LifeMastery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellType = SpellType.Global;

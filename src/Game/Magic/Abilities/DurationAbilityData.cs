@@ -10,7 +10,7 @@ public partial class DurationAbilityData : AbilityData
 {
     public new const int ClassId = 139266;
 
-    public DurationAbilityData(ECustomNode owner) : base(owner)
+    public DurationAbilityData(CustomNode owner) : base(owner)
     { }
 
     public byte Duration { get; set; }

@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 // save filename
 public partial class SaveGameTokenEvent : TokenEvent
 {
-    public SaveGameTokenEvent(ECustomNode owner) : base(owner)
+    public SaveGameTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135444;

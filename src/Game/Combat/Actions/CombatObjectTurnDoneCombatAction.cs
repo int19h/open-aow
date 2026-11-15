@@ -11,7 +11,7 @@ public partial class CombatObjectTurnDoneCombatAction : CombatAction
     // Combat2.pas:1038
     public new const int ClassId = 131772;
 
-    public CombatObjectTurnDoneCombatAction(ECustomNode owner) : base(owner)
+    public CombatObjectTurnDoneCombatAction(CustomNode owner) : base(owner)
     { }
 
     public byte CombatObjectId { get; set; }

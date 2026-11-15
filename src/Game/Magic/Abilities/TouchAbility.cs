@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class TouchAbility : AdjustableAbility
 {
     // AoWAb.PAS:1843
-    public TouchAbility(ECustomNode owner) : base(owner)
+    public TouchAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
         AbilityType = AbilityType.Combat;

@@ -48,7 +48,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1547
-    public TornadoTokenEvent(ECustomNode owner) : base(owner)
+    public TornadoTokenEvent(CustomNode owner) : base(owner)
     {
         ArmyId = null;
     }

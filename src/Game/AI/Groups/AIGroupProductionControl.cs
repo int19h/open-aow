@@ -25,7 +25,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupProductionControl : AIGroupTask
 {
     // AIGroup.pas:2440
-    public AIGroupProductionControl(ECustomNode owner) : base(owner)
+    public AIGroupProductionControl(CustomNode owner) : base(owner)
     {
         Productions = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };
         _producibleUnits = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };

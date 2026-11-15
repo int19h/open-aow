@@ -21,7 +21,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
 {
     public new const int ClassId = 131665;
 
-    public SimultaneousPlayerControl(ECustomNode owner) : base(owner)
+    public SimultaneousPlayerControl(CustomNode owner) : base(owner)
     { }
 
     // PlayerC.PAS:1343

@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 public partial class PasswordEventLog : EventLog
 {
     // EventLog.pas:877
-    public PasswordEventLog(ECustomNode owner, EngineObject holder) : base(owner)
+    public PasswordEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Password = "";

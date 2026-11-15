@@ -14,7 +14,7 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct HeroCollection : IReadOnlyList<Hero>
 {
-    private readonly EReferenceNode _holder;
+    private readonly ReferenceNode _holder;
 
     // Each holder admits only heroes (AcceptsChild), so every slot holds a hero or is empty.
     internal HeroCollection(HeroList holder) => _holder = holder;
@@ -22,7 +22,7 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     internal HeroCollection(HeroLibrary holder) => _holder = holder;
 
     /// <summary>The list or library that holds the heroes.</summary>
-    public EReferenceNode Holder => _holder;
+    public ReferenceNode Holder => _holder;
 
     public int Count => _holder.GetCount();
 

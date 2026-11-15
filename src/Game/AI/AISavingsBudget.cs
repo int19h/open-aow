@@ -10,7 +10,7 @@ public partial class AISavingsBudget : AIBudget
     public new const int ClassId = 131741;
 
     // AI.pas:2180
-    public AISavingsBudget(ECustomNode owner) : base(owner)
+    public AISavingsBudget(CustomNode owner) : base(owner)
     {
         RequiredGold = 150;
         RequiredMana = 150;

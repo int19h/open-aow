@@ -13,7 +13,7 @@ public partial class RangedAttackCombatAction : DamageCombatAction
 {
     public new const int ClassId = 131753;
 
-    public RangedAttackCombatAction(ECustomNode owner) : base(owner)
+    public RangedAttackCombatAction(CustomNode owner) : base(owner)
     { }
 
     public int AbilityId { get; set; }

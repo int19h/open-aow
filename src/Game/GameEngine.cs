@@ -41,7 +41,7 @@ namespace Aow.Game;
 // { Interface declaration run owned by P2. }
 // Version, Registry, GameMap, GameSet, CombatFont, FDebugMode, AnimationDetail, Demo,
 // Campaign, EmailGames, Dictionary, Language
-public partial class GameEngine : ENode, IChildList<GameEngineChild>
+public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 {
     public new const int ClassId = 131073;
 
@@ -49,7 +49,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
     public GameEngineChild this[int index] => GameEngineChild.Of(GetChild(index));
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is EControlStyleNode or GamePack or GameMap;
+    protected sealed override bool AcceptsChild(EngineObject child) => child is ControlStyleNode or GamePack or GameMap;
 
     int IChildSink<GameEngineChild>.AddChild(GameEngineChild child) => AddChild(child.Node);
 
@@ -492,7 +492,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     }
 
     // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.
-    public static GameEngine Create(ECustomNode owner)
+    public static GameEngine Create(CustomNode owner)
     {
         s_fullConstruction = true;
         try

@@ -12,7 +12,7 @@ namespace Aow.Game.Session;
 public partial class PbemPlayerSettings : EngineObject
 {
     // Player.PAS:236
-    public PbemPlayerSettings(ECustomNode owner) : base(owner)
+    public PbemPlayerSettings(CustomNode owner) : base(owner)
     {
         Status = Set<PbemPlayerStatusElement>.Of();
         EmailGame = new EmailGame(null) { Holder = CreationHolder() };

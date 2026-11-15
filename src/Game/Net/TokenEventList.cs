@@ -22,7 +22,7 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:982
-    public TokenEventList(ECustomNode owner) : base(owner)
+    public TokenEventList(CustomNode owner) : base(owner)
     {
         List = new TokenEventReferenceList(null) { Holder = CreationHolder() };
     }

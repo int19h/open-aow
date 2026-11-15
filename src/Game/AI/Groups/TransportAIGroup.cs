@@ -10,7 +10,7 @@ public partial class TransportAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136295;
 
     // MainAG.pas:789
-    public TransportAIGroup(ECustomNode owner) : base(owner)
+    public TransportAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 2;
         RecruitmentPriority = 20;

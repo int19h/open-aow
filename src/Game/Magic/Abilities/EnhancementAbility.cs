@@ -9,7 +9,7 @@ public partial class EnhancementAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:922
-    public EnhancementAbility(ECustomNode owner) : base(owner)
+    public EnhancementAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Enhancement;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);

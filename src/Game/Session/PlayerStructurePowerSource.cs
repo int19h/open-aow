@@ -9,7 +9,7 @@ namespace Aow.Game.Session;
 
 public partial class PlayerStructurePowerSource : PowerSource
 {
-    public PlayerStructurePowerSource(ECustomNode owner) : base(owner)
+    public PlayerStructurePowerSource(CustomNode owner) : base(owner)
     { }
 
     private PlayerStructure _structure;

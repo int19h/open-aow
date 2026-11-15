@@ -7,7 +7,7 @@ namespace Aow.Game.AI;
 
 public partial class InitializeAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    public InitializeAIPlayerAction(ECustomNode owner) : base(owner)
+    public InitializeAIPlayerAction(CustomNode owner) : base(owner)
     { }
 
     // AI.pas:1017

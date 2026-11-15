@@ -3,11 +3,11 @@
 namespace Aow.Engine.Nodes;
 
 // { Engine.TEInverseSortNode: the same, sorted the other way }
-public partial class EInverseSortNode : ESortNode
+public partial class InverseSortedNode : SortedNode
 {
     public new const int ClassId = 262;
 
-    public EInverseSortNode(ECustomNode owner) : base(owner)
+    public InverseSortedNode(CustomNode owner) : base(owner)
     { }
 
     // Engine.pas:1635

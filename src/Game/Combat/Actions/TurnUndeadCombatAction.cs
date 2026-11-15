@@ -13,7 +13,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
 {
     public new const int ClassId = 131769;
 
-    public TurnUndeadCombatAction(ECustomNode owner) : base(owner)
+    public TurnUndeadCombatAction(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:3088

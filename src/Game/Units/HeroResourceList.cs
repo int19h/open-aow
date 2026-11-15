@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
+public partial class HeroResourceList : ResourceCollection, IChildList<HeroResource>
 {
     // The hero resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a HeroResource, so the cast never fails.
@@ -20,7 +20,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
     int IChildSink<HeroResource>.AddChild(HeroResource child) => AddChild(child);
 
     // Hero.PAS:2360
-    public HeroResourceList(ECustomNode owner) : base(owner)
+    public HeroResourceList(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }

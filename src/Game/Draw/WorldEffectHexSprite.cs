@@ -33,7 +33,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
     }
 
     // Army.PAS:5327
-    public WorldEffectHexSprite(ECustomNode owner) : base(owner)
+    public WorldEffectHexSprite(CustomNode owner) : base(owner)
     {
         Path = new Point3DList();
         Frame = -1;

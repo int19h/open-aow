@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI;
 
 // children
-public partial class AIPlayerActionList : ENode, IChildList<AIPlayerAction>
+public partial class AIPlayerActionList : OwningNode, IChildList<AIPlayerAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIPlayerAction, so the cast never fails.
@@ -14,7 +14,7 @@ public partial class AIPlayerActionList : ENode, IChildList<AIPlayerAction>
 
     int IChildSink<AIPlayerAction>.AddChild(AIPlayerAction child) => AddChild(child);
 
-    public AIPlayerActionList(ECustomNode owner) : base(owner)
+    public AIPlayerActionList(CustomNode owner) : base(owner)
     { }
 
     // AI.pas:26

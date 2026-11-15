@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class TurnUndead : CombatSpell
 {
     // CombatSpells.pas:888
-    public TurnUndead(ECustomNode owner, EngineObject holder) : base(owner)
+    public TurnUndead(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);

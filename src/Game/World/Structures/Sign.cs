@@ -19,7 +19,7 @@ namespace Aow.Game.World.Structures;
 // Text, TextSeen
 public partial class Sign : Structure
 {
-    public Sign(ECustomNode owner) : base(owner)
+    public Sign(CustomNode owner) : base(owner)
     {
         Text = new StringList();
         TextSeen = new BitList();
@@ -114,7 +114,7 @@ public partial class Sign : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             ConnectRoads = false;
             TerrainBound = false;

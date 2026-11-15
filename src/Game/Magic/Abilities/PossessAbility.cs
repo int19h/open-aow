@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class PossessAbility : TouchAbility
 {
     // AoWAb.PAS:2627
-    public PossessAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public PossessAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 106;

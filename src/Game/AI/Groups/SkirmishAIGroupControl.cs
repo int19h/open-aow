@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 {
-    public SkirmishAIGroupControl(ECustomNode owner) : base(owner)
+    public SkirmishAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // BehaviorAG.pas:738

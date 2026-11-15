@@ -45,7 +45,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     }
 
     // GlobalSpells.pas:552
-    public WarpPartyTokenEvent(ECustomNode owner) : base(owner)
+    public WarpPartyTokenEvent(CustomNode owner) : base(owner)
     {
         ArmyId = null;
     }

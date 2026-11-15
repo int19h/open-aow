@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class Crypt : ItemExplorationSite
 {
-    public Crypt(ECustomNode owner) : base(owner)
+    public Crypt(CustomNode owner) : base(owner)
     { }
 
     // Crypt.pas:34
@@ -15,7 +15,7 @@ public partial class Crypt : ItemExplorationSite
 
     public new partial class Resource : ItemExplorationSiteResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Crypt.pas:40

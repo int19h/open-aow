@@ -101,7 +101,7 @@ public sealed partial class SpellConstructionTests
         return engine;
     }
 
-    private static EngineObject Create(Type type, ECustomNode owner, int route, GameEngine? registered = null)
+    private static EngineObject Create(Type type, CustomNode owner, int route, GameEngine? registered = null)
     {
         // A combat action takes a combat action list as its owner (issue 158). The recording owner
         // then stands behind a list that forwards to it.
@@ -114,7 +114,7 @@ public sealed partial class SpellConstructionTests
                 if (EngineClassCreation.OwnerConstructor(type) is { } constructor)
                     return (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner));
                 return (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
-                    [typeof(ECustomNode)])!.Invoke(null, [owner])!;
+                    [typeof(CustomNode)])!.Invoke(null, [owner])!;
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
@@ -125,7 +125,7 @@ public sealed partial class SpellConstructionTests
         if (route == 1) return meta.CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 3)
         {
-            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
+            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -158,7 +158,7 @@ public sealed partial class SpellConstructionTests
             foreach (bool owned in new[] { false, true })
                 for (int route = 0; route < 4; route++)
                 {
-                    ECustomNode argument = owned ? owner : null!;
+                    CustomNode argument = owned ? owner : null!;
                     EngineObject value = Create(type, argument, route);
                     allocated.Add(value);
                     Assert.IsType(type, value);

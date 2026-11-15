@@ -12,7 +12,7 @@ namespace Aow.Game.Draw;
 // City, ModeStartFrame, Mode, ShellAnimation, ShellEndFrame
 public partial class CityOverlayHexSprite : SingleHexSprite
 {
-    public CityOverlayHexSprite(ECustomNode owner) : base(owner)
+    public CityOverlayHexSprite(CustomNode owner) : base(owner)
     { }
 
     public City City { get; set; }

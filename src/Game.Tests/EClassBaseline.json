@@ -97,7 +97,7 @@
   },
   "Aow.Game.AI.AIBudgetList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.AIBudgetManager": {
     "id": 80,
@@ -109,7 +109,7 @@
   },
   "Aow.Game.AI.AICastSpellActionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.AIExecutor": {
     "id": 80,
@@ -117,7 +117,7 @@
   },
   "Aow.Game.AI.Groups.AIGroup": {
     "id": 136272,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.AI.Groups.AIGroupControl": {
     "id": 80,
@@ -133,7 +133,7 @@
   },
   "Aow.Game.AI.Groups.AIGroupControlTargetList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.AI.Groups.AIGroupCooperationControl": {
     "id": 80,
@@ -145,11 +145,11 @@
   },
   "Aow.Game.AI.Groups.AIGroupList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIGroupManager": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIGroupProduction": {
     "id": 80,
@@ -161,7 +161,7 @@
   },
   "Aow.Game.AI.Groups.AIGroupProductionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIGroupProductionLocation": {
     "id": 80,
@@ -169,7 +169,7 @@
   },
   "Aow.Game.AI.Groups.AIGroupProductionLocationList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.AI.Groups.AIGroupRecruitControl": {
     "id": 80,
@@ -189,7 +189,7 @@
   },
   "Aow.Game.AI.Groups.AIGroupUnitProductionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.AI.Groups.AIMoveControl": {
     "id": 80,
@@ -209,7 +209,7 @@
   },
   "Aow.Game.AI.Groups.AIMoveExecutorArmyList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIMoveExecutorControl": {
     "id": 80,
@@ -221,7 +221,7 @@
   },
   "Aow.Game.AI.Groups.AIMoveExecutorMoveQueue": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIMoveExecutorUnit": {
     "id": 80,
@@ -229,7 +229,7 @@
   },
   "Aow.Game.AI.Groups.AIMoveExecutorUnitList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AIMoveTargetSelector": {
     "id": 80,
@@ -241,7 +241,7 @@
   },
   "Aow.Game.AI.AIPlayerActionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.AIPlayerActionManager": {
     "id": 80,
@@ -265,7 +265,7 @@
   },
   "Aow.Game.AI.AIRecruitmentGroupList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.AI.AISavingsBudget": {
     "id": 131741,
@@ -293,7 +293,7 @@
   },
   "Aow.Game.World.Map.GameMap": {
     "id": 66048,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Magic.Abilities.Troop": {
     "id": 80,
@@ -313,7 +313,7 @@
   },
   "Aow.Game.Units.AdjacentArmyList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.Groups.AdjacentMoveExecutorControl": {
     "id": 80,
@@ -337,7 +337,7 @@
   },
   "Aow.Game.Session.AoWCampaignScenarioList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Session.CampaignTransferSettings": {
     "id": 80,
@@ -345,7 +345,7 @@
   },
   "Aow.Game.GameEngine": {
     "id": 131073,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.World.Map.StrategicMap": {
     "id": 131089,
@@ -357,7 +357,7 @@
   },
   "Aow.Game.World.Map.GamePack": {
     "id": 131088,
-    "parent": "Aow.Engine.Nodes.ECustomOwner"
+    "parent": "Aow.Engine.Nodes.EngineNode"
   },
   "Aow.Game.World.Map.StrategicMap+MapCampaignSettings": {
     "id": 80,
@@ -365,11 +365,11 @@
   },
   "Aow.Game.World.Map.MapField": {
     "id": 131090,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.CustomNode"
   },
   "Aow.Game.World.Map.MapLevel": {
     "id": 131091,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.CustomNode"
   },
   "Aow.Game.World.MapObjectEditor": {
     "id": 80,
@@ -377,7 +377,7 @@
   },
   "Aow.Game.Units.Army": {
     "id": 131606,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Commands.ArmyCombatMoveTokenEvent": {
     "id": 135426,
@@ -401,7 +401,7 @@
   },
   "Aow.Game.Units.ArmyHSList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.ObservableEventList"
   },
   "Aow.Game.Units.ArmyId": {
     "id": 131616,
@@ -413,7 +413,7 @@
   },
   "Aow.Game.Units.ArmyList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.ObservableEventList"
   },
   "Aow.Game.Commands.ArmyNegotiateMoveTokenEvent": {
     "id": 135430,
@@ -481,7 +481,7 @@
   },
   "Aow.Game.Combat.CombatActionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Combat.CombatData": {
     "id": 131747,
@@ -513,7 +513,7 @@
   },
   "Aow.Game.Combat.CombatPartyList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Combat.CombatPlayer": {
     "id": 131744,
@@ -521,11 +521,11 @@
   },
   "Aow.Game.Combat.CombatPlayerList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Combat.CombatSide": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Combat.CombatSpellCaster": {
     "id": 80,
@@ -577,7 +577,7 @@
   },
   "Aow.Game.World.Structures.ConstructionControlList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Magic.Abilities.CosmeticSurgeryAbility": {
     "id": 80,
@@ -613,7 +613,7 @@
   },
   "Aow.Game.Session.DiplomaticActionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Commands.DiplomaticActionTokenEvent": {
     "id": 135432,
@@ -625,7 +625,7 @@
   },
   "Aow.Game.Session.DiplomaticRelationHistoryList": {
     "id": 131355,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Commands.DisbandUnitTokenEvent": {
     "id": 135447,
@@ -677,7 +677,7 @@
   },
   "Aow.Game.Net.EmailGameList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Magic.Enchantment": {
     "id": 80,
@@ -685,7 +685,7 @@
   },
   "Aow.Game.Magic.EnchantmentList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.EndTurnAIPlayerAction": {
     "id": 80,
@@ -717,7 +717,7 @@
   },
   "Aow.Game.Units.FaceResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Combat.FastBattle": {
     "id": 131760,
@@ -765,7 +765,7 @@
   },
   "Aow.Game.Magic.GlobalEnchantmentList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Magic.GlobalMagicControl": {
     "id": 80,
@@ -813,11 +813,11 @@
   },
   "Aow.Game.Units.HeroInventory": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Units.HeroItems": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Events.HeroJoinEventLog": {
     "id": 131828,
@@ -825,7 +825,7 @@
   },
   "Aow.Game.Units.HeroLibrary": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Units.HeroLibraryManager": {
     "id": 80,
@@ -833,7 +833,7 @@
   },
   "Aow.Game.Units.HeroList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Units.HeroPowerSource": {
     "id": 80,
@@ -849,7 +849,7 @@
   },
   "Aow.Game.Units.HeroResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Commands.HeroUpdateTokenEvent": {
     "id": 135429,
@@ -877,7 +877,7 @@
   },
   "Aow.Game.World.Structures.IncomeSourceList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.InitializeAIPlayerAction": {
     "id": 80,
@@ -905,7 +905,7 @@
   },
   "Aow.Game.Units.ItemGFXList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Draw.ItemHexSprite": {
     "id": 131697,
@@ -917,7 +917,7 @@
   },
   "Aow.Game.Units.ItemLibrary": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Units.ItemLibraryManager": {
     "id": 80,
@@ -925,7 +925,7 @@
   },
   "Aow.Game.Units.ItemList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Commands.ItemTokenEvent": {
     "id": 131698,
@@ -965,7 +965,7 @@
   },
   "Aow.Game.World.Movement.MoveSettingsList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Commands.MoveTokenEvent": {
     "id": 1361,
@@ -977,7 +977,7 @@
   },
   "Aow.Game.World.Movement.MoveTargetList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Combat.Actions.MoveWallCombatAction": {
     "id": 131767,
@@ -1043,9 +1043,9 @@
     "id": 80,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Game.Session.PlayerList": {
+  "Aow.Game.Session.PlayerCollection": {
     "id": 257,
-    "parent": "Aow.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.ControlStyleNode"
   },
   "Aow.Game.Session.PlayerMagicControl": {
     "id": 80,
@@ -1069,7 +1069,7 @@
   },
   "Aow.Game.Session.PlayerStructureList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.ObservableEventList"
   },
   "Aow.Game.Session.PlayerStructurePowerSource": {
     "id": 80,
@@ -1101,7 +1101,7 @@
   },
   "Aow.Game.World.Structures.PowerSourceList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.AI.ProcessEventLogAIPlayerAction": {
     "id": 80,
@@ -1121,7 +1121,7 @@
   },
   "Aow.Game.World.Structures.ProductionQueue": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.World.Structures.ProductionSettings": {
     "id": 80,
@@ -1137,7 +1137,7 @@
   },
   "Aow.Game.Session.RaceList": {
     "id": 257,
-    "parent": "Aow.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.ControlStyleNode"
   },
   "Aow.Game.Session.RaceResource": {
     "id": 131585,
@@ -1145,7 +1145,7 @@
   },
   "Aow.Game.Session.RaceResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Magic.Abilities.RangedAttackAbility": {
     "id": 80,
@@ -1293,7 +1293,7 @@
   },
   "Aow.Game.World.Movement.SubMoveList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Commands.TerminatePlayerTokenEvent": {
     "id": 131836,
@@ -1301,7 +1301,7 @@
   },
   "Aow.Game.World.Map.TextControl": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.World.Map.TextControlItem": {
     "id": 131738,
@@ -1321,7 +1321,7 @@
   },
   "Aow.Game.Session.TurnInfo": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Units.TurnInfoItem": {
     "id": 131739,
@@ -1369,7 +1369,7 @@
   },
   "Aow.Game.Units.UnitGFXResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Draw.UnitHexSprite": {
     "id": 131604,
@@ -1377,7 +1377,7 @@
   },
   "Aow.Game.Units.UnitList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Units.UnitProduction": {
     "id": 131737,
@@ -1385,7 +1385,7 @@
   },
   "Aow.Game.Units.UnitProductionList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Units.UnitResource": {
     "id": 131602,
@@ -1397,7 +1397,7 @@
   },
   "Aow.Game.Units.UnitResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.Units.UnitSelectionActivation": {
     "id": 80,
@@ -1425,7 +1425,7 @@
   },
   "Aow.Game.Units.UnitUserList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
   "Aow.Game.Combat.Actions.UpdateHeaderCombatAction": {
     "id": 131766,
@@ -1489,7 +1489,7 @@
   },
   "Aow.Game.Session.RemotePlayerList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Session.SetupPackage": {
     "id": 131681,
@@ -1497,7 +1497,7 @@
   },
   "Aow.Game.Session.SetupSettings": {
     "id": 131680,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Combat.CombatMap": {
     "id": 2228480,
@@ -1581,7 +1581,7 @@
   },
   "Aow.Game.UI.Dialogs.WMCampaignScenarioPageList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.World.Structures.Arena": {
     "id": 133276,
@@ -1753,7 +1753,7 @@
   },
   "Aow.Game.World.Structures.MigrationList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Magic.Spells.Anarchy": {
     "id": 80,
@@ -2143,41 +2143,41 @@
     "id": 132303,
     "parent": "Aow.Game.World.Structures.ProductionPlaceResource"
   },
-  "Aow.Engine.Nodes.EChangeNotifyEventList": {
+  "Aow.Engine.Nodes.ObservableEventList": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.ObservableNode"
   },
-  "Aow.Engine.Nodes.EChangeNotifyNode": {
+  "Aow.Engine.Nodes.ObservableNode": {
     "id": 265,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.CustomNode"
   },
-  "Aow.Engine.Nodes.EControlStyleInverseSortNode": {
+  "Aow.Engine.Nodes.ControlStyleInverseSortedNode": {
     "id": 263,
-    "parent": "Aow.Engine.Nodes.EInverseSortNode"
+    "parent": "Aow.Engine.Nodes.InverseSortedNode"
   },
-  "Aow.Engine.Nodes.EControlStyleNode": {
+  "Aow.Engine.Nodes.ControlStyleNode": {
     "id": 257,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Engine.Nodes.ControlStyleObject": {
     "id": 81,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Engine.Nodes.ECustomNode": {
+  "Aow.Engine.Nodes.CustomNode": {
     "id": 80,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Engine.Nodes.ECustomOwner": {
+  "Aow.Engine.Nodes.EngineNode": {
     "id": 259,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
-  "Aow.Engine.Nodes.EInverseSortNode": {
+  "Aow.Engine.Nodes.InverseSortedNode": {
     "id": 262,
-    "parent": "Aow.Engine.Nodes.ESortNode"
+    "parent": "Aow.Engine.Nodes.SortedNode"
   },
-  "Aow.Engine.Nodes.ENode": {
+  "Aow.Engine.Nodes.OwningNode": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.CustomNode"
   },
   "Aow.Engine.Nodes.EngineObject": {
     "id": 80,
@@ -2187,9 +2187,9 @@
     "id": 80,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Engine.Nodes.EReferenceNode": {
+  "Aow.Engine.Nodes.ReferenceNode": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Engine.Nodes.EngineResource": {
     "id": 1024,
@@ -2199,13 +2199,13 @@
     "id": 1026,
     "parent": "Aow.Engine.Nodes.ControlStyleObject"
   },
-  "Aow.Engine.Nodes.EResourceList": {
+  "Aow.Engine.Nodes.ResourceCollection": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.ECustomOwner"
+    "parent": "Aow.Engine.Nodes.EngineNode"
   },
-  "Aow.Engine.Nodes.ESortNode": {
+  "Aow.Engine.Nodes.SortedNode": {
     "id": 260,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.CustomNode"
   },
   "Aow.Engine.PluginControl": {
     "id": 80,
@@ -2221,7 +2221,7 @@
   },
   "Aow.Game.Events.EventLogList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Events.EventLogbook": {
     "id": 131808,
@@ -2629,7 +2629,7 @@
   },
   "Aow.Game.World.Map.HexSpriteSelection": {
     "id": 257,
-    "parent": "Aow.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.ControlStyleNode"
   },
   "Aow.Game.World.Map.MapObjectResourceTerrainControl": {
     "id": 80,
@@ -2637,7 +2637,7 @@
   },
   "Aow.Game.World.Map.MapContainer": {
     "id": 65795,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.World.MapObject": {
     "id": 65878,
@@ -2649,7 +2649,7 @@
   },
   "Aow.Game.World.MapObjectResourceList": {
     "id": 1025,
-    "parent": "Aow.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.ResourceCollection"
   },
   "Aow.Game.World.MultiHexMapObject": {
     "id": 65878,
@@ -2669,7 +2669,7 @@
   },
   "Aow.Game.World.Map.VisibilityList": {
     "id": 263,
-    "parent": "Aow.Engine.Nodes.EControlStyleInverseSortNode"
+    "parent": "Aow.Engine.Nodes.ControlStyleInverseSortedNode"
   },
   "Aow.Game.World.Hexes.HexagonResource": {
     "id": 131411,
@@ -2933,7 +2933,7 @@
   },
   "Aow.Game.Net.PlayerCommunicationSettingsList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Net.PlayerCommunicator": {
     "id": 80,
@@ -2953,7 +2953,7 @@
   },
   "Aow.Game.Net.TokenEventReferenceList": {
     "id": 256,
-    "parent": "Aow.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.ReferenceNode"
   },
   "Aow.Game.Net.TokenPackage": {
     "id": 1360,
@@ -3281,11 +3281,11 @@
   },
   "Aow.Game.Audio.SfxLibrary": {
     "id": 2162691,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Audio.SfxSequence": {
     "id": 2162690,
-    "parent": "Aow.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.OwningNode"
   },
   "Aow.Game.Audio.SongList": {
     "id": 2162692,

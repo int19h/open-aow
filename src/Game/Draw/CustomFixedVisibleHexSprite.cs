@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 // OnShow and ShowPriority
 public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
 {
-    public CustomFixedVisibleHexSprite(ECustomNode owner) : base(owner)
+    public CustomFixedVisibleHexSprite(CustomNode owner) : base(owner)
     { }
 
     private int _showPriority;

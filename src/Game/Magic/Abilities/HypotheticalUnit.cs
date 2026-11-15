@@ -20,7 +20,7 @@ public partial class HypotheticalUnit : Troop
     private sbyte _hitPoints;
 
     // Unit.PAS:2534
-    public HypotheticalUnit(ECustomNode owner) : base(owner)
+    public HypotheticalUnit(CustomNode owner) : base(owner)
     {
         MakeDefaultLevelUnit(1);
     }

@@ -23,11 +23,11 @@ public sealed class ClassFamilyTests
         public override GameEngine GetEngine() => engine;
     }
 
-    private sealed class UnregisteredAction(ECustomNode owner) : AIPlayerAction(owner);
+    private sealed class UnregisteredAction(CustomNode owner) : AIPlayerAction(owner);
 
-    private sealed class UnregisteredGroup(ECustomNode owner) : AIGroup(owner);
+    private sealed class UnregisteredGroup(CustomNode owner) : AIGroup(owner);
 
-    private sealed class UnregisteredEditor(ECustomNode owner) : EngineObjectEditor(owner);
+    private sealed class UnregisteredEditor(CustomNode owner) : EngineObjectEditor(owner);
 
     [Fact]
     public void UnregisteredTypesHaveNoFamilyDescriptor()
@@ -168,7 +168,7 @@ public sealed class ClassFamilyTests
         Assert.Null(engine.Editors.FindEditor(EngineObject.ClassId));
 
         var mapObject = new MapObject(new EngineField(engine));
-        var node = EngineClass.Of<ENode>().CreateInstance(engine.ControlNode, holder: EngineFixture.Engine);
+        var node = EngineClass.Of<OwningNode>().CreateInstance(engine.ControlNode, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(mapObjectEditor, mapObject.Editor());

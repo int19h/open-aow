@@ -11,7 +11,7 @@ public partial class LeadershipAbilityData : MultiLevelAbilityData
 {
     public new const int ClassId = 131790;
 
-    public LeadershipAbilityData(ECustomNode owner) : base(owner)
+    public LeadershipAbilityData(CustomNode owner) : base(owner)
     { }
 
     public byte ExternalLevel { get; set; }

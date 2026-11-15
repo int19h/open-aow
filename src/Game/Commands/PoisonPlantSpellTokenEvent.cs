@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public PoisonPlantSpellTokenEvent(ECustomNode owner) : base(owner)
+    public PoisonPlantSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // PoisonP.pas:303

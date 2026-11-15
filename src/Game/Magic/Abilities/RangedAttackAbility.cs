@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class RangedAttackAbility : AdjustableAbility
 {
     // AoWAb.PAS:4653
-    public RangedAttackAbility(ECustomNode owner) : base(owner)
+    public RangedAttackAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
         AbilityType = AbilityType.Combat;

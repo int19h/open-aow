@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class BreathAbility : RangedAttackAbility
 {
     // AoWAb.PAS:4852
-    public BreathAbility(ECustomNode owner) : base(owner)
+    public BreathAbility(CustomNode owner) : base(owner)
     {
         RangeRangedAttack = CombatRange.Short;
         AttackRepeatRangedAttack = 1;

@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class IceStorm : BlastStorm
 {
-    public IceStorm(ECustomNode owner) : base(owner)
+    public IceStorm(CustomNode owner) : base(owner)
     { }
 
     // Storms.pas:363

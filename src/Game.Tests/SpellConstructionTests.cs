@@ -16,126 +16,126 @@ public sealed partial class SpellConstructionTests
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeAbility(ECustomNode owner) : base(owner) { }
+        public ProbeAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeAdjustableAbility : AdjustableAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeAdjustableAbility(ECustomNode owner) : base(owner) { }
+        public ProbeAdjustableAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeCombatAction : CombatAction, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeCombatAction(ECustomNode owner) : base(owner) { }
+        public ProbeCombatAction(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeDamageCombatAction : DamageCombatAction, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeDamageCombatAction(ECustomNode owner) : base(owner) { }
+        public ProbeDamageCombatAction(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeDispelMagicCombatAction : DispelMagicCombatAction, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeDispelMagicCombatAction(ECustomNode owner) : base(owner) { }
+        public ProbeDispelMagicCombatAction(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeDurationAbility : DurationAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeDurationAbility(ECustomNode owner) : base(owner) { }
+        public ProbeDurationAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeEnhancementAbility : EnhancementAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeEnhancementAbility(ECustomNode owner) : base(owner) { }
+        public ProbeEnhancementAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeGlobalEnchantment : GlobalEnchantment, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeGlobalEnchantment(ECustomNode owner) : base(owner) { }
+        public ProbeGlobalEnchantment(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeMultiLevelAbility : MultiLevelAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeMultiLevelAbility(ECustomNode owner) : base(owner) { }
+        public ProbeMultiLevelAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeSingleTargetCombatAction : SingleTargetCombatAction, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeSingleTargetCombatAction(ECustomNode owner) : base(owner) { }
+        public ProbeSingleTargetCombatAction(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeSpell : Spell, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeSpell(ECustomNode owner) : base(owner) { }
+        public ProbeSpell(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeSpellCaster : SpellCaster, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeSpellCaster(ECustomNode owner) : base(owner) { }
+        public ProbeSpellCaster(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeUnitEnchantmentAbility : UnitEnchantmentAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeUnitEnchantmentAbility(ECustomNode owner) : base(owner) { }
+        public ProbeUnitEnchantmentAbility(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ProbeUnitSpell : UnitSpell, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeUnitSpell(ECustomNode owner) : base(owner) { }
+        public ProbeUnitSpell(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     [Theory]

@@ -16,7 +16,7 @@ namespace Aow.Game.Draw;
 // Status. _showPriority. UnitGraphicsResource. Direction. MoveStep. FlagId. Shadow
 public partial class UnitHexSprite : HexSprite
 {
-    public UnitHexSprite(ECustomNode owner) : base(owner)
+    public UnitHexSprite(CustomNode owner) : base(owner)
     {
         MoveStep = -1;
         Direction = 3;
@@ -49,7 +49,7 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:219
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         if (owner != Owner)
         {

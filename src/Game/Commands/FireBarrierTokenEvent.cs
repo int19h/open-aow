@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public FireBarrierTokenEvent(ECustomNode owner) : base(owner)
+    public FireBarrierTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135940;

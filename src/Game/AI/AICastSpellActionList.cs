@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AICastSpellActionList : ENode, IChildList<AICastSpellAction>
+public partial class AICastSpellActionList : OwningNode, IChildList<AICastSpellAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AICastSpellAction, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class AICastSpellActionList : ENode, IChildList<AICastSpellAction
 
     int IChildSink<AICastSpellAction>.AddChild(AICastSpellAction child) => AddChild(child);
 
-    public AICastSpellActionList(ECustomNode owner) : base(owner)
+    public AICastSpellActionList(CustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1535

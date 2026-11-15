@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1315
-    public WaterWalkingEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public WaterWalkingEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterWalkingText);

@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities;
 
 public partial class HeroResourceAbilityOwner : AbilityOwner
 {
-    public HeroResourceAbilityOwner(ECustomNode owner) : base(owner)
+    public HeroResourceAbilityOwner(CustomNode owner) : base(owner)
     { }
 
     // Army.PAS:6128

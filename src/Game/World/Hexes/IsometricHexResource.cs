@@ -8,7 +8,7 @@ namespace Aow.Game.World.Hexes;
 // DynamicLevel (26)
 public partial class IsometricHexResource : AbstractHexagonResource
 {
-    public IsometricHexResource(ECustomNode owner) : base(owner)
+    public IsometricHexResource(CustomNode owner) : base(owner)
     {
         DynamicLevel = 26;
     }

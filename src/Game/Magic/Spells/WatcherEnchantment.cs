@@ -15,7 +15,7 @@ public partial class WatcherEnchantment : GlobalEnchantment
     public WatcherHexSprite Watcher { get; set; }
 
     // GlobalTargetSpells.pas:1121
-    public WatcherEnchantment(ECustomNode owner) : base(owner)
+    public WatcherEnchantment(CustomNode owner) : base(owner)
     {
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask(EnchantmentMode.Mask) - Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
         DispelMana = 50;

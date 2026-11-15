@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class WindWalking : UnitSpell
 {
     // UnitSpells.pas:702
-    public WindWalking(ECustomNode owner, EngineObject holder) : base(owner)
+    public WindWalking(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WindWalkingText);

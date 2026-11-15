@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonWaterElemental : SummonSpell
 {
     // SummonSpells.pas:405
-    public SummonWaterElemental(ECustomNode owner, EngineObject holder) : base(owner)
+    public SummonWaterElemental(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonWaterElementalText);

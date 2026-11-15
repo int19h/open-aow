@@ -21,7 +21,7 @@ public partial class Campaign : EngineObject
 {
 
     // Diplomacy.pas:2246
-    public Campaign(ECustomNode owner) : base(owner)
+    public Campaign(CustomNode owner) : base(owner)
     {
         Stream = new MemoryStream();
         TransferSettings = new CampaignTransferSettings(null) { Holder = CreationHolder() };

@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class DefenderAIGroupControl : BehaviorAIGroupControl
 {
-    public DefenderAIGroupControl(ECustomNode owner) : base(owner)
+    public DefenderAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // BehaviorAG.pas:286

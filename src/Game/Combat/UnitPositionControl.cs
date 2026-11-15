@@ -21,7 +21,7 @@ public partial class UnitPositionControl : EngineObject
     }
 
     // AoWTC.pas:4936
-    public UnitPositionControl(ECustomNode owner) : base(owner)
+    public UnitPositionControl(CustomNode owner) : base(owner)
     {
         Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
     }

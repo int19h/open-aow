@@ -36,7 +36,7 @@ public partial class EventLogbook : EngineObject
     }
 
     // EventLog.pas:526
-    public EventLogbook(ECustomNode owner) : base(owner)
+    public EventLogbook(CustomNode owner) : base(owner)
     {
         _events = new EventLogList(null) { Holder = CreationHolder() };
     }

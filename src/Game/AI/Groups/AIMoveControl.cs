@@ -18,7 +18,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveControl : EngineObject
 {
     // AIGroup.pas:3911
-    public AIMoveControl(ECustomNode owner) : base(owner)
+    public AIMoveControl(CustomNode owner) : base(owner)
     {
         _pathSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
         Clear();

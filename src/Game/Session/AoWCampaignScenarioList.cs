@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class AoWCampaignScenarioList : ENode, IChildList<CampaignScenario>
+public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignScenario>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class AoWCampaignScenarioList : ENode, IChildList<CampaignScenari
 
     int IChildSink<CampaignScenario>.AddChild(CampaignScenario child) => AddChild(child);
 
-    public AoWCampaignScenarioList(ECustomNode owner) : base(owner)
+    public AoWCampaignScenarioList(CustomNode owner) : base(owner)
     { }
 
     // Diplomacy.pas:2214

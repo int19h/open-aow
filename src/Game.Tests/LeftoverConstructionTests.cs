@@ -173,19 +173,18 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.CityEnchantmentSpellTokenEvent",
         "Aow.Game.Commands.CityTargetSpellTokenEvent",
         "Aow.Game.Commands.TownGateTokenEvent",
-        "Aow.Engine.Nodes.EChangeNotifyEventList",
-        "Aow.Engine.Nodes.EChangeNotifyNode",
-        "Aow.Engine.Nodes.EControlStyleInverseSortNode",
-        "Aow.Engine.Nodes.EControlStyleNode",
-        "Aow.Engine.Nodes.ECustomNode",
-        "Aow.Engine.Nodes.ECustomOwner",
-        "Aow.Engine.Nodes.EInverseSortNode",
-        "Aow.Engine.Nodes.ENode",
+        "Aow.Engine.Nodes.ObservableEventList",
+        "Aow.Engine.Nodes.ObservableNode",
+        "Aow.Engine.Nodes.ControlStyleInverseSortedNode",
+        "Aow.Engine.Nodes.ControlStyleNode",
+        "Aow.Engine.Nodes.EngineNode",
+        "Aow.Engine.Nodes.InverseSortedNode",
+        "Aow.Engine.Nodes.OwningNode",
         "Aow.Engine.Nodes.EngineObjectEditor",
-        "Aow.Engine.Nodes.EReferenceNode",
+        "Aow.Engine.Nodes.ReferenceNode",
         "Aow.Engine.Nodes.EngineResource",
-        "Aow.Engine.Nodes.EResourceList",
-        "Aow.Engine.Nodes.ESortNode",
+        "Aow.Engine.Nodes.ResourceCollection",
+        "Aow.Engine.Nodes.SortedNode",
         "Aow.Game.Commands.GlobalEnchantmentSpellTokenEvent",
         "Aow.Game.Draw.BirdsViewHexSprite",
         "Aow.Game.Draw.ConcealAreaHexSprite",
@@ -225,11 +224,11 @@ public sealed class LeftoverConstructionTests
         }
     }
 
-    private static EngineObject Direct(Type type, ECustomNode owner)
+    private static EngineObject Direct(Type type, CustomNode owner)
     {
         var constructor = EngineClassCreation.OwnerConstructor(type);
         if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
-        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]);
+        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
         if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
         return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
     }
@@ -272,7 +271,7 @@ public sealed class LeftoverConstructionTests
             }
     }
 
-    private static EngineObject Saved(Type type, ECustomNode owner)
+    private static EngineObject Saved(Type type, CustomNode owner)
     {
         using GameEngine engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
         var descriptor = EngineClass.Of(type);

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControlList : ENode, IChildList<ConstructionControl>
+public partial class ConstructionControlList : OwningNode, IChildList<ConstructionControl>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ConstructionControl, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class ConstructionControlList : ENode, IChildList<ConstructionCon
 
     int IChildSink<ConstructionControl>.AddChild(ConstructionControl child) => AddChild(child);
 
-    public ConstructionControlList(ECustomNode owner) : base(owner)
+    public ConstructionControlList(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:5519

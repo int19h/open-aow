@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class HealingShowers : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2277
-    public HealingShowers(ECustomNode owner, EngineObject holder) : base(owner)
+    public HealingShowers(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_healingShowersText);

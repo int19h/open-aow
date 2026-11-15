@@ -14,7 +14,7 @@ public partial class ArmyId : EngineObject
     public new const int ClassId = 131616;
 
     // Army.PAS:1
-    public ArmyId(ECustomNode owner) : base(owner)
+    public ArmyId(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();
     }

@@ -12,7 +12,7 @@ namespace Aow.Game.World;
 
 public partial class CombatObstacle : MultiHexMapObject
 {
-    public CombatObstacle(ECustomNode owner) : base(owner)
+    public CombatObstacle(CustomNode owner) : base(owner)
     { }
 
     // CombatObstacle.pas:94
@@ -208,7 +208,7 @@ public partial class CombatObstacle : MultiHexMapObject
 
     public new partial class Resource : MultiHexMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CombatObstacle.pas:239

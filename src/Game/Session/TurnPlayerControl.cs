@@ -21,7 +21,7 @@ public partial class TurnPlayerControl : PlayerControl
 {
     public new const int ClassId = 131664;
 
-    public TurnPlayerControl(ECustomNode owner) : base(owner)
+    public TurnPlayerControl(CustomNode owner) : base(owner)
     { }
 
     // PlayerC.PAS:589

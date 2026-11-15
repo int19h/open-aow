@@ -20,7 +20,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
-    public TownQuake(ECustomNode owner, EngineObject holder) : base(owner)
+    public TownQuake(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
@@ -103,36 +103,37 @@ public partial class TownQuake : CityTargetSpell
         log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(army.Army, 255);
-        army.Army.BeginUpdate();
-        damaged = false;
-        for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
+        using (army.Army.BeginUpdate())
         {
-            troop = army.Army.Units.GetUnit(i);
-            damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
-            if (damage > troop.GetHitPoints())
+            damaged = false;
+            for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                damage = troop.GetHitPoints();
+                troop = army.Army.Units.GetUnit(i);
+                damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
+                if (damage > troop.GetHitPoints())
+                {
+                    damage = troop.GetHitPoints();
+                }
+
+                if (damage > 0)
+                {
+                    troop.SetHitPoints((sbyte)(troop.GetHitPoints() - damage));
+                    damaged = true;
+                }
+
+                log.DamageValues.Add((byte)damage);
+                log.DamageTypes.Add(7);
             }
 
-            if (damage > 0)
+            if (damaged)
             {
-                troop.SetHitPoints((sbyte)(troop.GetHitPoints() - damage));
-                damaged = true;
+                log.ValidateGameOver();
+                EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: army.Army.Player, execute: true);
             }
 
-            log.DamageValues.Add((byte)damage);
-            log.DamageTypes.Add(7);
+            log.Release();
+            army.Army.Validate();
         }
-
-        if (damaged)
-        {
-            log.ValidateGameOver();
-            EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: army.Army.Player, execute: true);
-        }
-
-        log.Release();
-        army.Army.Validate();
-        army.Army.EndUpdate();
     }
 
     private static readonly string s_townQuakeDamageText = "Town Quake Damage";

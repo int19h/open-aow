@@ -44,7 +44,7 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2759
-    public Leader(ECustomNode owner) : base(owner)
+    public Leader(CustomNode owner) : base(owner)
     {
         _spheres = new ByteList();
         SpherePicksMax = 5;

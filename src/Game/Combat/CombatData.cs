@@ -15,11 +15,11 @@ public partial class CombatData : EngineObject
     public new const int ClassId = 131747;
 
     // Combat2.pas:162
-    public CombatData(ECustomNode owner) : base(owner)
+    public CombatData(CustomNode owner) : base(owner)
     {
         Players = new CombatPlayerList(null) { Holder = CreationHolder() };
         Parties = new CombatPartyList(null) { Holder = CreationHolder() };
-        CombatObjects = new ENode(null) { Holder = CreationHolder() };
+        CombatObjects = new OwningNode(null) { Holder = CreationHolder() };
         DefeatedLeaders = new ByteList();
         TurnOrder = new ByteList();
         InvolvedLeaders = new ByteList();
@@ -44,7 +44,7 @@ public partial class CombatData : EngineObject
     public byte CombatResult { get; set; }
 
     public byte CurrentPlayer { get; set; }
-    public ENode CombatObjects { get; set; }
+    public OwningNode CombatObjects { get; set; }
     public CombatPlayerList Players { get; }
     public CombatPartyList Parties { get; }
     public ByteList TurnOrder { get; }

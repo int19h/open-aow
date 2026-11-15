@@ -20,7 +20,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class ResurrectHero : Spell
 {
     // GlobalSpells.pas:980
-    public ResurrectHero(ECustomNode owner, EngineObject holder) : base(owner)
+    public ResurrectHero(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_resurrectHeroText);

@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class Ruin : ItemExplorationSite
 {
-    public Ruin(ECustomNode owner) : base(owner)
+    public Ruin(CustomNode owner) : base(owner)
     { }
 
     // Ruin.pas:34
@@ -15,7 +15,7 @@ public partial class Ruin : ItemExplorationSite
 
     public new partial class Resource : ItemExplorationSiteResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Ruin.pas:40

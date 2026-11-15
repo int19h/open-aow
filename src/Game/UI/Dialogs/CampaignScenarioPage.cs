@@ -42,7 +42,7 @@ public partial class CampaignScenarioPage : EngineObject
     }
 
     // AoWVideoDlg.pas:250
-    public CampaignScenarioPage(ECustomNode owner) : base(owner)
+    public CampaignScenarioPage(CustomNode owner) : base(owner)
     {
         Text = new StringList();
     }

@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class ResurrectedAbility : AdjustableAbility
 {
     // PassiveAb.pas:892
-    public ResurrectedAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public ResurrectedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ResurrectedText);

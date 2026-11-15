@@ -13,7 +13,7 @@ public partial class RecallSpiritCombatAction : ExclusiveCombatSpellCombatAction
     // CombatSpells.pas:1950
     public new const int ClassId = 131781;
 
-    public RecallSpiritCombatAction(ECustomNode owner) : base(owner)
+    public RecallSpiritCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1953

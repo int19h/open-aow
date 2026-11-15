@@ -3,12 +3,12 @@ using Aow.Formats.Tree;
 
 namespace Aow.Engine.Nodes;
 
-public partial class ESortNode : ECustomNode
+public partial class SortedNode : CustomNode
 {
     // Engine.pas:1478
     public new const int ClassId = 260;
 
-    public ESortNode(ECustomNode owner) : base(owner)
+    public SortedNode(CustomNode owner) : base(owner)
     {
         Items = [];
     }

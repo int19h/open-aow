@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // adjacent armies
-public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
+public partial class AdjacentArmyList : OwningNode, IChildList<AdjacentArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AdjacentArmy, so the cast never fails.
@@ -16,7 +16,7 @@ public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
 
     int IChildSink<AdjacentArmy>.AddChild(AdjacentArmy child) => AddChild(child);
 
-    public AdjacentArmyList(ECustomNode owner) : base(owner)
+    public AdjacentArmyList(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:5071

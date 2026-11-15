@@ -25,7 +25,7 @@ namespace Aow.Game.Session;
 public partial class PlayerControl : EngineObject
 {
     // PlayerC.PAS:1
-    public PlayerControl(ECustomNode owner) : base(owner)
+    public PlayerControl(CustomNode owner) : base(owner)
     {
         _disconnectedPlayers = new DoubleItemList();
     }

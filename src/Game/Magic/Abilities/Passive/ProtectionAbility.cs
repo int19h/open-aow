@@ -12,7 +12,7 @@ public partial class ProtectionAbility : EnhancementAbility
     public Set<DamageType> ProtectionTypes { get; set; }
 
     // PassiveAb.pas:1446
-    public ProtectionAbility(ECustomNode owner) : base(owner)
+    public ProtectionAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
         AbilityType = AbilityType.Enhancement;

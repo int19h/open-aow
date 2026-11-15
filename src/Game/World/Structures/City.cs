@@ -31,7 +31,7 @@ namespace Aow.Game.World.Structures;
 // DefendersMode
 public partial class City : PlayerCropStructure
 {
-    public City(ECustomNode owner, EngineObject holder) : base(owner)
+    public City(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Production = new CityProductionControl(null) { Holder = CreationHolder() };

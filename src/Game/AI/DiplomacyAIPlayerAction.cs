@@ -18,7 +18,7 @@ namespace Aow.Game.AI;
 public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // Diplomacy.pas:1540
-    public DiplomacyAIPlayerAction(ECustomNode owner) : base(owner)
+    public DiplomacyAIPlayerAction(CustomNode owner) : base(owner)
     {
     }
 

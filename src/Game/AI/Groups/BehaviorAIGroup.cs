@@ -5,7 +5,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class BehaviorAIGroup : AIGroup
 {
-    public BehaviorAIGroup(ECustomNode owner) : base(owner)
+    public BehaviorAIGroup(CustomNode owner) : base(owner)
     { }
 
     // BehaviorAG.pas:137

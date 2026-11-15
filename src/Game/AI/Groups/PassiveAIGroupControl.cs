@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class PassiveAIGroupControl : AIGroupControl
 {
-    public PassiveAIGroupControl(ECustomNode owner) : base(owner)
+    public PassiveAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // MainAG.pas:199

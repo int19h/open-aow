@@ -19,7 +19,7 @@ namespace Aow.Game.Events;
 public partial class ArmyInfoEventLog : EventLog
 {
     // Army.PAS:255
-    public ArmyInfoEventLog(ECustomNode owner) : base(owner)
+    public ArmyInfoEventLog(CustomNode owner) : base(owner)
     {
         Messages = new StringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };

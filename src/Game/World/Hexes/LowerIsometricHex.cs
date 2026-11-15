@@ -5,14 +5,14 @@ namespace Aow.Game.World.Hexes;
 
 public partial class LowerIsometricHex : IsometricHex
 {
-    public LowerIsometricHex(ECustomNode owner) : base(owner)
+    public LowerIsometricHex(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131442;
 
     public new partial class Resource : IsometricHexResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public new const int ClassId = 131443;

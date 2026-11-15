@@ -18,14 +18,14 @@ namespace Aow.Game.Units;
 public partial class ItemLibraryManager : EngineObject
 {
     // Army.PAS:4967
-    public ItemLibraryManager(ECustomNode owner) : base(owner)
+    public ItemLibraryManager(CustomNode owner) : base(owner)
     {
         SystemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
-        Libraries = new ENode(null) { Holder = CreationHolder() };
+        Libraries = new OwningNode(null) { Holder = CreationHolder() };
     }
 
     public ItemLibrary SystemLibrary { get; }
-    public ENode Libraries { get; }
+    public OwningNode Libraries { get; }
 
     // Army.PAS:4974
     public override void Dispose()

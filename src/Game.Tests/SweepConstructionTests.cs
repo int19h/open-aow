@@ -352,11 +352,11 @@ public sealed class SweepConstructionTests
         }
     }
 
-    private static EngineObject Direct(Type type, ECustomNode owner)
+    private static EngineObject Direct(Type type, CustomNode owner)
     {
         var constructor = EngineClassCreation.OwnerConstructor(type);
         if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
-        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]);
+        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
         if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
         return (EngineObject)Invoke(() => Activator.CreateInstance(type, [owner]))!;
     }
@@ -399,7 +399,7 @@ public sealed class SweepConstructionTests
             }
     }
 
-    private static EngineObject Saved(Type type, ECustomNode owner)
+    private static EngineObject Saved(Type type, CustomNode owner)
     {
         using GameEngine engine = new GameEngine(null!);
         var descriptor = EngineClass.Of(type);

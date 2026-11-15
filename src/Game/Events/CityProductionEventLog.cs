@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 
 public partial class CityProductionEventLog : ProductionEventLog
 {
-    public CityProductionEventLog(ECustomNode owner) : base(owner)
+    public CityProductionEventLog(CustomNode owner) : base(owner)
     { }
 
     // City.pas:3195

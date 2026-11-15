@@ -20,7 +20,7 @@ public partial class CombatSpell : Spell
     public byte DamageMode { get; protected set; }
 
     // CombatSpells.pas:632
-    public CombatSpell(ECustomNode owner) : base(owner)
+    public CombatSpell(CustomNode owner) : base(owner)
     {
         SpellType = SpellType.Combat;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat);

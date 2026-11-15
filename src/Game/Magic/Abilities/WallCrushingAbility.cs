@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WallCrushingAbility : TouchAbility
 {
     // AoWAb.PAS:1991
-    public WallCrushingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public WallCrushingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 117;

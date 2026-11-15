@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 
 public partial class CombatMoveTokenEvent : MoveTokenEvent
 {
-    public CombatMoveTokenEvent(ECustomNode owner) : base(owner)
+    public CombatMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:206

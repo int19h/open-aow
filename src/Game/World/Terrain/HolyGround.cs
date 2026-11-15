@@ -23,7 +23,7 @@ namespace Aow.Game.World.Terrain;
 // Mode, Player, Duration, OriginalOverlay
 public partial class HolyGround : ImageLibraryTerrainMapObject
 {
-    public HolyGround(ECustomNode owner) : base(owner)
+    public HolyGround(CustomNode owner) : base(owner)
     { }
 
     // HolyG.pas:92
@@ -326,7 +326,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // HolyG.pas:276

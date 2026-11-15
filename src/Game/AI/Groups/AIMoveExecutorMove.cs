@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
 {
     // AIGroup.pas:4440
-    public AIMoveExecutorMove(ECustomNode owner) : base(owner)
+    public AIMoveExecutorMove(CustomNode owner) : base(owner)
     {
         Path = new MovePath();
     }

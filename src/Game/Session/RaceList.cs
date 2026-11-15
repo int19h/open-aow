@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
-public partial class RaceList : EControlStyleNode, IChildList<Race>
+public partial class RaceList : ControlStyleNode, IChildList<Race>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Race, so the cast never fails.
@@ -21,7 +21,7 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     int IChildSink<Race>.AddChild(Race child) => AddChild(child);
 
     // Ability.PAS:367
-    public RaceList(ECustomNode owner) : base(owner)
+    public RaceList(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
@@ -136,6 +136,6 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
 
     // intf_P1_03.inc:34
     // TEObject.ReadWrite is empty. The original ReadWrite bypasses TEControlStyleNode.ReadWrite, and
-    // the tree method bypasses EControlStyleNode.PersistFields.
+    // the tree method bypasses ControlStyleNode.PersistFields.
     public override void PersistFields(IPersister persister) => RelationOffset = persister.Int32("RelationOffset", value: RelationOffset);
 }

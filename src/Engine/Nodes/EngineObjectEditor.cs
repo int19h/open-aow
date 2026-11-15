@@ -8,7 +8,7 @@ namespace Aow.Engine.Nodes;
 public partial class EngineObjectEditor : EngineObject, IEngineObjectEditorClass
 {
 
-    public EngineObjectEditor(ECustomNode owner) : base(owner)
+    public EngineObjectEditor(CustomNode owner) : base(owner)
     { }
 
     // Engine.pas:3036

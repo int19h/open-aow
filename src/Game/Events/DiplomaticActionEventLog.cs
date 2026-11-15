@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 // Action
 public partial class DiplomaticActionEventLog : EventLog
 {
-    public DiplomaticActionEventLog(ECustomNode owner) : base(owner)
+    public DiplomaticActionEventLog(CustomNode owner) : base(owner)
     { }
 
     // Diplomacy.pas:1199

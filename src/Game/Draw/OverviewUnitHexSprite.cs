@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 // Troop
 public partial class OverviewUnitHexSprite : UnitHexSprite
 {
-    public OverviewUnitHexSprite(ECustomNode owner) : base(owner)
+    public OverviewUnitHexSprite(CustomNode owner) : base(owner)
     { }
 
     private Troop _troop;

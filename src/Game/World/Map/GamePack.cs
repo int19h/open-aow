@@ -26,7 +26,7 @@ namespace Aow.Game.World.Map;
 // filled by the game (TAoWHSSet.Create) and not stored. The game adds the shared resources and
 // controls of the game pack: the combat resources, the unit, hero, item and face resources, the
 // abilities, spells and texts read from the PFS files beside the set.
-public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
+public partial class GamePack : EngineNode, IChildList<GamePackChild>
 {
     // Ability.PAS (TAoWHSSet). HSEngine.pas:3394 gives the engine set 66049.
     public new const int ClassId = 131088;
@@ -35,13 +35,13 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     // AcceptsChild admits only the kinds of HSSetChild, so the read never fails.
     public GamePackChild this[int index] => GamePackChild.Of(GetChild(index));
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is EResourceList or MapObjectResourceTerrainControl or ControlStyleObject;
+    protected sealed override bool AcceptsChild(EngineObject child) => child is ResourceCollection or MapObjectResourceTerrainControl or ControlStyleObject;
 
     int IChildSink<GamePackChild>.AddChild(GamePackChild child) => AddChild(child.Node);
 
-    public GamePack(ECustomNode owner, EngineObject holder) : this(null, owner, holder) { }
+    public GamePack(CustomNode owner, EngineObject holder) : this(null, owner, holder) { }
 
-    private protected GamePack(ConstructionContext context, ECustomNode owner, EngineObject holder) : base(context, owner)
+    private protected GamePack(ConstructionContext context, CustomNode owner, EngineObject holder) : base(context, owner)
     {
         Holder = holder;
         SetControlStyle(GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2));
@@ -479,7 +479,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     }
 
     // intf_P1_10.inc:44
-    public static GamePack Create(ECustomNode owner, EngineObject holder) =>
+    public static GamePack Create(CustomNode owner, EngineObject holder) =>
         ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
 
     private static readonly string s_grassText = "Grass";

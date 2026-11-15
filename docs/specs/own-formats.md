@@ -243,8 +243,13 @@ its case mapping. Version 6 renames the members to their C# names (issue 230). I
 codec, id or order.
 
 Class names are the C# names, member names the names of the C# members they bind, and record
-fields and enum members their C# names. A C# rename renames the stored name and bumps the
-version. Cases use explicit registration keys, not
+fields and enum members their C# names. A type row of `names.csv` can pin a stored class name
+that stays while the C# name changes. The ownership-tree classes pin `ECustomNode`, `ENode`,
+`EReferenceNode`, `EChangeNotifyNode`, `EChangeNotifyEventList`, `ESortNode`, `EInverseSortNode`,
+`ECustomOwner`, `EControlStyleNode`, `EControlStyleInverseSortNode`, `EResourceList` and
+`PlayerList`. A C# rename of a class with no pin renames the stored name and bumps the version.
+A pinned class keeps its stored name, so the rename leaves own documents and the schema class
+names as they are. Cases use explicit registration keys, not
 `Type.Name`. Descriptors differ from per-engine enlistment. Resolve ids through
 the profile's actual engine table and reject ambiguity. Completeness checks invoke
 no creation delegates and demand no global id uniqueness across all descriptors.

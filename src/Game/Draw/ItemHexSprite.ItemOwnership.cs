@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 
 public partial class ItemHexSprite
 {
-    public ItemHexSprite(ECustomNode owner) : base(owner)
+    public ItemHexSprite(CustomNode owner) : base(owner)
     {
         Items = new ItemHSList(null) { Holder = CreationHolder() };
         Items.Sprite = this;

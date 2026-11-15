@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CosmeticSurgeryAbility : UnitEnchantmentAbility
 {
     // AoWAb.PAS:910
-    public CosmeticSurgeryAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public CosmeticSurgeryAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText);

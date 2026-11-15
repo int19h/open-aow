@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 // (spell ID, source ID, player, mana)
 public partial class SpellTokenEvent : TokenEvent
 {
-    public SpellTokenEvent(ECustomNode owner) : base(owner)
+    public SpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135936;

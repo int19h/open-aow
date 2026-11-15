@@ -274,7 +274,7 @@ public sealed partial class PersistEquivalenceTests
         var image = PilotImage.Encode(LevelDocument(width: 2, height: 1), "MapLevel");
         var descriptor = EngineClass.Of<FrozenWaterHexSprite>();
         bool added = Register<FrozenWaterHexSprite>();
-        var previous = EngineClassCreation.Substitute(descriptor, next: (Func<ECustomNode, EngineObject>)(static owner => new ThrowingFrozenWater(owner)));
+        var previous = EngineClassCreation.Substitute(descriptor, next: (Func<CustomNode, EngineObject>)(static owner => new ThrowingFrozenWater(owner)));
         try
         {
             var (continued, _) = NewLevel("MapLevel");
@@ -376,7 +376,7 @@ public sealed partial class PersistEquivalenceTests
 
     private sealed class ThrowingFrozenWater : FrozenWaterHexSprite
     {
-        public ThrowingFrozenWater(ECustomNode owner) : base(owner)
+        public ThrowingFrozenWater(CustomNode owner) : base(owner)
         {
         }
 
@@ -1109,7 +1109,7 @@ public sealed partial class PersistEquivalenceTests
             var hatred = new HatredEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = 12 };
             hatred.SetOwner(control.Enchantments);
             var image = Image(control);
-            previous = EngineClassCreation.Substitute(descriptor, next: (Func<ECustomNode, EngineObject>)(static owner => new ThrowingHatred(owner, holder: EngineFixture.Engine)));
+            previous = EngineClassCreation.Substitute(descriptor, next: (Func<CustomNode, EngineObject>)(static owner => new ThrowingHatred(owner, holder: EngineFixture.Engine)));
             var classValue = s_schema.Get("GlobalMagicControl");
             var continued = (GlobalMagicControl)Blank("GlobalMagicControl");
             var continuedTree = (GlobalMagicControl)Blank("GlobalMagicControl");
@@ -1292,15 +1292,15 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void EngineNodesMatchTheConverter()
     {
-        Check("ECustomOwner", new ECustomOwner(null!) { Holder = EngineFixture.Engine });
-        var owner = new ECustomOwner(null!) { Holder = EngineFixture.Engine };
+        Check("ECustomOwner", new EngineNode(null!) { Holder = EngineFixture.Engine });
+        var owner = new EngineNode(null!) { Holder = EngineFixture.Engine };
         owner.SetControlStyle(Set<ControlStyleElement>.FromMask(0xA5));
         Check("ECustomOwner", owner);
-        var resources = new EResourceList(null!) { Holder = EngineFixture.Engine };
+        var resources = new ResourceCollection(null!) { Holder = EngineFixture.Engine };
         resources.SetControlStyle(Set<ControlStyleElement>.FromMask(0));
         Check("EResourceList", resources);
-        Check("EControlStyleNode", new EControlStyleNode(null!) { Holder = EngineFixture.Engine });
-        var styled = new EControlStyleNode(null!) { Holder = EngineFixture.Engine };
+        Check("EControlStyleNode", new ControlStyleNode(null!) { Holder = EngineFixture.Engine });
+        var styled = new ControlStyleNode(null!) { Holder = EngineFixture.Engine };
         styled.SetControlStyle(Set<ControlStyleElement>.FromMask(0x81));
         new AISavingsBudget(null!) { Holder = EngineFixture.Engine, Priority = 7, Gold = -3 }.SetOwner(styled);
         new AITransporterBudget(null!) { Holder = EngineFixture.Engine }.SetOwner(styled);
@@ -1314,7 +1314,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ASortNodeRefusesBothWritesAlike()
     {
-        foreach (var node in new ESortNode[] { new(null!) { Holder = EngineFixture.Engine }, new EInverseSortNode(null!) { Holder = EngineFixture.Engine }, new EControlStyleInverseSortNode(null!) { Holder = EngineFixture.Engine } })
+        foreach (var node in new SortedNode[] { new(null!) { Holder = EngineFixture.Engine }, new InverseSortedNode(null!) { Holder = EngineFixture.Engine }, new ControlStyleInverseSortedNode(null!) { Holder = EngineFixture.Engine } })
         {
             try
             {
@@ -1516,7 +1516,7 @@ public sealed partial class PersistEquivalenceTests
 
     private sealed class ThrowingHatred : HatredEnchantment
     {
-        public ThrowingHatred(ECustomNode owner, EngineObject holder) : base(owner, holder)
+        public ThrowingHatred(CustomNode owner, EngineObject holder) : base(owner, holder)
         {
         }
 
@@ -1525,7 +1525,7 @@ public sealed partial class PersistEquivalenceTests
 
     private sealed class ThrowingEnchantments : GlobalEnchantmentList
     {
-        public ThrowingEnchantments(ECustomNode owner) : base(owner)
+        public ThrowingEnchantments(CustomNode owner) : base(owner)
         {
         }
 

@@ -19,7 +19,7 @@ namespace Aow.Game.World.Structures;
 // Storm, Mode, RechargeDays
 public partial class Altar : PlayerStructure
 {
-    public Altar(ECustomNode owner) : base(owner)
+    public Altar(CustomNode owner) : base(owner)
     { }
 
     // Altar.pas:59

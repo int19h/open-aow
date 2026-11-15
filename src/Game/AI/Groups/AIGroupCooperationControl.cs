@@ -20,7 +20,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupCooperationControl : AIGroupTask
 {
     // AIGroup.pas:2839
-    public AIGroupCooperationControl(ECustomNode owner) : base(owner)
+    public AIGroupCooperationControl(CustomNode owner) : base(owner)
     {
         Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
     }

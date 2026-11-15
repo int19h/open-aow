@@ -36,11 +36,12 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5278
     public override void PersistFields(IPersister persister)
     {
-        Items.BeginUpdate();
-        base.PersistFields(persister);
-        persister.Object("Items", objectValue: Items);
-        _generateMode = persister.Enum("GenerateMode", value: _generateMode);
-        Items.EndUpdate();
+        using (Items.BeginUpdate())
+        {
+            base.PersistFields(persister);
+            persister.Object("Items", objectValue: Items);
+            _generateMode = persister.Enum("GenerateMode", value: _generateMode);
+        }
     }
 
     // Army.PAS:5321

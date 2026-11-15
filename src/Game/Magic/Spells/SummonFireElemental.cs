@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonFireElemental : SummonSpell
 {
     // SummonSpells.pas:392
-    public SummonFireElemental(ECustomNode owner, EngineObject holder) : base(owner)
+    public SummonFireElemental(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonFireElementalText);

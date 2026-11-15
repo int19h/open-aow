@@ -20,10 +20,10 @@ public sealed class OwnershipTests
     [Fact]
     public void ChildrenAndOwnerWalkTheTreeThroughTheInterfaces()
     {
-        var root = new ENode(null!) { Holder = EngineFixture.Engine };
-        var first = new ENode(root);
-        var second = new ENode(first);
-        var shared = new ENode(null!) { Holder = EngineFixture.Engine };
+        var root = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        var first = new OwningNode(root);
+        var second = new OwningNode(first);
+        var shared = new OwningNode(null!) { Holder = EngineFixture.Engine };
         root.AddChild(shared);
         try
         {
@@ -32,7 +32,7 @@ public sealed class OwnershipTests
             Assert.Same(root, ((IOwned)first).Owner);
             Assert.Null(((IOwned)shared).Owner);
             Assert.Equal(new IOwned[] { first }, owner.Children.OfType<IOwned>().Where(child => child.Owner == owner));
-            Assert.Equal("ENodeENodeENode", second.EngineObjectPath);
+            Assert.Equal("OwningNodeOwningNodeOwningNode", second.EngineObjectPath);
             var owners = new List<IOwner>();
             for (var current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner) owners.Add(current);
             Assert.Equal(new IOwner[] { first, root }, owners);
@@ -73,11 +73,11 @@ public sealed class OwnershipTests
     public void TypedChildListRefusesAnotherChildAtTheGenericAdder()
     {
         var list = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
-        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
+        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
         try
         {
             var error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
-            Assert.Contains("AIBudgetList does not take a child of type ENode", error.Message, StringComparison.Ordinal);
+            Assert.Contains("AIBudgetList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
             Assert.Equal(0, list.Count);
             Assert.Throws<ArgumentException>(() => new EventLogList(null!) { Holder = EngineFixture.Engine }.AddChild(stranger));
@@ -93,7 +93,7 @@ public sealed class OwnershipTests
     public void TypedOwnerRefusesAnotherOwnerAtEveryWrite()
     {
         var field = new EngineFixture.FieldOwner(new EngineFixture.Owner());
-        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
+        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
         var sprite = new SingleHexSprite(field);
         try
         {

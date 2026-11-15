@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class ScorcherAIGroupControl : BehaviorAIGroupControl
 {
-    public ScorcherAIGroupControl(ECustomNode owner) : base(owner)
+    public ScorcherAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // BehaviorAG.pas:625

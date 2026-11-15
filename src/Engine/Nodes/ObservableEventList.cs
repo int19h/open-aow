@@ -4,15 +4,15 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // Events, notified by Changed
-public partial class EChangeNotifyEventList : EChangeNotifyNode
+public partial class ObservableEventList : ObservableNode
 {
 
-    public EChangeNotifyEventList(ECustomNode owner) : base(owner)
+    public ObservableEventList(CustomNode owner) : base(owner)
     {
         _eventsStore = new();
     }
 
-    private readonly EventStore<EChangeNotifyEventList> _eventsStore;
+    private readonly EventStore<ObservableEventList> _eventsStore;
 
     // Engine.pas:8131
     public override void Dispose()
@@ -27,7 +27,7 @@ public partial class EChangeNotifyEventList : EChangeNotifyNode
         _eventsStore.Raise(this);
     }
 
-    public event NotifyEvent<EChangeNotifyEventList> Events
+    public event NotifyEvent<ObservableEventList> Events
     {
         add => _eventsStore.Add(value);
         remove => _eventsStore.Remove(value);

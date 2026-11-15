@@ -4,12 +4,12 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _controlStyle
-public partial class EControlStyleInverseSortNode : EInverseSortNode
+public partial class ControlStyleInverseSortedNode : InverseSortedNode
 {
     // Engine.pas:1695
     public new const int ClassId = 263;
 
-    public EControlStyleInverseSortNode(ECustomNode owner) : base(owner)
+    public ControlStyleInverseSortedNode(CustomNode owner) : base(owner)
     {
         _controlStyle = base.GetControlStyle();
     }

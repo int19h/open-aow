@@ -11,7 +11,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class GuardAreaAIGroupControl : AIGroupControl
 {
-    public GuardAreaAIGroupControl(ECustomNode owner) : base(owner)
+    public GuardAreaAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // IndependentAG.pas:189

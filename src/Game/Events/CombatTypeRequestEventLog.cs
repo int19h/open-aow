@@ -12,7 +12,7 @@ namespace Aow.Game.Events;
 // selection. location. TokenEvent. owned object
 public partial class CombatTypeRequestEventLog : EventLog
 {
-    public CombatTypeRequestEventLog(ECustomNode owner) : base(owner)
+    public CombatTypeRequestEventLog(CustomNode owner) : base(owner)
     { }
 
     public CombatType CombatType { get; private set; }

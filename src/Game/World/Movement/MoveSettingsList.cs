@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Movement;
 
 // inherited FChildren
-public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
+public partial class MoveSettingsList : OwningNode, IChildList<MoveSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveSettings, so the cast never fails.
@@ -14,7 +14,7 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
 
     int IChildSink<MoveSettings>.AddChild(MoveSettings child) => AddChild(child);
 
-    public MoveSettingsList(ECustomNode owner) : base(owner)
+    public MoveSettingsList(CustomNode owner) : base(owner)
     { }
 
     // Structur.PAS:4040

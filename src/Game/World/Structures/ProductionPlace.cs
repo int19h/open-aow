@@ -23,7 +23,7 @@ namespace Aow.Game.World.Structures;
 // power source, income source, production control, razed state, defender level
 public partial class ProductionPlace : PlayerStructure
 {
-    public ProductionPlace(ECustomNode owner) : base(owner)
+    public ProductionPlace(CustomNode owner) : base(owner)
     {
         ProductionControl = CreateProductionControl();
         ProductionControl.ProductionPlace = this;

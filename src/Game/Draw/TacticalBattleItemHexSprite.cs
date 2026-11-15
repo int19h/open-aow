@@ -11,7 +11,7 @@ namespace Aow.Game.Draw;
 public partial class TacticalBattleItemHexSprite : ItemHexSprite
 {
 
-    public TacticalBattleItemHexSprite(ECustomNode owner) : base(owner)
+    public TacticalBattleItemHexSprite(CustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:2586

@@ -503,6 +503,14 @@ public sealed class PersistCorpusTests
             || message.Contains("uses a case mapping.", StringComparison.Ordinal);
     }
 
+    // Stored names pinned in names.csv by this part. The schema still uses these names.
+    private static readonly HashSet<string> s_pinnedStored =
+    [
+        "ECustomNode", "ENode", "EReferenceNode", "EChangeNotifyNode", "EChangeNotifyEventList",
+        "ESortNode", "EInverseSortNode", "ECustomOwner", "EControlStyleNode", "EControlStyleInverseSortNode",
+        "EResourceList", "PlayerList",
+    ];
+
     private static readonly Dictionary<string, Type> s_engineTypes = BuildEngineTypes();
 
     private static Dictionary<string, Type> BuildEngineTypes()
@@ -512,6 +520,11 @@ public sealed class PersistCorpusTests
         {
             if (engineClass.Type.Assembly != typeof(EngineObject).Assembly) continue;
             types.TryAdd(engineClass.Type.Name, engineClass.Type);
+            // A pinned class keeps its schema name while Type.Name changes. Nested stored names stay out of this set.
+            if (s_pinnedStored.Contains(engineClass.StorageKey))
+            {
+                types.TryAdd(engineClass.StorageKey, engineClass.Type);
+            }
         }
         return types;
     }

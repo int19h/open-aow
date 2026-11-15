@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class DiplomaticRelationHistoryList : ENode, IChildList<DiplomaticRelationHistoryItem>
+public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<DiplomaticRelationHistoryItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.
@@ -15,7 +15,7 @@ public partial class DiplomaticRelationHistoryList : ENode, IChildList<Diplomati
 
     public new const int ClassId = 131355;
 
-    public DiplomaticRelationHistoryList(ECustomNode owner) : base(owner)
+    public DiplomaticRelationHistoryList(CustomNode owner) : base(owner)
     { }
 
     // Player.PAS:45

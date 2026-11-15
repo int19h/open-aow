@@ -31,7 +31,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     }
 
     // MainAG.pas:256
-    public FortifyAIGroupControl(ECustomNode owner) : base(owner)
+    public FortifyAIGroupControl(CustomNode owner) : base(owner)
     {
         _targetSelector = new AIGroupTargetSelector(null) { Holder = CreationHolder() };
     }

@@ -8,7 +8,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class OverlayObject : FixedImageLibraryTerrainMapObject
 {
-    public OverlayObject(ECustomNode owner) : base(owner)
+    public OverlayObject(CustomNode owner) : base(owner)
     { }
 
     // OverlayObject.pas:36
@@ -17,7 +17,7 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
     // OverlayType
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // OverlayObject.pas:42

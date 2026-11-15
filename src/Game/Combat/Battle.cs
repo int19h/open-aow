@@ -29,7 +29,7 @@ public partial class Battle : EngineObject
 {
 
     // Combat.pas:6067
-    public Battle(ECustomNode owner) : base(owner)
+    public Battle(CustomNode owner) : base(owner)
     {
         _executedEventsStore = new();
         var combatSide = new CombatSide(null) { Holder = CreationHolder() };
@@ -721,51 +721,52 @@ public partial class Battle : EngineObject
         MapFieldMessage message = default;
         CombatData data;
         Troop transporter;
-        army.BeginUpdate();
-        player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
-        if (player == 255)
+        using (army.BeginUpdate())
         {
-            player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
-        }
-
-        position = GetPartyPosition(X, Y, L);
-        party = CombatData.Parties.CreateParty(this, position, player, X, Y, L, army);
-        transporter = army.Transporter(255);
-        transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
-        index = 0;
-        for (int i = army.Units.Count - 1; i >= 0; i--)
-        {
-            valid = army.Units.GetUnit(i).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
-            if (valid || transport)
+            player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
+            if (player == 255)
             {
-                unitObject = CreateCombatUnit();
-                unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
-                if (!valid)
+                player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
+            }
+
+            position = GetPartyPosition(X, Y, L);
+            party = CombatData.Parties.CreateParty(this, position, player, X, Y, L, army);
+            transporter = army.Transporter(255);
+            transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            index = 0;
+            for (int i = army.Units.Count - 1; i >= 0; i--)
+            {
+                valid = army.Units.GetUnit(i).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+                if (valid || transport)
                 {
-                    unitObject.Disabled = true;
-                    unitObject.ControlMode = unitObject.ControlMode - Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+                    unitObject = CreateCombatUnit();
+                    unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
+                    if (!valid)
+                    {
+                        unitObject.Disabled = true;
+                        unitObject.ControlMode = unitObject.ControlMode - Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+                    }
+
+                    CombatData.AddObject(unitObject);
+                    index += 1;
                 }
-
-                CombatData.AddObject(unitObject);
-                index += 1;
             }
-        }
 
-        if (X != -1)
-        {
-            message.MessageId = 4387;
-            var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-            message.Param[0] = fieldValue;
-            message.Result = 0;
-            data = CombatData;
-            StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
-            if (message.Result.Int != 0)
+            if (X != -1)
             {
-                party.Wall = (byte)message.Result.Int;
+                message.MessageId = 4387;
+                var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+                message.Param[0] = fieldValue;
+                message.Result = 0;
+                data = CombatData;
+                StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
+                if (message.Result.Int != 0)
+                {
+                    party.Wall = (byte)message.Result.Int;
+                }
             }
-        }
 
-        army.EndUpdate();
+        }
         return party;
     }
 
@@ -776,24 +777,25 @@ public partial class Battle : EngineObject
         byte player;
         int index;
         CombatUnit unitObject;
-        army.BeginUpdate();
-        player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
-        if (player == 255)
+        using (army.BeginUpdate())
         {
-            player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
-        }
+            player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
+            if (player == 255)
+            {
+                player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
+            }
 
-        party = CombatData.Parties.CreateParty(this, (byte)(position << 0), player, X, Y, L, army);
-        index = 0;
-        for (int i = army.Units.Count - 1; i >= 0; i--)
-        {
-            unitObject = CreateCombatUnit();
-            unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
-            CombatData.AddObject(unitObject);
-            index += 1;
-        }
+            party = CombatData.Parties.CreateParty(this, (byte)(position << 0), player, X, Y, L, army);
+            index = 0;
+            for (int i = army.Units.Count - 1; i >= 0; i--)
+            {
+                unitObject = CreateCombatUnit();
+                unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
+                CombatData.AddObject(unitObject);
+                index += 1;
+            }
 
-        army.EndUpdate();
+        }
         return party;
     }
 

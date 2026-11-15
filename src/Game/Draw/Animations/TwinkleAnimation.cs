@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Animations;
 // sequence, particle count, radius, lifetime, random start delay, mode
 public partial class TwinkleAnimation : Animation
 {
-    public TwinkleAnimation(ECustomNode owner) : base(owner)
+    public TwinkleAnimation(CustomNode owner) : base(owner)
     {
         AnimationLevel = 28;
     }

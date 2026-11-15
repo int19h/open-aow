@@ -13,7 +13,7 @@ public partial class UnitEnchantmentAbilityData : AbilityData
     public new const int ClassId = 131756;
 
     // AoWAb.PAS:555
-    public UnitEnchantmentAbilityData(ECustomNode owner) : base(owner)
+    public UnitEnchantmentAbilityData(CustomNode owner) : base(owner)
     {
         EnchantmentPlayerIndex = -1;
         EnchantmentDuration = -1;

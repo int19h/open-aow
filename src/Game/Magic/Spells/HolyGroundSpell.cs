@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class HolyGroundSpell : GlobalTargetSpell
 {
-    public HolyGroundSpell(ECustomNode owner, EngineObject holder) : base(owner)
+    public HolyGroundSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundsText);

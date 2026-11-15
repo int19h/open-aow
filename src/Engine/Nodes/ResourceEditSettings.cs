@@ -41,7 +41,7 @@ public partial class ResourceEditSettings : ControlStyleObject
     }
 
     // Engine.pas:8650
-    public ResourceEditSettings(ECustomNode owner) : base(owner)
+    public ResourceEditSettings(CustomNode owner) : base(owner)
     {
         _editors = new StringList();
     }

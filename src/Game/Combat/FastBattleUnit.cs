@@ -23,7 +23,7 @@ public partial class FastBattleUnit : CombatUnit
     public new const int ClassId = 131791;
 
     // AIGroup.pas:6773
-    public FastBattleUnit(ECustomNode owner) : base(owner)
+    public FastBattleUnit(CustomNode owner) : base(owner)
     {
     }
 

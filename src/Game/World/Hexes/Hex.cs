@@ -15,7 +15,7 @@ namespace Aow.Game.World.Hexes;
 // with a transition, bits 3.5: the shifted variants)
 public partial class Hex : AbstractHexagon
 {
-    public Hex(ECustomNode owner) : base(owner)
+    public Hex(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131410;
@@ -270,7 +270,7 @@ public partial class Hex : AbstractHexagon
 
     public new partial class Resource : HexagonResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // AoWHex.pas:254

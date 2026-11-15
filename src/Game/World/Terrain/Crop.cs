@@ -14,7 +14,7 @@ namespace Aow.Game.World.Terrain;
 // CropOwner
 public partial class Crop : ImageLibraryTerrainMapObject
 {
-    public Crop(ECustomNode owner) : base(owner)
+    public Crop(CustomNode owner) : base(owner)
     {
     }
 
@@ -186,7 +186,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Crops.pas:245

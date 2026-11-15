@@ -61,7 +61,7 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     }
 
     // AoWVideoDlg.pas:278
-    public WorldMapCampaignScenario(ECustomNode owner) : base(owner)
+    public WorldMapCampaignScenario(CustomNode owner) : base(owner)
     {
         IntroPages = new WMCampaignScenarioPageList(null) { Holder = CreationHolder() };
         OutroPages = new WMCampaignScenarioPageList(null) { Holder = CreationHolder() };

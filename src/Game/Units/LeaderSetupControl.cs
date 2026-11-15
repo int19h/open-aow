@@ -14,7 +14,7 @@ public partial class LeaderSetupControl : EngineObject
 
     // Player.PAS:1755
     // { Return the final search index. }
-    public LeaderSetupControl(ECustomNode owner) : base(owner)
+    public LeaderSetupControl(CustomNode owner) : base(owner)
     {
         Items = new Int32List();
         OriginalLeader = new Leader(null) { Holder = CreationHolder() };

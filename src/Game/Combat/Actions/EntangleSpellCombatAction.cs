@@ -12,7 +12,7 @@ public partial class EntangleSpellCombatAction : ExclusiveCombatSpellCombatActio
     // CombatSpells.pas:1328
     public new const int ClassId = 131784;
 
-    public EntangleSpellCombatAction(ECustomNode owner) : base(owner)
+    public EntangleSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1334

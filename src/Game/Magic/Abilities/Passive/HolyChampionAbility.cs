@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class HolyChampionAbility : EnhancementAbility
 {
     // PassiveAb.pas:484
-    public HolyChampionAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public HolyChampionAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HolyChampionText);

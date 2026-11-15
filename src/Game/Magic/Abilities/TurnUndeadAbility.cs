@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class TurnUndeadAbility : TouchAbility
 {
     // AoWAb.PAS:3121
-    public TurnUndeadAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public TurnUndeadAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 38;

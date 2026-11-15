@@ -5,7 +5,7 @@ namespace Aow.Game.Events;
 
 public partial class UserEventLog : EventLog
 {
-    public UserEventLog(ECustomNode owner) : base(owner)
+    public UserEventLog(CustomNode owner) : base(owner)
     { }
 
     public object Data { get; set; }

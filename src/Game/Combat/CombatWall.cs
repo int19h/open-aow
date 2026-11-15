@@ -19,7 +19,7 @@ public partial class CombatWall : CombatObject
     public new const int ClassId = 131759;
 
     // Combat.pas:1660
-    public CombatWall(ECustomNode owner) : base(owner)
+    public CombatWall(CustomNode owner) : base(owner)
     {
         Position = 128;
         ControlMode = Set<CombatObjectControlModeElement>.Of();

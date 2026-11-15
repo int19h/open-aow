@@ -34,7 +34,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     }
 
     // AGCPlugins.pas:157
-    public AIGroupDefendTargetSelector(ECustomNode owner) : base(owner)
+    public AIGroupDefendTargetSelector(CustomNode owner) : base(owner)
     {
         _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
         _targets = new AIGroupControlTargetList(null) { Holder = CreationHolder() };

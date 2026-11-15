@@ -15,7 +15,7 @@ public partial class StrikeAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1210
-    public StrikeAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public StrikeAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem);

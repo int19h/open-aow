@@ -16,7 +16,7 @@ public partial class Enchantment : EngineObject
 {
     // Spells.PAS:1692
     // ID, source, upkeep, dispel resistance
-    public Enchantment(ECustomNode owner) : base(owner)
+    public Enchantment(CustomNode owner) : base(owner)
     {
         DispelResistance = 10;
         Upkeep = 1;

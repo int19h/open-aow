@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-public partial class MapObjectResourceList : EResourceList, IChildList<MapObjectResource>
+public partial class MapObjectResourceList : ResourceCollection, IChildList<MapObjectResource>
 {
     // The map object resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a MapObjectResource, so the cast never fails.
@@ -17,7 +17,7 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
 
     int IChildSink<MapObjectResource>.AddChild(MapObjectResource child) => AddChild(child);
 
-    public MapObjectResourceList(ECustomNode owner) : base(owner)
+    public MapObjectResourceList(CustomNode owner) : base(owner)
     { }
 
     // MAPOBJ.PAS:641

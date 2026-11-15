@@ -21,7 +21,7 @@ public partial class AbilityOwner : CustomAbilityList
 {
 
     // Ability.PAS:1663
-    public AbilityOwner(ECustomNode owner) : base(owner)
+    public AbilityOwner(CustomNode owner) : base(owner)
     {
 
     }

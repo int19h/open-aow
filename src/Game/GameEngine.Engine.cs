@@ -39,13 +39,13 @@ namespace Aow.Game;
 
 // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
 // DebugMessage, FStartupDirectory, FOptions
-public partial class GameEngine : ENode
+public partial class GameEngine : OwningNode
 {
     private int _messageCount;
     private readonly List<EngineClass> _engineClasses;
     private readonly Dictionary<int, EngineClass> _classTable;
     private readonly EngineObjectEditorList _editors;
-    private readonly EControlStyleNode _controlNode;
+    private readonly ControlStyleNode _controlNode;
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
@@ -71,9 +71,9 @@ public partial class GameEngine : ENode
     // Engine.pas:8814
     public override GameEngine GetEngine() => this;
 
-    public GameEngine(ECustomNode owner) : this(null, owner) { }
+    public GameEngine(CustomNode owner) : this(null, owner) { }
 
-    private protected GameEngine(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected GameEngine(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         UpdateStartupDirectory();
         _options = Set<EngineModeElement>.Of(VerifyClasses);
@@ -81,9 +81,9 @@ public partial class GameEngine : ENode
         _engineClasses = new List<EngineClass>();
         _classTable = new Dictionary<int, EngineClass>();
         _editors = new EngineObjectEditorList();
-        _controlNode = new EControlStyleNode(this);
+        _controlNode = new ControlStyleNode(this);
         _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<EControlStyleNode>(), EngineClass.Of<ECustomOwner>(), EngineClass.Of<ResourceEditSettings>()]);
+        RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<ControlStyleNode>(), EngineClass.Of<EngineNode>(), EngineClass.Of<ResourceEditSettings>()]);
         if (!s_fullConstruction) return;
 
         OnHsmLoadedStore = new();
@@ -193,7 +193,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8887
-    public virtual EngineObject CreateEngineObject(int classId, ECustomNode owner)
+    public virtual EngineObject CreateEngineObject(int classId, CustomNode owner)
     {
         EngineClass C;
         C = GetEngineClass(classId);
@@ -550,7 +550,7 @@ public partial class GameEngine : ENode
     public List<EngineClass> EngineClasses { get => _engineClasses; }
     public Dictionary<int, EngineClass> ClassTable { get => _classTable; }
     public EngineObjectEditorList Editors { get => _editors; }
-    public EControlStyleNode ControlNode { get => _controlNode; }
+    public ControlStyleNode ControlNode { get => _controlNode; }
 
     public event NotifyEvent<EngineDebugNotification> DebugEvents
     {

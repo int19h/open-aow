@@ -19,7 +19,7 @@ public partial class MapObjectResource : EngineResource
 {
     public new const int ClassId = 65876;
 
-    public MapObjectResource(ECustomNode owner) : base(owner)
+    public MapObjectResource(CustomNode owner) : base(owner)
     {
         _terrainList = new TerrainList();
         _imageLibrary = new ImageLibrary(null);

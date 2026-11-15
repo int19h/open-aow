@@ -22,7 +22,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutor : EngineObject
 {
     // AIGroup.pas:5976
-    public AIMoveExecutor(ECustomNode owner) : base(owner)
+    public AIMoveExecutor(CustomNode owner) : base(owner)
     {
         Units = new AIMoveExecutorUnitList(null) { Holder = CreationHolder() };
         Moves = new AIMoveExecutorMoveQueue(null) { Holder = CreationHolder() };

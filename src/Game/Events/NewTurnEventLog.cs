@@ -8,7 +8,7 @@ namespace Aow.Game.Events;
 // player, text, mode, dialog style
 public partial class NewTurnEventLog : EventLog
 {
-    public NewTurnEventLog(ECustomNode owner) : base(owner)
+    public NewTurnEventLog(CustomNode owner) : base(owner)
     { }
 
     public sbyte TurnPlayer { get; set; }

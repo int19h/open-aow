@@ -13,7 +13,7 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
     // CombatSpells.pas:1666
     public new const int ClassId = 131777;
 
-    public FastBattleTerrorCombatAction(ECustomNode owner) : base(owner)
+    public FastBattleTerrorCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1672

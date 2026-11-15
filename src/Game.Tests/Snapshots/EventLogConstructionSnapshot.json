@@ -83,12 +83,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyEventLog.DamageTypes": {
@@ -213,12 +213,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyEventLog.DamageTypes": {
@@ -372,12 +372,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyEventLog.DamageTypes": {
@@ -502,12 +502,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyEventLog.DamageTypes": {
@@ -649,12 +649,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyInfoEventLog.Description": "",
@@ -776,12 +776,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyInfoEventLog.Description": "",
@@ -941,12 +941,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyInfoEventLog.Description": "",
@@ -1068,12 +1068,12 @@
               0,
               0
             ],
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyInfoEventLog.Description": "",

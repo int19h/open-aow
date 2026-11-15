@@ -15,7 +15,7 @@ public partial class PlayerMagicEventLog : EventLog
 {
     // Spells.PAS:1847
     // mode, location, spell ID, value, enchantment name
-    public PlayerMagicEventLog(ECustomNode owner) : base(owner)
+    public PlayerMagicEventLog(CustomNode owner) : base(owner)
     {
         Location = MapCoordinate.None;
     }

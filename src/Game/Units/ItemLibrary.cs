@@ -13,7 +13,7 @@ namespace Aow.Game.Units;
 
 // The original's TItemLibrary derives from TItemList. The port's library owns its items as its
 // node children and reads them through Items.
-public partial class ItemLibrary : EChangeNotifyNode, IChildList<Item>, IItemHolder
+public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this library, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -27,7 +27,7 @@ public partial class ItemLibrary : EChangeNotifyNode, IChildList<Item>, IItemHol
 
     public event NotifyEvent<object> OnChanged;
 
-    public ItemLibrary(ECustomNode owner) : base(owner)
+    public ItemLibrary(CustomNode owner) : base(owner)
     { }
 
     // Army.PAS:4596

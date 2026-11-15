@@ -7,7 +7,7 @@ namespace Aow.Game.World.Map;
 /// object (the resource edit settings, the pad and flag controls). The set takes no other child,
 /// so a read of a child slot is one of these or empty.
 /// </summary>
-public union GamePackChild(EResourceList, MapObjectResourceTerrainControl, ControlStyleObject)
+public union GamePackChild(ResourceCollection, MapObjectResourceTerrainControl, ControlStyleObject)
 {
     /// <summary>
     /// The child a set slot holds, read from the untyped storage. The set admits only these
@@ -16,7 +16,7 @@ public union GamePackChild(EResourceList, MapObjectResourceTerrainControl, Contr
     internal static GamePackChild Of(object child) => child switch
     {
         null => default,
-        EResourceList list => list,
+        ResourceCollection list => list,
         MapObjectResourceTerrainControl control => control,
         ControlStyleObject controlObject => controlObject,
         _ => throw new InvalidCastException("A sprite set does not hold a child of type " + child.GetType().Name + "."),

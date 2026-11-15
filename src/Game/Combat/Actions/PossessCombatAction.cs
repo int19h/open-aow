@@ -19,7 +19,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131765;
 
-    public PossessCombatAction(ECustomNode owner) : base(owner)
+    public PossessCombatAction(CustomNode owner) : base(owner)
     { }
 
     public bool Successful { get; private set; }

@@ -9,7 +9,7 @@ namespace Aow.Game.Commands;
 
 public partial class TacticalBattleEndCombatTokenEvent : TokenEvent
 {
-    public TacticalBattleEndCombatTokenEvent(ECustomNode owner) : base(owner)
+    public TacticalBattleEndCombatTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:158

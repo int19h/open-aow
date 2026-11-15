@@ -202,7 +202,7 @@ public sealed class RemainingConstructionTests
         }
     }
 
-    private static object Create(Type type, ECustomNode owner, int route)
+    private static object Create(Type type, CustomNode owner, int route)
     {
         if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 2)
@@ -218,7 +218,7 @@ public sealed class RemainingConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         bool node = typeof(EngineObject).IsAssignableFrom(type);

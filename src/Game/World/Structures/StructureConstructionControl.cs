@@ -16,7 +16,7 @@ namespace Aow.Game.World.Structures;
 public partial class StructureConstructionControl : ConstructionControl
 {
 
-    public StructureConstructionControl(ECustomNode owner) : base(owner)
+    public StructureConstructionControl(CustomNode owner) : base(owner)
     { }
 
     // Structur.PAS:3195

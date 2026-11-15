@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class RecallSpirit : CombatSpell
 {
     // CombatSpells.pas:1975
-    public RecallSpirit(ECustomNode owner, EngineObject holder) : base(owner)
+    public RecallSpirit(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_recallSpiritText);

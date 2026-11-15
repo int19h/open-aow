@@ -13,7 +13,7 @@ public partial class HealingCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131773;
 
-    public HealingCombatAction(ECustomNode owner) : base(owner)
+    public HealingCombatAction(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:3579

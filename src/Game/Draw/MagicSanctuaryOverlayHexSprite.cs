@@ -11,7 +11,7 @@ namespace Aow.Game.Draw;
 // Structure. FadeEndFrame
 public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
 {
-    public MagicSanctuaryOverlayHexSprite(ECustomNode owner) : base(owner)
+    public MagicSanctuaryOverlayHexSprite(CustomNode owner) : base(owner)
     {
         _fadeEndFrame = -1;
     }

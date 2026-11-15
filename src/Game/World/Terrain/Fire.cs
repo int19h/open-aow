@@ -52,7 +52,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
 
     // Structur.PAS:3386
     // mode, lifetime, age, priority, owner player, explosion frame
-    public Fire(ECustomNode owner) : base(owner)
+    public Fire(CustomNode owner) : base(owner)
     {
         TurnsLeft = 3;
         Age = 0;
@@ -435,7 +435,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // FireType
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public new const int ClassId = 132991;

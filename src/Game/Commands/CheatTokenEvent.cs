@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 
 public partial class CheatTokenEvent : TokenEvent
 {
-    public CheatTokenEvent(ECustomNode owner) : base(owner)
+    public CheatTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131829;

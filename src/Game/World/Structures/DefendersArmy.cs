@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 // { ot=1 }
 public partial class DefendersArmy : Army
 {
-    public DefendersArmy(ECustomNode owner) : base(owner)
+    public DefendersArmy(CustomNode owner) : base(owner)
     { }
 
     // ExploreS.pas:71

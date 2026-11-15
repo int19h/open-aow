@@ -21,7 +21,7 @@ namespace Aow.Game.World.Structures;
 // Entrance
 public partial class Cave : Structure
 {
-    public Cave(ECustomNode owner) : base(owner)
+    public Cave(CustomNode owner) : base(owner)
     {
         Entrance = CaveEntrance.Down;
     }
@@ -511,7 +511,7 @@ public partial class Cave : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
             ConnectRoads = true;

@@ -12,7 +12,7 @@ public partial class EmailGame : EngineObject
     // Diplomacy.pas:2462
     public new const int ClassId = 136960;
 
-    public EmailGame(ECustomNode owner) : base(owner)
+    public EmailGame(CustomNode owner) : base(owner)
     { }
 
     public string Name { get; set; } = "";

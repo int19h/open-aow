@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class EntangleAbility : TouchAbility
 {
     // AoWAb.PAS:2968
-    public EntangleAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public EntangleAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 40;
