@@ -484,14 +484,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; i <= last; i += 1)
                                                             {
-                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite != null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite != null)
                                                                 {
                                                                     RandSeed = StrategicMap.Current.Random(16777215);
                                                                     var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
                                                                     action = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, combatObject, false);
                                                                     if (((ExclusiveCombatSpellCombatAction)action).Succeeded)
                                                                     {
-                                                                        ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                        CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                     }
 
                                                                     CombatMap.Current.Combat.ExecuteCombatAction(action);
@@ -539,7 +539,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                 {
                                                                                     if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
                                                                                     {
-                                                                                        hexSprite = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite;
+                                                                                        hexSprite = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite;
                                                                                         if (hexSprite != null)
                                                                                         {
                                                                                             extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SWComet);
@@ -586,8 +586,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         if (effect.CombatAction is DamageCombatAction)
                                                                         {
                                                                             i = ((DamageCombatAction)effect.CombatAction).Damage;
-                                                                            var hexY = ((TacticalBattleUnit)effect.Target).UnitHexSprite.HexY;
-                                                                            HexGeometry.HexToPixel(((TacticalBattleUnit)effect.Target).UnitHexSprite.HexX, hexY, out x, out y);
+                                                                            var hexY = effect.Target.UnitHexSprite.HexY;
+                                                                            HexGeometry.HexToPixel(effect.Target.UnitHexSprite.HexX, hexY, out x, out y);
                                                                             if (((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
                                                                             {
                                                                                 CombatEvents.MakeDamageEffectHexSpriteList(x, y, ((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects, false);
@@ -604,22 +604,22 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                             {
                                                                                 if (((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
                                                                                 {
-                                                                                    ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                                    effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                                 }
                                                                             }
                                                                             else
                                                                             {
                                                                                 if (effect.CombatAction is MindDecayCombatAction && ((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
                                                                                 {
-                                                                                    ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                                    effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                                 }
                                                                             }
                                                                         }
 
                                                                         if (i > 0)
                                                                         {
-                                                                            ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                                                            TacticalBattleUnit.MakeHitBlood((TacticalBattleUnit)effect.Target, i);
+                                                                            effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                            TacticalBattleUnit.MakeHitBlood(effect.Target, i);
                                                                             effect.Cancelled = true;
                                                                         }
                                                                     }
@@ -846,7 +846,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     // CombatTE.pas:1373
     public void NextStrike()
     {
-        DelphiList<CombatObject> used;
+        DelphiList<TacticalBattleUnit> used;
         TacticalBattleUnit target;
         BattleEffectSprite effect;
         BattleEffectSprite extraEffect;
@@ -892,11 +892,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                     if (available)
                     {
-                        var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i2)).UnitHexSprite.HexY;
-                        distance = HexGeometry.DeltaHexToRadius(X, Y, ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i2)).UnitHexSprite.HexX, hexY);
+                        var hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
+                        distance = HexGeometry.DeltaHexToRadius(X, Y, CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX, hexY);
                         if (distance < bestDistance)
                         {
-                            result = (TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i2);
+                            result = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2);
                             bestDistance = distance;
                         }
                     }
@@ -913,7 +913,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             int total;
             int distance;
             List<int> weights;
-            used = new DelphiList<CombatObject>();
+            used = new DelphiList<TacticalBattleUnit>();
             weights = new List<int>();
             total = 0;
             i2 = 0;
@@ -922,13 +922,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             {
                 if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2) != target)
                 {
-                    var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i2)).UnitHexSprite.HexY;
-                    var hexX = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i2)).UnitHexSprite.HexX;
+                    var hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
+                    var hexX = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX;
                     distance = HexGeometry.DeltaHexToRadius(TargetX, TargetY, hexX, hexY);
                     if (distance < 13)
                     {
                         total = total + (13 - distance);
-                        used.Add(CombatMap.Current.Combat.CombatData.GetObjects(i2));
+                        used.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2));
                         weights.Add(13 - distance);
                     }
                 }
@@ -951,7 +951,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     i2 = i2 - weights[index];
                 }
 
-                target = (TacticalBattleUnit)used[index];
+                target = used[index];
             }
 
             used?.Dispose();
@@ -1289,7 +1289,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 path27[count20 - 1].Z = 16;
                 effect.Path = path27;
                 i = 3;
-                used = new DelphiList<CombatObject>();
+                used = new DelphiList<TacticalBattleUnit>();
                 used.Add(_unit);
                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
                 if (hexSprite != null)

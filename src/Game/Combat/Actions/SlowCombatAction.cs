@@ -24,7 +24,7 @@ public partial class SlowCombatAction : ExclusiveCombatSpellCombatAction
         base.Execute(combat);
         if (Succeeded)
         {
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source = combat.CombatData.FindId(SourceId);
             if (target.Troop.ExpandAbility(132))
             {

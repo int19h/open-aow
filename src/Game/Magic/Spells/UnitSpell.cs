@@ -316,9 +316,9 @@ public partial class UnitSpell : Spell
         CombatObject target;
         source = combat.CombatData.FindId(action.SourceId);
         target = combat.CombatData.FindId(action.TargetId);
-        if (source is CombatUnit && target is CombatUnit)
+        if (source is CombatUnit sourceUnit && target is CombatUnit targetUnit)
         {
-            if (ExecuteSpell(((CombatUnit)source).Troop, ((CombatUnit)target).Troop, action.Mana, action.SpellData))
+            if (ExecuteSpell(sourceUnit.Troop, targetUnit.Troop, action.Mana, action.SpellData))
             {
                 if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {

@@ -49,12 +49,11 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         bool wasSummoned;
         source = combat.CombatData.FindId(SourceId);
         target = combat.CombatData.FindId(TargetId);
-        if (source is CombatUnit && target is CombatUnit)
+        if (source is CombatUnit && target is CombatUnit targetUnit)
         {
             enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
-            var combatUnit = (CombatUnit)target;
-            combatUnit.Troop.ListEnchantments(enchantments);
-            wasSummoned = combatUnit.Troop.GetAbilityEnabled(155);
+            targetUnit.Troop.ListEnchantments(enchantments);
+            wasSummoned = targetUnit.Troop.GetAbilityEnabled(155);
 
             for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
@@ -65,7 +64,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
                 }
             }
 
-            if (wasSummoned && !((CombatUnit)target).Troop.GetAbilityEnabled(155))
+            if (wasSummoned && !targetUnit.Troop.GetAbilityEnabled(155))
             {
                 source.DoDamage(target, target.GetHitPoints());
             }
@@ -107,10 +106,10 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         int chance;
         SourceId = source.Id;
         TargetId = target.Id;
-        if (source is CombatUnit && target is CombatUnit)
+        if (source is CombatUnit && target is CombatUnit generateTarget)
         {
             enchantmentList = new EnchantmentList(null) { Holder = CreationHolder() };
-            ((CombatUnit)target).Troop.ListEnchantments(enchantmentList);
+            generateTarget.Troop.ListEnchantments(enchantmentList);
             for (int i = enchantmentList.GetCount() - 1; i >= 0; i--)
             {
                 chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);

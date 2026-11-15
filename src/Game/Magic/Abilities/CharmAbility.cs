@@ -24,14 +24,12 @@ public partial class CharmAbility : CommandAbility
     // AoWAb.PAS:5355
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result = base.CanTouch(source, target);
-        if (result)
+        if (base.CanTouch(source, target) && target is CombatUnit combatUnit)
         {
-            var combatUnit = (CombatUnit)target;
-            result = combatUnit.Troop.GetUnitType() == UnitType.Humanoid && (ushort)combatUnit.Troop.GetRace() != 11 && !combatUnit.Troop.GetAbilityEnabled(129);
+            return combatUnit.Troop.GetUnitType() == UnitType.Humanoid && (ushort)combatUnit.Troop.GetRace() != 11 && !combatUnit.Troop.GetAbilityEnabled(129);
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:5350

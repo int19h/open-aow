@@ -40,6 +40,9 @@ public partial class CombatSide : OwningNode, IChildList<CombatObject>
     // Combat.pas:6008
     public CombatObject GetObjects(int index) => this[index];
 
+    // The caller sets up only units on the side it reads here, so the cast never fails there.
+    public T GetObjects<T>(int index) where T : CombatObject => (T)GetObjects(index);
+
     // Combat.pas:6011
     public int IndexOfId(int id)
     {

@@ -70,19 +70,23 @@ public partial class CommandAbility : TouchAbility
         StrikeCombatAction strike;
         target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = CreateCommandCombatAction((CombatUnit)source, (CombatUnit)target);
-        source.Combat.ExecuteCombatAction(action);
-        if (!action.Successful)
+        if (source is CombatUnit sourceUnit && target is CombatUnit targetUnit)
         {
-            strike = CombatObject.CreateStrikeCombatAction(target, source, true);
-            if (strike != null)
+            action = CreateCommandCombatAction(sourceUnit, targetUnit);
+            source.Combat.ExecuteCombatAction(action);
+            if (!action.Successful)
             {
-                source.Combat.ExecuteCombatAction(strike);
-                strike.Release();
+                strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+                if (strike != null)
+                {
+                    source.Combat.ExecuteCombatAction(strike);
+                    strike.Release();
+                }
             }
+
+            action.Release();
         }
 
-        action.Release();
         return true;
     }
 
@@ -157,9 +161,9 @@ public partial class CommandAbility : TouchAbility
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         float probability;
-        if (CanTouch(attacker, defender) && !(((CombatUnit)defender).Troop is Leader))
+        if (CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && !(defenderUnit.Troop is Leader))
         {
-            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            probability = CombatTouchRoleProbability(attackerUnit, defender);
             var hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
             var defenderHitPoints = defender.GetHitPoints();
@@ -183,7 +187,10 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5106
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        ResetCommandedUnits((CombatUnit)combatObject);
+        if (combatObject is CombatUnit combatUnit)
+        {
+            ResetCommandedUnits(combatUnit);
+        }
     }
 
     // AoWAb.PAS:5102
@@ -193,7 +200,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5176
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107));
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107));
 
     // AoWAb.PAS:5184
     public override bool CanTouchUnit(Troop source, Troop target)
@@ -261,7 +268,7 @@ public partial class CommandAbility : TouchAbility
             {
                 for (int i = data.CommandedUnits.Count - 1; i >= 0; i--)
                 {
-                    target = (CombatUnit)source.Combat.CombatData.FindId(data.CommandedUnits.List[i]);
+                    target = source.Combat.CombatData.FindId<CombatUnit>(data.CommandedUnits.List[i]);
                     if (target != null)
                     {
                         Uncommand(target);
@@ -283,7 +290,7 @@ public partial class CommandAbility : TouchAbility
         {
             data = (CommandedAbilityData)troopOwner.GetAbilityData(CommandedAbilityId);
             // { Original reads Data before checking it for nil. }
-            source = (CombatUnit)target.Combat.CombatData.FindId(data.SourceId);
+            source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
             if (data != null)
             {
                 target.SetCombatPlayer(data.OriginalCombatPlayer);

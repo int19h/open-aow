@@ -36,8 +36,8 @@ public partial class CommandCombatAction : SingleTargetCombatAction
         CombatUnit target;
         if (Successful)
         {
-            source = (CombatUnit)combat.CombatData.FindId(SourceId);
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int i = 0; i <= 2; i++)
             {

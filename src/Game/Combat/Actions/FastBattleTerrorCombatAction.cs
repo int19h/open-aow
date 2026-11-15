@@ -24,7 +24,7 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
         for (int i = TargetIds.Count - 1; i >= 0; i--)
         {
             var targetId = TargetIds[i];
-            target = (CombatUnit)combat.CombatData.FindId(targetId);
+            target = combat.CombatData.FindId<CombatUnit>(targetId);
             GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
     }
@@ -43,7 +43,7 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
             target = side.GetObjects(i);
-            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - target.GetResistance()))
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - target.GetResistance()))
             {
                 TargetIds.Add(target.Id);
             }
