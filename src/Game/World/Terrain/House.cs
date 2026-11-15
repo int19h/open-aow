@@ -120,7 +120,7 @@ public partial class House : CombatStructure
                     break;
             }
 
-            sequence = _resource.ImageSequenceList.GetImageSequence(terrainOffset + _race);
+            sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(terrainOffset + _race);
             if (sequence != null)
             {
                 do
@@ -170,7 +170,7 @@ public partial class House : CombatStructure
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
-            sequence = _resource.ImageSequenceList.GetImageSequence(_race + 60);
+            sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(_race + 60);
             if (sequence != null)
             {
                 do

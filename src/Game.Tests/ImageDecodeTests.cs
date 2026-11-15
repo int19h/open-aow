@@ -306,12 +306,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         for (int i = 0; i < 32; i++)
                             for (int j = 0; j < 32; j++)
                             {
-                                Assert.Equal(table.Bytes[i * 32 + j], table.Table[i][j]);
-                                Assert.Equal(table.Table[i][j], copy.Table[i][j]);
+                                Assert.Equal(table.Bytes[i * 32 + j], table.RowView[i][j]);
+                                Assert.Equal(table.RowView[i][j], copy.RowView[i][j]);
                             }
-                        copy.Table[3][5] = (byte)(table.Table[3][5] ^ 0xFF);
-                        Assert.Equal(copy.Table[3][5], copy.Bytes[3 * 32 + 5]);
-                        Assert.NotEqual(copy.Table[3][5], table.Table[3][5]);
+                        copy.RowView[3][5] = (byte)(table.RowView[3][5] ^ 0xFF);
+                        Assert.Equal(copy.RowView[3][5], copy.Bytes[3 * 32 + 5]);
+                        Assert.NotEqual(copy.RowView[3][5], table.RowView[3][5]);
                     }
                 }
                 for (int i = 0; i <= 100; i++) hash.Add(collection.Tables.Count == 0 ? -1 : IndexOf(collection, collection.Lookup[i]));

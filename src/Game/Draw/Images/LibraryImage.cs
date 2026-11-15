@@ -26,20 +26,20 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     private CustomImageLibrary _owner;
     private bool _dataLoaded;
-    internal int _dataPosition;
-    internal int _dataSize;
+    private int _dataPosition;
+    private int _dataSize;
     private bool _reloadingEnabled;
-    internal byte _version;
-    internal LoadMode _loadMode;
-    internal int _dataWidth;
-    internal int _dataHeight;
-    internal int _width;
-    internal int _height;
-    internal int _xshift;
-    internal int _yshift;
-    internal string _fileName = "";
-    internal int _fileIndex;
-    internal ShowInfo _showInfo;
+    private byte _version;
+    private LoadMode _loadMode;
+    private int _dataWidth;
+    private int _dataHeight;
+    private int _width;
+    private int _height;
+    private int _xshift;
+    private int _yshift;
+    private string _fileName = "";
+    private int _fileIndex;
+    internal ShowInfo ShowInfoValue;
 
     // ImageLib.pas:1613
     public virtual void SetOwner(CustomImageLibrary owner)
@@ -94,7 +94,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     {
         if (SupportShowMode(value.ShowMode, 0))
         {
-            _showInfo = value;
+            ShowInfoValue = value;
         }
     }
 
@@ -161,7 +161,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
         if (_version >= 3)
         {
-            _showInfo.ReadImage(stream, false);
+            ShowInfoValue.ReadImage(stream, false);
         }
     }
 
@@ -182,7 +182,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         stream.Write(Bytes.Of(ref _dataPosition, 4));
         stream.Write(Bytes.Of(ref _width, 4));
         stream.Write(Bytes.Of(ref _height, 4));
-        _showInfo.WriteImage(stream, false);
+        ShowInfoValue.WriteImage(stream, false);
     }
 
     // ImageLib.pas:1747
@@ -306,8 +306,8 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _dataPosition = -1;
         _reloadingEnabled = false;
         _loadMode = LoadMode.LoadOnDemand;
-        _showInfo.ShowMode = ShowMode.Opaque;
-        _showInfo.BlendMode = BlendMode.Alpha;
+        ShowInfoValue.ShowMode = ShowMode.Opaque;
+        ShowInfoValue.BlendMode = BlendMode.Alpha;
         SetOwner(owner);
     }
 
@@ -415,7 +415,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1996
     public virtual void Show(int X, int Y, in LockedSurface lockedSurface)
     {
-        switch (_showInfo.ShowMode)
+        switch (ShowInfoValue.ShowMode)
         {
             case ShowMode.Opaque:
                 ShowOpaque(X, Y, lockedSurface);
@@ -424,29 +424,29 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                 ShowTransparent(X, Y, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (_showInfo.BlendMode)
+                switch (ShowInfoValue.BlendMode)
                 {
                     case BlendMode.User:
-                        if (_showInfo.Blend is BlendTable table)
+                        if (ShowInfoValue.Blend is BlendTable table)
                         {
                             ShowBlended(X, Y, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                 }
 
@@ -457,35 +457,35 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:2040
     public virtual void ShowStretched(in Rect r, in LockedSurface lockedSurface)
     {
-        switch (_showInfo.ShowMode)
+        switch (ShowInfoValue.ShowMode)
         {
             case ShowMode.Opaque:
                 ShowOpaqueStretched(r, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (_showInfo.BlendMode)
+                switch (ShowInfoValue.BlendMode)
                 {
                     case BlendMode.User:
-                        if (_showInfo.Blend is BlendTable table)
+                        if (ShowInfoValue.Blend is BlendTable table)
                         {
                             ShowBlendedStretched(r, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                 }
 
@@ -532,7 +532,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                 ShowTransparent(X, Y, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (_showInfo.BlendMode)
+                switch (ShowInfoValue.BlendMode)
                 {
                     case BlendMode.User:
                         if (showInfo.Blend is BlendTable table)
@@ -604,19 +604,28 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     public bool DataLoaded { get => _dataLoaded; protected set => _dataLoaded = value; }
     public int DataPosition { get => _dataPosition; }
-    public int DataSize { get => _dataSize; }
+    public int DataSize { get => _dataSize; protected set => _dataSize = value; }
     public bool ReloadingEnabled { get => _reloadingEnabled; set => SetReloadingEnabled(value); }
     public byte Version { get => _version; }
     public LoadMode LoadMode { get => _loadMode; set => SetLoadMode(value); }
-    public int DataWidth { get => _dataWidth; }
-    public int DataHeight { get => _dataHeight; }
+
+    protected void SetLoadModeWithoutOverrides(LoadMode value) => _loadMode = value;
+
+    public int DataWidth { get => _dataWidth; protected set => _dataWidth = value; }
+    public int DataHeight { get => _dataHeight; protected set => _dataHeight = value; }
     public int Width { get => _width; set => SetWidth(value); }
+
+    protected void SetWidthWithoutOverrides(int value) => _width = value;
+
     public int Height { get => _height; set => SetHeight(value); }
+
+    protected void SetHeightWithoutOverrides(int value) => _height = value;
+
     public int Xshift { get => _xshift; set => SetXshift(value); }
     public int Yshift { get => _yshift; set => SetYshift(value); }
     public string FileName { get => _fileName; set => _fileName = value; }
     public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
-    public ShowInfo ShowInfo { get => _showInfo; set => SetDefaultShowInfo(value); }
+    public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
     public Palette Palette { get => GetPalette(); }
     public Palette RemapPalette { get => GetRemapPalette(); }
     public bool Transparent { get => GetTransparent(); }

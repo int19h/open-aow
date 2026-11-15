@@ -134,7 +134,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Empty(control.Resources);
                 break;
             case MapObject sprite:
-                Assert.Null(sprite._resource);
+                Assert.Null(sprite.Resource);
                 Assert.Equal(default, sprite.Status);
                 break;
             case Sfx effect:
@@ -160,7 +160,7 @@ public sealed class MapNetSoundConstructionTests
                 if (package is TokenPackage tokens) Assert.Equal(0, tokens.TokenEvents.Count);
                 break;
             case PlayerCommunicationSettings settings:
-                Assert.Equal(ConnectionMode.Local, settings._connectionMode);
+                Assert.Equal(ConnectionMode.Local, settings.ConnectionMode);
                 break;
             case SongList songs:
                 Assert.Equal(0, songs.Songs.Count);

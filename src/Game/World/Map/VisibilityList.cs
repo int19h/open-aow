@@ -30,7 +30,7 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
     // HSEngine.pas:3871
     public override void QuickClear()
     {
-        _count = 0;
+        StoredCount = 0;
     }
 
     // HSEngine.pas:3876

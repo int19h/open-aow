@@ -84,7 +84,7 @@ public partial class PoisonCloud : MultiHexMapObject
         MapLevel level;
         level = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(level, _hexX, _hexY);
+        UpdateMapFields(level, StoredHexX, StoredHexY);
     }
 
     // PoisonC.pas:182
@@ -95,7 +95,7 @@ public partial class PoisonCloud : MultiHexMapObject
             base.MapFieldMessageProc(ref message);
         }
 
-        if (_resource.TerrainList.Terrain[message.HexNumber] >= -1)
+        if (base.Resource.TerrainList.Terrain[message.HexNumber] >= -1)
         {
             if (message.MessageId == 4418)
             {
@@ -128,7 +128,7 @@ public partial class PoisonCloud : MultiHexMapObject
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         int result;
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
             if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
@@ -160,7 +160,7 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:83
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -173,11 +173,11 @@ public partial class PoisonCloud : MultiHexMapObject
         int hexX = default;
         int hexY = default;
         int hexNumber;
-        if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
+            result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
@@ -192,7 +192,7 @@ public partial class PoisonCloud : MultiHexMapObject
     {
         HexNumberWalkData walk = default;
         int count;
-        count = _resource.TerrainList.Count;
+        count = base.Resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
@@ -245,9 +245,9 @@ public partial class PoisonCloud : MultiHexMapObject
         message.Param[0] = (int)StormType.Pestilence;
         message.Param[2] = Player;
         ref var walk = ref hexNumberWalkData;
-        while (_resource.TerrainList.Count > walk.HexNumber)
+        while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
-            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
+            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
                 message.Param[1] = walk.Radius;
                 level.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
@@ -347,8 +347,8 @@ public partial class PoisonCloud : MultiHexMapObject
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
-                    _hexX = (sbyte)hexX;
-                    _hexY = (sbyte)hexY;
+                    StoredHexX = (sbyte)hexX;
+                    StoredHexY = (sbyte)hexY;
                     Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);

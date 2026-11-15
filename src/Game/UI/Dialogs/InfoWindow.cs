@@ -85,7 +85,7 @@ public partial class InfoWindow : UIModule
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow._windowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
         this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
     }
 

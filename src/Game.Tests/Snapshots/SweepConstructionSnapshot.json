@@ -2140,7 +2140,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2154,8 +2154,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null
           }
         }
@@ -2180,7 +2180,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2194,8 +2194,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner"
           }
         }
@@ -2216,7 +2216,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2230,8 +2230,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner"
             }
           }
@@ -2256,7 +2256,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2270,8 +2270,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": null,
             "Storm.Player": 0
@@ -2298,7 +2298,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2312,8 +2312,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
@@ -2336,7 +2336,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2350,8 +2350,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "BlastStorm._stormImages": null,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
@@ -2378,7 +2378,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2392,8 +2392,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null
           }
         }
@@ -2418,7 +2418,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2432,8 +2432,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner"
           }
         }
@@ -2454,7 +2454,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2468,8 +2468,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner"
             }
           }
@@ -2494,7 +2494,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2508,8 +2508,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": null,
             "Storm.Player": 0
@@ -2536,7 +2536,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2550,8 +2550,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
@@ -2574,7 +2574,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2588,8 +2588,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "BlastStorm._stormImages": null,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
@@ -2616,7 +2616,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2630,8 +2630,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": null,
             "Storm.Player": 0
@@ -2658,7 +2658,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2672,8 +2672,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
@@ -2696,7 +2696,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2710,8 +2710,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "BlastStorm._stormImages": null,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
@@ -2738,7 +2738,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2752,8 +2752,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "Storm.Player": 0
           }
@@ -2779,7 +2779,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2793,8 +2793,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
           }
@@ -2816,7 +2816,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2830,8 +2830,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
             }
@@ -2857,7 +2857,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2871,8 +2871,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": null,
             "Storm.Player": 0
@@ -2899,7 +2899,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2913,8 +2913,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "BlastStorm._stormImages": null,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
@@ -2937,7 +2937,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -2951,8 +2951,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "BlastStorm._stormImages": null,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
@@ -2979,7 +2979,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -2993,8 +2993,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "ImageSequenceAnimation.FrameCount": -1,
             "ImageSequenceAnimation.ImageSequence": null,
@@ -3024,7 +3024,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3038,8 +3038,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "ImageSequenceAnimation.FrameCount": -1,
             "ImageSequenceAnimation.ImageSequence": null,
@@ -3065,7 +3065,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3079,8 +3079,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "ImageSequenceAnimation.FrameCount": 0,
               "ImageSequenceAnimation.ImageSequence": null,
@@ -3110,7 +3110,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3124,8 +3124,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "LightningStorm._stormImages": null,
             "Storm.Player": 0
@@ -3152,7 +3152,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3166,8 +3166,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "LightningStorm._stormImages": null,
             "Storm.Player": 0
@@ -3190,7 +3190,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3204,8 +3204,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "LightningStorm._stormImages": null,
               "Storm.Player": 0
@@ -3232,7 +3232,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3246,8 +3246,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "PestilenceStorm._cloudResource": null,
             "Storm.Player": 0
@@ -3274,7 +3274,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3288,8 +3288,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "PestilenceStorm._cloudResource": null,
             "Storm.Player": 0
@@ -3312,7 +3312,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3326,8 +3326,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "PestilenceStorm._cloudResource": null,
               "Storm.Player": 0
@@ -3354,7 +3354,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3368,8 +3368,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null
           }
         }
@@ -3394,7 +3394,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3408,8 +3408,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner"
           }
         }
@@ -3430,7 +3430,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3444,8 +3444,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner"
             }
           }
@@ -3470,7 +3470,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3484,8 +3484,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "Storm.Player": 0
           }
@@ -3511,7 +3511,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3525,8 +3525,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "Storm.Player": 0
           }
@@ -3548,7 +3548,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3562,8 +3562,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "Storm.Player": 0
             }
@@ -3589,7 +3589,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3603,8 +3603,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": null,
             "TwinkleAnimation._count": 0,
             "TwinkleAnimation._duration": 0,
@@ -3644,7 +3644,7 @@
               "Rect.Top": 0
             },
             "Animation.FrameCounter": 0,
-            "Animation._hexLevel": 0,
+            "Animation.StoredHexLevel": 0,
             "Animation.OnNewFrame": null,
             "Animation.OnShow": null,
             "Animation._state": {
@@ -3658,8 +3658,8 @@
               "Set\u00601.low": 0
             },
             "Animation.Tag": 0,
-            "Animation._hexX": 0,
-            "Animation._hexY": 0,
+            "Animation.StoredHexX": 0,
+            "Animation.StoredHexY": 0,
             "EngineObject._owner": "$owner",
             "TwinkleAnimation._count": 0,
             "TwinkleAnimation._duration": 0,
@@ -3695,7 +3695,7 @@
                 "Rect.Top": 0
               },
               "Animation.FrameCounter": 0,
-              "Animation._hexLevel": 0,
+              "Animation.StoredHexLevel": 0,
               "Animation.OnNewFrame": null,
               "Animation.OnShow": null,
               "Animation._state": {
@@ -3709,8 +3709,8 @@
                 "Set\u00601.low": 0
               },
               "Animation.Tag": 0,
-              "Animation._hexX": 0,
-              "Animation._hexY": 0,
+              "Animation.StoredHexX": 0,
+              "Animation.StoredHexY": 0,
               "EngineObject._owner": "$owner",
               "TwinkleAnimation._count": 0,
               "TwinkleAnimation._duration": 0,
@@ -4076,7 +4076,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.CombatImageLibraryTerrainShadow",
-            "CombatImageLibraryTerrainShadow._terrain": null,
+            "CombatImageLibraryTerrainShadow.Terrain": null,
             "EngineObject._owner": null
           }
         }
@@ -4091,7 +4091,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.CombatImageLibraryTerrainShadow",
-            "CombatImageLibraryTerrainShadow._terrain": null,
+            "CombatImageLibraryTerrainShadow.Terrain": null,
             "EngineObject._owner": "$owner"
           }
         }
@@ -4102,7 +4102,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.CombatImageLibraryTerrainShadow",
-              "CombatImageLibraryTerrainShadow._terrain": null,
+              "CombatImageLibraryTerrainShadow.Terrain": null,
               "EngineObject._owner": "$owner"
             }
           }
@@ -4199,7 +4199,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.CombatTerrainShadow",
-            "CombatTerrainShadow._terrain": null,
+            "CombatTerrainShadow.Terrain": null,
             "EngineObject._owner": null
           }
         }
@@ -4214,7 +4214,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.CombatTerrainShadow",
-            "CombatTerrainShadow._terrain": null,
+            "CombatTerrainShadow.Terrain": null,
             "EngineObject._owner": "$owner"
           }
         }
@@ -4225,7 +4225,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.CombatTerrainShadow",
-              "CombatTerrainShadow._terrain": null,
+              "CombatTerrainShadow.Terrain": null,
               "EngineObject._owner": "$owner"
             }
           }
@@ -6130,7 +6130,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6226,7 +6226,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6394,7 +6394,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6490,7 +6490,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6655,7 +6655,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6759,7 +6759,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -6839,8 +6839,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -6869,8 +6869,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -6895,8 +6895,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -7024,7 +7024,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7120,7 +7120,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7211,7 +7211,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7307,7 +7307,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7502,7 +7502,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7598,7 +7598,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7847,7 +7847,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -7945,7 +7945,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8206,7 +8206,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8316,7 +8316,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8400,8 +8400,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -8428,8 +8428,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -8452,8 +8452,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -8502,7 +8502,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8600,7 +8600,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8805,7 +8805,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8901,7 +8901,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -8992,7 +8992,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9090,7 +9090,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9275,7 +9275,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9371,7 +9371,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9563,7 +9563,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9679,7 +9679,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9772,8 +9772,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -9803,8 +9803,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -9830,8 +9830,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -9879,7 +9879,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -9975,7 +9975,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10177,7 +10177,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10275,7 +10275,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10368,7 +10368,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10466,7 +10466,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10725,7 +10725,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10823,7 +10823,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -10916,7 +10916,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11014,7 +11014,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11189,7 +11189,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11285,7 +11285,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11376,7 +11376,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11472,7 +11472,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11616,8 +11616,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -11644,8 +11644,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -11668,8 +11668,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -11717,7 +11717,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11825,7 +11825,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -11929,7 +11929,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12027,7 +12027,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12203,7 +12203,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12301,7 +12301,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12577,7 +12577,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12673,7 +12673,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12764,7 +12764,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -12860,7 +12860,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13025,7 +13025,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13121,7 +13121,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13181,7 +13181,7 @@
             "MapField.FieldFlags": 0,
             "EngineObject._owner": null,
             "MapField._capacity": 3,
-            "MapField._count": 0,
+            "MapField.StoredCount": 0,
             "MapField._hexSpriteList": [
               null,
               null,
@@ -13224,7 +13224,7 @@
             "MapField.FieldFlags": 0,
             "EngineObject._owner": "$owner",
             "MapField._capacity": 3,
-            "MapField._count": 0,
+            "MapField.StoredCount": 0,
             "MapField._hexSpriteList": [
               null,
               null,
@@ -13506,7 +13506,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13602,7 +13602,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13672,8 +13672,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -13700,8 +13700,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -13724,8 +13724,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -13773,7 +13773,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13883,7 +13883,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -13967,8 +13967,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -13995,8 +13995,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -14019,8 +14019,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -14068,7 +14068,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14172,7 +14172,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14271,7 +14271,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14375,7 +14375,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14453,8 +14453,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PoisonCloud._direction": 0,
             "PoisonCloud._drifting": false,
             "PoisonCloud.Player": 0,
@@ -14486,8 +14486,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PoisonCloud._direction": 0,
             "PoisonCloud._drifting": false,
             "PoisonCloud.Player": 0,
@@ -14515,8 +14515,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PoisonCloud._direction": 0,
               "PoisonCloud._drifting": false,
               "PoisonCloud.Player": 0,
@@ -14569,7 +14569,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14673,7 +14673,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -14751,15 +14751,15 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "SmokeCloud._direction": 0,
             "SmokeCloud.Drifting": false,
             "SmokeCloud.Enchantment": {
               "$type": "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
               "EngineObject._owner": null,
               "GlobalEnchantment.DispelMana": 25,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -14817,15 +14817,15 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "SmokeCloud._direction": 0,
             "SmokeCloud.Drifting": false,
             "SmokeCloud.Enchantment": {
               "$type": "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
               "EngineObject._owner": null,
               "GlobalEnchantment.DispelMana": 25,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -14879,8 +14879,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "SmokeCloud._direction": 0,
               "SmokeCloud.Drifting": false,
               "SmokeCloud.Enchantment": null,
@@ -14935,7 +14935,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -15100,7 +15100,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -15241,8 +15241,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -15343,8 +15343,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -15441,8 +15441,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -15490,8 +15490,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -15545,8 +15545,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -15596,8 +15596,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -15656,7 +15656,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -15813,7 +15813,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -15949,8 +15949,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16004,8 +16004,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16055,8 +16055,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -16115,7 +16115,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -16272,7 +16272,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -16408,8 +16408,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16463,8 +16463,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16514,8 +16514,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -16574,7 +16574,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -16731,7 +16731,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -16867,8 +16867,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16922,8 +16922,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -16973,8 +16973,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -17033,7 +17033,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -17190,7 +17190,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -17326,8 +17326,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -17381,8 +17381,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -17432,8 +17432,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -17492,7 +17492,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -17649,7 +17649,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -17785,8 +17785,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -17840,8 +17840,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -17891,8 +17891,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -17951,7 +17951,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18108,7 +18108,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18244,8 +18244,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -18299,8 +18299,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -18350,8 +18350,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -18410,7 +18410,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18567,7 +18567,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18719,7 +18719,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18868,7 +18868,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -18993,8 +18993,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -19029,8 +19029,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -19061,8 +19061,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -19116,7 +19116,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -19265,7 +19265,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -19390,8 +19390,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -19426,8 +19426,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -19458,8 +19458,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -19513,7 +19513,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -19678,7 +19678,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -19819,8 +19819,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -19921,8 +19921,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -20019,8 +20019,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -20084,7 +20084,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -20233,7 +20233,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -20359,8 +20359,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -20396,8 +20396,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -20429,8 +20429,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -20484,7 +20484,7 @@
               "Set\u00601.low": 0
             },
             "City.Name": "Noname",
-            "City._overlay": {
+            "City.Overlay": {
               "$type": "Aow.Game.Draw.CityOverlayHexSprite",
               "CityOverlayHexSprite.City": "$ref:$",
               "CityOverlayHexSprite.Mode": 0,
@@ -20555,8 +20555,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -20633,7 +20633,7 @@
               "Set\u00601.low": 0
             },
             "City.Name": "Noname",
-            "City._overlay": {
+            "City.Overlay": {
               "$type": "Aow.Game.Draw.CityOverlayHexSprite",
               "CityOverlayHexSprite.City": "$ref:$",
               "CityOverlayHexSprite.Mode": 0,
@@ -20704,8 +20704,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -20770,7 +20770,7 @@
                 "Set\u00601.low": 0
               },
               "City.Name": "",
-              "City._overlay": null,
+              "City.Overlay": null,
               "City.Production": null,
               "City.Race": 0,
               "City.UpgradeLevel": 0,
@@ -20792,8 +20792,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerCropStructure._changingCrops": false,
               "PlayerCropStructure.Income": 0,
               "PlayerCropStructure._incomeSource": null,
@@ -20866,7 +20866,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -21027,7 +21027,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -21220,8 +21220,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -21324,8 +21324,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -21361,8 +21361,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -21416,7 +21416,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -21581,7 +21581,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -21722,8 +21722,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -21824,8 +21824,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -21922,8 +21922,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -21998,7 +21998,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -22171,7 +22171,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -22430,8 +22430,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -22588,8 +22588,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -22625,8 +22625,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -22680,7 +22680,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -22845,7 +22845,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -22986,8 +22986,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -23088,8 +23088,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -23186,8 +23186,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -23287,8 +23287,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -23379,8 +23379,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -23414,8 +23414,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -23480,7 +23480,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -23641,7 +23641,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -23786,7 +23786,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -23945,7 +23945,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -24090,8 +24090,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -24159,8 +24159,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -24224,8 +24224,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerCropStructure._changingCrops": false,
               "PlayerCropStructure.Income": 0,
               "PlayerCropStructure._incomeSource": null,
@@ -24287,7 +24287,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -24452,7 +24452,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -24593,8 +24593,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -24695,8 +24695,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -24793,8 +24793,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -24906,8 +24906,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -25010,8 +25010,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -25047,8 +25047,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -25113,7 +25113,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25274,7 +25274,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25419,7 +25419,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25584,7 +25584,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25725,8 +25725,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -25827,8 +25827,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -25925,8 +25925,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -25990,7 +25990,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -26139,7 +26139,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -26271,8 +26271,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -26315,8 +26315,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -26349,8 +26349,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -26404,7 +26404,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -26561,7 +26561,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -26700,8 +26700,8 @@
               "PlayerStructureIncomeSource._structure": "$ref:$"
             },
             "Mine.State": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -26758,8 +26758,8 @@
               "PlayerStructureIncomeSource._structure": "$ref:$"
             },
             "Mine.State": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -26808,8 +26808,8 @@
               "MapObject._unlinkedResourceId": 0,
               "Mine._incomeSource": null,
               "Mine.State": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -26879,7 +26879,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -27040,7 +27040,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -27233,8 +27233,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -27337,8 +27337,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -27374,8 +27374,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -27410,8 +27410,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -27469,8 +27469,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerCropStructure._changingCrops": false,
             "PlayerCropStructure.Income": 0,
             "PlayerCropStructure._incomeSource": {
@@ -27524,8 +27524,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerCropStructure._changingCrops": false,
               "PlayerCropStructure.Income": 0,
               "PlayerCropStructure._incomeSource": null,
@@ -27587,7 +27587,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -27746,7 +27746,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -27881,8 +27881,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -27933,8 +27933,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -27981,8 +27981,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -28041,7 +28041,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -28198,7 +28198,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -28350,7 +28350,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -28507,7 +28507,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -28640,8 +28640,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -28707,8 +28707,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -28770,8 +28770,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -28822,8 +28822,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -28924,8 +28924,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -29022,8 +29022,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -29087,7 +29087,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -29252,7 +29252,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -29423,7 +29423,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -29584,7 +29584,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -29777,8 +29777,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -29881,8 +29881,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -29918,8 +29918,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -29973,7 +29973,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -30130,7 +30130,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -30263,8 +30263,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -30316,8 +30316,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -30365,8 +30365,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -30426,7 +30426,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -30587,7 +30587,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -30754,7 +30754,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -30915,7 +30915,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -31108,8 +31108,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -31212,8 +31212,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -31249,8 +31249,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -31304,7 +31304,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -31469,7 +31469,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -31610,8 +31610,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -31712,8 +31712,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -31810,8 +31810,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -31875,7 +31875,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -32024,7 +32024,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -32149,8 +32149,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Sign.Text": {
               "$type": "Aow.Rtl.StringList",
               "StringCollection.UpdateCount": 0,
@@ -32207,8 +32207,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Sign.Text": {
               "$type": "Aow.Rtl.StringList",
               "StringCollection.UpdateCount": 0,
@@ -32261,8 +32261,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Sign.Text": null,
               "Sign.TextSeen": null,
               "Structure.BuildingDays": 0,
@@ -32318,7 +32318,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -32467,7 +32467,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -32592,8 +32592,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -32628,8 +32628,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -32660,8 +32660,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -32696,8 +32696,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -32732,8 +32732,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -32764,8 +32764,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -32819,7 +32819,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -32968,7 +32968,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -33112,7 +33112,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -33261,7 +33261,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -33386,8 +33386,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -33435,8 +33435,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -33480,8 +33480,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -33548,7 +33548,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -33705,7 +33705,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -33838,8 +33838,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -33900,8 +33900,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -33958,8 +33958,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -34028,7 +34028,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -34193,7 +34193,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -34334,8 +34334,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -34436,8 +34436,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PlayerStructure._flagId": 0,
             "PlayerStructure.Player": 0,
             "PlayerStructure.ProductionPriority": 0,
@@ -34534,8 +34534,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PlayerStructure._flagId": 0,
               "PlayerStructure.Player": 0,
               "PlayerStructure.ProductionPriority": 0,
@@ -34599,7 +34599,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -34748,7 +34748,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -34873,8 +34873,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -34922,8 +34922,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "Structure.BuildingDays": 0,
             "Structure.BuildingPlayer": -1,
             "Structure.Fogged": true,
@@ -34967,8 +34967,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
               "Structure.BuildingPlayer": 0,
               "Structure.Fogged": false,
@@ -35037,7 +35037,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35147,7 +35147,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35237,8 +35237,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35273,8 +35273,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35305,8 +35305,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -35356,7 +35356,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35466,7 +35466,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35556,8 +35556,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35592,8 +35592,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35624,8 +35624,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -35675,7 +35675,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35783,7 +35783,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -35866,8 +35866,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35897,8 +35897,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35924,8 +35924,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -35955,8 +35955,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -35986,8 +35986,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36013,8 +36013,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -36064,7 +36064,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36172,7 +36172,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36257,8 +36257,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36290,8 +36290,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36319,8 +36319,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -36370,7 +36370,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36478,7 +36478,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36579,7 +36579,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36683,7 +36683,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -36764,8 +36764,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36795,8 +36795,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36822,8 +36822,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -36852,8 +36852,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36882,8 +36882,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -36908,8 +36908,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -36957,7 +36957,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37061,7 +37061,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37160,7 +37160,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37264,7 +37264,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37346,8 +37346,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -37378,8 +37378,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -37406,8 +37406,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -37455,7 +37455,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37559,7 +37559,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37652,8 +37652,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -37695,8 +37695,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -37734,8 +37734,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -37785,7 +37785,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37893,7 +37893,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -37980,8 +37980,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38015,8 +38015,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38046,8 +38046,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -38076,8 +38076,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38106,8 +38106,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38132,8 +38132,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -38181,7 +38181,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38285,7 +38285,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38386,7 +38386,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38494,7 +38494,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38579,8 +38579,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38612,8 +38612,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38641,8 +38641,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -38690,7 +38690,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38794,7 +38794,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -38876,8 +38876,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38908,8 +38908,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -38936,8 +38936,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -38985,7 +38985,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39091,7 +39091,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39173,8 +39173,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -39203,8 +39203,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -39229,8 +39229,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -39278,7 +39278,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39384,7 +39384,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39466,8 +39466,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -39496,8 +39496,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -39522,8 +39522,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -39571,7 +39571,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39675,7 +39675,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -39755,8 +39755,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PoisonPlant.CasterPlayer": -1,
             "PoisonPlant.DaysRemaining": -1,
             "PoisonPlant.OriginalOverlay": -1,
@@ -39798,8 +39798,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "PoisonPlant.CasterPlayer": -1,
             "PoisonPlant.DaysRemaining": -1,
             "PoisonPlant.OriginalOverlay": -1,
@@ -39837,8 +39837,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "PoisonPlant.CasterPlayer": 0,
               "PoisonPlant.DaysRemaining": 0,
               "PoisonPlant.OriginalOverlay": 0,
@@ -39899,7 +39899,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -40003,7 +40003,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -40083,8 +40083,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "RaisedMountain.Duration": 0,
             "RaisedMountain.Mode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.RaisedMountainMode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40126,8 +40126,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "RaisedMountain.Duration": 0,
             "RaisedMountain.Mode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.RaisedMountainMode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40165,8 +40165,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "RaisedMountain.Duration": 0,
               "RaisedMountain.Mode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.RaisedMountainMode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40227,7 +40227,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -40331,7 +40331,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -40411,8 +40411,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "UnholyGround.Duration": 0,
             "UnholyGround.Mode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.UnholySummoning, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40454,8 +40454,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0,
             "UnholyGround.Duration": 0,
             "UnholyGround.Mode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.UnholySummoning, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40493,8 +40493,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0,
               "UnholyGround.Duration": 0,
               "UnholyGround.Mode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.UnholySummoning, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -40555,7 +40555,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -40651,7 +40651,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {

@@ -36,7 +36,7 @@ public sealed class EventLogConstructionTests
                     {
                         if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
                     }
-                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child._day, child._player, child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
+                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.Day, child.Player, child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
 

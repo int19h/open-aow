@@ -98,7 +98,7 @@ public partial class TownQuake : CityTargetSpell
         Troop troop;
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText);
-        log._player = source.Player;
+        log.Player = source.Player;
         var townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
         log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;

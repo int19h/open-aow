@@ -26,10 +26,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         RefCount = 1;
     }
 
-    public int _day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
+    public int Day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
     public int Id { get; set; }
 
-    public sbyte _player = StrategicMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
+    public sbyte Player { get; set; } = StrategicMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
 
     public int RefCount { get; private set; }
 
@@ -52,8 +52,8 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _day = persister.Int32("Day", value: _day);
-        _player = PersistSupport.UnsignedByte(persister, name: "Player", value: _player);
+        Day = persister.Int32("Day", value: Day);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         Id = persister.Int32("Id", value: Id);
     }
 
@@ -84,16 +84,16 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual int GetTextColor()
     {
         int index;
-        bool condition = _player > 0;
+        bool condition = Player > 0;
         if (condition)
         {
             var count = StrategicMap.Current.Players.GetCount();
-            condition = _player < count;
+            condition = Player < count;
         }
 
         if (condition)
         {
-            index = StrategicMap.Current.Players.GetPlayers(_player).PlayerRace;
+            index = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
         }
         else
         {
@@ -107,16 +107,16 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual int GetLeftIcon()
     {
         int result;
-        bool condition = _player > 0;
+        bool condition = Player > 0;
         if (condition)
         {
             var count = StrategicMap.Current.Players.GetCount();
-            condition = _player < count;
+            condition = Player < count;
         }
 
         if (condition)
         {
-            result = StrategicMap.Current.Players.GetPlayers(_player).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
         }
         else
         {
@@ -162,7 +162,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool result = default;
-        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == _player))
+        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
         {
             StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
             result = true;

@@ -349,7 +349,7 @@ public partial class CityWall : CombatImageLibraryTerrain
     }
 
     // CityWall.pas:130
-    public byte GetDirection() => ((Resource)_resource).Direction;
+    public byte GetDirection() => ((Resource)base.Resource).Direction;
 
     // CityWall.pas:197
     public new int GetDefense() => -2;
@@ -444,7 +444,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 break;
         }
 
-        sequence = _resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
+        sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
         if (sequence != null)
         {
             do

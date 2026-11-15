@@ -77,7 +77,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             result = null;
         }
 
-        while (result != null && layer != result._layer)
+        while (result != null && layer != result.Layer)
         {
             result = result.Next;
         }
@@ -285,7 +285,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         if (s != null)
         {
             previous = null;
-            while (s != null && s._layer < sequence._layer)
+            while (s != null && s.Layer < sequence.Layer)
             {
                 previous = s;
                 s = s.Next;
@@ -293,7 +293,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
 
             if (previous != null)
             {
-                if (s != null && sequence._layer == s._layer)
+                if (s != null && sequence.Layer == s.Layer)
                 {
                     throw new InvalidOperationException("Layer does already exist");
                 }
@@ -395,7 +395,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             sequence = List[i];
             while (sequence != null && !result)
             {
-                result = sequence._sequenceMode != SequenceMode.None;
+                result = sequence.SequenceMode != SequenceMode.None;
                 sequence = sequence.Next;
             }
 
@@ -467,7 +467,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
                     result = true;
                     if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                     }
                 }
 
@@ -517,7 +517,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
                 {
                     if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                     }
                 }
 
@@ -541,7 +541,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
                 {
                     if (sequence.ImageLibrary.ImageExist(i))
                     {
-                        sequence.ImageLibrary[i].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[i].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                     }
                 }
 

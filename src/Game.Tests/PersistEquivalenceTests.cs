@@ -64,21 +64,21 @@ public sealed partial class PersistEquivalenceTests
     public void EventLogMatchesTheConverter()
     {
         Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine });
-        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = 0, _player = 0, Id = 0 });
-        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = int.MinValue, _player = -128, Id = int.MaxValue });
-        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = int.MaxValue, _player = 127, Id = int.MinValue });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, Day = 0, Player = 0, Id = 0 });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, Day = int.MinValue, Player = -128, Id = int.MaxValue });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, Day = int.MaxValue, Player = 127, Id = int.MinValue });
     }
 
     [Fact]
     public void MessageEventLogMatchesTheConverter()
     {
         Check("MessageEventLog", new MessageEventLog(null!, holder: EngineFixture.Engine));
-        var empty = new MessageEventLog(null!, holder: EngineFixture.Engine) { _day = 0, _player = 0, Id = 0, Title = "", Layout = 0, Buttons = 0 };
+        var empty = new MessageEventLog(null!, holder: EngineFixture.Engine) { Day = 0, Player = 0, Id = 0, Title = "", Layout = 0, Buttons = 0 };
         Check("MessageEventLog", empty);
         var full = new MessageEventLog(null!, holder: EngineFixture.Engine)
         {
-            _day = int.MaxValue,
-            _player = -1,
+            Day = int.MaxValue,
+            Player = -1,
             Id = int.MinValue,
             Title = "Jörg",
             Layout = MessageEventLogLayout.Header,
@@ -393,7 +393,7 @@ public sealed partial class PersistEquivalenceTests
         var named = new GlobalEnchantment(null!)
         {
             Holder = EngineFixture.Engine,
-            _enchantmentId = int.MinValue,
+            EnchantmentId = int.MinValue,
             EnchantmentType = (GlobalEnchantmentType)255,
             PlayerIndex = -1,
             Name = "Jörg",
@@ -408,7 +408,7 @@ public sealed partial class PersistEquivalenceTests
         Check("FloodEnchantment", new FloodEnchantment(null!, holder: EngineFixture.Engine));
         var flood = new FloodEnchantment(null!, holder: EngineFixture.Engine)
         {
-            _enchantmentId = 9,
+            EnchantmentId = 9,
             EnchantmentType = (GlobalEnchantmentType)1,
             PlayerIndex = 4,
             Name = "",
@@ -882,9 +882,9 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             Dimensions = new Rect { Left = int.MinValue, Top = -1, Right = int.MaxValue, Bottom = 4 },
-            _hexX = -1,
-            _hexY = sbyte.MinValue,
-            _hexLevel = sbyte.MaxValue,
+            StoredHexX = -1,
+            StoredHexY = sbyte.MinValue,
+            StoredHexLevel = sbyte.MaxValue,
             FrameCounter = int.MinValue,
         };
         Check("Animation", edge);

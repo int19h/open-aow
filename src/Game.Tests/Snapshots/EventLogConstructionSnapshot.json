@@ -107,9 +107,9 @@
           },
           "ArmyEventLog._gameOver": false,
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -237,9 +237,9 @@
           },
           "ArmyEventLog._gameOver": false,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -260,14 +260,14 @@
                 "ArmyEventLog.DamageValues": null,
                 "ArmyEventLog._gameOver": false,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -396,9 +396,9 @@
           },
           "ArmyEventLog._gameOver": false,
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -526,9 +526,9 @@
           },
           "ArmyEventLog._gameOver": false,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -549,14 +549,14 @@
                 "ArmyEventLog.DamageValues": null,
                 "ArmyEventLog._gameOver": false,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -682,9 +682,9 @@
             "Set\u00601.low": 0
           },
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -809,9 +809,9 @@
             "Set\u00601.low": 0
           },
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -841,14 +841,14 @@
                   "Set\u00601.low": 0
                 },
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -974,9 +974,9 @@
             "Set\u00601.low": 0
           },
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1101,9 +1101,9 @@
             "Set\u00601.low": 0
           },
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1133,14 +1133,14 @@
                   "Set\u00601.low": 0
                 },
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -1168,9 +1168,9 @@
           "$type": "Aow.Game.Events.CombatEventLog",
           "CombatEventLog.Logbook": null,
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1197,9 +1197,9 @@
           "$type": "Aow.Game.Events.CombatEventLog",
           "CombatEventLog.Logbook": null,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1214,14 +1214,14 @@
                 "$type": "Aow.Game.Events.CombatEventLog",
                 "CombatEventLog.Logbook": null,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -1249,9 +1249,9 @@
           "$type": "Aow.Game.Events.CombatEventLog",
           "CombatEventLog.Logbook": null,
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1278,9 +1278,9 @@
           "$type": "Aow.Game.Events.CombatEventLog",
           "CombatEventLog.Logbook": null,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1295,14 +1295,14 @@
                 "$type": "Aow.Game.Events.CombatEventLog",
                 "CombatEventLog.Logbook": null,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -1333,14 +1333,14 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog.AttackerPlayer": 0,
           "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1370,14 +1370,14 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog.AttackerPlayer": 0,
           "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1395,19 +1395,19 @@
                 "CombatTypeRequestEventLog.CreateNewMove": false,
                 "CombatTypeRequestEventLog.DefenderPlayer": 0,
                 "CombatTypeRequestEventLog.MapLevel": 0,
-                "CombatTypeRequestEventLog.Player": 0,
+                "CombatTypeRequestEventLog.AttackerPlayer": 0,
                 "CombatTypeRequestEventLog._tokenEvent": null,
                 "CombatTypeRequestEventLog.X": 0,
                 "CombatTypeRequestEventLog.Y": 0,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -1438,14 +1438,14 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog.AttackerPlayer": 0,
           "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1475,14 +1475,14 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog.AttackerPlayer": 0,
           "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1500,19 +1500,19 @@
                 "CombatTypeRequestEventLog.CreateNewMove": false,
                 "CombatTypeRequestEventLog.DefenderPlayer": 0,
                 "CombatTypeRequestEventLog.MapLevel": 0,
-                "CombatTypeRequestEventLog.Player": 0,
+                "CombatTypeRequestEventLog.AttackerPlayer": 0,
                 "CombatTypeRequestEventLog._tokenEvent": null,
                 "CombatTypeRequestEventLog.X": 0,
                 "CombatTypeRequestEventLog.Y": 0,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -1540,9 +1540,9 @@
           "$type": "Aow.Game.Events.DiplomaticActionEventLog",
           "DiplomaticActionEventLog.Action": null,
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1569,9 +1569,9 @@
           "$type": "Aow.Game.Events.DiplomaticActionEventLog",
           "DiplomaticActionEventLog.Action": null,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -1586,14 +1586,14 @@
                 "$type": "Aow.Game.Events.DiplomaticActionEventLog",
                 "DiplomaticActionEventLog.Action": null,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -1621,9 +1621,9 @@
           "$type": "Aow.Game.Events.DiplomaticActionEventLog",
           "DiplomaticActionEventLog.Action": null,
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1650,9 +1650,9 @@
           "$type": "Aow.Game.Events.DiplomaticActionEventLog",
           "DiplomaticActionEventLog.Action": null,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -1667,14 +1667,14 @@
                 "$type": "Aow.Game.Events.DiplomaticActionEventLog",
                 "DiplomaticActionEventLog.Action": null,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -1701,9 +1701,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
           "LocationTextEventLog.HexLevel": -1,
@@ -1734,9 +1734,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
           "LocationTextEventLog.HexLevel": -1,
@@ -1755,9 +1755,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
                 "LocationTextEventLog.HexLevel": 0,
@@ -1766,8 +1766,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -1794,9 +1794,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
           "LocationTextEventLog.HexLevel": -1,
@@ -1827,9 +1827,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
           "LocationTextEventLog.HexLevel": -1,
@@ -1848,9 +1848,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.GlobalEnchantmentEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
                 "LocationTextEventLog.HexLevel": 0,
@@ -1859,8 +1859,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -1887,9 +1887,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroEmergeEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._emergeDay": 0,
           "HeroEmergeEventLog.LocationName": "",
@@ -1920,9 +1920,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroEmergeEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._emergeDay": 0,
           "HeroEmergeEventLog.LocationName": "",
@@ -1941,9 +1941,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroEmergeEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "HeroEmergeEventLog._emergeDay": 0,
                 "HeroEmergeEventLog.LocationName": "",
@@ -1952,8 +1952,8 @@
                 "HeroEmergeEventLog.UnitId": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -1980,9 +1980,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroEmergeEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._emergeDay": 0,
           "HeroEmergeEventLog.LocationName": "",
@@ -2013,9 +2013,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroEmergeEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._emergeDay": 0,
           "HeroEmergeEventLog.LocationName": "",
@@ -2034,9 +2034,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroEmergeEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "HeroEmergeEventLog._emergeDay": 0,
                 "HeroEmergeEventLog.LocationName": "",
@@ -2045,8 +2045,8 @@
                 "HeroEmergeEventLog.UnitId": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -2075,8 +2075,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2133,8 +2133,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2171,8 +2171,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.HeroJoinEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -2183,8 +2183,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -2228,8 +2228,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2286,8 +2286,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2324,8 +2324,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.HeroJoinEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -2336,8 +2336,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -2379,9 +2379,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroUpgradeEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HeroUpgradeEventLog.UpgradeDay": 0,
           "HeroUpgradeEventLog.NewLevel": 0,
@@ -2411,9 +2411,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroUpgradeEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HeroUpgradeEventLog.UpgradeDay": 0,
           "HeroUpgradeEventLog.NewLevel": 0,
@@ -2431,9 +2431,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroUpgradeEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "HeroUpgradeEventLog.UpgradeDay": 0,
                 "HeroUpgradeEventLog.NewLevel": 0,
@@ -2441,8 +2441,8 @@
                 "HeroUpgradeEventLog.UnitId": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -2469,9 +2469,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroUpgradeEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HeroUpgradeEventLog.UpgradeDay": 0,
           "HeroUpgradeEventLog.NewLevel": 0,
@@ -2501,9 +2501,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroUpgradeEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HeroUpgradeEventLog.UpgradeDay": 0,
           "HeroUpgradeEventLog.NewLevel": 0,
@@ -2521,9 +2521,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroUpgradeEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "HeroUpgradeEventLog.UpgradeDay": 0,
                 "HeroUpgradeEventLog.NewLevel": 0,
@@ -2531,8 +2531,8 @@
                 "HeroUpgradeEventLog.UnitId": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -2561,8 +2561,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2619,8 +2619,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2657,8 +2657,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.JoinEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -2669,8 +2669,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -2714,8 +2714,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2772,8 +2772,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2810,8 +2810,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.JoinEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -2822,8 +2822,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -2867,8 +2867,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2933,8 +2933,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -2979,8 +2979,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.NegotiateRequestEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -2991,8 +2991,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -3044,8 +3044,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -3110,8 +3110,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -3156,8 +3156,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.NegotiateRequestEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -3168,8 +3168,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -3219,9 +3219,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewTurnEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "NewTurnEventLog.DialogStyle": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3260,9 +3260,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewTurnEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "NewTurnEventLog.DialogStyle": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3289,9 +3289,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.NewTurnEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "NewTurnEventLog.DialogStyle": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3308,8 +3308,8 @@
                 "NewTurnEventLog.TurnPlayer": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -3336,9 +3336,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewTurnEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "NewTurnEventLog.DialogStyle": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3377,9 +3377,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewTurnEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "NewTurnEventLog.DialogStyle": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3406,9 +3406,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.NewTurnEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "NewTurnEventLog.DialogStyle": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3425,8 +3425,8 @@
                 "NewTurnEventLog.TurnPlayer": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -3453,9 +3453,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerConnectionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -3498,9 +3498,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerConnectionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -3531,9 +3531,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.PlayerConnectionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -3545,8 +3545,8 @@
                 "PlayerConnectionEventLog._reason": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -3573,9 +3573,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerConnectionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -3618,9 +3618,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerConnectionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -3651,9 +3651,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.PlayerConnectionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -3665,8 +3665,8 @@
                 "PlayerConnectionEventLog._reason": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -3695,8 +3695,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3734,8 +3734,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3753,8 +3753,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PlayerMagicEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -3765,8 +3765,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3806,8 +3806,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3845,8 +3845,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3864,8 +3864,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PlayerMagicEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -3876,8 +3876,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -3915,9 +3915,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -3947,9 +3947,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -3967,9 +3967,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ProductionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -3977,8 +3977,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -4005,9 +4005,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -4037,9 +4037,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -4057,9 +4057,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ProductionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -4067,8 +4067,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -4095,9 +4095,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RazeStructureEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4139,9 +4139,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RazeStructureEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4171,9 +4171,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.RazeStructureEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -4184,8 +4184,8 @@
                 "RazeStructureEventLog.Structure": null
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -4212,9 +4212,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RazeStructureEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4256,9 +4256,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RazeStructureEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4288,9 +4288,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.RazeStructureEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -4301,8 +4301,8 @@
                 "RazeStructureEventLog.Structure": null
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -4329,9 +4329,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RestartGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4372,9 +4372,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RestartGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4403,9 +4403,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.RestartGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -4415,8 +4415,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -4443,9 +4443,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RestartGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4486,9 +4486,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.RestartGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -4517,9 +4517,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.RestartGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -4529,8 +4529,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -4557,9 +4557,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SmtpEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SmtpEventLog.Error": "",
           "SmtpEventLog.FileName": "",
@@ -4601,9 +4601,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SmtpEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SmtpEventLog.Error": "",
           "SmtpEventLog.FileName": "",
@@ -4633,9 +4633,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SmtpEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "SmtpEventLog.Error": "",
                 "SmtpEventLog.FileName": "",
@@ -4646,8 +4646,8 @@
                 "SmtpEventLog.ToAddress": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -4674,9 +4674,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SmtpEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SmtpEventLog.Error": "",
           "SmtpEventLog.FileName": "",
@@ -4718,9 +4718,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SmtpEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SmtpEventLog.Error": "",
           "SmtpEventLog.FileName": "",
@@ -4750,9 +4750,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SmtpEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "SmtpEventLog.Error": "",
                 "SmtpEventLog.FileName": "",
@@ -4763,8 +4763,8 @@
                 "SmtpEventLog.ToAddress": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -4791,9 +4791,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SendEmailGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SendEmailGameEventLog.Mode": 0,
           "SendEmailGameEventLog.SendPlayer": 0
@@ -4821,9 +4821,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SendEmailGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SendEmailGameEventLog.Mode": 0,
           "SendEmailGameEventLog.SendPlayer": 0
@@ -4839,16 +4839,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SendEmailGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "SendEmailGameEventLog.Mode": 0,
                 "SendEmailGameEventLog.SendPlayer": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -4875,9 +4875,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SendEmailGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SendEmailGameEventLog.Mode": 0,
           "SendEmailGameEventLog.SendPlayer": 0
@@ -4905,9 +4905,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SendEmailGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SendEmailGameEventLog.Mode": 0,
           "SendEmailGameEventLog.SendPlayer": 0
@@ -4923,16 +4923,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SendEmailGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "SendEmailGameEventLog.Mode": 0,
                 "SendEmailGameEventLog.SendPlayer": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -4959,9 +4959,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SpellCastEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SpellCastEventLog.SpellId": 0,
           "SpellCastEventLog.UnitId": 0
@@ -4989,9 +4989,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SpellCastEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SpellCastEventLog.SpellId": 0,
           "SpellCastEventLog.UnitId": 0
@@ -5007,16 +5007,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SpellCastEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "SpellCastEventLog.SpellId": 0,
                 "SpellCastEventLog.UnitId": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -5043,9 +5043,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SpellCastEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SpellCastEventLog.SpellId": 0,
           "SpellCastEventLog.UnitId": 0
@@ -5073,9 +5073,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SpellCastEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SpellCastEventLog.SpellId": 0,
           "SpellCastEventLog.UnitId": 0
@@ -5091,16 +5091,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SpellCastEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "SpellCastEventLog.SpellId": 0,
                 "SpellCastEventLog.UnitId": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -5137,9 +5137,9 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -5175,9 +5175,9 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -5195,14 +5195,14 @@
                 "EnterArenaEventLog.Selection": 0,
                 "EnterArenaEventLog.Trainable": 0,
                 "EnterArenaEventLog.UnitIds": null,
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -5239,9 +5239,9 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -5277,9 +5277,9 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -5297,14 +5297,14 @@
                 "EnterArenaEventLog.Selection": 0,
                 "EnterArenaEventLog.Trainable": 0,
                 "EnterArenaEventLog.UnitIds": null,
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -5332,9 +5332,9 @@
           "$type": "Aow.Game.Events.EnterCaveEventLog",
           "EngineObject._owner": null,
           "EnterCaveEventLog.Cave": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -5376,9 +5376,9 @@
           "$type": "Aow.Game.Events.EnterCaveEventLog",
           "EngineObject._owner": "$owner",
           "EnterCaveEventLog.Cave": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -5408,9 +5408,9 @@
                 "$type": "Aow.Game.Events.EnterCaveEventLog",
                 "EngineObject._owner": "$owner",
                 "EnterCaveEventLog.Cave": null,
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -5420,8 +5420,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -5449,9 +5449,9 @@
           "$type": "Aow.Game.Events.EnterCaveEventLog",
           "EngineObject._owner": null,
           "EnterCaveEventLog.Cave": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -5493,9 +5493,9 @@
           "$type": "Aow.Game.Events.EnterCaveEventLog",
           "EngineObject._owner": "$owner",
           "EnterCaveEventLog.Cave": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -5525,9 +5525,9 @@
                 "$type": "Aow.Game.Events.EnterCaveEventLog",
                 "EngineObject._owner": "$owner",
                 "EnterCaveEventLog.Cave": null,
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -5537,8 +5537,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -5565,9 +5565,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.CityProductionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -5597,9 +5597,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.CityProductionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -5617,9 +5617,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.CityProductionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -5627,8 +5627,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -5655,9 +5655,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.CityProductionEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -5687,9 +5687,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.CityProductionEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -5707,9 +5707,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.CityProductionEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -5717,8 +5717,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -5749,9 +5749,9 @@
           "CityRebellionEventLog.HexX": 0,
           "CityRebellionEventLog.HexY": 0,
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -5781,9 +5781,9 @@
           "CityRebellionEventLog.HexX": 0,
           "CityRebellionEventLog.HexY": 0,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -5801,14 +5801,14 @@
                 "CityRebellionEventLog.HexX": 0,
                 "CityRebellionEventLog.HexY": 0,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -5839,9 +5839,9 @@
           "CityRebellionEventLog.HexX": 0,
           "CityRebellionEventLog.HexY": 0,
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -5871,9 +5871,9 @@
           "CityRebellionEventLog.HexX": 0,
           "CityRebellionEventLog.HexY": 0,
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -5891,14 +5891,14 @@
                 "CityRebellionEventLog.HexX": 0,
                 "CityRebellionEventLog.HexY": 0,
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -5927,8 +5927,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -5988,8 +5988,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -6029,8 +6029,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PrisonersJoinEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -6041,8 +6041,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -6089,8 +6089,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -6150,8 +6150,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
@@ -6191,8 +6191,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PrisonersJoinEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -6203,8 +6203,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
@@ -6249,9 +6249,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EndTurnEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -6277,9 +6277,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EndTurnEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -6293,14 +6293,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.EndTurnEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -6327,9 +6327,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EndTurnEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -6355,9 +6355,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EndTurnEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -6371,14 +6371,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.EndTurnEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -6405,9 +6405,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -6433,9 +6433,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -6449,14 +6449,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.EventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -6483,9 +6483,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -6511,9 +6511,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.EventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -6527,14 +6527,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.EventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -6561,9 +6561,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GameOverEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
@@ -6600,9 +6600,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GameOverEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
@@ -6627,16 +6627,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.GameOverEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "GameOverEventLog.Message": null,
                 "GameOverEventLog.TargetPlayer": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -6663,9 +6663,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GameOverEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
@@ -6702,9 +6702,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.GameOverEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
@@ -6729,16 +6729,16 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.GameOverEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "GameOverEventLog.Message": null,
                 "GameOverEventLog.TargetPlayer": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -6765,9 +6765,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HelpMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -6805,9 +6805,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HelpMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -6833,17 +6833,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HelpMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -6870,9 +6870,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HelpMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -6910,9 +6910,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HelpMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -6938,17 +6938,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.HelpMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -6975,9 +6975,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.LocationTextEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -7007,9 +7007,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.LocationTextEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -7027,9 +7027,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.LocationTextEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -7037,8 +7037,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -7065,9 +7065,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.LocationTextEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -7097,9 +7097,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.LocationTextEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -7117,9 +7117,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.LocationTextEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -7127,8 +7127,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -7155,9 +7155,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.MessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -7198,9 +7198,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.MessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -7229,9 +7229,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.MessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -7241,8 +7241,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -7269,9 +7269,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.MessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -7312,9 +7312,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.MessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "MessageEventLog.Buttons": 0,
           "MessageEventLog.Header": "",
@@ -7343,9 +7343,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.MessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "MessageEventLog.Buttons": 0,
                 "MessageEventLog.Header": "",
@@ -7355,8 +7355,8 @@
                 "MessageEventLog.Title": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -7383,9 +7383,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewDayEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -7412,9 +7412,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewDayEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -7429,15 +7429,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.NewDayEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -7464,9 +7464,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewDayEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -7493,9 +7493,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NewDayEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -7510,15 +7510,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.NewDayEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -7545,9 +7545,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PasswordEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "PasswordEventLog.Password": "",
           "PasswordEventLog.PressedButton": 0,
@@ -7577,9 +7577,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PasswordEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "PasswordEventLog.Password": "",
           "PasswordEventLog.PressedButton": 0,
@@ -7597,9 +7597,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.PasswordEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "PasswordEventLog.Password": "",
                 "PasswordEventLog.PressedButton": 0,
@@ -7607,8 +7607,8 @@
                 "PasswordEventLog.Title": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -7635,9 +7635,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PasswordEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "PasswordEventLog.Password": "",
           "PasswordEventLog.PressedButton": 0,
@@ -7667,9 +7667,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PasswordEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "PasswordEventLog.Password": "",
           "PasswordEventLog.PressedButton": 0,
@@ -7687,9 +7687,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.PasswordEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "PasswordEventLog.Password": "",
                 "PasswordEventLog.PressedButton": 0,
@@ -7697,8 +7697,8 @@
                 "PasswordEventLog.Title": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -7725,9 +7725,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SaveGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
@@ -7767,9 +7767,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SaveGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
@@ -7797,9 +7797,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SaveGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "SaveGameEventLog.DefaultName": "",
                 "SaveGameEventLog.Directory": "",
@@ -7817,8 +7817,8 @@
                 "SaveGameEventLog.Title": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -7845,9 +7845,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SaveGameEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
@@ -7887,9 +7887,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.SaveGameEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
@@ -7917,9 +7917,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.SaveGameEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "SaveGameEventLog.DefaultName": "",
                 "SaveGameEventLog.Directory": "",
@@ -7937,8 +7937,8 @@
                 "SaveGameEventLog.Title": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -7965,9 +7965,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ShowBookEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -7993,9 +7993,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ShowBookEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -8009,14 +8009,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ShowBookEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -8043,9 +8043,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ShowBookEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -8071,9 +8071,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ShowBookEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -8087,14 +8087,14 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ShowBookEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -8121,9 +8121,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TextEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -8150,9 +8150,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TextEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -8167,15 +8167,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.TextEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -8202,9 +8202,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TextEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -8231,9 +8231,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TextEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "TextEventLog.Text": ""
         }
@@ -8248,15 +8248,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.TextEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -8283,9 +8283,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TutorialMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
@@ -8323,9 +8323,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TutorialMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
@@ -8351,17 +8351,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.TutorialMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -8388,9 +8388,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TutorialMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
@@ -8428,9 +8428,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.TutorialMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
@@ -8456,17 +8456,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.TutorialMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -8493,9 +8493,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.UserEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "UserEventLog.Data": null
         }
@@ -8522,9 +8522,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.UserEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "UserEventLog.Data": null
         }
@@ -8539,15 +8539,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.UserEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "UserEventLog.Data": null
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -8574,9 +8574,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.UserEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "UserEventLog.Data": null
         }
@@ -8603,9 +8603,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.UserEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "UserEventLog.Data": null
         }
@@ -8620,15 +8620,15 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.UserEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "UserEventLog.Data": null
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -8655,9 +8655,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.FlagMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -8695,9 +8695,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.FlagMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -8723,17 +8723,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.FlagMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -8760,9 +8760,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.FlagMessageEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -8800,9 +8800,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.FlagMessageEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
@@ -8828,17 +8828,17 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.FlagMessageEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "HelpMessageEventLog.HelpFileName": "",
                 "HelpMessageEventLog.Message": null,
                 "HelpMessageEventLog.Mode": 0
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -8867,8 +8867,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -8919,8 +8919,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 0,
-          "EventLog._player": 0,
+          "EventLog.Day": 0,
+          "EventLog.Player": 0,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -8951,8 +8951,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.ItemExplorationSiteEventLog",
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -8963,8 +8963,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 0,
-                "EventLog._player": 0,
+                "EventLog.Day": 0,
+                "EventLog.Player": 0,
                 "ItemExplorationSiteEventLog.ItemIds": null,
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -9002,8 +9002,8 @@
           "EngineObject._owner": null,
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -9054,8 +9054,8 @@
           "EngineObject._owner": "$owner",
           "EventLog.Id": 0,
           "EventLog.RefCount": 1,
-          "EventLog._day": 7,
-          "EventLog._player": -56,
+          "EventLog.Day": 7,
+          "EventLog.Player": -56,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -9086,8 +9086,8 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.ItemExplorationSiteEventLog",
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
@@ -9098,8 +9098,8 @@
                 "EngineObject._owner": "$owner",
                 "EventLog.Id": 0,
                 "EventLog.RefCount": 1,
-                "EventLog._day": 7,
-                "EventLog._player": -56,
+                "EventLog.Day": 7,
+                "EventLog.Player": -56,
                 "ItemExplorationSiteEventLog.ItemIds": null,
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -9135,9 +9135,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionPlaceEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -9167,9 +9167,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionPlaceEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -9187,9 +9187,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ProductionPlaceEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -9197,8 +9197,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -9225,9 +9225,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionPlaceEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -9257,9 +9257,9 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ProductionPlaceEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "LocationTextEventLog.HexLevel": -1,
           "LocationTextEventLog.HexX": -1,
@@ -9277,9 +9277,9 @@
               "$jsonText": {
                 "$type": "Aow.Game.Events.ProductionPlaceEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.HexLevel": 0,
                 "LocationTextEventLog.HexX": 0,
@@ -9287,8 +9287,8 @@
                 "TextEventLog.Text": ""
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }
@@ -9316,9 +9316,9 @@
           "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
           "EngineObject._owner": null,
           "EnterWizardsTowerEventLog.Tower": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -9345,9 +9345,9 @@
           "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
           "EngineObject._owner": "$owner",
           "EnterWizardsTowerEventLog.Tower": null,
-          "EventLog._day": 0,
+          "EventLog.Day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
+          "EventLog.Player": 0,
           "EventLog.RefCount": 1
         }
       },
@@ -9362,14 +9362,14 @@
                 "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
                 "EngineObject._owner": "$owner",
                 "EnterWizardsTowerEventLog.Tower": null,
-                "EventLog._day": 0,
+                "EventLog.Day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
+                "EventLog.Player": 0,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 0,
-            "_player": 0,
+            "Day": 0,
+            "Player": 0,
             "Id": 0,
             "RefCount": 1
           }
@@ -9397,9 +9397,9 @@
           "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
           "EngineObject._owner": null,
           "EnterWizardsTowerEventLog.Tower": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -9426,9 +9426,9 @@
           "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
           "EngineObject._owner": "$owner",
           "EnterWizardsTowerEventLog.Tower": null,
-          "EventLog._day": 7,
+          "EventLog.Day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
+          "EventLog.Player": -56,
           "EventLog.RefCount": 1
         }
       },
@@ -9443,14 +9443,14 @@
                 "$type": "Aow.Game.Events.EnterWizardsTowerEventLog",
                 "EngineObject._owner": "$owner",
                 "EnterWizardsTowerEventLog.Tower": null,
-                "EventLog._day": 7,
+                "EventLog.Day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
+                "EventLog.Player": -56,
                 "EventLog.RefCount": 1
               }
             },
-            "_day": 7,
-            "_player": -56,
+            "Day": 7,
+            "Player": -56,
             "Id": 0,
             "RefCount": 1
           }

@@ -66,9 +66,9 @@ public partial class WaterHex
                     }
                 }
 
-                if (_animationIndex < _resource.ImageSequenceList.Count)
+                if (_animationIndex < ((MapObject)this).Resource.ImageSequenceList.Count)
                 {
-                    sequence = _resource.ImageSequenceList.List[_animationIndex];
+                    sequence = ((MapObject)this).Resource.ImageSequenceList.List[_animationIndex];
                     while (sequence != null)
                     {
                         image = sequence.GetUnloopedFrameIndex(_animationFrame);
@@ -100,7 +100,7 @@ public partial class WaterHex
         }
 
         base.ShowDynamic(pixelXSurface, pixelYSurface, lockedSurface);
-        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {

@@ -199,7 +199,7 @@ public partial class CombatChoice : UIModule
                 eventValue.Select((CombatType)1);
             }
 
-            if (StrategicMap.Current.Players.GetPlayers(dialog._request.Player).PlayerType == PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(dialog._request.AttackerPlayer).PlayerType == PlayerType.Human)
             {
                 dialog.CancelButton.Visible = true;
                 dialog.FightButton.Alignment.AlignWidth = AlignWidth.Left;

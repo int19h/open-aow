@@ -52,7 +52,7 @@ public partial class CityProductionControl : ProductionControl
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < count && !valid)
         {
-            if (city._resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 var hexLevel = city.GetHexLevel();
                 valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) != null;
@@ -70,12 +70,12 @@ public partial class CityProductionControl : ProductionControl
         }
 
         log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-        log._player = city.Player;
+        log.Player = city.Player;
         var name = Settings.Unit.GetName();
         var fCityName = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
-        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         log.Release();
         return valid;
     }
@@ -88,13 +88,13 @@ public partial class CityProductionControl : ProductionControl
         base.UnitResearched();
         city = City;
         log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-        log._player = city.Player;
+        log.Player = city.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
-        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         log.Release();
     }
 

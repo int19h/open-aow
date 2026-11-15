@@ -16,22 +16,22 @@ public partial class InverseSortedNode : SortedNode
         int result;
         int i;
         CheckChild(child);
-        if (_count >= Capacity)
+        if (StoredCount >= Capacity)
         {
             Grow();
         }
 
         if (Sorted)
         {
-            i = _count;
+            i = StoredCount;
             while (i > 0 && sortValue < Items[i - 1].SortValue)
             {
                 i -= 1;
             }
 
-            if (i != _count)
+            if (i != StoredCount)
             {
-                Array.Copy(Items, i, Items, i + 1, _count - i);
+                Array.Copy(Items, i, Items, i + 1, StoredCount - i);
             }
 
             Items[i].Child = child;
@@ -40,21 +40,21 @@ public partial class InverseSortedNode : SortedNode
         }
         else
         {
-            Items[_count].Child = child;
-            Items[_count].SortValue = sortValue;
-            result = _count;
+            Items[StoredCount].Child = child;
+            Items[StoredCount].SortValue = sortValue;
+            result = StoredCount;
         }
 
-        _count += 1;
+        StoredCount += 1;
         return result;
     }
 
     // Engine.pas:1658
     public override void Sort()
     {
-        if (!Sorted && _count > 0)
+        if (!Sorted && StoredCount > 0)
         {
-            InverseSortItems(Items, 0, _count - 1);
+            InverseSortItems(Items, 0, StoredCount - 1);
         }
 
         Sorted = true;

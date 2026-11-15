@@ -163,8 +163,8 @@ public sealed class ThrowingCastTests
             var field = container.MapLevels[0].Field[0, 0];
             var structure = new CombatStructure(null!) { Holder = EngineFixture.Engine };
             structure.SetOwnerWithoutNotify(field);
-            field._hexSpriteList[0] = structure;
-            field._count = 1;
+            field.HexSpriteList[0] = structure;
+            field.StoredCount = 1;
             var ai = new BattleAI(EngineFixture.Engine);
             int value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
@@ -172,7 +172,7 @@ public sealed class ThrowingCastTests
 
             var door = new CityWallDoor(null!) { Holder = EngineFixture.Engine };
             door.SetOwnerWithoutNotify(field);
-            field._hexSpriteList[0] = door;
+            field.HexSpriteList[0] = door;
             value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
             Assert.Equal(7, value);

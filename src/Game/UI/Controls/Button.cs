@@ -36,7 +36,7 @@ public partial class Button : BaseButton
                 if (button == MouseButton.Left)
                 {
                     MouseDown = true;
-                    _checked = true;
+                    Checked = true;
                     Drawn = false;
                     Redraw = true;
                 }
@@ -50,7 +50,7 @@ public partial class Button : BaseButton
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        _checked = false;
+        Checked = false;
         Lit = false;
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
@@ -83,24 +83,24 @@ public partial class Button : BaseButton
         bool oldLit;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        oldChecked = _checked;
+        oldChecked = Checked;
         oldLit = Lit;
         Redraw = false;
         if (Window.Handled || X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
         {
-            _checked = false;
+            Checked = false;
             Lit = false;
         }
         else
         {
             Handled = true;
-            _checked = MouseDown;
+            Checked = MouseDown;
             Lit = !MouseDown;
             Redraw = true;
             RaiseMouseMove(this, shift, X, Y);
         }
 
-        if (oldLit != Lit || oldChecked != _checked)
+        if (oldLit != Lit || oldChecked != Checked)
         {
             Drawn = false;
         }

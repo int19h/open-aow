@@ -21,7 +21,7 @@ public partial class NegotiateRequestEventLog
             var armyHexSprite = (ArmyHexSprite)World.Map.StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131607);
             if (armyHexSprite != null)
             {
-                var joinSelection = armyHexSprite.Army.GetJoinSelection(_player);
+                var joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
                 return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }

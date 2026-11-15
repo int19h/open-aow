@@ -33,10 +33,10 @@ public partial class AbstractHexagon : MapObject
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            control = ((AbstractHexagonResource)_resource).GetHexControl();
+            control = ((AbstractHexagonResource)Resource).GetHexControl();
             if (control != null)
             {
-                r = control.GetRandomResource(classId: _resource.EngineClass.ClassId, terrainType: message.TerrainType);
+                r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
                 if (r != null)
                 {
                     SetResource(r);
@@ -44,14 +44,14 @@ public partial class AbstractHexagon : MapObject
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     var hexX = GetHexX();
-                    _resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
+                    Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     var hexX = GetHexX();
-                    ((AbstractHexagonResource)_resource).GetHexControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
+                    ((AbstractHexagonResource)Resource).GetHexControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }
         }

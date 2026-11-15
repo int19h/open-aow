@@ -643,7 +643,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -1113,7 +1113,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -1132,7 +1132,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -1283,7 +1283,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -1302,7 +1302,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -1983,7 +1983,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -2453,7 +2453,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -2472,7 +2472,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -2623,7 +2623,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -2642,7 +2642,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -3323,7 +3323,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -3793,7 +3793,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -3812,7 +3812,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -3963,7 +3963,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -3982,7 +3982,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -4663,7 +4663,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -5133,7 +5133,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -5152,7 +5152,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -5303,7 +5303,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -5322,7 +5322,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -6005,7 +6005,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -6475,7 +6475,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -6494,7 +6494,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -6645,7 +6645,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -6664,7 +6664,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -7347,7 +7347,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -7817,7 +7817,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -7836,7 +7836,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -7987,7 +7987,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -8006,7 +8006,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -8689,7 +8689,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -9159,7 +9159,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -9178,7 +9178,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -9329,7 +9329,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -9348,7 +9348,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -10031,7 +10031,7 @@
             "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager._palettes": []
+              "PaletteManager.Palettes": []
             },
             "CustomImageLibrary._reloading": false,
             "CustomImageLibrary._status": {
@@ -10501,7 +10501,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": [],
         "SortedNode._sorted": false
       },
@@ -10520,7 +10520,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -10671,7 +10671,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },
@@ -10690,7 +10690,7 @@
         },
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
-        "SortedNode._count": 0,
+        "SortedNode.StoredCount": 0,
         "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode._sorted": false
       },

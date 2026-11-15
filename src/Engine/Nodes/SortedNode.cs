@@ -14,7 +14,8 @@ public partial class SortedNode : CustomNode
     }
 
     private bool _sorted;
-    protected internal int _count;
+
+    protected internal int StoredCount { get; set; }
 
     protected internal int Capacity { get; private set; }
 
@@ -25,9 +26,9 @@ public partial class SortedNode : CustomNode
     {
         Array.Resize(ref Items, newCapacity);
         Capacity = newCapacity;
-        if (Capacity < _count)
+        if (Capacity < StoredCount)
         {
-            _count = Capacity;
+            StoredCount = Capacity;
         }
     }
 
@@ -64,7 +65,7 @@ public partial class SortedNode : CustomNode
     }
 
     // Engine.pas:1508
-    public override int GetCount() => _count;
+    public override int GetCount() => StoredCount;
 
     // Engine.pas:1520
     public virtual void Grow()
@@ -75,7 +76,7 @@ public partial class SortedNode : CustomNode
     // Engine.pas:1525
     public override int RemoveChild(EngineObject child)
     {
-        int result = _count - 1;
+        int result = StoredCount - 1;
         while (result >= 0 && child != Items[result].Child)
         {
             result -= 1;
@@ -83,10 +84,10 @@ public partial class SortedNode : CustomNode
 
         if (result >= 0)
         {
-            _count -= 1;
-            if (result < _count)
+            StoredCount -= 1;
+            if (result < StoredCount)
             {
-                Array.Copy(Items, result + 1, Items, result, _count - result);
+                Array.Copy(Items, result + 1, Items, result, StoredCount - result);
             }
         }
 
@@ -102,22 +103,22 @@ public partial class SortedNode : CustomNode
         int result;
         int i;
         CheckChild(child);
-        if (_count >= Capacity)
+        if (StoredCount >= Capacity)
         {
             Grow();
         }
 
         if (_sorted)
         {
-            i = _count;
+            i = StoredCount;
             while (i > 0 && sortValue > Items[i - 1].SortValue)
             {
                 i -= 1;
             }
 
-            if (i != _count)
+            if (i != StoredCount)
             {
-                Array.Copy(Items, i, Items, i + 1, _count - i);
+                Array.Copy(Items, i, Items, i + 1, StoredCount - i);
             }
 
             Items[i].Child = child;
@@ -126,12 +127,12 @@ public partial class SortedNode : CustomNode
         }
         else
         {
-            Items[_count].Child = child;
-            Items[_count].SortValue = sortValue;
-            result = _count;
+            Items[StoredCount].Child = child;
+            Items[StoredCount].SortValue = sortValue;
+            result = StoredCount;
         }
 
-        _count += 1;
+        StoredCount += 1;
         return result;
     }
 
@@ -144,9 +145,9 @@ public partial class SortedNode : CustomNode
     // Engine.pas:1596
     public virtual void Sort()
     {
-        if (!_sorted && _count > 0)
+        if (!_sorted && StoredCount > 0)
         {
-            SortItems(Items, 0, _count - 1);
+            SortItems(Items, 0, StoredCount - 1);
         }
 
         _sorted = true;

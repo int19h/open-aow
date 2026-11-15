@@ -83,7 +83,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         MapLevel level;
         level = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(level, _hexX, _hexY);
+        UpdateMapFields(level, StoredHexX, StoredHexY);
     }
 
     // UnHolyG.pas:222
@@ -92,7 +92,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                 return;
@@ -102,7 +102,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         {
             if (message.MessageId == 4384)
             {
-                if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                 {
                     if (CanDoDamage(message.Param[0].As<ArmyHexSprite>().Army.Units))
                     {
@@ -114,7 +114,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             {
                 if (message.MessageId == 4402)
                 {
-                    if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && Player > 0 && Duration > 0)
+                    if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && Player > 0 && Duration > 0)
                     {
                         RestoreTerrain();
                     }
@@ -127,7 +127,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         int result;
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
             if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units))
             {
@@ -149,7 +149,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     // UnHolyG.pas:184
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -204,14 +204,14 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             }
         }
 
-        log._player = armyLocal.Player;
+        log.Player = armyLocal.Player;
         var armyHexSprite = armyLocal.GetArmyHexSprite();
         log.ArmyView.Setup(armyHexSprite.Army, 255);
 
         log.ValidateGameOver();
         if (damaged != 0)
         {
-            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log._player, execute: true);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
         }
 
         log.Release();

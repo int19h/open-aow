@@ -41,7 +41,7 @@ public partial class Panel : BaseWindow
     //   MinHeight; the panel uses the window's window manager }
     public override void SetSize()
     {
-        if (!Visible && _tabPanel != null && _tabPanel.Selected == _ownerItem)
+        if (!Visible && _tabPanel != null && _tabPanel.Selected == base.OwnerItem)
         {
             SetVisibleWithoutUpdate(true);
         }
@@ -50,21 +50,21 @@ public partial class Panel : BaseWindow
         {
             case Style.Normal:
             case Style.Hollow:
-                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
-                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+                var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                 {
-                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                    var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
-                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                 {
-                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
@@ -130,19 +130,19 @@ public partial class Panel : BaseWindow
                 break;
         }
 
-        if (_minWidth > 0 && _minWidth > WinWidth)
+        if (base.MinWidth > 0 && base.MinWidth > WinWidth)
         {
-            SetWinWidthWithoutInvalidate(_minWidth);
+            SetWinWidthWithoutInvalidate(base.MinWidth);
         }
 
-        if (_minHeight > 0 && _minHeight > WinHeight)
+        if (base.MinHeight > 0 && base.MinHeight > WinHeight)
         {
-            SetWinHeightWithoutInvalidate(_minHeight);
+            SetWinHeightWithoutInvalidate(base.MinHeight);
         }
 
-        if (_window._windowManager != null)
+        if (_window.WindowManager != null)
         {
-            _windowManager = _window._windowManager;
+            WindowManager = _window.WindowManager;
         }
 
         SurfaceValid = false;
@@ -425,23 +425,23 @@ public partial class Panel : BaseWindow
                 {
                     case Style.Normal:
                         var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
-                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                         var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
                         var rectangle3 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
                         var rectangle4 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
-                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle4, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
 
@@ -783,15 +783,6 @@ public partial class Panel : BaseWindow
 
     [Published]
     public TabPanel TabPanel { get => _tabPanel; set => SetTabPanel(value); }
-
-    [Published]
-    public int OwnerItem { get => _ownerItem; set => _ownerItem = value; }
-
-    [Published]
-    public int MinWidth { get => _minWidth; set => _minWidth = value; }
-
-    [Published]
-    public int MinHeight { get => _minHeight; set => _minHeight = value; }
 
     public new event NotifyEvent<Panel> OnChange
     {

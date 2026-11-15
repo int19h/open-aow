@@ -9,7 +9,7 @@ namespace Aow.Game.Draw;
 public partial class BlendTable
 {
     private int _bits;
-    internal byte[] _table;
+    private byte[] _table;
 
     // GFXE.pas:741
     public virtual BlendTable Copy()
@@ -41,7 +41,7 @@ public partial class BlendTable
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    ((BlendTable5Bit)table).Table[i][j] = (byte)Round((double)((double)i * alpha) + (double)((double)1 - alpha) * j);
+                    ((BlendTable5Bit)table).RowView[i][j] = (byte)Round((double)((double)i * alpha) + (double)((double)1 - alpha) * j);
                 }
             }
         }
@@ -76,7 +76,7 @@ public partial class BlendTable
                         v = 31;
                     }
 
-                    ((BlendTable5Bit)table).Table[i][j] = (byte)v;
+                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -104,7 +104,7 @@ public partial class BlendTable
                         v = j;
                     }
 
-                    ((BlendTable5Bit)table).Table[i][j] = (byte)v;
+                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -125,7 +125,7 @@ public partial class BlendTable
                         v = j;
                     }
 
-                    ((BlendTable5Bit)table).Table[i][j] = (byte)v;
+                    ((BlendTable5Bit)table).RowView[i][j] = (byte)v;
                 }
             }
         }
@@ -154,7 +154,7 @@ public partial class BlendTable
 
                 for (int j = 0; j <= 31; j++)
                 {
-                    ((BlendTable5Bit)table).Table[i][j] = (byte)Round((double)((double)i * f) + (double)((double)1 - f) * j);
+                    ((BlendTable5Bit)table).RowView[i][j] = (byte)Round((double)((double)i * f) + (double)((double)1 - f) * j);
                 }
             }
         }

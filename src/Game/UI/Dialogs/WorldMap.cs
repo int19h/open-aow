@@ -226,7 +226,7 @@ public partial class WorldMap : UIModule
                         QuitButton.Visible = false;
                         if (Book.BackSurface != null)
                         {
-                            Book.BackSurface.Clear(Book._maskColor);
+                            Book.BackSurface.Clear(Book.MaskColor);
                         }
 
                         if (UI.TitleWindow.MainWindow.Visible)
@@ -542,7 +542,7 @@ public partial class WorldMap : UIModule
 
         if (Book.BackSurface != null)
         {
-            Book.BackSurface.Clear(Book._maskColor);
+            Book.BackSurface.Clear(Book.MaskColor);
         }
 
         if (UI.TitleWindow.MainWindow.Visible)
@@ -675,7 +675,7 @@ public partial class WorldMap : UIModule
         this.Book.Drawn = false;
         if (this.Book.BackSurface != null)
         {
-            this.Book.BackSurface.Clear(this.Book._maskColor);
+            this.Book.BackSurface.Clear(this.Book.MaskColor);
         }
 
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");

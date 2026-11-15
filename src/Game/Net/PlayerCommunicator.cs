@@ -140,8 +140,8 @@ public partial class PlayerCommunicator : EngineObject
     // NetworkE.pas:685
     public bool SendDataPackage(DataPackage package, int sender, int receiver)
     {
-        package._sender = sender;
-        package._receiver = receiver;
+        package.Sender = sender;
+        package.Receiver = receiver;
         SendStream.Clear();
         _engine.StoreEngineObject(SendStream, package, null);
         SendStream.Position = 0;

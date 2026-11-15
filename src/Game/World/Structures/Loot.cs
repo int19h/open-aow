@@ -45,12 +45,12 @@ public sealed partial record Loot : ProductionOrder
         control.Settings.Gold = 0;
         ChangeRelation(control, city, -30);
         var log = new LocationTextEventLog(null) { Holder = control };
-        log._player = control.GetPlayer();
+        log.Player = control.GetPlayer();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         EventLog.DistributeLocationEventLog(y: city.GetHexY(), level: city.GetHexLevel(), x: city.GetHexX(), log: log, player: control.GetPlayer(), execute: false);
         log.Release();
-        city._overlay.SetMode(CityOverlayHexSprite.OverlayMode.Looting);
+        city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Looting);
         control.Status = ProductionControlStatus.Producing;
     }
 
@@ -66,7 +66,7 @@ public sealed partial record Loot : ProductionOrder
         Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
         var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + city.Income * 3);
-        city._overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
+        city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
         control.EndUpdate();
     }

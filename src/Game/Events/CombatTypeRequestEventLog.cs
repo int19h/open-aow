@@ -16,7 +16,7 @@ public partial class CombatTypeRequestEventLog : EventLog
     { }
 
     public CombatType CombatType { get; private set; }
-    public sbyte Player { get; set; }
+    public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
     public sbyte X { get; set; }
     public sbyte Y { get; set; }

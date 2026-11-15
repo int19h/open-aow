@@ -30,14 +30,14 @@ public partial class CombatHex : AbstractHexagon
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
@@ -73,9 +73,9 @@ public partial class CombatHex : AbstractHexagon
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface;
-            images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+            images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
             images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
-            images = ((Resource)_resource).TransitionLibrary;
+            images = ((Resource)base.Resource).TransitionLibrary;
             for (int side = 1; side <= 3; side++)
             {
                 if (_transitions[side - 1] != 255)
@@ -119,7 +119,7 @@ public partial class CombatHex : AbstractHexagon
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
             neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
-            terrainType = _resource.TerrainList.GetTerrain(0);
+            terrainType = base.Resource.TerrainList.GetTerrain(0);
             imageIndex = -1;
             if (neighbourTerrain != terrainType && neighbourTerrain != 7)
             {
@@ -226,7 +226,7 @@ public partial class CombatHex : AbstractHexagon
             if (imageIndex != -1)
             {
                 imageIndex = Random(2) * 3 + imageIndex * 6 + (side - 1);
-                if (((Resource)_resource).TransitionLibrary.GetSafe(imageIndex) != null)
+                if (((Resource)base.Resource).TransitionLibrary.GetSafe(imageIndex) != null)
                 {
                     _transitions[side - 1] = (byte)imageIndex;
                 }

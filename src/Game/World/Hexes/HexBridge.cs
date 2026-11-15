@@ -133,7 +133,7 @@ public partial class HexBridge : AbstractRoad
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        _resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
+        base.Resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
     }
 
     // HxBridge.pas:160
@@ -190,7 +190,7 @@ public partial class HexBridge : AbstractRoad
     public override bool LinkToResource(GameEngine engine)
     {
         bool result = base.LinkToResource(engine);
-        _terrain = _resource.TerrainList.Terrain[0];
+        _terrain = base.Resource.TerrainList.Terrain[0];
         return result;
     }
 

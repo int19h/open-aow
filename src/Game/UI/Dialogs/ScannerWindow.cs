@@ -87,7 +87,7 @@ public partial class ScannerWindow : UIModule
     // AoWSWindow.pas:79
     public void ScannerWindowResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow._windowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
         this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
     }
 

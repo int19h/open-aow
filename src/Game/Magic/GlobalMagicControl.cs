@@ -111,7 +111,7 @@ public partial class GlobalMagicControl : EngineObject
                 enchantment = Enchantments.GetEnchantments(index);
                 mana -= enchantment.GetUpkeep();
                 log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                log._player = player;
+                log.Player = player;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 EventLog.DistributeEventLog(log, false);
@@ -201,7 +201,7 @@ public partial class GlobalMagicControl : EngineObject
         while (i != 0)
         {
             i -= 1;
-            if (id == Enchantments.GetEnchantments(i)._enchantmentId)
+            if (id == Enchantments.GetEnchantments(i).EnchantmentId)
             {
                 return i;
             }
@@ -214,10 +214,10 @@ public partial class GlobalMagicControl : EngineObject
     public bool ValidateEnchantmentId(GlobalEnchantment enchantment)
     {
         int id;
-        id = enchantment._enchantmentId;
+        id = enchantment.EnchantmentId;
         if (id > 0)
         {
-            enchantment._enchantmentId = 0;
+            enchantment.EnchantmentId = 0;
             if (IndexOfId(id) != -1)
             {
                 id = 0;
@@ -244,7 +244,7 @@ public partial class GlobalMagicControl : EngineObject
             }
         }
 
-        enchantment._enchantmentId = id;
+        enchantment.EnchantmentId = id;
         return true;
     }
 
@@ -275,13 +275,13 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         ChangeGlobalMagicTokenEvent eventValue;
         string reason = "";
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             if (enchantment.CanDispel(player, ref reason))
             {
                 eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.DispelEnchantment;
-                eventValue.EnchantmentId = enchantment._enchantmentId;
+                eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();
@@ -329,13 +329,13 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         ChangeGlobalMagicTokenEvent eventValue;
         string reason = "";
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             if (enchantment.CanRemove(player, ref reason))
             {
                 eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.RemoveEnchantment;
-                eventValue.EnchantmentId = enchantment._enchantmentId;
+                eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();

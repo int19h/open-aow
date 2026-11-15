@@ -90,7 +90,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         MapLevel level;
         level = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(level, _hexX, _hexY);
+        UpdateMapFields(level, StoredHexX, StoredHexY);
     }
 
     // PoisonP.pas:218
@@ -99,7 +99,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             }
@@ -108,7 +108,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         {
             if (message.MessageId == 4384)
             {
-                if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
+                if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
                 {
                     message.Result = 1;
                 }
@@ -118,7 +118,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
                 if (message.MessageId == 4402)
                 {
                     // { Original excludes player zero from early restoration. }
-                    if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && CasterPlayer > 0 && DaysRemaining > 0)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && CasterPlayer > 0 && DaysRemaining > 0)
                     {
                         RestoreTerrain();
                     }
@@ -131,7 +131,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         int result;
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive())
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive())
         {
             if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
@@ -153,7 +153,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     // PoisonP.pas:203
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -191,7 +191,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
-        log._player = armyHexSprite.Army.Player;
+        log.Player = armyHexSprite.Army.Player;
         var poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
@@ -235,7 +235,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         log.ValidateGameOver();
         if (count != 0)
         {
-            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log._player, execute: true);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
         }
 
         armyHexSprite.Army.Validate();

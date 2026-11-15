@@ -693,7 +693,7 @@ public partial class RelationWindow : UIModule
     public void P1CBChange(UIComponent sender, int slot)
     {
         // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
-        if (sender._checked)
+        if (sender.Checked)
         {
             UI.General.PlayButtonSound(1);
         }
@@ -704,7 +704,7 @@ public partial class RelationWindow : UIModule
 
         RelationPanel.Aligned = false;
         MainWindow.Drawn = false;
-        if (sender._checked && sender is CheckBox)
+        if (sender.Checked && sender is CheckBox)
         {
             if (_action == null)
             {

@@ -7,7 +7,7 @@ namespace Aow.Engine.Collections;
 
 public class RecordList<TRecord> : Persistent where TRecord : struct
 {
-    internal TRecord[] _list = [];
+    private TRecord[] _list = [];
     private int _count;
     private int _capacity;
 

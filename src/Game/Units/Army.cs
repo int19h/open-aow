@@ -1137,7 +1137,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 using (BeginUpdate())
                 {
                     log = new ArmyEventLog(null) { Holder = CreationHolder() };
-                    log._player = player;
+                    log.Player = player;
                     if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)terrainType))
                     {
                         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
@@ -1510,7 +1510,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public Set<DamageType> ImmunityTypes(byte selection)
     {
         int i;
-        Set<DamageType> result = AbilityRules.s_allDamageTypes;
+        Set<DamageType> result = AbilityRules.AllDamageTypes;
         i = 0;
         while (result != Set<DamageType>.Of() && i != Units.Count)
         {
@@ -2706,7 +2706,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         log = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         log.ArmyView.Setup(this, 255);
         log.Selection = selection;
-        log._player = Player;
+        log.Player = Player;
         log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_desertionText);
         log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
         if (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
@@ -3142,7 +3142,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         bool result = false;
         if (Player == 0)
         {
-            log.SetupJoinArmy(this, log._player, JoinMode.Default);
+            log.SetupJoinArmy(this, log.Player, JoinMode.Default);
             log.Object = NegotiateObject.Army;
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_partyJoinHeaderText);
             result = log.Selection != 0;
@@ -3315,7 +3315,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
-        log._player = GetArmyHexSprite().Army.Player;
+        log.Player = GetArmyHexSprite().Army.Player;
         var fireDamage = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         log.ArmyMessages.Add(fireDamage);
         log.ArmyIcon = 0;
@@ -3438,7 +3438,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
-        log._player = player;
+        log.Player = player;
         // { Original appends the storm message. }
         var stormType = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         log.ArmyMessages.Add(stormType);

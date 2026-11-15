@@ -20,7 +20,7 @@ public partial class Terrain : TerrainMapObject
         {
             try
             {
-                if (((TerrainMapObjectResource)_resource).DecorationType == 3)
+                if (((TerrainMapObjectResource)base.Resource).DecorationType == 3)
                 {
                     ValidateDeadTreeRegrow();
                 }
@@ -38,9 +38,9 @@ public partial class Terrain : TerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4386)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                message.Result = ((Resource)_resource).MapFieldResponse;
+                message.Result = ((Resource)base.Resource).MapFieldResponse;
                 return;
             }
         }
@@ -48,7 +48,7 @@ public partial class Terrain : TerrainMapObject
         {
             if (message.MessageId == 4357)
             {
-                if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                 {
                     ValidateDenseVegetationBurned(message.Param[0].As<Fire>());
                 }
@@ -65,7 +65,7 @@ public partial class Terrain : TerrainMapObject
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                r = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 1, 0);
+                r = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 1, 0);
                 if (r != null)
                 {
                     oldOwner = Owner;
@@ -73,9 +73,9 @@ public partial class Terrain : TerrainMapObject
                     SetResource(r);
                     Owner = oldOwner;
                     PlaceOnMap();
-                    if (_resource.Level <= 15)
+                    if (base.Resource.Level <= 15)
                     {
-                        _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
+                        base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
                     }
 
                     OverrideTerrain();
@@ -87,8 +87,8 @@ public partial class Terrain : TerrainMapObject
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
     public void ValidateDenseVegetationBurned(Fire info)
     {
-        if (info.Age < 2 || _resource.TerrainList.Overlay[0] != 1) return;
-        var resource = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 3, 3);
+        if (info.Age < 2 || base.Resource.TerrainList.Overlay[0] != 1) return;
+        var resource = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 3, 3);
         if (resource == null) return;
         UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
         var owner = Owner;
@@ -96,7 +96,7 @@ public partial class Terrain : TerrainMapObject
         SetResource(resource);
         Owner = owner;
         PlaceOnMap();
-        if (_resource.Level <= 15) _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
+        if (base.Resource.Level <= 15) base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
         OverrideTerrain();
     }
 

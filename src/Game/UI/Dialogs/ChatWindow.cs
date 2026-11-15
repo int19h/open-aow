@@ -43,7 +43,7 @@ public partial class ChatWindow : UIModule
     {
         var alignment = this.MainWindow.Alignment;
         alignment.LeftOffset = this.MainWindow.WinLeft;
-        alignment.BottomOffset = this.MainWindow._windowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
+        alignment.BottomOffset = this.MainWindow.WindowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
         alignment.AlignWidth = AlignWidth.Left;
 
         ScrollPending = true;

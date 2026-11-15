@@ -343,7 +343,7 @@ public partial class GameMap : OwningNode
             throw new InvalidOperationException("Static scene is invalid, call UpdateStaticScene!");
         }
 
-        for (int i = _staticVisibleHexSprite._count - 1; i >= 0; i--)
+        for (int i = _staticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
             _staticVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
@@ -357,7 +357,7 @@ public partial class GameMap : OwningNode
             throw new InvalidOperationException("Dynamic scene is invalid, call UpdateDynamicScene!");
         }
 
-        for (int i = _dynamicVisibleHexSprite._count - 1; i >= 0; i--)
+        for (int i = _dynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
             _dynamicVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
@@ -752,7 +752,7 @@ public partial class GameMap : OwningNode
             }
         }
 
-        for (int x = 0, last = _staticFixedVisibleHexSprite._count - 1; x <= last; x++)
+        for (int x = 0, last = _staticFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
         {
             _staticFixedVisibleHexSprite[x].MakeVisible(_staticVisibleHexSprite);
         }
@@ -822,7 +822,7 @@ public partial class GameMap : OwningNode
             }
         }
 
-        for (int x = 0, last = _dynamicFixedVisibleHexSprite._count - 1; x <= last; x++)
+        for (int x = 0, last = _dynamicFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
         {
             _dynamicFixedVisibleHexSprite[x].MakeVisible(_dynamicVisibleHexSprite);
         }
@@ -1125,7 +1125,7 @@ public partial class GameMap : OwningNode
     {
         try
         {
-            for (int i = _staticVisibleHexSprite._count - 1; i >= 0; i--)
+            for (int i = _staticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
             {
                 _staticVisibleHexSprite[i].SetVisible(false);
             }
@@ -1142,7 +1142,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:654
     public void ResetVisibleDynamicHexSprite()
     {
-        for (int i = _dynamicVisibleHexSprite._count - 1; i >= 0; i--)
+        for (int i = _dynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
             try
             {

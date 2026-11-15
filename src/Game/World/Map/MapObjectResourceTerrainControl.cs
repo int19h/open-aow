@@ -114,7 +114,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
             mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
             if (mapObject != null)
             {
-                r = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
+                r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
                 if (r != null)
                 {
                     mapObject.SetResource(r);
@@ -149,9 +149,9 @@ public partial class MapObjectResourceTerrainControl : EngineObject
             r = null;
             mapField = container.GetField(X, Y, L);
             mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
-            if (mapObject != null && mapObject._resource.EngineClass.ClassId == classId)
+            if (mapObject != null && mapObject.Resource.EngineClass.ClassId == classId)
             {
-                r = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
+                r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
                 if (r != null)
                 {
                     mapObject.SetResource(r);

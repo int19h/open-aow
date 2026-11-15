@@ -24,7 +24,9 @@ public partial class UIComponent : Rtl.Component
     public bool Aligned { get; set; }
     public bool Sized { get; set; }
 
-    public int _cursor;
+    [Published]
+    public virtual int Cursor { get; set; }
+
     [Published]
     public event AoWOnDrawEvent<UIComponent> OnDraw;
 
@@ -128,13 +130,21 @@ public partial class UIComponent : Rtl.Component
     private int _winHeight;
     private int _winLeft;
     private int _winTop;
-    public ImageLibraryFont _font;
-    public string _text = "";
+
+    [Published]
+    public virtual ImageLibraryFont Font { get; set; }
+
+    [Published]
+    public virtual string Text { get; set; } = "";
 
     public bool Redraw { get; set; }
 
-    public int _borderWidth;
-    public int _borderHeight;
+    [Published]
+    public int BorderWidth { get; set; }
+
+    [Published]
+    public int BorderHeight { get; set; }
+
     private int _priority;
 
     public bool Drawn { get; set; }
@@ -142,9 +152,15 @@ public partial class UIComponent : Rtl.Component
     public bool MouseIn { get; protected set; }
     public int ToolTipCount { get; protected set; }
 
-    public int _radioIndex;
-    public bool _checked;
-    public int _ownerItem;
+    [Published]
+    public int RadioIndex { get; set; }
+
+    [Published]
+    public virtual bool Checked { get; set; }
+
+    [Published]
+    public int OwnerItem { get; set; }
+
     [Published]
     public event NotifyEvent<UIComponent> OnUpdate;
 
@@ -180,7 +196,8 @@ public partial class UIComponent : Rtl.Component
 
     public bool Hidden { get; set; }
 
-    public bool _doubleBuffered;
+    [Published]
+    public virtual bool DoubleBuffered { get; set; }
 
     public bool SurfaceValid { get; set; }
 
@@ -939,7 +956,7 @@ public partial class UIComponent : Rtl.Component
 
         if (newIndex != oldIndex)
         {
-            if (_doubleBuffered)
+            if (DoubleBuffered)
             {
                 SurfaceValid = false;
             }

@@ -29,9 +29,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         Resize(3);
     }
 
-    internal HexSprite[] _hexSpriteList = [];
+    private HexSprite[] _hexSpriteList = [];
     private byte _capacity;
-    internal byte _count;
+
+    internal byte StoredCount { get; set; }
+
     private byte _staticCount;
     private Set<MapFieldStatusElement> _status;
     private sbyte _hexX;
@@ -44,7 +46,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override void Dispose()
     {
         Array.Resize(ref _hexSpriteList, 0);
-        _count = 0;
+        StoredCount = 0;
     }
 
     // HSEngine.pas:1928
@@ -86,7 +88,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:1943
     public override EngineObject GetChild(int index)
     {
-        if (index >= _count)
+        if (index >= StoredCount)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
@@ -97,7 +99,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:1949
     public override void SetChild(int index, EngineObject child)
     {
-        if (index >= _count)
+        if (index >= StoredCount)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
@@ -106,7 +108,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1972
-    public override int GetCount() => _count;
+    public override int GetCount() => StoredCount;
 
     // HSEngine.pas:2226
     public override int RemoveChild(EngineObject child) => RemoveHexSprite((HexSprite)child);
@@ -120,12 +122,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         EngineObject result;
         int i;
         i = 0;
-        while (i < _count && _hexSpriteList[i].EngineClass.ClassId != classId)
+        while (i < StoredCount && _hexSpriteList[i].EngineClass.ClassId != classId)
         {
             i += 1;
         }
 
-        if (i < _count)
+        if (i < StoredCount)
         {
             result = _hexSpriteList[i];
         }
@@ -143,12 +145,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         EngineObject result;
         int i;
         i = 0;
-        while (i < _count && !(_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].Owner == this))
+        while (i < StoredCount && !(_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].Owner == this))
         {
             i += 1;
         }
 
-        if (i < _count)
+        if (i < StoredCount)
         {
             result = _hexSpriteList[i];
         }
@@ -172,12 +174,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         HexSprite result;
         int i;
         i = 0;
-        while (i < _count && !classValue.IsInstanceOfType(_hexSpriteList[i]))
+        while (i < StoredCount && !classValue.IsInstanceOfType(_hexSpriteList[i]))
         {
             i += 1;
         }
 
-        if (i < _count)
+        if (i < StoredCount)
         {
             result = _hexSpriteList[i];
         }
@@ -196,7 +198,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         HexSprite hexSprite;
         i = 0;
         HexSprite result = null;
-        while (i < _count && result == null)
+        while (i < StoredCount && result == null)
         {
             hexSprite = _hexSpriteList[i];
             if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
@@ -214,7 +216,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public void CopyDynamicVisibleHexSprite(VisibilityList list)
     {
         byte last = _staticCount;
-        for (int i = _count - 1; i >= last; i--)
+        for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].MakeVisible(list);
         }
@@ -233,7 +235,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public void ResetDynamicVisibleHexSprite()
     {
         byte last = _staticCount;
-        for (int i = _count - 1; i >= last; i--)
+        for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].SetVisible(false);
         }
@@ -260,7 +262,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         int i;
         int level;
         HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
-        i = _count - 1;
+        i = StoredCount - 1;
         // { Preserve the original stack slot. }
         done = false;
         while (!done && i >= 0)
@@ -282,9 +284,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             }
 
             i -= 1;
-            if (i >= _count)
+            if (i >= StoredCount)
             {
-                i = _count - 1;
+                i = StoredCount - 1;
             }
         }
     }
@@ -292,9 +294,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2360
     public void DestroyHexSprite()
     {
-        for (int i = _count - 1; i >= 0; i--)
+        for (int i = StoredCount - 1; i >= 0; i--)
         {
-            if (i <= _count - 1)
+            if (i <= StoredCount - 1)
             {
                 if (_hexSpriteList[i].Owner == this)
                 {
@@ -307,7 +309,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2369
     public void Activate()
     {
-        for (int i = _count - 1; i >= 0; i--)
+        for (int i = StoredCount - 1; i >= 0; i--)
         {
             if (_hexSpriteList[i].Owner == this)
             {
@@ -346,7 +348,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         }
     }
 
-    public HexSprite[] HexSpriteList { get => _hexSpriteList; }
+    public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
     public byte Capacity { get => _capacity; }
     public byte StaticCount { get => _staticCount; }
     public Set<MapFieldStatusElement> Status { get => _status; set => _status = value; }
@@ -361,7 +363,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         if ((message.MessageId & 0x10000000) != 0)
         {
-            for (int i = _count - 1; i >= 0; i--)
+            for (int i = StoredCount - 1; i >= 0; i--)
             {
                 var sprite = _hexSpriteList[i];
                 if (sprite.GetLastMessage() == message.Sequence) continue;
@@ -376,7 +378,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         }
         else
         {
-            int count = _count;
+            int count = StoredCount;
             for (int i = 0; i < count; i++) s_sendMessageList[i] = _hexSpriteList[i];
             for (int i = count - 1; i >= 0; i--)
                 if (s_sendMessageList[i].Owner == this) s_sendMessageList[i].MessageProc(ref message, this);

@@ -15,7 +15,9 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexTexture, _dockable
 public partial class WindowControl : UIComponent
 {
-    public bool _modal;
+    [Published]
+    public bool Modal { get; set; }
+
     public event AoWOnDrawSurface<WindowControl> OnDrawSurface;
 
     protected void RaiseDrawSurface(WindowControl sender, Surface surface, int left, int top)
@@ -40,8 +42,11 @@ public partial class WindowControl : UIComponent
     public int DragX { get; protected set; }
     public int DragY { get; protected set; }
 
-    public bool _draggable;
-    public bool _resizable;
+    [Published]
+    public bool Draggable { get; set; }
+
+    [Published]
+    public bool Resizable { get; set; }
 
     public byte ResizingX { get; protected set; }
     public byte ResizingY { get; protected set; }
@@ -66,8 +71,20 @@ public partial class WindowControl : UIComponent
         }
     }
 
-    public int _dragHeight;
-    public bool _overlapTopCorners;
+    [Published]
+    public int DragHeight { get; set; }
+
+    // AoWWinGeneric publishes this through SetOverlap. The write marks the window dirty.
+    [Published]
+    public bool OverlapTopCorners
+    {
+        get;
+        set
+        {
+            field = value;
+            Drawn = false;
+        }
+    }
 
     public int OldCursor { get; protected set; }
     public int WindowCursor { get; protected set; }
@@ -82,25 +99,40 @@ public partial class WindowControl : UIComponent
         }
     }
 
-    public int _minWidth;
-    public int _minHeight;
-    public int _maxWidth;
-    public int _maxHeight;
+    [Published]
+    public int MinWidth { get; set; }
+
+    [Published]
+    public int MinHeight { get; set; }
+
+    [Published]
+    public int MaxWidth { get; set; }
+
+    [Published]
+    public int MaxHeight { get; set; }
 
     public bool InResizeArea { get; protected set; }
     public Style WindowStyle { get; private set; }
 
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public InterfaceImageLibrary _imageLibraryTexture;
-    public bool _useManagerBorders;
+    [Published]
+    public virtual InterfaceImageLibrary ImageLibraryFrame { get; set; }
+
+    [Published]
+    public virtual InterfaceImageLibrary ImageLibraryTexture { get; set; }
+
+    [Published]
+    public bool UseManagerBorders { get; set; }
 
     public int FrameLeft { get; protected set; }
     public int FrameTop { get; protected set; }
     public int FrameRight { get; protected set; }
     public int FrameBottom { get; protected set; }
 
-    public int _maskColor;
-    public bool _useVideoMemory;
+    [Published]
+    public int MaskColor { get; set; }
+
+    [Published]
+    public bool UseVideoMemory { get; set; }
 
     public Surface BackSurface { get; protected set; }
 
@@ -141,9 +173,14 @@ public partial class WindowControl : UIComponent
 
     public bool MouseInside { get; set; }
 
-    public int _imageLibraryIndexFrame;
-    public int _imageLibraryIndexTexture;
-    public bool _dockable;
+    [Published]
+    public virtual int ImageLibraryIndexFrame { get; set; }
+
+    [Published]
+    public virtual int ImageLibraryIndexTexture { get; set; }
+
+    [Published]
+    public bool Dockable { get; set; }
 
     // AoWWinControl.pas:103
     public WindowControl(Component owner) : base(owner)
@@ -164,19 +201,19 @@ public partial class WindowControl : UIComponent
     {
         if (OwnerComponent != null)
         {
-            if (_imageLibraryFrame != null)
+            if (ImageLibraryFrame != null)
             {
-                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+                ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
             }
 
-            if (_imageLibraryTexture != null)
+            if (ImageLibraryTexture != null)
             {
-                _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
+                ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
             }
 
-            if (_imageLibraryFrame != null)
+            if (ImageLibraryFrame != null)
             {
-                if (_imageLibraryTexture != null)
+                if (ImageLibraryTexture != null)
                 {
                     WindowStyle = Style.Normal;
                 }
@@ -187,7 +224,7 @@ public partial class WindowControl : UIComponent
             }
             else
             {
-                if (_imageLibraryTexture != null)
+                if (ImageLibraryTexture != null)
                 {
                     WindowStyle = Style.Borderless;
                 }
@@ -220,12 +257,12 @@ public partial class WindowControl : UIComponent
                 }
             }
 
-            if ((Handled || _modal))
+            if ((Handled || Modal))
             {
                 RaiseKeyPress(this, ref key);
             }
 
-            if (_modal)
+            if (Modal)
             {
                 Handled = true;
             }
@@ -251,7 +288,7 @@ public partial class WindowControl : UIComponent
 
             RaiseKeyDown(this, ref key, shift);
 
-            if (_modal)
+            if (Modal)
             {
                 Handled = true;
             }
@@ -279,7 +316,7 @@ public partial class WindowControl : UIComponent
         }
         else
         {
-            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: _maskColor, palette: null);
+            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
             BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
         }
 
@@ -290,11 +327,7 @@ public partial class WindowControl : UIComponent
     }
 
     // AoWWinControl.pas:142
-    public void SetOverlap(bool value)
-    {
-        _overlapTopCorners = value;
-        Drawn = false;
-    }
+    public void SetOverlap(bool value) => OverlapTopCorners = value;
 
     // AoWWinControl.pas:149
     // { RadioChange unchecks the other children of the radio group of Sender }
@@ -304,9 +337,9 @@ public partial class WindowControl : UIComponent
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
             c = Children[i];
-            if (sender._radioIndex == c._radioIndex && c != sender && c._checked == true)
+            if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked == true)
             {
-                c._checked = false;
+                c.Checked = false;
                 c.Drawn = false;
                 c.RaiseChange(c);
             }
@@ -322,7 +355,7 @@ public partial class WindowControl : UIComponent
     public bool VerifyBackSurface(Surface surface)
     {
         bool result = false;
-        if (_doubleBuffered)
+        if (DoubleBuffered)
         {
             if (BackSurface != null)
             {
@@ -339,7 +372,7 @@ public partial class WindowControl : UIComponent
                 BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 if (Masked)
                 {
-                    BackSurface.Clear(_maskColor);
+                    BackSurface.Clear(MaskColor);
                 }
 
                 result = true;

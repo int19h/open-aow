@@ -195,7 +195,8 @@ public sealed class ClassFamilyTests
         level.CreateMapFieldList(3, 3);
         var field = level.GetField(1, 1);
         using var resource = new LowerIsometricHex.Resource(null!) { Holder = EngineFixture.Engine };
-        var hex = new LowerIsometricHex(field) { _resource = resource };
+        var hex = new LowerIsometricHex(field);
+        hex.SetResourceWithoutOverrides(resource);
         try
         {
             hex.UpdateTransitions();
@@ -204,14 +205,14 @@ public sealed class ClassFamilyTests
             var dynamic = hex.Dynamic;
             Assert.NotNull(dynamic);
             Assert.Null(dynamic.Owner);
-            Assert.Contains(dynamic, field.HexSpriteList.Take(field._count));
+            Assert.Contains(dynamic, field.HexSpriteList.Take(field.StoredCount));
             Assert.Equal(field.HexX, dynamic.GetHexX());
             Assert.Equal(field.HexY, dynamic.GetHexY());
             Assert.Equal(resource.DynamicLevel, dynamic.GetLevel());
             Assert.Equal(26, dynamic.GetLevel());
             hex.Dispose();
             hex = null!;
-            Assert.DoesNotContain(dynamic, field.HexSpriteList.Take(field._count));
+            Assert.DoesNotContain(dynamic, field.HexSpriteList.Take(field.StoredCount));
         }
         finally
         {
@@ -231,7 +232,8 @@ public sealed class ClassFamilyTests
                 level.GetField(x, y).TerrainType = 3;
         var field = level.GetField(1, 1);
         using var resource = new WaterHex.Resource(null!) { Holder = EngineFixture.Engine };
-        using var water = new WaterHex(field) { _resource = resource };
+        using var water = new WaterHex(field);
+        water.SetResourceWithoutOverrides(resource);
         water.UpdateTransitions();
         Assert.NotNull(water.Dynamic);
         Assert.NotEqual(0, water.OpenSides);

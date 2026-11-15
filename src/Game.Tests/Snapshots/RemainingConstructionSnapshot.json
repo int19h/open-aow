@@ -39335,7 +39335,7 @@
             "$type": "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
             "EngineObject._owner": null,
             "GlobalEnchantment.DispelMana": 25,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment.EnchantmentManaUpkeep": 0,
             "GlobalEnchantment.EnchantmentMode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39386,7 +39386,7 @@
             "$type": "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
             "EngineObject._owner": "$owner",
             "GlobalEnchantment.DispelMana": 25,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment.EnchantmentManaUpkeep": 0,
             "GlobalEnchantment.EnchantmentMode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39424,7 +39424,7 @@
               "$type": "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
               "EngineObject._owner": "$owner",
               "GlobalEnchantment.DispelMana": 0,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -43526,7 +43526,7 @@
             "GlobalEnchantment.EnchantmentType": 0,
             "GlobalEnchantment.Name": "",
             "GlobalEnchantment.PlayerIndex": 0,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment._refCount": 1
           }
         }
@@ -43584,7 +43584,7 @@
             "GlobalEnchantment.EnchantmentType": 0,
             "GlobalEnchantment.Name": "",
             "GlobalEnchantment.PlayerIndex": 0,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment._refCount": 1
           }
         }
@@ -43629,7 +43629,7 @@
               "GlobalEnchantment.EnchantmentType": 0,
               "GlobalEnchantment.Name": "",
               "GlobalEnchantment.PlayerIndex": 0,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment._refCount": 0
             }
           }

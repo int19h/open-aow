@@ -40,8 +40,8 @@ public partial class City : PlayerCropStructure
         Race = -1;
         Name = AbilityRules.TranslateResourceString(GetEngine(), s_noNameText);
         UpgradeLevel = 1;
-        _overlay = new CityOverlayHexSprite(null) { Holder = CreationHolder() };
-        _overlay.City = this;
+        Overlay = new CityOverlayHexSprite(null) { Holder = CreationHolder() };
+        Overlay.City = this;
         _enchantmentList = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         EnchantmentsVisible = false;
     }
@@ -62,7 +62,7 @@ public partial class City : PlayerCropStructure
 
     public Set<CityEnchantmentId> Enchantments { get; private set; }
 
-    public readonly CityOverlayHexSprite _overlay;
+    public CityOverlayHexSprite Overlay { get; }
 
     public bool EnchantmentsVisible { get; private set; }
     public LibraryImage WallBackImage { get; private set; }
@@ -76,10 +76,10 @@ public partial class City : PlayerCropStructure
     {
         if (GetVisible())
         {
-            StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
+            StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(Overlay);
         }
 
-        _overlay?.Dispose();
+        Overlay?.Dispose();
         base.Dispose();
         Production?.Dispose();
         _enchantmentList?.Dispose();
@@ -138,14 +138,14 @@ public partial class City : PlayerCropStructure
     {
         int x = default;
         int y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
         if (!Mode.Contains(ModeElement.Razed) || GetBuilding())
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (((PlayerStructureResource)_resource).Claimed || (_flagId & 32) == 0))
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (((PlayerStructureResource)Resource).Claimed || (_flagId & 32) == 0))
             {
-                var cityResource = (PlayerStructureResource)_resource;
+                var cityResource = (PlayerStructureResource)Resource;
                 if (cityResource.FlagType <= 1)
                 {
                     GamePack.Current.FlagControl.ShowFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, this._flagId, lockedSurface);
@@ -165,11 +165,11 @@ public partial class City : PlayerCropStructure
 
         if (!Mode.Contains(ModeElement.Razed))
         {
-            ((Resource)_resource).ShowCity(pixelXSurface, pixelYSurface, lockedSurface, this);
+            ((Resource)Resource).ShowCity(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
         else
         {
-            ((StructureResource)_resource).Show(pixelXSurface, pixelYSurface, lockedSurface, this);
+            ((StructureResource)Resource).Show(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
     }
 
@@ -179,7 +179,7 @@ public partial class City : PlayerCropStructure
         bool result = base.PlaceOnMap();
         if (result)
         {
-            UpdateMapFields(Owner.Owner, _hexX, _hexY);
+            UpdateMapFields(Owner.Owner, StoredHexX, StoredHexY);
         }
 
         return result;
@@ -191,18 +191,18 @@ public partial class City : PlayerCropStructure
         MapLevel mapLevel;
         mapLevel = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(mapLevel, _hexX, _hexY);
+        UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
 
     // City.pas:2378
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (!(message.MessageId == 4364 && _resource.TerrainList.Terrain[message.HexNumber] >= 0))
+        if (!(message.MessageId == 4364 && Resource.TerrainList.Terrain[message.HexNumber] >= 0))
         {
             base.MapFieldMessageProc(ref message);
         }
 
-        if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[message.HexNumber] >= 0)
         {
             if (message.MessageId == 4364 && message.HexNumber == 0)
             {
@@ -223,7 +223,7 @@ public partial class City : PlayerCropStructure
                     message.Param[0] = message.Param[0].Int + 917504;
                 }
 
-                message.Param[0] = message.Param[0].Int + (((Resource)_resource).Size - 1) * 4194304;
+                message.Param[0] = message.Param[0].Int + (((Resource)Resource).Size - 1) * 4194304;
             }
             else
             {
@@ -325,7 +325,7 @@ public partial class City : PlayerCropStructure
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
         base.UpdateMapField(info);
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.BattleFieldInfoFlag;
         }
@@ -339,7 +339,7 @@ public partial class City : PlayerCropStructure
             base.MakeVisible(visibilityList);
             if ((Set<CityEnchantmentId>.Of(CityEnchantmentId.GoldRush, CityEnchantmentId.AntiMagicShell, CityEnchantmentId.Warmonger) & Enchantments) != Set<CityEnchantmentId>.Of())
             {
-                _overlay.MakeVisible(visibilityList);
+                Overlay.MakeVisible(visibilityList);
             }
         }
     }
@@ -381,12 +381,12 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(ModeElement.Razed))
         {
             index = 42;
-            sequences = _resource.ImageSequenceList;
+            sequences = Resource.ImageSequenceList;
             if (sequences != null)
             {
                 if (sequences.GetImageSequence(index) != null)
                 {
-                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
+                    result = Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
@@ -430,12 +430,12 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(ModeElement.Razed))
         {
             index = 43;
-            sequences = _resource.ImageSequenceList;
+            sequences = Resource.ImageSequenceList;
             if (sequences != null)
             {
                 if (sequences.GetImageSequence(index) != null)
                 {
-                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
+                    result = Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
@@ -479,12 +479,12 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(ModeElement.Razed))
         {
             index = 44;
-            sequences = _resource.ImageSequenceList;
+            sequences = Resource.ImageSequenceList;
             if (sequences != null)
             {
                 if (sequences.GetImageSequence(index) != null)
                 {
-                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
+                    result = Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
@@ -565,7 +565,7 @@ public partial class City : PlayerCropStructure
         Status relation;
         if ((Mode & Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed)) == Set<ModeElement>.Of())
         {
-            BattleFieldInfo.SetupBattleFieldInfo(out info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(out info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
@@ -688,9 +688,9 @@ public partial class City : PlayerCropStructure
         }
 
         CheckRebellion();
-        if (_overlay.Mode == CityOverlayHexSprite.OverlayMode.ShowRazeAnimation)
+        if (Overlay.Mode == CityOverlayHexSprite.OverlayMode.ShowRazeAnimation)
         {
-            _overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
+            Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         }
     }
 
@@ -723,7 +723,7 @@ public partial class City : PlayerCropStructure
 
         if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            _overlay.PlayFadeShellAnimation();
+            Overlay.PlayFadeShellAnimation();
         }
     }
 
@@ -1028,10 +1028,10 @@ public partial class City : PlayerCropStructure
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         CityProductionEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
         {
             log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-            log._player = newPlayer;
+            log.Player = newPlayer;
             var editName = EditName();
             log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.HexX = GetHexX();
@@ -1086,10 +1086,10 @@ public partial class City : PlayerCropStructure
             player = -1;
             count = GetTerrainCount();
             mapLevel = Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
             while (walk.HexNumber < count && !multiplePlayers)
             {
-                if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+                if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
                     if (army != null)
@@ -1184,7 +1184,7 @@ public partial class City : PlayerCropStructure
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    count = ((PlayerCropStructureResource)_resource).CropLocations.Count;
+                    count = ((PlayerCropStructureResource)Resource).CropLocations.Count;
                 }
                 else
                 {
@@ -1332,7 +1332,7 @@ public partial class City : PlayerCropStructure
 
         if (enchantment.CityEnchantmentId == CityEnchantmentId.AntiMagicShell)
         {
-            _overlay.PlaySetupShellAnimation();
+            Overlay.PlaySetupShellAnimation();
         }
     }
 
@@ -1599,10 +1599,10 @@ public partial class City : PlayerCropStructure
         count = GetTerrainCount();
         mapLevel = Owner.Owner;
         // { This eliminated copy preserves the original saved registers. }
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && result)
         {
-            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
                 if (army != null && (!selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || army.Army.Player != Player))
@@ -1618,7 +1618,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1256
-    public int GetSize() => ((Resource)_resource).Size;
+    public int GetSize() => ((Resource)Resource).Size;
 
     // City.pas:1259
     public int GetObtainUnitsValue()
@@ -1636,7 +1636,7 @@ public partial class City : PlayerCropStructure
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         while (walk.HexNumber < count)
         {
-            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
                 if (army != null)
@@ -1892,7 +1892,7 @@ public partial class City : PlayerCropStructure
             {
                 radius = -1;
                 mapLevel = Owner.Owner;
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 1);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 1);
                 while (walk.Radius <= 20 && radius == -1)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -2045,7 +2045,7 @@ public partial class City : PlayerCropStructure
                 {
                     MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement>.Of());
                     log = new CityRebellionEventLog(null) { Holder = CreationHolder() };
-                    log._player = Player;
+                    log.Player = Player;
                     log.CityName = GetName();
                     log.HexX = GetHexX();
                     log.HexY = GetHexY();
@@ -2572,7 +2572,7 @@ public partial class City : PlayerCropStructure
         int amount;
         if (Player == 0 && !Mode.Contains(ModeElement.WarMode))
         {
-            amount = JoinAmount(request._player);
+            amount = JoinAmount(request.Player);
             if (amount != -1)
             {
                 request.Object = NegotiateObject.City;
@@ -2632,7 +2632,7 @@ public partial class City : PlayerCropStructure
 
                     armies?.Dispose();
                     log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                    log._player = Player;
+                    log.Player = Player;
                     var name = GetName();
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_overthrownFormat), [name]);
                     log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
@@ -2752,11 +2752,11 @@ public partial class City : PlayerCropStructure
         int? sequence = order?.CitySequence(this, row);
         if (sequence is int index)
         {
-            if (_resource.ImageSequenceList != null && index != -1)
+            if (Resource.ImageSequenceList != null && index != -1)
             {
-                if (_resource.ImageSequenceList.GetImageSequence(index) != null)
+                if (Resource.ImageSequenceList.GetImageSequence(index) != null)
                 {
-                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
+                    result = Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {

@@ -242,7 +242,7 @@ public partial class GroupDefenseSelector : IDisposable
                 }
                 if (number == 0)
                 {
-                    number = ((Troop)item1).GetStrengthMax(AbilityRules.s_allDamageTypes) - ((Troop)item2).GetStrengthMax(AbilityRules.s_allDamageTypes);
+                    number = ((Troop)item1).GetStrengthMax(AbilityRules.AllDamageTypes) - ((Troop)item2).GetStrengthMax(AbilityRules.AllDamageTypes);
                 }
             }
         }

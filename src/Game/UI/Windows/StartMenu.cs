@@ -21,7 +21,7 @@ public partial class StartMenu : Menu
         WindowManager m;
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
-        m = _windowManager;
+        m = WindowManager;
         if (m != null && OwnerMenuBar != null)
         {
             SetWinTopWithoutInvalidate(m.WinHeight - 393);
@@ -42,7 +42,7 @@ public partial class StartMenu : Menu
             {
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
-                m = _windowManager;
+                m = WindowManager;
                 if (m != null && OwnerMenuBar != null)
                 {
                     SetWinTopWithoutInvalidate(m.WinHeight - 393);
@@ -99,37 +99,37 @@ public partial class StartMenu : Menu
                 if (!Drawn)
                 {
                     oldClip = lockedSurface.ClipRectangle;
-                    _font.Color = Color;
+                    Font.Color = Color;
                     _imageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
                     for (int i = 0, last = Items.Count - 1; i <= last; i++)
                     {
                         if (Items.Count > 0)
                         {
-                            var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                            var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                             if (WinLeft + WinWidth - imageLibraryFrameWidth.Width < oldClip.Right)
                             {
-                                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                                var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                                 lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame.Width;
                             }
 
                             if (i == Highlighted)
                             {
-                                _font.Color = SelectedColor;
+                                Font.Color = SelectedColor;
                             }
 
                             var item = Items[i];
-                            var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame2.Width, WinTop + _borderHeight + imageLibraryFrameHeight.Height + ItemHeight * i, item, lockedSurface);
+                            var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                            var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + ItemHeight * i, item, lockedSurface);
                             if (i == Highlighted)
                             {
-                                _font.Color = Color;
+                                Font.Color = Color;
                             }
 
                             DrawItem = i;
-                            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                            var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                            var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + ItemHeight * i, WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + (i + 1) * ItemHeight);
                             RaiseDrawItem(this);
 
@@ -152,10 +152,10 @@ public partial class StartMenu : Menu
     {
         if (Valid)
         {
-            var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             SetWinHeightWithoutInvalidate(WinHeight - (imageLibraryFrameHeight.Height));
             base.CheckMouseDown(button, shift, X, Y);
-            var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             SetWinHeightWithoutInvalidate(WinHeight + (imageLibraryFrame.Height));
         }
     }

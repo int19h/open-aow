@@ -53,7 +53,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:2181
@@ -65,15 +65,15 @@ public partial class Picture16 : Image16, ILibraryImageClass
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:2188
     public override void SetWidth(int value)
     {
-        if (value < _xshift + _dataWidth)
+        if (value < Xshift + DataWidth)
         {
-            value = _xshift + _dataWidth;
+            value = Xshift + DataWidth;
         }
 
         base.SetWidth(value);
@@ -82,9 +82,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
     // ImageLib.pas:2194
     public override void SetHeight(int value)
     {
-        if (value < _yshift + _dataHeight)
+        if (value < Yshift + DataHeight)
         {
-            value = _yshift + _dataHeight;
+            value = Yshift + DataHeight;
         }
 
         base.SetHeight(value);
@@ -107,10 +107,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        AllocateDiscardableImageData(_dataWidth, _dataHeight);
-        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
+        AllocateDiscardableImageData(DataWidth, DataHeight);
+        for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(y * _pitch, _dataWidth * 2));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, DataWidth * 2));
         }
     }
 
@@ -118,9 +118,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
+        for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(y * _pitch, _dataWidth * 2));
+            stream.Write(_buffer.AsSpan(y * _pitch, DataWidth * 2));
         }
     }
 
@@ -136,23 +136,23 @@ public partial class Picture16 : Image16, ILibraryImageClass
             Clear();
             result = true;
             DataLoaded = true;
-            _dataWidth = R.Right - R.Left;
-            _dataHeight = R.Bottom - R.Top;
-            _width = _dataWidth;
-            _height = _dataHeight;
-            _fileName = ExtractFileName(grabInfo.FileName);
-            _fileIndex = grabInfo.FileIndex;
-            _dataSize = _dataWidth * _dataHeight * 2;
-            AllocateDiscardableImageData(_width, _height);
+            DataWidth = R.Right - R.Left;
+            DataHeight = R.Bottom - R.Top;
+            SetWidthWithoutOverrides(DataWidth);
+            SetHeightWithoutOverrides(DataHeight);
+            FileName = ExtractFileName(grabInfo.FileName);
+            FileIndex = grabInfo.FileIndex;
+            DataSize = DataWidth * DataHeight * 2;
+            AllocateDiscardableImageData(Width, Height);
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfPAL8:
                     {
-                        for (int y = 0, last = _height - 1; y <= last; y++)
+                        for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            var s = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, _width);
-                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, _width * 2));
-                            for (int x = 0, lastX = _width - 1; x <= lastX; x++)
+                            var s = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, Width);
+                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
+                            for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 Palette.Entry p = lockedSurface.Palette[s[x]];
                                 d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (int)(((uint)p.Blue) >> 3));
@@ -160,40 +160,40 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         }
                     }
 
-                    _storedPixelFormatId = PixelFormats.pfRGB565;
+                    StoredPixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB565:
                 case PixelFormats.pfRGB555:
                     {
-                        for (int i = 0, last = _height - 1; i <= last; i++)
+                        for (int i = 0, last = Height - 1; i <= last; i++)
                         {
-                            lockedSurface.View().Bytes((R.Top + i) * lockedSurface.Pitch + R.Left * 2, _width * 2).CopyTo(_buffer.AsSpan(_pitch * i, _width * 2));
+                            lockedSurface.View().Bytes((R.Top + i) * lockedSurface.Pitch + R.Left * 2, Width * 2).CopyTo(_buffer.AsSpan(_pitch * i, Width * 2));
                         }
                     }
 
-                    _storedPixelFormatId = lockedSurface.PixelFormatId;
+                    StoredPixelFormatId = lockedSurface.PixelFormatId;
                     break;
                 case PixelFormats.pfRGB24:
                     {
-                        for (int y = 0, last = _height - 1; y <= last; y++)
+                        for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, _width * 2));
-                            var s24 = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left * 3, _width * 3);
-                            for (int x = 0, lastX = _width - 1; x <= lastX; x++)
+                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
+                            var s24 = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left * 3, Width * 3);
+                            for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 d[x] = (ushort)(((s24[x * 3 + 2] & 248) << 8) + ((s24[x * 3 + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));
                             }
                         }
                     }
 
-                    _storedPixelFormatId = PixelFormats.pfRGB565;
+                    StoredPixelFormatId = PixelFormats.pfRGB565;
                     break;
                 default:
                     result = false;
                     break;
             }
 
-            PixelFormatId = _storedPixelFormatId;
+            PixelFormatId = StoredPixelFormatId;
         }
         catch
         {
@@ -213,11 +213,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
             switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    PixelRemap.RemapSurface555To565(View, View, _dataWidth, _dataHeight);
+                    PixelRemap.RemapSurface555To565(View, View, DataWidth, DataHeight);
                     PixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    PixelRemap.RemapSurface565To555(View, View, _dataWidth, _dataHeight);
+                    PixelRemap.RemapSurface565To555(View, View, DataWidth, DataHeight);
                     PixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
@@ -242,9 +242,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
         int bottom;
         SurfaceView source;
         SurfaceView destination;
-        destinationX = X + _xshift;
-        w = _dataWidth;
-        right = _dataWidth + destinationX;
+        destinationX = X + Xshift;
+        w = DataWidth;
+        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -263,9 +263,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
         if (w > 0)
         {
-            destinationY = Y + _yshift;
-            h = _dataHeight;
-            bottom = destinationY + _dataHeight;
+            destinationY = Y + Yshift;
+            h = DataHeight;
+            bottom = destinationY + DataHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -303,7 +303,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         BlitRects.BlitRectangle(source, destination, w * 2, h);
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -343,9 +343,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
         int bottom;
         SurfaceView source;
         SurfaceView destination;
-        destinationX = X + _xshift;
-        w = _dataWidth;
-        right = _dataWidth + destinationX;
+        destinationX = X + Xshift;
+        w = DataWidth;
+        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -364,9 +364,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
         if (w > 0)
         {
-            destinationY = Y + _yshift;
-            h = _dataHeight;
-            bottom = destinationY + _dataHeight;
+            destinationY = Y + Yshift;
+            h = DataHeight;
+            bottom = destinationY + DataHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -434,7 +434,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         }
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -504,9 +504,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
         int bottom;
         SurfaceView source;
         SurfaceView destination;
-        destinationX = X + _xshift;
-        w = _dataWidth;
-        right = _dataWidth + destinationX;
+        destinationX = X + Xshift;
+        w = DataWidth;
+        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -525,9 +525,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
         if (w > 0)
         {
-            destinationY = Y + _yshift;
-            h = _dataHeight;
-            bottom = destinationY + _dataHeight;
+            destinationY = Y + Yshift;
+            h = DataHeight;
+            bottom = destinationY + DataHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -579,7 +579,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         }
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }

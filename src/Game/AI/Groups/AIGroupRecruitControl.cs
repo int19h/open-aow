@@ -260,7 +260,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         bool result;
         if (group.PathStrength != 0)
         {
-            result = group.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
+            result = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
             if (!result)
             {
                 if (Mode != AIGroupRecruitControlMode.ForceRecruit)
@@ -339,7 +339,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         _movesMin = 0;
         Superiority = -1;
         RecruitStrength = 0;
-        _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         // { Original bug: a second FillChar clears only the maximum strength again, not the per-type
         //   array. }
         _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);

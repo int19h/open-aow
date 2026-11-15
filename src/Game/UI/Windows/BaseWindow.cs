@@ -20,8 +20,12 @@ public partial class BaseWindow : WindowControl
 
     public object Buffer { get; }
 
-    public bool _freeSurfaceOnHide;
-    public WindowManager _windowManager;
+    [Published]
+    public bool FreeSurfaceOnHide { get; set; }
+
+    [Published]
+    public virtual WindowManager WindowManager { get; set; }
+
     [Published]
     public event NotifyEvent<BaseWindow> OnShow;
 
@@ -77,7 +81,7 @@ public partial class BaseWindow : WindowControl
     // AoWBaseWin.pas:50
     public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
     {
-        if (_doubleBuffered && SurfaceValid)
+        if (DoubleBuffered && SurfaceValid)
         {
             base.AddBlitRectangle(ref rectangle, sender);
         }
@@ -100,7 +104,7 @@ public partial class BaseWindow : WindowControl
                     OnHide(this);
                 }
 
-                if (_freeSurfaceOnHide && BackSurface != null)
+                if (FreeSurfaceOnHide && BackSurface != null)
                 {
                     BackSurface?.Dispose();
                     BackSurface = null;
@@ -108,7 +112,7 @@ public partial class BaseWindow : WindowControl
             }
             else
             {
-                if (_doubleBuffered)
+                if (DoubleBuffered)
                 {
                     SurfaceValid = false;
                 }
@@ -168,7 +172,7 @@ public partial class BaseWindow : WindowControl
                 oldTop = WinTop;
                 try
                 {
-                    if (_doubleBuffered)
+                    if (DoubleBuffered)
                     {
                         Drawn = !VerifyBackSurface(surface) && Drawn;
                         SetWinLeftWithoutInvalidate(0);
@@ -207,7 +211,7 @@ public partial class BaseWindow : WindowControl
                         }
                         else
                         {
-                            if (Priority >= _windowManager.OverlayPriority)
+                            if (Priority >= WindowManager.OverlayPriority)
                             {
                                 for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                 {
@@ -229,9 +233,9 @@ public partial class BaseWindow : WindowControl
                         MessageBox(0, "Draw Error", "Error - " + Name, 0);
                     }
 
-                    if (_doubleBuffered)
+                    if (DoubleBuffered)
                     {
-                        if (Priority >= _windowManager.OverlayPriority || !Drawn)
+                        if (Priority >= WindowManager.OverlayPriority || !Drawn)
                         {
                             for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                             {
@@ -297,12 +301,12 @@ public partial class BaseWindow : WindowControl
                                         }
                                         else
                                         {
-                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: _maskColor, palette: null);
+                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
                                             BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
                                         }
 
                                         r = new Rect(d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, d.Rectangle.Right + oldLeft, d.Rectangle.Bottom + oldTop);
-                                        _windowManager.AddBlitRectangle(ref r, this);
+                                        WindowManager.AddBlitRectangle(ref r, this);
                                     }
 
                                     RaiseDrawSurface(this, surface, 0, 0);
@@ -377,7 +381,7 @@ public partial class BaseWindow : WindowControl
             oldLeft = WinLeft;
             oldTop = WinTop;
             ok = true;
-            if (_doubleBuffered)
+            if (DoubleBuffered)
             {
                 destinationSurfaceDescription = lockedSurface;
                 if (BackSurface == null)
@@ -385,7 +389,7 @@ public partial class BaseWindow : WindowControl
                     BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
                     if (Masked)
                     {
-                        BackSurface.Clear(_maskColor);
+                        BackSurface.Clear(MaskColor);
                     }
 
                     ok = BackSurface.Lock(ref lockedSurface) >= 0;
@@ -402,7 +406,7 @@ public partial class BaseWindow : WindowControl
                             BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, null);
                             if (Masked)
                             {
-                                BackSurface.Clear(_maskColor);
+                                BackSurface.Clear(MaskColor);
                             }
 
                             ok = BackSurface.Lock(ref lockedSurface) >= 0;
@@ -432,7 +436,7 @@ public partial class BaseWindow : WindowControl
 
                 RaiseDraw(this, lockedSurface);
 
-                if (_doubleBuffered)
+                if (DoubleBuffered)
                 {
                     SetWinLeftWithoutInvalidate(oldLeft);
                     SetWinTopWithoutInvalidate(oldTop);
@@ -443,7 +447,7 @@ public partial class BaseWindow : WindowControl
                     {
                         if (Masked == true)
                         {
-                            LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, _maskColor);
+                            LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, MaskColor);
                         }
                         else
                         {
@@ -467,29 +471,29 @@ public partial class BaseWindow : WindowControl
     // AoWBaseWin.pas:341
     public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
-        if (value != _imageLibraryFrame)
+        if (value != base.ImageLibraryFrame)
         {
             Valid = false;
-            _imageLibraryFrame = value;
+            base.ImageLibraryFrame = value;
         }
     }
 
     // AoWBaseWin.pas:350
     public virtual void SetImageLibraryTexture(InterfaceImageLibrary value)
     {
-        if (value != _imageLibraryTexture)
+        if (value != base.ImageLibraryTexture)
         {
             Valid = false;
-            _imageLibraryTexture = value;
+            base.ImageLibraryTexture = value;
         }
     }
 
     // AoWBaseWin.pas:79
     public void SetILFIndex(int value)
     {
-        if (value != _imageLibraryIndexFrame)
+        if (value != base.ImageLibraryIndexFrame)
         {
-            _imageLibraryIndexFrame = value;
+            base.ImageLibraryIndexFrame = value;
             Valid = false;
         }
     }
@@ -497,9 +501,9 @@ public partial class BaseWindow : WindowControl
     // AoWBaseWin.pas:88
     public void SetImageLibraryTileIndex(int value)
     {
-        if (value != _imageLibraryIndexTexture)
+        if (value != base.ImageLibraryIndexTexture)
         {
-            _imageLibraryIndexTexture = value;
+            base.ImageLibraryIndexTexture = value;
             Valid = false;
         }
     }
@@ -510,10 +514,17 @@ public partial class BaseWindow : WindowControl
         SetOwner(value);
     }
 
-    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
-    public InterfaceImageLibrary ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
-    public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
-    public int ImageLibraryIndexTexture { get => _imageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
+    [Published]
+    public override InterfaceImageLibrary ImageLibraryFrame { get => base.ImageLibraryFrame; set => SetImageLibraryFrame(value); }
+
+    [Published]
+    public override InterfaceImageLibrary ImageLibraryTexture { get => base.ImageLibraryTexture; set => SetImageLibraryTexture(value); }
+
+    [Published]
+    public override int ImageLibraryIndexFrame { get => base.ImageLibraryIndexFrame; set => SetILFIndex(value); }
+
+    [Published]
+    public override int ImageLibraryIndexTexture { get => base.ImageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
     public new event NotifyEvent<BaseWindow> OnChange
     {

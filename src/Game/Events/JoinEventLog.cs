@@ -116,7 +116,7 @@ public partial class JoinEventLog : EventLog
     public virtual bool Accept(ref string errorText)
     {
         bool result;
-        if (StrategicMap.Current.Players.GetPlayers(_player).Gems >= Gold)
+        if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
             result = true;
         }
@@ -139,7 +139,7 @@ public partial class JoinEventLog : EventLog
     public void SetupJoinArmy(Army army, sbyte player, JoinMode joinMode)
     {
         FirstUnitId = 0;
-        _player = (sbyte)(byte)player;
+        Player = (sbyte)(byte)player;
         Selection = army.GetJoinSelection(player);
         Gold = army.JoinAmount(player, Selection);
         JoinMode = joinMode;

@@ -88,7 +88,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3411
     public override sbyte GetTerrain(int index)
     {
-        sbyte result = _resource.TerrainList.GetTerrain(index);
+        sbyte result = base.Resource.TerrainList.GetTerrain(index);
         if (result >= 0)
         {
             result = -1;
@@ -116,10 +116,10 @@ public partial class Fire : ImageLibraryTerrainMapObject
         if (_explosionFrame != 0)
         {
             frame = StrategicMap.Current.Frame - _explosionFrame;
-            if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
+            if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
-                _resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
+                base.Resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
             }
             else
             {
@@ -168,13 +168,13 @@ public partial class Fire : ImageLibraryTerrainMapObject
             base.MapFieldMessageProc(ref message);
         }
 
-        if (message.MessageId == 4418 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (message.MessageId == 4418 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
             ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             return;
         }
 
-        if (message.MessageId == 4384 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (message.MessageId == 4384 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
             if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Fire))
             {
@@ -187,7 +187,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         int result;
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
@@ -209,7 +209,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3564
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -255,7 +255,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         HexNumberWalkData walk = default;
         sbyte terrainType;
         sbyte result = defaultValue;
-        terrains = _resource.TerrainList;
+        terrains = base.Resource.TerrainList;
         if (result < 0)
         {
             result = 0;
@@ -265,7 +265,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < terrains.Count)
         {
-            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
@@ -313,7 +313,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3503
     public void SetupExplosion(int delay)
     {
-        if (_resource.ImageSequenceList.GetImageSequence(20) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(20) != null)
         {
             _explosionFrame = delay + StrategicMap.Current.Frame;
         }

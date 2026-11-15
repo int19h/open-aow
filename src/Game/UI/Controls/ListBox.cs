@@ -76,7 +76,7 @@ public partial class ListBox : Control
     //   text only }
     public override void Validate()
     {
-        if (_font != null)
+        if (base.Font != null)
         {
             if (_imageLibraryFrame != null)
             {
@@ -260,7 +260,7 @@ public partial class ListBox : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                _font.Color = Color;
+                base.Font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
                 switch (_textOnly)
                 {
@@ -321,7 +321,7 @@ public partial class ListBox : Control
 
                         if (FirstShownItem + i == _selected)
                         {
-                            _font.Color = SelectedColor;
+                            base.Font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
                                 var rectangle = new SizedRectangle(l, _itemHeight * i + t, w, _itemHeight);
@@ -330,26 +330,26 @@ public partial class ListBox : Control
                         }
                         else
                         {
-                            _font.Color = Color;
+                            base.Font.Color = Color;
                         }
 
                         switch (_textAlign)
                         {
                             case TextAlignment.Left:
                                 var item = _items[FirstShownItem + i];
-                                _font.SetText(_borderWidth + l, _borderHeight + t + _itemHeight * i, item, lockedSurface);
+                                base.Font.SetText(base.BorderWidth + l, base.BorderHeight + t + _itemHeight * i, item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var item2 = _items[FirstShownItem + i];
-                                var textWidth = _font.GetTextWidth(item2);
+                                var textWidth = base.Font.GetTextWidth(item2);
                                 var item3 = _items[FirstShownItem + i];
-                                _font.SetText(l + w - _borderWidth - textWidth, _borderHeight + t + _itemHeight * i, item3, lockedSurface);
+                                base.Font.SetText(l + w - base.BorderWidth - textWidth, base.BorderHeight + t + _itemHeight * i, item3, lockedSurface);
                                 break;
                             default:
                                 var item4 = _items[FirstShownItem + i];
-                                var fontTextWidth = _font.GetTextWidth(item4);
+                                var fontTextWidth = base.Font.GetTextWidth(item4);
                                 var item5 = _items[FirstShownItem + i];
-                                _font.SetText(l + w / 2 - fontTextWidth / 2, _borderHeight + t + _itemHeight * i, item5, lockedSurface);
+                                base.Font.SetText(l + w / 2 - fontTextWidth / 2, base.BorderHeight + t + _itemHeight * i, item5, lockedSurface);
                                 break;
                         }
 
@@ -609,16 +609,7 @@ public partial class ListBox : Control
     public int ListOffset { get => FirstShownItem; set => SetListOff(value); }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
     public StringList Items { get => _items; set => SetFStrings(value); }
-
-    [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }

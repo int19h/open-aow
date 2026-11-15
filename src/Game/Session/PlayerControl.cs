@@ -76,7 +76,7 @@ public partial class PlayerControl : EngineObject
                 log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 
-            log._player = (sbyte)i;
+            log.Player = (sbyte)i;
             StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
             log.Release();
         }

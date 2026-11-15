@@ -186,28 +186,28 @@ public partial class Frame : Control
                 _popupMenu.SetPopupOwner(this);
                 _popupMenu.WinLeft = X;
                 _popupMenu.WinTop = Y;
-                if (_popupMenu._windowManager != null)
+                if (_popupMenu.WindowManager != null)
                 {
                     if (_popupMenu.Hidden)
                     {
-                        if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu._windowManager.WinWidth)
+                        if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
                         {
                             _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                         }
 
-                        if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu._windowManager.WinHeight)
+                        if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
                         {
                             _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                         }
                     }
                     else
                     {
-                        if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu._windowManager.WinWidth)
+                        if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
                         {
                             _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                         }
 
-                        if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu._windowManager.WinHeight)
+                        if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
                         {
                             _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                         }

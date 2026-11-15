@@ -33,7 +33,7 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:241
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId == 4362 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (message.MessageId == 4362 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
             if (VisibilityRange() >= message.Param[0].Int && PoolVisionPlayer((sbyte)message.Param[1].Int))
             {
@@ -42,7 +42,7 @@ public partial class ReflectingPool : PlayerStructure
         }
         else
         {
-            if (message.MessageId == 4365 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (message.MessageId == 4365 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
                 if (VisibilityRange() >= message.Param[0].Int)
                 {
@@ -141,11 +141,11 @@ public partial class ReflectingPool : PlayerStructure
             {
                 if (UnfogRange != 0)
                 {
-                    for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
+                    for (int i = 0, last = base.Resource.TerrainList.Count - 1; i <= last; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(i) >= 0)
+                        if (base.Resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                            HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
                             StrategicMap.Current.FogArea(x, y, Owner.HexLevel, UnfogRange);
                         }
                     }
@@ -154,11 +154,11 @@ public partial class ReflectingPool : PlayerStructure
                 UnfogRange = (byte)range;
                 if (UnfogRange != 0)
                 {
-                    for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
+                    for (int i = 0, last = base.Resource.TerrainList.Count - 1; i <= last; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(i) >= 0)
+                        if (base.Resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                            HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
                             StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, UnfogRange);
                         }
                     }
@@ -178,11 +178,11 @@ public partial class ReflectingPool : PlayerStructure
             {
                 if (PoolVisionPlayer((sbyte)p))
                 {
-                    for (int i = 0, lastI = _resource.TerrainList.Count - 1; i <= lastI; i++)
+                    for (int i = 0, lastI = base.Resource.TerrainList.Count - 1; i <= lastI; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(i) >= 0)
+                        if (base.Resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                            HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
                             var visibilityRange = VisibilityRange();
                             StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)p, visibilityRange);
                         }

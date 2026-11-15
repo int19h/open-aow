@@ -119,7 +119,7 @@ public partial class Dungeon : ExplorationSite
             log.X = GetHexX();
             log.Y = GetHexY();
             log.MapLevel = GetHexLevel();
-            log._player = army.Army.Player;
+            log.Player = army.Army.Player;
             log.Selection = 255;
             log.Gold = 0;
             log.JoinMode = JoinMode.Default;
@@ -158,11 +158,11 @@ public partial class Dungeon : ExplorationSite
             _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
         }
 
-        collection = ((Resource)_resource).PrisonerCollections.GetRandomCollection();
+        collection = ((Resource)base.Resource).PrisonerCollections.GetRandomCollection();
         if (collection != -1)
         {
             list = new UnitIndexList();
-            collections = ((Resource)_resource).PrisonerCollections;
+            collections = ((Resource)base.Resource).PrisonerCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 list.Add(collections.GetU(collection, i));
@@ -181,7 +181,7 @@ public partial class Dungeon : ExplorationSite
         Hero hero;
         ArmyHexSprite army;
         locationLog = new LocationTextEventLog(null) { Holder = CreationHolder() };
-        locationLog._player = GetPlayer();
+        locationLog.Player = GetPlayer();
         var name = GetName();
         locationLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
         locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
@@ -196,7 +196,7 @@ public partial class Dungeon : ExplorationSite
         var hexLevel3 = GetHexLevel();
         armyLog.ArmyView.MapLevel = hexLevel3;
         armyLog.Selection = 255;
-        armyLog._player = GetPlayer();
+        armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), PrisonerLiberationText);
         armyLog.Description = "";
         hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));

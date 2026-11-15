@@ -24,13 +24,13 @@ public partial class Memo
             if (!NoFrame)
             {
                 left = Window.WinLeft + WinLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
-                top = Window.WinTop + WinTop + _borderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
+                top = Window.WinTop + WinTop + base.BorderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
                 bottom = Window.WinTop + WinTop + WinHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
             }
             else
             {
                 left = Window.WinLeft + WinLeft - 1;
-                top = Window.WinTop + WinTop + _borderHeight - 1;
+                top = Window.WinTop + WinTop + base.BorderHeight - 1;
                 bottom = Window.WinTop + WinTop + WinHeight;
             }
             if (_editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
@@ -78,7 +78,7 @@ public partial class Memo
                         _currentLine++;
                     }
                     if (Lines.Count == _currentLine) _currentLine--;
-                    while (Lines[_currentLine].Length > _currentColumn && _font.GetTextWidth(RtlUnit.Copy(Lines[_currentLine], 1, _currentColumn + 1)) + left < x)
+                    while (Lines[_currentLine].Length > _currentColumn && base.Font.GetTextWidth(RtlUnit.Copy(Lines[_currentLine], 1, _currentColumn + 1)) + left < x)
                     {
                         _currentColumn++;
                         _realColumn++;

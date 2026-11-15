@@ -764,7 +764,7 @@ public partial class SelectedArmy : MoveSelector
             Creator.GetEngine().OutputDebugString(text);
         }
 
-        var strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.None));
+        var strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
         Creator.GetEngine().OutputDebugString("Army strength: " + IntToStr(strengthMax));
     }
 

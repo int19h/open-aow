@@ -63,7 +63,7 @@ public partial class DisjunctionDialog : UIModule
                         reason = magic.Enchantments.GetEnchantments(i).GetName();
                         var name = magic.Enchantments.GetEnchantments(i).GetName();
                         var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
-                        EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId._enchantmentId));
+                        EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId.EnchantmentId));
                         var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
                         var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         OwnerList.Items.Add(player.Leader.HeroName);

@@ -36,7 +36,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     public override sbyte GetOverlay(int index)
     {
         sbyte result;
-        if (_resource.TerrainList.GetTerrain(index) >= 0)
+        if (((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0)
         {
             if (HitPoints == 0)
             {
@@ -172,7 +172,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:216
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (_resource.TerrainList.GetUsed(info.HexNumber))
+        if (((MapObject)this).Resource.TerrainList.GetUsed(info.HexNumber))
         {
             if (HitPoints == 0)
             {

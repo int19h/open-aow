@@ -62,7 +62,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
         if (message.MessageId == 4608)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 var query = message.Param[0].As<AITargetQuery>();
                 var info = new CrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
@@ -157,7 +157,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
         log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-        log._player = (sbyte)(byte)armyHexSprite.Army.Player;
+        log.Player = (sbyte)(byte)armyHexSprite.Army.Player;
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
         log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);

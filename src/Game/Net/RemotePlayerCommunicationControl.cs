@@ -28,12 +28,12 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
         int result = 0;
         for (int i = 0, last = PlayerCommunicationSettingsList.Count - 1; i <= last; i++)
         {
-            id = PlayerCommunicationSettingsList.Players[i]._systemId;
+            id = PlayerCommunicationSettingsList.Players[i].SystemId;
             unique = true;
             j = 0;
             while (j != i && unique)
             {
-                unique = id != PlayerCommunicationSettingsList.Players[j]._systemId;
+                unique = id != PlayerCommunicationSettingsList.Players[j].SystemId;
                 j += 1;
             }
 
@@ -82,7 +82,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
         }
         else
         {
-            systemId = PlayerCommunicationSettingsList.Players[player]._systemId;
+            systemId = PlayerCommunicationSettingsList.Players[player].SystemId;
         }
 
         if (systemId != _localSystemId)
@@ -124,13 +124,13 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // NetworkE.pas:803
     public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        PlayerCommunicationSettingsList.Players[index]._connectionMode = mode;
+        PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
     }
 
     // NetworkE.pas:808
     public void SetSystemId(int index, int systemId)
     {
-        PlayerCommunicationSettingsList.Players[index]._systemId = systemId;
+        PlayerCommunicationSettingsList.Players[index].SystemId = systemId;
     }
 
     // NetworkE.pas:813

@@ -78,7 +78,7 @@ public partial class ResurrectHero : Spell
                 hero.Resurrect();
                 army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
                 log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                log._player = source.Player;
+                log.Player = source.Player;
                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_resurrectedFormat), [hero.HeroName]);
                 log.SetLocation(level: army.GetHexLevel(), y: army.GetHexY(), x: army.GetHexX());
                 EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: source.Player, execute: false);
@@ -96,7 +96,7 @@ public partial class ResurrectHero : Spell
                     var indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
-                    infoLog._player = source.Player;
+                    infoLog.Player = source.Player;
                     var noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinResurrectionText);
                     infoLog.Messages.Text = noJoinResurrection;
                     infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);

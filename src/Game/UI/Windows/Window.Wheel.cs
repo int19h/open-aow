@@ -15,7 +15,7 @@ public partial class Window
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || _windowManager == null || !Visible || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || WindowManager == null || !Visible || !ContainsPoint(X, Y)) return false;
         var child = TopWheelChild(X, Y);
         if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
         if (TurnPages(steps)) return true;

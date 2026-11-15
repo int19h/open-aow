@@ -72,7 +72,7 @@ public partial class ConcealArea : Spell
                                 log.HexX = (sbyte)walk.X;
                                 log.HexY = (sbyte)walk.Y;
                                 log.HexLevel = layer;
-                                log._player = source.Player;
+                                log.Player = source.Player;
                                 var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
@@ -92,7 +92,7 @@ public partial class ConcealArea : Spell
                     log.HexX = x;
                     log.HexY = y;
                     log.HexLevel = layer;
-                    log._player = source.Player;
+                    log.Player = source.Player;
                     var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);

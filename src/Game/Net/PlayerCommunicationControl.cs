@@ -108,7 +108,7 @@ public partial class PlayerCommunicationControl : IDisposable
         while (result != 0)
         {
             result -= 1;
-            if (_playerCommunicationSettingsList.Players[result]._systemId == systemId)
+            if (_playerCommunicationSettingsList.Players[result].SystemId == systemId)
             {
                 return result;
             }

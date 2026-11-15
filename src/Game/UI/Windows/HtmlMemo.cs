@@ -99,13 +99,13 @@ public partial class HtmlMemo : BaseWindow
             string word;
             int i;
             int length;
-            if (_font != null)
+            if (Font != null)
             {
                 i = 0;
                 start = 0;
                 length = s.Length;
                 var line = _lines[lineIndex];
-                w = _font.GetTextWidth(line) + _borderWidth * 2 + _scrollWidth;
+                w = Font.GetTextWidth(line) + base.BorderWidth * 2 + _scrollWidth;
                 while (i < length)
                 {
                     if (s[i - 1] == 32 || i == length - 1)
@@ -116,13 +116,13 @@ public partial class HtmlMemo : BaseWindow
                         }
 
                         word = Copy(s, start + 1, i - start);
-                        tw = _font.GetTextWidth(word);
+                        tw = Font.GetTextWidth(word);
                         if (w + tw > WinWidth)
                         {
                             NewLine();
                             var line2 = _lines[lineIndex];
                             _lines[lineIndex] = line2 + word;
-                            w = _borderWidth * 2 + _scrollWidth + tw;
+                            w = base.BorderWidth * 2 + _scrollWidth + tw;
                         }
                         else
                         {
@@ -239,7 +239,7 @@ public partial class HtmlMemo : BaseWindow
         if (_items.Count > 0 && UpperCase(Copy(_items[0], 1, 5)) == "<INT>")
         {
             _lines.Add("");
-            h = _borderHeight * 2;
+            h = base.BorderHeight * 2;
             _images.Clear();
             for (int i = 0, last = Changes.Count - 1; i <= last; i++)
             {
@@ -403,9 +403,9 @@ public partial class HtmlMemo : BaseWindow
                                 try
                                 {
                                     ci.Spacing = StrToInt(Copy(item, tagStart + 1, j - tagStart));
-                                    if (_font != null)
+                                    if (Font != null)
                                     {
-                                        _font.CharacterDistance = ci.Spacing;
+                                        Font.CharacterDistance = ci.Spacing;
                                     }
                                 }
                                 catch
@@ -472,7 +472,7 @@ public partial class HtmlMemo : BaseWindow
                                     _images.LoadFromFile(filePath + Copy(item, tagStart + 1, j - tagStart));
                                 }
 
-                                _imageLibraryIndexTexture = 0;
+                                ImageLibraryIndexTexture = 0;
                                 if (c == 62)
                                 {
                                     state = IntegerParseMode.None;
@@ -491,7 +491,7 @@ public partial class HtmlMemo : BaseWindow
                             {
                                 try
                                 {
-                                    _imageLibraryIndexTexture = StrToInt(Copy(item, tagStart + 1, j - tagStart));
+                                    ImageLibraryIndexTexture = StrToInt(Copy(item, tagStart + 1, j - tagStart));
                                 }
                                 catch
                                 {
@@ -680,11 +680,11 @@ public partial class HtmlMemo : BaseWindow
 
                 if (!_backDrawn)
                 {
-                    if (_images.Count <= _imageLibraryIndexTexture)
+                    if (_images.Count <= ImageLibraryIndexTexture)
                     {
                         if (Masked)
                         {
-                            BackSurface.Clear(_maskColor);
+                            BackSurface.Clear(base.MaskColor);
                         }
                         else
                         {
@@ -697,15 +697,15 @@ public partial class HtmlMemo : BaseWindow
                     {
                         BackSurface.Lock(ref backSurfaceDescription);
                         var rectangle = new SizedRectangle(0, 0, _textWidth, _textHeight);
-                        _images.DrawTiled(_imageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
+                        _images.DrawTiled(ImageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 
                     line10 = 1;
                     ci = Changes[0];
                     align = TextAlignment.Left;
                     fontName = "";
-                    x = _borderWidth;
-                    y = _borderHeight;
+                    x = base.BorderWidth;
+                    y = base.BorderHeight;
                     lh = 10;
                     for (int i = 0, last = _lines.Count - 1; i <= last; i++)
                     {
@@ -713,13 +713,13 @@ public partial class HtmlMemo : BaseWindow
                         switch (align)
                         {
                             case TextAlignment.Left:
-                                x = _borderWidth;
+                                x = base.BorderWidth;
                                 break;
                             case TextAlignment.Center:
                                 x = 0;
                                 break;
                             case TextAlignment.Right:
-                                x = _textWidth - _borderWidth;
+                                x = _textWidth - base.BorderWidth;
                                 break;
                         }
 
@@ -731,23 +731,23 @@ public partial class HtmlMemo : BaseWindow
                                 {
                                     case TextAlignment.Left:
                                         var line = _lines[i];
-                                        _font.SetText(x, y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
+                                        Font.SetText(x, y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
                                         var line2 = _lines[i];
-                                        x = x + _font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
+                                        x = x + Font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
                                         break;
                                     case TextAlignment.Center:
                                         var line3 = _lines[i];
-                                        var textWidth = _font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
+                                        var textWidth = Font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
                                         var line4 = _lines[i];
-                                        _font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
+                                        Font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
                                         break;
                                     case TextAlignment.Right:
                                         var line5 = _lines[i];
-                                        var fontTextWidth = _font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
+                                        var fontTextWidth = Font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
                                         var line6 = _lines[i];
-                                        _font.SetText(x - fontTextWidth, y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
+                                        Font.SetText(x - fontTextWidth, y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
                                         var line7 = _lines[i];
-                                        x = x - _font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
+                                        x = x - Font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
                                 }
                             }
@@ -758,9 +758,9 @@ public partial class HtmlMemo : BaseWindow
                                 LoadFont(ci.Font);
                             }
 
-                            _font.FontColorPaletteIndex = 1;
-                            _font.Color = ci.Color;
-                            _font.CharacterDistance = ci.Spacing;
+                            Font.FontColorPaletteIndex = 1;
+                            Font.Color = ci.Color;
+                            Font.CharacterDistance = ci.Spacing;
                             fontName = ci.Font;
                             lh = ci.Height;
                             if (ci.Align != align)
@@ -768,13 +768,13 @@ public partial class HtmlMemo : BaseWindow
                                 switch (align)
                                 {
                                     case TextAlignment.Left:
-                                        x = _borderWidth;
+                                        x = base.BorderWidth;
                                         break;
                                     case TextAlignment.Center:
                                         x = 0;
                                         break;
                                     case TextAlignment.Right:
-                                        x = _textWidth - _borderWidth;
+                                        x = _textWidth - base.BorderWidth;
                                         break;
                                 }
                             }
@@ -795,23 +795,23 @@ public partial class HtmlMemo : BaseWindow
                                 case TextAlignment.Left:
                                     var lineLength = _lines[i];
                                     var line = _lines[i];
-                                    _font.SetText(x, y, Copy(line, position + 1, lineLength.Length - position), backSurfaceDescription);
+                                    Font.SetText(x, y, Copy(line, position + 1, lineLength.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Center:
                                     var line2 = _lines[i];
                                     var line3 = _lines[i];
-                                    var textWidth = _font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
+                                    var textWidth = Font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
                                     var line4 = _lines[i];
                                     var line5 = _lines[i];
-                                    _font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
+                                    Font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Right:
                                     var line6 = _lines[i];
                                     var line7 = _lines[i];
-                                    var fontTextWidth = _font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
+                                    var fontTextWidth = Font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
                                     var line8 = _lines[i];
                                     var line9 = _lines[i];
-                                    _font.SetText(x - fontTextWidth, y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
+                                    Font.SetText(x - fontTextWidth, y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
                                     break;
                             }
                         }
@@ -856,7 +856,7 @@ public partial class HtmlMemo : BaseWindow
                         sourceR = new Rect(r.Rectangle.Left - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Top - OwnerComponent.WinTop - WinTop, r.Rectangle.Right - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Bottom - OwnerComponent.WinTop - WinTop);
                         if (Masked)
                         {
-                            LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top, _maskColor);
+                            LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top, base.MaskColor);
                         }
                         else
                         {
@@ -869,7 +869,7 @@ public partial class HtmlMemo : BaseWindow
                     sourceR = new Rect(0, _topItem, WinWidth, _topItem + WinHeight);
                     if (Masked)
                     {
-                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, _maskColor);
+                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, base.MaskColor);
                     }
                     else
                     {
@@ -967,7 +967,7 @@ public partial class HtmlMemo : BaseWindow
 
         if (font != null)
         {
-            _font = font;
+            Font = font;
         }
 
         return font != null;
@@ -984,18 +984,6 @@ public partial class HtmlMemo : BaseWindow
 
     [Published]
     public string FileName { get => _fileName; set => SetFileName(value); }
-
-    [Published]
-    public bool FreeSurfaceOnHide { get => _freeSurfaceOnHide; set => _freeSurfaceOnHide = value; }
-
-    [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
-
-    [Published]
-    public int MaskColor { get => _maskColor; set => _maskColor = value; }
 
     public new event NotifyEvent<HtmlMemo> OnChange
     {

@@ -6,34 +6,34 @@ namespace Aow.Game.Draw.Images;
 
 public partial class PaletteManager : IDisposable
 {
-    internal readonly List<LibraryImagePalette> _palettes;
+    internal List<LibraryImagePalette> Palettes { get; }
 
     // ImageLib.pas:6984
-    internal int GetCount() => _palettes.Count;
+    internal int GetCount() => Palettes.Count;
 
     // ImageLib.pas:6989
-    internal LibraryImagePalette GetPalette(int index) => _palettes[index];
+    internal LibraryImagePalette GetPalette(int index) => Palettes[index];
 
     // ImageLib.pas:6994
     internal void UpdateIndices()
     {
-        for (int i = 0, last = _palettes.Count - 1; i <= last; i++)
+        for (int i = 0, last = Palettes.Count - 1; i <= last; i++)
         {
-            (_palettes[i])._index = i;
+            (Palettes[i]).IndexValue = i;
         }
     }
 
     // ImageLib.pas:6971
     public PaletteManager()
     {
-        _palettes = new List<LibraryImagePalette>();
+        Palettes = new List<LibraryImagePalette>();
     }
 
     // ImageLib.pas:6977
     public virtual void Dispose()
     {
         Clear();
-        _palettes?.Clear();
+        Palettes?.Clear();
     }
 
     // ImageLib.pas:7001
@@ -47,36 +47,36 @@ public partial class PaletteManager : IDisposable
         {
             p = new LibraryImagePalette();
             p.LoadFromStream(stream);
-            _palettes.Add(p);
-            p._index = i;
+            Palettes.Add(p);
+            p.IndexValue = i;
         }
     }
 
     // ImageLib.pas:7017
     public void SaveToStream(Stream stream)
     {
-        stream.Write(ValueBytes(_palettes.Count, 4));
-        for (int i = 0, last = _palettes.Count - 1; i <= last; i++)
+        stream.Write(ValueBytes(Palettes.Count, 4));
+        for (int i = 0, last = Palettes.Count - 1; i <= last; i++)
         {
-            (_palettes[i]).SaveToStream(stream);
+            (Palettes[i]).SaveToStream(stream);
         }
     }
 
     // ImageLib.pas:7025
     public void Clear()
     {
-        for (int i = _palettes.Count - 1; i >= 0; i--)
+        for (int i = Palettes.Count - 1; i >= 0; i--)
         {
-            (_palettes[i])?.Dispose();
+            (Palettes[i])?.Dispose();
         }
 
-        _palettes.Clear();
+        Palettes.Clear();
     }
 
     // ImageLib.pas:7033
     public LibraryImagePalette LinkToPalette(int index)
     {
-        LibraryImagePalette result = _palettes[index];
+        LibraryImagePalette result = Palettes[index];
         result.RefCount += 1;
         return result;
     }
@@ -88,28 +88,28 @@ public partial class PaletteManager : IDisposable
         int i;
         bool found;
         LibraryImagePalette p;
-        i = _palettes.Count;
+        i = Palettes.Count;
         found = false;
         while (i != 0 && !found)
         {
             i -= 1;
-            found = palette.Compare((_palettes[i]).Palette);
+            found = palette.Compare((Palettes[i]).Palette);
         }
 
         if (!found)
         {
             p = new LibraryImagePalette();
             p.Palette.Assign(palette);
-            p._index = _palettes.Count;
+            p.IndexValue = Palettes.Count;
             p.RefCount = 1;
-            _palettes.Add(p);
+            Palettes.Add(p);
             result = p;
         }
         else
         {
-            var libraryImagePalette = _palettes[i];
+            var libraryImagePalette = Palettes[i];
             ((LibraryImagePalette)libraryImagePalette).RefCount += 1;
-            result = _palettes[i];
+            result = Palettes[i];
         }
 
         return result;
@@ -119,11 +119,11 @@ public partial class PaletteManager : IDisposable
     public void UnregisterPalette(int index)
     {
         LibraryImagePalette p;
-        p = _palettes[index];
+        p = Palettes[index];
         p.RefCount -= 1;
         if (p.RefCount <= 0)
         {
-            _palettes.RemoveAt(index);
+            Palettes.RemoveAt(index);
             UpdateIndices();
             p?.Dispose();
         }

@@ -835,7 +835,7 @@ public partial class MapEvents : UIModule
                     dialog.BorderLine.ImageBottom = control.InvalidTargetImage;
                     dialog.UI.General.Manager.OverlayPriority = 49;
                     Window mapWindow = dialog.UI.MapWindow.MainWindow;
-                    mapWindow._modal = true;
+                    mapWindow.Modal = true;
                     mapWindow.Priority = 500;
                     dialog.UI.ScannerWindow.MainWindow.Priority = dialog.Window.Priority;
                     break;
@@ -843,7 +843,7 @@ public partial class MapEvents : UIModule
             case TargetSelectionChange.Deactivated:
                 dialog.Window.Visible = false;
                 dialog.UI.MapWindow.MainWindow.Priority = 0;
-                dialog.UI.MapWindow.MainWindow._modal = false;
+                dialog.UI.MapWindow.MainWindow.Modal = false;
                 dialog.UI.ScannerWindow.MainWindow.Priority = 10;
                 dialog.UI.General.Manager.OverlayPriority = 0;
                 break;

@@ -169,7 +169,7 @@
             },
             "EngineObject._owner": null,
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -206,7 +206,7 @@
             },
             "EngineObject._owner": "$owner",
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -230,7 +230,7 @@
               },
               "EngineObject._owner": "$owner",
               "SortedNode.Capacity": 0,
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode.Items": [],
               "SortedNode._sorted": false
             }
@@ -512,7 +512,7 @@
             "$type": "Aow.Engine.Nodes.InverseSortedNode",
             "EngineObject._owner": null,
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -539,7 +539,7 @@
             "$type": "Aow.Engine.Nodes.InverseSortedNode",
             "EngineObject._owner": "$owner",
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -553,7 +553,7 @@
               "$type": "Aow.Engine.Nodes.InverseSortedNode",
               "EngineObject._owner": "$owner",
               "SortedNode.Capacity": 0,
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode.Items": [],
               "SortedNode._sorted": false
             }
@@ -957,7 +957,7 @@
             "$type": "Aow.Engine.Nodes.SortedNode",
             "EngineObject._owner": null,
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -984,7 +984,7 @@
             "$type": "Aow.Engine.Nodes.SortedNode",
             "EngineObject._owner": "$owner",
             "SortedNode.Capacity": 0,
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode.Items": [],
             "SortedNode._sorted": false
           }
@@ -998,7 +998,7 @@
               "$type": "Aow.Engine.Nodes.SortedNode",
               "EngineObject._owner": "$owner",
               "SortedNode.Capacity": 0,
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode.Items": [],
               "SortedNode._sorted": false
             }
@@ -8743,7 +8743,7 @@
               "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
               "EngineObject._owner": null,
               "GlobalEnchantment.DispelMana": 50,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8811,7 +8811,7 @@
               "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
               "EngineObject._owner": null,
               "GlobalEnchantment.DispelMana": 50,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10517,7 +10517,7 @@
             "$type": "Aow.Game.Magic.GlobalEnchantment",
             "EngineObject._owner": null,
             "GlobalEnchantment.DispelMana": 0,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment.EnchantmentManaUpkeep": 0,
             "GlobalEnchantment.EnchantmentMode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10567,7 +10567,7 @@
             "$type": "Aow.Game.Magic.GlobalEnchantment",
             "EngineObject._owner": "$owner",
             "GlobalEnchantment.DispelMana": 0,
-            "GlobalEnchantment._enchantmentId": 0,
+            "GlobalEnchantment.EnchantmentId": 0,
             "GlobalEnchantment.EnchantmentManaUpkeep": 0,
             "GlobalEnchantment.EnchantmentMode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10604,7 +10604,7 @@
               "$type": "Aow.Game.Magic.GlobalEnchantment",
               "EngineObject._owner": "$owner",
               "GlobalEnchantment.DispelMana": 0,
-              "GlobalEnchantment._enchantmentId": 0,
+              "GlobalEnchantment.EnchantmentId": 0,
               "GlobalEnchantment.EnchantmentManaUpkeep": 0,
               "GlobalEnchantment.EnchantmentMode": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -13231,7 +13231,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": [],
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -13250,7 +13250,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -13417,7 +13417,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -13436,7 +13436,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -17224,7 +17224,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": [],
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -17243,7 +17243,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -17410,7 +17410,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -17429,7 +17429,7 @@
               },
               "SortedNode.Capacity": 0,
               "SortedNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-              "SortedNode._count": 0,
+              "SortedNode.StoredCount": 0,
               "SortedNode._sorted": false,
               "EngineObject._owner": "$owner"
             },
@@ -23076,7 +23076,7 @@
             "$type": "Aow.Game.World.Map.MapField",
             "EngineObject._owner": null,
             "MapField._capacity": 3,
-            "MapField._count": 0,
+            "MapField.StoredCount": 0,
             "MapField._hexSpriteList": [
               null,
               null,
@@ -23128,7 +23128,7 @@
             "$type": "Aow.Game.World.Map.MapField",
             "EngineObject._owner": "$owner",
             "MapField._capacity": 3,
-            "MapField._count": 0,
+            "MapField.StoredCount": 0,
             "MapField._hexSpriteList": [
               null,
               null,
@@ -23364,7 +23364,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -23469,7 +23469,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -24732,7 +24732,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -24845,7 +24845,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25090,7 +25090,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25205,7 +25205,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {
@@ -25311,8 +25311,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -25365,8 +25365,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -25406,8 +25406,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]
@@ -25445,8 +25445,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -25484,8 +25484,8 @@
               "Set\u00601.low": 0
             },
             "MapObject._unlinkedResourceId": 0,
-            "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0
+            "MultiHexMapObject.StoredHexX": 0,
+            "MultiHexMapObject.StoredHexY": 0
           }
         }
       },
@@ -25510,8 +25510,8 @@
                 "Set\u00601.low": 0
               },
               "MapObject._unlinkedResourceId": 0,
-              "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0
+              "MultiHexMapObject.StoredHexX": 0,
+              "MultiHexMapObject.StoredHexY": 0
             }
           }
         ]

@@ -23,13 +23,13 @@ public partial class City
         var field = Owner;
         int terrain = field.TerrainType;
         int offset = terrain switch { 3 => 20, 5 or >= 7 and <= 9 or 12 or 13 => 40, _ => 0 };
-        var images = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        var images = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         if (!GetRazed())
         {
             if (Race >= 0)
             {
                 var race = GamePack.Current.RaceResources.GetRaceResource(Race);
-                int size = ((Resource)_resource).Size;
+                int size = ((Resource)Resource).Size;
                 if (race != null) CityImage = race.GetCityImage(size, terrain, field.HexLevel);
                 if (CityImage == null) CityImage = images[images.ImageExist(offset) ? offset : 0];
             }

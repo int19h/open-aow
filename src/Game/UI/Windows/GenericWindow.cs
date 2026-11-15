@@ -23,15 +23,15 @@ public partial class GenericWindow : BaseWindow
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
-        _windowManager = (WindowManager)OwnerComponent;
+        base.WindowManager = (WindowManager)OwnerComponent;
     }
 
     // AoWWinGeneric.pas:51
     public void SetCursor(int value)
     {
-        if (value != _cursor)
+        if (value != base.Cursor)
         {
-            _cursor = value;
+            base.Cursor = value;
             WindowCursor = value;
             RaiseChangeCursor(this);
         }
@@ -40,11 +40,11 @@ public partial class GenericWindow : BaseWindow
     // AoWWinGeneric.pas:62
     public void SetBuffer(bool value)
     {
-        if (value != _doubleBuffered)
+        if (value != base.DoubleBuffered)
         {
             Drawn = false;
-            _doubleBuffered = value;
-            if (!_doubleBuffered)
+            base.DoubleBuffered = value;
+            if (!base.DoubleBuffered)
             {
                 if (BackSurface != null)
                 {
@@ -56,25 +56,13 @@ public partial class GenericWindow : BaseWindow
     }
 
     [Published]
-    public WindowManager WindowManager { get => _windowManager; set => SetManager(value); }
+    public override WindowManager WindowManager { get => base.WindowManager; set => SetManager(value); }
 
     [Published]
-    public bool UseVideoMemory { get => _useVideoMemory; set => _useVideoMemory = value; }
+    public override int Cursor { get => base.Cursor; set => SetCursor(value); }
 
     [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
-
-    [Published]
-    public bool OverlapTopCorners { get => _overlapTopCorners; set => SetOverlap(value); }
-
-    [Published]
-    public int Cursor { get => _cursor; set => SetCursor(value); }
-
-    [Published]
-    public bool DoubleBuffered { get => _doubleBuffered; set => SetBuffer(value); }
+    public override bool DoubleBuffered { get => base.DoubleBuffered; set => SetBuffer(value); }
 
     [Published]
     public new event NotifyEvent<GenericWindow> OnChangeCursor
@@ -82,9 +70,6 @@ public partial class GenericWindow : BaseWindow
         add => ((WindowControl)this).OnChangeCursor += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnChangeCursor), value: value);
         remove => ((WindowControl)this).OnChangeCursor -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnChangeCursor), value: value);
     }
-
-    [Published]
-    public int MaskColor { get => _maskColor; set => _maskColor = value; }
 
     [Published]
     public new event AoWOnDrawSurface<GenericWindow> OnDrawSurface
@@ -99,9 +84,6 @@ public partial class GenericWindow : BaseWindow
         add => ((WindowControl)this).OnPreDrawSurface += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnPreDrawSurface), value: value);
         remove => ((WindowControl)this).OnPreDrawSurface -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnPreDrawSurface), value: value);
     }
-
-    [Published]
-    public bool FreeSurfaceOnHide { get => _freeSurfaceOnHide; set => _freeSurfaceOnHide = value; }
 
     public new event NotifyEvent<GenericWindow> OnChange
     {

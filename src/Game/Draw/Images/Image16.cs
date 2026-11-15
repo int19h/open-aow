@@ -12,7 +12,7 @@ public partial class Image16 : LibraryImage, ILibraryImageClass
 
     internal int PixelFormatId { get; set; }
 
-    internal int _storedPixelFormatId;
+    internal int StoredPixelFormatId;
 
     // ImageLib.pas:2098
     public Image16(CustomImageLibrary owner) : base(owner)
@@ -23,23 +23,23 @@ public partial class Image16 : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _storedPixelFormatId, 4));
-        PixelFormatId = _storedPixelFormatId;
+        stream.ReadExactly(Bytes.Of(ref StoredPixelFormatId, 4));
+        PixelFormatId = StoredPixelFormatId;
     }
 
     // ImageLib.pas:2110
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        RemapToPixelFormat(_storedPixelFormatId);
-        stream.Write(Bytes.Of(ref _storedPixelFormatId, 4));
+        RemapToPixelFormat(StoredPixelFormatId);
+        stream.Write(Bytes.Of(ref StoredPixelFormatId, 4));
     }
 
     // ImageLib.pas:2117
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        PixelFormatId = _storedPixelFormatId;
+        PixelFormatId = StoredPixelFormatId;
     }
 
     // ImageLib.pas:2123

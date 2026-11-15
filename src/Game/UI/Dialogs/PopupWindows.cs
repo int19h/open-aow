@@ -275,7 +275,7 @@ public partial class PopupWindows : UIModule
         dialog.Book.Visible = true;
         if (dialog.Book.BackSurface != null)
         {
-            dialog.Book.BackSurface.Clear(dialog.Book._maskColor);
+            dialog.Book.BackSurface.Clear(dialog.Book.MaskColor);
         }
         dialog.UI.General.Manager.OverlayPriority = 49;
     }

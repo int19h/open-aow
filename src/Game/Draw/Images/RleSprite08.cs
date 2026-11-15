@@ -29,10 +29,10 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
 
     internal byte[] Data { get; private set; }
 
-    internal int _rleLeft;
-    internal int _rleTop;
-    internal int _rleWidth;
-    internal int _rleHeight;
+    internal int RleLeft;
+    internal int RleTop;
+    internal int RleWidth;
+    internal int RleHeight;
 
     // ImageLib.pas:7512
     public override void ReleaseDiscardableImageData()
@@ -47,32 +47,32 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7521
     public override void SetXshift(int value)
     {
-        if (value < -_rleLeft)
+        if (value < -RleLeft)
         {
-            value = -_rleLeft;
+            value = -RleLeft;
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:7528
     public override void SetYshift(int value)
     {
-        if (value < -_rleTop)
+        if (value < -RleTop)
         {
-            value = -_rleTop;
+            value = -RleTop;
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:7535
     public override void SetWidth(int value)
     {
         int w;
-        w = _xshift + _rleLeft + _rleWidth;
+        w = Xshift + RleLeft + RleWidth;
         if (value < w)
         {
             value = w;
@@ -85,7 +85,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void SetHeight(int value)
     {
         int h;
-        h = _yshift + _rleTop + _rleHeight;
+        h = Yshift + RleTop + RleHeight;
         if (value < h)
         {
             value = h;
@@ -97,20 +97,20 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7553
     public override void GetVisualDimensions(out Rect R)
     {
-        R.Left = _xshift + _rleLeft;
-        R.Right = R.Left + _rleWidth;
-        R.Top = _yshift + _rleTop;
-        R.Bottom = R.Top + _rleHeight;
+        R.Left = Xshift + RleLeft;
+        R.Right = R.Left + RleWidth;
+        R.Top = Yshift + RleTop;
+        R.Bottom = R.Top + RleHeight;
     }
 
     // ImageLib.pas:7561
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _rleWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref _rleHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref _rleLeft, 4));
-        stream.ReadExactly(Bytes.Of(ref _rleTop, 4));
+        stream.ReadExactly(Bytes.Of(ref RleWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref RleHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref RleLeft, 4));
+        stream.ReadExactly(Bytes.Of(ref RleTop, 4));
         stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
         stream.ReadExactly(Bytes.Of(ref _unknownBytes, 4));
     }
@@ -119,10 +119,10 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _rleWidth, 4));
-        stream.Write(Bytes.Of(ref _rleHeight, 4));
-        stream.Write(Bytes.Of(ref _rleLeft, 4));
-        stream.Write(Bytes.Of(ref _rleTop, 4));
+        stream.Write(Bytes.Of(ref RleWidth, 4));
+        stream.Write(Bytes.Of(ref RleHeight, 4));
+        stream.Write(Bytes.Of(ref RleLeft, 4));
+        stream.Write(Bytes.Of(ref RleTop, 4));
         stream.Write(Bytes.Of(ref _transparentColor, 4));
         stream.Write(Bytes.Of(ref _unknownBytes, 4));
     }
@@ -131,15 +131,15 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        Data = MemorySurfaces.Reallocate(Data, _dataSize);
-        stream.ReadExactly(Data.AsSpan(0, _dataSize));
+        Data = MemorySurfaces.Reallocate(Data, DataSize);
+        stream.ReadExactly(Data.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:7590
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(Data.AsSpan(0, _dataSize));
+        stream.Write(Data.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:7596
@@ -153,11 +153,11 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
             LoadDiscardableImageData();
             if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
             {
-                ShowRle08(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor);
+                ShowRle08(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor);
             }
             else
             {
-                if (lockedSurface.PixelFormatId != _remapPalette.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
@@ -166,14 +166,14 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, _remapPalette.Pixels);
+                        ShowRle08To16(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor, RemapPaletteValue.Pixels);
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
                 }
             }
 
-            if (_loadMode == LoadMode.LoadFreeOnDemand)
+            if (LoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -182,11 +182,11 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         {
             if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
             {
-                ShowRle08(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor);
+                ShowRle08(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor);
             }
             else
             {
-                if (lockedSurface.PixelFormatId != _remapPalette.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
@@ -195,7 +195,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, _remapPalette.Pixels);
+                        ShowRle08To16(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor, RemapPaletteValue.Pixels);
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
@@ -228,7 +228,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         int bottom;
         void AddByte(byte B)
         {
-            if (_dataSize <= position)
+            if (DataSize <= position)
             {
                 Data = MemorySurfaces.Reallocate(Data, position + 4096);
             }
@@ -267,7 +267,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         void EndLine()
         {
             FlushTransparent();
-            if (_dataSize <= position)
+            if (DataSize <= position)
             {
                 Data = MemorySurfaces.Reallocate(Data, position + 4096);
             }
@@ -286,22 +286,22 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     _transparentColor = grabInfo.TransparentPixel;
                     Clear();
                     DataLoaded = true;
-                    _dataWidth = R.Right - R.Left;
-                    _dataHeight = R.Bottom - R.Top;
-                    _width = _dataWidth;
-                    _height = _dataHeight;
-                    _fileName = ExtractFileName(grabInfo.FileName);
-                    _fileIndex = grabInfo.FileIndex;
+                    DataWidth = R.Right - R.Left;
+                    DataHeight = R.Bottom - R.Top;
+                    SetWidthWithoutOverrides(DataWidth);
+                    SetHeightWithoutOverrides(DataHeight);
+                    FileName = ExtractFileName(grabInfo.FileName);
+                    FileIndex = grabInfo.FileIndex;
                     position = 0;
                     count = 0;
                     LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, out minRectangle);
                     left = minRectangle.Left;
-                    _rleLeft = left - R.Left;
+                    RleLeft = left - R.Left;
                     top = minRectangle.Top;
-                    _rleTop = top - R.Top;
-                    _rleWidth = minRectangle.Right - left;
+                    RleTop = top - R.Top;
+                    RleWidth = minRectangle.Right - left;
                     bottom = minRectangle.Bottom;
-                    _rleHeight = bottom - top;
+                    RleHeight = bottom - top;
                     for (int y = top; y <= bottom - 1; y++)
                     {
                         // Line is the byte index of row Y in the surface's memory.
@@ -325,7 +325,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     }
 
                     Data = MemorySurfaces.Reallocate(Data, position);
-                    _dataSize = position;
+                    DataSize = position;
                     CreateLibraryImagePalette(lockedSurface.Palette);
                 }
                 finally

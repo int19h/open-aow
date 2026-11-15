@@ -91,7 +91,7 @@ public partial class ItemExplorationSite : ExplorationSite
         {
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             log = new ItemExplorationSiteEventLog(null) { Holder = CreationHolder() };
-            log._player = army.Army.Player;
+            log.Player = army.Army.Player;
             log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);
             log.Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel());
             for (int i = _items.Count - 1; i >= 0; i--)
@@ -103,7 +103,7 @@ public partial class ItemExplorationSite : ExplorationSite
 
             // { Original parses the formatted text as CSV. }
             var itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
-            var resourceEditName = _resource.ResourceEditName();
+            var resourceEditName = Resource.ResourceEditName();
             var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
             log.Messages.CommaText = format;
             log.Execute(false, ExecuteTrigger.Event, null);

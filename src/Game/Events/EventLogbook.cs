@@ -97,7 +97,7 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int player, int day)
     {
         int result = 0;
-        while (result != this._events.Count && (this._events[result]._player != player || this._events[result]._day != day))
+        while (result != this._events.Count && (this._events[result].Player != player || this._events[result].Day != day))
         {
             result += 1;
         }
@@ -114,7 +114,7 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int classId, int player, int day)
     {
         int result = 0;
-        while (result != this._events.Count && (this._events[result]._player != player || this._events[result]._day != day || this._events[result].EngineClass.ClassId != classId))
+        while (result != this._events.Count && (this._events[result].Player != player || this._events[result].Day != day || this._events[result].EngineClass.ClassId != classId))
         {
             result += 1;
         }

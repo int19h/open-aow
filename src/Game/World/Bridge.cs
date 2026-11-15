@@ -30,7 +30,7 @@ public partial class Bridge : AbstractRoad
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        ((Resource)_resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
+        ((Resource)base.Resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
     // Bridge.pas:63
@@ -90,7 +90,7 @@ public partial class Bridge : AbstractRoad
                 mapField = level.GetField(hexX, hexY);
                 terrainType = mapField.TerrainType;
                 hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) != null;
-                isShore = terrainType != 0 && _resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) == null;
+                isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) == null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;

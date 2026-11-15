@@ -174,7 +174,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         Mode = CooperationMode.None;
         _target = null;
         CooperateStrength = 0;
-        _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         Array.Clear(_cooperateStrengths);
         Superiority = 120;
         _pathStrengthFactor = (float)0.8;
@@ -229,14 +229,14 @@ public partial class AIGroupCooperationControl : AIGroupTask
             if (group.PathStrength != 0)
             {
                 location = group.Group.GetLocation();
-                strength1 = group.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                strength1 = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                 group1 = group.Group;
-                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1.Units, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
                 location = _control.Group.GetLocation();
-                strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                 group2 = _control.Group;
-                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2.Units, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
                 if (strength1 < strength2)
                 {

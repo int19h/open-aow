@@ -181,20 +181,20 @@ public sealed class RelationBandTests
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
         var window = CreateWindow(dialogs.UI);
-        window.Player1Image._checked = true;
-        window.Race12Image._checked = true;
+        window.Player1Image.Checked = true;
+        window.Race12Image.Checked = true;
 
         window.ShowRelations(0);
         Assert.False(window.Player1CheckBox.Checked);
         Assert.False(window.Player12CheckBox.Checked);
-        Assert.True(window.Race12Image._checked);
+        Assert.True(window.Race12Image.Checked);
         Assert.Equal(0, window.ShowCount);
         Assert.False(window.RelationPanel.Aligned);
         Assert.False(window.MainWindow.Drawn);
 
         window.ShowRelations(-23);
         Assert.False(window.Player1CheckBox.Checked);
-        Assert.True(window.Player1Image._checked);
+        Assert.True(window.Player1Image.Checked);
         Assert.Equal(0, window.ShowCount);
 
         window.ShowRelations(1);

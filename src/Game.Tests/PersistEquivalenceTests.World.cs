@@ -204,8 +204,8 @@ public sealed partial class PersistEquivalenceTests
             // A sign's show priority reads its resource, which the fixture does not load, so the
             // sprite goes into the field's list directly.
             post.SetOwnerWithoutNotify(field);
-            field._hexSpriteList = [post];
-            field._count = 1;
+            field.HexSpriteList = [post];
+            field.StoredCount = 1;
             using (var stream = new DictionaryStream(dictionary))
             {
                 stream.Object(level, 0);

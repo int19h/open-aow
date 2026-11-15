@@ -30,7 +30,7 @@ public partial class Hex : AbstractHexagon
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        ((HexagonResource)_resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
+        ((HexagonResource)base.Resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 
     // Hexagon.pas:74
@@ -50,7 +50,7 @@ public partial class Hex : AbstractHexagon
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classId = _resource.EngineClass.ClassId;
+            var classId = base.Resource.EngineClass.ClassId;
             r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
             if (r != null)
             {
@@ -63,7 +63,7 @@ public partial class Hex : AbstractHexagon
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
         }
     }
@@ -78,14 +78,14 @@ public partial class Hex : AbstractHexagon
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
@@ -249,7 +249,7 @@ public partial class Hex : AbstractHexagon
 
         if (Transitions[side] != 255)
         {
-            imageLibrary = ((HexagonResource)_resource).TransitionLibrary;
+            imageLibrary = ((HexagonResource)base.Resource).TransitionLibrary;
             image = Transitions[side];
             if (image < imageLibrary.Count)
             {

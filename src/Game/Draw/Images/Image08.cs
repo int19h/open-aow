@@ -17,7 +17,8 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
 
     private bool _ownPalette;
     private LibraryImagePalette _imagePalette;
-    internal Palette _remapPalette;
+
+    internal Palette RemapPaletteValue { get; private set; }
 
     // ImageLib.pas:7152
     public override void Clear()
@@ -45,7 +46,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
             _imagePalette = Owner.PaletteManager.LinkToPalette(index);
         }
 
-        _remapPalette = _imagePalette.Palette;
+        RemapPaletteValue = _imagePalette.Palette;
     }
 
     // ImageLib.pas:7179
@@ -59,7 +60,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         }
         else
         {
-            stream.Write(Bytes.Of(ref _imagePalette._index, 4));
+            stream.Write(Bytes.Of(ref _imagePalette.IndexValue, 4));
         }
     }
 
@@ -72,7 +73,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
             old = _imagePalette;
             _imagePalette = Owner.PaletteManager.RegisterPalette(_imagePalette.Palette);
             old?.Dispose();
-            _remapPalette = _imagePalette.Palette;
+            RemapPaletteValue = _imagePalette.Palette;
             _ownPalette = false;
         }
     }
@@ -85,9 +86,9 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         {
             p = new LibraryImagePalette();
             p.Assign(_imagePalette);
-            Owner.PaletteManager.UnregisterPalette(_imagePalette._index);
+            Owner.PaletteManager.UnregisterPalette(_imagePalette.IndexValue);
             _imagePalette = p;
-            _remapPalette = _imagePalette.Palette;
+            RemapPaletteValue = _imagePalette.Palette;
             _ownPalette = true;
         }
     }
@@ -102,7 +103,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         }
 
         _imagePalette.Palette.Assign(palette);
-        _remapPalette = _imagePalette.Palette;
+        RemapPaletteValue = _imagePalette.Palette;
         _ownPalette = true;
     }
 
@@ -125,7 +126,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         p = _imagePalette.RemapPalette(pixelFormatId);
         if (p != null)
         {
-            _remapPalette = p;
+            RemapPaletteValue = p;
             result = PixelFormats.GFXE_OK;
         }
         else

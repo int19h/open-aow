@@ -208,7 +208,7 @@ public sealed class UncheckedOwnerCastTests
         var enchantment = new GlobalEnchantment(null!)
         {
             Holder = EngineFixture.Engine,
-            _enchantmentId = 7,
+            EnchantmentId = 7,
             EnchantmentType = GlobalEnchantmentType.Flood,
         };
         scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);

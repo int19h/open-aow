@@ -74,7 +74,7 @@ public partial class PyreScreen : UIModule
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         AudioPlayback.FadeMusicVolume(0, 1);
         UI.General.Manager.OverlayPriority = 249;
-        switch (StrategicMap.Current.Players.GetPlayers(eventValue._player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(eventValue.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
@@ -153,7 +153,7 @@ public partial class PyreScreen : UIModule
 
         y += DeadPanel.WinTop;
         x += DeadPanel.WinLeft;
-        switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 frame = _animationFrame / 3 % 9;
@@ -163,12 +163,12 @@ public partial class PyreScreen : UIModule
                 }
 
                 UI.Graphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
                 UI.Fonts.Age15BlackOnBrown.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 UI.Graphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;
         }

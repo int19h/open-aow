@@ -65,7 +65,7 @@ public partial class MessageReceiveDialog : UIModule
         dialog.HeaderMemo.Items.Text = text;
         var fMessageText = ((GameOverEventLog)eventValue).Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
-        var player = StrategicMap.Current.Players.GetPlayers(eventValue._player);
+        var player = StrategicMap.Current.Players.GetPlayers(eventValue.Player);
         dialog.LeftShield.CurrentImage = player.PlayerRace + 13;
         dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
         dialog.Window.Visible = true;

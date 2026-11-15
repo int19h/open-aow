@@ -26,7 +26,7 @@ public partial class GlobalEnchantment : EngineObject
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }
 
-    public int _enchantmentId { get; set; }
+    public int EnchantmentId { get; set; }
 
     private int _refCount;
 
@@ -43,7 +43,7 @@ public partial class GlobalEnchantment : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _enchantmentId = persister.Int32("EnchantmentId", value: _enchantmentId);
+        EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
         EnchantmentType = persister.Enum("EnchantmentType", value: EnchantmentType);
         PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
         Name = persister.String("Name", value: Name);
@@ -175,7 +175,7 @@ public partial class GlobalEnchantment : EngineObject
             {
                 log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                 log.EnchantmentPlayer = player;
-                log._player = player;
+                log.Player = player;
                 log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name]);
                 EventLog.DistributeEventLog(log, false);
                 log.Release();
@@ -208,7 +208,7 @@ public partial class GlobalEnchantment : EngineObject
                 if (VisibleForPlayer((sbyte)i))
                 {
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
-                    log._player = (sbyte)player;
+                    log.Player = (sbyte)player;
                     log.EnchantmentPlayer = PlayerIndex;
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
@@ -261,7 +261,7 @@ public partial class GlobalEnchantment : EngineObject
                 if (VisibleForPlayer((sbyte)i))
                 {
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
-                    log._player = PlayerIndex;
+                    log.Player = PlayerIndex;
                     log.EnchantmentPlayer = PlayerIndex;
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();

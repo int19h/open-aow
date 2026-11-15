@@ -127,12 +127,12 @@ public partial class MenuBar : Control
                         var fItemsCount = _items.Count;
                         var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
-                        if (_font != null)
+                        if (base.Font != null)
                         {
-                            _font.Color = SelectedColor;
+                            base.Font.Color = SelectedColor;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, item, lockedSurface);
                         }
                     }
                     else
@@ -141,12 +141,12 @@ public partial class MenuBar : Control
                         var fItemsCount = _items.Count;
                         var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
-                        if (_font != null)
+                        if (base.Font != null)
                         {
-                            _font.Color = Color;
+                            base.Font.Color = Color;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight + 1, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight + 1, item, lockedSurface);
                         }
                     }
                 }
@@ -194,7 +194,7 @@ public partial class MenuBar : Control
                         for (; i <= last; i += 1)
                         {
                             var component = Menus[i];
-                            if (component._ownerItem == this._selected)
+                            if (component.OwnerItem == this._selected)
                             {
                                 component.SetVisible(true);
                             }
@@ -292,16 +292,7 @@ public partial class MenuBar : Control
     }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
     public StringList Items { get => _items; set => SetFStrings(value); }
-
-    [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
     public int Selected { get => _selected; set => _selected = value; }

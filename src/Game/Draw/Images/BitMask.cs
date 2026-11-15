@@ -24,40 +24,40 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
 
     internal byte[] MaskData { get; private set; }
 
-    internal int _maskLeft;
-    internal int _maskTop;
-    internal int _maskWidth;
-    internal int _maskHeight;
+    internal int MaskLeft;
+    internal int MaskTop;
+    internal int MaskWidth;
+    internal int MaskHeight;
 
     // ImageLib.pas:4662
     public override void SetXshift(int value)
     {
-        if (value < -_maskLeft)
+        if (value < -MaskLeft)
         {
-            value = -_maskLeft;
+            value = -MaskLeft;
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:4669
     public override void SetYshift(int value)
     {
-        if (value < -_maskTop)
+        if (value < -MaskTop)
         {
-            value = -_maskTop;
+            value = -MaskTop;
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:4676
     public override void SetWidth(int value)
     {
         int w;
-        w = _xshift + _maskLeft + _maskWidth;
+        w = Xshift + MaskLeft + MaskWidth;
         if (value < w)
         {
             value = w;
@@ -70,7 +70,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void SetHeight(int value)
     {
         int h;
-        h = _yshift + _maskTop + _maskHeight;
+        h = Yshift + MaskTop + MaskHeight;
         if (value < h)
         {
             value = h;
@@ -83,20 +83,20 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _maskWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref _maskHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref _maskLeft, 4));
-        stream.ReadExactly(Bytes.Of(ref _maskTop, 4));
+        stream.ReadExactly(Bytes.Of(ref MaskWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref MaskHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref MaskLeft, 4));
+        stream.ReadExactly(Bytes.Of(ref MaskTop, 4));
     }
 
     // ImageLib.pas:4703
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _maskWidth, 4));
-        stream.Write(Bytes.Of(ref _maskHeight, 4));
-        stream.Write(Bytes.Of(ref _maskLeft, 4));
-        stream.Write(Bytes.Of(ref _maskTop, 4));
+        stream.Write(Bytes.Of(ref MaskWidth, 4));
+        stream.Write(Bytes.Of(ref MaskHeight, 4));
+        stream.Write(Bytes.Of(ref MaskLeft, 4));
+        stream.Write(Bytes.Of(ref MaskTop, 4));
     }
 
     // ImageLib.pas:4721
@@ -110,15 +110,15 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        AllocateMaskData(_maskWidth, _maskHeight);
-        stream.ReadExactly(MaskData.AsSpan(0, _dataSize));
+        AllocateMaskData(MaskWidth, MaskHeight);
+        stream.ReadExactly(MaskData.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:4734
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(MaskData.AsSpan(0, _dataSize));
+        stream.Write(MaskData.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:4740
@@ -175,12 +175,12 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         bits = 0;
         offset = 0;
         bitCount = 0;
-        _dataWidth = R.Right - R.Left;
-        _dataHeight = R.Bottom - R.Top;
-        _width = _dataWidth;
-        _height = _dataHeight;
-        _fileName = ExtractFileName(grabInfo.FileName);
-        _fileIndex = grabInfo.FileIndex;
+        DataWidth = R.Right - R.Left;
+        DataHeight = R.Bottom - R.Top;
+        SetWidthWithoutOverrides(DataWidth);
+        SetHeightWithoutOverrides(DataHeight);
+        FileName = ExtractFileName(grabInfo.FileName);
+        FileIndex = grabInfo.FileIndex;
         transparentColor = grabInfo.TransparentPixel;
         if (!((GrabInfo)grabInfo).Inverse)
         {
@@ -192,13 +192,13 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         }
 
         left = minRectangle.Left;
-        _maskLeft = left - R.Left;
+        MaskLeft = left - R.Left;
         top = minRectangle.Top;
-        _maskTop = top - R.Top;
-        _maskWidth = minRectangle.Right - left;
+        MaskTop = top - R.Top;
+        MaskWidth = minRectangle.Right - left;
         bottom = minRectangle.Bottom;
-        _maskHeight = bottom - top;
-        AllocateMaskData(_maskWidth, _maskHeight);
+        MaskHeight = bottom - top;
+        AllocateMaskData(MaskWidth, MaskHeight);
         for (int y = top; y <= bottom - 1; y++)
         {
             offset = (y - minRectangle.Top) * _pitch;
@@ -232,15 +232,15 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             LoadDiscardableImageData();
         }
 
-        ShowBitMask16(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
+        ShowBitMask16(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
     }
 
     public void AllocateMaskData(int width, int height)
     {
         _pitch = checked(((width + 31) >> 5) * 4);
-        _dataSize = checked(_pitch * _maskHeight);
+        DataSize = checked(_pitch * MaskHeight);
         // GrabImage flushes one extra zero dword after a full final word.
-        MaskData = MemorySurfaces.Reallocate(MaskData, checked(_dataSize + 4));
+        MaskData = MemorySurfaces.Reallocate(MaskData, checked(DataSize + 4));
     }
 
     internal static int GetPixelInfo(in LockedSurface lockedSurface, int X, int Y)
