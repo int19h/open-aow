@@ -176,6 +176,7 @@
         "AIGroup.Transporter": null,
         "AIGroup.TransporterId": -1,
         "AIGroup._refCount": 1,
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -810,6 +811,7 @@
           "$type": "Aow.Game.AI.Groups.GroupDefenseSelector",
           "GroupDefenseSelector.Defenders": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -1108,6 +1110,7 @@
         "AIGroupRecruitControl.Superiority": 0,
         "AIGroupRecruitControl.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -1456,6 +1459,7 @@
           },
           "AIMoveTargetSelector.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -1843,6 +1847,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -2512,6 +2517,7 @@
           "AIGroupRecruitControl.Superiority": 0,
           "AIGroupRecruitControl.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -2524,6 +2530,7 @@
         },
         "AIGroupTargetSelector._spareUnits": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -3242,6 +3249,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -4718,6 +4726,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -5483,6 +5492,7 @@
         },
         "AIMoveTargetSelector.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -5870,6 +5880,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -6646,6 +6657,7 @@
           },
           "AIMoveTargetSelector.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -7033,6 +7045,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -7741,6 +7754,7 @@
           },
           "AIMoveTargetSelector.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -8128,6 +8142,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -9460,6 +9475,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -9977,6 +9993,7 @@
           },
           "CampaignTransferSettings.Items": {
             "$type": "Aow.Game.Units.ItemList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -10033,6 +10050,7 @@
           "CampaignTransferSettings.TransferPointsMax": 0,
           "CampaignTransferSettings.Units": {
             "$type": "Aow.Game.Units.UnitList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -10089,6 +10107,7 @@
         },
         "CampaignTransferSettings.Items": {
           "$type": "Aow.Game.Units.ItemList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -10145,6 +10164,7 @@
         "CampaignTransferSettings.TransferPointsMax": 0,
         "CampaignTransferSettings.Units": {
           "$type": "Aow.Game.Units.UnitList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -10241,6 +10261,7 @@
         "Army._visibilityRanges": 0,
         "Army.X": -1,
         "Army.Y": -1,
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -10261,6 +10282,7 @@
           "EventStore\u00601._count": 0,
           "EventStore\u00601._items": null
         },
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -10303,6 +10325,7 @@
           "EventStore\u00601._count": 0,
           "EventStore\u00601._items": null
         },
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -10383,6 +10406,7 @@
           0,
           0
         ],
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -11718,6 +11742,7 @@
           "Army._visibilityRanges": 0,
           "Army.X": -1,
           "Army.Y": -1,
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -13744,6 +13769,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -14319,6 +14345,7 @@
         "UnitSelector.SourceUnitId": 0,
         "UnitSelector.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -16200,6 +16227,7 @@
         "$type": "Aow.Game.AI.Groups.GroupDefenseSelector",
         "GroupDefenseSelector.Defenders": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -16384,6 +16412,7 @@
         "UnitSelector.SourceUnitId": 0,
         "UnitSelector.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -16429,6 +16458,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.HeroInventory",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -16446,6 +16476,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.HeroItems",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -16680,6 +16711,7 @@
         "AIGroup.Transporter": null,
         "AIGroup.TransporterId": -1,
         "AIGroup._refCount": 1,
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -17475,6 +17507,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.ItemHSList",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -17492,6 +17525,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.ItemLibrary",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -17522,6 +17556,7 @@
         },
         "ItemLibraryManager.SystemLibrary": {
           "$type": "Aow.Game.Units.ItemLibrary",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -17541,6 +17576,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.ItemList",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -17614,6 +17650,7 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -17640,6 +17677,7 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -17749,6 +17787,7 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -17775,6 +17814,7 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -19501,6 +19541,7 @@
                         null
                       ]
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -19594,6 +19635,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -19618,6 +19660,7 @@
                     "Hero.FaceIndex": 0,
                     "Hero.HeroItems": {
                       "$type": "Aow.Game.Units.HeroItems",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -19644,6 +19687,7 @@
                     "Hero.HitPoints": 0,
                     "Hero.Inventory": {
                       "$type": "Aow.Game.Units.HeroInventory",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -19875,6 +19919,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -19948,6 +19993,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20094,6 +20140,7 @@
                         null
                       ]
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20187,6 +20234,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20211,6 +20259,7 @@
                     "Hero.FaceIndex": 0,
                     "Hero.HeroItems": {
                       "$type": "Aow.Game.Units.HeroItems",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -20237,6 +20286,7 @@
                     "Hero.HitPoints": 0,
                     "Hero.Inventory": {
                       "$type": "Aow.Game.Units.HeroInventory",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -20468,6 +20518,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20541,6 +20592,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20687,6 +20739,7 @@
                         null
                       ]
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20780,6 +20833,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -20804,6 +20858,7 @@
                     "Hero.FaceIndex": 0,
                     "Hero.HeroItems": {
                       "$type": "Aow.Game.Units.HeroItems",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -20830,6 +20885,7 @@
                     "Hero.HitPoints": 0,
                     "Hero.Inventory": {
                       "$type": "Aow.Game.Units.HeroInventory",
+                      "ObservableNode.CollectionChanged": null,
                       "ObservableNode._children": {
                         "$type": "Aow.Engine.Nodes.EngineObjectList",
                         "DelphiList\u00601.count": 0,
@@ -21061,6 +21117,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -21134,6 +21191,7 @@
                       "EventStore\u00601._count": 0,
                       "EventStore\u00601._items": null
                     },
+                    "ObservableNode.CollectionChanged": null,
                     "ObservableNode._children": {
                       "$type": "Aow.Engine.Nodes.EngineObjectList",
                       "DelphiList\u00601.count": 0,
@@ -21571,6 +21629,7 @@
               "MoveControlSettings.TransporterArmy": null,
               "MoveControlSettings.Units": {
                 "$type": "Aow.Game.Units.UnitUserList",
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -22772,6 +22831,7 @@
         "MoveControlSettings.TransporterArmy": null,
         "MoveControlSettings.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -23166,6 +23226,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -23686,6 +23747,7 @@
               null
             ]
           },
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -23779,6 +23841,7 @@
             "EventStore\u00601._count": 0,
             "EventStore\u00601._items": null
           },
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -23803,6 +23866,7 @@
           "Hero.FaceIndex": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -23829,6 +23893,7 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -24060,6 +24125,7 @@
             "EventStore\u00601._count": 0,
             "EventStore\u00601._items": null
           },
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -24133,6 +24199,7 @@
             "EventStore\u00601._count": 0,
             "EventStore\u00601._items": null
           },
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -24350,6 +24417,7 @@
                     null
                   ]
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -24443,6 +24511,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -24467,6 +24536,7 @@
                 "Hero.FaceIndex": 0,
                 "Hero.HeroItems": {
                   "$type": "Aow.Game.Units.HeroItems",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -24493,6 +24563,7 @@
                 "Hero.HitPoints": 0,
                 "Hero.Inventory": {
                   "$type": "Aow.Game.Units.HeroInventory",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -24724,6 +24795,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -24797,6 +24869,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -24943,6 +25016,7 @@
                     null
                   ]
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25036,6 +25110,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25060,6 +25135,7 @@
                 "Hero.FaceIndex": 0,
                 "Hero.HeroItems": {
                   "$type": "Aow.Game.Units.HeroItems",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -25086,6 +25162,7 @@
                 "Hero.HitPoints": 0,
                 "Hero.Inventory": {
                   "$type": "Aow.Game.Units.HeroInventory",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -25317,6 +25394,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25390,6 +25468,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25536,6 +25615,7 @@
                     null
                   ]
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25629,6 +25709,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25653,6 +25734,7 @@
                 "Hero.FaceIndex": 0,
                 "Hero.HeroItems": {
                   "$type": "Aow.Game.Units.HeroItems",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -25679,6 +25761,7 @@
                 "Hero.HitPoints": 0,
                 "Hero.Inventory": {
                   "$type": "Aow.Game.Units.HeroInventory",
+                  "ObservableNode.CollectionChanged": null,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
@@ -25910,6 +25993,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -25983,6 +26067,7 @@
                   "EventStore\u00601._count": 0,
                   "EventStore\u00601._items": null
                 },
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -26147,6 +26232,7 @@
           "EventStore\u00601._count": 0,
           "EventStore\u00601._items": null
         },
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -27676,6 +27762,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
@@ -29712,6 +29799,7 @@
             "MoveControlSettings.TransporterArmy": null,
             "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -30604,6 +30692,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.UnitList",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -30802,6 +30891,7 @@
         "UnitSelector.SourceUnitId": 0,
         "UnitSelector.Units": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -30984,6 +31074,7 @@
         "UnitSpellCaster.SelectionMask": 0,
         "UnitSpellCaster.TargetUnits": {
           "$type": "Aow.Game.Units.UnitUserList",
+          "ObservableNode.CollectionChanged": null,
           "ObservableNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
@@ -31001,6 +31092,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.UnitUserList",
+        "ObservableNode.CollectionChanged": null,
         "ObservableNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,

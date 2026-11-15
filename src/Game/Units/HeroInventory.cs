@@ -115,9 +115,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     }
 
     // Army.PAS:4564
-    public override void Changed()
+    protected override void OnChange()
     {
-        base.Changed();
+        base.OnChange();
         if (OnChanged != null)
         {
             OnChanged(this);

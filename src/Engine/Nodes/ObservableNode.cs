@@ -78,7 +78,7 @@ public partial class ObservableNode : CustomNode
 
         if (_updateCount == 0)
         {
-            Changed();
+            Emit(ObservableChange.Reset());
         }
     }
 
@@ -89,6 +89,7 @@ public partial class ObservableNode : CustomNode
     public override void SetChild(int index, EngineObject child)
     {
         CheckChild(child);
+        EngineObject previous = index >= 0 && index < Count ? _children.List[index] : null;
         while (index >= Count)
         {
             _children.Add(null);
@@ -97,7 +98,7 @@ public partial class ObservableNode : CustomNode
         _children[index] = child;
         if (_updateCount == 0)
         {
-            Changed();
+            Emit(ObservableChange.Replaced(index, item: child, previous: previous));
         }
     }
 
@@ -121,8 +122,22 @@ public partial class ObservableNode : CustomNode
     }
 
     // Engine.pas:7280
-    public virtual void Changed()
+    // Subclasses react in OnChange. Emit runs that reaction and then raises CollectionChanged,
+    // so the event follows every call of Changed even when the reaction does not call the base method.
+    public event ObservableChangeHandler CollectionChanged;
+
+    public void Changed() => Emit(ObservableChange.Reset());
+
+    protected virtual void OnChange()
     {
+    }
+
+    protected void RaiseChange(ObservableChange change) => Emit(change);
+
+    private void Emit(ObservableChange change)
+    {
+        OnChange();
+        CollectionChanged?.Invoke(this, change);
     }
 
     // A batch disposes by calling EndUpdate. A default batch does nothing, so a conditional
@@ -826,7 +841,7 @@ public partial class ObservableNode : CustomNode
         _updateCount -= 1;
         if (_updateCount == 0)
         {
-            Changed();
+            Emit(ObservableChange.Reset());
         }
     }
 
@@ -995,7 +1010,7 @@ public partial class ObservableNode : CustomNode
 
         if (_updateCount == 0)
         {
-            Changed();
+            Emit(ObservableChange.Removed(result, item: child));
         }
 
         return result;
@@ -1008,7 +1023,7 @@ public partial class ObservableNode : CustomNode
         _children.Add(child);
         if (_updateCount == 0)
         {
-            Changed();
+            Emit(ObservableChange.Added(_children.Count - 1, item: child));
         }
 
         return _children.Count - 1;

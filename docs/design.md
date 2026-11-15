@@ -588,6 +588,11 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   the typed indexers, and the original's direct reorderings of the list are node members that do
   not notify: `SortChildren`, `MoveChild`, `ExchangeChildren`, `PackChildren`, `DropChild`,
   `DeleteChildAt` and `ClearChildren`. A change-notifying node's `Sort` notifies as before.
+  `ObservableNode` raises `CollectionChanged` from each `Changed` call. The arguments name the
+  action (added, removed, replaced, moved or reset) and carry the index and the item when the
+  call site has them. A batch from `BeginUpdate` holds the per-item calls. The last `EndUpdate`
+  that brings the update count to zero raises one reset, the same single notification the
+  original sends there. The direct reorderings still do not notify.
   A node whose children are of a few unrelated kinds declares them as a C# union: the engine's
   children are a `GameEngineChild` (its control node, its game pack or a map), and a game pack's
   children are a `GamePackChild` (a resource list, a terrain control or a control object). The
