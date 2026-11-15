@@ -110,8 +110,7 @@ internal partial class StringsCodec
     {
         if (value is not LinesNode node)
             throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is lines.", null, frame.Path);
-        string text = node.RawText ?? Join(node.Lines ?? []);
-        var bytes = TextCodec.Bytes(context, text, frame.Path);
+        var bytes = TextCodec.Bytes(text: node.RawText ?? Join(node.Lines ?? []), context: context, path: frame.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
     }

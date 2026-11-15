@@ -346,8 +346,7 @@ internal sealed partial class CreatedObjectCodec
         for (int i = 0; i < entries.Count; i++)
         {
             var (id, start, end) = entries[i];
-            var itemFrame = new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent };
-            node.Add(id - slotBase, ReadCreated(context, start, end, itemFrame, id - slotBase));
+            node.Add(id - slotBase, ReadCreated(frame: new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent }, context: context, start: start, end: end, slot: id - slotBase));
         }
         return node;
     }
@@ -487,8 +486,7 @@ internal sealed partial class CreatedObjectCodec
                 continue;
             }
             if (item["$class"] is not JsonString className) throw at.Fail(Codes.MissingMember, "A created object needs $class.", item);
-            var classValue = DocumentBackend.RequireClass(at, className.Value, LegacyFamily(at, className.Value), className);
-            items[i] = DocumentBackend.ReadObject(item, Shape(at, classValue), at, created: true, slotted: false);
+            items[i] = DocumentBackend.ReadObject(item, Shape(classValue: DocumentBackend.RequireClass(at, className.Value, LegacyFamily(at, className.Value), className), site: at), at, created: true, slotted: false);
         }
         return new SequenceNode(items);
     }
@@ -537,8 +535,7 @@ internal sealed partial class CreatedObjectCodec
         if (value is NullNode) return new JsonNull();
         if (value is not ObjectNode node || node.ClassName is not string name)
             throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object or null.");
-        var classValue = DocumentBackend.RequireClass(site, name, Family, null);
-        return DocumentBackend.WriteObject(node, classValue, site, created: true, slotted: false);
+        return DocumentBackend.WriteObject(classValue: DocumentBackend.RequireClass(site, name, Family, null), node: node, site: site, created: true, slotted: false);
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
@@ -546,8 +543,7 @@ internal sealed partial class CreatedObjectCodec
         if (value is JsonNull) return NullNode.Instance;
         if (value is not JsonObject objectValue) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object or null.", value);
         if (objectValue["$class"] is not JsonString name) throw site.Fail(Codes.MissingMember, "A created object needs $class.", objectValue);
-        var classValue = DocumentBackend.RequireClass(site, name.Value, Family, name);
-        return DocumentBackend.ReadObject(objectValue, classValue, site, created: true, slotted: false);
+        return DocumentBackend.ReadObject(classValue: DocumentBackend.RequireClass(site, name.Value, Family, name), document: objectValue, site: site, created: true, slotted: false);
     }
 }
 
@@ -587,8 +583,7 @@ internal sealed partial class ChildrenCodec
     {
         var table = PropertyTable.Read(context, start, end, frame.Path);
         int db = table.DataBase;
-        int length = end - db;
-        var boundaries = table.Entries.Select(entry => entry.Offset).Append(length).Distinct().Order().ToArray();
+        var boundaries = table.Entries.Select(entry => entry.Offset).Append(end - db).Distinct().Order().ToArray();
         var order = table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index).ToList();
         var slots = new HashSet<int>();
         var children = new List<ObjectNode>();
@@ -609,8 +604,7 @@ internal sealed partial class ChildrenCodec
             var shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
             if (shape is { } legacy)
                 context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
-            var itemPath = frame.Path.Item(children.Count);
-            children.Add(ImageTree.ReadBody(context, childStart + 4, childEnd, shape?.Shape ?? classValue, itemPath, classValue.Name, entry.Id));
+            children.Add(ImageTree.ReadBody(path: frame.Path.Item(children.Count), context: context, start: childStart + 4, end: childEnd, classValue: shape?.Shape ?? classValue, className: classValue.Name, slot: entry.Id));
         }
         if (children.Count > context.Limits.CollectionItems)
             throw context.Fail(Codes.Limit, "A collection has too many items.", start, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
@@ -631,8 +625,7 @@ internal sealed partial class ChildrenCodec
             if (child.Slot is not int slot || !slots.Add(slot))
                 throw item.Fail(Codes.Slot, child.Slot is int used ? $"Child slot {used} is declared twice." : "A child needs a non-negative integer $slot.");
             if (child.ClassName is not string name) throw item.Fail(Codes.MissingMember, "A child needs a class.");
-            var classValue = DocumentBackend.RequireClass(item, name, null, null);
-            array.Add(DocumentBackend.WriteObject(child, classValue, item, created: true, slotted: true));
+            array.Add(DocumentBackend.WriteObject(classValue: DocumentBackend.RequireClass(item, name, null, null), node: child, site: item, created: true, slotted: true));
         }
         return array;
     }
@@ -654,8 +647,7 @@ internal sealed partial class ChildrenCodec
                 throw item.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", child);
             if (!slots.Add((int)slot.Value))
                 throw item.Fail(Codes.Slot, $"Child slot {slot.Value} is declared twice.", slot);
-            var classValue = DocumentBackend.RequireClass(item, name.Value, null, name);
-            children.Add(DocumentBackend.ReadObject(child, classValue, item, created: true, slotted: true));
+            children.Add(DocumentBackend.ReadObject(classValue: DocumentBackend.RequireClass(item, name.Value, null, name), document: child, site: item, created: true, slotted: true));
         }
         return new ChildListNode(children);
     }
@@ -684,8 +676,7 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
         for (int i = 0; i < node.Items.Count; i++)
         {
             var item = site.At(site.Path.Item(i), true);
-            var written = element.WriteTree(node.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value.");
-            array.Add(written);
+            array.Add(element.WriteTree(node.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value."));
         }
         return array;
     }
@@ -738,8 +729,7 @@ internal sealed class RecordCodec : PropertyCodec
         {
             var field = node.Find(name);
             if (field is null) continue;
-            var at = site.At(site.Path.Member(name), false);
-            var written = codec.WriteTree(field, at);
+            var written = codec.WriteTree(site: site.At(site.Path.Member(name), false), value: field);
             if (written is not null) json.Add(name, written);
             seen.Add(name);
         }

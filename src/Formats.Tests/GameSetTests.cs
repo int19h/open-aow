@@ -43,8 +43,7 @@ public sealed class GameSetTests : FormatsTest
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
         var container = (JsonObject)imported.Document["$container"]!;
         var root = (JsonObject)imported.Document["root"]!;
-        var context = new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default, ExportOptions.Default);
-        Assert.Equal(body, profile.Export(container, root, context));
+        Assert.Equal(body, profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default, ExportOptions.Default), container: container, root: root));
         Prove(root, FormatSchema.Current.Get(rootClass), engine, relative);
     }
 

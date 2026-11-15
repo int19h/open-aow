@@ -61,8 +61,7 @@ internal sealed partial class EnumCodec : PropertyCodec
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        long number = Parse(context, value, site.Path, site.Property.Name);
-        IntegerBytes.Write(data, number, Width);
+        IntegerBytes.Write(value: Parse(context, value, site.Path, site.Property.Name), data: data, width: Width);
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -76,8 +75,7 @@ internal sealed partial class EnumCodec : PropertyCodec
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        long number = Parse(site.Context, value, site.Path, Name(site));
-        return new EnumNode(TypeName, Width, Signed, number);
+        return new EnumNode(value: Parse(site.Context, value, site.Path, Name(site)), typeName: TypeName, width: Width, signed: Signed);
     }
 
     internal long Parse(EncodeContext context, JsonValue value, DocumentNodePath path, string name)

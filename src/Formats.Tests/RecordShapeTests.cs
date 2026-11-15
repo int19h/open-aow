@@ -274,8 +274,7 @@ public sealed class RecordShapeTests : FormatsTest
         node.Add("Flag", new IntegerNode(1, false, 2));
         var document = DocumentBackend.Write(node, classValue, schema, "game");
         Assert.Equal(2, ((JsonInteger)document["Flag"]!).Value);
-        var image = OriginalBackend.Write(node, classValue, schema, "game");
-        var back = OriginalBackend.Read(image, classValue, schema, "game");
+        var back = OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(2, ((IntegerNode)back.Find("Flag")!).Value);
 
         var source = new Holder();
@@ -327,8 +326,7 @@ public sealed class RecordShapeTests : FormatsTest
             Assert.Equal((long)number, ((IntegerNode)((RecordNode)back.Find("Value")!).Find("U32")!).Value);
             var document = DocumentBackend.Write(back, classValue, schema, "game");
             Assert.Equal((long)number, ((JsonInteger)((JsonObject)document["Value"]!)["U32"]!).Value);
-            var again = DocumentBackend.Read(document, classValue, schema, "game");
-            Assert.Equal(image, OriginalBackend.Write(again, classValue, schema, "game"));
+            Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
         }
     }
 
@@ -419,8 +417,7 @@ public sealed class RecordShapeTests : FormatsTest
     private static JsonObject RoundTrip(SchemaClass classValue, FormatSchema schema, ObjectNode node)
     {
         var document = DocumentBackend.Write(node, classValue, schema, "game");
-        var image = OriginalBackend.Write(node, classValue, schema, "game");
-        var back = DocumentBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue, schema, "game");
+        var back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
         Assert.Equal(JsonWriter.ToUtf8(document), JsonWriter.ToUtf8(back));
         return document;
     }

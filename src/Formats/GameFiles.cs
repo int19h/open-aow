@@ -106,8 +106,7 @@ public static class GameFiles
     public static byte[] ExportImage(JsonObject document, string? fileName = null, FormatLimits? limits = null)
     {
         var (profile, _, container, root) = Envelope(document, fileName);
-        var context = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default);
-        return profile.ExportImage(container, root, context);
+        return profile.ExportImage(context: new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default), container: container, root: root);
     }
 
     /// <summary>Imports an image the engine wrote, in the profile's game container.</summary>
@@ -264,13 +263,12 @@ public static class GameFiles
             }
             catch (ConversionException error)
             {
-                var format = error.Diagnostic.Code switch
+                return new Classification(error.Diagnostic.Code switch
                 {
                     Codes.Version => DetectedFormat.UnsupportedVersion,
                     Codes.Kind => DetectedFormat.UnsupportedKind,
                     _ => DetectedFormat.MalformedOwn,
-                };
-                return new Classification(format, null, null, null, error.Diagnostic);
+                }, Profile: null, Kind: null, Version: null, Error: error.Diagnostic);
             }
         }
         kind ??= KindForExtension(extension);
