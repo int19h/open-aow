@@ -66,8 +66,10 @@ public partial class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2295
-    // The map is the whole HSM file the stream holds (ids 5 and 6), a nested world-hsm document
-    // on the tree. An absent map loads as an empty stream, as a stored size of 0 does.
+    // The map is the bytes the stream holds (ids 5 and 6). A representable map is the compressed
+    // HSM image. A map the image cannot carry is the map's own document. Both are a nested
+    // world-hsm document on the tree. An absent map loads as an empty stream, as a stored size
+    // of 0 does.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -64,8 +64,12 @@ internal sealed class DocumentSite
         OwnerClass = OwnerClass,
     };
 
-    public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null) =>
-        TreeErrors.Fail(code, message, Path, at, value, constraint);
+    public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null)
+    {
+        var error = TreeErrors.Fail(code, message, Path, at, value, constraint);
+        if (Context.File is null || error.Diagnostic.File is not null) return error;
+        return new ConversionException(error.Diagnostic with { File = Context.File });
+    }
 
     public ConversionException Mismatch(string message, JsonValue? at = null) =>
         Fail(Codes.Type, message, at, at?.KindName);

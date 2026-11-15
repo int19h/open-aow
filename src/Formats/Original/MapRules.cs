@@ -1,3 +1,4 @@
+using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -115,16 +116,22 @@ internal sealed partial class MapFieldsCodec
 
 /// <summary>
 /// The campaign map on the tree and the direct path. The tree holds the whole HSM file as the
-/// engine keeps it. The image stores its size (id 5) and its bytes (id 6). The document holds the
-/// file as a nested document of profile world-hsm, imported and exported through that profile.
-/// The retained compressed bytes (the nested-compression part) belong to the converter alone, so
-/// the direct path compresses the exported payload again at the level the container names.
+/// engine keeps it, or the map's own document when the original image cannot carry the map. The
+/// image stores its size (id 5) and its bytes (id 6). The document holds the file as a nested
+/// document of profile world-hsm. A representable map is imported and exported through that
+/// profile. The retained compressed bytes (the nested-compression part) belong to the converter
+/// alone, so the direct path compresses the exported payload again at the level the container
+/// names. A map the image cannot carry stays that nested document. Strict export refuses it and
+/// names the member path.
 /// </summary>
 internal sealed partial class CampaignMapCodec
 {
     internal override void WriteMemberImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
     {
         var image = Image(value, (code, message) => context.Fail(code, message, null, frame.Path));
+        // An own document is not an image. Exporting it refuses port-only state with the path
+        // and writes an image only when the map is representable.
+        if (IsOwnDocument(image)) image = ExportOwnDocument(image, context, frame.Path);
         writer.Begin(frame.Property.Id!.Value, frame.Property);
         writer.Data.Int32(image.Length);
         writer.End();
@@ -147,6 +154,7 @@ internal sealed partial class CampaignMapCodec
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         var image = Image(value, (code, message) => site.Fail(code, message));
+        if (IsOwnDocument(image)) return NestedOwnDocument(image, site);
         var session = new ImportSession
         {
             Schema = site.Schema,
@@ -170,8 +178,20 @@ internal sealed partial class CampaignMapCodec
         if (container["profile"] is not JsonString { Value: "world-hsm" })
             throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
         var nested = new EncodeContext(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
-        var payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
-        return new NestedDocumentNode(Nested.Name, compression == "cfs" ? Cfs.Wrap(payload, level) : payload);
+        try
+        {
+            var payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
+            return new NestedDocumentNode(Nested.Name, compression == "cfs" ? Cfs.Wrap(payload, level) : payload);
+        }
+        catch (ConversionException error) when (GameBoundary.LacksImage(error))
+        {
+            // The image cannot carry the map. The document read accepts that state and still
+            // refuses a malformed root. The bytes are the map's own document, which the stream
+            // holds after a load. Strict export keeps the refusal above.
+            if (root is not JsonObject rootObject) throw;
+            AcceptNestedMap(rootObject, site);
+            return new NestedDocumentNode(Nested.Name, OwnDocument(container, rootObject));
+        }
     }
 
     private static byte[] Image(TreeValue value, Func<string, string, ConversionException> fail)
@@ -180,5 +200,53 @@ internal sealed partial class CampaignMapCodec
         if (node.Profile != Nested.Name) throw fail(Codes.Profile, "A campaign map has profile world-hsm.");
         if (node.Image.Length == 0) throw fail(Codes.Corrupt, "A stored campaign map is not empty.");
         return node.Image;
+    }
+
+    // CFS and HSM images stay on the import path. Anything else that parses as an own document
+    // is the map document a campaign save stores when the image cannot carry the map.
+    private static bool IsOwnDocument(byte[] image)
+    {
+        if (Cfs.HasMagic(image)) return false;
+        if (image.Length >= 8 && image.AsSpan(4, 4).SequenceEqual(HsmProfile.Magic)) return false;
+        return GameFiles.IsGzip(image) || GameFiles.IsJsonCandidate(image);
+    }
+
+    private static JsonObject NestedOwnDocument(byte[] image, DocumentSite site)
+    {
+        var read = GameFiles.Read(image, fileName: site.Context.File);
+        var (profile, _, container, root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
+        if (profile.Name != Nested.Name)
+            throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
+        if (root is not JsonObject rootObject)
+            throw site.At(site.Path.Member("root"), element: false).Fail(Codes.Type, "Map root is an object.", root);
+        var map = new JsonObject().Add("$container", container).Add("root", rootObject);
+        if (read.Document.Find("$layout") is { } layout) map.Add("$layout", layout.Value);
+        return map;
+    }
+
+    private static void AcceptNestedMap(JsonObject root, DocumentSite site)
+    {
+        var nested = new EncodeContext(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
+        var classValue = Nested.RootClass(nested, root);
+        var body = new JsonObject { Span = root.Span };
+        foreach (var member in root.Members)
+            if (member.Name != "$class") body.Members.Add(member);
+        DocumentBackend.Read(body, classValue: classValue, schema: site.Schema, engine: Nested.Engine, path: site.Path.Member("root"), file: site.Context.File);
+    }
+
+    private static byte[] OwnDocument(JsonObject container, JsonObject root) =>
+        GameFiles.Write(GameFiles.NewDocument(GameProfile.WorldMap.WriteKind, container: container, root: root));
+
+    private static byte[] ExportOwnDocument(byte[] image, EncodeContext context, DocumentNodePath path)
+    {
+        var read = GameFiles.Read(image, fileName: context.File);
+        var (profile, _, container, root) = GameFiles.Envelope(read.Document, fileName: context.File);
+        if (profile.Name != Nested.Name)
+            throw context.Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container, path);
+        if (root is not JsonObject rootObject) throw context.Fail(Codes.Type, "root is an object.", root, path);
+        var nested = new EncodeContext(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
+        var payload = Nested.ExportPayload(container, rootObject, nested, out string compression, out int level);
+        context.Invalidated.AddRange(nested.Invalidated);
+        return compression == "cfs" ? Cfs.Wrap(payload, level) : payload;
     }
 }

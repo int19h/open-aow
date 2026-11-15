@@ -370,7 +370,10 @@ Milestone 9.7 (`specs/own-formats.md`) adopted them. The decisions:
   (`specs/platform.md` 7). A shipped file is never written: a save under its name goes to the
   user layer and shadows it.
 - Port-only state takes property ids `0x40000000` to `0x4FFFFFFF`, mod state ids from
-  `0x50000000`. A game without mods writes neither range, so the oracle needs no mask for them.
+  `0x50000000`. A game without mods writes a port-range id when a dungeon combat leaves an item
+  on the prisoners, and it writes no mod-range id. A campaign save nests that map and keeps
+  the item. A save with an empty prisoners list writes neither range. The oracle's scenarios
+  leave that list empty and need no mask for these ids.
 - Out of scope until milestone 10: the game set files (`Release\*.pfs`) and the e-mail game
   index, which keep the original format and paths.
 

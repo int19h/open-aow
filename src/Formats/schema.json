@@ -5052,7 +5052,9 @@
       "name": "PrisonersArmy",
       "parent": "Army",
       "id": 131606,
-      "properties": []
+      "properties": [
+        {"name": "Items", "id": 1073741824, "codec": "object", "class": "ItemList"}
+      ]
     },
     {
       "name": "PrisonersJoinEventLog",

@@ -69,4 +69,33 @@ public sealed class ValidationTests : FormatsTest
         var finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
         Assert.Equal(Codes.UnknownMember, finding.Code);
     }
+
+    // Mountain Clash stores no prisoners army. A dungeon child on the map is the real member,
+    // and the map stays structurally valid around it.
+    [GameFact]
+    public void PortOnlyItemsAreValidAndTheOriginalExportRefusesThem()
+    {
+        var document = Map();
+        var children = (JsonArray)((JsonObject)document["root"]!)["Children"]!;
+        long slot = 0;
+        foreach (var item in children.Items)
+            if (item is JsonObject child && child["$slot"] is JsonInteger number && number.Value >= slot)
+                slot = number.Value + 1;
+        var blade = new JsonObject()
+            .Add("$class", new JsonString("Item"))
+            .Add("$slot", new JsonInteger(0))
+            .Add("Name", new JsonString("Blade"))
+            .Add("ItemId", new JsonInteger(7));
+        var prisoners = new JsonObject().Add("Items", new JsonObject().Add("Children", new JsonArray().Add(blade)));
+        children.Items.Add(new JsonObject()
+            .Add("$class", new JsonString("Dungeon"))
+            .Add("$slot", new JsonInteger(slot))
+            .Add("Prisoners", prisoners));
+        Assert.Empty(DocumentValidation.Run(document, []));
+        var error = Assert.Throws<ConversionException>(() => GameFiles.Export(document));
+        Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
+        Assert.EndsWith(".Items", error.Diagnostic.Path);
+        Assert.Contains("PrisonersArmy.Items", error.Diagnostic.Message);
+        Assert.Equal("1073741824", error.Diagnostic.Value);
+    }
 }
