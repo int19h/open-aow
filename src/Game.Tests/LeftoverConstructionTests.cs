@@ -38,13 +38,13 @@ public sealed class LeftoverConstructionTests
         private readonly int _previousSeed = Runtime.RandSeed;
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
-        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
+        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
+            GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
             StrategicMap.Current = null!;
             GamePack.Current.UnitGraphicsResources = null!;
@@ -64,7 +64,7 @@ public sealed class LeftoverConstructionTests
 
     private static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -129,7 +129,7 @@ public sealed class LeftoverConstructionTests
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
@@ -275,13 +275,13 @@ public sealed class LeftoverConstructionTests
 
     private static EngineObject Direct(Type type, CustomNode owner)
     {
-        var constructor = EngineClassCreation.OwnerConstructor(type);
+        ConstructorInfo? constructor = EngineClassCreation.OwnerConstructor(type);
         if (constructor is not null)
         {
             return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
         }
 
-        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
+        MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
         if (factory is not null)
         {
             return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
@@ -300,11 +300,11 @@ public sealed class LeftoverConstructionTests
         {
             for (int route = 0; route < 4; route++)
             {
-                using var fixture = new Fixture();
-                var owner = owned == 0 ? null : new LeftoverOwner();
-                var given = EngineFixture.OwnerFor(type, owner!);
+                using Fixture fixture = new();
+                LeftoverOwner? owner = owned == 0 ? null : new LeftoverOwner();
+                CustomNode given = EngineFixture.OwnerFor(type, owner!);
                 EngineObject? value = null;
-                var states = new List<string>();
+                List<string> states = new();
                 try
                 {
                     value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
@@ -334,8 +334,8 @@ public sealed class LeftoverConstructionTests
 
     private static EngineObject Saved(Type type, CustomNode owner)
     {
-        using GameEngine engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
-        var descriptor = EngineClass.Of(type);
+        using GameEngine engine = new(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
+        EngineClass descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -364,8 +364,8 @@ public sealed class LeftoverConstructionTests
     [InlineData(3)]
     public void PlainWorldMapPublishesItsCompletedState(int route)
     {
-        using var fixture = new Fixture();
-        var value = Assert.IsType<StrategicMap>(route switch
+        using Fixture fixture = new();
+        StrategicMap value = Assert.IsType<StrategicMap>(route switch
         {
             0 => new StrategicMap(null!, holder: EngineFixture.Engine),
             1 => EngineClass.Of<StrategicMap>().CreateInstance(null!, holder: EngineFixture.Engine),
@@ -381,7 +381,7 @@ public sealed class LeftoverConstructionTests
     [Fact]
     public void MapMouseKeepsItsInheritedInitialization()
     {
-        using var mouse = new AowHexSpriteMapMouse();
+        using AowHexSpriteMapMouse mouse = new();
         Assert.Equal((-1, -1, -1, -1), (mouse.SelectionRectangle.Left, mouse.SelectionRectangle.Top,
             mouse.SelectionRectangle.Right, mouse.SelectionRectangle.Bottom));
         Assert.Equal(0, mouse.RectangleSelectEventsStore.Count);

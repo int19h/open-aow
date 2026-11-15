@@ -50,14 +50,14 @@ public sealed partial class RuleConstructionTests
     {
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
+        private readonly ImageLibraryManager _manager = new(null!);
 
         internal StrategicMap Map { get; }
 
         internal Fixture()
         {
             Map = new StrategicMap(null!, holder: EngineFixture.Engine);
-            var set = EngineFixture.CreateGameSet(_manager);
+            GamePack set = EngineFixture.CreateGameSet(_manager);
             GamePack.Current = set;
             Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
             Map.Races = new RaceList(null!) { Holder = EngineFixture.Engine };
@@ -79,7 +79,7 @@ public sealed partial class RuleConstructionTests
 
     private static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -142,7 +142,7 @@ public sealed partial class RuleConstructionTests
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
@@ -228,8 +228,8 @@ public sealed partial class RuleConstructionTests
 
         if (route == 2)
         {
-            using GameEngine engine = new GameEngine(null!);
-            var meta = EngineClass.Of(type);
+            using GameEngine engine = new(null!);
+            EngineClass meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -238,11 +238,11 @@ public sealed partial class RuleConstructionTests
         }
         if (route == 3)
         {
-            var meta = EngineClass.Of(type);
+            EngineClass meta = EngineClass.Of(type);
             return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
-        var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        var constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
+        MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
+        ConstructorInfo? constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
         object?[] arguments = parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
@@ -282,13 +282,13 @@ public sealed partial class RuleConstructionTests
     // A nested type can reuse the simple name.
     private static Type TypeNamed(string name)
     {
-        var matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
+        Type[] matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
         if (matches.Length == 1)
         {
             return matches[0];
         }
 
-        var top = matches.Where(type => type.DeclaringType is null).ToArray();
+        Type[] top = matches.Where(type => type.DeclaringType is null).ToArray();
         if (top.Length == 1)
         {
             return top[0];
@@ -304,14 +304,14 @@ public sealed partial class RuleConstructionTests
     public void ConstructorAndRegistryRoutesMatchTheBaseCommit(string name)
     {
         Type type = TypeNamed(name);
-        using var fixture = new Fixture();
+        using Fixture fixture = new();
         bool engineObject = typeof(EngineObject).IsAssignableFrom(type);
         for (int route = 0; route < (engineObject ? 4 : 1); route++)
         {
-            var owner = new RuleOwner();
+            RuleOwner owner = new();
             object? value = null;
             string state;
-            var states = new List<string>();
+            List<string> states = new();
             try
             {
                 value = Create(type, EngineFixture.OwnerFor(type, owner), route, fixture);
@@ -336,11 +336,11 @@ public sealed partial class RuleConstructionTests
     public void NullOwnerRoutesKeepTheExactTypeAndIdenticalState(string name)
     {
         Type type = TypeNamed(name);
-        using var fixture = new Fixture();
+        using Fixture fixture = new();
         string? expected = null;
         for (int route = 0; route < 4; route++)
         {
-            var value = (EngineObject)Create(type, null!, route, fixture);
+            EngineObject value = (EngineObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
             Assert.Same(EngineClass.Of(type), value.EngineClass);
@@ -379,13 +379,13 @@ public sealed partial class RuleConstructionTests
     [Fact]
     public void VirtualClearAndCreateMoveControlSettingsKeepTheirOriginalPositions()
     {
-        using var fixture = new Fixture();
-        var settings = new ObservedAISettings(null!) { Holder = EngineFixture.Engine };
+        using Fixture fixture = new();
+        ObservedAISettings settings = new(null!) { Holder = EngineFixture.Engine };
         Assert.True(settings.SawInitializedFields);
         Assert.Equal(175, settings.MovePointsMax);
         Assert.Equal(-1, settings.Destination.X);
         settings.Dispose();
-        using var selector = new ObservedSelector();
+        using ObservedSelector selector = new();
         Assert.True(selector.SawPreAssignmentFields);
         Assert.NotNull(selector.MoveControlSettings);
         Assert.NotNull(selector.MoveSettingsList);
@@ -395,8 +395,8 @@ public sealed partial class RuleConstructionTests
     [Fact]
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
-        using var fixture = new Fixture();
-        var value = new CombatUnitSelectionControl(EngineFixture.Engine);
+        using Fixture fixture = new();
+        CombatUnitSelectionControl value = new(EngineFixture.Engine);
         try
         {
             Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
@@ -416,10 +416,10 @@ public sealed partial class RuleConstructionTests
         Type type = TypeNamed(name);
         for (int route = 0; route < 4; route++)
         {
-            using var fixture = new Fixture();
-            var owner = new RuleOwner();
-            var given = EngineFixture.OwnerFor(type, owner);
-            var value = Assert.IsAssignableFrom<EngineObject>(Create(type, given, route, fixture));
+            using Fixture fixture = new();
+            RuleOwner owner = new();
+            CustomNode given = EngineFixture.OwnerFor(type, owner);
+            EngineObject value = Assert.IsAssignableFrom<EngineObject>(Create(type, given, route, fixture));
             Assert.IsType(type, value);
             Assert.Same(given, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));

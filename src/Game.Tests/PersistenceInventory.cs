@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 namespace Aow.Game.Tests;
 
@@ -58,7 +59,7 @@ internal static class PersistenceInventory
 
     static PersistenceInventory()
     {
-        foreach (var field in typeof(OpCodes).GetFields(BindingFlags.Public | BindingFlags.Static))
+        foreach (FieldInfo field in typeof(OpCodes).GetFields(BindingFlags.Public | BindingFlags.Static))
         {
             if (field.GetValue(null) is not OpCode op)
             {
@@ -86,12 +87,12 @@ internal static class PersistenceInventory
 
     internal static IReadOnlyList<ExposedMember> ExposedMembers(params Assembly[] assemblies)
     {
-        var found = new List<ExposedMember>();
-        foreach (var assembly in assemblies)
+        List<ExposedMember> found = new();
+        foreach (Assembly assembly in assemblies)
         {
             if (assembly.GetName().Name is "Aow.Formats")
             {
-                foreach (var type in Types(assembly))
+                foreach (Type type in Types(assembly))
                 {
                     if (type.Namespace != TreeNamespace || !type.IsVisible)
                     {
@@ -109,7 +110,7 @@ internal static class PersistenceInventory
 
     internal static IReadOnlyList<ExposedMember> ExposedMembers(Type type)
     {
-        var found = Declared(type);
+        List<ExposedMember> found = Declared(type);
         found.Sort(CompareExposed);
         return found;
     }
@@ -118,21 +119,21 @@ internal static class PersistenceInventory
 
     private static Collected Collect(Assembly[] assemblies, Type? only)
     {
-        var reaches = new List<BackendReach>();
-        var uses = new List<ExposedMember>();
-        foreach (var assembly in assemblies)
+        List<BackendReach> reaches = new();
+        List<ExposedMember> uses = new();
+        foreach (Assembly assembly in assemblies)
         {
             bool usesCount = assembly.GetName().Name is "Aow.Game" or "Aow.Engine";
-            foreach (var type in Types(assembly))
+            foreach (Type type in Types(assembly))
             {
-                foreach (var method in Methods(type))
+                foreach (MethodBase method in Methods(type))
                 {
                     if (!InScope(method.DeclaringType, only))
                     {
                         continue;
                     }
 
-                    var (callerType, callerMethod) = Logical(method);
+                    (string? callerType, string? callerMethod) = Logical(method);
                     string caller = callerType + "." + callerMethod;
                     Walk(method, (target, token) =>
                     {
@@ -141,7 +142,7 @@ internal static class PersistenceInventory
                             reaches.Add(new BackendReach(caller, "unresolved method token 0x" + token.ToString("X8")));
                             return;
                         }
-                        var declaring = Definition(target.DeclaringType);
+                        Type? declaring = Definition(target.DeclaringType);
                         if (declaring is null)
                         {
                             return;
@@ -193,16 +194,16 @@ internal static class PersistenceInventory
     private static List<ExposedMember> Declared(Type type)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        var found = new List<ExposedMember>();
+        List<ExposedMember> found = new();
         string owner = type.FullName ?? type.Name;
-        foreach (var property in type.GetProperties(flags))
+        foreach (PropertyInfo property in type.GetProperties(flags))
         {
             if (Kind(property.Name, property.PropertyType, type) is { } kind)
             {
                 found.Add(new ExposedMember(owner, property.Name, kind, UsedBy: null));
             }
         }
-        foreach (var field in type.GetFields(flags))
+        foreach (FieldInfo field in type.GetFields(flags))
         {
             if (field.IsSpecialName)
             {
@@ -214,7 +215,7 @@ internal static class PersistenceInventory
                 found.Add(new ExposedMember(owner, field.Name, kind, UsedBy: null));
             }
         }
-        foreach (var method in type.GetMethods(flags))
+        foreach (MethodInfo method in type.GetMethods(flags))
         {
             if (method.IsSpecialName)
             {
@@ -231,7 +232,7 @@ internal static class PersistenceInventory
 
     private static ExposedMember? Exposure(MemberInfo member, Type declaring)
     {
-        if (member is MethodInfo method && TryProperty(method, out string name, out var type))
+        if (member is MethodInfo method && TryProperty(method, out string name, out Type? type))
         {
             if (Kind(name, type, declaring) is not { } kind)
             {
@@ -322,7 +323,7 @@ internal static class PersistenceInventory
             return false;
         }
 
-        var definition = type.GetGenericTypeDefinition();
+        Type definition = type.GetGenericTypeDefinition();
         return (definition == typeof(ReadOnlyMemory<>) || definition == typeof(Memory<>)) && type.GetGenericArguments()[0] == typeof(byte);
     }
 
@@ -332,7 +333,7 @@ internal static class PersistenceInventory
 
     private static bool Allowed(string typeName, string methodName)
     {
-        foreach (var site in AllowedSites)
+        foreach (AllowedSite site in AllowedSites)
         {
             if (site.TypeName == typeName && site.MethodName == methodName)
             {
@@ -354,7 +355,7 @@ internal static class PersistenceInventory
             return true;
         }
 
-        for (var type = declaring; type is not null; type = type.DeclaringType)
+        for (Type? type = declaring; type is not null; type = type.DeclaringType)
         {
             if (type == only)
             {
@@ -367,11 +368,11 @@ internal static class PersistenceInventory
 
     private static (string TypeName, string MethodName) Logical(MethodBase method)
     {
-        var type = method.DeclaringType ?? throw new InvalidOperationException("A method has no declaring type.");
+        Type type = method.DeclaringType ?? throw new InvalidOperationException("A method has no declaring type.");
         string name = method.Name;
         while (type.IsNested && type.Name.IndexOf('<') >= 0)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(type.Name, "<([^>]+)>");
+            Match match = Regex.Match(type.Name, "<([^>]+)>");
             if (match.Success && match.Groups[1].Value.Length > 0)
             {
                 name = match.Groups[1].Value;
@@ -384,7 +385,7 @@ internal static class PersistenceInventory
 
             type = outer;
         }
-        var methodMatch = System.Text.RegularExpressions.Regex.Match(name, "^<([^>]+)>");
+        Match methodMatch = Regex.Match(name, "^<([^>]+)>");
         if (methodMatch.Success && methodMatch.Groups[1].Value.Length > 0)
         {
             name = methodMatch.Groups[1].Value;
@@ -406,12 +407,12 @@ internal static class PersistenceInventory
     private static IEnumerable<MethodBase> Methods(Type type)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        foreach (var method in type.GetMethods(flags))
+        foreach (MethodInfo method in type.GetMethods(flags))
         {
             yield return method;
         }
 
-        foreach (var ctor in type.GetConstructors(flags))
+        foreach (ConstructorInfo ctor in type.GetConstructors(flags))
         {
             yield return ctor;
         }
@@ -451,7 +452,7 @@ internal static class PersistenceInventory
             return;
         }
 
-        var module = method.Module;
+        Module module = method.Module;
         int index = 0;
         while (index < il.Length)
         {
@@ -541,8 +542,8 @@ internal static class PersistenceInventory
 
     private static MethodBase? ResolveMethod(Module module, int token, MethodBase caller)
     {
-        var typeArgs = caller.DeclaringType is { IsGenericType: true } declaring ? declaring.GetGenericArguments() : null;
-        var methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
+        Type[]? typeArgs = caller.DeclaringType is { IsGenericType: true } declaring ? declaring.GetGenericArguments() : null;
+        Type[]? methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
         try
         {
             return module.ResolveMethod(token, typeArgs, methodArgs);
@@ -562,8 +563,8 @@ internal static class PersistenceInventory
 
     private static FieldInfo? ResolveField(Module module, int token, MethodBase caller)
     {
-        var typeArgs = caller.DeclaringType is { IsGenericType: true } declaring ? declaring.GetGenericArguments() : null;
-        var methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
+        Type[]? typeArgs = caller.DeclaringType is { IsGenericType: true } declaring ? declaring.GetGenericArguments() : null;
+        Type[]? methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
         try
         {
             return module.ResolveField(token, typeArgs, methodArgs);

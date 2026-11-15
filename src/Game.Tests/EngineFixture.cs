@@ -21,7 +21,7 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static void RestoreEngine()
     {
-        foreach (var pair in s_state)
+        foreach (KeyValuePair<FieldInfo, object?> pair in s_state)
         {
             pair.Key.SetValue(Engine, pair.Value);
         }
@@ -38,7 +38,7 @@ public sealed partial class EngineFixture : IDisposable
         GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
         {
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+            foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
                 if (!field.IsInitOnly)
                 {
@@ -56,7 +56,7 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static GamePack CreateGameSet(ImageLibraryManager manager)
     {
-        var value = GamePack.Create(null!, holder: Engine);
+        GamePack value = GamePack.Create(null!, holder: Engine);
         typeof(GamePack).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
         return value;
     }

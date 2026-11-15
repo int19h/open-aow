@@ -12,7 +12,7 @@ public sealed class TacticalBattleRoundDistanceTests
 {
     private static TacticalBattle Build(byte round, byte sideIndex)
     {
-        var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
+        TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
         _ = new CombatPlayer(combat.CombatData.Players) { SideIndex = sideIndex };
         combat.CombatData.Round = round;
         combat.CombatData.CurrentPlayer = 0;
@@ -32,9 +32,9 @@ public sealed class TacticalBattleRoundDistanceTests
     [Fact]
     public void ATacticalBattleWithoutAWallHasNoWallSituation()
     {
-        var combat = Build(1, 0);
-        var source = new TacticalBattleUnit(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x12 };
-        var target = new TacticalBattleUnit(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x34 };
+        TacticalBattle combat = Build(1, 0);
+        TacticalBattleUnit source = new(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x12 };
+        TacticalBattleUnit target = new(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x34 };
         Assert.Equal(WallSituation.None, combat.GetWallSituation(source, target));
     }
 }

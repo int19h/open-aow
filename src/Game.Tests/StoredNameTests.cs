@@ -28,11 +28,11 @@ public sealed class StoredNameTests
     [Fact]
     public void AnOldPropertyNameIsAnUnknownMember()
     {
-        var schema = FormatSchema.Current;
-        var resource = schema.Get("EngineResource");
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass resource = schema.Get("EngineResource");
         Assert.Null(resource.PropertyByName("ResourceID"));
         Assert.Equal("ResourceId", resource.PropertyById(1)!.Name);
-        var error = Assert.Throws<ConversionException>(() =>
+        ConversionException error = Assert.Throws<ConversionException>(() =>
             DocumentBackend.Read(new JsonObject().Add("ResourceID", new JsonInteger(5)), resource, schema, "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.ResourceID", error.Diagnostic.Path);

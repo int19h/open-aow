@@ -14,7 +14,7 @@ public sealed class SurfaceRectangleTests
 
     private static DataSurface MakeSource()
     {
-        var surface = new DataSurface(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null!);
+        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null!);
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
         for (int y = 0; y < SourceHeight; y++)
@@ -33,7 +33,7 @@ public sealed class SurfaceRectangleTests
     // with the pixels equal to key left out.
     private static int[,] Expected(int left, int top, int right, int bottom, int x, int y, int key = -1)
     {
-        var result = new int[DestinationWidth, DestinationHeight];
+        int[,] result = new int[DestinationWidth, DestinationHeight];
         for (int sy = top; sy < bottom; sy++)
         {
             for (int sx = left; sx < right; sx++)
@@ -61,8 +61,8 @@ public sealed class SurfaceRectangleTests
 
     private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = PixelFormats.GFXE_OK)
     {
-        var source = MakeSource();
-        var destination = new DataSurface(DestinationWidth, DestinationHeight, PixelFormats.pfRGB555, null!);
+        DataSurface source = MakeSource();
+        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormats.pfRGB555, null!);
         try
         {
             Assert.Equal(result, copy(source, destination));
@@ -143,9 +143,9 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void CapturedSurfaceTakesTheWholeSourceOrTheRectangle()
     {
-        var source = MakeSource();
-        var whole = new DataSurface(source, null);
-        var part = new DataSurface(source, new Rect(1, 1, 3, 3));
+        DataSurface source = MakeSource();
+        DataSurface whole = new(source, null);
+        DataSurface part = new(source, new Rect(1, 1, 3, 3));
         try
         {
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
@@ -179,7 +179,7 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void SubDescriptorsMoveTheFirstPixel()
     {
-        var source = MakeSource();
+        DataSurface source = MakeSource();
         try
         {
             LockedSurface full = default, part = default, sub = default;
@@ -208,10 +208,10 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void ControllersReturnThePrimaryRegion()
     {
-        using var owner = new Component(null!);
-        var displayController = new DisplayController(owner);
-        var sdl = new SdlDisplayController(new NullDisplayHost(), owner);
-        var region = new Rect(3, 4, 643, 484);
+        using Component owner = new(null!);
+        DisplayController displayController = new(owner);
+        SdlDisplayController sdl = new(new NullDisplayHost(), owner);
+        Rect region = new(3, 4, 643, 484);
         displayController.SetPrimarySurfaceRegion(region);
         sdl.SetPrimarySurfaceRegion(region);
         Assert.Equal(region, displayController.GetPrimarySurfaceRegion());

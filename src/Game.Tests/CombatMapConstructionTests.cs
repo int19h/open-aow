@@ -40,8 +40,8 @@ public sealed class CombatMapConstructionTests
     [Fact]
     public void RoutesStateOwnerPublicationOffsetsAndFixtureFailuresMatchBaseCommit()
     {
-        var previous = CombatMap.Current;
-        var actual = new JsonObject();
+        CombatMap previous = CombatMap.Current;
+        JsonObject actual = new();
         bool plain = EngineClassCreation.OwnerConstructor(typeof(CombatMap)) is not null;
         try
         {
@@ -51,17 +51,17 @@ public sealed class CombatMapConstructionTests
                 {
                     for (int route = 0; route < 4; route++)
                     {
-                        using var fixture = new OrderingRecording.Fixture(typeof(CombatMap));
-                        var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
+                        using OrderingRecording.Fixture fixture = new(typeof(CombatMap));
+                        ImageLibraryManagerObject entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
                         entry.ImageLibrary = new ImageLibrary(null!);
-                        var set = GamePack.Current;
+                        GamePack set = GamePack.Current;
                         if (failure == 2)
                         {
                             GamePack.Current = null!;
                         }
 
                         CombatMap.Current = null!;
-                        var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
+                        MapPublicationOwner? owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         CombatMap? value = null;
                         Exception? caught = null;
                         try
@@ -71,7 +71,7 @@ public sealed class CombatMapConstructionTests
                         catch (Exception error) when (error is not XunitException) { caught = error; }
                         finally { GamePack.Current = set; }
                         Assert.Equal(failure == 0, value is not null);
-                        var published = CombatMap.Current;
+                        CombatMap published = CombatMap.Current;
                         Assert.NotNull(published);
                         if (owner is not null)
                         {
@@ -79,7 +79,7 @@ public sealed class CombatMapConstructionTests
                         }
 
                         int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(CombatMap) && x.GetMethod()?.Name == "Dispose");
-                        var record = new JsonObject
+                        JsonObject record = new()
                         {
                             ["GlobalType"] = published.GetType().FullName,
                             ["OwnerMembership"] = owner?.Members.Contains(published),
@@ -93,7 +93,7 @@ public sealed class CombatMapConstructionTests
                         if (failure == 0)
                         {
                             Assert.Same(value, published);
-                            var mouse = Assert.IsType<CombatMapMouse>(value!.Mouse);
+                            CombatMapMouse mouse = Assert.IsType<CombatMapMouse>(value!.Mouse);
                             Assert.Equal(256, mouse.CursorMode);
                             Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.PositionStatus[i]));
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
@@ -119,12 +119,12 @@ public sealed class CombatMapConstructionTests
                 File.WriteAllText(target, actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));
                 return;
             }
-            using var stream = typeof(CombatMapConstructionTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.CombatMapConstructionSnapshot.json")!;
-            var expected = JsonNode.Parse(stream)!.AsObject();
+            using Stream stream = typeof(CombatMapConstructionTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.CombatMapConstructionSnapshot.json")!;
+            JsonObject expected = JsonNode.Parse(stream)!.AsObject();
             Assert.Equal(expected.Count, actual.Count);
-            foreach (var pair in actual)
+            foreach (KeyValuePair<string, JsonNode?> pair in actual)
             {
-                var baseline = expected[pair.Key]!.DeepClone();
+                JsonNode baseline = expected[pair.Key]!.DeepClone();
                 if (plain && !pair.Key.StartsWith("failure0", StringComparison.Ordinal))
                 {
                     // D1 accepts no destructor on fixture-only failures. Owner errors now survive.

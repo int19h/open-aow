@@ -13,10 +13,10 @@ public sealed class GlyphIndexTests
         string[] files = Directory.EnumerateFiles(InstalledFontsFactAttribute.Fonts, "*.ILB")
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         Assert.Equal(13, files.Length);
-        var previousClasses = ImageLibraries.LibraryImageClasses;
-        var previousBase = ImageLibraries.BaseImageLibraryPath;
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
+        string previousBase = ImageLibraries.BaseImageLibraryPath;
         // Shadowed fonts draw through the blend tables that GFXE.Initialize builds at game start.
-        var previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
+        (LookupBlendTableCollection100 AlphaBlendTable, LookupBlendTableCollection100 IntensityBlendTable, LookupBlendTableCollection100 BrightenBlendTable, LookupBlendTableCollection100 ShadowBlendTable, LookupBlendTableCollection100 LinearAlphaBlendTable) previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
         (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         GraphicsState.InitializeBlendTables(5, 31);
@@ -54,7 +54,7 @@ public sealed class GlyphIndexTests
 
     private static int CheckFont(string file)
     {
-        var font = new ImageLibraryFont(null!);
+        ImageLibraryFont font = new(null!);
         int drawn = 0;
         try
         {
@@ -77,7 +77,7 @@ public sealed class GlyphIndexTests
             {
                 string text = Cp1252.Text((byte)code);
                 Assert.True(text.Length == 1 && Cp1252.Byte(text[0]) == code, $"{name}: the one-char string of byte {code}");
-                var glyph = font.GetSafe(code);
+                LibraryImage? glyph = font.GetSafe(code);
                 Assert.True((glyph?.Width ?? 5) + font.CharacterDistance == font.TextWidth(text), $"{name}: TextWidth of byte {code}");
                 byte[] shown = Draw(width, height, lockedSurface => font.ShowText(24, 24, text, lockedSurface));
                 byte[] expected = Draw(width, height, lockedSurface => glyph?.Show(24, 24, lockedSurface));
@@ -97,7 +97,7 @@ public sealed class GlyphIndexTests
 
     private static byte[] Draw(int width, int height, Action<LockedSurface> draw)
     {
-        using var surface = new Dib16Surface(width, height, PixelFormats.pfRGB555);
+        using Dib16Surface surface = new(width, height, PixelFormats.pfRGB555);
         surface.Clear(0);
         LockedSurface lockedSurface = default;
         surface.Lock(ref lockedSurface);

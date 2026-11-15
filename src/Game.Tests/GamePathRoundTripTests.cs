@@ -9,6 +9,7 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Platform;
 
 namespace Aow.Game.Tests;
@@ -49,8 +50,8 @@ public sealed class GamePathRoundTripTests : IDisposable
 
     private static byte[] ReadBack(string file)
     {
-        using var stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead | Runtime.fmShareDenyWrite);
-        using var memory = new MemoryStream();
+        using Stream stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead | Runtime.fmShareDenyWrite);
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();
     }
@@ -61,10 +62,10 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AHeroListRoundTripsThroughTheGame()
     {
         UseLayers();
-        using var saved = new HeroLibrary(null!) { Holder = Engine, LibraryName = "Heroes of the test" };
+        using HeroLibrary saved = new(null!) { Holder = Engine, LibraryName = "Heroes of the test" };
         string file = Path.Combine(Folder, "test.oahl");
         Engine.WriteToFile(file, objectValue: saved, progress: null, profile: GameProfile.HeroList);
-        using var loaded = new HeroLibrary(null!) { Holder = Engine };
+        using HeroLibrary loaded = new(null!) { Holder = Engine };
         Engine.ReadFromFile(file, objectValue: loaded, progress: null, profile: GameProfile.HeroList);
         Assert.Equal("Heroes of the test", loaded.LibraryName);
         Assert.Equal(Image(saved), Image(loaded));
@@ -75,12 +76,12 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AnItemListRoundTripsThroughTheGame()
     {
         UseLayers();
-        using var saved = new ItemLibrary(null!) { Holder = Engine, Name = "Items of the test" };
+        using ItemLibrary saved = new(null!) { Holder = Engine, Name = "Items of the test" };
         new Item(null!) { Holder = Engine, ItemId = 1, Name = "Sword", Attack = -2, LibraryId = 3 }.SetOwner(saved);
         new Item(null!) { Holder = Engine, ItemId = 2, Name = "Shield", LibraryId = 4 }.SetOwner(saved);
         string file = Path.Combine(Folder, "test.oail");
         Engine.WriteToFile(file, objectValue: saved, progress: null, profile: GameProfile.ItemList);
-        using var loaded = new ItemLibrary(null!) { Holder = Engine };
+        using ItemLibrary loaded = new(null!) { Holder = Engine };
         Engine.ReadFromFile(file, objectValue: loaded, progress: null, profile: GameProfile.ItemList);
         Assert.Equal(2, loaded.Items.Count);
         Assert.Equal(Image(saved), Image(loaded));
@@ -93,11 +94,11 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AScenarioSetRoundTripsThroughTheGame()
     {
         UseLayers();
-        var set = Engine.HexSpriteSet;
-        var before = Image(set);
+        GamePack set = Engine.HexSpriteSet;
+        byte[] before = Image(set);
         string file = Path.Combine(Folder, "Release.ohss");
         Engine.SaveHss(file, progress: null, profile: GameProfile.ScenarioSet);
-        var document = GameFiles.Read(ReadBack(file)).Document;
+        JsonObject document = GameFiles.Read(ReadBack(file)).Document;
         Assert.Equal("scenario-set", ((JsonString)((JsonObject)document["$container"]!)["profile"]!).Value);
         Engine.LoadHss(file, edit: false, progress: null, profile: GameProfile.ScenarioSet);
         Assert.Same(set, Engine.HexSpriteSet);
@@ -112,10 +113,10 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void ATacticalMapRoundTripsThroughTheGame()
     {
         UseLayers();
-        var rows = new JsonArray();
+        JsonArray rows = new();
         for (int y = 0; y < 2; y++)
         {
-            var row = new JsonArray();
+            JsonArray row = new();
             for (int x = 0; x < 3; x++)
             {
                 row.Add(new JsonObject().Add("FieldFlags", new JsonInteger((x * 10) + y + 1)));
@@ -123,14 +124,14 @@ public sealed class GamePathRoundTripTests : IDisposable
 
             rows.Add(row);
         }
-        var level = new JsonObject()
+        JsonObject level = new JsonObject()
             .Add("$class", new JsonString("CombatMapLevel")).Add("$slot", new JsonInteger(0))
             .Add("Width", new JsonInteger(3)).Add("Height", new JsonInteger(2)).Add("Fields", rows).Add("Children", new JsonArray());
-        var container = new JsonObject()
+        JsonObject container = new JsonObject()
             .Add("$class", new JsonString("MapContainer")).Add("$slot", new JsonInteger(6))
             .Add("Width", new JsonInteger(3)).Add("Height", new JsonInteger(2)).Add("LevelCount", new JsonInteger(1))
             .Add("Children", new JsonArray().Add(level));
-        var root = new JsonObject()
+        JsonObject root = new JsonObject()
             .Add("$class", new JsonString("CombatMap")).Add("ViewPixelX", new JsonInteger(12)).Add("ViewPixelY", new JsonInteger(8))
             .Add("Children", new JsonArray().Add(container));
         byte[] constructed = GameFiles.Write(new JsonObject()
@@ -139,14 +140,14 @@ public sealed class GamePathRoundTripTests : IDisposable
             .Add("root", root));
         string source = Path.Combine(Folder, "constructed.ohsm");
         string file = Path.Combine(Folder, "saved.ohsm");
-        using (var stream = Runtime.Files.Open(source, mode: Runtime.fmCreate))
+        using (Stream stream = Runtime.Files.Open(source, mode: Runtime.fmCreate))
         {
             stream.Write(constructed);
         }
         // The game registers the combat classes when combat starts (CombatClasses.Register).
         EngineClass[] combat = [.. new[] { EngineClass.Of<CombatMap>(), EngineClass.Of<CombatMapLevel>() }.Where(c => !Engine.ClassTable.ContainsKey(c.ClassId))];
         Engine.RegisterEngineClasses(combat);
-        var previous = Engine.HexSpriteMap;
+        GameMap previous = Engine.HexSpriteMap;
         try
         {
             Engine.LoadHsm(source, edit: true, progress: null!, profile: GameProfile.TacticalMap);
@@ -178,10 +179,10 @@ public sealed class GamePathRoundTripTests : IDisposable
     // The image the storage stream writes, the state the old game path saved.
     private static byte[] Image(EngineObject objectValue)
     {
-        var factory = new EnginePersistableFactory(Engine);
-        var root = TreeWriter.Write(objectValue, factory: factory);
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(factory.ClassName(objectValue));
+        EnginePersistableFactory factory = new(Engine);
+        ObjectNode root = TreeWriter.Write(objectValue, factory: factory);
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(factory.ClassName(objectValue));
         return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 }

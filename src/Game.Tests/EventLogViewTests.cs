@@ -69,7 +69,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         if (eventValue is NegotiateRequestEventLog)
         {
-            var negotiateRequestEventLog = (NegotiateRequestEventLog)eventValue;
+            NegotiateRequestEventLog negotiateRequestEventLog = (NegotiateRequestEventLog)eventValue;
             if (negotiateRequestEventLog.Object == NegotiateObject.City)
             {
                 return "CityNegotiation";
@@ -77,10 +77,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
-                var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
+                ArmyHexSprite armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
-                    var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
+                    byte joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
                     return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
@@ -128,12 +128,12 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         if (eventValue is ArmyInfoEventLog)
         {
-            var armyInfoEventLog = (ArmyInfoEventLog)eventValue;
+            ArmyInfoEventLog armyInfoEventLog = (ArmyInfoEventLog)eventValue;
             return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
         }
         if (eventValue is PrisonersJoinEventLog)
         {
-            var troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
+            Troop troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
             return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (eventValue is EnterWizardsTowerEventLog)
@@ -334,7 +334,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
-            foreach (var mode in new[] { PlayerMagicEventLog.EventMode.SpellResearched, PlayerMagicEventLog.EventMode.OutOfMana, PlayerMagicEventLog.EventMode.StartResearch, (PlayerMagicEventLog.EventMode)3 })
+            foreach (PlayerMagicEventLog.EventMode mode in new[] { PlayerMagicEventLog.EventMode.SpellResearched, PlayerMagicEventLog.EventMode.OutOfMana, PlayerMagicEventLog.EventMode.StartResearch, (PlayerMagicEventLog.EventMode)3 })
             {
                 yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).Mode = mode);
             }
@@ -377,8 +377,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             _units = new Dictionary<int, Troop>(UnitFinds);
             _units.Add(key: -1, value: new Unit(null!) { Holder = EngineFixture.Engine });
             _map.UnitControl.UnitTable = _units;
-            var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
-            var level = new MapLevel(container);
+            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapLevel level = new(container);
             level.CreateMapFieldList(1, 1);
             _map.MapContainer = container;
             _field = container.GetField(0, 0, 0);
@@ -387,7 +387,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal EventLog Create(Type type)
         {
-            var log = (EventLog)EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
+            EventLog log = (EventLog)EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
             Assert.IsType(type, log);
             _created.Add(log);
             return log;
@@ -396,7 +396,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         // The negotiation at the field, with no army there (Joins null) or an army of one hero.
         internal void Negotiate(EventLog log, NegotiateObject what, bool? joins)
         {
-            var request = (NegotiateRequestEventLog)log;
+            NegotiateRequestEventLog request = (NegotiateRequestEventLog)log;
             request.Object = what;
             request.Player = Seated;
             request.Hex = new MapCoordinate(0, 0, 0);
@@ -406,7 +406,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             if (joins is bool joinsLocal)
             {
-                var army = new ArmyHexSprite(_field);
+                ArmyHexSprite army = new(_field);
                 army.Army.AddChild(new JoiningHero(joinsLocal));
                 Assert.Same(army, _field.FindOwnedChild(ArmyHexSprite.ClassId));
             }
@@ -414,7 +414,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal void SelectArmyView(EventLog log, byte selection)
         {
-            var info = (ArmyInfoEventLog)log;
+            ArmyInfoEventLog info = (ArmyInfoEventLog)log;
             if (info.ArmyView.Units.Count == 0)
             {
                 info.ArmyView.AddChild(new Unit(null!) { Holder = EngineFixture.Engine });
@@ -437,7 +437,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         public void Dispose()
         {
             StrategicMap.Current = _previousMap;
-            foreach (var log in _created)
+            foreach (EngineObject log in _created)
             {
                 _ = Record.Exception(log.Dispose);
             }
@@ -447,7 +447,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void EveryEventLogClassIsCovered()
     {
-        var types = EventLogTypes();
+        Type[] types = EventLogTypes();
         Assert.Equal(42, types.Length);
         Assert.Contains(typeof(EventLog), types);
         Assert.Equal(types.Select(t => t.Name).Order(StringComparer.Ordinal), s_expected.Keys.Order(StringComparer.Ordinal));
@@ -456,18 +456,18 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void ViewMatchesTheOldCascade()
     {
-        var mismatches = new List<string>();
-        var table = new StringBuilder();
-        using var scene = new Scene();
-        foreach (var type in EventLogTypes())
+        List<string> mismatches = new();
+        StringBuilder table = new();
+        using Scene scene = new();
+        foreach (Type type in EventLogTypes())
         {
-            var log = scene.Create(type);
-            var row = new List<string>();
-            foreach (var state in States(type))
+            EventLog log = scene.Create(type);
+            List<string> row = new();
+            foreach (State state in States(type))
             {
                 state.Apply(log, scene);
                 string old = OldView(log);
-                var view = log.View();
+                EventView view = log.View();
                 if (view.Name != old)
                 {
                     mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {old}");
@@ -506,10 +506,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
         }
 
-        var resolved = new StringBuilder();
-        foreach (var type in EventLogTypes())
+        StringBuilder resolved = new();
+        foreach (Type type in EventLogTypes())
         {
-            var declaring = type.GetMethod(nameof(EventLog.View))!.DeclaringType!;
+            Type declaring = type.GetMethod(nameof(EventLog.View))!.DeclaringType!;
             Type? arm = null;
             for (Type? t = type; t != null && arm == null; t = t.BaseType)
             {
@@ -528,12 +528,12 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void ExecuteAIReachesTheTwoOverridesOnly()
     {
-        using var scene = new Scene();
-        var mismatches = new List<string>();
-        foreach (var type in EventLogTypes())
+        using Scene scene = new();
+        List<string> mismatches = new();
+        foreach (Type type in EventLogTypes())
         {
-            var declaring = type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!;
-            var log = scene.Create(type);
+            Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!;
+            EventLog log = scene.Create(type);
             string old = OldExecuteAI(log);
             string actual = declaring == typeof(EventLog) ? "None" : declaring.Name;
             if (actual != old)
@@ -543,21 +543,21 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         Assert.Empty(mismatches);
 
-        var diplomatic = (DiplomaticActionEventLog)scene.Create(typeof(DiplomaticActionEventLog));
-        var action = new RecordingAction();
+        DiplomaticActionEventLog diplomatic = (DiplomaticActionEventLog)scene.Create(typeof(DiplomaticActionEventLog));
+        RecordingAction action = new();
         diplomatic.Action = action;
         diplomatic.ExecuteAI(3);
         Assert.Equal(new[] { (sbyte)3 }, action.Players);
 
         // The hero emerge AI looks up its hero first. No unit holds the id, so it stops there.
-        var emerge = (HeroEmergeEventLog)scene.Create(typeof(HeroEmergeEventLog));
+        HeroEmergeEventLog emerge = (HeroEmergeEventLog)scene.Create(typeof(HeroEmergeEventLog));
         emerge.UnitId = 4321;
         int finds = scene.UnitFinds.Finds;
         emerge.ExecuteAI(3);
         Assert.Equal(finds + 1, scene.UnitFinds.Finds);
 
         // Every other class leaves the unit table alone.
-        foreach (var type in EventLogTypes().Where(t => t != typeof(HeroEmergeEventLog) && t != typeof(DiplomaticActionEventLog)))
+        foreach (Type? type in EventLogTypes().Where(t => t != typeof(HeroEmergeEventLog) && t != typeof(DiplomaticActionEventLog)))
         {
             finds = scene.UnitFinds.Finds;
             scene.Create(type).ExecuteAI(3);
@@ -569,15 +569,15 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void TheScreenAcknowledgesUserEventsAndSkipsNone()
     {
-        using var scene = new Scene();
-        var screen = new MapEvents(null!);
-        var done = new List<EventLog>();
-        var user = scene.Create(typeof(UserEventLog));
+        using Scene scene = new();
+        MapEvents screen = new(null!);
+        List<EventLog> done = new();
+        EventLog user = scene.Create(typeof(UserEventLog));
         screen.TheMapExecuteEventLog(user, true, done.Add);
         Assert.Equal(new[] { user }, done);
-        foreach (var type in EventLogTypes())
+        foreach (Type type in EventLogTypes())
         {
-            var log = scene.Create(type);
+            EventLog log = scene.Create(type);
             if (log.View() != EventView.None)
             {
                 continue;
@@ -593,17 +593,17 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         Assert.Equal(35, MapEvents.EventRenderers.All.Count);
         Assert.False(MapEvents.EventRenderers.TryGet(EventView.None, out _));
-        var keys = typeof(EventView).GetProperties(BindingFlags.Public | BindingFlags.Static)
+        EventView[] keys = typeof(EventView).GetProperties(BindingFlags.Public | BindingFlags.Static)
             .Where(property => property.PropertyType == typeof(EventView))
             .Select(property => (EventView)property.GetValue(null)!).ToArray();
         Assert.Equal(36, keys.Length);
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());
-        foreach (var key in keys.Where(k => k != EventView.None))
+        foreach (EventView? key in keys.Where(k => k != EventView.None))
         {
             Assert.True(MapEvents.EventRenderers.TryGet(key, out _), $"no renderer for {key}");
         }
 
-        var duplicate = Assert.Throws<InvalidOperationException>(() =>
+        InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() =>
             MapEvents.EventRenderers.Add(EventView.Message, static (_, _, _, _) => { }));
         Assert.Contains("map event view", duplicate.Message);
     }

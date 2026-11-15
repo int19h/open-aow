@@ -19,16 +19,16 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ALoadedCombatObjectIsNotActivatedOnBothPaths()
     {
-        var classValue = s_schema.Get("CombatWall");
-        using var source = new CombatWall(null!) { Holder = EngineFixture.Engine, Id = 4, Position = 2 };
+        SchemaClass classValue = s_schema.Get("CombatWall");
+        using CombatWall source = new(null!) { Holder = EngineFixture.Engine, Id = 4, Position = 2 };
         source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
-        var image = Image(source);
-        var tree = TreeWriter.Write(source, factory: Factory);
+        byte[] image = Image(source);
+        ObjectNode tree = TreeWriter.Write(source, factory: Factory);
         source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         EqualJson(PilotImage.Decode(image, className: "CombatWall"), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall write");
         EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall original");
-        using var viaReadWrite = new CombatWall(null!) { Holder = EngineFixture.Engine };
-        using var viaPersist = new CombatWall(null!) { Holder = EngineFixture.Engine };
+        using CombatWall viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
+        using CombatWall viaPersist = new(null!) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
         Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), viaReadWrite.Status);
@@ -41,19 +41,19 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ACombatUnitTakesItsStoredTroopOnBothLoads()
     {
-        var classValue = s_schema.Get("CombatUnit");
-        var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
-        var source = new CombatUnit(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
+        SchemaClass classValue = s_schema.Get("CombatUnit");
+        Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
+        CombatUnit source = new(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
         source.SetUnit(hero);
         hero.Release();
-        var image = Image(source);
+        byte[] image = Image(source);
         Check("CombatUnit", objectValue: source);
-        using var viaReadWrite = new CombatUnit(null!) { Holder = EngineFixture.Engine };
-        using var viaPersist = new CombatUnit(null!) { Holder = EngineFixture.Engine };
+        using CombatUnit viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
+        using CombatUnit viaPersist = new(null!) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
-        var stream = Assert.IsType<Hero>(viaReadWrite.Troop);
-        var persisted = Assert.IsType<Hero>(viaPersist.Troop);
+        Hero stream = Assert.IsType<Hero>(viaReadWrite.Troop);
+        Hero persisted = Assert.IsType<Hero>(viaPersist.Troop);
         Assert.Equal("Fighter", persisted.HeroName);
         Assert.Equal(References(stream), References(persisted));
         EqualBytes(Image(viaReadWrite), actual: Image(viaPersist), label: "CombatUnit read");
@@ -67,7 +67,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void TheTranslateStreamVisitsTheCombatStringsTheOriginalReadWriteVisited()
     {
-        var dictionary = new Dictionary<string, string>
+        Dictionary<string, string> dictionary = new()
         {
             ["Archer"] = "Bogenschütze",
             ["Ambush"] = "Hinterhalt",
@@ -75,12 +75,12 @@ public sealed partial class PersistEquivalenceTests
             ["Painter"] = "Maler",
             ["Abilities"] = "Fähigkeiten",
         };
-        var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
-        using var unit = new CombatUnit(null!) { Holder = EngineFixture.Engine, Id = 3 };
+        Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+        using CombatUnit unit = new(null!) { Holder = EngineFixture.Engine, Id = 3 };
         unit.SetUnit(hero);
         hero.Release();
         unit.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
-        using (var stream = new DictionaryStream(dictionary))
+        using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(unit, 0);
             Assert.Contains("Archer", stream.Visited);
@@ -90,9 +90,9 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal("Bogenschütze", hero.HeroName);
         Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), unit.Status);
 
-        using var data = new CombatData(null!) { Holder = EngineFixture.Engine, Header = "Siege", Round = 4 };
-        var action = new UpdateHeaderCombatAction(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
-        using (var stream = new DictionaryStream(dictionary))
+        using CombatData data = new(null!) { Holder = EngineFixture.Engine, Header = "Siege", Round = 4 };
+        UpdateHeaderCombatAction action = new(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
+        using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(data, 0);
             stream.Object(action, 0);
@@ -101,11 +101,11 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal(("Belagerung", 4, "Hinterhalt"), (data.Header, data.Round, action.Header));
         action.Release();
 
-        using var settings = new ResourceEditSettings(null!) { Holder = EngineFixture.Engine };
+        using ResourceEditSettings settings = new(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(1, settings.GetEditId("Painter"));
-        using var plugins = new PluginControl(null!) { Holder = EngineFixture.Engine };
+        using PluginControl plugins = new(null!) { Holder = EngineFixture.Engine };
         plugins.UsedPlugins.Add("Abilities");
-        using (var stream = new DictionaryStream(dictionary))
+        using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(settings, 0);
             stream.Object(plugins, 0);
@@ -124,39 +124,39 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ACombatLogbookRoundTripsAsAPacket()
     {
-        var enlisted = EnlistCombatClasses();
+        EngineClass[] enlisted = EnlistCombatClasses();
         try
         {
-            using var logbook = new CombatLogbook(null!) { Holder = EngineFixture.Engine, PlayerEliminated = true };
-            var data = logbook.InitialData;
+            using CombatLogbook logbook = new(null!) { Holder = EngineFixture.Engine, PlayerEliminated = true };
+            CombatData data = logbook.InitialData;
             data.Header = "Siege";
             data.Round = 3;
             data.Location = data.Location with { X = 7 };
             data.TurnOrder.Add(1);
             _ = new CombatPlayer(data.Players) { Holder = EngineFixture.Engine, Player = 2, IndependentRelation = 1 };
-            var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
-            var unit = new CombatUnit(data.CombatObjects) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
+            Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+            CombatUnit unit = new(data.CombatObjects) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
             unit.SetUnit(hero);
             hero.Release();
-            var action = new UpdateHeaderCombatAction(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
+            UpdateHeaderCombatAction action = new(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
             logbook.Actions.AddChild(action);
             action.Release();
-            using var memory = new MemoryStream();
+            using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: logbook, progress: null);
-            var sent = memory.ToArray();
+            byte[] sent = memory.ToArray();
             memory.Position = 0;
-            var received = Assert.IsType<CombatLogbook>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            CombatLogbook received = Assert.IsType<CombatLogbook>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
             try
             {
                 Assert.True(received.PlayerEliminated);
-                var receivedData = received.InitialData;
+                CombatData receivedData = received.InitialData;
                 Assert.Equal(("Siege", 3, 7, 1), (receivedData.Header, receivedData.Round, receivedData.Location.X, receivedData.TurnOrder.Count));
                 Assert.Equal((sbyte)2, receivedData.Players[0].Player);
-                var receivedUnit = Assert.IsType<CombatUnit>(receivedData.CombatObjects.GetChild(0));
+                CombatUnit receivedUnit = Assert.IsType<CombatUnit>(receivedData.CombatObjects.GetChild(0));
                 Assert.Equal("Archer", Assert.IsType<Hero>(receivedUnit.Troop).HeroName);
                 Assert.Equal("Ambush", Assert.IsType<UpdateHeaderCombatAction>(received.Actions[0]).Header);
                 Assert.True(logbook.Compare(received, engine: EngineFixture.Engine));
-                using var again = new MemoryStream();
+                using MemoryStream again = new();
                 EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
                 EqualBytes(sent, actual: again.ToArray(), label: "combat logbook resent");
             }
@@ -184,7 +184,7 @@ public sealed partial class PersistEquivalenceTests
     [MemberData(nameof(CombatClasses))]
     public void ACombatClassWritesAndLoadsAlikeOnBothPaths(string className)
     {
-        var enlisted = EnlistCombatClasses();
+        EngineClass[] enlisted = EnlistCombatClasses();
         try
         {
             WriteAndLoadAlike(className);
@@ -197,10 +197,10 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> CombatClasses()
     {
-        var names = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var engineClass in EngineClass.All)
+        SortedSet<string> names = new(StringComparer.Ordinal);
+        foreach (EngineClass engineClass in EngineClass.All)
         {
-            var type = engineClass.Type;
+            Type type = engineClass.Type;
             if (type.Assembly != typeof(CombatUnit).Assembly || type.IsAbstract)
             {
                 continue;
@@ -223,8 +223,8 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        var data = new TheoryData<string>();
-        foreach (var name in names)
+        TheoryData<string> data = new();
+        foreach (string name in names)
         {
             data.Add(name);
         }
@@ -236,9 +236,9 @@ public sealed partial class PersistEquivalenceTests
     // holds only the classes of the engine's start. Each class id is enlisted once.
     private static EngineClass[] EnlistCombatClasses()
     {
-        var table = EngineFixture.Engine.ClassTable;
-        var added = new Dictionary<int, EngineClass>();
-        foreach (var engineClass in EngineClass.All)
+        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass> added = new();
+        foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(CombatUnit).Assembly)
             {
@@ -257,7 +257,7 @@ public sealed partial class PersistEquivalenceTests
 
             added[engineClass.ClassId] = engineClass;
         }
-        var classes = added.Values.ToArray();
+        EngineClass[] classes = added.Values.ToArray();
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
     }

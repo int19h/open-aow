@@ -30,8 +30,8 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) PredictRound()
     {
-        var attacker = new CombatPredictorUnit { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
-        var target = new CombatPredictorUnit { Enabled = 1, HitPoints = 10, CpuId = 7 };
+        CombatPredictorUnit attacker = new() { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
+        CombatPredictorUnit target = new() { Enabled = 1, HitPoints = 10, CpuId = 7 };
         attacker.Targets.AddABCD(target, 4, target.CpuId, 0);
         attacker.SetupRoundTargets(0);
         attacker.SortRoundTargets();
@@ -39,7 +39,7 @@ public sealed class ObjectLifetimeTests
         Assert.Equal(4, target.IncomingCombatValue);
         Assert.True(attacker.ExecuteRound());
         Assert.Equal(6, target.HitPoints);
-        var result = (new WeakReference(attacker), new WeakReference(target));
+        (WeakReference, WeakReference) result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
         return result;
     }
@@ -47,7 +47,7 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void PredictorUnitsAreCollectibleOnceTheirOwnerReleasesThem()
     {
-        var (attacker, target) = PredictRound();
+        (WeakReference? attacker, WeakReference? target) = PredictRound();
         Collect();
         Assert.False(attacker.IsAlive);
         Assert.False(target.IsAlive);
@@ -58,9 +58,9 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        using var owner = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var attacker = new CombatObject(owner);
-        var target = new CombatObject(owner);
+        using OwningNode owner = new(null!) { Holder = EngineFixture.Engine };
+        CombatObject attacker = new(owner);
+        CombatObject target = new(owner);
         attacker.AddTarget(target, 5, 0, 2);
         Assert.Equal(0, attacker.Targets.IndexOfItemA(target));
         Assert.Equal(0, target.TargetedBy.IndexOfItemA(attacker));
@@ -68,7 +68,7 @@ public sealed class ObjectLifetimeTests
         attacker.RemoveTarget(target);
         Assert.Equal(-1, target.TargetedBy.IndexOfItemA(attacker));
         attacker.AddTarget(target, 3, 0, 1);
-        var result = (new WeakReference(attacker), new WeakReference(target));
+        (WeakReference, WeakReference) result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
         target.SetOwner(null!);
         Assert.Equal(0, owner.Count);
@@ -78,7 +78,7 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void CombatObjectsAreCollectibleOnceTheirOwnerReleasesThem()
     {
-        var (attacker, target) = Target();
+        (WeakReference? attacker, WeakReference? target) = Target();
         Collect();
         Assert.False(attacker.IsAlive);
         Assert.False(target.IsAlive);
@@ -90,7 +90,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference ShowParticle()
     {
-        var particle = new WorldEffectHexSprite(null!) { Holder = EngineFixture.Engine, EffectType = WorldEffectType.EMParticle, Frame = 0 };
+        WorldEffectHexSprite particle = new(null!) { Holder = EngineFixture.Engine, EffectType = WorldEffectType.EMParticle, Frame = 0 };
         particle.Path.Add(new Point3D { X = 1, Y = 2, Z = 3 });
         Runtime.Dialogs = null;
         particle.Show(0, 0, default);
@@ -100,8 +100,8 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
-        var control = GamePack.Current.SpellControl;
-        var spell = new EarthMastery(null!, holder: EngineFixture.Engine);
+        SpellControl control = GamePack.Current.SpellControl;
+        EarthMastery spell = new(null!, holder: EngineFixture.Engine);
         WeakReference particle;
         control.RegisterSpell(spell);
         try

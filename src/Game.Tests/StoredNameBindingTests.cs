@@ -59,24 +59,24 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     [Fact]
     public void EverySchemaMemberNamesItsCSharpMember()
     {
-        var schema = FormatSchema.Current;
-        var failures = new List<string>();
-        var used = new HashSet<(string, string)>();
+        FormatSchema schema = FormatSchema.Current;
+        List<string> failures = new();
+        HashSet<(string, string)> used = new();
         int checkedNames = 0;
-        foreach (var classValue in schema.Classes)
+        foreach (SchemaClass classValue in schema.Classes)
         {
             if (classValue.Own.Count == 0)
             {
                 continue;
             }
 
-            var type = TypeOf(classValue.Name);
+            Type? type = TypeOf(classValue.Name);
             if (type is null)
             {
                 failures.Add(classValue.Name + " names no C# type");
                 continue;
             }
-            foreach (var property in classValue.Own)
+            foreach (SchemaProperty property in classValue.Own)
             {
                 checkedNames++;
                 bool bound = Member(type, property.Name) is not null;
@@ -97,7 +97,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 }
             }
         }
-        foreach (var key in s_unboundNames.Keys)
+        foreach ((string Class, string Name) key in s_unboundNames.Keys)
         {
             if (!used.Contains(key))
             {
@@ -115,14 +115,14 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     [Fact]
     public void EveryStoredIntegerComesFromTheMemberOfItsName()
     {
-        var schema = FormatSchema.Current;
-        var failures = new List<string>();
-        var skipped = new List<string>();
+        FormatSchema schema = FormatSchema.Current;
+        List<string> failures = new();
+        List<string> skipped = new();
         int objects = 0, values = 0;
-        var combatMap = CombatMap.Current;
-        foreach (var engineClass in EngineClass.All)
+        CombatMap combatMap = CombatMap.Current;
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
-            var classValue = schema.Find(engineClass.StorageKey);
+            SchemaClass? classValue = schema.Find(engineClass.StorageKey);
             if (classValue is null || classValue.Properties.Count == 0)
             {
                 continue;
@@ -132,15 +132,15 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             try
             {
                 objectValue = engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
-                var filled = Fill(objectValue, classValue);
+                List<(string Name, long Value)> filled = Fill(objectValue, classValue);
                 if (filled.Count == 0)
                 {
                     continue;
                 }
 
-                var document = PilotImage.Decode(Image(objectValue), className: classValue.Name);
+                JsonObject document = PilotImage.Decode(Image(objectValue), className: classValue.Name);
                 objects++;
-                foreach (var (name, expected) in filled)
+                foreach ((string? name, long expected) in filled)
                 {
                     if (document.Find(name)?.Value is not JsonInteger stored)
                     {
@@ -165,7 +165,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             }
         }
         output.WriteLine(objects + " objects, " + values + " stored integers checked, " + skipped.Count + " classes skipped");
-        foreach (var line in skipped)
+        foreach (string line in skipped)
         {
             output.WriteLine("skipped " + line);
         }
@@ -177,23 +177,23 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     [Fact]
     public void RecordFieldsAndEnumMembersStoreTheirCSharpNames()
     {
-        var records = new SortedSet<string>(StringComparer.Ordinal);
-        var enums = new SortedSet<string>(StringComparer.Ordinal);
+        SortedSet<string> records = new(StringComparer.Ordinal);
+        SortedSet<string> enums = new(StringComparer.Ordinal);
         Collect(SchemaSource(), records, enums);
         Assert.NotEmpty(records);
         Assert.NotEmpty(enums);
-        var failures = new List<string>();
+        List<string> failures = new();
         foreach (string name in records)
         {
             // A record is the image its [StoredRecord] binding names.
-            var info = RecordCatalog.Find(name) ?? throw new InvalidOperationException("The record " + name + " is not in the catalog.");
-            var type = info.Image;
+            RecordTypeInfo info = RecordCatalog.Find(name) ?? throw new InvalidOperationException("The record " + name + " is not in the catalog.");
+            Type type = info.Image;
             if (RecordTypeInfo.StoredName(type) != name)
             {
                 failures.Add("record " + name + " is bound to " + type.FullName + ", which stores " + RecordTypeInfo.StoredName(type));
             }
 
-            foreach (var field in info.Fields)
+            foreach (RecordFieldInfo field in info.Fields)
             {
                 if (Member(type, field.Name) is null)
                 {
@@ -203,7 +203,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         }
         foreach (string name in enums)
         {
-            var type = NameTable.Find(name);
+            Type type = NameTable.Find(name);
             Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: Enum.GetNames(type).Order(StringComparer.Ordinal).ToArray());
         }
         output.WriteLine(records.Count + " records and " + enums.Count + " enums checked");
@@ -229,7 +229,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             (typeof(ResourceCollection), "EResourceList"),
             (typeof(PlayerCollection), "PlayerList"),
         ];
-        foreach (var (type, stored) in pinned)
+        foreach ((Type? type, string? stored) in pinned)
         {
             Assert.Equal(stored, NameTable.Stored(type));
             Assert.NotEqual(type.Name, stored);
@@ -268,7 +268,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             return privateField;
         }
 
-        for (var current = type; current is not null; current = current.BaseType)
+        for (Type? current = type; current is not null; current = current.BaseType)
         {
             if (current.GetProperty(name, Instance | BindingFlags.DeclaredOnly) is { } property)
             {
@@ -283,9 +283,9 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     // and returns the values by stored name. The members of skip keep their values.
     internal static List<(string Name, long Value)> Fill(EngineObject objectValue, SchemaClass classValue, int first = 11, IReadOnlySet<string>? skip = null)
     {
-        var filled = new List<(string, long)>();
+        List<(string, long)> filled = new();
         int next = first;
-        foreach (var property in classValue.Properties)
+        foreach (SchemaProperty property in classValue.Properties)
         {
             if (skip?.Contains(property.Name) == true)
             {
@@ -336,17 +336,17 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
 
     private static byte[] Image(EngineObject objectValue)
     {
-        var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var root = TreeWriter.Write(objectValue, factory: factory);
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(factory.ClassName(objectValue));
+        EnginePersistableFactory factory = new(EngineFixture.Engine);
+        ObjectNode root = TreeWriter.Write(objectValue, factory: factory);
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(factory.ClassName(objectValue));
         return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 
     private static JsonObject SchemaSource()
     {
-        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.schema.json")!;
-        using var memory = new MemoryStream();
+        using Stream stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.schema.json")!;
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
         return (JsonObject)JsonReader.Parse(memory.ToArray(), "schema.json");
     }
@@ -356,7 +356,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         switch (value)
         {
             case JsonObject objectValue:
-                foreach (var member in objectValue.Members)
+                foreach (JsonMember member in objectValue.Members)
                 {
                     if (member.Value is JsonString { Value: var name })
                     {
@@ -373,7 +373,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 }
                 break;
             case JsonArray array:
-                foreach (var item in array.Items)
+                foreach (JsonValue item in array.Items)
                 {
                     Collect(item, records, enums);
                 }

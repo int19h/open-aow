@@ -77,7 +77,7 @@ public sealed class PreviewCacheTests : IDisposable
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alpha"));
         Install();
         Assert.Equal("Alpha", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
-        var time = File.GetLastWriteTimeUtc(Shipped("a.ahl"));
+        DateTime time = File.GetLastWriteTimeUtc(Shipped("a.ahl"));
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alphb"));
         File.SetLastWriteTimeUtc(Shipped("a.ahl"), time);
         Assert.Equal("Alphb", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
@@ -102,19 +102,19 @@ public sealed class PreviewCacheTests : IDisposable
     [Fact]
     public void ListingOfFortyFilesComesFromTheCacheTheSecondTime()
     {
-        var names = Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl").ToArray();
-        foreach (var name in names)
+        string[] names = Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl").ToArray();
+        foreach (string? name in names)
         {
             File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));
         }
 
         Install();
-        foreach (var name in names)
+        foreach (string? name in names)
         {
             Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
         }
 
-        foreach (var name in names)
+        foreach (string? name in names)
         {
             Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
         }
@@ -127,8 +127,8 @@ public sealed class PreviewCacheTests : IDisposable
     [Fact]
     public void CacheIsBoundedByImageBytesAndDropsTheOldestFirst()
     {
-        var cache = new PreviewCache(100);
-        var report = new GameFileReport { Operation = "preview", Profile = GameProfile.HeroList };
+        PreviewCache cache = new(100);
+        GameFileReport report = new() { Operation = "preview", Profile = GameProfile.HeroList };
         PreviewKey Key(string name) => new("root", name, "hero-list", 1, name);
         cache.Add(Key("a"), new PreviewEntry(new byte[40], report));
         cache.Add(Key("b"), new PreviewEntry(new byte[40], report));

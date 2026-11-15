@@ -124,8 +124,8 @@ public sealed class DiplomaticProposalTests
 
     private static MemoryStream Memory(string hex)
     {
-        var bytes = Convert.FromHexString(hex);
-        var memory = new MemoryStream();
+        byte[] bytes = Convert.FromHexString(hex);
+        MemoryStream memory = new();
         memory.WriteBuffer(bytes);
         memory.Position = 0;
         return memory;
@@ -133,7 +133,7 @@ public sealed class DiplomaticProposalTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new GameEngine(null!);
+        GameEngine engine = new(null!);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         engine.RegisterEngineClasses([EngineClass.Of<DiplomaticAction>(), EngineClass.Of<DiplomaticActionTokenEvent>(), EngineClass.Of<DiplomaticActionEventLog>()]);
         return engine;
@@ -141,14 +141,14 @@ public sealed class DiplomaticProposalTests
 
     private static string Write(GameEngine engine, EngineObject value)
     {
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         engine.StoreEngineObject(memory, objectValue: value, progress: null);
         return Hex(memory);
     }
 
     private static Translate Read<Translate>(GameEngine engine, string hex) where Translate : EngineObject
     {
-        using var memory = Memory(hex);
+        using MemoryStream memory = Memory(hex);
         return Assert.IsType<Translate>(engine.RetrieveEngineObject(memory, progress: null));
     }
 
@@ -177,40 +177,40 @@ public sealed class DiplomaticProposalTests
     [MemberData(nameof(CaseIndexes))]
     public void ProposalsWriteTheOldBytes(int index)
     {
-        var c = s_cases[index];
+        Case c = s_cases[index];
         GameEngine engine = CreateEngine();
         try
         {
-            var proposal = DiplomaticProposal.FromFields(c.Kind, c.Gold, c.Mana);
+            DiplomaticProposal proposal = DiplomaticProposal.FromFields(c.Kind, c.Gold, c.Mana);
             Assert.Equal(Expected(c.Kind, c.Gold, c.Mana), proposal);
             Assert.Equal((c.Kind, c.Gold, c.Mana), proposal.ToFields());
 
-            var action = Action(c);
+            DiplomaticAction action = Action(c);
             Assert.Equal(c.Alone, Write(engine, action));
             action.Release();
 
-            var tokenEvent = new DiplomaticActionTokenEvent(null!) { Holder = EngineFixture.Engine, Operation = 1 };
+            DiplomaticActionTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine, Operation = 1 };
             action = Action(c);
             tokenEvent.SetDiplomaticAction(action);
             action.Release();
             Assert.Equal(c.Token, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
-            var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
+            DiplomaticActionEventLog log = new(null!) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
             Assert.Equal(c.Logged, Write(engine, log));
             log.Dispose();
 
-            var loaded = Read<DiplomaticAction>(engine, c.Alone);
+            DiplomaticAction loaded = Read<DiplomaticAction>(engine, c.Alone);
             AssertCase(c, loaded);
             Assert.Equal(c.Alone, Write(engine, loaded));
             loaded.Release();
 
-            var loadedEvent = Read<DiplomaticActionTokenEvent>(engine, c.Token);
+            DiplomaticActionTokenEvent loadedEvent = Read<DiplomaticActionTokenEvent>(engine, c.Token);
             AssertCase(c, loadedEvent.Action);
             Assert.Equal(c.Token, Write(engine, loadedEvent));
             loadedEvent.Dispose();
 
-            var loadedLog = Read<DiplomaticActionEventLog>(engine, c.Logged);
+            DiplomaticActionEventLog loadedLog = Read<DiplomaticActionEventLog>(engine, c.Logged);
             AssertCase(c, loadedLog.Action);
             Assert.Equal(c.Logged, Write(engine, loadedLog));
             loadedLog.Dispose();
@@ -228,16 +228,16 @@ public sealed class DiplomaticProposalTests
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
-            using var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, Day = 5 };
+            using DiplomaticActionEventLog log = new(null!) { Holder = EngineFixture.Engine, Day = 5 };
             log.Action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, log);
-            var copy = Read<DiplomaticActionEventLog>(engine, bytes);
+            DiplomaticActionEventLog copy = Read<DiplomaticActionEventLog>(engine, bytes);
             Assert.Equal(message, copy.Action.Proposal.Message);
             Assert.Equal("The Dark Elves declare war on the Humans.\r\n\r\nSecond line.\r\n", copy.Action.Proposal.MessageText);
             Assert.Equal(bytes, Write(engine, copy));
 
             // The copy for an AI player's action list drops the message (Diplomacy.pas:938), the logged copy keeps it.
-            var listed = Read<DiplomaticActionEventLog>(engine, bytes);
+            DiplomaticActionEventLog listed = Read<DiplomaticActionEventLog>(engine, bytes);
             listed.Action.Proposal = listed.Action.Proposal with { Message = [] };
             Assert.Empty(listed.Action.Proposal.Message);
             Assert.Equal(message, copy.Action.Proposal.Message);
@@ -255,9 +255,9 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void UnknownKindsWriteBackUnchanged()
     {
-        foreach (var (kind, gold, mana) in new (byte, int, int)[] { (10, 7, 8), (200, 0, 0), (255, -1, 3) })
+        foreach ((byte kind, int gold, int mana) in new (byte, int, int)[] { (10, 7, 8), (200, 0, 0), (255, -1, 3) })
         {
-            var proposal = DiplomaticProposal.FromFields(kind, gold, mana);
+            DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind, gold, mana);
             Assert.Equal(new UnknownProposal(kind, gold, mana), proposal);
             Assert.Equal((kind, gold, mana), proposal.ToFields());
             Assert.Same(proposal, proposal.WithOffer(5, 5));
@@ -300,11 +300,11 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void TheEditorBuildsTheProposal()
     {
-        var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
+        DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
         action.Proposal = action.Proposal with { Message = DiplomaticProposal.Lines("Peace?\r\nPlease.") };
         action.Proposal = action.Proposal.WithOffer(120, 30);
         Assert.Equal(new OfferPeace(120, 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
-        var message = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
+        DiplomaticAction message = new(null!) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
         message.Proposal = message.Proposal.WithOffer(120, 30);
         Assert.Equal(new SendMessage(), message.Proposal);
         action.Release();
@@ -486,10 +486,10 @@ public sealed class DiplomaticProposalTests
     private static TextControl TextControl()
     {
         int[] withOther = [157, 160, 139, 142, 145, 148];
-        var control = new TextControl(null!) { Holder = EngineFixture.Engine };
+        TextControl control = new(null!) { Holder = EngineFixture.Engine };
         for (int id = 100; id <= 164; id++)
         {
-            var item = control.New();
+            TextControlItem item = control.New();
             item.Id = id;
             bool three = withOther.Any(first => id >= first && id <= first + 2);
             item.Text.Text = "Text " + id + ": %s and %s" + (three ? " about %s" : "") + "\r\nSecond line " + id;
@@ -502,15 +502,15 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        var previousMap = StrategicMap.Current;
+        StrategicMap previousMap = StrategicMap.Current;
         StrategicMap.Current = new StrategicMap(null!, holder: EngineFixture.Engine);
-        var control = TextControl();
+        TextControl control = TextControl();
         try
         {
             int checks = 0;
             foreach (byte kind in s_kinds)
             {
-                var proposal = DiplomaticProposal.FromFields(kind, 0, 0);
+                DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind, 0, 0);
                 Assert.Equal(OldView(kind), proposal.View.Name);
                 Assert.Equal(OldIcon(kind), proposal.Icon);
                 Assert.Equal(kind == 7, proposal.SignedAsOtherPlayer);
@@ -530,18 +530,18 @@ public sealed class DiplomaticProposalTests
                 {
                     foreach (sbyte source in new sbyte[] { 0, 1 })
                     {
-                        var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
+                        DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = proposal + " reaction " + reaction + " source " + source;
                         Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
                         checks += 2;
                     }
-                    foreach (var relation in new[] { DiplomaticRelation.Peace, DiplomaticRelation.War, DiplomaticRelation.Alliance, DiplomaticRelation.Unknown })
+                    foreach (DiplomaticRelation relation in new[] { DiplomaticRelation.Peace, DiplomaticRelation.War, DiplomaticRelation.Alliance, DiplomaticRelation.Unknown })
                     {
                         foreach (int alignment in new[] { 0, 1, 2 })
                         {
-                            var expected = new StringList();
-                            var actual = new StringList();
+                            StringList expected = new();
+                            StringList actual = new();
                             OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (DiplomaticActionReaction)reaction, relation, expected);
                             proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (DiplomaticActionReaction)reaction, relation);
                             Assert.True(expected.Text == actual.Text, proposal + " reaction " + reaction + " relation " + relation + " alignment " + alignment);

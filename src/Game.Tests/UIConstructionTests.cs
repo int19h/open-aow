@@ -60,7 +60,7 @@ public sealed class UIConstructionTests
 
     private static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -118,7 +118,7 @@ public sealed class UIConstructionTests
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
@@ -288,13 +288,13 @@ public sealed class UIConstructionTests
                     return (Component)resource.Invoke([]);
                 }
             }
-            var constructor = type.GetConstructor([typeof(Component)]);
+            ConstructorInfo? constructor = type.GetConstructor([typeof(Component)]);
             if (constructor is not null)
             {
                 return (Component)constructor.Invoke([owner]);
             }
 
-            var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
+            MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
             if (factory is not null)
             {
                 return (Component)factory.Invoke(null, [owner])!;
@@ -316,9 +316,9 @@ public sealed class UIConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         for (int owned = 0; owned < 2; owned++)
         {
-            using var fixture = new Fixture();
-            var owner = owned == 0 ? null : new ComponentOwner();
-            var states = new List<string>();
+            using Fixture fixture = new();
+            ComponentOwner? owner = owned == 0 ? null : new ComponentOwner();
+            List<string> states = new();
             Component? value = null;
             try
             {

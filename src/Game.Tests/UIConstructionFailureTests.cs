@@ -18,13 +18,13 @@ public sealed class UIConstructionFailureTests
     public void PlainComponentsPublishCompletedState(int family)
     {
         GameEngine engine = EngineFixture.Engine;
-        var previousLoaded = engine.OnHsmLoadedStore;
-        var previousClose = engine.OnHsmCloseStore;
+        EventStore<GameMap> previousLoaded = engine.OnHsmLoadedStore;
+        EventStore<GameMap> previousClose = engine.OnHsmCloseStore;
         engine.OnHsmLoadedStore = new EventStore<GameMap>();
         engine.OnHsmCloseStore = new EventStore<GameMap>();
         StrategicMap.Current = null!;
         CombatMap.Current = null!;
-        var owner = new Component(null!);
+        Component owner = new(null!);
         try
         {
             Component value = family switch

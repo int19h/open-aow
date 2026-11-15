@@ -22,9 +22,9 @@ public sealed class OwnExtensionWriteTests
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         GameEngine engine = EngineFixture.Engine;
-        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
-        var previousMap = engine.HexSpriteMap;
-        var previousLog = FileBoundary.Log;
+        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        GameMap previousMap = engine.HexSpriteMap;
+        Action<FileLogRecord>? previousLog = FileBoundary.Log;
         engine.SetHexSpriteMapWithoutCurrentMap(map);
         StrategicMap.Current = map;
         FileBoundary.Log = _log.Add;
@@ -37,7 +37,7 @@ public sealed class OwnExtensionWriteTests
             FileBoundary.Log = previousLog;
             engine.SetHexSpriteMapWithoutCurrentMap(previousMap);
             StrategicMap.Current = null!;
-            foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save")))
+            foreach (string file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save")))
             {
                 File.Delete(file);
             }
@@ -48,7 +48,7 @@ public sealed class OwnExtensionWriteTests
     public void TheAutosaveWritesTheOwnExtension() => Run((_, _) =>
     {
         new PlayerControl(null!) { Holder = EngineFixture.Engine }.AutoSave();
-        var write = Assert.Single(_log);
+        FileLogRecord write = Assert.Single(_log);
         Assert.Equal("write", write.Report.Operation);
         Assert.Equal(Save("autosave.oasg"), write.Path, ignoreCase: true);
         Assert.False(File.Exists(Save("autosave.asg")));
@@ -91,7 +91,7 @@ public sealed class OwnExtensionWriteTests
         byte[] original = [1, 2, 3];
         File.WriteAllBytes(Save("Foo.asg"), original);
         Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null!, GameProfile.WorldMap));
-        var write = Assert.Single(_log);
+        FileLogRecord write = Assert.Single(_log);
         Assert.Equal(Save("Foo.oasg"), write.Path, ignoreCase: true);
         Assert.Equal(original, File.ReadAllBytes(Save("Foo.asg")));
     });

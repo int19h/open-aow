@@ -11,14 +11,14 @@ public sealed class PaletteTests
     [Fact]
     public void TheStreamImageRoundTripsAndNamesEveryByte()
     {
-        var image = new byte[4 + 1024];
+        byte[] image = new byte[4 + 1024];
         new Random(5).NextBytes(image);
-        var palette = new Palette();
+        Palette palette = new();
         palette.LoadFromStream(new MemoryStream(image));
         Assert.Equal(BitConverter.ToInt32(image, 0), palette.PixelFormatId);
         for (int i = 0; i < 256; i++)
         {
-            var entry = palette[i];
+            Palette.Entry entry = palette[i];
             Assert.Equal(image[4 + (4 * i)], entry.Red);
             Assert.Equal(image[5 + (4 * i)], entry.Green);
             Assert.Equal(image[6 + (4 * i)], entry.Blue);
@@ -28,7 +28,7 @@ public sealed class PaletteTests
             Assert.Equal(entry.Value, palette.Pixels[i]);
         }
 
-        var saved = new MemoryStream();
+        MemoryStream saved = new();
         palette.SaveToStream(saved);
         Assert.Equal(image, saved.ToArray());
     }
@@ -36,7 +36,7 @@ public sealed class PaletteTests
     [Fact]
     public void EachChannelWritesOnlyItsBytes()
     {
-        var entry = new Palette.Entry(0x4433_2211u);
+        Palette.Entry entry = new(0x4433_2211u);
         Assert.Equal(0x4433_22AAu, (entry with { Red = 0xAA }).Value);
         Assert.Equal(0x4433_AA11u, (entry with { Green = 0xAA }).Value);
         Assert.Equal(0x44AA_2211u, (entry with { Blue = 0xAA }).Value);
@@ -52,8 +52,8 @@ public sealed class PaletteTests
     [InlineData(PixelFormats.pfRGB24, PixelFormats.pfRGB555)]
     public void RemapWritesTheLowWordAndKeepsTheHighBytes(int from, int to)
     {
-        var palette = new Palette { PixelFormatId = from };
-        var random = new Random(11);
+        Palette palette = new() { PixelFormatId = from };
+        Random random = new(11);
         for (int i = 0; i < 256; i++)
         {
             palette[i] = new((uint)random.Next() ^ ((uint)random.Next() << 16));
@@ -66,8 +66,8 @@ public sealed class PaletteTests
         Assert.Equal(to, palette.PixelFormatId);
         for (int i = 0; i < 256; i++)
         {
-            var old = new Palette.Entry(before[i]);
-            var (first, last) = from == PixelFormats.pfBGR24 ? (old.Red, old.Blue) : (old.Blue, old.Red);
+            Palette.Entry old = new(before[i]);
+            (byte first, byte last) = from == PixelFormats.pfBGR24 ? (old.Red, old.Blue) : (old.Blue, old.Red);
             int expected = to == PixelFormats.pfRGB565
                 ? ((first & 248) << 8) + ((old.Green & 252) << 3) + (last >> 3)
                 : ((first & 248) << 7) + ((old.Green & 248) << 2) + (last >> 3);
@@ -81,8 +81,8 @@ public sealed class PaletteTests
     [InlineData(PixelFormats.pfBGR24, 0x00FF_FFFFu)]
     public void CompareReadsTheBytesOfTheFormat(int format, uint compared)
     {
-        var first = new Palette { PixelFormatId = format };
-        var second = new Palette { PixelFormatId = format };
+        Palette first = new() { PixelFormatId = format };
+        Palette second = new() { PixelFormatId = format };
         for (int i = 0; i < 256; i++)
         {
             first[i] = second[i] = new((uint)(i * 0x0101_0101));
@@ -102,8 +102,8 @@ public sealed class PaletteTests
     [Fact]
     public void ThirtyTwoBitPalettesNeverCompareEqual()
     {
-        var first = new Palette { PixelFormatId = PixelFormats.pfXRGB32 };
-        var second = new Palette { PixelFormatId = PixelFormats.pfXRGB32 };
+        Palette first = new() { PixelFormatId = PixelFormats.pfXRGB32 };
+        Palette second = new() { PixelFormatId = PixelFormats.pfXRGB32 };
         Assert.Equal(0, PixelFormats.pfXRGB32 & 31);
         Assert.False(first.Compare(second));
     }

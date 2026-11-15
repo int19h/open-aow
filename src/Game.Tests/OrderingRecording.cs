@@ -20,7 +20,7 @@ internal static class OrderingRecording
     internal static void Check(string name, SortedDictionary<string, string> actual)
     {
         Assert.Equal(ConstructionSnapshot.Keys(name), actual.Keys);
-        foreach (var pair in actual)
+        foreach (KeyValuePair<string, string> pair in actual)
         {
             ConstructionSnapshot.Check(name, pair.Key, pair.Value);
         }
@@ -73,7 +73,7 @@ internal static class OrderingRecording
         internal Fixture(Type? type = null)
         {
             Runtime.RandSeed = 123456789;
-            var value = EngineFixture.CreateGameSet(Manager);
+            GamePack value = EngineFixture.CreateGameSet(Manager);
             if (type == typeof(ArmyHexSprite))
             {
                 value.UnitGraphicsResources = new UnitGFXResourceList(null!) { Holder = EngineFixture.Engine };
@@ -90,7 +90,7 @@ internal static class OrderingRecording
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
             Engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-            foreach (var descriptor in EngineClass.All.Where(x => x.Type == type))
+            foreach (EngineClass? descriptor in EngineClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEngineClasses([Engine.GetEngineClass(descriptor.ClassId)]); }
                 catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -112,7 +112,7 @@ internal static class OrderingRecording
 
     internal static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -170,7 +170,7 @@ internal static class OrderingRecording
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))

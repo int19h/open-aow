@@ -52,22 +52,22 @@ public sealed class MapNetSoundConstructionTests
     [MemberData(nameof(EngineCases))]
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
-        GameEngine engine = new GameEngine(null!);
-        var owner = new MapOwner();
+        GameEngine engine = new(null!);
+        MapOwner owner = new();
         CustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
-        var meta = EngineClass.Of(type);
+        EngineClass meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
         {
             engine.UnregisterEngineClasses([previous]);
         }
 
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
-        var direct = type == typeof(MapLevel) ? new MapLevel(argument)
+        EngineObject direct = type == typeof(MapLevel) ? new MapLevel(argument)
             : (EngineObject)Activator.CreateInstance(type, [argument])!;
         EngineObject[] values = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         try
         {
-            foreach (var value in values)
+            foreach (EngineObject value in values)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
@@ -78,7 +78,7 @@ public sealed class MapNetSoundConstructionTests
         }
         finally
         {
-            foreach (var value in values)
+            foreach (EngineObject value in values)
             {
                 value.Dispose();
             }
@@ -321,8 +321,8 @@ public sealed class MapNetSoundConstructionTests
     [Fact]
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
-        using var manager = new TokenManager(null!);
-        var control = new TokenControl(manager, 7);
+        using TokenManager manager = new(null!);
+        TokenControl control = new(manager, 7);
         Assert.Same(control, manager.TokenExecutor.TacticalBattleList[0]);
         Assert.Single(manager.TokenExecutor.TacticalBattleList);
         control.Dispose();
@@ -332,8 +332,8 @@ public sealed class MapNetSoundConstructionTests
     [Fact]
     public void SfxComponentInsertionPrecedesPrivateListAllocation()
     {
-        var owner = new ObservingComponent();
-        var value = new UnitSfxManager(owner);
+        ObservingComponent owner = new();
+        UnitSfxManager value = new(owner);
         Assert.True(owner.Observed);
         Assert.Same(owner, value.Owner);
         Assert.Equal(0, value.Sfx.Count);

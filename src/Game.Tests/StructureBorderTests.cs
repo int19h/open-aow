@@ -22,8 +22,8 @@ public sealed class StructureBorderTests
 
     private static LibraryImage Grab(ImageLibrary library, int height, int color)
     {
-        var surface = new Dib16Surface(Width, height, PixelFormats.pfRGB565);
-        var grab = new GrabInfo { FileName = "border.bmp", FindRectangles = false };
+        Dib16Surface surface = new(Width, height, PixelFormats.pfRGB565);
+        GrabInfo grab = new() { FileName = "border.bmp", FindRectangles = false };
         LockedSurface lockedSurface = default;
         try
         {
@@ -41,7 +41,7 @@ public sealed class StructureBorderTests
 
     private static int Pixel(int color)
     {
-        var surface = new Dib16Surface(1, 1, PixelFormats.pfRGB565);
+        Dib16Surface surface = new(1, 1, PixelFormats.pfRGB565);
         LockedSurface lockedSurface = default;
         surface.Clear(color);
         surface.Lock(ref lockedSurface);
@@ -58,19 +58,19 @@ public sealed class StructureBorderTests
         // (20 - 5) div 4 = 3, so the loop draws four middle tiles at rows 11, 7, 3 and -1. Only the
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
-        var library = new ImageLibrary(null!);
-        var target = new Dib16Surface(Width, height, PixelFormats.pfRGB565);
-        var previousClasses = ImageLibraries.LibraryImageClasses;
+        ImageLibrary library = new(null!);
+        Dib16Surface target = new(Width, height, PixelFormats.pfRGB565);
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
-            var structure = new BorderStructure(Grab(library, 1, TopColor), middle: Grab(library, 4, MiddleColor), bottom: Grab(library, 5, BottomColor));
+            BorderStructure structure = new(Grab(library, 1, TopColor), middle: Grab(library, 4, MiddleColor), bottom: Grab(library, 5, BottomColor));
             LockedSurface lockedSurface = default;
             Assert.Equal(PixelFormats.GFXE_OK, target.Clear(0));
             Assert.Equal(PixelFormats.GFXE_OK, target.Lock(ref lockedSurface));
             Assert.True(structure.ShowBorderImage(lockedSurface, new Rect(0, 0, Width, height)));
-            var rows = new int[height];
+            int[] rows = new int[height];
             for (int y = 0; y < height; y++)
             {
                 int row = lockedSurface.View().UInt16(y * lockedSurface.Pitch);

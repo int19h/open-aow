@@ -42,9 +42,9 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineChildrenAreItsControlNodeItsMapsAndItsSet()
     {
-        var engine = new GameEngine(null!);
-        var map = new GameMap(engine);
-        var set = new GamePack(null!, holder: EngineFixture.Engine);
+        GameEngine engine = new(null!);
+        GameMap map = new(engine);
+        GamePack set = new(null!, holder: EngineFixture.Engine);
         try
         {
             IChildSink<GameEngineChild> sink = engine;
@@ -68,13 +68,13 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineRefusesAnotherChildAtEveryWrite()
     {
-        var engine = new GameEngine(null!);
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
+        GameEngine engine = new(null!);
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        MapContainer container = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             int count = engine.Count;
-            var error = Assert.Throws<ArgumentException>(() => engine.AddChild(stranger));
+            ArgumentException error = Assert.Throws<ArgumentException>(() => engine.AddChild(stranger));
             Assert.Contains("GameEngine does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => engine.AddChild(container));
             Assert.Throws<ArgumentException>(() => engine.SetChild(count, stranger));
@@ -91,10 +91,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SetChildrenAreResourceListsTerrainControlsAndControlObjects()
     {
-        var set = new GamePack(null!, holder: EngineFixture.Engine);
-        var units = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var tokenEvent = new TokenEvent(null!) { Holder = EngineFixture.Engine };
+        GamePack set = new(null!, holder: EngineFixture.Engine);
+        UnitResourceList units = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        TokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             // The engine part of the constructor makes the hexagon and road controls, the map object
@@ -131,10 +131,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void MapPartsTakeTheirOwnTypeOfOwnerOnly()
     {
-        var map = new GameMap(null!) { Holder = EngineFixture.Engine };
-        var container = new MapContainer(map);
-        var level = new MapLevel(container);
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        MapContainer container = new(map);
+        MapLevel level = new(container);
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             Assert.Same(map, container.Owner);
@@ -168,14 +168,14 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SortedListAndSelectionTakeSpritesOnly()
     {
-        var map = new GameMap(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var first = new HexSprite(null!) { Holder = EngineFixture.Engine };
-        var second = new HexSprite(null!) { Holder = EngineFixture.Engine };
-        var list = map.DynamicFixedVisibleHexSprite;
+        GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        HexSprite first = new(null!) { Holder = EngineFixture.Engine };
+        HexSprite second = new(null!) { Holder = EngineFixture.Engine };
+        VisibilityList list = map.DynamicFixedVisibleHexSprite;
         try
         {
-            var error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
+            ArgumentException error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
             Assert.Contains("VisibilityList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => list.AddSortChild(stranger, 3));
             Assert.Equal(0, list.Count);
@@ -201,17 +201,17 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void ResourceAndSoundListsTakeTheirOwnKindOnly()
     {
-        var units = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
-        var resources = new ResourceCollection(null!) { Holder = EngineFixture.Engine };
-        var library = new SfxLibrary(null!) { Holder = EngineFixture.Engine };
-        var sequence = new SfxSequence(null!) { Holder = EngineFixture.Engine };
-        var pools = new PlayerStructureList(null!) { Holder = EngineFixture.Engine };
-        var face = new FaceResource(null!) { Holder = EngineFixture.Engine };
-        var sound = new Sfx(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        UnitResourceList units = new(null!) { Holder = EngineFixture.Engine };
+        ResourceCollection resources = new(null!) { Holder = EngineFixture.Engine };
+        SfxLibrary library = new(null!) { Holder = EngineFixture.Engine };
+        SfxSequence sequence = new(null!) { Holder = EngineFixture.Engine };
+        PlayerStructureList pools = new(null!) { Holder = EngineFixture.Engine };
+        FaceResource face = new(null!) { Holder = EngineFixture.Engine };
+        Sfx sound = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var error = Assert.Throws<ArgumentException>(() => units.AddChild(face));
+            ArgumentException error = Assert.Throws<ArgumentException>(() => units.AddChild(face));
             Assert.Contains("UnitResourceList does not take a child of type FaceResource", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => units.AddChild(stranger));
             Assert.Equal(0, resources.AddChild(face));
@@ -246,8 +246,8 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void RegisteredIncomeSourceCountsOnce()
     {
-        var player = new Player(null!) { Holder = EngineFixture.Engine };
-        var source = new FixedIncome();
+        Player player = new(null!) { Holder = EngineFixture.Engine };
+        FixedIncome source = new();
         player.RegisterIncomeSource(source);
         player.RegisterIncomeSource(source);
         Assert.Equal(7, player.Income);
@@ -259,17 +259,17 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void InsertedTokenEventKeepsItsPlaceAndTakesAReference()
     {
-        var events = new TokenEventList(null!) { Holder = EngineFixture.Engine };
-        var first = new TokenEvent(null!) { Holder = EngineFixture.Engine };
-        var second = new TokenEvent(null!) { Holder = EngineFixture.Engine };
-        var inserted = new TokenEvent(null!) { Holder = EngineFixture.Engine };
+        TokenEventList events = new(null!) { Holder = EngineFixture.Engine };
+        TokenEvent first = new(null!) { Holder = EngineFixture.Engine };
+        TokenEvent second = new(null!) { Holder = EngineFixture.Engine };
+        TokenEvent inserted = new(null!) { Holder = EngineFixture.Engine };
         events.Add(first);
         events.Add(second);
         events.Insert(1, inserted);
         Assert.Equal(new[] { first, inserted, second }, Enumerable.Range(0, events.Count).Select(index => events[index]));
         Assert.Equal(2, inserted.RefCount);
-        var budgets = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        AIBudgetList budgets = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => budgets.InsertChild(0, stranger));
         Assert.Equal(0, budgets.Count);
         stranger.Dispose();

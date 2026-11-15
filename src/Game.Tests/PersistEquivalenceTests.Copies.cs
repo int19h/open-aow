@@ -31,7 +31,7 @@ public sealed partial class PersistEquivalenceTests
     [MemberData(nameof(CopiedClasses))]
     public void AClassCopiesAssignsAndComparesAsTheStreamDid(string className)
     {
-        var enlisted = EnlistCopiedClasses();
+        EngineClass[] enlisted = EnlistCopiedClasses();
         try
         {
             WithDestroyingMap(_ => CopyAlike(className));
@@ -48,10 +48,10 @@ public sealed partial class PersistEquivalenceTests
     {
         WithUnitResource(resource => WithDestroyingMap(_ =>
         {
-            var army = new Army(null!) { Holder = EngineFixture.Engine };
-            var unit = new Unit(null!) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = 1 };
+            Army army = new(null!) { Holder = EngineFixture.Engine };
+            Unit unit = new(null!) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = 1 };
             unit.SetOwner(army);
-            var other = new Army(null!) { Holder = EngineFixture.Engine };
+            Army other = new(null!) { Holder = EngineFixture.Engine };
             SameCopies(army, other);
             Discard(other);
             Discard(army);
@@ -65,11 +65,11 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Source", Player = 2, LibraryId = 4, GroupId = 3 };
+            Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Source", Player = 2, LibraryId = 4, GroupId = 3 };
             PlainItem(itemId: 9, name: "Ring").SetOwner(hero.Inventory);
-            var other = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Other", Player = 5 };
+            Hero other = new(null!) { Holder = EngineFixture.Engine, HeroName = "Other", Player = 5 };
             SameCopies(hero, other);
-            var copy = (Hero)hero.Copy(EngineFixture.Engine);
+            Hero copy = (Hero)hero.Copy(EngineFixture.Engine);
             copy.GroupId = 8;
             Assert.True(hero.CompatibleHero(copy));
             Assert.Equal(StreamCompare(hero, copy), hero.Compare(copy, engine: EngineFixture.Engine));
@@ -87,19 +87,19 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ADiplomaticActionLogCopiesItsActionAsTheStreamDid()
     {
-        var enlisted = EnlistCopiedClasses();
+        EngineClass[] enlisted = EnlistCopiedClasses();
         try
         {
             WithDestroyingMap(_ =>
             {
-                var proposal = DiplomaticProposal.FromFields(kind: 9, gold: 70, mana: 5) with { Message = ["Hail", "Neighbor"] };
-                using var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
-                var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine };
+                DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind: 9, gold: 70, mana: 5) with { Message = ["Hail", "Neighbor"] };
+                using DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
+                DiplomaticActionEventLog log = new(null!) { Holder = EngineFixture.Engine };
                 log.SetDiplomaticAction(action);
                 Assert.NotSame(action, log.Action);
                 Assert.Equal(proposal, log.Action.Proposal);
                 EqualBytes(Image(StreamCopy(action)), actual: Image(log.Action), label: "DiplomaticAction copy");
-                var other = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine };
+                DiplomaticActionEventLog other = new(null!) { Holder = EngineFixture.Engine };
                 SameCopies(log, other);
                 Discard(other);
                 Discard(log);
@@ -116,26 +116,26 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void CombatDataAssignsAsTheStreamDid()
     {
-        var enlisted = EnlistCopiedClasses();
+        EngineClass[] enlisted = EnlistCopiedClasses();
         try
         {
             WithDestroyingMap(_ =>
             {
-                var data = new CombatData(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 1), Round = 2, Header = "Fight" };
+                CombatData data = new(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 1), Round = 2, Header = "Fight" };
                 data.TurnOrder.Add(1);
                 data.TurnOrder.Add(0);
                 new CombatParty(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 0), PlayerIndex = 1 }.SetOwner(data.Parties);
-                var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 1 };
-                var unit = new CombatUnit(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
+                Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 1 };
+                CombatUnit unit = new(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
                 unit.SetUnit(hero);
                 hero.Release();
                 unit.SetOwner(data.CombatObjects);
-                var logbook = new CombatLogbook(null!) { Holder = EngineFixture.Engine };
+                CombatLogbook logbook = new(null!) { Holder = EngineFixture.Engine };
                 logbook.SetInitialData(data);
-                var expected = new CombatData(null!) { Holder = EngineFixture.Engine };
+                CombatData expected = new(null!) { Holder = EngineFixture.Engine };
                 StreamAssign(expected, data);
                 EqualBytes(Image(expected), actual: Image(logbook.InitialData), label: "CombatLogbook initial data");
-                var other = new CombatData(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(9, 0, 0), Header = "Other" };
+                CombatData other = new(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(9, 0, 0), Header = "Other" };
                 SameCopies(data, other);
                 SameCopies(logbook, new CombatLogbook(null!) { Holder = EngineFixture.Engine });
                 Discard(other);
@@ -161,11 +161,11 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var data = new CombatData(null!) { Holder = EngineFixture.Engine, Round = 1 };
+            CombatData data = new(null!) { Holder = EngineFixture.Engine, Round = 1 };
             new TacticalBattleUnit(null!) { Holder = EngineFixture.Engine, Id = 5, Position = 2 }.SetOwner(data.CombatObjects);
-            var expected = new CombatData(null!) { Holder = EngineFixture.Engine, Round = 1 };
+            CombatData expected = new(null!) { Holder = EngineFixture.Engine, Round = 1 };
             new CombatUnit(null!) { Holder = EngineFixture.Engine, Id = 5, Position = 2 }.SetOwner(expected.CombatObjects);
-            var viaTree = new CombatData(null!) { Holder = EngineFixture.Engine };
+            CombatData viaTree = new(null!) { Holder = EngineFixture.Engine };
             viaTree.Assign(data, engine: EngineFixture.Engine);
             Assert.Equal(1, viaTree.CombatObjects.GetCount());
             Assert.IsType<CombatUnit>(viaTree.CombatObjects.GetChild(0));
@@ -182,13 +182,13 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var source = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
+            PlayerCollection source = new(null!) { Holder = EngineFixture.Engine };
             source.SetNumberOfPlayers(2);
             source.GetPlayers(1).Leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Chosen", Player = 1 };
             source.GetPlayers(2).Day = 120;
             source.GetPlayers(2).Name = "Second";
-            var viaTree = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
-            var viaStream = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
+            PlayerCollection viaTree = new(null!) { Holder = EngineFixture.Engine };
+            PlayerCollection viaStream = new(null!) { Holder = EngineFixture.Engine };
             viaTree.Assign(source, engine: EngineFixture.Engine);
             viaStream.SetNumberOfPlayers(source.GetNumberOfPlayers());
             for (int index = 0; index < viaStream.Count; index++)
@@ -214,18 +214,18 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AReferenceListCopiesAsTheStreamDidAndKeepsItsOwners()
     {
-        var list = new CombatActionList(null!) { Holder = EngineFixture.Engine };
-        var other = new CombatActionList(null!) { Holder = EngineFixture.Engine };
+        CombatActionList list = new(null!) { Holder = EngineFixture.Engine };
+        CombatActionList other = new(null!) { Holder = EngineFixture.Engine };
         EngineObject? copy = null;
         EngineObject? expected = null;
         try
         {
-            var free = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 9, SourceId = 3, TargetId = 4 };
+            DamageCombatAction free = new(null!) { Holder = EngineFixture.Engine, Damage = 9, SourceId = 3, TargetId = 4 };
             list.AddChild(free);
-            var owned = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 1 };
+            DamageCombatAction owned = new(null!) { Holder = EngineFixture.Engine, Damage = 1 };
             list.AddChild(owned);
             owned.SetOwnerWithoutNotify(list);
-            var elsewhere = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 2 };
+            DamageCombatAction elsewhere = new(null!) { Holder = EngineFixture.Engine, Damage = 2 };
             list.AddChild(elsewhere);
             elsewhere.SetOwnerWithoutNotify(other);
             copy = list.Copy(EngineFixture.Engine);
@@ -255,15 +255,15 @@ public sealed partial class PersistEquivalenceTests
     {
         WithUnitResource(_ =>
         {
-            var classes = new AbilityControl(null!) { Holder = EngineFixture.Engine };
+            AbilityControl classes = new(null!) { Holder = EngineFixture.Engine };
             SameObjectImage(classes, "AbilityControl", classTable: "game");
-            var resources = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
+            UnitResourceList resources = new(null!) { Holder = EngineFixture.Engine };
             new UnitResource(resources) { Race = 3, Attack = 5, ObtainValue = 50 };
             SameObjectImage(resources, "UnitResourceList", classTable: "game");
-            var library = new HeroLibrary(null!) { Holder = EngineFixture.Engine };
+            HeroLibrary library = new(null!) { Holder = EngineFixture.Engine };
             new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Library", Player = 1 }.SetOwner(library);
             SameObjectImage(library, "HeroLibrary", classTable: "game");
-            var games = new EmailGameList(null!) { Holder = EngineFixture.Engine };
+            EmailGameList games = new(null!) { Holder = EngineFixture.Engine };
             new EmailGame(null!) { Holder = EngineFixture.Engine, UniqueLocalId = 2, UniqueId = 17 }.SetOwner(games);
             SameObjectImage(games, "EmailGameList", classTable: "game");
             Discard(games);
@@ -282,19 +282,19 @@ public sealed partial class PersistEquivalenceTests
         string root = Path.Combine(Path.GetTempPath(), "open-aow-pe3h-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(Path.Combine(root, "root"));
         Directory.CreateDirectory(Path.Combine(root, "user"));
-        var previous = Runtime.Files;
+        IFileSystem previous = Runtime.Files;
         Runtime.Files = new LayeredFileSystem(Path.Combine(root, "root"), userDirectory: Path.Combine(root, "user"));
-        var resources = new HeroResourceList(null!) { Holder = EngineFixture.Engine };
-        var loaded = new HeroResourceList(null!) { Holder = EngineFixture.Engine };
-        var refused = new HeroResourceList(null!) { Holder = EngineFixture.Engine };
+        HeroResourceList resources = new(null!) { Holder = EngineFixture.Engine };
+        HeroResourceList loaded = new(null!) { Holder = EngineFixture.Engine };
+        HeroResourceList refused = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             string file = Path.Combine(root, "root", "HERORES.PFS");
             new HeroResource(resources) { Name = "Elf" };
             EngineFixture.Engine.WriteToFileCrc(file, objectValue: resources, progress: null);
             byte[] bytes;
-            using (var stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead))
-            using (var memory = new MemoryStream())
+            using (Stream stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead))
+            using (MemoryStream memory = new())
             {
                 stream.CopyTo(memory);
                 bytes = memory.ToArray();
@@ -303,7 +303,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.True(EngineFixture.Engine.ReadFromFileCrc(file, objectValue: loaded, progress: null));
             EqualBytes(Image(resources), actual: Image(loaded), label: "HERORES.PFS load");
             bytes[10] ^= 1;
-            using (var stream = Runtime.Files.Open(file, mode: Runtime.fmCreate))
+            using (Stream stream = Runtime.Files.Open(file, mode: Runtime.fmCreate))
             {
                 stream.Write(bytes);
             }
@@ -342,24 +342,24 @@ public sealed partial class PersistEquivalenceTests
             ("Release/HEROES.PFS", "HeroLibrary", "game", false),
             ("Release/ITEMS.PFS", "ItemLibrary", "game", false),
         ];
-        var enlisted = EnlistCopiedClasses();
-        var gameSet = GamePack.Current;
-        var previous = gameSet.UnitResources;
-        var unitResources = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
+        EngineClass[] enlisted = EnlistCopiedClasses();
+        GamePack gameSet = GamePack.Current;
+        UnitResourceList previous = gameSet.UnitResources;
+        UnitResourceList unitResources = new(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var unitBytes = File.ReadAllBytes(Path.Combine(InstalledSave.Root, "Release", "Unitres.pfs"));
+            byte[] unitBytes = File.ReadAllBytes(Path.Combine(InstalledSave.Root, "Release", "Unitres.pfs"));
             EngineFixture.Engine.ReadObjectImage(unitBytes[4..^4], objectValue: unitResources, progress: null, classTable: "game");
             gameSet.UnitResources = unitResources;
             WithDestroyingMap(_ =>
             {
-                foreach (var (relative, rootClass, table, crc) in files)
+                foreach ((string relative, string rootClass, string table, bool crc) in files)
                 {
-                    var bytes = File.ReadAllBytes(Path.Combine(InstalledSave.Root, relative));
-                    var image = crc ? bytes[4..^4] : bytes;
+                    byte[] bytes = File.ReadAllBytes(Path.Combine(InstalledSave.Root, relative));
+                    byte[] image = crc ? bytes[4..^4] : bytes;
                     int seed = Runtime.RandSeed;
-                    var viaStream = Blank(rootClass);
-                    var viaTree = Blank(rootClass);
+                    EngineObject viaStream = Blank(rootClass);
+                    EngineObject viaTree = Blank(rootClass);
                     try
                     {
                         if (table != "game")
@@ -372,7 +372,7 @@ public sealed partial class PersistEquivalenceTests
                             // image of the loaded list loads back into the same image.
                             Runtime.RandSeed = seed;
                             EngineFixture.Engine.ReadObjectImage(image, objectValue: viaTree, progress: null, classTable: table);
-                            var treeImage = EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table);
+                            byte[] treeImage = EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table);
                             Runtime.RandSeed = seed;
                             EngineFixture.Engine.ReadObjectImage(treeImage, objectValue: viaStream, progress: null, classTable: table);
                             EqualBytes(treeImage, actual: EngineFixture.Engine.WriteObjectImage(viaStream, progress: null, classTable: table), label: relative + " reload");
@@ -386,7 +386,7 @@ public sealed partial class PersistEquivalenceTests
                         Runtime.RandSeed = seed;
                         EngineFixture.Engine.ReadObjectImage(image, objectValue: viaTree, progress: null, classTable: table);
                         Assert.True(streamSeed == Runtime.RandSeed, relative + " ends on seed " + Runtime.RandSeed + ", the stream load on " + streamSeed);
-                        var written = WrittenImage(viaStream);
+                        byte[] written = WrittenImage(viaStream);
                         EqualBytes(written, actual: WrittenImage(viaTree), label: relative + " load");
                         EqualBytes(written, actual: EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table), label: relative + " write");
                         // The ability and spell controls load only the slots of registered
@@ -415,23 +415,23 @@ public sealed partial class PersistEquivalenceTests
 
     private static void CopyAlike(string className)
     {
-        var source = Blank(className);
-        var target = Blank(className);
-        var blank = Blank(className);
+        EngineObject source = Blank(className);
+        EngineObject target = Blank(className);
+        EngineObject blank = Blank(className);
         try
         {
-            var classValue = s_schema.Get(className);
+            SchemaClass classValue = s_schema.Get(className);
             StoredNameBindingTests.Fill(source, classValue: classValue, skip: s_sizes);
             StoredNameBindingTests.Fill(target, classValue: classValue, first: 130, skip: s_sizes);
             // An item sprite with no item removes itself when its item list changes.
-            foreach (var sprite in new[] { source, target, blank }.OfType<ItemHexSprite>())
+            foreach (ItemHexSprite sprite in new[] { source, target, blank }.OfType<ItemHexSprite>())
             {
                 PlainItem(itemId: 3, name: "Ring").SetOwner(sprite.Items);
             }
             // A class that refuses its field visit (a sort node) is not a copy case. The object
             // image raises. Copy finishes, because the object write leaves an empty tree when the
             // root fails.
-            var refused = Record.Exception(() => Image(source));
+            Exception refused = Record.Exception(() => Image(source));
             if (refused is not null)
             {
                 Assert.IsType<NotSupportedException>(refused);
@@ -487,8 +487,8 @@ public sealed partial class PersistEquivalenceTests
             Discard(viaStream);
             viaTree = null;
             viaStream = null;
-            var stream = viaStream = other.Copy(EngineFixture.Engine);
-            var tree = viaTree = other.Copy(EngineFixture.Engine);
+            EngineObject stream = viaStream = other.Copy(EngineFixture.Engine);
+            EngineObject tree = viaTree = other.Copy(EngineFixture.Engine);
             bool assigned = AlikeOutcome(
                 () => { Runtime.RandSeed = seed; StreamAssign(stream, source); streamSeed = Runtime.RandSeed; },
                 viaPersist: () => { Runtime.RandSeed = seed; tree.Assign(source, engine: EngineFixture.Engine); treeSeed = Runtime.RandSeed; },
@@ -534,8 +534,8 @@ public sealed partial class PersistEquivalenceTests
 
         EqualBytes(expected!, actual: actual!, label: className + " object image");
         int seed = Runtime.RandSeed;
-        var viaStream = Blank(className);
-        var viaTree = Blank(className);
+        EngineObject viaStream = Blank(className);
+        EngineObject viaTree = Blank(className);
         try
         {
             Runtime.RandSeed = seed;
@@ -559,7 +559,7 @@ public sealed partial class PersistEquivalenceTests
     // ObservableNode are part of the stream assignment below.
     private static bool AssignOverridden(Type type)
     {
-        var declaring = type.GetMethod(nameof(EngineObject.Assign), [typeof(EngineObject), typeof(GameEngine)])!.DeclaringType;
+        Type declaring = type.GetMethod(nameof(EngineObject.Assign), [typeof(EngineObject), typeof(GameEngine)])!.DeclaringType;
         return declaring != typeof(EngineObject) && declaring != typeof(CustomNode) && declaring != typeof(ObservableNode);
     }
 
@@ -567,8 +567,8 @@ public sealed partial class PersistEquivalenceTests
     // ReadEObject into it.
     private static EngineObject StreamCopy(EngineObject source)
     {
-        var image = WrittenImage(source);
-        var result = source.EngineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+        byte[] image = WrittenImage(source);
+        EngineObject result = source.EngineClass.CreateInstance(null!, holder: EngineFixture.Engine);
         ReadWritten(result, image);
         return result;
     }
@@ -578,7 +578,7 @@ public sealed partial class PersistEquivalenceTests
     // clears the node first.
     private static void StreamAssign(EngineObject target, EngineObject source)
     {
-        using var batch = target is ObservableNode node ? node.BeginUpdate() : default;
+        using ObservableNode.UpdateBatch batch = target is ObservableNode node ? node.BeginUpdate() : default;
         (target as CustomNode)?.Clear();
         ReadWritten(target, WrittenImage(source));
     }
@@ -612,10 +612,10 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> CopiedClasses()
     {
-        var names = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var engineClass in EngineClass.All)
+        SortedSet<string> names = new(StringComparer.Ordinal);
+        foreach (EngineClass engineClass in EngineClass.All)
         {
-            var type = engineClass.Type;
+            Type type = engineClass.Type;
             if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract)
             {
                 continue;
@@ -633,8 +633,8 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        var data = new TheoryData<string>();
-        foreach (var name in names)
+        TheoryData<string> data = new();
+        foreach (string name in names)
         {
             data.Add(name);
         }
@@ -646,9 +646,9 @@ public sealed partial class PersistEquivalenceTests
     // fixture engine holds only the classes of the engine's start. Each class id is enlisted once.
     private static EngineClass[] EnlistCopiedClasses()
     {
-        var table = EngineFixture.Engine.ClassTable;
-        var added = new Dictionary<int, EngineClass>();
-        foreach (var engineClass in EngineClass.All)
+        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass> added = new();
+        foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(GamePack).Assembly)
             {
@@ -662,7 +662,7 @@ public sealed partial class PersistEquivalenceTests
 
             added[engineClass.ClassId] = engineClass;
         }
-        var classes = added.Values.ToArray();
+        EngineClass[] classes = added.Values.ToArray();
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
     }

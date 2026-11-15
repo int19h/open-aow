@@ -38,13 +38,13 @@ public sealed class SweepConstructionTests
         private readonly int _previousSeed = Runtime.RandSeed;
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
-        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
+        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
+            GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
             StrategicMap.Current = null!;
             GamePack.Current.UnitGraphicsResources = null!;
@@ -64,7 +64,7 @@ public sealed class SweepConstructionTests
 
     private static string Snapshot(object value)
     {
-        var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
             if (item is null)
@@ -127,7 +127,7 @@ public sealed class SweepConstructionTests
                 return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             }
 
-            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+            SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
@@ -405,13 +405,13 @@ public sealed class SweepConstructionTests
 
     private static EngineObject Direct(Type type, CustomNode owner)
     {
-        var constructor = EngineClassCreation.OwnerConstructor(type);
+        ConstructorInfo? constructor = EngineClassCreation.OwnerConstructor(type);
         if (constructor is not null)
         {
             return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
         }
 
-        var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
+        MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
         if (factory is not null)
         {
             return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
@@ -430,11 +430,11 @@ public sealed class SweepConstructionTests
         {
             for (int route = 0; route < 4; route++)
             {
-                using var fixture = new Fixture();
-                var owner = owned == 0 ? null : new SweepOwner();
-                var given = EngineFixture.OwnerFor(type, owner!);
+                using Fixture fixture = new();
+                SweepOwner? owner = owned == 0 ? null : new SweepOwner();
+                CustomNode given = EngineFixture.OwnerFor(type, owner!);
                 EngineObject? value = null;
-                var states = new List<string>();
+                List<string> states = new();
                 try
                 {
                     value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
@@ -464,8 +464,8 @@ public sealed class SweepConstructionTests
 
     private static EngineObject Saved(Type type, CustomNode owner)
     {
-        using GameEngine engine = new GameEngine(null!);
-        var descriptor = EngineClass.Of(type);
+        using GameEngine engine = new(null!);
+        EngineClass descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -479,10 +479,10 @@ public sealed class SweepConstructionTests
     [InlineData("Aow.Game.Combat.CombatMoveControl")]
     public void HelperStateMatchesTheOriginalFactory(string name)
     {
-        using var fixture = new Fixture();
+        using Fixture fixture = new();
         Type type = typeof(Spell).Assembly.GetType(name)!;
         Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(GameMap)] : [];
-        var value = Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
+        object value = Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try
         {
             ConstructionSnapshot.Check("SweepConstruction", name, Snapshot(value));

@@ -32,14 +32,14 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Images))]
     public void ImagesKeepDefaultsAndOwner(Type type, Func<CustomImageLibrary, LibraryImage> create, Func<CustomImageLibrary, LibraryImage> direct)
     {
-        using var owner = new ImageLibrary(null!);
-        var descriptor = LibraryImageClass.Of(type);
+        using ImageLibrary owner = new(null!);
+        LibraryImageClass descriptor = LibraryImageClass.Of(type);
         Assert.Equal(type, descriptor.Type);
-        foreach (var construct in new[] { direct, create })
+        foreach (Func<CustomImageLibrary, LibraryImage>? construct in new[] { direct, create })
         {
-            foreach (var suppliedOwner in new CustomImageLibrary[] { null!, owner })
+            foreach (CustomImageLibrary suppliedOwner in new CustomImageLibrary[] { null!, owner })
             {
-                var image = construct(suppliedOwner);
+                LibraryImage image = construct(suppliedOwner);
                 Assert.Equal(type, image.GetType());
                 Assert.Same(descriptor, image.ImageClass);
                 Assert.Same(suppliedOwner, image.Owner);
@@ -81,8 +81,8 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Components))]
     public void ComponentsKeepDefaultsAndOwnership(Type type, Func<Component, Component> create)
     {
-        var owner = new Component(null!);
-        var value = create(owner);
+        Component owner = new(null!);
+        Component value = create(owner);
         Assert.Equal(type, value.GetType());
         Assert.Same(owner, value.Owner);
         Assert.Equal(1, owner.ComponentCount);
@@ -125,8 +125,8 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Components))]
     public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<Component, Component> create)
     {
-        using var owner = new Component(null!);
-        var value = create(owner);
+        using Component owner = new(null!);
+        Component value = create(owner);
         Assert.IsType(type, value);
         Assert.Same(owner, value.Owner);
         Assert.Equal(1, owner.ComponentCount);
@@ -138,30 +138,30 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PrivateHelpersKeepInitialState()
     {
-        var palette = new LibraryImagePalette();
+        LibraryImagePalette palette = new();
         Assert.NotNull(Field(palette, "_palette"));
-        var manager = new PaletteManager();
+        PaletteManager manager = new();
         Assert.NotNull(Field(manager, "Palettes"));
-        var imageLibraryManager = new ImageLibraryManager(null!);
-        var list = new ImageLibraryManagerList(imageLibraryManager);
+        ImageLibraryManager imageLibraryManager = new(null!);
+        ImageLibraryManagerList list = new(imageLibraryManager);
         Assert.Same(imageLibraryManager, Field(list, "_owner"));
         Assert.NotNull(Field(list, "HashTable"));
-        var sequences = new ImageSequenceList(imageLibraryManager, null!);
+        ImageSequenceList sequences = new(imageLibraryManager, null!);
         Assert.Same(imageLibraryManager, Field(sequences, "_imageLibraryManager"));
         Assert.Equal(0, sequences.Count);
-        var sequence = new ImageSequence(sequences);
+        ImageSequence sequence = new(sequences);
         Assert.Same(sequences, Field(sequence, "_owner"));
-        var matrix = new Matrix(3, 2);
+        Matrix matrix = new(3, 2);
         Assert.Equal(0, matrix.GetValue(2, 1));
-        var modes = new DisplayModeList();
+        DisplayModeList modes = new();
         Assert.NotNull(Field(modes, "_list"));
-        var blend = new BlendTable5Bit();
+        BlendTable5Bit blend = new();
         Assert.Equal(5, blend.Bits);
-        var blends = new BlendTableList();
+        BlendTableList blends = new();
         Assert.NotNull(Field(blends, "_list"));
-        var lookup = new LookupBlendTableCollection100();
+        LookupBlendTableCollection100 lookup = new();
         Assert.NotNull(Field(lookup, "_tables"));
-        foreach (var value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup })
+        foreach (object value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup })
         {
             ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
@@ -177,9 +177,9 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Surfaces))]
     public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, int format, int pitch)
     {
-        var palette = new Palette();
+        Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        var surface = create(palette);
+        Surface surface = create(palette);
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
         Assert.Equal(7, lockedSurface.Width);
@@ -201,9 +201,9 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PlainDataSurfaceCopiesPaletteAndAllocatesItsBuffer()
     {
-        var palette = new Palette();
+        Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        var surface = new DataSurface(7, 4, PixelFormats.pfPAL8, palette);
+        DataSurface surface = new(7, 4, PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette[0].Red);
         Assert.Equal(7, surface.Width);
@@ -219,8 +219,8 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PlainDisplayInitializesFrameRateAndOwner()
     {
-        using var owner = new Component(null!);
-        var display = new CustomDisplay(owner);
+        using Component owner = new(null!);
+        CustomDisplay display = new(owner);
         Assert.Same(owner, display.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(display, owner.Components[0]);
@@ -232,7 +232,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
-        var palette = new Palette();
+        Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
         Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
         Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
@@ -242,11 +242,11 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void ImageLibraryLayoutFlagsRunOnce()
     {
-        using var owner = new Component(null!);
-        var session = new LayoutSession();
-        var library = new ImageLibrary(owner);
+        using Component owner = new(null!);
+        LayoutSession session = new();
+        ImageLibrary library = new(owner);
         session.BeginRead(library);
-        var font = new ImageLibraryFont(owner);
+        ImageLibraryFont font = new(owner);
         session.BeginRead(font);
         Assert.Equal(2, owner.ComponentCount);
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
@@ -267,7 +267,7 @@ public sealed class GraphicsConstructionTests
         }
 
         string path = Path.Combine(directory, "AGENTS.md");
-        var stream = new FastLoadFileStream(path);
+        FastLoadFileStream stream = new(path);
         Span<byte> bytes = stackalloc byte[6];
         Assert.Equal(6, stream.Read(bytes));
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
@@ -279,9 +279,9 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using var source = new Dib16Surface(7, 4, PixelFormats.pfRGB555);
+        using Dib16Surface source = new(7, 4, PixelFormats.pfRGB555);
         source.Clear(255);
-        using var copy = new DataSurface(source, default);
+        using DataSurface copy = new(source, default);
         LockedSurface lockedSurface = default;
         copy.Lock(ref lockedSurface);
         Assert.Equal(7, lockedSurface.Width);
@@ -295,7 +295,7 @@ public sealed class GraphicsConstructionTests
     public void VirtualOwnerCallSeesBaseDefaultsBeforeDerivedBody()
     {
         LibraryImageClass.Register<ObservedImage>();
-        using var image = new ObservedImage(null!);
+        using ObservedImage image = new(null!);
         Assert.Equal(0, image.SeenDerivedValue);
         Assert.Equal(-1, image.SeenPosition);
         Assert.Equal(77, image.DerivedValue);
@@ -322,8 +322,8 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SdlHostCapturePrecedesOwnerCallbacks()
     {
-        using var owner = new DisplayObservingOwner();
-        var controller = new SdlDisplayController(new NullDisplayHost(), owner);
+        using DisplayObservingOwner owner = new();
+        SdlDisplayController controller = new(new NullDisplayHost(), owner);
         Assert.Equal(7, owner.X);
         Assert.Equal(9, owner.Y);
         Assert.Equal(1, owner.ComponentCount);
@@ -340,8 +340,8 @@ public sealed class GraphicsConstructionTests
         {
             if (operation == Operation.Insert && component is SdlDisplayController controller)
             {
-                var x = X;
-                var y = Y;
+                int x = X;
+                int y = Y;
                 controller.GetMousePosition(ref x, ref y);
                 X = x;
                 Y = y;

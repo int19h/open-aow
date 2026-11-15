@@ -53,7 +53,7 @@ public sealed class AtomicReplacementTests : IDisposable
             Directory.CreateDirectory(Path.GetDirectoryName(Old)!);
             File.WriteAllBytes(Old, HeroListImage());
         }
-        var files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
+        LayeredFileSystem files = new(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
         Runtime.Files = files;
         return files;
     }
@@ -62,15 +62,15 @@ public sealed class AtomicReplacementTests : IDisposable
     public void OriginalUserSaveIsReplacedByItsDocument()
     {
         Layers();
-        using var list = HeroList("Replaced");
+        using HeroLibrary list = HeroList("Replaced");
         FileBoundary.Save(Logical, GameProfile.HeroList, list);
         byte[] written = File.ReadAllBytes(Old);
         Assert.True(GameFiles.IsJsonCandidate(written));
         Assert.False(File.Exists(Temporary));
-        var reread = GameBoundary.PrepareLoad(written, Logical, GameProfile.HeroList, FormatMapping.Validators);
+        GameFileResult reread = GameBoundary.PrepareLoad(written, Logical, GameProfile.HeroList, FormatMapping.Validators);
         Assert.True(reread.Succeeded, reread.Report.Error?.ToString());
         Assert.Equal("Replaced", ((JsonString)((JsonObject)reread.Document!["root"]!)["LibraryName"]!).Value);
-        var record = Assert.Single(_log);
+        FileLogRecord record = Assert.Single(_log);
         Assert.True(record.Succeeded);
         Assert.Equal("user", record.Layer);
         Assert.Equal("write", record.Report.Operation);
@@ -82,8 +82,8 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         Layers();
         byte[] before = File.ReadAllBytes(Old);
-        using var list = HeroList("\u4e00");
-        var error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, list));
+        using HeroLibrary list = HeroList("\u4e00");
+        GameFileErrorException error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, list));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.False(error.Record.Succeeded);
@@ -92,7 +92,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void WriteFailureKeepsTheOldFileAndRemovesTheTemporary()
     {
-        var layers = Layers();
+        LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failWrite: true);
         Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
@@ -104,7 +104,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void ReplaceFailureKeepsTheOldFileAndRemovesTheTemporary()
     {
-        var layers = Layers();
+        LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failReplace: true);
         Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
@@ -128,7 +128,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void FileServiceWithoutReplacementRefusesTheSave()
     {
-        var layers = Layers();
+        LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new NoReplaceFiles(layers);
         Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
@@ -144,7 +144,7 @@ public sealed class AtomicReplacementTests : IDisposable
 
         public Stream Open(string path, int mode)
         {
-            var stream = inner.Open(path, mode);
+            Stream stream = inner.Open(path, mode);
             return failWrite && mode == Runtime.fmCreate ? new BrokenStream(stream) : stream;
         }
 

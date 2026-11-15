@@ -39,7 +39,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Runtime.MessageHandler = _ => { };
             try
             {
-                var session = new LayoutSession();
+                LayoutSession session = new();
                 UI.Load(session, module: new UIGraphics());
                 UI.Load(session, module: new UIFonts());
                 UI.Load(session, module: new General(UI));
@@ -98,7 +98,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public void SpellBookTurnsOnePagePerEventAndStopsAtTheEnds()
     {
         Show(_host.Spell.Book);
-        var book = _host.Spell;
+        SpellBook book = _host.Spell;
         book.Mode = 4;
         book.Page = 0;
         book.PageKind = 0;
@@ -134,7 +134,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public void WorldMapBookScrollsALongIntroAndTurnsThePageOverEmptySpace()
     {
         Show(_host.World.Book);
-        var map = _host.World;
+        WorldMap map = _host.World;
         map.BookAction = 0;
         map.BackButton.CaptureInput = true;
         map.NextButton.CaptureInput = true;
@@ -173,7 +173,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public void FileDialogSaveListAndDateListScrollTogether()
     {
         Show(_host.Files.Window);
-        var dialog = _host.Files;
+        FileDialogWindow dialog = _host.Files;
         Assert.Same(dialog.SaveScrollBar, dialog.SaveList.WheelScrollBar);
         Assert.Same(dialog.SaveScrollBar, dialog.DateList.VerticalScrollBar);
         dialog.SaveList.Items.Clear();
@@ -206,7 +206,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public void RealmColumnListScrollsTheSharedBar()
     {
         Show(_host.Realm.Window);
-        var realm = _host.Realm;
+        RealmWindow realm = _host.Realm;
         realm.CityPanel.SetVisibleWithoutUpdate(true);
         Assert.Same(realm.CityScrollBar, realm.CityNameList.WheelScrollBar);
         realm.CityNameList.Items.Clear();
@@ -227,7 +227,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public void MapPickerKeepsNameOrderAndTheFilledMapName()
     {
         Show(_host.Files.Window);
-        var dialog = _host.Files;
+        FileDialogWindow dialog = _host.Files;
         string directory = Path.Combine(Path.GetTempPath(), "open-aow-map-" + Guid.NewGuid().ToString("N"));
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
@@ -267,7 +267,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
 
     private static string[] Names(ListBox list)
     {
-        var names = new string[list.Items.Count];
+        string[] names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++)
         {
             names[i] = list.Items[i];

@@ -30,7 +30,7 @@ public sealed class EngineLeafConstructionTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new GameEngine(null!);
+        GameEngine engine = new(null!);
         return engine;
     }
 
@@ -40,10 +40,10 @@ public sealed class EngineLeafConstructionTests
     public void LeafCreationRoutesKeepTypeOwnerAndState(bool owned)
     {
         GameEngine engine = CreateEngine();
-        var owner = new LeafOwner();
+        LeafOwner owner = new();
         CustomNode argument = owned ? owner : null!;
         Type type = typeof(PluginControl);
-        var meta = EngineClass.Of(type);
+        EngineClass meta = EngineClass.Of(type);
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
         EngineObject direct = new PluginControl(argument);
         EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
@@ -51,7 +51,7 @@ public sealed class EngineLeafConstructionTests
         try
         {
             Assert.Equal(80, meta.ClassId);
-            foreach (var value in objects)
+            foreach (EngineObject value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
@@ -74,7 +74,7 @@ public sealed class EngineLeafConstructionTests
         finally
         {
             copy?.Dispose();
-            foreach (var value in objects)
+            foreach (EngineObject value in objects)
             {
                 value.Dispose();
             }
@@ -90,7 +90,7 @@ public sealed class EngineLeafConstructionTests
         {
             case PluginControl plugin:
                 Assert.Null(plugin.Engine);
-                var strings = Assert.IsType<StringList>(plugin.UsedPlugins);
+                StringList strings = Assert.IsType<StringList>(plugin.UsedPlugins);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
                 Assert.Equal(plugin, strings.OnChange!.Target);
                 Assert.Null(strings.OnChanging);
