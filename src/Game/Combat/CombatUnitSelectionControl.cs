@@ -42,8 +42,8 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
     public HexSprite MouseOverTarget { get; private set; }
 
-    public Point3DList RangedPath;
-    public DelphiList<RangedObstacle> Obstacles;
+    public Point3DList RangedPath { get; private set; }
+    public DelphiList<RangedObstacle> Obstacles { get; private set; }
 
     // AoWTC.pas:2733
     public override void Dispose()
@@ -339,7 +339,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
         MoveControlSettings.ArmyHexSprite = unitHexSprite;
         MoveControlSettings.Selection = 0;
         MoveControlSettings.SetDestinationPosition(X, Y, L);
-        unitHexSprite.Unit.Troop.CreateMovePointTable(out MoveControlSettings.MovePointTable);
+        var movePointTable = MoveControlSettings.MovePointTable;
+        unitHexSprite.Unit.Troop.CreateMovePointTable(out movePointTable);
+        MoveControlSettings.MovePointTable = movePointTable;
         CombatMap.Current.MoveControl.ProcessMove(MoveControlSettings);
         MoveSettingsList.GetMoveSettings(index).Path.Assign(MoveControlSettings.Path);
         MoveSettingsList.GetMoveSettings(index).MovePoints = unitHexSprite.Unit.MovePoints;
@@ -887,7 +889,11 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 var hexY3 = GetTacticalBattleUnitHexSprite().GetHexY();
                 var side = GetTacticalBattleUnitHexSprite().Unit.GetSide();
                 var tacticalBattleUnitHexSprite = GetTacticalBattleUnitHexSprite();
-                TacticalTables.MakeAbilityPath(side, (short)GetTacticalBattleUnitHexSprite().SelectedAbility, (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, ref RangedPath, ref Obstacles);
+                var rangedPath = RangedPath;
+                var obstacles = Obstacles;
+                TacticalTables.MakeAbilityPath(side, (short)GetTacticalBattleUnitHexSprite().SelectedAbility, (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, ref rangedPath, ref obstacles);
+                RangedPath = rangedPath;
+                Obstacles = obstacles;
             }
         }
 
@@ -1319,7 +1325,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
     {
         if (GetTacticalBattleUnitHexSprite() != null)
         {
-            GetTacticalBattleUnitHexSprite().Unit.Troop.CreateMovePointTable(out MoveControlSettings.MovePointTable);
+            var movePointTable = MoveControlSettings.MovePointTable;
+            GetTacticalBattleUnitHexSprite().Unit.Troop.CreateMovePointTable(out movePointTable);
+            MoveControlSettings.MovePointTable = movePointTable;
         }
 
         _pathInvalid = Set<PathKind>.Of(PathKind.Ranged);

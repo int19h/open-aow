@@ -115,7 +115,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                     {
                         if (!MainValidateMap(message.Payload.As<StringCollection>()))
                         {
-                            message.Data[0] = 1;
+                            var data = message.Data;
+                            data[0] = 1;
+                            message.Data = data;
                         }
                     }
                 }
@@ -214,7 +216,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             {
                 if (message.MessageId == 4608)
                 {
-                    UpdateAITarget(message.Param[0].As<AITargetQuery>().Info, ref message.Param[0].As<AITargetQuery>().Data);
+                    var data = message.Param[0].As<AITargetQuery>().Data;
+                    UpdateAITarget(message.Param[0].As<AITargetQuery>().Info, ref data);
+                    message.Param[0].As<AITargetQuery>().Data = data;
                     if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
                     {
                         message.Result = 1;
@@ -244,7 +248,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                                 {
                                     if (((StructureResource)Resource).ConnectRoads)
                                     {
-                                        message.Param[1] = 1;
+                                        var param = message.Param;
+                                        param[1] = 1;
+                                        message.Param = param;
                                     }
                                 }
                                 else
@@ -264,7 +270,10 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                                         {
                                             if (message.MessageId == 4391)
                                             {
-                                                if (GetDefenseRequirements((sbyte)message.Param[0].Int, ref message.Param[1].As<DefenseRequirementsQuery>().Requirements))
+                                                var requirements = message.Param[1].As<DefenseRequirementsQuery>().Requirements;
+                                                bool stored = GetDefenseRequirements((sbyte)message.Param[0].Int, ref requirements);
+                                                message.Param[1].As<DefenseRequirementsQuery>().Requirements = requirements;
+                                                if (stored)
                                                 {
                                                     message.Result = 1;
                                                 }
@@ -275,7 +284,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                                                 {
                                                     if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && (!StrategicMap.Current.FogEnabled || !Fogged))
                                                     {
-                                                        message.Param[0] = message.Param[0].Int + 3584;
+                                                        var param2 = message.Param;
+                                                        param2[0] = param2[0].Int + 3584;
+                                                        message.Param = param2;
                                                     }
                                                 }
                                             }
@@ -1352,12 +1363,16 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (lockedSurface.ClipRectangle.Right > R.Right)
             {
-                lockedSurface.ClipRectangle.Right = R.Right;
+                var clipRectangle = lockedSurface.ClipRectangle;
+                clipRectangle.Right = R.Right;
+                lockedSurface.ClipRectangle = clipRectangle;
             }
 
             if (lockedSurface.ClipRectangle.Bottom > R.Bottom)
             {
-                lockedSurface.ClipRectangle.Bottom = R.Bottom;
+                var clipRectangle2 = lockedSurface.ClipRectangle;
+                clipRectangle2.Bottom = R.Bottom;
+                lockedSurface.ClipRectangle = clipRectangle2;
             }
 
             height = R.Bottom - R.Top;

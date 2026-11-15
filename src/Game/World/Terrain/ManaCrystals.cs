@@ -66,10 +66,20 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             {
                 var query = message.Param[0].As<AITargetQuery>();
                 var info = new CrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
-                UpdateAITarget(ref info, ref query.Data.Priority);
-                query.Info.Player = info.Player;
-                query.Info.IndependentRelation = info.OtherPlayer;
-                query.Info.Mode = (AITargetMode)info.Kind;
+                var data = query.Data;
+                var priority = data.Priority;
+                UpdateAITarget(ref info, ref priority);
+                data.Priority = priority;
+                query.Data = data;
+                var info2 = query.Info;
+                info2.Player = info.Player;
+                query.Info = info2;
+                var info3 = query.Info;
+                info3.IndependentRelation = info.OtherPlayer;
+                query.Info = info3;
+                var info4 = query.Info;
+                info4.Mode = (AITargetMode)info.Kind;
+                query.Info = info4;
                 // { Original marks the message only when the resulting priority is negative. }
                 if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
                 {
@@ -171,9 +181,9 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     //   Remaining inherited declaration constraints are documented at local ABI adapters. }
     public struct CrystalAIInfo
     {
-        public sbyte Player;
-        public sbyte OtherPlayer;
-        public byte Kind;
+        public sbyte Player { get; init; }
+        public sbyte OtherPlayer { get; init; }
+        public byte Kind { get; init; }
     }
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource

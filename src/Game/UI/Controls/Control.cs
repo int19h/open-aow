@@ -162,10 +162,18 @@ public partial class Control : UIComponent
                     OwnerComponent.InvalidateRectangle(indexOf, ref r, this);
                 }
 
-                OldRectangle.Left = WinLeft;
-                OldRectangle.Top = WinTop;
-                OldRectangle.Right = WinWidth;
-                OldRectangle.Bottom = WinHeight;
+                var oldRectangle = OldRectangle;
+                oldRectangle.Left = WinLeft;
+                OldRectangle = oldRectangle;
+                var oldRectangle2 = OldRectangle;
+                oldRectangle2.Top = WinTop;
+                OldRectangle = oldRectangle2;
+                var oldRectangle3 = OldRectangle;
+                oldRectangle3.Right = WinWidth;
+                OldRectangle = oldRectangle3;
+                var oldRectangle4 = OldRectangle;
+                oldRectangle4.Bottom = WinHeight;
+                OldRectangle = oldRectangle4;
             }
             else
             {

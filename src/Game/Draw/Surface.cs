@@ -491,8 +491,12 @@ public partial class Surface : IDisposable
                 lockedSurface.DataIndex = lockedSurface.DataIndex + (int)(((uint)(R.Left * lockedSurface.BitCount)) >> 3) + R.Top * lockedSurface.Pitch;
                 lockedSurface.Width = R.Right - R.Left;
                 lockedSurface.Height = R.Bottom - R.Top;
-                lockedSurface.ClipRectangle.Right = lockedSurface.Width;
-                lockedSurface.ClipRectangle.Bottom = lockedSurface.Height;
+                var clipRectangle = lockedSurface.ClipRectangle;
+                clipRectangle.Right = lockedSurface.Width;
+                lockedSurface.ClipRectangle = clipRectangle;
+                var clipRectangle2 = lockedSurface.ClipRectangle;
+                clipRectangle2.Bottom = lockedSurface.Height;
+                lockedSurface.ClipRectangle = clipRectangle2;
             }
         }
         else

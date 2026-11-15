@@ -123,7 +123,9 @@ public partial class CombatFire : SingleHexSprite
             if (CombatMap.Current.CurrentCombatPlayer == _player)
             {
                 message.MessageId = 200711;
-                message.Param[0] = this;
+                var param = message.Param;
+                param[0] = this;
+                message.Param = param;
                 message.Result = -1;
                 var yhx = GetHexY();
                 var xhx = GetHexX();

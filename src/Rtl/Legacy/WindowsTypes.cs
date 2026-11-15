@@ -2,9 +2,10 @@ namespace Aow.Rtl;
 
 public struct GUID
 {
-    public int D1;
-    public ushort D2, D3;
-    public byte[] D4;
+    public int D1 { get; init; }
+    public ushort D2 { get; init; }
+    public ushort D3 { get; init; }
+    public byte[] D4 { get; init; }
 
     public static implicit operator GUID(string value)
     {

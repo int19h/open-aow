@@ -243,7 +243,12 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 flow.Player = request.AttackerPlayer;
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                 flow.Release();
-                if (request.ArmyId.RetrieveArmy(ref ArmyHexSprite, ref Selection))
+                var armyHexSprite = ArmyHexSprite;
+                var selection = Selection;
+                bool stored = request.ArmyId.RetrieveArmy(ref armyHexSprite, ref selection);
+                ArmyHexSprite = armyHexSprite;
+                Selection = selection;
+                if (stored)
                 {
                     while (Path.Count > 2)
                     {
@@ -570,8 +575,12 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             var hexX = ArmyHexSprite.GetHexX();
             combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, false);
             message.MessageId = 4359;
-            message.Param[0] = combat;
-            message.Param[1] = ArmyHexSprite;
+            var param = message.Param;
+            param[0] = combat;
+            message.Param = param;
+            var param2 = message.Param;
+            param2[1] = ArmyHexSprite;
+            message.Param = param2;
             message.Result = 0;
             field.SendMapFieldMessage(ref message);
             if (message.Result.Int == 0)
@@ -844,7 +853,9 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         moveControlSettings.ArmyHexSprite = army;
         moveControlSettings.Selection = selection;
         moveControlSettings.SetDestinationPosition(X, Y, L);
-        army.Army.CreateMovePointTable(selection, out moveControlSettings.MovePointTable);
+        var movePointTable = moveControlSettings.MovePointTable;
+        army.Army.CreateMovePointTable(selection, out movePointTable);
+        moveControlSettings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
         MoveArmyTokenEvent result = ((moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, moveControlSettings.Path, action, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>())));
         moveControlSettings.Release();

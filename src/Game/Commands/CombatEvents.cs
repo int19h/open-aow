@@ -38,7 +38,9 @@ internal static class CombatEvents
                 }
 
                 z = 0;
-                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
+                var path = effect.Path;
+                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, ref speed, ref vz, ref gravity, ref path);
+                effect.Path = path;
             }
         }
 

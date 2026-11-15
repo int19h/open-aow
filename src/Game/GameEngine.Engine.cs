@@ -215,9 +215,10 @@ public partial class GameEngine : OwningNode
     public void OutputDebugString(string S)
     {
         var notification = new EngineDebugNotification();
-        ref EngineDebugNotification.DebugInfo info = ref notification.Info;
+        EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = DebugChannel.User;
         info.Text = S;
+        notification.Info = info;
         DebugEventsStore.Raise(notification);
     }
 
@@ -225,9 +226,10 @@ public partial class GameEngine : OwningNode
     public void OutputDebugMessage(DebugChannel channel, string S)
     {
         var notification = new EngineDebugNotification();
-        ref EngineDebugNotification.DebugInfo info = ref notification.Info;
+        EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = channel;
         info.Text = S;
+        notification.Info = info;
         DebugEventsStore.Raise(notification);
     }
 

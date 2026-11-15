@@ -19,13 +19,15 @@ public partial class HighPrayer : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerText);
         SpellId = 102;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
         spellCombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1013

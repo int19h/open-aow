@@ -18,13 +18,15 @@ public partial class CallFlames : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_callFlamesText);
         SpellId = 113;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 8;
         spellCombatInfo.Radius = 1;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_callFlamesText = "Call Flames";

@@ -1015,7 +1015,9 @@ public sealed partial class PersistEquivalenceTests
         Check("CustomAbilityList", emptyByte);
         var residue = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
         residue.SetAbilityCount(1);
-        residue.AbilityBits[0] = 0x80;
+        var abilityBits = residue.AbilityBits;
+        abilityBits[0] = 0x80;
+        residue.AbilityBits = abilityBits;
         Check("CustomAbilityList", residue);
     }
 
@@ -1054,7 +1056,9 @@ public sealed partial class PersistEquivalenceTests
             list.SetAbilityCount(3);
             list.SetAbilitySet(0, 1);
             list.SetAbilitySet(1, 1);
-            list.AbilityBits[0] |= 0xF0;
+            var abilityBits = list.AbilityBits;
+            abilityBits[0] |= 0xF0;
+            list.AbilityBits = abilityBits;
             var image = Image(list);
             list.SetAbilitySet(1, 1);
             var classValue = s_schema.Get("CustomAbilityList");
@@ -1253,11 +1257,15 @@ public sealed partial class PersistEquivalenceTests
     public void AChampionByteOtherThanZeroOrOneRoundTripsThroughReadWrite()
     {
         using var source = new UnitResource(null!) { Holder = EngineFixture.Engine };
-        Unsafe.As<bool, byte>(ref source.Champion) = 2;
+        var champion = source.Champion;
+        Unsafe.As<bool, byte>(ref champion) = 2;
+        source.Champion = champion;
         var image = Image(source);
         using var loaded = new UnitResource(null!) { Holder = EngineFixture.Engine };
         Load(loaded, image);
-        Assert.Equal(2, Unsafe.As<bool, byte>(ref loaded.Champion));
+        var champion2 = loaded.Champion;
+        Assert.Equal(2, Unsafe.As<bool, byte>(ref champion2));
+        loaded.Champion = champion2;
         EqualBytes(image, Image(loaded), "champion 02");
     }
 

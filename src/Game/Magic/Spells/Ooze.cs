@@ -19,12 +19,14 @@ public partial class Ooze : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_oozeText);
         SpellId = 124;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
         spellCombatInfo.RepeatCount = 0;
         spellCombatInfo.Range = 8;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1635

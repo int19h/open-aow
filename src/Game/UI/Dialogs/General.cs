@@ -40,7 +40,7 @@ public partial class General : UIModule
     public bool MapVisible { get; set; }
     public bool TargetVisible { get; set; }
 
-    public UnitShowInfo UnitShowInfo;
+    public UnitShowInfo UnitShowInfo { get; private set; }
 
     // are part of UnitShowInfo
     public List<CombatAbilityRef> Abilities { get; private set; }
@@ -481,8 +481,12 @@ public partial class General : UIModule
     // AoWWinMan.pas:216
     public void GeneralCreate()
     {
-        UnitShowInfo.Direction = 3;
-        UnitShowInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+        var unitShowInfo = UnitShowInfo;
+        unitShowInfo.Direction = 3;
+        UnitShowInfo = unitShowInfo;
+        var unitShowInfo2 = UnitShowInfo;
+        unitShowInfo2.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+        UnitShowInfo = unitShowInfo2;
         Abilities = new List<CombatAbilityRef>();
     }
 

@@ -157,7 +157,9 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     var defense11 = GetDefense();
                     var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense11);
                     SetHitPoints(HitPoints - executeDamageRole11);
-                    message.Param[1] = 1;
+                    var param = message.Param;
+                    param[1] = 1;
+                    message.Param = param;
                     break;
                 case 200711:
                     RandSeed = StrategicMap.Current.Random(16777215);
@@ -294,7 +296,11 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out point.X, out point.Y);
+                var x = point.X;
+                var y = point.Y;
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+                point.X = x;
+                point.Y = y;
                 point.X = Random(20) + point.X + 6;
                 point.Y = Random(20) + point.Y - 20;
             }

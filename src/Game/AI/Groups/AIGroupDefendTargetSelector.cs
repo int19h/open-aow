@@ -123,7 +123,9 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         this._selector.SetTargetFoundHandler(TargetFoundEvent);
         this._selector.MovePointsMax = 150;
         this._selector.MovePointsMin = 0;
-        this._selector.TargetInfo.Mode = AITargetMode.Defend;
+        var targetInfo = this._selector.TargetInfo;
+        targetInfo.Mode = AITargetMode.Defend;
+        this._selector.TargetInfo = targetInfo;
 
         _pathStep = 7;
         _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
@@ -178,7 +180,9 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         newTarget.Data = target.Data;
         newTarget.Location = target.Location;
         newTarget.MovePoints = target.MovePoints;
-        newTarget.Data.Priority += Round((double)target.MovePoints * _movePointsFactor);
+        var data = newTarget.Data;
+        data.Priority += Round((double)target.MovePoints * _movePointsFactor);
+        newTarget.Data = data;
         if (_mode.Contains(ModeElement.CalculateMovePathBfs))
         {
             newTarget.PathStrength = GetMovePathBattleFieldStrength(target.MovePath);
@@ -203,8 +207,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         Reset();
         _selector.SourceLocation = control.Location;
         _selector.MovePointTable = control.MovePointTable;
-        _selector.TargetInfo.Player = control.Group.Player;
-        _selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
+        var targetInfo = _selector.TargetInfo;
+        targetInfo.Player = control.Group.Player;
+        _selector.TargetInfo = targetInfo;
+        var targetInfo2 = _selector.TargetInfo;
+        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        _selector.TargetInfo = targetInfo2;
         switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case PlayerType.Cpu2:

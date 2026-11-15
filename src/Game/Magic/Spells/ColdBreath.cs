@@ -18,12 +18,14 @@ public partial class ColdBreath : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_coldBreathText);
         SpellId = 108;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 4;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_coldBreathText = "Cold Breath";

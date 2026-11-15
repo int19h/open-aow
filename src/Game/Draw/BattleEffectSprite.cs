@@ -33,12 +33,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
     public int AbilityIndex { get; set; }
     public int SpellIndex { get; set; }
 
-    public Point3DList Path;
+    public Point3DList Path { get; internal set; }
 
     public int Variant { get; set; }
 
-    public int TargetX;
-    public int TargetY;
+    public int TargetX { get; internal set; }
+    public int TargetY { get; internal set; }
 
     public CombatObject Target { get; set; }
     public CombatAction CombatAction { get; set; }
@@ -103,12 +103,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                 var cos = Math.Cos((double)((double)j * pi) / 180);
                 var random = Random(radius);
                 var pathX = Path[0];
-                effect.Path[0].X = pathX.X + Round((double)cos * (random - radius / 2));
+                var path12 = effect.Path;
+                path12[0].X = pathX.X + Round((double)cos * (random - radius / 2));
+                effect.Path = path12;
                 var mathPI = Math.PI;
                 var sin = Math.Sin((double)((double)j * mathPI) / 180);
                 var random2 = Random(radius);
                 var pathY = Path[0];
-                effect.Path[0].Y = pathY.Y + Round((double)sin * (random2 - radius / 2)) / 2;
+                var path13 = effect.Path;
+                path13[0].Y = pathY.Y + Round((double)sin * (random2 - radius / 2)) / 2;
+                effect.Path = path13;
             }
         }
 
@@ -134,9 +138,13 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                 var xyz = new Point3D();
                 effect.Path.Add(xyz);
                 var pathX = Path[Frame];
-                effect.Path[0].X = pathX.X;
+                var path14 = effect.Path;
+                path14[0].X = pathX.X;
+                effect.Path = path14;
                 var path = Path[Frame];
-                effect.Path[0].Y = path.Y;
+                var path15 = effect.Path;
+                path15[0].Y = path.Y;
+                effect.Path = path15;
             }
         }
 
@@ -298,9 +306,13 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             var xyz = new Point3D();
                             effect.Path.Add(xyz);
                             var pathX = Path[Frame];
-                            effect.Path[0].X = pathX.X;
+                            var path16 = effect.Path;
+                            path16[0].X = pathX.X;
+                            effect.Path = path16;
                             var pathY = Path[Frame];
-                            effect.Path[0].Y = pathY.Y;
+                            var path17 = effect.Path;
+                            path17[0].Y = pathY.Y;
+                            effect.Path = path17;
                         }
 
                         break;
@@ -435,7 +447,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var random = Random(100);
                                         var random2 = Random(5);
                                         var random3 = Random(100);
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref effect.Path);
+                                        var path18 = effect.Path;
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref path18);
+                                        effect.Path = path18;
                                     }
                                 }
 
@@ -452,7 +466,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         gravity = (float)0.5;
                                         vz = (float)((double)Random(10) / 10);
                                         z = 100;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path19 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path19);
+                                        effect.Path = path19;
                                     }
                                 }
 
@@ -471,7 +487,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var random = Random(100);
                                         var random2 = Random(5);
                                         var random3 = Random(100);
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref effect.Path);
+                                        var path20 = effect.Path;
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref path20);
+                                        effect.Path = path20;
                                     }
                                 }
 
@@ -488,7 +506,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         gravity = (float)0.5;
                                         vz = (float)((double)Random(10) / 10);
                                         z = 100;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path21 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path21);
+                                        effect.Path = path21;
                                     }
                                 }
 
@@ -511,7 +531,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path22 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path22);
+                                        effect.Path = path22;
                                     }
                                 }
 
@@ -546,7 +568,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path23 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path23);
+                                        effect.Path = path23;
                                     }
                                 }
 
@@ -578,7 +602,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         z = 0;
                                         var pathY = Path[i];
                                         var pathZ = Path[i];
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path24 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path24);
+                                        effect.Path = path24;
                                     }
                                 }
 
@@ -601,7 +627,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathZ = Path[count9 - 1];
                                         var count10 = Path.Count;
                                         var pathX = Path[count10 - 1];
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path25 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path25);
+                                        effect.Path = path25;
                                     }
                                 }
 
@@ -639,7 +667,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + Frame / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        var path26 = effect.Path;
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + Frame / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path26);
+                                        effect.Path = path26;
                                     }
                                 }
 
@@ -657,7 +687,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - Frame) / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        var path27 = effect.Path;
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - Frame) / 4, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path27);
+                                        effect.Path = path27;
                                     }
                                 }
 
@@ -675,7 +707,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame - 60) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        var path28 = effect.Path;
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame - 60) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path28);
+                                        effect.Path = path28;
                                     }
                                 }
 
@@ -693,7 +727,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathY = Path[0];
                                         var random2 = Random(2);
                                         var random3 = Random(10);
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - Frame) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref effect.Path);
+                                        var path29 = effect.Path;
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - Frame) / 2, i % 6 * 60 + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path29);
+                                        effect.Path = path29;
                                     }
                                 }
 
@@ -731,7 +767,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var random2 = Random(10);
                                         var pathX = Path[0];
                                         var path = Path[0];
-                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + Round((double)sin * (random + y)) / 2, 75, ref effect.Path);
+                                        var path30 = effect.Path;
+                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + Round((double)sin * (random + y)) / 2, 75, ref path30);
+                                        effect.Path = path30;
                                         if (i % 10 == 0)
                                         {
                                             k = 1;
@@ -745,7 +783,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 var count8 = effect.Path.Count;
                                                 var path3 = effect.Path[count8 - 1];
                                                 var path4 = Path[0];
-                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, k * 5 + 75, ref effect2.Path);
+                                                var path31 = effect2.Path;
+                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, k * 5 + 75, ref path31);
+                                                effect2.Path = path31;
                                             }
                                         }
                                     }
@@ -757,7 +797,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 var path5 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, path5.Y, out x, out y);
                                 message.MessageId = 200720;
-                                message.Param[0] = 1;
+                                var param = message.Param;
+                                param[0] = 1;
+                                message.Param = param;
                                 message.Result = -1;
                                 {
                                     i = 1;
@@ -774,7 +816,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 var path6 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, path6.Y, out x, out y);
                                 message.MessageId = 200720;
-                                message.Param[0] = 2;
+                                var param2 = message.Param;
+                                param2[0] = 2;
+                                message.Param = param2;
                                 message.Result = -1;
                                 {
                                     i = 1;
@@ -790,7 +834,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 var path7 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, path7.Y, out x, out y);
                                 message.MessageId = 200720;
-                                message.Param[0] = 3;
+                                var param3 = message.Param;
+                                param3[0] = 3;
+                                message.Param = param3;
                                 message.Result = -1;
                                 {
                                     i = 1;
@@ -915,7 +961,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var random3 = Random(10);
                                             var random4 = Random(2);
                                             var count8 = Path.Count;
-                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref effect.Path);
+                                            var path32 = effect.Path;
+                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref path32);
+                                            effect.Path = path32;
                                         }
                                     }
                                 }
@@ -955,7 +1003,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + Frame) / 10);
                                         z = 0;
-                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        var path33 = effect.Path;
+                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path33);
+                                        effect.Path = path33;
                                     }
                                 }
 
@@ -996,7 +1046,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 gravity = (float)0.1;
                                                 vz = (float)((double)(Random(5) + 5) / 10);
                                                 z = 0;
-                                                EffectPaths.MakeArcPath(angle: Random(360), x: k + 16, y: x + 16, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                                var path34 = effect.Path;
+                                                EffectPaths.MakeArcPath(angle: Random(360), x: k + 16, y: x + 16, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path34);
+                                                effect.Path = path34;
                                             }
                                         }
 
@@ -1043,7 +1095,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 100) / 10);
                                         z = 0;
-                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        var path35 = effect.Path;
+                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path35);
+                                        effect.Path = path35;
                                     }
                                 }
 
@@ -1060,7 +1114,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         gravity = (float)0.1;
                                         vz = (float)((double)(Random(5) + 5) / 10);
                                         z = 0;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k, y: x, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path36 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k, y: x, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path36);
+                                        effect.Path = path36;
                                     }
                                 }
 
@@ -1092,7 +1148,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var pathX = Path[0];
                                             var pathY = Path[0];
                                             var random2 = Random(2);
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref effect.Path);
+                                            var path37 = effect.Path;
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref path37);
+                                            effect.Path = path37;
                                         }
                                     }
                                 }
@@ -1115,7 +1173,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var pathX = Path[0];
                                             var pathY = Path[0];
                                             var random2 = Random(2);
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref effect.Path);
+                                            var path38 = effect.Path;
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref path38);
+                                            effect.Path = path38;
                                         }
                                     }
                                 }
@@ -1134,7 +1194,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     var random4 = Random(50);
                                     var path2 = Path[0];
                                     var random5 = Random(50);
-                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, ref effect.Path);
+                                    var path39 = effect.Path;
+                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, ref path39);
+                                    effect.Path = path39;
                                     i = 0;
                                     for (; i <= 10; i += 1)
                                     {
@@ -1148,7 +1210,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var pathZ = effect.Path[count8 - 1];
                                         var count9 = effect.Path.Count;
                                         var path4 = effect.Path[count9 - 1];
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                                        var path40 = effect.Path;
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path40);
+                                        effect.Path = path40;
                                     }
 
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
@@ -1172,7 +1236,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var count8 = effect.Path.Count;
                                         var pathZ = effect.Path[count8 - 1];
                                         var count9 = effect.Path.Count;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, ref effect.Path);
+                                        var path41 = effect.Path;
+                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, ref path41);
+                                        effect.Path = path41;
                                         i = 0;
                                         int last = Random(3) + 5;
                                         for (; i <= last; i += 1)
@@ -1188,7 +1254,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var count14 = effect.Path.Count;
                                             var path8 = effect.Path[count14 - 1];
                                             var count15 = effect.Path.Count;
-                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, 3, ref effect.Path);
+                                            var path42 = effect.Path;
+                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, 3, ref path42);
+                                            effect.Path = path42;
                                             var count16 = effect.Path.Count;
                                             var path9 = effect.Path[count16 - 1];
                                             var count17 = effect.Path.Count;
@@ -1200,7 +1268,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             var count20 = effect.Path.Count;
                                             var path11 = effect.Path[count20 - 1];
                                             var count21 = effect.Path.Count;
-                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, 3, ref effect.Path);
+                                            var path43 = effect.Path;
+                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, 3, ref path43);
+                                            effect.Path = path43;
                                         }
                                     }
                                 }
@@ -1378,15 +1448,23 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                         {
                             if (Path[0].X == 0)
                             {
-                                Path[0].X = 100;
+                                var path44 = Path;
+                                path44[0].X = 100;
+                                Path = path44;
                                 var random = Random(50);
-                                Path[0].Y = random;
+                                var path45 = Path;
+                                path45[0].Y = random;
+                                Path = path45;
                             }
                             else
                             {
                                 var random = Random(50);
-                                Path[0].X = random + 50;
-                                Path[0].Y = 0;
+                                var path46 = Path;
+                                path46[0].X = random + 50;
+                                Path = path46;
+                                var path47 = Path;
+                                path47[0].Y = 0;
+                                Path = path47;
                             }
                         }
                         else
@@ -1502,8 +1580,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case 0:
                                 var xyz = new Point3D();
                                 Path.Add(xyz);
-                                Path[0].X = CombatMap.Current.ViewPixelX;
-                                Path[0].Y = CombatMap.Current.ViewPixelY;
+                                var path48 = Path;
+                                path48[0].X = CombatMap.Current.ViewPixelX;
+                                Path = path48;
+                                var path49 = Path;
+                                path49[0].Y = CombatMap.Current.ViewPixelY;
+                                Path = path49;
                                 break;
                             case >= 1 and <= 29:
                                 var pathY = Path[0];
@@ -1610,7 +1692,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX(), hexY, out j, out k);
                                             j = Random(20) + (j + 6);
                                             k = Random(20) + (k + 6);
-                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, ref effect.Path);
+                                            var path50 = effect.Path;
+                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, ref path50);
+                                            effect.Path = path50;
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                         }
@@ -1631,8 +1715,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX(), hexY, out j, out k);
                                             var xyz = new Point3D();
                                             effect.Path.Add(xyz);
-                                            effect.Path[0].X = j + 16;
-                                            effect.Path[0].Y = k + 16;
+                                            var path51 = effect.Path;
+                                            path51[0].X = j + 16;
+                                            effect.Path = path51;
+                                            var path52 = effect.Path;
+                                            path52[0].Y = k + 16;
+                                            effect.Path = path52;
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                             var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
@@ -1727,7 +1815,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)((double)Random(50) + (double)(Frame * 3) * 0.5) / 10);
                                         z = 0;
                                         var path = Path[0];
-                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        var path53 = effect.Path;
+                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path53);
+                                        effect.Path = path53;
                                     }
                                 }
 

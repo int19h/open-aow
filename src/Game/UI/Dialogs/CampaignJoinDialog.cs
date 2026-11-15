@@ -185,10 +185,18 @@ public partial class CampaignJoinDialog : UIModule
     {
         int x;
         int y;
-        lockedSurface.ClipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
-        lockedSurface.ClipRectangle.Right = lockedSurface.ClipRectangle.Left + ScrollTextView.WinWidth;
-        lockedSurface.ClipRectangle.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
-        lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight;
+        var clipRectangle = lockedSurface.ClipRectangle;
+        clipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
+        lockedSurface.ClipRectangle = clipRectangle;
+        var clipRectangle2 = lockedSurface.ClipRectangle;
+        clipRectangle2.Right = clipRectangle2.Left + ScrollTextView.WinWidth;
+        lockedSurface.ClipRectangle = clipRectangle2;
+        var clipRectangle3 = lockedSurface.ClipRectangle;
+        clipRectangle3.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
+        lockedSurface.ClipRectangle = clipRectangle3;
+        var clipRectangle4 = lockedSurface.ClipRectangle;
+        clipRectangle4.Bottom = clipRectangle4.Top + ScrollTextView.WinHeight;
+        lockedSurface.ClipRectangle = clipRectangle4;
         x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + ScrollTextView.WinWidth / 2;
         y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)

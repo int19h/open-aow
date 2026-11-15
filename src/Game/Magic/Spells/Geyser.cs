@@ -19,13 +19,15 @@ public partial class Geyser : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_geyserText);
         SpellId = 118;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
         spellCombatInfo.Radius = 1;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1522

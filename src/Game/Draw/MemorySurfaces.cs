@@ -19,7 +19,15 @@ internal static class MemorySurfaces
             Palette = palette,
             ClipRectangle = new Rect(0, 0, w, h)
         };
-        PixelFormatIdToMask(format, out lockedSurface.RMask, out lockedSurface.GMask, out lockedSurface.BMask, out lockedSurface.AMask);
+        var rMask = lockedSurface.RMask;
+        var gMask = lockedSurface.GMask;
+        var bMask = lockedSurface.BMask;
+        var aMask = lockedSurface.AMask;
+        PixelFormatIdToMask(format, out rMask, out gMask, out bMask, out aMask);
+        lockedSurface.RMask = rMask;
+        lockedSurface.GMask = gMask;
+        lockedSurface.BMask = bMask;
+        lockedSurface.AMask = aMask;
         return lockedSurface;
     }
 

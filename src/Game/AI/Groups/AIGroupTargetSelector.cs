@@ -1008,7 +1008,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
             StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetDefenseRequirements(GroupControl.Group.Player, out strengths);
-            result += StrengthInfoMax(strengths.DamageStrengths) / 2;
+            var damageStrengths = strengths.DamageStrengths;
+            result += StrengthInfoMax(damageStrengths) / 2;
         }
         else
         {

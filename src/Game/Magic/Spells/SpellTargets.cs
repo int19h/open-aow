@@ -12,8 +12,12 @@ internal static class SpellTargets
     {
         EngineMessage message = default;
         EngineMessage.InitializeMessage(out message, 537002242, null);
-        message.Param[0] = player;
-        message.Param[1] = (int)sphere;
+        var param = message.Param;
+        param[0] = player;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[1] = (int)sphere;
+        message.Param = param2;
         StrategicMap.Current.SendMessage(ref message, null);
     }
 

@@ -69,7 +69,7 @@ public partial class MoveControlSettings : EngineObject
     public UnitUserList Units { get; }
 
     // AddUnitsEx
-    public MovePointTable MovePointTable;
+    public MovePointTable MovePointTable { get; internal set; }
 
     // MoveT.PAS:84
     public override void Dispose()
@@ -132,7 +132,9 @@ public partial class MoveControlSettings : EngineObject
         SubMoves.Clear();
         ProcessedMapFields.Clear();
         MovePointsMax = 4095;
-        MovePointTable.Fill(-1);
+        var movePointTable = MovePointTable;
+        movePointTable.Fill(-1);
+        MovePointTable = movePointTable;
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
             if (_levelData[i] is not null)
@@ -179,7 +181,9 @@ public partial class MoveControlSettings : EngineObject
         SourceY = army.HexY;
         SourceL = army.HexLevel;
         Player = army.Army.Player;
-        army.Army.CreateMovePointTable(selection, out MovePointTable);
+        var movePointTable = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out movePointTable);
+        MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
             Mode = Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);

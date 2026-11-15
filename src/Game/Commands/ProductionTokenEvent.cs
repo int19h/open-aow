@@ -20,9 +20,9 @@ public partial class ProductionTokenEvent : TokenEvent
 
     public new const int ClassId = 131736;
 
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
+    public sbyte X { get; internal set; }
+    public sbyte Y { get; internal set; }
+    public sbyte MapLevel { get; internal set; }
 
     public sbyte Player { get; set; }
     public int Command { get; set; }

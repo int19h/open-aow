@@ -18,13 +18,15 @@ public partial class SacredWrath : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_sacredWrathText);
         SpellId = 125;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 8;
         spellCombatInfo.Radius = 3;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_sacredWrathText = "Sacred Wrath";

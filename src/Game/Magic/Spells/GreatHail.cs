@@ -18,13 +18,15 @@ public partial class GreatHail : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_greatHailText);
         SpellId = 116;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
         spellCombatInfo.RepeatCount = 3;
         spellCombatInfo.Range = 12;
         spellCombatInfo.Radius = 2;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_greatHailText = "Great Hail";

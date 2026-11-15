@@ -57,8 +57,12 @@ public sealed class RecordShapeTests : FormatsTest
             Wide = 0,
             Flag = false,
         };
-        Poke(ref source.Behavior, 1, 1);
-        Poke(ref source.Behavior, 3, 2);
+        var behavior2 = source.Behavior;
+        Poke(ref behavior2, 1, 1);
+        source.Behavior = behavior2;
+        var behavior3 = source.Behavior;
+        Poke(ref behavior3, 3, 2);
+        source.Behavior = behavior3;
         var node = TreeWriter.Write(source, s_factory);
         var document = DocumentBackend.Write(node, classValue, schema, "game");
         var behavior = (JsonObject)document["Behavior"]!;
@@ -123,7 +127,9 @@ public sealed class RecordShapeTests : FormatsTest
         var schema = Sample;
         var document = new JsonObject().Add("Behavior", new JsonObject().Add("PlayerType", new JsonInteger(2)));
         var loaded = new Holder { Behavior = new SampleBehavior { PlayerType = 9, Flags = 9 } };
-        Poke(ref loaded.Behavior, 1, 7);
+        var behavior = loaded.Behavior;
+        Poke(ref behavior, 1, 7);
+        loaded.Behavior = behavior;
         TreeReader.Read(DocumentBackend.Read(document, schema.Get("THolder"), schema, "game"), loaded, s_factory);
         Assert.Equal(2, loaded.Behavior.PlayerType);
         Assert.Equal(0, loaded.Behavior.Flags);
@@ -278,16 +284,22 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(2, ((IntegerNode)back.Find("Flag")!).Value);
 
         var source = new Holder();
-        Unsafe.As<bool, byte>(ref source.Flag) = 2;
+        var flag = source.Flag;
+        Unsafe.As<bool, byte>(ref flag) = 2;
+        source.Flag = flag;
         var stored = TreeWriter.Write(source, s_factory);
         Assert.Equal(2, ((IntegerNode)stored.Find("Flag")!).Value);
         var loaded = new Holder();
         TreeReader.Read(stored, loaded, s_factory);
-        Assert.Equal(2, Unsafe.As<bool, byte>(ref loaded.Flag));
+        var flag2 = loaded.Flag;
+        Assert.Equal(2, Unsafe.As<bool, byte>(ref flag2));
+        loaded.Flag = flag2;
         var round = OriginalBackend.Read(OriginalBackend.Write(stored, classValue, schema, "game"), classValue, schema, "game");
         var again = new Holder();
         TreeReader.Read(round, again, s_factory);
-        Assert.Equal(2, Unsafe.As<bool, byte>(ref again.Flag));
+        var flag3 = again.Flag;
+        Assert.Equal(2, Unsafe.As<bool, byte>(ref flag3));
+        again.Flag = flag3;
     }
 
     [Fact]
@@ -472,7 +484,7 @@ public sealed class RecordShapeTests : FormatsTest
 
     private sealed class Holder : IPersistable
     {
-        public SampleBehavior Behavior;
+        public SampleBehavior Behavior { get; internal set; }
 
         public SamplePacked Marks { get; set; }
         public int AbilityCount { get; set; }
@@ -481,7 +493,7 @@ public sealed class RecordShapeTests : FormatsTest
         public sbyte Signed { get; set; }
         public int Wide { get; set; }
 
-        public bool Flag;
+        public bool Flag { get; internal set; }
 
         public void Persist(IPersister persister)
         {

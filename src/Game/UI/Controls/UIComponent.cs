@@ -192,7 +192,7 @@ public partial class UIComponent : Rtl.Component
     public int DrawCount { get; protected set; }
     public int ToolTipLeft { get; protected set; }
 
-    public Rect OldRectangle;
+    public Rect OldRectangle { get; protected set; }
 
     public bool Hidden { get; set; }
 
@@ -582,7 +582,9 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Right = rectangle.Left - 1;
+                                        var rectangle2 = r.Rectangle;
+                                        rectangle2.Right = rectangle.Left - 1;
+                                        r.Rectangle = rectangle2;
                                     }
                                 }
                             }
@@ -628,7 +630,9 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Left = rectangle.Right + 1;
+                                        var rectangle3 = r.Rectangle;
+                                        rectangle3.Left = rectangle.Right + 1;
+                                        r.Rectangle = rectangle3;
                                     }
                                 }
                             }
@@ -651,14 +655,18 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Bottom = rectangle.Top - 1;
+                                        var rectangle4 = r.Rectangle;
+                                        rectangle4.Bottom = rectangle.Top - 1;
+                                        r.Rectangle = rectangle4;
                                     }
                                 }
                                 else
                                 {
                                     if (rectangle.Bottom <= r.Rectangle.Bottom)
                                     {
-                                        r.Rectangle.Top = rectangle.Bottom + 1;
+                                        var rectangle5 = r.Rectangle;
+                                        rectangle5.Top = rectangle.Bottom + 1;
+                                        r.Rectangle = rectangle5;
                                     }
                                     else
                                     {
@@ -798,7 +806,9 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Right = rectangle.Left - 1;
+                                        var rectangle2 = r.Rectangle;
+                                        rectangle2.Right = rectangle.Left - 1;
+                                        r.Rectangle = rectangle2;
                                     }
                                 }
                             }
@@ -844,7 +854,9 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Left = rectangle.Right + 1;
+                                        var rectangle3 = r.Rectangle;
+                                        rectangle3.Left = rectangle.Right + 1;
+                                        r.Rectangle = rectangle3;
                                     }
                                 }
                             }
@@ -867,14 +879,18 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        r.Rectangle.Bottom = rectangle.Top - 1;
+                                        var rectangle4 = r.Rectangle;
+                                        rectangle4.Bottom = rectangle.Top - 1;
+                                        r.Rectangle = rectangle4;
                                     }
                                 }
                                 else
                                 {
                                     if (rectangle.Bottom <= r.Rectangle.Bottom)
                                     {
-                                        r.Rectangle.Top = rectangle.Bottom + 1;
+                                        var rectangle5 = r.Rectangle;
+                                        rectangle5.Top = rectangle.Bottom + 1;
+                                        r.Rectangle = rectangle5;
                                     }
                                     else
                                     {

@@ -14,16 +14,17 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public AIMoveExecutorArmy(CustomNode owner) : base(owner)
     { }
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; private set; }
+
     private MapCoordinate _destination;
 
     public AIMoveExecutorTransportStatus TransportStatus { get; private set; }
 
-    public MapCoordinate BoardingPoint;
+    public MapCoordinate BoardingPoint { get; private set; }
     // A path step with its cost, see AIMoveExecutorUnit.ArrivalPoint.
-    public PathStep ArrivalPoint;
-    public MapCoordinate TransportSource;
-    public MapCoordinate TransportDestination;
+    public PathStep ArrivalPoint { get; internal set; }
+    public MapCoordinate TransportSource { get; private set; }
+    public MapCoordinate TransportDestination { get; internal set; }
 
     public sbyte Player { get; private set; }
 

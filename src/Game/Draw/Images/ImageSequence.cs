@@ -129,10 +129,8 @@ public partial class ImageSequence : IDisposable
     {
         LibraryImage image;
         Rect ir = default;
-        R.Left = 0;
-        R.Right = 0;
-        R.Top = 0;
-        R.Bottom = 0;
+        // The out value is assigned before its members are written.
+        R = default;
         if (_imageLibrary != null)
         {
             switch (_sequenceMode)

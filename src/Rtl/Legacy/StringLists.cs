@@ -9,7 +9,7 @@ public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action
 
 public abstract class StringCollection : Persistent
 {
-    protected int UpdateCount;
+    protected int UpdateCount { get; private set; }
 
     public abstract int Count { get; }
     public virtual int Capacity { get => Count; set { } }

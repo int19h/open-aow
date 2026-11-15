@@ -66,7 +66,11 @@ public partial class DisplayController : Component
                         if (m.GetValue((byte)i, (byte)j) != 0)
                         {
                             GetInverseBlockSize(i, j, m, ref bw, ref bh);
-                            GetPixelPositionOfBlock(i, j, clipR, out sourceR.Left, out sourceR.Top, out blockWidth, out blockHeight);
+                            var left = sourceR.Left;
+                            var top = sourceR.Top;
+                            GetPixelPositionOfBlock(i, j, clipR, out left, out top, out blockWidth, out blockHeight);
+                            sourceR.Left = left;
+                            sourceR.Top = top;
                             if (bw > 1 || bh > 1)
                             {
                                 GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
@@ -80,7 +84,11 @@ public partial class DisplayController : Component
                             }
 
                             var primarySurfaceRegion = GetPrimarySurfaceRegion();
-                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out destinationR.Left, out destinationR.Top, out blockWidth, out blockHeight);
+                            var left2 = destinationR.Left;
+                            var top2 = destinationR.Top;
+                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out left2, out top2, out blockWidth, out blockHeight);
+                            destinationR.Left = left2;
+                            destinationR.Top = top2;
                             var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
                             destinationR.Left += primarySurfaceRegion2.Value.Left;
                             var primarySurfaceRegion3 = GetPrimarySurfaceRegion();

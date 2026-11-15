@@ -56,7 +56,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     if (CombatPredictor.GetEfficiency() > 50)
                     {
                         var efficiency = CombatPredictor.GetEfficiency();
-                        target.Data.Priority = efficiency + target.Data.Priority * 100;
+                        var data = target.Data;
+                        data.Priority = efficiency + data.Priority * 100;
+                        target.Data = data;
                         base.TargetFoundEvent(sender, target, ref searchDone);
                     }
                 }
@@ -245,7 +247,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
         }
 
         message.MessageId = 4384;
-        message.Param[0] = ArmyHexSprite;
+        var param = message.Param;
+        param[0] = ArmyHexSprite;
+        message.Param = param;
         for (int i = 1; i < HexDirectionSlotCount; i++)
         {
             newList = new DoubleItemList<MapField>();

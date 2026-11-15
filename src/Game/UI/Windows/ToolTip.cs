@@ -253,10 +253,18 @@ public partial class ToolTip : GenericWindow
 
                 if (!Hidden)
                 {
-                    BackRectangle.Right = WinWidth;
-                    BackRectangle.Bottom = WinHeight;
-                    BackRectangle.Top = WinTop;
-                    BackRectangle.Left = WinLeft;
+                    var backRectangle = BackRectangle;
+                    backRectangle.Right = WinWidth;
+                    BackRectangle = backRectangle;
+                    var backRectangle2 = BackRectangle;
+                    backRectangle2.Bottom = WinHeight;
+                    BackRectangle = backRectangle2;
+                    var backRectangle3 = BackRectangle;
+                    backRectangle3.Top = WinTop;
+                    BackRectangle = backRectangle3;
+                    var backRectangle4 = BackRectangle;
+                    backRectangle4.Left = WinLeft;
+                    BackRectangle = backRectangle4;
                 }
 
                 RaiseShow(this);
@@ -269,8 +277,12 @@ public partial class ToolTip : GenericWindow
             }
         }
 
-        BackRectangle.Right = 0;
-        BackRectangle.Bottom = 0;
+        var backRectangle5 = BackRectangle;
+        backRectangle5.Right = 0;
+        BackRectangle = backRectangle5;
+        var backRectangle6 = BackRectangle;
+        backRectangle6.Bottom = 0;
+        BackRectangle = backRectangle6;
     }
 
     // AOWToolTip.pas:223
@@ -301,7 +313,9 @@ public partial class ToolTip : GenericWindow
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
                         {
                             var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                            lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
+                            var clipRectangle = lockedSurface.ClipRectangle;
+                            clipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
+                            lockedSurface.ClipRectangle = clipRectangle;
                         }
 
                         if (i < _lines.Count && _lines.Count > 0)

@@ -294,12 +294,16 @@ public partial class ListBox : Control
 
                 if (l + w < oldClip.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = l + w;
+                    var clipRectangle = lockedSurface.ClipRectangle;
+                    clipRectangle.Right = l + w;
+                    lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 if (t + h < oldClip.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = t + h;
+                    var clipRectangle2 = lockedSurface.ClipRectangle;
+                    clipRectangle2.Bottom = t + h;
+                    lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
                 for (int i = 0, last = VisibleRows; i <= last; i++)

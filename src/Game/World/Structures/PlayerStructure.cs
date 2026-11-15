@@ -116,26 +116,36 @@ public partial class PlayerStructure : Structure
                     if (Player > 0)
                     {
                         var players = StrategicMap.Current.Players.GetPlayers(Player);
-                        message.Param[0] = message.Param[0].Int + (players.PlayerRace + 1) * 256;
+                        var param = message.Param;
+                        param[0] = param[0].Int + (players.PlayerRace + 1) * 256;
+                        message.Param = param;
                     }
                     else
                     {
-                        message.Param[0] = message.Param[0].Int + 3328;
+                        var param2 = message.Param;
+                        param2[0] = param2[0].Int + 3328;
+                        message.Param = param2;
                     }
                 }
                 else
                 {
-                    message.Param[0] = message.Param[0].Int + 3584;
+                    var param3 = message.Param;
+                    param3[0] = param3[0].Int + 3584;
+                    message.Param = param3;
                 }
 
                 if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[StrategicMap.Current.SeatedPlayer])
                 {
-                    message.Param[0] = message.Param[0].Int | 16777216;
+                    var param4 = message.Param;
+                    param4[0] = param4[0].Int | 16777216;
+                    message.Param = param4;
                 }
             }
             else
             {
-                message.Param[0] = message.Param[0].Int + 3584;
+                var param5 = message.Param;
+                param5[0] = param5[0].Int + 3584;
+                message.Param = param5;
             }
         }
         else
@@ -192,7 +202,9 @@ public partial class PlayerStructure : Structure
                     if (message.MessageId == 4353 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                     {
                         var moveAction = GetMoveAction((sbyte)message.Param[0].Int, (MoveAction)message.Param[1].Int);
-                        message.Param[1] = (int)moveAction;
+                        var param6 = message.Param;
+                        param6[1] = (int)moveAction;
+                        message.Param = param6;
                     }
                     else
                     {

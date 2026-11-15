@@ -82,7 +82,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 index = aiMoveExecutorArmyList.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Arriving);
                 if (index != -1)
                 {
-                    ref var location = ref aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
+                    var location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
                     move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
 
                     aiMoveExecutorArmyList.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
@@ -186,7 +186,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
                     else
                     {
-                        ref var location = ref aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
+                        var location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
 
@@ -214,7 +214,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     index = aiMoveExecutorArmyList.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
                     if (index != -1)
                     {
-                        ref var location = ref aiMoveExecutorArmyList.GetArmies(index).TransportDestination;
+                        var location = aiMoveExecutorArmyList.GetArmies(index).TransportDestination;
                         move = CreateTransporterMove(location.X, location.Y, location.MapLevel, true);
 
                         if (move == null)

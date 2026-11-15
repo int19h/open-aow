@@ -21,13 +21,15 @@ public partial class MindDecay : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_mindDecayText);
         SpellId = 106;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
         spellCombatInfo.Radius = 3;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1207

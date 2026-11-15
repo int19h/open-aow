@@ -18,8 +18,8 @@ public partial class PathFindingStep : EngineObject
         Location = MapCoordinate.None;
     }
 
-    public MapCoordinate Location;
-    public MapCoordinate Origin;
+    public MapCoordinate Location { get; internal set; }
+    public MapCoordinate Origin { get; internal set; }
 
     public DoubleItemList MovePointLines { get; }
 

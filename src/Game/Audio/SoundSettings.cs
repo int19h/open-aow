@@ -11,10 +11,10 @@ public struct SoundSettings
 {
     public Set<SoundOutputModeElement> OutputMode { get; set => field = Set<SoundOutputModeElement>.FromMask((byte)value.Image); }
 
-    public int SampleRate;
-    public bool MusicEnabled;
-    public bool UseDirectSound;
-    public int Window;
-    public bool SfxEnabled;
-    public int SampleVoices;
+    public int SampleRate { get; set; }
+    public bool MusicEnabled { get; set; }
+    public bool UseDirectSound { get; internal set; }
+    public int Window { get; }
+    public bool SfxEnabled { get; set; }
+    public int SampleVoices { get; set; }
 }

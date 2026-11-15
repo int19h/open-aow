@@ -16,13 +16,15 @@ public partial class Tremors : CombatSpell
         // { Original leaves this spell name untranslated. }
         SpellName = s_tremorsText;
         SpellId = 112;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
         spellCombatInfo.Radius = 5;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_tremorsText = "Tremors";

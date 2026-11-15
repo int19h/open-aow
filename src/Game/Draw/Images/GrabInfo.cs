@@ -7,30 +7,48 @@ public partial class GrabInfo
 {
     public static GrabInfoClass Descriptor { get; } = new("GrabInfo", static () => new GrabInfo());
 
-    public int TransparentColor;
-    public bool FindRectangles;
-    public int TransparentPixel;
-    public string FileName = "";
-    public int FileIndex;
+    public int TransparentColor { get; internal set; }
+    public bool FindRectangles { get; internal set; }
+    public int TransparentPixel { get; internal set; }
+    public string FileName { get; internal set; } = "";
+    public int FileIndex { get; internal set; }
 
     // ImageLib.pas:9634
     public virtual void LoadFromStream(Stream stream)
     {
-        stream.ReadExactly(Bytes.Of(ref TransparentColor, 4));
-        stream.ReadExactly(Bytes.Of(ref FindRectangles, 1));
-        stream.ReadExactly(Bytes.Of(ref TransparentPixel, 4));
-        LibraryDrawing.ReadStringFromStream(ref FileName, stream);
-        stream.ReadExactly(Bytes.Of(ref FileIndex, 4));
+        var transparentColor = TransparentColor;
+        stream.ReadExactly(Bytes.Of(ref transparentColor, 4));
+        TransparentColor = transparentColor;
+        var findRectangles = FindRectangles;
+        stream.ReadExactly(Bytes.Of(ref findRectangles, 1));
+        FindRectangles = findRectangles;
+        var transparentPixel = TransparentPixel;
+        stream.ReadExactly(Bytes.Of(ref transparentPixel, 4));
+        TransparentPixel = transparentPixel;
+        var fileName = FileName;
+        LibraryDrawing.ReadStringFromStream(ref fileName, stream);
+        FileName = fileName;
+        var fileIndex = FileIndex;
+        stream.ReadExactly(Bytes.Of(ref fileIndex, 4));
+        FileIndex = fileIndex;
     }
 
     // ImageLib.pas:9643
     public virtual void SaveToStream(Stream stream)
     {
-        stream.Write(Bytes.Of(ref TransparentColor, 4));
-        stream.Write(Bytes.Of(ref FindRectangles, 1));
-        stream.Write(Bytes.Of(ref TransparentPixel, 4));
+        var transparentColor = TransparentColor;
+        stream.Write(Bytes.Of(ref transparentColor, 4));
+        TransparentColor = transparentColor;
+        var findRectangles = FindRectangles;
+        stream.Write(Bytes.Of(ref findRectangles, 1));
+        FindRectangles = findRectangles;
+        var transparentPixel = TransparentPixel;
+        stream.Write(Bytes.Of(ref transparentPixel, 4));
+        TransparentPixel = transparentPixel;
         LibraryDrawing.WriteStringToStream(FileName, stream);
-        stream.Write(Bytes.Of(ref FileIndex, 4));
+        var fileIndex = FileIndex;
+        stream.Write(Bytes.Of(ref fileIndex, 4));
+        FileIndex = fileIndex;
     }
 
     // ImageLib.pas:9629

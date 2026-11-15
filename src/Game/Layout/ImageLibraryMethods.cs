@@ -60,12 +60,16 @@ public static class ImageLibraryMethods
         lockedSurface.ClipRectangle = rectangle;
         if (area.Left + area.Width < oldClip.Right)
         {
-            lockedSurface.ClipRectangle.Right = area.Left + area.Width;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Right = area.Left + area.Width;
+            lockedSurface.ClipRectangle = clipRectangle;
         }
 
         if (area.Top + area.Height < oldClip.Bottom)
         {
-            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
+            var clipRectangle2 = lockedSurface.ClipRectangle;
+            clipRectangle2.Bottom = area.Top + area.Height;
+            lockedSurface.ClipRectangle = clipRectangle2;
         }
 
         for (int j = 0, last = area.Height / library[index].Height; j <= last; j++)

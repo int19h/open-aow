@@ -80,9 +80,15 @@ public partial class AIProductionLocationFinder : AIGroupTask
         Reset();
         Selector.SourceLocation = control.Location;
         Selector.MovePointTable = control.MovePointTable;
-        Selector.TargetInfo.Player = control.Group.Player;
-        Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
-        Selector.TargetInfo.Mode = AITargetMode.Produce;
+        var targetInfo = Selector.TargetInfo;
+        targetInfo.Player = control.Group.Player;
+        Selector.TargetInfo = targetInfo;
+        var targetInfo2 = Selector.TargetInfo;
+        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        Selector.TargetInfo = targetInfo2;
+        var targetInfo3 = Selector.TargetInfo;
+        targetInfo3.Mode = AITargetMode.Produce;
+        Selector.TargetInfo = targetInfo3;
         Selector.MovePointsMax = 75;
         _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
         return true;

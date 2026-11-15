@@ -14,8 +14,8 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     // IndependentAG.pas:295
     public new const int ClassId = 136274;
 
-    public MapCoordinate PatrolFrom;
-    public MapCoordinate PatrolTo;
+    public MapCoordinate PatrolFrom { get; internal set; }
+    public MapCoordinate PatrolTo { get; internal set; }
 
     // The fourth bytes of the packed locations stored at ids 40 (low byte) and 41 (high byte), 0 from
     // every writer and in every corpus file, kept so that a loaded value saves back unchanged.

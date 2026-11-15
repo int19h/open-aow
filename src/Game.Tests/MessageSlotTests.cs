@@ -50,8 +50,10 @@ public sealed class MessageSlotTests
         Assert.Equal(4, MapFieldMessageParameters.Arity);
         EngineMessage engineMessage = default;
         MapFieldMessage fieldMessage = default;
-        Assert.Equal(EngineMessageParameters.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
-        Assert.Equal(MapFieldMessageParameters.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
+        var engineParam = engineMessage.Param;
+        var fieldParam = fieldMessage.Param;
+        Assert.Equal(EngineMessageParameters.Arity, ((Span<MsgArg>)engineParam).Length);
+        Assert.Equal(MapFieldMessageParameters.Arity, ((Span<MsgArg>)fieldParam).Length);
         Assert.Equal(typeof(MsgArg), typeof(EngineMessage).GetProperty(nameof(EngineMessage.Payload))!.PropertyType);
         Assert.Equal(typeof(MsgArg), typeof(MapFieldMessage).GetProperty(nameof(MapFieldMessage.Result))!.PropertyType);
     }
@@ -135,13 +137,17 @@ public sealed class MessageSlotTests
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1102;
-        message.Param[0] = army;
+        var param = message.Param;
+        param[0] = army;
+        message.Param = param;
         field.SendMapFieldMessage(ref message);
         Assert.Same(army, placed);
         Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
         message = default;
         message.MessageId = 0x110a;
-        message.Param[0] = 4;
+        var param2 = message.Param;
+        param2[0] = 4;
+        message.Param = param2;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(4, distance);
         Assert.Null(message.Param[0].As<ArmyHexSprite>());
@@ -154,19 +160,35 @@ public sealed class MessageSlotTests
         var query = new DefenseRequirementsQuery();
         var (field, _) = Field((ref m) =>
         {
-            if (m.MessageId == 0x1127) m.Param[1].As<DefenseRequirementsQuery>()!.Requirements.Strength = 9;
-            else if (m.MessageId == 0x1101) m.Param[1] = m.Param[1].Int + 2;
+            if (m.MessageId == 0x1127)
+            {
+                var requirements = m.Param[1].As<DefenseRequirementsQuery>()!.Requirements;
+                requirements.Strength = 9;
+                m.Param[1].As<DefenseRequirementsQuery>()!.Requirements = requirements;
+            }
+            else if (m.MessageId == 0x1101)
+            {
+                var param = m.Param;
+                param[1] = param[1].Int + 2;
+                m.Param = param;
+            }
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1127;
-        message.Param[0] = 1;
-        message.Param[1] = query;
+        var param2 = message.Param;
+        param2[0] = 1;
+        message.Param = param2;
+        var param3 = message.Param;
+        param3[1] = query;
+        message.Param = param3;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(9, query.Requirements.Strength);
         Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
         message = default;
         message.MessageId = 0x1101;
-        message.Param[1] = 1;
+        var param4 = message.Param;
+        param4[1] = 1;
+        message.Param = param4;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(3, message.Param[1].Int);
     }
@@ -179,18 +201,27 @@ public sealed class MessageSlotTests
         sbyte player = 0;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MessageId == 0x1151) m.Param[2].As<StormDamageQuery>()!.Info.Player = 7;
+            if (m.MessageId == 0x1151)
+            {
+                var info = m.Param[2].As<StormDamageQuery>()!.Info;
+                info.Player = 7;
+                m.Param[2].As<StormDamageQuery>()!.Info = info;
+            }
             else if (m.MessageId == 0x1150) player = (sbyte)m.Param[2].Int;
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1151;
-        message.Param[2] = query;
+        var param = message.Param;
+        param[2] = query;
+        message.Param = param;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(7, query.Info.Player);
         Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
         message.MessageId = 0x1150;
-        message.Param[2] = 3;
+        var param2 = message.Param;
+        param2[2] = 3;
+        message.Param = param2;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(3, player);
         Assert.Null(message.Param[2].As<StormDamageQuery>());

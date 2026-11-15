@@ -84,10 +84,9 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:2928
     public override void GetVisualDimensions(out Rect R)
     {
-        R.Left = Xshift + _spriteX;
-        R.Right = R.Left + _spriteWidth;
-        R.Top = Yshift + _spriteY;
-        R.Bottom = R.Top + _spriteHeight;
+        int left = Xshift + _spriteX;
+        int top = Yshift + _spriteY;
+        R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
     }
 
     // ImageLib.pas:2936

@@ -133,7 +133,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                 Army.UpdateUnfog();
                 Army.UpdateExploration();
                 message.MessageId = 4354;
-                message.Param[0] = this;
+                var param = message.Param;
+                param[0] = this;
+                message.Param = param;
                 Owner.SendMapFieldMessage(ref message);
             }
         }
@@ -156,7 +158,9 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (field != null && StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             message.MessageId = 4355;
-            message.Param[0] = this;
+            var param = message.Param;
+            param[0] = this;
+            message.Param = param;
             field.SendMapFieldMessage(ref message);
         }
     }
@@ -174,11 +178,15 @@ public partial class ArmyHexSprite : UnitHexSprite
                     if (Army.Player != 0)
                     {
                         var players = StrategicMap.Current.Players.GetPlayers(Army.Player);
-                        message.Param[0] = message.Param[0].Int | (players.PlayerRace + 1);
+                        var param = message.Param;
+                        param[0] = param[0].Int | (players.PlayerRace + 1);
+                        message.Param = param;
                     }
                     else
                     {
-                        message.Param[0] = message.Param[0].Int | 13;
+                        var param2 = message.Param;
+                        param2[0] = param2[0].Int | 13;
+                        message.Param = param2;
                     }
                 }
             }
@@ -186,7 +194,9 @@ public partial class ArmyHexSprite : UnitHexSprite
             {
                 if (message.MessageId == 4608)
                 {
-                    Army.UpdateAITarget(message.Param[0].As<AITargetQuery>().Info, ref message.Param[0].As<AITargetQuery>().Data);
+                    var data = message.Param[0].As<AITargetQuery>().Data;
+                    Army.UpdateAITarget(message.Param[0].As<AITargetQuery>().Info, ref data);
+                    message.Param[0].As<AITargetQuery>().Data = data;
                     if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
                     {
                         message.Result = 1;
@@ -196,14 +206,18 @@ public partial class ArmyHexSprite : UnitHexSprite
                 {
                     if (message.MessageId == 4360)
                     {
-                        Army.ReturnBattleFieldInfo(ref message.Param[0].As<BattleFieldQuery>().Info);
+                        var info = message.Param[0].As<BattleFieldQuery>().Info;
+                        Army.ReturnBattleFieldInfo(ref info);
+                        message.Param[0].As<BattleFieldQuery>().Info = info;
                     }
                     else
                     {
                         if (message.MessageId == 4353)
                         {
                             var moveAction = Army.GetMoveAction((sbyte)message.Param[0].Int);
-                            message.Param[1] = (int)moveAction;
+                            var param3 = message.Param;
+                            param3[1] = (int)moveAction;
+                            message.Param = param3;
                         }
                         else
                         {
@@ -290,7 +304,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                                                     {
                                                         if (Army.IncomingNegotiateRequest(message.Param[0].As<NegotiateRequestEventLog>()))
                                                         {
-                                                            message.Param[1] = 1;
+                                                            var param4 = message.Param;
+                                                            param4[1] = 1;
+                                                            message.Param = param4;
                                                         }
                                                     }
                                                     else
@@ -313,7 +329,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                                                             {
                                                                 if (message.MessageId == 4433 && !message.MapField.GetMagicShieldActive())
                                                                 {
-                                                                    Army.RetrieveStormDamageInfo((StormType)message.Param[0].Int, message.Param[1].Int, ref message.Param[2].As<StormDamageQuery>().Info);
+                                                                    var info2 = message.Param[2].As<StormDamageQuery>().Info;
+                                                                    Army.RetrieveStormDamageInfo((StormType)message.Param[0].Int, message.Param[1].Int, ref info2);
+                                                                    message.Param[2].As<StormDamageQuery>().Info = info2;
                                                                     return;
                                                                 }
                                                                 else
@@ -547,8 +565,12 @@ public partial class ArmyHexSprite : UnitHexSprite
             if (oldField != null)
             {
                 message.MessageId = 4416;
-                message.Param[0] = this;
-                message.Param[1] = field;
+                var param = message.Param;
+                param[0] = this;
+                message.Param = param;
+                var param2 = message.Param;
+                param2[1] = field;
+                message.Param = param2;
                 message.Result = 0;
                 oldField.SendMapFieldMessage(ref message);
             }
@@ -556,8 +578,12 @@ public partial class ArmyHexSprite : UnitHexSprite
             if (oldField == null || message.Result.Int == 0)
             {
                 message.MessageId = 4417;
-                message.Param[0] = this;
-                message.Param[1] = oldField;
+                var param3 = message.Param;
+                param3[0] = this;
+                message.Param = param3;
+                var param4 = message.Param;
+                param4[1] = oldField;
+                message.Param = param4;
                 message.Result = 0;
                 field.SendMapFieldMessage(ref message);
                 if (message.Result.Int == 0)
@@ -576,8 +602,12 @@ public partial class ArmyHexSprite : UnitHexSprite
                     Army.Validate();
                     Army.MovedTo(oldField, field, moveCost);
                     message.MessageId = 4418;
-                    message.Param[0] = this;
-                    message.Param[1] = oldField;
+                    var param5 = message.Param;
+                    param5[0] = this;
+                    message.Param = param5;
+                    var param6 = message.Param;
+                    param6[1] = oldField;
+                    message.Param = param6;
                     message.Result = 0;
                     field.SendMapFieldMessage(ref message);
                     if (Army.Player > 0)
@@ -749,7 +779,9 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (Army.Units.Count != 0)
         {
             message.MessageId = 4388;
-            message.Param[0] = this;
+            var param = message.Param;
+            param[0] = this;
+            message.Param = param;
             Owner.SendMapFieldMessage(ref message);
             UpdateUnitGraphicsResource();
             if (Army.Player != 0)
@@ -854,7 +886,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                     if (player == -1 || (player == Army.Player && mode.Contains(ArmyPlaceModeElement.EnableOwnPlayerLocation)))
                     {
                         message.MessageId = 4384;
-                        message.Param[0] = this;
+                        var param = message.Param;
+                        param[0] = this;
+                        message.Param = param;
                         message.Result = 0;
                         field.SendMapFieldMessage(ref message);
                         if (message.Result.Int == 0)
@@ -1010,7 +1044,9 @@ public partial class ArmyHexSprite : UnitHexSprite
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
-        army.Army.CreateMovePointTable(selection, out settings.MovePointTable);
+        var movePointTable = settings.MovePointTable;
+        army.Army.CreateMovePointTable(selection, out movePointTable);
+        settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
         {

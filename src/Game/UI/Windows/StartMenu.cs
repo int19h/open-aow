@@ -52,10 +52,18 @@ public partial class StartMenu : Menu
                 Drawn = false;
                 if (!Hidden)
                 {
-                    BackRectangle.Right = WinWidth;
-                    BackRectangle.Bottom = WinHeight;
-                    BackRectangle.Top = WinTop;
-                    BackRectangle.Left = WinLeft;
+                    var backRectangle = BackRectangle;
+                    backRectangle.Right = WinWidth;
+                    BackRectangle = backRectangle;
+                    var backRectangle2 = BackRectangle;
+                    backRectangle2.Bottom = WinHeight;
+                    BackRectangle = backRectangle2;
+                    var backRectangle3 = BackRectangle;
+                    backRectangle3.Top = WinTop;
+                    BackRectangle = backRectangle3;
+                    var backRectangle4 = BackRectangle;
+                    backRectangle4.Left = WinLeft;
+                    BackRectangle = backRectangle4;
                 }
 
                 RaiseShow(this);
@@ -109,7 +117,9 @@ public partial class StartMenu : Menu
                             if (WinLeft + WinWidth - imageLibraryFrameWidth.Width < oldClip.Right)
                             {
                                 var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
-                                lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame.Width;
+                                var clipRectangle = lockedSurface.ClipRectangle;
+                                clipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame.Width;
+                                lockedSurface.ClipRectangle = clipRectangle;
                             }
 
                             if (i == Highlighted)

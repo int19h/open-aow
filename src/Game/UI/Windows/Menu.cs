@@ -391,10 +391,18 @@ public partial class Menu : GenericWindow
                     Drawn = false;
                     if (!Hidden)
                     {
-                        BackRectangle.Right = WinWidth;
-                        BackRectangle.Bottom = WinHeight;
-                        BackRectangle.Top = WinTop;
-                        BackRectangle.Left = WinLeft;
+                        var backRectangle = BackRectangle;
+                        backRectangle.Right = WinWidth;
+                        BackRectangle = backRectangle;
+                        var backRectangle2 = BackRectangle;
+                        backRectangle2.Bottom = WinHeight;
+                        BackRectangle = backRectangle2;
+                        var backRectangle3 = BackRectangle;
+                        backRectangle3.Top = WinTop;
+                        BackRectangle = backRectangle3;
+                        var backRectangle4 = BackRectangle;
+                        backRectangle4.Left = WinLeft;
+                        BackRectangle = backRectangle4;
                     }
 
                     Hidden = false;
@@ -459,7 +467,9 @@ public partial class Menu : GenericWindow
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
                         {
                             var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                            lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
+                            var clipRectangle = lockedSurface.ClipRectangle;
+                            clipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
+                            lockedSurface.ClipRectangle = clipRectangle;
                         }
 
                         if (i < _items.Count && _items.Count > 0)

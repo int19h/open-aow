@@ -295,7 +295,9 @@ public partial class TacticalBattleUnitHexSprite
 
                 if (pixelXSurface - 4 + hexX < lockedSurfaceLocal.ClipRectangle.Right)
                 {
-                    lockedSurfaceLocal.ClipRectangle.Right = pixelXSurface - 4 + hexX;
+                    var clipRectangle = lockedSurfaceLocal.ClipRectangle;
+                    clipRectangle.Right = pixelXSurface - 4 + hexX;
+                    lockedSurfaceLocal.ClipRectangle = clipRectangle;
                 }
 
                 GamePack.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurfaceLocal);
@@ -384,7 +386,11 @@ public partial class TacticalBattleUnitHexSprite
                 var moveSteps = GetMoveSteps();
                 if (ActionFrame <= moveSteps)
                 {
-                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
+                    var offsetX = OffsetX;
+                    var offsetY = OffsetY;
+                    HexGeometry.HexNumberToPixel(Direction, ref offsetX, ref offsetY);
+                    OffsetX = offsetX;
+                    OffsetY = offsetY;
                     var moveSteps2 = GetMoveSteps();
                     OffsetX = ActionFrame * OffsetX / (moveSteps2 * 2);
                     var moveSteps3 = GetMoveSteps();
@@ -393,7 +399,11 @@ public partial class TacticalBattleUnitHexSprite
                 }
                 else
                 {
-                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
+                    var offsetX2 = OffsetX;
+                    var offsetY2 = OffsetY;
+                    HexGeometry.HexNumberToPixel(Direction, ref offsetX2, ref offsetY2);
+                    OffsetX = offsetX2;
+                    OffsetY = offsetY2;
                     OffsetX = OffsetX / 2;
                     OffsetY = OffsetY / 2;
                     ActionDone = true;
@@ -404,7 +414,11 @@ public partial class TacticalBattleUnitHexSprite
                 var moveSteps4 = GetMoveSteps();
                 if (ActionFrame <= moveSteps4)
                 {
-                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
+                    var offsetX3 = OffsetX;
+                    var offsetY3 = OffsetY;
+                    HexGeometry.HexNumberToPixel(Direction, ref offsetX3, ref offsetY3);
+                    OffsetX = offsetX3;
+                    OffsetY = offsetY3;
                     var moveSteps2 = GetMoveSteps();
                     var moveSteps3 = GetMoveSteps();
                     OffsetX = (moveSteps2 - ActionFrame) * OffsetX / (moveSteps3 * 2);

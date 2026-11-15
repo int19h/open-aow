@@ -75,7 +75,9 @@ public partial class Tornado : GlobalTargetSpell
         if (result)
         {
             message.MessageId = 4384;
-            message.Param[0] = army;
+            var param = message.Param;
+            param[0] = army;
+            message.Param = param;
             message.Result = 0;
             mapField.SendMapFieldMessage(ref message);
             result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);

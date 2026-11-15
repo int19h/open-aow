@@ -20,19 +20,21 @@ public partial class AIMoveExecutorUnit : EngineObject
     public Troop Troop { get; private set; }
     public int UnitId { get; private set; }
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; private set; }
+
     private MapCoordinate _origin;
-    public MapCoordinate Destination;
+
+    public MapCoordinate Destination { get; private set; }
 
     public int TransporterId { get; set; }
     public AIMoveExecutorTransportStatus TransportStatus { get; set; }
 
-    public MapCoordinate BoardingPoint;
+    public MapCoordinate BoardingPoint { get; internal set; }
     // A path step with its cost (TransportMoveExecutorControl's meeting point). AIMoveExecutorArmy.CanAdd
     // compares it with the cost, as the Delphi four-byte comparison did.
-    public PathStep ArrivalPoint;
-    public MapCoordinate TransportSource;
-    public MapCoordinate TransportDestination;
+    public PathStep ArrivalPoint { get; internal set; }
+    public MapCoordinate TransportSource { get; internal set; }
+    public MapCoordinate TransportDestination { get; internal set; }
 
     public AIMoveExecutorUnitStatus Status { get; set; }
     public byte MoveResult { get; set; }

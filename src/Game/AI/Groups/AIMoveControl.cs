@@ -123,7 +123,9 @@ public partial class AIMoveControl : EngineObject
                     }
                 }
 
-                _pathSettings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
+                var movePointTable = _pathSettings.MovePointTable;
+                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
+                _pathSettings.MovePointTable = movePointTable;
             }
         }
     }
@@ -245,7 +247,7 @@ public partial class AIMoveControl : EngineObject
                         Settings.Transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
                         mapCoordinate = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                         _pathSettings.SetSourcePosition(mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel);
-                        ref var location = ref Settings.TransportSource;
+                        var location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
                         if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
@@ -281,7 +283,7 @@ public partial class AIMoveControl : EngineObject
                     if (_multipleTransportGaps)
                     {
                         // { Original repeats the first gap source before continuing. }
-                        ref var location = ref Settings.TransportSource;
+                        var location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
                         _multipleTransportGaps = false;
@@ -311,7 +313,7 @@ public partial class AIMoveControl : EngineObject
                     Settings.MovePoints += points;
                     if (_multipleTransportGaps)
                     {
-                        ref var location = ref Settings.TransportDestination;
+                        var location = Settings.TransportDestination;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
                         _multipleTransportGaps = false;

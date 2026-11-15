@@ -835,22 +835,30 @@ public partial class HtmlMemo : BaseWindow
                         r = DrawList[i];
                         if (OwnerComponent.WinLeft + WinLeft > r.Rectangle.Left)
                         {
-                            r.Rectangle.Left = OwnerComponent.WinLeft + WinLeft;
+                            var rectangle2 = r.Rectangle;
+                            rectangle2.Left = OwnerComponent.WinLeft + WinLeft;
+                            r.Rectangle = rectangle2;
                         }
 
                         if (OwnerComponent.WinTop + WinTop > r.Rectangle.Top)
                         {
-                            r.Rectangle.Top = OwnerComponent.WinTop + WinTop;
+                            var rectangle3 = r.Rectangle;
+                            rectangle3.Top = OwnerComponent.WinTop + WinTop;
+                            r.Rectangle = rectangle3;
                         }
 
                         if (OwnerComponent.WinLeft + WinLeft + WinWidth < r.Rectangle.Right)
                         {
-                            r.Rectangle.Right = OwnerComponent.WinLeft + WinLeft + WinWidth;
+                            var rectangle4 = r.Rectangle;
+                            rectangle4.Right = OwnerComponent.WinLeft + WinLeft + WinWidth;
+                            r.Rectangle = rectangle4;
                         }
 
                         if (OwnerComponent.WinTop + WinTop + WinHeight < r.Rectangle.Bottom)
                         {
-                            r.Rectangle.Bottom = OwnerComponent.WinTop + WinTop + WinHeight;
+                            var rectangle5 = r.Rectangle;
+                            rectangle5.Bottom = OwnerComponent.WinTop + WinTop + WinHeight;
+                            r.Rectangle = rectangle5;
                         }
 
                         sourceR = new Rect(r.Rectangle.Left - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Top - OwnerComponent.WinTop - WinTop, r.Rectangle.Right - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Bottom - OwnerComponent.WinTop - WinTop);

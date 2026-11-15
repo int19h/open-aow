@@ -123,10 +123,18 @@ public partial class BaseWindow : WindowControl
 
                 if (!Hidden)
                 {
-                    BackRectangle.Right = WinWidth;
-                    BackRectangle.Bottom = WinHeight;
-                    BackRectangle.Top = WinTop;
-                    BackRectangle.Left = WinLeft;
+                    var backRectangle = BackRectangle;
+                    backRectangle.Right = WinWidth;
+                    BackRectangle = backRectangle;
+                    var backRectangle2 = BackRectangle;
+                    backRectangle2.Bottom = WinHeight;
+                    BackRectangle = backRectangle2;
+                    var backRectangle3 = BackRectangle;
+                    backRectangle3.Top = WinTop;
+                    BackRectangle = backRectangle3;
+                    var backRectangle4 = BackRectangle;
+                    backRectangle4.Left = WinLeft;
+                    BackRectangle = backRectangle4;
                 }
 
                 if (!Valid || !Aligned || !Sized)
@@ -221,7 +229,9 @@ public partial class BaseWindow : WindowControl
                                     lockedSurface.ClipRectangle = rectangle;
                                     Draw(lockedSurface);
                                     lockedSurface.ClipRectangle = r;
-                                    InvalidateRectangle(0, ref d.Rectangle, null);
+                                    var rectangle2 = d.Rectangle;
+                                    InvalidateRectangle(0, ref rectangle2, null);
+                                    d.Rectangle = rectangle2;
                                 }
                             }
                         }
@@ -252,7 +262,9 @@ public partial class BaseWindow : WindowControl
                                     for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                     {
                                         d = DrawList[j];
-                                        InvalidateRectangle(i + 1, ref d.Rectangle, null);
+                                        var rectangle3 = d.Rectangle;
+                                        InvalidateRectangle(i + 1, ref rectangle3, null);
+                                        d.Rectangle = rectangle3;
                                     }
 
                                     DrawCount = 0;

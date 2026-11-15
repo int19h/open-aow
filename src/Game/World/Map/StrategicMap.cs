@@ -1130,7 +1130,7 @@ public partial class StrategicMap : GameMap
     public virtual void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent done)
     {
         var notification = new ExecuteEventLogNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         info.Log = log;
         info.Done = done;
         info.Immediate = immediate;
@@ -1141,10 +1141,13 @@ public partial class StrategicMap : GameMap
             if (AILockCount == 0)
             {
                 ExecuteNextEventLog();
+
+                notification.Info = info;
             }
         }
         else
         {
+            notification.Info = info;
             _executeEventLogEventsStore.Raise(notification);
         }
     }
@@ -1704,12 +1707,13 @@ public partial class StrategicMap : GameMap
     public void ExecuteNextEventLog()
     {
         var notification = new ExecuteEventLogNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         if (_executeEventLogCallBacks.GetCount() != 0)
         {
             AILockCount += 1;
             info = _executeEventLogCallBacks.GetItem(0);
             info.Done = ExecuteEventLogDone;
+            notification.Info = info;
             _executeEventLogEventsStore.Raise(notification);
         }
     }
@@ -1867,7 +1871,9 @@ public partial class StrategicMap : GameMap
         EngineMessage message = default;
         EngineMessage.InitializeMessage(out message, 537002243, this);
         message.Payload = messages;
-        message.Data[0] = 0;
+        var data = message.Data;
+        data[0] = 0;
+        message.Data = data;
         Current.SendMessage(ref message, this);
         bool result = message.Data[0] == 0;
         if (result)
@@ -1953,7 +1959,9 @@ public partial class StrategicMap : GameMap
                 field = mapLevel.GetField(walk.X, walk.Y);
                 if ((field.FieldFlags & MapField.PlayerChangeListenerFlag) != 0)
                 {
-                    message.Param[0] = walk.Radius;
+                    var param = message.Param;
+                    param[0] = walk.Radius;
+                    message.Param = param;
                     field.SendMapFieldMessage(ref message);
                 }
             }
@@ -1971,7 +1979,9 @@ public partial class StrategicMap : GameMap
         MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4400;
-        message.Param[0] = player;
+        var param = message.Param;
+        param[0] = player;
+        message.Param = param;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= sightRadius || walk.Radius <= radius)
         {
@@ -1984,7 +1994,9 @@ public partial class StrategicMap : GameMap
                     if (walk.Radius <= radius)
                     {
                         // { Original leaves the flag uninitialized outside Radius. }
-                        message.Param[1] = 1;
+                        var param2 = message.Param;
+                        param2[1] = 1;
+                        message.Param = param2;
                     }
 
                     field.SendMapFieldMessage(ref message);
@@ -2025,7 +2037,9 @@ public partial class StrategicMap : GameMap
         {
             message.MessageId = 4362;
             message.Result = 0;
-            message.Param[1] = player;
+            var param = message.Param;
+            param[1] = player;
+            message.Param = param;
             HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (message.Result.Int == 0 && walk.Radius <= 12)
             {
@@ -2034,7 +2048,9 @@ public partial class StrategicMap : GameMap
                     field = mapLevel.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                     {
-                        message.Param[0] = walk.Radius;
+                        var param2 = message.Param;
+                        param2[0] = walk.Radius;
+                        message.Param = param2;
                         field.SendMapFieldMessage(ref message);
                     }
                 }
@@ -2069,7 +2085,9 @@ public partial class StrategicMap : GameMap
                 {
                     message.MessageId = 4362;
                     message.Result = 0;
-                    message.Param[1] = player;
+                    var param = message.Param;
+                    param[1] = player;
+                    message.Param = param;
                     HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
                     while (message.Result.Int == 0 && walk.Radius <= 12)
                     {
@@ -2078,7 +2096,9 @@ public partial class StrategicMap : GameMap
                             field = mapLevel.GetField(walk.X, walk.Y);
                             if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                             {
-                                message.Param[0] = walk.Radius;
+                                var param2 = message.Param;
+                                param2[0] = walk.Radius;
+                                message.Param = param2;
                                 field.SendMapFieldMessage(ref message);
                             }
                         }

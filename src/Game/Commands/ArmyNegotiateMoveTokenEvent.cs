@@ -141,8 +141,12 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
                 negotiateRequestEventLog.Player = (sbyte)(byte)player;
                 message.MessageId = 4366;
-                message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
-                message.Param[1] = (MsgArg)(0);
+                var param = message.Param;
+                param[0] = new MsgArg((object)negotiateRequestEventLog);
+                message.Param = param;
+                var param2 = message.Param;
+                param2[1] = (MsgArg)(0);
+                message.Param = param2;
                 message.Result = (MsgArg)(0);
                 StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
@@ -162,8 +166,12 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
             negotiateRequestEventLog.Player = (sbyte)(byte)player;
             message.MessageId = 4366;
-            message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
-            message.Param[1] = (MsgArg)(0);
+            var param3 = message.Param;
+            param3[0] = new MsgArg((object)negotiateRequestEventLog);
+            message.Param = param3;
+            var param4 = message.Param;
+            param4[1] = (MsgArg)(0);
+            message.Param = param4;
             message.Result = (MsgArg)(0);
             StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
             if (message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold)

@@ -324,7 +324,9 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         MapFieldMessage message = default;
         message.MessageId = 4357;
-        message.Param[0] = this;
+        var param = message.Param;
+        param[0] = this;
+        message.Param = param;
         message.Result = 0;
         Owner.SendMapFieldMessage(ref message);
     }

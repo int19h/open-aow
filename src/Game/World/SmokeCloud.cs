@@ -127,7 +127,9 @@ public partial class SmokeCloud : MultiHexMapObject
         {
             if (message.MessageId == 4392 && Status.Contains(MapObjectStatusElement.Activated))
             {
-                message.Param[0] = 1;
+                var param = message.Param;
+                param[0] = 1;
+                message.Param = param;
             }
             else
             {

@@ -511,7 +511,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         mapCoordinate = CalculateMeetingPoint();
         if (mapCoordinate == MapCoordinate.None)
         {
-            ref var location = ref Executor.Destination;
+            var location = Executor.Destination;
             mapCoordinate = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
         }
 

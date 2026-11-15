@@ -3,5 +3,5 @@ namespace Aow.Game.Combat;
 
 public sealed class BattleFieldQuery
 {
-    public BattleFieldInfo Info;
+    public BattleFieldInfo Info { get; internal set; }
 }

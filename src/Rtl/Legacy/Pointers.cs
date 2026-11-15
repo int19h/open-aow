@@ -7,8 +7,9 @@ public delegate ref T PointerElement<T>(int index);
 
 public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 {
-    public T[]? Array;
-    public int Index;
+    public T[]? Array { get; init; }
+    public int Index { get; private set; }
+
     private PointerElement<T>? view;
     private object? storage;
     private int byteOffset;
@@ -133,7 +134,7 @@ public interface IPointerBox
 
 public sealed class PtrBox<T> : IPointerBox
 {
-    public readonly Ptr<T> Pointer;
+    public Ptr<T> Pointer { get; }
 
     public PtrBox(Ptr<T> pointer)
     {

@@ -9,7 +9,7 @@ namespace Aow.Engine.Storage;
 
 public partial class TranslateTextStream : TranslateVisit
 {
-    public IvDictionary FDictionary;
+    public IvDictionary FDictionary { get; set; }
 
     // Army.PAS:5614
     public override void TranslateStrings(ref StringCollection lines)

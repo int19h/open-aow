@@ -17,17 +17,17 @@ public struct LockedSurface
     public int BitCount { get; set; }
     public int Pitch { get; set; }
 
-    public Rect ClipRectangle;
+    public Rect ClipRectangle { get; set; }
 
     public byte[] Data { get; set; }
     public int DataIndex { get; set; }
     public Palette Palette { get; init; }
     public int PixelFormatId { get; init; }
 
-    public int RMask;
-    public int GMask;
-    public int BMask;
-    public int AMask;
+    public int RMask { get; internal set; }
+    public int GMask { get; internal set; }
+    public int BMask { get; internal set; }
+    public int AMask { get; internal set; }
 
     // The view of the surface's rows for the blitters, moved by a byte offset from the first
     // pixel of row 0 (`Pointer(Integer(SD.Data) + Offset)` with `SD.Pitch` in the original), with
@@ -208,12 +208,22 @@ public struct LockedSurface
     public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
     {
         destination = source;
-        IntersectRect(out destination.ClipRectangle, source.ClipRectangle, R);
+        var clipRectangle = destination.ClipRectangle;
+        IntersectRect(out clipRectangle, source.ClipRectangle, R);
+        destination.ClipRectangle = clipRectangle;
         destination.DataIndex = source.DataIndex + R.Top * source.Pitch + (int)(((uint)source.BitCount) >> 3) * R.Left;
-        destination.ClipRectangle.Left -= R.Left;
-        destination.ClipRectangle.Right -= R.Left;
-        destination.ClipRectangle.Top -= R.Top;
-        destination.ClipRectangle.Bottom -= R.Top;
+        var clipRectangle2 = destination.ClipRectangle;
+        clipRectangle2.Left -= R.Left;
+        destination.ClipRectangle = clipRectangle2;
+        var clipRectangle3 = destination.ClipRectangle;
+        clipRectangle3.Right -= R.Left;
+        destination.ClipRectangle = clipRectangle3;
+        var clipRectangle4 = destination.ClipRectangle;
+        clipRectangle4.Top -= R.Top;
+        destination.ClipRectangle = clipRectangle4;
+        var clipRectangle5 = destination.ClipRectangle;
+        clipRectangle5.Bottom -= R.Top;
+        destination.ClipRectangle = clipRectangle5;
     }
 
     internal static void MinimizeTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, out Rect result)

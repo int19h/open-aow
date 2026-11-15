@@ -31,7 +31,7 @@ public partial class GroupDefenseSelector : IDisposable
 
     public UnitUserList Defenders { get; }
 
-    public MapCoordinate DefenseLocation;
+    public MapCoordinate DefenseLocation { get; private set; }
 
     // AIGroup.pas:1646
     public virtual void Dispose()
@@ -134,7 +134,8 @@ public partial class GroupDefenseSelector : IDisposable
             {
                 candidates.Clear();
                 mapField.GetDefenseRequirements(group.Player, out strengths);
-                if (!EnoughStrength(strengths.DamageStrengths))
+                var openedStrengths = strengths.DamageStrengths;
+                if (!EnoughStrength(openedStrengths))
                 {
                     UpdateDefenseLocation(mapField);
                     GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
@@ -149,7 +150,9 @@ public partial class GroupDefenseSelector : IDisposable
                         {
                             damageType = (DamageType)damageTypeOrdinal;
                             var strength = troop.GetStrength(damageType);
-                            strengths.DamageStrengths[(int)damageType] -= strength;
+                            var damageStrengths = strengths.DamageStrengths;
+                            damageStrengths[(int)damageType] -= strength;
+                            strengths.DamageStrengths = damageStrengths;
                         }
 
                         i += 1;
@@ -165,22 +168,29 @@ public partial class GroupDefenseSelector : IDisposable
                         {
                             damageType = (DamageType)damageTypeOrdinal;
                             var strength = troop.GetStrength(damageType);
-                            strengths.DamageStrengths[(int)damageType] -= strength;
+                            var damageStrengths2 = strengths.DamageStrengths;
+                            damageStrengths2[(int)damageType] -= strength;
+                            strengths.DamageStrengths = damageStrengths2;
                         }
                     }
 
                     i = start;
-                    while (!EnoughStrength(strengths.DamageStrengths) && candidates.Count > i && candidates.GetUnit(i).GroupId == group.GroupId)
+                    while (true)
                     {
+                        var required = strengths.DamageStrengths;
+                        if (EnoughStrength(required) || candidates.Count <= i || candidates.GetUnit(i).GroupId != group.GroupId)
+                            break;
                         troop = candidates.GetUnit(i);
-                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, strengths.DamageStrengths))
+                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, required))
                         {
                             Defenders.AddUnit(troop);
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                             {
                                 damageType = (DamageType)damageTypeOrdinal;
                                 var strength = troop.GetStrength(damageType);
-                                strengths.DamageStrengths[(int)damageType] -= strength;
+                                var damageStrengths3 = strengths.DamageStrengths;
+                                damageStrengths3[(int)damageType] -= strength;
+                                strengths.DamageStrengths = damageStrengths3;
                             }
                         }
 

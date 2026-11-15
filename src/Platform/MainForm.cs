@@ -94,19 +94,31 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         _windowState = UI.Engine.Registry.GetMainWindowState();
         UI.SoundDialog.MusicVolumeSlider.Position = UI.Engine.Registry.GetMusicVolume();
         UI.SoundDialog.EffectsVolumeSlider.Position = UI.Engine.Registry.GetSfxVolume();
-        UI.SoundDialog.Settings.MusicEnabled = UI.Engine.Registry.GetMusicEnabled();
-        UI.SoundDialog.Settings.SfxEnabled = UI.Engine.Registry.GetSfxEnabled();
-        UI.SoundDialog.Settings.UseDirectSound = UI.Engine.Registry.GetUseDirectSound();
+        var settings = UI.SoundDialog.Settings;
+        settings.MusicEnabled = UI.Engine.Registry.GetMusicEnabled();
+        UI.SoundDialog.Settings = settings;
+        var settings2 = UI.SoundDialog.Settings;
+        settings2.SfxEnabled = UI.Engine.Registry.GetSfxEnabled();
+        UI.SoundDialog.Settings = settings2;
+        var settings3 = UI.SoundDialog.Settings;
+        settings3.UseDirectSound = UI.Engine.Registry.GetUseDirectSound();
+        UI.SoundDialog.Settings = settings3;
         UI.SoundDialog.SoundQuality = UI.Engine.Registry.GetSoundQuality();
-        UI.SoundDialog.Settings.SampleVoices = 16;
-        UI.SoundDialog.Settings.SampleRate = UI.SoundDialog.SoundQuality == 1 ? 22050 : 44100;
-        UI.SoundDialog.Settings.OutputMode = UI.SoundDialog.SoundQuality switch
+        var settings4 = UI.SoundDialog.Settings;
+        settings4.SampleVoices = 16;
+        UI.SoundDialog.Settings = settings4;
+        var settings5 = UI.SoundDialog.Settings;
+        settings5.SampleRate = UI.SoundDialog.SoundQuality == 1 ? 22050 : 44100;
+        UI.SoundDialog.Settings = settings5;
+        var settings6 = UI.SoundDialog.Settings;
+        settings6.OutputMode = UI.SoundDialog.SoundQuality switch
         {
             1 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8),
             2 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits16),
             3 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16),
             _ => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality)
         };
+        UI.SoundDialog.Settings = settings6;
         if (UI.SoundDialog.SoundQuality != 0)
         {
             AudioPlayback.InitializeSoundSystem("SDL", UI.SoundDialog.Settings);

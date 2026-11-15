@@ -9,11 +9,16 @@ namespace Aow.Game.World.Structures;
 // physical strength.
 public struct DefenseRequirements
 {
-    public Array10<int> DamageStrengths;
+    public Array10<int> DamageStrengths { get; internal set; }
 
     public int Strength
     {
         readonly get => DamageStrengths[(int)DamageType.Physical];
-        set => DamageStrengths[(int)DamageType.Physical] = value;
+        set
+        {
+            var damageStrengths = DamageStrengths;
+            damageStrengths[(int)DamageType.Physical] = value;
+            DamageStrengths = damageStrengths;
+        }
     }
 }

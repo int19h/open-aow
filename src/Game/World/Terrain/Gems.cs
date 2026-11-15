@@ -63,7 +63,13 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
         if (message.MessageId == 4608 && message.HexNumber == 0)
         {
-            UpdateAITarget(ref message.Param[0].As<AITargetQuery>().Info, ref message.Param[0].As<AITargetQuery>().Data.Priority);
+            var info = message.Param[0].As<AITargetQuery>().Info;
+            var data = message.Param[0].As<AITargetQuery>().Data;
+            var priority = data.Priority;
+            UpdateAITarget(ref info, ref priority);
+            message.Param[0].As<AITargetQuery>().Info = info;
+            data.Priority = priority;
+            message.Param[0].As<AITargetQuery>().Data = data;
             if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
             {
                 message.Result = 1;

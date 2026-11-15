@@ -3,5 +3,5 @@ namespace Aow.Game.Combat;
 
 public sealed class StormDamageQuery
 {
-    public StormDamageInfo Info;
+    public StormDamageInfo Info { get; internal set; }
 }

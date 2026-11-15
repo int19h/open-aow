@@ -210,20 +210,28 @@ public partial class City : PlayerCropStructure
                 {
                     if (Player == 0)
                     {
-                        message.Param[0] = message.Param[0].Int + 851968;
+                        var param = message.Param;
+                        param[0] = param[0].Int + 851968;
+                        message.Param = param;
                     }
                     else
                     {
                         var player = StrategicMap.Current.Players.GetPlayers(Player);
-                        message.Param[0] = message.Param[0].Int + (player.PlayerRace + 1) * 65536;
+                        var param2 = message.Param;
+                        param2[0] = param2[0].Int + (player.PlayerRace + 1) * 65536;
+                        message.Param = param2;
                     }
                 }
                 else
                 {
-                    message.Param[0] = message.Param[0].Int + 917504;
+                    var param3 = message.Param;
+                    param3[0] = param3[0].Int + 917504;
+                    message.Param = param3;
                 }
 
-                message.Param[0] = message.Param[0].Int + (((Resource)Resource).Size - 1) * 4194304;
+                var param4 = message.Param;
+                param4[0] = param4[0].Int + (((Resource)Resource).Size - 1) * 4194304;
+                message.Param = param4;
             }
             else
             {
@@ -235,7 +243,9 @@ public partial class City : PlayerCropStructure
                 {
                     if (message.MessageId == 4360)
                     {
-                        ReturnBattleFieldInfo(ref message.Param[0].As<BattleFieldQuery>().Info);
+                        var info = message.Param[0].As<BattleFieldQuery>().Info;
+                        ReturnBattleFieldInfo(ref info);
+                        message.Param[0].As<BattleFieldQuery>().Info = info;
                     }
                     else
                     {
@@ -278,7 +288,9 @@ public partial class City : PlayerCropStructure
                                         {
                                             if (IncomingNegotiateRequest(message.Param[0].As<NegotiateRequestEventLog>()))
                                             {
-                                                message.Param[1] = 1;
+                                                var param5 = message.Param;
+                                                param5[1] = 1;
+                                                message.Param = param5;
                                             }
                                         }
                                         else
@@ -294,7 +306,9 @@ public partial class City : PlayerCropStructure
                                             {
                                                 if (message.MessageId == 4393 && Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
                                                 {
-                                                    message.Param[0] = 1;
+                                                    var param6 = message.Param;
+                                                    param6[0] = 1;
+                                                    message.Param = param6;
                                                 }
                                             }
                                         }

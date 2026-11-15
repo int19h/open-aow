@@ -561,10 +561,10 @@ public partial class MeleeRound : IDisposable
 
     public struct Strike
     {
-        public int AttackBonus;
-        public int DamageBonus;
-        public int DamageValue;
-        public CombatSideIndex Side;
+        public int AttackBonus { get; internal set; }
+        public int DamageBonus { get; internal set; }
+        public int DamageValue { get; internal set; }
+        public CombatSideIndex Side { get; internal set; }
     }
 
     // intf_P4_02.inc:123

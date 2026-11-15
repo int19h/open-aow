@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 //     done of the level and the level index. }
 public struct MapProgress
 {
-    public MapProgressType ProgressType;
-    public int Percent;
-    public int Level;
+    public MapProgressType ProgressType { get; init; }
+    public int Percent { get; internal set; }
+    public int Level { get; init; }
 }

@@ -14,7 +14,7 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
     // IndependentAG.pas:161
     public new const int ClassId = 136273;
 
-    public MapCoordinate GuardLocation;
+    public MapCoordinate GuardLocation { get; internal set; }
 
     // The fourth byte of the packed location stored at id 50, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.

@@ -186,7 +186,11 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 _effect.AbilityIndex = AbilityId;
                                 point = new Point3D();
                                 var hexY = PreviousUnit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out point.X, out point.Y);
+                                var x2 = point.X;
+                                var y2 = point.Y;
+                                HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out x2, out y2);
+                                point.X = x2;
+                                point.Y = y2;
                                 point.X += 16;
                                 _effect.Path.Add(point);
                                 Step = TokenStep.ExecuteStrike;
@@ -211,7 +215,11 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         _effect.AbilityIndex = AbilityId;
                                         point = new Point3D();
                                         var path = Path[1];
-                                        HexGeometry.HexToPixel(Path[1].Location.X, path.Location.Y, out point.X, out point.Y);
+                                        var x3 = point.X;
+                                        var y3 = point.Y;
+                                        HexGeometry.HexToPixel(Path[1].Location.X, path.Location.Y, out x3, out y3);
+                                        point.X = x3;
+                                        point.Y = y3;
                                         point.X += 16;
                                         _effect.Path.Add(point);
                                         Step = TokenStep.ExecuteStrike;
@@ -415,7 +423,9 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                             if (_effect.Frame == 5)
                                             {
                                                 message.MessageId = 200704;
-                                                message.Param[0] = Unit;
+                                                var param = message.Param;
+                                                param[0] = Unit;
+                                                message.Param = param;
                                                 message.Result = -1;
                                                 i = 0;
                                                 for (; i <= 6; i += 1)

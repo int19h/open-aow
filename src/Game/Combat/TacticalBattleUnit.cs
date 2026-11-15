@@ -119,8 +119,12 @@ public partial class TacticalBattleUnit : CombatUnit
                         HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out x, out y);
                         var xyz = new Point3D();
                         effect.Path.Add(xyz);
-                        effect.Path[0].X = x + 16;
-                        effect.Path[0].Y = y + 8;
+                        var path2 = effect.Path;
+                        path2[0].X = x + 16;
+                        effect.Path = path2;
+                        var path3 = effect.Path;
+                        path3[0].Y = y + 8;
+                        effect.Path = path3;
                         for (int j = 0; j <= 10; j++)
                         {
                             speed = (float)((double)(Random(50) + 50) * 0.05);
@@ -133,7 +137,9 @@ public partial class TacticalBattleUnit : CombatUnit
                             var pathZ = effect.Path[fPathCount - 1];
                             var count2 = effect.Path.Count;
                             var pathX = effect.Path[count2 - 1];
-                            EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref effect.Path);
+                            var path4 = effect.Path;
+                            EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path4);
+                            effect.Path = path4;
                         }
                     }
                 }
@@ -282,7 +288,11 @@ public partial class TacticalBattleUnit : CombatUnit
         }
 
         var hexY = unitObject.UnitHexSprite.HexY;
-        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out point.X, out point.Y);
+        var x = point.X;
+        var y = point.Y;
+        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out x, out y);
+        point.X = x;
+        point.Y = y;
         point.X = Random(10) + point.X + 11;
         var unitSize = unitObject.Troop.GetUnitSize();
         point.Y = Random(10) + point.Y + 9 - (int)unitSize * 10;

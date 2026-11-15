@@ -423,12 +423,16 @@ public partial class Memo : Control
 
                 if (x + w < oldClip.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = x + w;
+                    var clipRectangle = lockedSurface.ClipRectangle;
+                    clipRectangle.Right = x + w;
+                    lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 if (y + h < oldClip.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = y + h;
+                    var clipRectangle2 = lockedSurface.ClipRectangle;
+                    clipRectangle2.Bottom = y + h;
+                    lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
                 for (int i = 0, last = _numberVisible; i <= last; i++)

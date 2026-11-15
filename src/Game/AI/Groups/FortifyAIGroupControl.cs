@@ -73,7 +73,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 0:
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
-                finder.Selector.TargetInfo.Mode = AITargetMode.Fortify;
+                var targetInfo = finder.Selector.TargetInfo;
+                targetInfo.Mode = AITargetMode.Fortify;
+                finder.Selector.TargetInfo = targetInfo;
                 finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
                 finder.Range = 12;
                 ActivatePlugin(finder);
@@ -256,7 +258,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     Targets.Clear();
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
-                    finder.Selector.TargetInfo.Mode = AITargetMode.AttackArmies;
+                    var targetInfo2 = finder.Selector.TargetInfo;
+                    targetInfo2.Mode = AITargetMode.AttackArmies;
+                    finder.Selector.TargetInfo = targetInfo2;
                     finder.Selector.MovePointsMax = 55;
                     if (_fortifyLocation == MapCoordinate.None)
                     {
@@ -345,7 +349,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 Targets.Clear();
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
-                finder.Selector.TargetInfo.Mode = AITargetMode.Attack;
+                var targetInfo3 = finder.Selector.TargetInfo;
+                targetInfo3.Mode = AITargetMode.Attack;
+                finder.Selector.TargetInfo = targetInfo3;
                 finder.Selector.MovePointsMax = 55;
                 if (_fortifyLocation == MapCoordinate.None)
                 {
@@ -551,7 +557,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         MoveControlSettings settings;
         MapFieldMessage message = default;
         var query = new BattleFieldQuery();
-        ref var info = ref query.Info;
+        var info = query.Info;
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = Group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
@@ -564,8 +570,11 @@ public partial class FortifyAIGroupControl : AIGroupControl
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         BattleFieldInfo.SetupBattleFieldInfo(out info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+        query.Info = info;
         message.MessageId = 4360;
-        message.Param[0] = query;
+        var param = message.Param;
+        param[0] = query;
+        message.Param = param;
         for (int i = settings.ProcessedMapFields.Count - 1; i >= 0; i--)
         {
             var mapField = settings.ProcessedMapFields[i];
@@ -575,6 +584,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
             }
         }
 
+        // Handlers write the query through the message. The strength read here is that write.
+        info = query.Info;
         int result = info.Strength;
         settings.Release();
         return result;

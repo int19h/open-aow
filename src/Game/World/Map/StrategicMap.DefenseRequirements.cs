@@ -11,7 +11,9 @@ public partial class StrategicMap
     {
         var query = new BattleFieldQuery { Info = info };
         var message = new MapFieldMessage { MessageId = 0x1108 };
-        message.Param[0] = query;
+        var param = message.Param;
+        param[0] = query;
+        message.Param = param;
         var mapLevel = MapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
@@ -26,8 +28,12 @@ public partial class StrategicMap
                     {
                         int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;
                         field.SendMapFieldMessage(ref message);
-                        query.Info.FriendlyStrength = Math.Max(friendly, query.Info.FriendlyStrength);
-                        query.Info.Strength = Math.Max(enemy, query.Info.Strength);
+                        var info2 = query.Info;
+                        info2.FriendlyStrength = Math.Max(friendly, info2.FriendlyStrength);
+                        query.Info = info2;
+                        var info3 = query.Info;
+                        info3.Strength = Math.Max(enemy, info3.Strength);
+                        query.Info = info3;
                     }
                 }
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);

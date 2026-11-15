@@ -511,7 +511,9 @@ public partial class CombatPredictor : IDisposable
         {
             message.MessageId = 4387;
             var fieldValue = level.GetField(X, Y);
-            message.Param[0] = fieldValue;
+            var param = message.Param;
+            param[0] = fieldValue;
+            message.Param = param;
             message.Result = 0;
             level.GetField(X, Y).SendMapFieldMessage(ref message);
             if ((WallType)message.Result.Int != WallType.None)
@@ -533,7 +535,9 @@ public partial class CombatPredictor : IDisposable
                             field = level.GetField(X, Y);
                             message.MessageId = 4387;
                             var levelField = level.GetField(walk.X, walk.Y);
-                            message.Param[0] = levelField;
+                            var param2 = message.Param;
+                            param2[0] = levelField;
+                            message.Param = param2;
                             message.Result = 0;
                             field.SendMapFieldMessage(ref message);
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
@@ -572,7 +576,9 @@ public partial class CombatPredictor : IDisposable
         {
             message.MessageId = 4387;
             var fieldValue = level.GetField(X, Y);
-            message.Param[0] = fieldValue;
+            var param = message.Param;
+            param[0] = fieldValue;
+            message.Param = param;
             message.Result = 0;
             level.GetField(X, Y).SendMapFieldMessage(ref message);
             if ((WallType)message.Result.Int != WallType.None)
@@ -594,7 +600,9 @@ public partial class CombatPredictor : IDisposable
                             field = level.GetField(X, Y);
                             message.MessageId = 4387;
                             var levelField = level.GetField(walk.X, walk.Y);
-                            message.Param[0] = levelField;
+                            var param2 = message.Param;
+                            param2[0] = levelField;
+                            message.Param = param2;
                             message.Result = 0;
                             field.SendMapFieldMessage(ref message);
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)

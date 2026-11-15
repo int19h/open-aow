@@ -375,7 +375,9 @@ public partial class Battle : EngineObject
         if (finalData.X != -1)
         {
             message.MessageId = 4368;
-            message.Param[0] = this;
+            var param = message.Param;
+            param[0] = this;
+            message.Param = param;
             message.Result = 0;
             StrategicMap.Current.MapContainer.GetField(finalData.X, finalData.Y, finalData.MapLevel).SendMapFieldMessage(ref message);
         }
@@ -756,7 +758,9 @@ public partial class Battle : EngineObject
             {
                 message.MessageId = 4387;
                 var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-                message.Param[0] = fieldValue;
+                var param = message.Param;
+                param[0] = fieldValue;
+                message.Param = param;
                 message.Result = 0;
                 data = CombatData;
                 StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
@@ -823,7 +827,9 @@ public partial class Battle : EngineObject
         party = CombatData.Parties.CreateParty(this, position, playerLocal, X, Y, L, null);
         message.MessageId = 4387;
         var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-        message.Param[0] = fieldValue;
+        var param = message.Param;
+        param[0] = fieldValue;
+        message.Param = param;
         message.Result = 0;
         StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
         if (message.Result.Int != 0)
@@ -882,14 +888,18 @@ public partial class Battle : EngineObject
     public string GetCombatResultText()
     {
         var query = new CombatResultQuery();
-        ref var result = ref query.Text;
+        var result = "";
+        query.Text = result;
         MapFieldMessage message = default;
-        result = "";
         message.MessageId = 4361;
         message.Result = query;
-        message.Param[0] = this;
+        var param = message.Param;
+        param[0] = this;
+        message.Param = param;
         // { direct combat data }
         StrategicMap.Current.MapContainer.GetField(CombatData.X, CombatData.Y, CombatData.MapLevel).SendMapFieldMessage(ref message);
+        // Handlers write the query through the message. The text read here is that write.
+        result = query.Text;
         if (IsEmpty(result))
         {
             if (CombatResult == CombatResult.Victory)
@@ -921,6 +931,8 @@ public partial class Battle : EngineObject
                     }
                 }
             }
+
+            query.Text = result;
         }
 
         return result;

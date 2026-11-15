@@ -295,7 +295,9 @@ public partial class MapControl : Component
         {
             if (OnMapChanged != null)
             {
-                OnMapChanged(ref sender.Info);
+                var info = sender.Info;
+                OnMapChanged(ref info);
+                sender.Info = info;
             }
         }
         catch
@@ -311,7 +313,9 @@ public partial class MapControl : Component
         {
             if (OnScannerIconsChanged != null)
             {
-                OnScannerIconsChanged(ref sender.Info);
+                var info = sender.Info;
+                OnScannerIconsChanged(ref info);
+                sender.Info = info;
             }
         }
         catch
@@ -560,7 +564,9 @@ public partial class MapControl : Component
         {
             if (OnShowMessage != null)
             {
-                OnShowMessage(ref sender.Info);
+                var info = sender.Info;
+                OnShowMessage(ref info);
+                sender.Info = info;
             }
         }
         catch

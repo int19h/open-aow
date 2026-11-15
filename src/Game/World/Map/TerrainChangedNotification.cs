@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 
 public sealed class TerrainChangedNotification
 {
-    public TerrainChangedInfo Info;
+    public TerrainChangedInfo Info { get; internal set; }
 
     public struct TerrainChangedInfo
     {

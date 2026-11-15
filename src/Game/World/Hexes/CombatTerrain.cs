@@ -149,7 +149,9 @@ public partial class CombatTerrain : TerrainMapObject
                         RandSeed = StrategicMap.Current.Random(16777215);
                         var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole11);
-                        message.Param[1] = 1;
+                        var param = message.Param;
+                        param[1] = 1;
+                        message.Param = param;
                         break;
                     case 200711:
                         RandSeed = StrategicMap.Current.Random(16777215);
@@ -164,7 +166,9 @@ public partial class CombatTerrain : TerrainMapObject
                 case 135169:
                     if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < ((Resource)base.Resource).Defense)
                     {
-                        message.Param[0] = ((Resource)base.Resource).Defense;
+                        var param2 = message.Param;
+                        param2[0] = ((Resource)base.Resource).Defense;
+                        message.Param = param2;
                     }
 
                     break;
