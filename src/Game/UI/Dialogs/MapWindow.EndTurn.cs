@@ -18,7 +18,7 @@ public partial class MapWindow
             return;
         }
 
-        var keyboard = StrategicMap.Current.Keyboard;
+        HexSpriteMapKeyboard keyboard = StrategicMap.Current.Keyboard;
         if (keyboard.LockCount != 0 || keyboard.Mode != HexSpriteMapKeyboardMode.Default)
         {
             return;

@@ -106,10 +106,10 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                     ArmyHexSprite.SetDirection(0);
                 }
 
-                var item = Path[0];
-                var fPathItem = Path[0];
-                var item2 = Path[0];
-                var item3 = Path[0];
+                PathStep item = Path[0];
+                PathStep fPathItem = Path[0];
+                PathStep item2 = Path[0];
+                PathStep item3 = Path[0];
                 NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, item3.MoveCost);
                 result = MoveStatus.Done;
             }
@@ -134,16 +134,16 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         {
             if (player == StrategicMap.Current.SeatedPlayer)
             {
-                NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
+                NegotiateRequestEventLog negotiateRequestEventLog = new(null) { Holder = armyHexSprite };
                 negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
                 negotiateRequestEventLog.MovePoints = movePoints;
                 negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
                 negotiateRequestEventLog.Player = (sbyte)(byte)player;
                 message.MessageId = 4366;
-                var param = message.Param;
+                MapFieldMessageParameters param = message.Param;
                 param[0] = new MsgArg(negotiateRequestEventLog);
                 message.Param = param;
-                var param2 = message.Param;
+                MapFieldMessageParameters param2 = message.Param;
                 param2[1] = (MsgArg)0;
                 message.Param = param2;
                 message.Result = (MsgArg)0;
@@ -157,16 +157,16 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         }
         else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
         {
-            NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
+            NegotiateRequestEventLog negotiateRequestEventLog = new(null) { Holder = armyHexSprite };
             negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
             negotiateRequestEventLog.MovePoints = movePoints;
             negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
             negotiateRequestEventLog.Player = (sbyte)(byte)player;
             message.MessageId = 4366;
-            var param3 = message.Param;
+            MapFieldMessageParameters param3 = message.Param;
             param3[0] = new MsgArg(negotiateRequestEventLog);
             message.Param = param3;
-            var param4 = message.Param;
+            MapFieldMessageParameters param4 = message.Param;
             param4[1] = (MsgArg)0;
             message.Param = param4;
             message.Result = (MsgArg)0;

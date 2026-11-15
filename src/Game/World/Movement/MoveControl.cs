@@ -251,7 +251,7 @@ public partial class MoveControl : IDisposable
         int previous = default;
         int index = default;
         PathFindingStep pathFindingStep = default;
-        var canMoveOver = source.CanMoveOver(this);
+        int canMoveOver = source.CanMoveOver(this);
         points = OnMovePoint(target, canMoveOver);
         if (points >= 0)
         {
@@ -268,7 +268,7 @@ public partial class MoveControl : IDisposable
             previous = Settings.GetMovePoints(target.HexX, target.HexY, target.HexLevel);
             if (points < previous && points <= MovePointsLimit)
             {
-                var mapCoordinate = target.GetMapCoordinate();
+                MapCoordinate mapCoordinate = target.GetMapCoordinate();
                 index = Settings.SubMoves.IndexOfMapCoordinate(mapCoordinate);
                 if (index > Settings.SubMoveIndex)
                 {
@@ -299,9 +299,9 @@ public partial class MoveControl : IDisposable
                 else
                 {
                     pathFindingStep = new PathFindingStep(null) { Holder = Map };
-                    var targetMapCoordinate = target.GetMapCoordinate();
+                    MapCoordinate targetMapCoordinate = target.GetMapCoordinate();
                     pathFindingStep.Location = targetMapCoordinate;
-                    var sourceMapCoordinate = source.GetMapCoordinate();
+                    MapCoordinate sourceMapCoordinate = source.GetMapCoordinate();
                     pathFindingStep.Origin = sourceMapCoordinate;
                     pathFindingStep.Owner = Settings.SubMoves;
                 }
@@ -318,11 +318,11 @@ public partial class MoveControl : IDisposable
         int count;
         int hexDirection;
         pathFindingStep = new PathFindingStep(null) { Holder = Map };
-        var mapCoordinate = mapField.GetMapCoordinate();
+        MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
         pathFindingStep.Location = mapCoordinate;
         if (origin != null)
         {
-            var originMapCoordinate = origin.GetMapCoordinate();
+            MapCoordinate originMapCoordinate = origin.GetMapCoordinate();
             pathFindingStep.Origin = originMapCoordinate;
             if ((mapField.FieldFlags & MapField.MoveOverFlag) == 0)
             {
@@ -413,7 +413,7 @@ public partial class MoveControl : IDisposable
                 Settings.Status = MoveControlSettingsStatus.Processing;
                 break;
             case MoveControlSettingsStatus.Processing:
-                var count = Settings.SubMoves.Count;
+                int count = Settings.SubMoves.Count;
                 if (Settings.SubMoveIndex < count)
                 {
                     if (ProcessSubMove(Settings.SubMoves.GetSubMove(Settings.SubMoveIndex)))
@@ -422,7 +422,7 @@ public partial class MoveControl : IDisposable
                     }
                 }
 
-                var fSubMovesCount = Settings.SubMoves.Count;
+                int fSubMovesCount = Settings.SubMoves.Count;
                 if (Settings.SubMoveIndex >= fSubMovesCount)
                 {
                     Settings.Status = MoveControlSettingsStatus.Processed;
@@ -538,8 +538,8 @@ public partial class MoveControl : IDisposable
         while (i > 0 && valid)
         {
             points += path[i].MoveCost;
-            var item = path[i];
-            var pathItem = path[i];
+            PathStep item = path[i];
+            PathStep pathItem = path[i];
             valid = points == settings.GetMovePoints(path[i].Location.X, pathItem.Location.Y, item.Location.MapLevel);
             i -= 1;
         }
@@ -720,15 +720,15 @@ public partial class MoveControl : IDisposable
             cost = _directRoute[i].MapLevel;
             if (cost < 0)
             {
-                var item = _directRoute[i - 1];
-                var fDirectRouteItem = _directRoute[i - 1];
+                MapCoordinate item = _directRoute[i - 1];
+                MapCoordinate fDirectRouteItem = _directRoute[i - 1];
                 gapIndex = GapStarts.IndexOfXY(fDirectRouteItem.X, item.Y);
                 cost = CalculateTurnAroundMovePoints(ref gapIndex);
                 if (cost != -1)
                 {
                     points += cost;
-                    var fGapEndsItem = GapEnds[gapIndex];
-                    var item2 = GapEnds[gapIndex];
+                    MapCoordinate fGapEndsItem = GapEnds[gapIndex];
+                    MapCoordinate item2 = GapEnds[gapIndex];
                     i = _directRoute.IndexOfXY(item2.X, fGapEndsItem.Y);
                 }
                 else

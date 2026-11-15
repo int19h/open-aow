@@ -25,7 +25,7 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
     {
         base.Process(source, value);
         CreateFireBarrier();
-        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }

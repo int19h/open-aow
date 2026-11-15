@@ -530,7 +530,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -553,7 +553,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -569,7 +569,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -580,7 +580,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle2 = r.Rectangle;
+                                        Rect rectangle2 = r.Rectangle;
                                         rectangle2.Right = rectangle.Left - 1;
                                         r.Rectangle = rectangle2;
                                     }
@@ -601,7 +601,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -617,7 +617,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -628,7 +628,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle3 = r.Rectangle;
+                                        Rect rectangle3 = r.Rectangle;
                                         rectangle3.Left = rectangle.Right + 1;
                                         r.Rectangle = rectangle3;
                                     }
@@ -642,7 +642,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (BlitCount == BlitList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             BlitList.Add(dirtyRectangle);
                                         }
 
@@ -653,7 +653,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle4 = r.Rectangle;
+                                        Rect rectangle4 = r.Rectangle;
                                         rectangle4.Bottom = rectangle.Top - 1;
                                         r.Rectangle = rectangle4;
                                     }
@@ -662,7 +662,7 @@ public partial class UIComponent : Rtl.Component
                                 {
                                     if (rectangle.Bottom <= r.Rectangle.Bottom)
                                     {
-                                        var rectangle5 = r.Rectangle;
+                                        Rect rectangle5 = r.Rectangle;
                                         rectangle5.Top = rectangle.Bottom + 1;
                                         r.Rectangle = rectangle5;
                                     }
@@ -683,7 +683,7 @@ public partial class UIComponent : Rtl.Component
             {
                 if (BlitCount == BlitList.Count)
                 {
-                    var dirtyRectangle = new DirtyRectangle();
+                    DirtyRectangle dirtyRectangle = new();
                     BlitList.Add(dirtyRectangle);
                 }
 
@@ -754,7 +754,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -777,7 +777,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -793,7 +793,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -804,7 +804,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle2 = r.Rectangle;
+                                        Rect rectangle2 = r.Rectangle;
                                         rectangle2.Right = rectangle.Left - 1;
                                         r.Rectangle = rectangle2;
                                     }
@@ -825,7 +825,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -841,7 +841,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -852,7 +852,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle3 = r.Rectangle;
+                                        Rect rectangle3 = r.Rectangle;
                                         rectangle3.Left = rectangle.Right + 1;
                                         r.Rectangle = rectangle3;
                                     }
@@ -866,7 +866,7 @@ public partial class UIComponent : Rtl.Component
                                     {
                                         if (DrawCount == DrawList.Count)
                                         {
-                                            var dirtyRectangle = new DirtyRectangle();
+                                            DirtyRectangle dirtyRectangle = new();
                                             DrawList.Add(dirtyRectangle);
                                         }
 
@@ -877,7 +877,7 @@ public partial class UIComponent : Rtl.Component
                                     }
                                     else
                                     {
-                                        var rectangle4 = r.Rectangle;
+                                        Rect rectangle4 = r.Rectangle;
                                         rectangle4.Bottom = rectangle.Top - 1;
                                         r.Rectangle = rectangle4;
                                     }
@@ -886,7 +886,7 @@ public partial class UIComponent : Rtl.Component
                                 {
                                     if (rectangle.Bottom <= r.Rectangle.Bottom)
                                     {
-                                        var rectangle5 = r.Rectangle;
+                                        Rect rectangle5 = r.Rectangle;
                                         rectangle5.Top = rectangle.Bottom + 1;
                                         r.Rectangle = rectangle5;
                                     }
@@ -907,7 +907,7 @@ public partial class UIComponent : Rtl.Component
             {
                 if (DrawCount == DrawList.Count)
                 {
-                    var dirtyRectangle = new DirtyRectangle();
+                    DirtyRectangle dirtyRectangle = new();
                     DrawList.Add(dirtyRectangle);
                 }
 

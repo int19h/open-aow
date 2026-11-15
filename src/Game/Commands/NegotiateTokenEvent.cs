@@ -90,7 +90,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         if (Validate())
         {
             message.MessageId = 4367;
-            var param = message.Param;
+            MapFieldMessageParameters param = message.Param;
             param[0] = this;
             message.Param = param;
             message.Result = 0;
@@ -108,7 +108,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         id = ArmyId;
         if (id != null)
         {
-            var armyHexSprite = ArmyHexSprite;
+            ArmyHexSprite armyHexSprite = ArmyHexSprite;
             result = id.RetrieveArmy(ref armyHexSprite, ref _selection);
             ArmyHexSprite = armyHexSprite;
         }
@@ -137,7 +137,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         MoveArmyTokenEvent move;
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
             if (EventLogId != -1)
             {

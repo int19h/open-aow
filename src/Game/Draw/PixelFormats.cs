@@ -47,7 +47,7 @@ public static class PixelFormats
 
     internal static bool ValidImageFile(string fileName)
     {
-        var extractFileExt = ExtractFileExt(fileName);
+        string extractFileExt = ExtractFileExt(fileName);
         return GraphicsState.ImageFileClassList.FindClass(extractFileExt) != null;
     }
 
@@ -55,7 +55,7 @@ public static class PixelFormats
     {
         Surface result;
         ImageFileClass c;
-        var extractFileExt = ExtractFileExt(fileName);
+        string extractFileExt = ExtractFileExt(fileName);
         c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
         if (c != null)
         {
@@ -174,10 +174,10 @@ public static class PixelFormats
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
-        var sizes = new List<(int Width, int Height)>();
+        List<(int Width, int Height)> sizes = new();
         for (int scale = 8; scale >= 1; scale--)
         {
-            var size = (desktopWidth / scale, desktopHeight / scale);
+            (int, int) size = (desktopWidth / scale, desktopHeight / scale);
             if (size.Item1 >= 640 && size.Item2 >= 480 && !sizes.Contains(size))
             {
                 sizes.Add(size);

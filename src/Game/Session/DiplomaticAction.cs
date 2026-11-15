@@ -59,9 +59,9 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        var (kind, gold, mana) = Proposal.ToFields();
-        var message = new StringList();
-        foreach (var line in Proposal.Message)
+        (byte kind, int gold, int mana) = Proposal.ToFields();
+        StringList message = new();
+        foreach (string line in Proposal.Message)
         {
             message.Add(line);
         }
@@ -125,9 +125,9 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
                 log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
                 Assert(log is DiplomaticActionEventLog, "", "Diplomacy.pas", 697);
                 StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
-                var players = StrategicMap.Current.Players.GetPlayers(Source);
+                Player players = StrategicMap.Current.Players.GetPlayers(Source);
                 StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
-                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+                Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
                 StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
                 EscrowGold = 0;
                 EscrowMana = 0;
@@ -140,12 +140,12 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         if (Reaction == DiplomaticActionReaction.None)
         {
-            var (_, gold, mana) = Proposal.ToFields();
+            (byte _, int gold, int mana) = Proposal.ToFields();
             EscrowGold = gold;
-            var players = StrategicMap.Current.Players.GetPlayers(Source);
+            Player players = StrategicMap.Current.Players.GetPlayers(Source);
             StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems - gold);
             EscrowMana = mana;
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
             StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana - mana);
             Proposal.Sent(this);
         }
@@ -156,10 +156,10 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         Reaction = DiplomaticActionReaction.Accept;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
-        var players = StrategicMap.Current.Players.GetPlayers(Target);
+        Player players = StrategicMap.Current.Players.GetPlayers(Target);
         StrategicMap.Current.Players.GetPlayers(Target).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
-        var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Target);
+        Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Target);
         StrategicMap.Current.Players.GetPlayers(Target).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         ApplyRelationModifiers();
@@ -171,10 +171,10 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         DiplomaticActionEventLog log;
         Reaction = Proposal.RejectReaction(this);
-        var players = StrategicMap.Current.Players.GetPlayers(Source);
+        Player players = StrategicMap.Current.Players.GetPlayers(Source);
         StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
-        var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+        Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
         StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
@@ -224,7 +224,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public virtual bool CanSend(ref string errorText)
     {
         bool result;
-        var (_, gold, mana) = Proposal.ToFields();
+        (byte _, int gold, int mana) = Proposal.ToFields();
         if (StrategicMap.Current.Players.GetPlayers(Source).Gems >= gold)
         {
             if (StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Mana >= mana)
@@ -339,7 +339,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public void UpdateAIDiplomaticActionsLog(sbyte player)
     {
         DiplomaticAction action;
-        var players = StrategicMap.Current.Players.GetPlayers(player);
+        Player players = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
         {
             action = (DiplomaticAction)Copy(GetEngine());

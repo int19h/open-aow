@@ -44,7 +44,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         SetNumberOfPlayers(((PlayerCollection)source).GetNumberOfPlayers());
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            var players = ((PlayerCollection)source).GetPlayers(i);
+            Player players = ((PlayerCollection)source).GetPlayers(i);
             this[i].Assign(players, engine);
         }
     }
@@ -190,7 +190,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 j -= 1;
                 if (j != i)
                 {
-                    var item = ActivePlayers[i];
+                    byte item = ActivePlayers[i];
                     result = GetDiplomaticRelation((sbyte)ActivePlayers[j], (sbyte)item) == DiplomaticRelation.Alliance;
                 }
             }
@@ -308,7 +308,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         while (Count > value + 1)
         {
             GetPlayers(Count - 1).Dispose();
-            var count = Count;
+            int count = Count;
             DeleteChildAt(count - 1);
         }
     }
@@ -373,7 +373,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
             else
             {
-                var item = available[0];
+                int item = available[0];
                 this[invalid[i]].SetRace((sbyte)item);
                 available.Delete(0);
             }
@@ -480,7 +480,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         ActivePlayers.Clear();
         for (int i = 0; i < Count; i++)
         {
-            var player = this[i];
+            Player player = this[i];
             if (player.Status != PlayerStatus.Playing)
             {
                 continue;

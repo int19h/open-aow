@@ -61,7 +61,7 @@ public partial class SoundDialog : UIModule
         AudioHost.SongPlayer.Songs.Delete(PlayList.Selected);
         if (AudioHost.SongPlayer.CurrentIndex == -1)
         {
-            var count = AudioHost.SongPlayer.Songs.Count;
+            int count = AudioHost.SongPlayer.Songs.Count;
             if (PlayList.Selected < count)
             {
                 AudioHost.SongPlayer.Play(PlayList.Selected);
@@ -70,7 +70,7 @@ public partial class SoundDialog : UIModule
             {
                 if (AudioHost.SongPlayer.Songs.Count != 0)
                 {
-                    var songsCount = AudioHost.SongPlayer.Songs.Count;
+                    int songsCount = AudioHost.SongPlayer.Songs.Count;
                     AudioHost.SongPlayer.Play(songsCount - 1);
                 }
             }
@@ -85,7 +85,7 @@ public partial class SoundDialog : UIModule
         PlayList.Items.Clear();
         for (int i = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; i <= last; i++)
         {
-            var songName = AudioHost.SongPlayer.SongNames[i];
+            string songName = AudioHost.SongPlayer.SongNames[i];
             PlayList.Items.Add(songName);
         }
 
@@ -101,7 +101,7 @@ public partial class SoundDialog : UIModule
         {
             RemoveButton.Visible = true;
             PlayButton.Visible = true;
-            var songName = AudioHost.SongPlayer.SongNames[PlayList.Selected];
+            string songName = AudioHost.SongPlayer.SongNames[PlayList.Selected];
             CurrentSongLabel.Text = songName;
         }
 
@@ -127,7 +127,7 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:172
     public void SongChange()
     {
-        var songName = AudioHost.SongPlayer.SongNames[AudioHost.SongPlayer.CurrentIndex];
+        string songName = AudioHost.SongPlayer.SongNames[AudioHost.SongPlayer.CurrentIndex];
         CurrentSongLabel.Text = songName;
         MainPanel.Drawn = false;
         PlayList.Drawn = false;
@@ -146,14 +146,14 @@ public partial class SoundDialog : UIModule
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        foreach (var entry in Files.FindEntries(directory + "\\*.*", attributes: 16))
+        foreach (RtlFileEntry entry in Files.FindEntries(directory + "\\*.*", attributes: 16))
         {
             if (entry.Name != "." && entry.Name != "..")
             {
                 if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
                 {
                     s_songFiles.Add("Songs\\" + entry.Name);
-                    var songName = AudioPlayback.GetSongName("Songs\\" + entry.Name);
+                    string songName = AudioPlayback.GetSongName("Songs\\" + entry.Name);
                     SongList.Items.Add(songName);
                 }
             }
@@ -178,7 +178,7 @@ public partial class SoundDialog : UIModule
     public void AddBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var songFile = s_songFiles[SongList.Selected];
+        string songFile = s_songFiles[SongList.Selected];
         AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
@@ -229,20 +229,20 @@ public partial class SoundDialog : UIModule
             SoundQuality = 1;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                var settings = Settings;
+                SoundSettings settings = Settings;
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 Settings = settings;
-                var settings2 = Settings;
+                SoundSettings settings2 = Settings;
                 settings2.SampleRate = 22050;
                 Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                var settings3 = Settings;
+                SoundSettings settings3 = Settings;
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 Settings = settings3;
-                var settings4 = Settings;
+                SoundSettings settings4 = Settings;
                 settings4.SampleRate = 22050;
                 Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
@@ -267,20 +267,20 @@ public partial class SoundDialog : UIModule
             SoundQuality = 2;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                var settings = Settings;
+                SoundSettings settings = Settings;
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 Settings = settings;
-                var settings2 = Settings;
+                SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44100;
                 Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                var settings3 = Settings;
+                SoundSettings settings3 = Settings;
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 Settings = settings3;
-                var settings4 = Settings;
+                SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44100;
                 Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
@@ -305,20 +305,20 @@ public partial class SoundDialog : UIModule
             SoundQuality = 3;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                var settings = Settings;
+                SoundSettings settings = Settings;
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 Settings = settings;
-                var settings2 = Settings;
+                SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44100;
                 Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                var settings3 = Settings;
+                SoundSettings settings3 = Settings;
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 Settings = settings3;
-                var settings4 = Settings;
+                SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44100;
                 Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
@@ -347,7 +347,7 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:322
     public void MusicEnabledChkChange(CheckBox sender)
     {
-        var settings = Settings;
+        SoundSettings settings = Settings;
         settings.MusicEnabled = MusicEnabledCheckBox.Checked;
         Settings = settings;
         SetMusicEnabled(Settings.MusicEnabled);
@@ -369,7 +369,7 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:331
     public void SFXEnabledChkChange(CheckBox sender)
     {
-        var settings = Settings;
+        SoundSettings settings = Settings;
         settings.SfxEnabled = EffectsEnabledCheckBox.Checked;
         Settings = settings;
         SetSfxEnabled(Settings.SfxEnabled);
@@ -386,7 +386,7 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:339
     public void DirectSoundEnabledChkChange(CheckBox sender)
     {
-        var settings = Settings;
+        SoundSettings settings = Settings;
         settings.UseDirectSound = DirectSoundEnabledCheckBox.Checked;
         Settings = settings;
         if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))

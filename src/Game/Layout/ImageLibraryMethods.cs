@@ -56,18 +56,18 @@ public static class ImageLibraryMethods
             clipBottom = area.Top + area.Height;
         }
 
-        var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
+        Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
         if (area.Left + area.Width < oldClip.Right)
         {
-            var clipRectangle = lockedSurface.ClipRectangle;
+            Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Right = area.Left + area.Width;
             lockedSurface.ClipRectangle = clipRectangle;
         }
 
         if (area.Top + area.Height < oldClip.Bottom)
         {
-            var clipRectangle2 = lockedSurface.ClipRectangle;
+            Rect clipRectangle2 = lockedSurface.ClipRectangle;
             clipRectangle2.Bottom = area.Top + area.Height;
             lockedSurface.ClipRectangle = clipRectangle2;
         }
@@ -76,8 +76,8 @@ public static class ImageLibraryMethods
         {
             for (int i = 0, lastI = area.Width / library[index].Width; i <= lastI; i++)
             {
-                var item = library[index];
-                var item2 = library[index];
+                LibraryImage item = library[index];
+                LibraryImage item2 = library[index];
                 library[index].ShowClipped(area.Left + (item2.Width * i), area.Top + (item.Height * j), lockedSurface);
             }
         }

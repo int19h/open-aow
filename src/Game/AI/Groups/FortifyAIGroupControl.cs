@@ -71,7 +71,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 0:
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
-                var targetInfo = finder.Selector.TargetInfo;
+                AITargetInfo targetInfo = finder.Selector.TargetInfo;
                 targetInfo.Mode = AITargetMode.Fortify;
                 finder.Selector.TargetInfo = targetInfo;
                 finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
@@ -89,9 +89,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 if (i < Targets.Count)
                 {
-                    var surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, 70);
+                    int surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, 70);
                     Targets.GetTargets(i).DataA = surroundingEnemyStrength;
-                    var target = Targets.GetTargets(i);
+                    AIGroupControlTarget target = Targets.GetTargets(i);
                     Targets.GetTargets(i).Status = target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
                 }
                 else
@@ -118,31 +118,31 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     int last = Targets.Count - 1;
                     for (; i <= last; i += 1)
                     {
-                        var targetData = Targets.GetTargets(i);
-                        var targetMovePoints = Targets.GetTargets(i);
+                        AIGroupControlTarget targetData = Targets.GetTargets(i);
+                        AIGroupControlTarget targetMovePoints = Targets.GetTargets(i);
                         Targets.GetTargets(i).DataB = (targetData.Data.Priority * 10) + (targetMovePoints.MovePoints * -2);
                         excess = Targets.GetTargets(i).DataA - StrengthMax;
                         if (excess > 0)
                         {
-                            var target = Targets.GetTargets(i);
+                            AIGroupControlTarget target = Targets.GetTargets(i);
                             target.DataB -= (int)(((uint)excess) >> 4);
                         }
 
                         excess = Targets.GetTargets(i).PathStrength;
                         if (excess > 0)
                         {
-                            var target = Targets.GetTargets(i);
+                            AIGroupControlTarget target = Targets.GetTargets(i);
                             target.DataB -= (int)(((uint)excess) >> 3);
                         }
 
                         if (Targets.GetTargets(i).Location != Location)
                         {
-                            var targetLocation = Targets.GetTargets(i);
+                            AIGroupControlTarget targetLocation = Targets.GetTargets(i);
                             army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army != null)
                             {
-                                var count = army.Army.Units.Count;
-                                var target = Targets.GetTargets(i);
+                                int count = army.Army.Units.Count;
+                                AIGroupControlTarget target = Targets.GetTargets(i);
                                 target.DataB -= count << 2;
                             }
                         }
@@ -156,7 +156,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     bool condition = currentTarget == null;
                     if (!condition)
                     {
-                        var target = Targets.GetTargets(0);
+                        AIGroupControlTarget target = Targets.GetTargets(0);
                         condition = currentTarget.Data.Priority < target.Data.Priority;
                     }
 
@@ -222,7 +222,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    int strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
                     ActivatePlugin(recruit);
@@ -241,7 +241,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    int strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.ForceRecruit;
                     ActivatePlugin(recruit);
@@ -256,7 +256,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     Targets.Clear();
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
-                    var targetInfo2 = finder.Selector.TargetInfo;
+                    AITargetInfo targetInfo2 = finder.Selector.TargetInfo;
                     targetInfo2.Mode = AITargetMode.AttackArmies;
                     finder.Selector.TargetInfo = targetInfo2;
                     finder.Selector.MovePointsMax = 55;
@@ -347,7 +347,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 Targets.Clear();
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
-                var targetInfo3 = finder.Selector.TargetInfo;
+                AITargetInfo targetInfo3 = finder.Selector.TargetInfo;
                 targetInfo3.Mode = AITargetMode.Attack;
                 finder.Selector.TargetInfo = targetInfo3;
                 finder.Selector.MovePointsMax = 55;
@@ -453,12 +453,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     if (city.WallType == 0)
                     {
-                        var fortifyCost = city.FortifyCost();
+                        int fortifyCost = city.FortifyCost();
                         if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
                         {
                             if (city.Fortify(false))
                             {
-                                var aCityFortifyCost = city.FortifyCost();
+                                int aCityFortifyCost = city.FortifyCost();
                                 StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
                             }
                         }
@@ -467,12 +467,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     {
                         if (city.WallType == 1 && StrategicMap.Current.Day > 29)
                         {
-                            var fortifyCost = city.FortifyCost();
+                            int fortifyCost = city.FortifyCost();
                             if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
                             {
                                 if (city.Fortify(false))
                                 {
-                                    var aCityFortifyCost = city.FortifyCost();
+                                    int aCityFortifyCost = city.FortifyCost();
                                     StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
                                 }
                             }
@@ -504,7 +504,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     produce = new AIGroupProductionControl(null) { Holder = CreationHolder() };
                     produce.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    int strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     produce.ProduceStrength = _requiredStrength - (strengthMax + StrengthMax);
                     produce.Mode = AIGroupProductionControlMode.AutoProduce;
                     ActivatePlugin(produce);
@@ -554,8 +554,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
     {
         MoveControlSettings settings;
         MapFieldMessage message = default;
-        var query = new BattleFieldQuery();
-        var info = query.Info;
+        BattleFieldQuery query = new();
+        BattleFieldInfo info = query.Info;
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = Group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
@@ -563,19 +563,19 @@ public partial class FortifyAIGroupControl : AIGroupControl
         settings.MovePointsMax = radius;
         settings.ArmyHexSprite = null;
         settings.Selection = 0;
-        var moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
+        int moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         BattleFieldInfo.SetupBattleFieldInfo(out info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         query.Info = info;
         message.MessageId = 4360;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = query;
         message.Param = param;
         for (int i = settings.ProcessedMapFields.Count - 1; i >= 0; i--)
         {
-            var mapField = settings.ProcessedMapFields[i];
+            MapField mapField = settings.ProcessedMapFields[i];
             if ((mapField.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
             {
                 mapField.SendMapFieldMessage(ref message);
@@ -617,14 +617,14 @@ public partial class FortifyAIGroupControl : AIGroupControl
         statistics = StrategicMap.Current.Players.GetPlayers(Group.Player).Statistics;
         if (statistics.TurnInfo.Count > 0)
         {
-            var count = statistics.TurnInfo.Count;
+            int count = statistics.TurnInfo.Count;
             strength = (int)(((uint)statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength) >> 1);
             if (strength < _requiredStrength)
             {
                 _requiredStrength = strength;
             }
 
-            var fTurnInfoCount = statistics.TurnInfo.Count;
+            int fTurnInfoCount = statistics.TurnInfo.Count;
             strength = Round(statistics.TurnInfo.GetTurnInfo(fTurnInfoCount - 1).ArmyStrength * 0.1);
             if (strength > 50000)
             {

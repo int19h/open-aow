@@ -15,7 +15,7 @@ public partial class UnitSelectionDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "UnitSelectionDlg";
-        Button selectBtn = new Button(this);
+        Button selectBtn = new(this);
         session.BeginRead(selectBtn);
         selectBtn.Name = "SelectBtn";
         selectBtn.Priority = 100;
@@ -46,7 +46,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         selectBtn.WinWidth = 128;
         selectBtn.OnClick += _ => SelectBtnClick();
         session.EndRead(selectBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -74,7 +74,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -108,7 +108,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -131,7 +131,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         title.Text = "Unit Selection";
         title.TextColor = 2502709;
         session.EndRead(title);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 100;
@@ -554,7 +554,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit8CheckBox.OnChange += sender => U1Change(sender, 7);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
-        Image decoL = new Image(this);
+        Image decoL = new(this);
         session.BeginRead(decoL);
         decoL.Name = "DecoL";
         decoL.Priority = 1000;
@@ -582,7 +582,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         decoL.Animate = false;
         decoL.AnimationFrameDelay = 0;
         session.EndRead(decoL);
-        Image decoR = new Image(this);
+        Image decoR = new(this);
         session.BeginRead(decoR);
         decoR.Name = "DecoR";
         decoR.Priority = 1000;
@@ -639,7 +639,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         SourceFace.Animate = false;
         SourceFace.AnimationFrameDelay = 0;
         session.EndRead(SourceFace);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -666,7 +666,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Panel selectionInfoPnl = new Panel(this);
+        Panel selectionInfoPnl = new(this);
         session.BeginRead(selectionInfoPnl);
         selectionInfoPnl.Name = "SelectionInfoPnl";
         selectionInfoPnl.Priority = 1;
@@ -739,7 +739,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         SelectionLabel.Text = "##########";
         SelectionLabel.TextColor = 16777215;
         session.EndRead(SelectionLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -110,7 +110,7 @@ public partial class FrameTableList : Persistent
     {
         if (source is FrameTableList)
         {
-            var frameTableList = (FrameTableList)source;
+            FrameTableList frameTableList = (FrameTableList)source;
             SetCapacity(frameTableList._count);
             _count = frameTableList._count;
             MoveElements(frameTableList._list, 0, _list, 0, _count);

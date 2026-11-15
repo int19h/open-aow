@@ -20,7 +20,7 @@ public partial class Surface
             int pixel = PixelFormats.Color2PixelInfo(color, lockedSurface.PixelFormatId, lockedSurface.Palette);
             for (int y = 0; y < lockedSurface.Height; y++)
             {
-                var row = lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch));
+                Span<byte> row = lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch));
                 switch (lockedSurface.BitCount)
                 {
                     case 8: row[..lockedSurface.Width].Fill((byte)pixel); break;

@@ -72,8 +72,8 @@ public partial class ArmyView : Army
                 troop = (Troop)army.Units.GetUnit(i).Copy(GetEngine());
                 troop.SetOwner(this);
                 troop.Release();
-                var unit = army.Units.GetUnit(i);
-                var count = Units.Count;
+                Troop unit = army.Units.GetUnit(i);
+                int count = Units.Count;
                 MoraleValues[count - 1] = unit.MoraleValue;
                 for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {

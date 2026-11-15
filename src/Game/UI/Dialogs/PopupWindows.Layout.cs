@@ -15,7 +15,7 @@ public partial class PopupWindows : ILayoutModule
     {
         session.Begin(this);
         Name = "PopupWindows";
-        StartMenu startMenu = new StartMenu(this);
+        StartMenu startMenu = new(this);
         session.BeginRead(startMenu);
         startMenu.Name = "StartMenu";
         startMenu.Visible = false;
@@ -106,7 +106,7 @@ public partial class PopupWindows : ILayoutModule
         OverviewsMenu.OnSelect += OverViewsMenuSelect;
         OverviewsMenu.WinHeight = 0;
         session.EndRead(OverviewsMenu);
-        Menu settingsMenu = new Menu(this);
+        Menu settingsMenu = new(this);
         session.BeginRead(settingsMenu);
         settingsMenu.Name = "SettingsMenu";
         settingsMenu.Visible = false;
@@ -154,7 +154,7 @@ public partial class PopupWindows : ILayoutModule
         settingsMenu.OnSelect += SettingsMenuSelect;
         settingsMenu.WinHeight = 112;
         session.EndRead(settingsMenu);
-        Menu endMenu = new Menu(this);
+        Menu endMenu = new(this);
         session.BeginRead(endMenu);
         endMenu.Name = "EndMenu";
         endMenu.Visible = false;
@@ -200,7 +200,7 @@ public partial class PopupWindows : ILayoutModule
         endMenu.OnSelect += EndMenuSelect;
         endMenu.WinHeight = 92;
         session.EndRead(endMenu);
-        Menu diskMenu = new Menu(this);
+        Menu diskMenu = new(this);
         session.BeginRead(diskMenu);
         diskMenu.Name = "DiskMenu";
         diskMenu.Visible = false;
@@ -245,7 +245,7 @@ public partial class PopupWindows : ILayoutModule
         diskMenu.OnSelect += DiskMenuSelect;
         diskMenu.WinHeight = 0;
         session.EndRead(diskMenu);
-        StartMenu tcStartMenu = new StartMenu(this);
+        StartMenu tcStartMenu = new(this);
         session.BeginRead(tcStartMenu);
         tcStartMenu.Name = "TCStartMenu";
         tcStartMenu.Visible = false;
@@ -292,7 +292,7 @@ public partial class PopupWindows : ILayoutModule
         tcStartMenu.SubMenuShowDelay = 5;
         tcStartMenu.WinHeight = 0;
         session.EndRead(tcStartMenu);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -300,7 +300,7 @@ public partial class PopupWindows : ILayoutModule
         translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(translator);
-        Menu helpMenu = new Menu(this);
+        Menu helpMenu = new(this);
         session.BeginRead(helpMenu);
         helpMenu.Name = "HelpMenu";
         helpMenu.Visible = false;
@@ -346,7 +346,7 @@ public partial class PopupWindows : ILayoutModule
         helpMenu.OnSelect += HelpMenuSelect;
         helpMenu.WinHeight = 0;
         session.EndRead(helpMenu);
-        Menu tcovMenu = new Menu(this);
+        Menu tcovMenu = new(this);
         session.BeginRead(tcovMenu);
         tcovMenu.Name = "TCOVMenu";
         tcovMenu.Visible = false;
@@ -390,7 +390,7 @@ public partial class PopupWindows : ILayoutModule
         tcovMenu.OnSelect += OverViewsMenuSelect;
         tcovMenu.WinHeight = 0;
         session.EndRead(tcovMenu);
-        Menu tcDiskMenu = new Menu(this);
+        Menu tcDiskMenu = new(this);
         session.BeginRead(tcDiskMenu);
         tcDiskMenu.Name = "TCDiskMenu";
         tcDiskMenu.Visible = false;
@@ -434,7 +434,7 @@ public partial class PopupWindows : ILayoutModule
         tcDiskMenu.OnSelect += DiskMenuSelect;
         tcDiskMenu.WinHeight = 0;
         session.EndRead(tcDiskMenu);
-        Menu tcHelpMenu = new Menu(this);
+        Menu tcHelpMenu = new(this);
         session.BeginRead(tcHelpMenu);
         tcHelpMenu.Name = "TCHelpMenu";
         tcHelpMenu.Visible = false;
@@ -480,7 +480,7 @@ public partial class PopupWindows : ILayoutModule
         tcHelpMenu.OnSelect += HelpMenuSelect;
         tcHelpMenu.WinHeight = 0;
         session.EndRead(tcHelpMenu);
-        Menu tcSettingsMenu = new Menu(this);
+        Menu tcSettingsMenu = new(this);
         session.BeginRead(tcSettingsMenu);
         tcSettingsMenu.Name = "TCSettingsMenu";
         tcSettingsMenu.Visible = false;
@@ -528,7 +528,7 @@ public partial class PopupWindows : ILayoutModule
         tcSettingsMenu.OnSelect += SettingsMenuSelect;
         tcSettingsMenu.WinHeight = 0;
         session.EndRead(tcSettingsMenu);
-        Menu tcEndMenu = new Menu(this);
+        Menu tcEndMenu = new(this);
         session.BeginRead(tcEndMenu);
         tcEndMenu.Name = "TCEndMenu";
         tcEndMenu.Visible = false;

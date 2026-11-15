@@ -37,7 +37,7 @@ public partial class BitList : Persistent
             }
             else
             {
-                var resized = new byte[(int)((uint)newCapacity >> 3)];
+                byte[] resized = new byte[(int)((uint)newCapacity >> 3)];
                 List.Span[..Math.Min(List.Length, resized.Length)].CopyTo(resized);
                 List = resized;
             }
@@ -170,7 +170,7 @@ public partial class BitList : Persistent
     {
         if (source is BitList)
         {
-            var bitList = (BitList)source;
+            BitList bitList = (BitList)source;
             _count = bitList._count;
             SetCapacity(bitList._count);
             RtlUnit.Move(bitList.List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), (int)(((uint)(_count + 31)) >> 5) * 4);

@@ -107,7 +107,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     internal List<IReadOnlyList<SequenceLayer>> SaveLayers()
     {
         ReduceCount();
-        var entries = new List<IReadOnlyList<SequenceLayer>>(Count);
+        List<IReadOnlyList<SequenceLayer>> entries = new(Count);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             entries.Add(List[i]?.SaveLayers());
@@ -124,11 +124,11 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     internal void LoadLayers(IReadOnlyList<IReadOnlyList<SequenceLayer>> entries)
     {
         DestroyItems();
-        foreach (var layers in entries)
+        foreach (IReadOnlyList<SequenceLayer> layers in entries)
         {
             if (layers != null)
             {
-                var sequence = new ImageSequence(this);
+                ImageSequence sequence = new(this);
                 sequence.LoadLayers(layers, index: 0);
                 Add(sequence);
             }
@@ -560,7 +560,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         public ImageSequence this[int index] { get => target.GetImageSequence(index); set => target.SetImageSequence(index, value); }
     }
 
-    public ImageSequencesAccessor ImageSequences => new ImageSequencesAccessor(this);
+    public ImageSequencesAccessor ImageSequences => new(this);
     public bool Linked => _linked;
     public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; internal set => _imageLibraryManager = value; }
     public CustomImageLibrary ImageLibrary => _imageLibrary;

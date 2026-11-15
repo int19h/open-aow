@@ -38,7 +38,7 @@ public partial class GlobalTargetSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result && AboveGroundOnly)
         {
-            var coordinate68 = source.GetLocation();
+            MapCoordinate coordinate68 = source.GetLocation();
             x = coordinate68.X;
             y = coordinate68.Y;
             layer = coordinate68.MapLevel;
@@ -110,7 +110,7 @@ public partial class GlobalTargetSpell : Spell
         sbyte unitLayer = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        var coordinate69 = source.GetLocation();
+        MapCoordinate coordinate69 = source.GetLocation();
         unitX = coordinate69.X;
         unitY = coordinate69.Y;
         unitLayer = coordinate69.MapLevel;
@@ -118,7 +118,7 @@ public partial class GlobalTargetSpell : Spell
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
         targetSelection.SetShowHandler(ShowTargetSelection);
-        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [SpellName]);
+        string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
@@ -151,7 +151,7 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
     public virtual void OnTargetSelectionChange(TargetSelectionControl target)
     {
-        var caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
+        Troop? caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
         if (caster is null || target.Change == TargetSelectionChange.Deactivated)
         {
             target.Changed -= OnTargetSelectionChange;
@@ -173,7 +173,7 @@ public partial class GlobalTargetSpell : Spell
         bool result = spell.CanActivateStatic(caster, ref messageText);
         if (result && spell.AboveGroundOnly)
         {
-            var coordinate70 = caster.GetLocation();
+            MapCoordinate coordinate70 = caster.GetLocation();
             x = coordinate70.X;
             y = coordinate70.Y;
             layer = coordinate70.MapLevel;

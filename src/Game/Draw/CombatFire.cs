@@ -114,16 +114,16 @@ public partial class CombatFire : SingleHexSprite
             if (CombatMap.Current.CurrentCombatPlayer == _player)
             {
                 message.MessageId = 200711;
-                var param = message.Param;
+                MapFieldMessageParameters param = message.Param;
                 param[0] = this;
                 message.Param = param;
                 message.Result = -1;
-                var yhx = GetHexY();
-                var xhx = GetHexX();
+                sbyte yhx = GetHexY();
+                sbyte xhx = GetHexX();
                 CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
                 for (int i = 1; i <= 6; i++)
                 {
-                    var hexY2 = GetHexY();
+                    sbyte hexY2 = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {

@@ -305,7 +305,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         LeaderMainPanel.MinWidth = 0;
         LeaderMainPanel.MinHeight = 0;
         session.EndRead(LeaderMainPanel);
-        Panel editStatisticsPnl = new Panel(this);
+        Panel editStatisticsPnl = new(this);
         session.BeginRead(editStatisticsPnl);
         editStatisticsPnl.Name = "EditStatisticsPnl";
         editStatisticsPnl.Priority = 10;
@@ -355,7 +355,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         AttackValueLabel.Text = "10";
         AttackValueLabel.TextColor = 12632256;
         session.EndRead(AttackValueLabel);
-        Label attLbl = new Label(this);
+        Label attLbl = new(this);
         session.BeginRead(attLbl);
         attLbl.Name = "AttLbl";
         attLbl.Priority = 0;
@@ -378,7 +378,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attLbl.Text = "Attack";
         attLbl.TextColor = 8421504;
         session.EndRead(attLbl);
-        Panel attPnl = new Panel(this);
+        Panel attPnl = new(this);
         session.BeginRead(attPnl);
         attPnl.Name = "AttPnl";
         attPnl.Priority = 0;
@@ -428,7 +428,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         DamageValueLabel.Text = "10";
         DamageValueLabel.TextColor = 12632256;
         session.EndRead(DamageValueLabel);
-        Label damLbl = new Label(this);
+        Label damLbl = new(this);
         session.BeginRead(damLbl);
         damLbl.Name = "DamLbl";
         damLbl.Priority = 0;
@@ -451,7 +451,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damLbl.Text = "Damage";
         damLbl.TextColor = 8421504;
         session.EndRead(damLbl);
-        Panel damPnl = new Panel(this);
+        Panel damPnl = new(this);
         session.BeginRead(damPnl);
         damPnl.Name = "DamPnl";
         damPnl.Priority = 0;
@@ -501,7 +501,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         DefenseValueLabel.Text = "10";
         DefenseValueLabel.TextColor = 12632256;
         session.EndRead(DefenseValueLabel);
-        Label defLbl = new Label(this);
+        Label defLbl = new(this);
         session.BeginRead(defLbl);
         defLbl.Name = "DefLbl";
         defLbl.Priority = 0;
@@ -524,7 +524,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defLbl.Text = "Defense";
         defLbl.TextColor = 8421504;
         session.EndRead(defLbl);
-        Panel defPnl = new Panel(this);
+        Panel defPnl = new(this);
         session.BeginRead(defPnl);
         defPnl.Name = "DefPnl";
         defPnl.Priority = 0;
@@ -574,7 +574,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         ResistanceValueLabel.Text = "10";
         ResistanceValueLabel.TextColor = 12632256;
         session.EndRead(ResistanceValueLabel);
-        Label resLbl = new Label(this);
+        Label resLbl = new(this);
         session.BeginRead(resLbl);
         resLbl.Name = "ResLbl";
         resLbl.Priority = 0;
@@ -597,7 +597,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resLbl.Text = "Resistance";
         resLbl.TextColor = 8421504;
         session.EndRead(resLbl);
-        Panel resPnl = new Panel(this);
+        Panel resPnl = new(this);
         session.BeginRead(resPnl);
         resPnl.Name = "ResPnl";
         resPnl.Priority = 0;
@@ -647,7 +647,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         HitsValueLabel.Text = "10";
         HitsValueLabel.TextColor = 12632256;
         session.EndRead(HitsValueLabel);
-        Label hitLbl = new Label(this);
+        Label hitLbl = new(this);
         session.BeginRead(hitLbl);
         hitLbl.Name = "HitLbl";
         hitLbl.Priority = 0;
@@ -670,7 +670,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitLbl.Text = "Hits";
         hitLbl.TextColor = 8421504;
         session.EndRead(hitLbl);
-        Panel hitPnl = new Panel(this);
+        Panel hitPnl = new(this);
         session.BeginRead(hitPnl);
         hitPnl.Name = "HitPnl";
         hitPnl.Priority = 0;
@@ -720,7 +720,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         MovesValueLabel.Text = "10";
         MovesValueLabel.TextColor = 12632256;
         session.EndRead(MovesValueLabel);
-        Label movLbl = new Label(this);
+        Label movLbl = new(this);
         session.BeginRead(movLbl);
         movLbl.Name = "MovLbl";
         movLbl.Priority = 0;
@@ -743,7 +743,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         movLbl.Text = "Moves";
         movLbl.TextColor = 8421504;
         session.EndRead(movLbl);
-        Panel movPnl = new Panel(this);
+        Panel movPnl = new(this);
         session.BeginRead(movPnl);
         movPnl.Name = "MovPnl";
         movPnl.Priority = 0;
@@ -770,7 +770,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         movPnl.MinWidth = 0;
         movPnl.MinHeight = 0;
         session.EndRead(movPnl);
-        Label attI = new Label(this);
+        Label attI = new(this);
         session.BeginRead(attI);
         attI.Name = "AttI";
         attI.Priority = 0;
@@ -793,7 +793,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attI.Text = "=";
         attI.TextColor = 8421504;
         session.EndRead(attI);
-        Label damI = new Label(this);
+        Label damI = new(this);
         session.BeginRead(damI);
         damI.Name = "DamI";
         damI.Priority = 0;
@@ -816,7 +816,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damI.Text = "=";
         damI.TextColor = 8421504;
         session.EndRead(damI);
-        Label defI = new Label(this);
+        Label defI = new(this);
         session.BeginRead(defI);
         defI.Name = "DefI";
         defI.Priority = 0;
@@ -839,7 +839,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defI.Text = "=";
         defI.TextColor = 8421504;
         session.EndRead(defI);
-        Label resI = new Label(this);
+        Label resI = new(this);
         session.BeginRead(resI);
         resI.Name = "ResI";
         resI.Priority = 0;
@@ -862,7 +862,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resI.Text = "=";
         resI.TextColor = 8421504;
         session.EndRead(resI);
-        Label hitI = new Label(this);
+        Label hitI = new(this);
         session.BeginRead(hitI);
         hitI.Name = "HitI";
         hitI.Priority = 0;
@@ -885,7 +885,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitI.Text = "=";
         hitI.TextColor = 8421504;
         session.EndRead(hitI);
-        Label movI = new Label(this);
+        Label movI = new(this);
         session.BeginRead(movI);
         movI.Name = "MovI";
         movI.Priority = 0;
@@ -1046,7 +1046,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         MovesAddedLabel.Text = "10";
         MovesAddedLabel.TextColor = 8421504;
         session.EndRead(MovesAddedLabel);
-        Label attP = new Label(this);
+        Label attP = new(this);
         session.BeginRead(attP);
         attP.Name = "AttP";
         attP.Priority = 0;
@@ -1069,7 +1069,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attP.Text = "+";
         attP.TextColor = 8421504;
         session.EndRead(attP);
-        Label damP = new Label(this);
+        Label damP = new(this);
         session.BeginRead(damP);
         damP.Name = "DamP";
         damP.Priority = 0;
@@ -1092,7 +1092,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damP.Text = "+";
         damP.TextColor = 8421504;
         session.EndRead(damP);
-        Label defP = new Label(this);
+        Label defP = new(this);
         session.BeginRead(defP);
         defP.Name = "DefP";
         defP.Priority = 0;
@@ -1115,7 +1115,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defP.Text = "+";
         defP.TextColor = 8421504;
         session.EndRead(defP);
-        Label resP = new Label(this);
+        Label resP = new(this);
         session.BeginRead(resP);
         resP.Name = "ResP";
         resP.Priority = 0;
@@ -1138,7 +1138,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resP.Text = "+";
         resP.TextColor = 8421504;
         session.EndRead(resP);
-        Label hitP = new Label(this);
+        Label hitP = new(this);
         session.BeginRead(hitP);
         hitP.Name = "HitP";
         hitP.Priority = 0;
@@ -1161,7 +1161,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitP.Text = "+";
         hitP.TextColor = 8421504;
         session.EndRead(hitP);
-        Label movP = new Label(this);
+        Label movP = new(this);
         session.BeginRead(movP);
         movP.Name = "MovP";
         movP.Priority = 0;
@@ -1345,7 +1345,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SkillPointsLabel.Text = "#########";
         SkillPointsLabel.TextColor = 12632256;
         session.EndRead(SkillPointsLabel);
-        Image uAttIcn = new Image(this);
+        Image uAttIcn = new(this);
         session.BeginRead(uAttIcn);
         uAttIcn.Name = "UAttIcn";
         uAttIcn.Priority = 0;
@@ -1373,7 +1373,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uAttIcn.Animate = false;
         uAttIcn.AnimationFrameDelay = 0;
         session.EndRead(uAttIcn);
-        Image uDefIcn = new Image(this);
+        Image uDefIcn = new(this);
         session.BeginRead(uDefIcn);
         uDefIcn.Name = "UDefIcn";
         uDefIcn.Priority = 0;
@@ -1401,7 +1401,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uDefIcn.Animate = false;
         uDefIcn.AnimationFrameDelay = 0;
         session.EndRead(uDefIcn);
-        Image uMovIcn = new Image(this);
+        Image uMovIcn = new(this);
         session.BeginRead(uMovIcn);
         uMovIcn.Name = "UMovIcn";
         uMovIcn.Priority = 0;
@@ -1429,7 +1429,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uMovIcn.Animate = false;
         uMovIcn.AnimationFrameDelay = 0;
         session.EndRead(uMovIcn);
-        Image uDamIcn = new Image(this);
+        Image uDamIcn = new(this);
         session.BeginRead(uDamIcn);
         uDamIcn.Name = "UDamIcn";
         uDamIcn.Priority = 0;
@@ -1457,7 +1457,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uDamIcn.Animate = false;
         uDamIcn.AnimationFrameDelay = 0;
         session.EndRead(uDamIcn);
-        Image uResIcn = new Image(this);
+        Image uResIcn = new(this);
         session.BeginRead(uResIcn);
         uResIcn.Name = "UResIcn";
         uResIcn.Priority = 0;
@@ -1485,7 +1485,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uResIcn.Animate = false;
         uResIcn.AnimationFrameDelay = 0;
         session.EndRead(uResIcn);
-        Image uHitIcn = new Image(this);
+        Image uHitIcn = new(this);
         session.BeginRead(uHitIcn);
         uHitIcn.Name = "UHitIcn";
         uHitIcn.Priority = 0;
@@ -1742,7 +1742,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         AbilityPanel.MinWidth = 0;
         AbilityPanel.MinHeight = 0;
         session.EndRead(AbilityPanel);
-        Panel uStatP1 = new Panel(this);
+        Panel uStatP1 = new(this);
         session.BeginRead(uStatP1);
         uStatP1.Name = "UStatP1";
         uStatP1.Priority = 0;
@@ -1769,7 +1769,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         uStatP1.MinWidth = 0;
         uStatP1.MinHeight = 0;
         session.EndRead(uStatP1);
-        Panel uStatP2 = new Panel(this);
+        Panel uStatP2 = new(this);
         session.BeginRead(uStatP2);
         uStatP2.Name = "UStatP2";
         uStatP2.Priority = 0;
@@ -1875,7 +1875,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         RightShield.Animate = false;
         RightShield.AnimationFrameDelay = 0;
         session.EndRead(RightShield);
-        Panel buttonPnl = new Panel(this);
+        Panel buttonPnl = new(this);
         session.BeginRead(buttonPnl);
         buttonPnl.Name = "ButtonPnl";
         buttonPnl.Priority = 9999;
@@ -1902,7 +1902,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         buttonPnl.MinWidth = 0;
         buttonPnl.MinHeight = 0;
         session.EndRead(buttonPnl);
-        Panel leftPnl = new Panel(this);
+        Panel leftPnl = new(this);
         session.BeginRead(leftPnl);
         leftPnl.Name = "LeftPnl";
         leftPnl.Priority = 0;
@@ -1929,7 +1929,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         leftPnl.MinWidth = 0;
         leftPnl.MinHeight = 0;
         session.EndRead(leftPnl);
-        Panel rightPnl = new Panel(this);
+        Panel rightPnl = new(this);
         session.BeginRead(rightPnl);
         rightPnl.Name = "RightPnl";
         rightPnl.Priority = 0;
@@ -1956,7 +1956,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         rightPnl.MinWidth = 0;
         rightPnl.MinHeight = 0;
         session.EndRead(rightPnl);
-        Label leaderStatsLbl = new Label(this);
+        Label leaderStatsLbl = new(this);
         session.BeginRead(leaderStatsLbl);
         leaderStatsLbl.Name = "LeaderStatsLbl";
         leaderStatsLbl.Priority = 10;
@@ -1979,7 +1979,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         leaderStatsLbl.Text = "Leader Statistics";
         leaderStatsLbl.TextColor = 12632256;
         session.EndRead(leaderStatsLbl);
-        Label leaderAbilLbl = new Label(this);
+        Label leaderAbilLbl = new(this);
         session.BeginRead(leaderAbilLbl);
         leaderAbilLbl.Name = "LeaderAbilLbl";
         leaderAbilLbl.Priority = 10;
@@ -2002,7 +2002,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         leaderAbilLbl.Text = "Leader Abilities";
         leaderAbilLbl.TextColor = 12632256;
         session.EndRead(leaderAbilLbl);
-        Label fullAbilLbl = new Label(this);
+        Label fullAbilLbl = new(this);
         session.BeginRead(fullAbilLbl);
         fullAbilLbl.Name = "FullAbilLbl";
         fullAbilLbl.Priority = 10;
@@ -2025,7 +2025,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fullAbilLbl.Text = "Available List";
         fullAbilLbl.TextColor = 12632256;
         session.EndRead(fullAbilLbl);
-        Button removeAbility = new Button(this);
+        Button removeAbility = new(this);
         session.BeginRead(removeAbility);
         removeAbility.Name = "RemoveAbility";
         removeAbility.Priority = 0;
@@ -2060,7 +2060,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         removeAbility.WinWidth = 215;
         removeAbility.OnClick += _ => RemoveAbilityClick();
         session.EndRead(removeAbility);
-        Button addAbility = new Button(this);
+        Button addAbility = new(this);
         session.BeginRead(addAbility);
         addAbility.Name = "AddAbility";
         addAbility.Priority = 0;
@@ -2150,7 +2150,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         Phase1Panel.MinWidth = 0;
         Phase1Panel.MinHeight = 0;
         session.EndRead(Phase1Panel);
-        Image face4 = new Image(this);
+        Image face4 = new(this);
         session.BeginRead(face4);
         face4.Name = "Face4";
         face4.Priority = 0;
@@ -2178,7 +2178,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face4.Animate = false;
         face4.AnimationFrameDelay = 0;
         session.EndRead(face4);
-        Image face5 = new Image(this);
+        Image face5 = new(this);
         session.BeginRead(face5);
         face5.Name = "Face5";
         face5.Priority = 0;
@@ -2206,7 +2206,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face5.Animate = false;
         face5.AnimationFrameDelay = 0;
         session.EndRead(face5);
-        Image face6 = new Image(this);
+        Image face6 = new(this);
         session.BeginRead(face6);
         face6.Name = "Face6";
         face6.Priority = 0;
@@ -2234,7 +2234,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face6.Animate = false;
         face6.AnimationFrameDelay = 0;
         session.EndRead(face6);
-        Image face7 = new Image(this);
+        Image face7 = new(this);
         session.BeginRead(face7);
         face7.Name = "Face7";
         face7.Priority = 0;
@@ -2262,7 +2262,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face7.Animate = false;
         face7.AnimationFrameDelay = 0;
         session.EndRead(face7);
-        Image face3 = new Image(this);
+        Image face3 = new(this);
         session.BeginRead(face3);
         face3.Name = "Face3";
         face3.Priority = 0;
@@ -2290,7 +2290,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face3.Animate = false;
         face3.AnimationFrameDelay = 0;
         session.EndRead(face3);
-        Image face2 = new Image(this);
+        Image face2 = new(this);
         session.BeginRead(face2);
         face2.Name = "Face2";
         face2.Priority = 0;
@@ -2318,7 +2318,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         face2.Animate = false;
         face2.AnimationFrameDelay = 0;
         session.EndRead(face2);
-        Image face1 = new Image(this);
+        Image face1 = new(this);
         session.BeginRead(face1);
         face1.Name = "Face1";
         face1.Priority = 0;
@@ -2379,7 +2379,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         NameEdit.ImageLibraryIndex = 23;
         NameEdit.PassWordChar = 0;
         session.EndRead(NameEdit);
-        Label nameLbl = new Label(this);
+        Label nameLbl = new(this);
         session.BeginRead(nameLbl);
         nameLbl.Name = "NameLbl";
         nameLbl.Priority = 0;
@@ -2402,7 +2402,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         nameLbl.Text = "Name";
         nameLbl.TextColor = 9402970;
         session.EndRead(nameLbl);
-        Label faceLbl = new Label(this);
+        Label faceLbl = new(this);
         session.BeginRead(faceLbl);
         faceLbl.Name = "FaceLbl";
         faceLbl.Priority = 0;
@@ -2448,7 +2448,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         RaceLabel.Text = "Race";
         RaceLabel.TextColor = 9402970;
         session.EndRead(RaceLabel);
-        VerticalScrollBar uAbilSB = new VerticalScrollBar(this);
+        VerticalScrollBar uAbilSB = new(this);
         session.BeginRead(uAbilSB);
         uAbilSB.Name = "UAbilSB";
         uAbilSB.Visible = false;
@@ -2589,7 +2589,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         Phase3Panel.MinWidth = 0;
         Phase3Panel.MinHeight = 0;
         session.EndRead(Phase3Panel);
-        Label spheresLbl = new Label(this);
+        Label spheresLbl = new(this);
         session.BeginRead(spheresLbl);
         spheresLbl.Name = "SpheresLbl";
         spheresLbl.Priority = 0;
@@ -2646,7 +2646,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectDeathButton.WinWidth = 52;
         SelectDeathButton.OnClick += _ => SelDeathClick();
         session.EndRead(SelectDeathButton);
-        Panel spherePnl = new Panel(this);
+        Panel spherePnl = new(this);
         session.BeginRead(spherePnl);
         spherePnl.Name = "SpherePnl";
         spherePnl.Priority = 0;
@@ -2843,7 +2843,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectWaterButton.WinWidth = 52;
         SelectWaterButton.OnClick += _ => SelWaterClick();
         session.EndRead(SelectWaterButton);
-        Label lifeLbl = new Label(this);
+        Label lifeLbl = new(this);
         session.BeginRead(lifeLbl);
         lifeLbl.Name = "LifeLbl";
         lifeLbl.Priority = 0;
@@ -2901,7 +2901,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere4Button.WinWidth = 52;
         SelectedSphere4Button.OnClick += _ => DeleteSphereClick(3);
         session.EndRead(SelectedSphere4Button);
-        Panel sphereSelectionPnl = new Panel(this);
+        Panel sphereSelectionPnl = new(this);
         session.BeginRead(sphereSelectionPnl);
         sphereSelectionPnl.Name = "SphereSelectionPnl";
         sphereSelectionPnl.Priority = 0;
@@ -3137,7 +3137,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere7Button.WinWidth = 52;
         SelectedSphere7Button.OnClick += _ => DeleteSphereClick(6);
         session.EndRead(SelectedSphere7Button);
-        Label deathLbl = new Label(this);
+        Label deathLbl = new(this);
         session.BeginRead(deathLbl);
         deathLbl.Name = "DeathLbl";
         deathLbl.Priority = 0;
@@ -3160,7 +3160,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         deathLbl.Text = "Death";
         deathLbl.TextColor = 8421504;
         session.EndRead(deathLbl);
-        Label earthLbl = new Label(this);
+        Label earthLbl = new(this);
         session.BeginRead(earthLbl);
         earthLbl.Name = "EarthLbl";
         earthLbl.Priority = 0;
@@ -3183,7 +3183,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         earthLbl.Text = "Earth";
         earthLbl.TextColor = 8421504;
         session.EndRead(earthLbl);
-        Label waterLbl = new Label(this);
+        Label waterLbl = new(this);
         session.BeginRead(waterLbl);
         waterLbl.Name = "WaterLbl";
         waterLbl.Priority = 0;
@@ -3206,7 +3206,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         waterLbl.Text = "Water";
         waterLbl.TextColor = 8421504;
         session.EndRead(waterLbl);
-        Label fireLbl = new Label(this);
+        Label fireLbl = new(this);
         session.BeginRead(fireLbl);
         fireLbl.Name = "FireLbl";
         fireLbl.Priority = 0;
@@ -3229,7 +3229,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fireLbl.Text = "Fire";
         fireLbl.TextColor = 8421504;
         session.EndRead(fireLbl);
-        Label airLbl = new Label(this);
+        Label airLbl = new(this);
         session.BeginRead(airLbl);
         airLbl.Name = "AirLbl";
         airLbl.Priority = 0;
@@ -3275,7 +3275,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSpheresLabel.Text = "Selected Spheres";
         SelectedSpheresLabel.TextColor = 9402970;
         session.EndRead(SelectedSpheresLabel);
-        Button faceNextBtn = new Button(this);
+        Button faceNextBtn = new(this);
         session.BeginRead(faceNextBtn);
         faceNextBtn.Name = "FaceNextBtn";
         faceNextBtn.Priority = 0;
@@ -3310,7 +3310,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         faceNextBtn.WinWidth = 60;
         faceNextBtn.OnClick += _ => FaceNextBtnClick();
         session.EndRead(faceNextBtn);
-        Button facePrevBtn = new Button(this);
+        Button facePrevBtn = new(this);
         session.BeginRead(facePrevBtn);
         facePrevBtn.Name = "FacePrevBtn";
         facePrevBtn.Priority = 0;
@@ -3469,7 +3469,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesCostList.ItemHeight = 17;
         AvailableAbilitiesCostList.TextAlign = TextAlignment.Center;
         session.EndRead(AvailableAbilitiesCostList);
-        Button attUp = new Button(this);
+        Button attUp = new(this);
         session.BeginRead(attUp);
         attUp.Name = "AttUp";
         attUp.Priority = 0;
@@ -3499,7 +3499,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attUp.WinWidth = 9;
         attUp.OnClick += _ => AttUpClick();
         session.EndRead(attUp);
-        Button attDn = new Button(this);
+        Button attDn = new(this);
         session.BeginRead(attDn);
         attDn.Name = "AttDn";
         attDn.Priority = 0;
@@ -3529,7 +3529,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attDn.WinWidth = 9;
         attDn.OnClick += _ => AttDnClick();
         session.EndRead(attDn);
-        Button damUp = new Button(this);
+        Button damUp = new(this);
         session.BeginRead(damUp);
         damUp.Name = "DamUp";
         damUp.Priority = 0;
@@ -3559,7 +3559,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damUp.WinWidth = 9;
         damUp.OnClick += _ => DamUpClick();
         session.EndRead(damUp);
-        Button damDn = new Button(this);
+        Button damDn = new(this);
         session.BeginRead(damDn);
         damDn.Name = "DamDn";
         damDn.Priority = 0;
@@ -3589,7 +3589,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damDn.WinWidth = 9;
         damDn.OnClick += _ => DamDnClick();
         session.EndRead(damDn);
-        Button defUp = new Button(this);
+        Button defUp = new(this);
         session.BeginRead(defUp);
         defUp.Name = "DefUp";
         defUp.Priority = 0;
@@ -3619,7 +3619,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defUp.WinWidth = 9;
         defUp.OnClick += _ => DefUpClick();
         session.EndRead(defUp);
-        Button defDn = new Button(this);
+        Button defDn = new(this);
         session.BeginRead(defDn);
         defDn.Name = "DefDn";
         defDn.Priority = 0;
@@ -3649,7 +3649,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defDn.WinWidth = 9;
         defDn.OnClick += _ => DefDnClick();
         session.EndRead(defDn);
-        Button resUp = new Button(this);
+        Button resUp = new(this);
         session.BeginRead(resUp);
         resUp.Name = "ResUp";
         resUp.Priority = 0;
@@ -3679,7 +3679,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resUp.WinWidth = 9;
         resUp.OnClick += _ => ResUpClick();
         session.EndRead(resUp);
-        Button resDn = new Button(this);
+        Button resDn = new(this);
         session.BeginRead(resDn);
         resDn.Name = "ResDn";
         resDn.Priority = 0;
@@ -3709,7 +3709,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resDn.WinWidth = 9;
         resDn.OnClick += _ => ResDnClick();
         session.EndRead(resDn);
-        Button hitUp = new Button(this);
+        Button hitUp = new(this);
         session.BeginRead(hitUp);
         hitUp.Name = "HitUp";
         hitUp.Priority = 0;
@@ -3739,7 +3739,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitUp.WinWidth = 9;
         hitUp.OnClick += _ => HitUpClick();
         session.EndRead(hitUp);
-        Button hitDn = new Button(this);
+        Button hitDn = new(this);
         session.BeginRead(hitDn);
         hitDn.Name = "HitDn";
         hitDn.Priority = 0;
@@ -3769,7 +3769,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitDn.WinWidth = 9;
         hitDn.OnClick += _ => HitDnClick();
         session.EndRead(hitDn);
-        Button movUp = new Button(this);
+        Button movUp = new(this);
         session.BeginRead(movUp);
         movUp.Name = "MovUp";
         movUp.Priority = 0;
@@ -3799,7 +3799,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         movUp.WinWidth = 9;
         movUp.OnClick += _ => MovUpClick();
         session.EndRead(movUp);
-        Button movDn = new Button(this);
+        Button movDn = new(this);
         session.BeginRead(movDn);
         movDn.Name = "MovDn";
         movDn.Priority = 0;
@@ -3829,7 +3829,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         movDn.WinWidth = 9;
         movDn.OnClick += _ => MovDnClick();
         session.EndRead(movDn);
-        Image attIc = new Image(this);
+        Image attIc = new(this);
         session.BeginRead(attIc);
         attIc.Name = "AttIc";
         attIc.Priority = 0;
@@ -3857,7 +3857,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         attIc.Animate = false;
         attIc.AnimationFrameDelay = 0;
         session.EndRead(attIc);
-        Image damIcn = new Image(this);
+        Image damIcn = new(this);
         session.BeginRead(damIcn);
         damIcn.Name = "DamIcn";
         damIcn.Priority = 0;
@@ -3885,7 +3885,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         damIcn.Animate = false;
         damIcn.AnimationFrameDelay = 0;
         session.EndRead(damIcn);
-        Image defIc = new Image(this);
+        Image defIc = new(this);
         session.BeginRead(defIc);
         defIc.Name = "DefIc";
         defIc.Priority = 0;
@@ -3913,7 +3913,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         defIc.Animate = false;
         defIc.AnimationFrameDelay = 0;
         session.EndRead(defIc);
-        Image resIc = new Image(this);
+        Image resIc = new(this);
         session.BeginRead(resIc);
         resIc.Name = "ResIc";
         resIc.Priority = 0;
@@ -3941,7 +3941,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         resIc.Animate = false;
         resIc.AnimationFrameDelay = 0;
         session.EndRead(resIc);
-        Image hitIc = new Image(this);
+        Image hitIc = new(this);
         session.BeginRead(hitIc);
         hitIc.Name = "HitIc";
         hitIc.Priority = 0;
@@ -3969,7 +3969,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         hitIc.Animate = false;
         hitIc.AnimationFrameDelay = 0;
         session.EndRead(hitIc);
-        Image movIc = new Image(this);
+        Image movIc = new(this);
         session.BeginRead(movIc);
         movIc.Name = "MovIc";
         movIc.Priority = 0;
@@ -3997,7 +3997,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         movIc.Animate = false;
         movIc.AnimationFrameDelay = 0;
         session.EndRead(movIc);
-        Button sBase = new Button(this);
+        Button sBase = new(this);
         session.BeginRead(sBase);
         sBase.Name = "SBase";
         sBase.Priority = 300;
@@ -4028,7 +4028,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         sBase.WinWidth = 115;
         sBase.OnClick += _ => SBaseClick();
         session.EndRead(sBase);
-        Button sExtra = new Button(this);
+        Button sExtra = new(this);
         session.BeginRead(sExtra);
         sExtra.Name = "SExtra";
         sExtra.Priority = 300;
@@ -4059,7 +4059,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         sExtra.WinWidth = 50;
         sExtra.OnClick += _ => SExtraClick();
         session.EndRead(sExtra);
-        Button sFinal = new Button(this);
+        Button sFinal = new(this);
         session.BeginRead(sFinal);
         sFinal.Name = "SFinal";
         sFinal.Priority = 300;
@@ -4090,7 +4090,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         sFinal.WinWidth = 50;
         sFinal.OnClick += _ => SFinalClick();
         session.EndRead(sFinal);
-        Button selectedAbilitiesSort = new Button(this);
+        Button selectedAbilitiesSort = new(this);
         session.BeginRead(selectedAbilitiesSort);
         selectedAbilitiesSort.Name = "SelectedAbilitiesSort";
         selectedAbilitiesSort.Priority = 300;
@@ -4121,7 +4121,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesSort.WinWidth = 170;
         selectedAbilitiesSort.OnClick += _ => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
-        Button selectedAbilitiesCostSort = new Button(this);
+        Button selectedAbilitiesCostSort = new(this);
         session.BeginRead(selectedAbilitiesCostSort);
         selectedAbilitiesCostSort.Name = "SelectedAbilitiesCostSort";
         selectedAbilitiesCostSort.Priority = 300;
@@ -4152,7 +4152,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesCostSort.WinWidth = 45;
         selectedAbilitiesCostSort.OnClick += _ => SelectedAbilitiesCostSortClick();
         session.EndRead(selectedAbilitiesCostSort);
-        Button availableAbilitiesSort = new Button(this);
+        Button availableAbilitiesSort = new(this);
         session.BeginRead(availableAbilitiesSort);
         availableAbilitiesSort.Name = "AvailableAbilitiesSort";
         availableAbilitiesSort.Priority = 300;
@@ -4183,7 +4183,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesSort.WinWidth = 170;
         availableAbilitiesSort.OnClick += _ => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
-        Button availableAbilitiesCostSort = new Button(this);
+        Button availableAbilitiesCostSort = new(this);
         session.BeginRead(availableAbilitiesCostSort);
         availableAbilitiesCostSort.Name = "AvailableAbilitiesCostSort";
         availableAbilitiesCostSort.Priority = 300;
@@ -4242,7 +4242,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         MainFaceFrame.ImageLibraryIndexLine = 0;
         MainFaceFrame.ImageLibraryIndexTexture = 0;
         session.EndRead(MainFaceFrame);
-        Frame fFr1 = new Frame(this);
+        Frame fFr1 = new(this);
         session.BeginRead(fFr1);
         fFr1.Name = "FFr1";
         fFr1.Tag = -3;
@@ -4271,7 +4271,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr1.ImageLibraryIndexLine = 0;
         fFr1.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr1);
-        Frame fFr7 = new Frame(this);
+        Frame fFr7 = new(this);
         session.BeginRead(fFr7);
         fFr7.Name = "FFr7";
         fFr7.Tag = 3;
@@ -4300,7 +4300,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr7.ImageLibraryIndexLine = 0;
         fFr7.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr7);
-        Frame fFr2 = new Frame(this);
+        Frame fFr2 = new(this);
         session.BeginRead(fFr2);
         fFr2.Name = "FFr2";
         fFr2.Tag = -2;
@@ -4329,7 +4329,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr2.ImageLibraryIndexLine = 0;
         fFr2.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr2);
-        Frame fFr6 = new Frame(this);
+        Frame fFr6 = new(this);
         session.BeginRead(fFr6);
         fFr6.Name = "FFr6";
         fFr6.Tag = 2;
@@ -4358,7 +4358,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr6.ImageLibraryIndexLine = 0;
         fFr6.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr6);
-        Frame fFr3 = new Frame(this);
+        Frame fFr3 = new(this);
         session.BeginRead(fFr3);
         fFr3.Name = "FFr3";
         fFr3.Tag = -1;
@@ -4387,7 +4387,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr3.ImageLibraryIndexLine = 0;
         fFr3.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr3);
-        Frame fFr5 = new Frame(this);
+        Frame fFr5 = new(this);
         session.BeginRead(fFr5);
         fFr5.Name = "FFr5";
         fFr5.Tag = 1;
@@ -4416,7 +4416,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         fFr5.ImageLibraryIndexLine = 0;
         fFr5.ImageLibraryIndexTexture = 0;
         session.EndRead(fFr5);
-        Frame fFr4 = new Frame(this);
+        Frame fFr4 = new(this);
         session.BeginRead(fFr4);
         fFr4.Name = "FFr4";
         fFr4.OnDraw += (sender, surface) => DrawSelectionFace(sender, surface, 0);
@@ -4558,7 +4558,7 @@ public partial class LeaderSetupWindow : ILayoutModule
         RaceComboBox.ImageLibraryTsIndex = 16;
         RaceComboBox.ItemHeight = 13;
         session.EndRead(RaceComboBox);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

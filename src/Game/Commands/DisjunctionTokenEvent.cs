@@ -5,6 +5,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -42,7 +43,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         result = result && index != -1;
         if (result)
         {
-            var globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+            GlobalEnchantment globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
             mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
             requiredMana = Round((double)(globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
             result = requiredMana <= mana;
@@ -64,7 +65,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         base.Process(source, value);
         index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-        var coordinate7 = source.GetLocation();
+        MapCoordinate coordinate7 = source.GetLocation();
         x = coordinate7.X;
         y = coordinate7.Y;
         layer = coordinate7.MapLevel;
@@ -74,14 +75,14 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
-        var player = StrategicMap.Current.Players.GetPlayers(source.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(source.Player);
         StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
         if (StrategicMap.Current.Random(100) < DispelChance)
         {
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                var name = enchantment.GetName();
-                var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_successfullyDispelledFormat), [name]);
+                string name = enchantment.GetName();
+                string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_successfullyDispelledFormat), [name]);
                 StrategicMap.Current.ShowMessage(format);
             }
 
@@ -92,8 +93,8 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
                 // { Original formats this message with an unused enchantment-name argument. }
-                var name = enchantment.GetName();
-                var format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText), [name]);
+                string name = enchantment.GetName();
+                string format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText), [name]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

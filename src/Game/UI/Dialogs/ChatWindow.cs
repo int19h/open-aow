@@ -2,6 +2,7 @@
 // Translated from AOWChatWin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
@@ -40,7 +41,7 @@ public partial class ChatWindow : UIModule
     // AOWChatWin.pas:67
     public void ChatWinResize()
     {
-        var alignment = MainWindow.Alignment;
+        Alignment alignment = MainWindow.Alignment;
         alignment.LeftOffset = MainWindow.WinLeft;
         alignment.BottomOffset = MainWindow.WindowManager.WinHeight - MainWindow.WinTop - MainWindow.WinHeight;
         alignment.AlignWidth = AlignWidth.Left;
@@ -75,12 +76,12 @@ public partial class ChatWindow : UIModule
         sbyte player2;
         if (drawItem != 0)
         {
-            var objectValue = PlayerList.Items.Objects[drawItem];
+            object objectValue = PlayerList.Items.Objects[drawItem];
             player2 = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
             if (player2 > 0 && player2 < StrategicMap.Current.Players.Count)
             {
-                var player = StrategicMap.Current.Players.GetPlayers(player2);
+                Player player = StrategicMap.Current.Players.GetPlayers(player2);
                 PlayerList.TextColor = AbilityRules.RaceColors[player.PlayerRace];
             }
         }

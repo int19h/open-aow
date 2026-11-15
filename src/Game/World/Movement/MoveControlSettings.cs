@@ -116,7 +116,7 @@ public partial class MoveControlSettings : EngineObject
         SubMoves.Clear();
         ProcessedMapFields.Clear();
         MovePointsMax = 4095;
-        var movePointTable = MovePointTable;
+        MovePointTable movePointTable = MovePointTable;
         movePointTable.Fill(-1);
         MovePointTable = movePointTable;
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
@@ -155,7 +155,7 @@ public partial class MoveControlSettings : EngineObject
         Units.AddUnits(army.Army.Units, selection);
         Source = new MapCoordinate(army.HexX, army.HexY, army.HexLevel);
         Player = army.Army.Player;
-        var movePointTable = MovePointTable;
+        MovePointTable movePointTable = MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
         MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)

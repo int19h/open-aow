@@ -17,19 +17,19 @@ public partial class GrabInfo
     // ImageLib.pas:9634
     public virtual void LoadFromStream(Stream stream)
     {
-        var transparentColor = TransparentColor;
+        int transparentColor = TransparentColor;
         stream.ReadExactly(Bytes.Of(ref transparentColor, 4));
         TransparentColor = transparentColor;
-        var findRectangles = FindRectangles;
+        bool findRectangles = FindRectangles;
         stream.ReadExactly(Bytes.Of(ref findRectangles, 1));
         FindRectangles = findRectangles;
-        var transparentPixel = TransparentPixel;
+        int transparentPixel = TransparentPixel;
         stream.ReadExactly(Bytes.Of(ref transparentPixel, 4));
         TransparentPixel = transparentPixel;
-        var fileName = FileName;
+        string fileName = FileName;
         LibraryDrawing.ReadStringFromStream(ref fileName, stream);
         FileName = fileName;
-        var fileIndex = FileIndex;
+        int fileIndex = FileIndex;
         stream.ReadExactly(Bytes.Of(ref fileIndex, 4));
         FileIndex = fileIndex;
     }
@@ -37,17 +37,17 @@ public partial class GrabInfo
     // ImageLib.pas:9643
     public virtual void SaveToStream(Stream stream)
     {
-        var transparentColor = TransparentColor;
+        int transparentColor = TransparentColor;
         stream.Write(Bytes.Of(ref transparentColor, 4));
         TransparentColor = transparentColor;
-        var findRectangles = FindRectangles;
+        bool findRectangles = FindRectangles;
         stream.Write(Bytes.Of(ref findRectangles, 1));
         FindRectangles = findRectangles;
-        var transparentPixel = TransparentPixel;
+        int transparentPixel = TransparentPixel;
         stream.Write(Bytes.Of(ref transparentPixel, 4));
         TransparentPixel = transparentPixel;
         LibraryDrawing.WriteStringToStream(FileName, stream);
-        var fileIndex = FileIndex;
+        int fileIndex = FileIndex;
         stream.Write(Bytes.Of(ref fileIndex, 4));
         FileIndex = fileIndex;
     }

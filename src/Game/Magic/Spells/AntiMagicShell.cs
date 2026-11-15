@@ -39,9 +39,9 @@ public partial class AntiMagicShell : CityEnchantmentSpell
         bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
-            var hexLevel = targetCity.GetHexLevel();
-            var hexY = targetCity.GetHexY();
-            var hexX = targetCity.GetHexX();
+            sbyte hexLevel = targetCity.GetHexLevel();
+            sbyte hexY = targetCity.GetHexY();
+            sbyte hexX = targetCity.GetHexX();
             condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
         }
 

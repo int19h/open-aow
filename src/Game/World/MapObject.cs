@@ -174,13 +174,13 @@ public partial class MapObject : HexSprite
 
         if (GetLevel() <= 15)
         {
-            var mapField = Owner;
+            MapField mapField = Owner;
             mapField.Owner.Map.InvalidateStaticScene(mapField.HexX, mapField.HexY, mapField.HexLevel);
         }
 
         if (!GetEditMode())
         {
-            var mapField = Owner;
+            MapField mapField = Owner;
             mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
         }
 

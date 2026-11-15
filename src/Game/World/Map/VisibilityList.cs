@@ -33,7 +33,7 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
     // HSEngine.pas:3876
     public override int RemoveChild(EngineObject child)
     {
-        var hexSprite = (HexSprite)child;
+        HexSprite hexSprite = (HexSprite)child;
         if (hexSprite.GetVisible())
         {
             hexSprite.SetVisible(false);

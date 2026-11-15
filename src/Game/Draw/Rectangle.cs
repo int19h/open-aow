@@ -11,16 +11,16 @@ public partial class Rectangle
     // GFXE.pas:2432
     public Rectangle(int left, int top, int right, int bottom)
     {
-        var bounds = Bounds;
+        Rect bounds = Bounds;
         bounds.Left = left;
         Bounds = bounds;
-        var bounds2 = Bounds;
+        Rect bounds2 = Bounds;
         bounds2.Top = top;
         Bounds = bounds2;
-        var bounds3 = Bounds;
+        Rect bounds3 = Bounds;
         bounds3.Right = right;
         Bounds = bounds3;
-        var bounds4 = Bounds;
+        Rect bounds4 = Bounds;
         bounds4.Bottom = bottom;
         Bounds = bounds4;
     }

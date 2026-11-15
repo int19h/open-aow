@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWPartyJoin.pas.
 using Aow.Game.Draw;
-
+using Aow.Game.Draw.Images;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
@@ -93,7 +93,7 @@ public partial class PartyJoinDialog : UIModule
             alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -103,7 +103,7 @@ public partial class PartyJoinDialog : UIModule
             _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
-                var image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -213,10 +213,10 @@ public partial class PartyJoinDialog : UIModule
     {
         if (ValidateJoin())
         {
-            var count = _units.GetCount();
+            int count = _units.GetCount();
             if (slot < count)
             {
-                var troop = _units.GetUnit(slot);
+                Troop troop = _units.GetUnit(slot);
                 UI.General.SelectedUnit = troop;
                 if (button == MouseButton.Left)
                 {
@@ -245,7 +245,7 @@ public partial class PartyJoinDialog : UIModule
         dialog.LeftButton.Visible = true;
         dialog.MiddleButton.Visible = true;
         dialog.RightButton.Visible = true;
-        var partyJoin = dialog.UI.Engine.TranslateResourceString(ScenarioText.PartyJoinText);
+        string partyJoin = dialog.UI.Engine.TranslateResourceString(ScenarioText.PartyJoinText);
         dialog.TitleLabel.Text = partyJoin;
     }
 
@@ -256,7 +256,7 @@ public partial class PartyJoinDialog : UIModule
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
-            var text = dialog._joinEvent.JoinMessage.Text;
+            string text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }
     }
@@ -268,11 +268,11 @@ public partial class PartyJoinDialog : UIModule
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog.Done = done;
-        var accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
+        string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
-        var attack = dialog.UI.Engine.TranslateResourceString(GameText.AttackText);
+        string attack = dialog.UI.Engine.TranslateResourceString(GameText.AttackText);
         dialog.MiddleButton.Text = attack;
-        var cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
+        string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdatePartyJoin(dialog);
         StrategicMap.Current.TutorialControl.ShowMessage(70, true, true);
@@ -282,15 +282,15 @@ public partial class PartyJoinDialog : UIModule
     {
         ResetPartyJoin(dialog);
         dialog.Window.Visible = true;
-        var prisonerLiberation = dialog.UI.Engine.TranslateResourceString(Dungeon.PrisonerLiberationText);
+        string prisonerLiberation = dialog.UI.Engine.TranslateResourceString(Dungeon.PrisonerLiberationText);
         dialog.TitleLabel.Text = prisonerLiberation;
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog.Done = done;
-        var accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
+        string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;
-        var reject = dialog.UI.Engine.TranslateResourceString(GameText.RejectText);
+        string reject = dialog.UI.Engine.TranslateResourceString(GameText.RejectText);
         dialog.RightButton.Text = reject;
         UpdatePartyJoin(dialog);
     }

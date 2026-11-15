@@ -16,7 +16,7 @@ public struct DefenseRequirements
         readonly get => DamageStrengths[(int)DamageType.Physical];
         set
         {
-            var damageStrengths = DamageStrengths;
+            Array10<int> damageStrengths = DamageStrengths;
             damageStrengths[(int)DamageType.Physical] = value;
             DamageStrengths = damageStrengths;
         }

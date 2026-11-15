@@ -18,7 +18,7 @@ public partial class InfoBanner : UIModule
     public void ShowInfo(string header, StringCollection description)
     {
         HeaderLabel.Text = header;
-        var text = description.Text;
+        string text = description.Text;
         InfoMemo.Items.Text = text;
     }
 
@@ -34,7 +34,7 @@ public partial class InfoBanner : UIModule
     internal static void SetInfoBanner(InfoBanner banner, string caption, StringCollection description)
     {
         banner.HeaderLabel.Text = caption;
-        var text = description.Text;
+        string text = description.Text;
         banner.InfoMemo.Items.Text = text;
     }
 

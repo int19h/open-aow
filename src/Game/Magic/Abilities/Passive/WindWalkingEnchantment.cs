@@ -26,13 +26,13 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            var coordinate90 = troop.GetLocation();
+            MapCoordinate coordinate90 = troop.GetLocation();
             x = coordinate90.X;
             y = coordinate90.Y;
             l = coordinate90.MapLevel;
             if (x != -1)
             {
-                var mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
+                MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }

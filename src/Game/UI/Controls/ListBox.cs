@@ -120,26 +120,26 @@ public partial class ListBox : Control
         switch (_textOnly)
         {
             case 0:
-                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
-                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
-                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
-                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
-                var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                 VisibleRows = (WinHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / _itemHeight;
                 _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
                 Masked = false;
@@ -184,7 +184,7 @@ public partial class ListBox : Control
 
             _verticalScrollBar.Priority = Priority + 1;
             _verticalScrollBar.SetFMin(0);
-            var count = _items.Count;
+            int count = _items.Count;
             _verticalScrollBar.SetFMax(count - 1);
             _verticalScrollBar.SetFPosition(FirstShownItem);
             _verticalScrollBar.SetFNumber(VisibleRows);
@@ -217,7 +217,7 @@ public partial class ListBox : Control
             if (_verticalScrollBar.Position != FirstShownItem)
             {
                 FirstShownItem = _verticalScrollBar.Position;
-                var count = _items.Count;
+                int count = _items.Count;
                 if (FirstShownItem + VisibleRows > count)
                 {
                     FirstShownItem = _items.Count - VisibleRows;
@@ -266,23 +266,23 @@ public partial class ListBox : Control
                 switch (_textOnly)
                 {
                     case 0:
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
-                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
-                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         l = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
-                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         t = Window.WinTop + WinTop + imageLibraryFrame5.Height;
-                        var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
-                        var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
@@ -295,21 +295,21 @@ public partial class ListBox : Control
 
                 if (l + w < oldClip.Right)
                 {
-                    var clipRectangle = lockedSurface.ClipRectangle;
+                    Rect clipRectangle = lockedSurface.ClipRectangle;
                     clipRectangle.Right = l + w;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 if (t + h < oldClip.Bottom)
                 {
-                    var clipRectangle2 = lockedSurface.ClipRectangle;
+                    Rect clipRectangle2 = lockedSurface.ClipRectangle;
                     clipRectangle2.Bottom = t + h;
                     lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
                 for (int i = 0, last = VisibleRows; i <= last; i++)
                 {
-                    var count = _items.Count;
+                    int count = _items.Count;
                     if (FirstShownItem + i < count)
                     {
                         _drawItem = FirstShownItem + i;
@@ -329,7 +329,7 @@ public partial class ListBox : Control
                             base.Font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
-                                var rectangle = new SizedRectangle(l, (_itemHeight * i) + t, w, _itemHeight);
+                                SizedRectangle rectangle = new(l, (_itemHeight * i) + t, w, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }
@@ -341,19 +341,19 @@ public partial class ListBox : Control
                         switch (_textAlign)
                         {
                             case TextAlignment.Left:
-                                var item = _items[FirstShownItem + i];
+                                string item = _items[FirstShownItem + i];
                                 base.Font.SetText(BorderWidth + l, BorderHeight + t + (_itemHeight * i), item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
-                                var item2 = _items[FirstShownItem + i];
-                                var textWidth = base.Font.GetTextWidth(item2);
-                                var item3 = _items[FirstShownItem + i];
+                                string item2 = _items[FirstShownItem + i];
+                                int textWidth = base.Font.GetTextWidth(item2);
+                                string item3 = _items[FirstShownItem + i];
                                 base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + (_itemHeight * i), item3, lockedSurface);
                                 break;
                             default:
-                                var item4 = _items[FirstShownItem + i];
-                                var fontTextWidth = base.Font.GetTextWidth(item4);
-                                var item5 = _items[FirstShownItem + i];
+                                string item4 = _items[FirstShownItem + i];
+                                int fontTextWidth = base.Font.GetTextWidth(item4);
+                                string item5 = _items[FirstShownItem + i];
                                 base.Font.SetText(l + (w / 2) - (fontTextWidth / 2), BorderHeight + t + (_itemHeight * i), item5, lockedSurface);
                                 break;
                         }
@@ -389,7 +389,7 @@ public partial class ListBox : Control
             Handled = true;
             if (_textOnly == 0)
             {
-                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
                 i = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
             }
             else
@@ -478,7 +478,7 @@ public partial class ListBox : Control
             Handled = true;
             if (_textOnly == 0)
             {
-                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
                 HoverItem = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
             }
             else

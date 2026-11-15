@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 using Aow.Game.Commands;
-
+using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
@@ -76,7 +76,7 @@ public partial class FreezeWater : GlobalTargetSpell
             return false;
         }
 
-        var army = field.GetArmyHexSprite();
+        ArmyHexSprite army = field.GetArmyHexSprite();
         return army == null || !army.VisibleForSeatedPlayer();
     }
 

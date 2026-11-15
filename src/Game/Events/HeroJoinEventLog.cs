@@ -7,7 +7,7 @@ using Aow.Game.Commands;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Session;
-
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -28,7 +28,7 @@ public partial class HeroJoinEventLog : JoinEventLog
         bool result = default;
         Hero hero;
         bool executeNow;
-        var unitControl = StrategicMap.Current.UnitControl;
+        UnitControl unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(FirstUnitId);
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
@@ -62,7 +62,7 @@ public partial class HeroJoinEventLog : JoinEventLog
         if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
-            var coordinate18 = u.GetLocation();
+            MapCoordinate coordinate18 = u.GetLocation();
             sbyte locationX = coordinate18.X;
             sbyte locationY = coordinate18.Y;
             sbyte locationMapLevel = coordinate18.MapLevel;
@@ -95,12 +95,12 @@ public partial class HeroJoinEventLog : JoinEventLog
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
             if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
             {
                 if (Accept(ref errorText))
                 {
-                    var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
+                    Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
                     StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 

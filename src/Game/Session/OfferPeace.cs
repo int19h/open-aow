@@ -20,7 +20,7 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(action.GetEngine(), PeaceOfferText);
+        string subject = AbilityRules.TranslateResourceString(action.GetEngine(), PeaceOfferText);
         return Outcome(accepted: action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), GameTables.PeaceText), action: action, proposed: subject, subject: subject, otherwise: "");
     }
 
@@ -49,7 +49,7 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         string errorText = "";
         sbyte source = action.Source;
         sbyte target = action.Target;
-        var last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, target, source, -1);
+        DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, target, source, -1);
         if (idealPeace.IndexOf((byte)source) != -1 || (last != null && StrategicMap.Current.Day - last.Day <= 1))
         {
             if (StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
@@ -100,10 +100,10 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
     public override void RefusedAI(DiplomaticAction action)
     {
         string errorText = "";
-        var diplomaticRelation = Relation(action.Source, action.Target);
+        DiplomaticRelation diplomaticRelation = Relation(action.Source, action.Target);
         if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
         {
-            var last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
+            DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
             if (last != null)
             {
                 last.Send(ref errorText);

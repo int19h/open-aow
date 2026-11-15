@@ -14,7 +14,7 @@ public partial class SetupEvents : ILayoutModule
         session.Begin(this);
         Name = "SetupEvents";
         LayoutOnCreate += _ => SetupEventsCreate();
-        LayoutDirectPlay createdDirectPlay = new LayoutDirectPlay(this);
+        LayoutDirectPlay createdDirectPlay = new(this);
         DirectPlay = createdDirectPlay;
         session.BeginRead(createdDirectPlay);
         createdDirectPlay.Name = "DPlay";

@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWRealm.pas.
 using Aow.Game.Draw;
-
+using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
@@ -72,14 +72,14 @@ public partial class RealmWindow : UIModule
     public void UpdateIncome()
     {
         int value;
-        var playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         TreasuryLabel.Text = IntToStr(playerGems.Gems);
-        var upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
-        var playerIncome = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        int upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
+        Player playerIncome = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         NetIncomeLabel.Text = IntToStr(playerIncome.Income - upkeep);
-        var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         IncomeLabel.Text = IntToStr(player.Income);
-        var upkeep2 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
+        int upkeep2 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
         UpkeepLabel.Text = IntToStr(upkeep2);
         IncomeMemo.Items.Clear();
         IncomeValueMemo.Items.Clear();
@@ -87,7 +87,7 @@ public partial class RealmWindow : UIModule
         value = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).BaseIncome;
         if (value != 0)
         {
-            var externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
+            string externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
             IncomeMemo.Items.Add(externalIncome);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -95,7 +95,7 @@ public partial class RealmWindow : UIModule
         value = CityIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var cities = UI.Engine.TranslateResourceString(s_citiesText);
+            string cities = UI.Engine.TranslateResourceString(s_citiesText);
             IncomeMemo.Items.Add(cities);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -103,7 +103,7 @@ public partial class RealmWindow : UIModule
         value = FarmIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var farms = UI.Engine.TranslateResourceString(s_farmsText);
+            string farms = UI.Engine.TranslateResourceString(s_farmsText);
             IncomeMemo.Items.Add(farms);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -111,7 +111,7 @@ public partial class RealmWindow : UIModule
         value = MineIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var mines = UI.Engine.TranslateResourceString(s_minesText);
+            string mines = UI.Engine.TranslateResourceString(s_minesText);
             IncomeMemo.Items.Add(mines);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -119,12 +119,12 @@ public partial class RealmWindow : UIModule
         value = BuildersGuildIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var buildersGuilds = UI.Engine.TranslateResourceString(s_buildersGuildsText);
+            string buildersGuilds = UI.Engine.TranslateResourceString(s_buildersGuildsText);
             IncomeMemo.Items.Add(buildersGuilds);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
-        var playerArmyUpkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player playerArmyUpkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         UpkeepValueMemo.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
     }
 
@@ -149,9 +149,9 @@ public partial class RealmWindow : UIModule
             if (structure is City)
             {
                 c = (City)structure;
-                var name = c.GetName();
+                string name = c.GetName();
                 CityNameList.Items.AddObject(name, c);
-                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
+                string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 CityRaceList.Items.Add(raceNamesPlural);
                 CityIncomeList.Items.Add(IntToStr(c.Income));
                 CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
@@ -209,11 +209,11 @@ public partial class RealmWindow : UIModule
                         break;
                 }
 
-                var activeOrder = c.GetActiveOrder();
+                ProductionOrder activeOrder = c.GetActiveOrder();
                 CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
                 CityEnchantmentList.Items.Add("-");
-                var size = c.GetSize();
+                int size = c.GetSize();
                 CitySizeList.Items.Add(IntToStr(size));
             }
         }
@@ -230,9 +230,9 @@ public partial class RealmWindow : UIModule
             place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
             if (!(place is City))
             {
-                var editName = place.EditName();
+                string editName = place.EditName();
                 PlaceNameList.Items.AddObject(editName, place);
-                var currentActivityText = place.GetCurrentActivityText();
+                string currentActivityText = place.GetCurrentActivityText();
                 PlaceActionList.Items.Add(currentActivityText);
             }
         }
@@ -252,13 +252,13 @@ public partial class RealmWindow : UIModule
                 u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j);
                 if (u is Hero hero)
                 {
-                    var army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
-                    var name = u.GetName();
+                    Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
+                    string name = u.GetName();
                     HeroNameList.Items.AddObject(name, army);
-                    var hitPoints = u.GetHitPoints();
-                    var hits = u.GetHits();
+                    sbyte hitPoints = u.GetHitPoints();
+                    sbyte hits = u.GetHits();
                     HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
-                    var level = hero.GetLevel();
+                    sbyte level = hero.GetLevel();
                     HeroLevelList.Items.Add(IntToStr(level));
                 }
             }
@@ -317,21 +317,21 @@ public partial class RealmWindow : UIModule
         if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.Count)
         {
             oldClip = lockedSurface.ClipRectangle;
-            var clipRectangle = lockedSurface.ClipRectangle;
+            Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Left = drawRectangle.Left + 2;
             lockedSurface.ClipRectangle = clipRectangle;
-            var clipRectangle2 = lockedSurface.ClipRectangle;
+            Rect clipRectangle2 = lockedSurface.ClipRectangle;
             clipRectangle2.Top = drawRectangle.Top + 1;
             lockedSurface.ClipRectangle = clipRectangle2;
-            var clipRectangle3 = lockedSurface.ClipRectangle;
+            Rect clipRectangle3 = lockedSurface.ClipRectangle;
             clipRectangle3.Right = drawRectangle.Right - 2;
             lockedSurface.ClipRectangle = clipRectangle3;
-            var clipRectangle4 = lockedSurface.ClipRectangle;
+            Rect clipRectangle4 = lockedSurface.ClipRectangle;
             clipRectangle4.Bottom = drawRectangle.Top + Unit1List.ItemHeight - 6;
             lockedSurface.ClipRectangle = clipRectangle4;
             if (drawRectangle.Bottom - drawRectangle.Top < Unit1List.ItemHeight - 6)
             {
-                var clipRectangle5 = lockedSurface.ClipRectangle;
+                Rect clipRectangle5 = lockedSurface.ClipRectangle;
                 clipRectangle5.Bottom = drawRectangle.Bottom;
                 lockedSurface.ClipRectangle = clipRectangle5;
             }
@@ -339,15 +339,15 @@ public partial class RealmWindow : UIModule
             u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
             if ((int)u.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
             {
-                var alignment = u.GetAlignment();
-                var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
+                Units.Alignment alignment = u.GetAlignment();
+                LibraryImage unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                 unitBackground.ShowClipped(drawRectangle.Left - ((unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2), lockedSurface);
             }
 
-            var previewImage = u.GetPreviewImage();
-            var uPreviewImage = u.GetPreviewImage();
+            LibraryImage previewImage = u.GetPreviewImage();
+            LibraryImage uPreviewImage = u.GetPreviewImage();
             u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, UI.General.UnitShowInfo);
-            var gauge = UnitGauge;
+            Gauge gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = u.GetHits();
             gauge.Position = u.GetHitPoints();
@@ -377,11 +377,11 @@ public partial class RealmWindow : UIModule
         switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
         {
             case 49:
-                var listBoxIcon = UI.Graphics.ListIcons[7];
+                LibraryImage listBoxIcon = UI.Graphics.ListIcons[7];
                 UI.Graphics.ListIcons[7].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
                 break;
             case 50:
-                var listBoxIconWidth = UI.Graphics.ListIcons[8];
+                LibraryImage listBoxIconWidth = UI.Graphics.ListIcons[8];
                 UI.Graphics.ListIcons[8].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIconWidth.Width / 2), drawRectangle.Top, lockedSurface);
                 break;
         }
@@ -416,9 +416,9 @@ public partial class RealmWindow : UIModule
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.Count > 0)
         {
             listBox.PopupMenu = UI.UnitBanner.BannerMenu;
-            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.GetUnit(slot);
+            Troop troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
-            var armyHexSprite = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
             StrategicMap.Current.Select(armyHexSprite, true);
             Window.Priority = Window.Priority;
         }
@@ -444,7 +444,7 @@ public partial class RealmWindow : UIModule
         int icon;
         string text = CityMoraleList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = UI.Graphics.ListIcons[icon + 9];
+        LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon + 9];
         UI.Graphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
 
@@ -455,13 +455,13 @@ public partial class RealmWindow : UIModule
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             sprite = CityNameList.Items.Objects[sender.Selected];
-            var hexLevel = sprite.GetHexLevel();
-            var hexY = sprite.GetHexY();
-            var hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.GetHexLevel();
+            sbyte hexY = sprite.GetHexY();
+            sbyte hexX = sprite.GetHexX();
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            var spriteHexLevel = sprite.GetHexLevel();
-            var spriteHexY = sprite.GetHexY();
-            var spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.GetHexLevel();
+            sbyte spriteHexY = sprite.GetHexY();
+            sbyte spriteHexX = sprite.GetHexX();
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -469,7 +469,7 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:469
     public void CityListChange(ListBox sender)
     {
-        var listBox = sender;
+        ListBox listBox = sender;
         CityNameList.Selected = listBox.Selected;
         CityRaceList.Selected = listBox.Selected;
         CityIncomeList.Selected = listBox.Selected;
@@ -487,7 +487,7 @@ public partial class RealmWindow : UIModule
     {
         if (sender.Selected != -1)
         {
-            var city = CityNameList.Items.Objects[sender.Selected];
+            City city = CityNameList.Items.Objects[sender.Selected];
             UI.CityScreen.ShowCity(city);
         }
     }
@@ -499,12 +499,12 @@ public partial class RealmWindow : UIModule
         {
             if (PlaceNameList.Items.Objects[sender.Selected] is ProductionPlace)
             {
-                var productionPlace = PlaceNameList.Items.Objects[sender.Selected];
+                PlayerStructure productionPlace = PlaceNameList.Items.Objects[sender.Selected];
                 UI.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
             }
             else
             {
-                var hexSprite = PlaceNameList.Items.Objects[sender.Selected];
+                PlayerStructure hexSprite = PlaceNameList.Items.Objects[sender.Selected];
                 StrategicMap.Current.Select(hexSprite, true);
             }
         }
@@ -517,13 +517,13 @@ public partial class RealmWindow : UIModule
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             sprite = PlaceNameList.Items.Objects[sender.Selected];
-            var hexLevel = sprite.GetHexLevel();
-            var hexY = sprite.GetHexY();
-            var hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.GetHexLevel();
+            sbyte hexY = sprite.GetHexY();
+            sbyte hexX = sprite.GetHexX();
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            var spriteHexLevel = sprite.GetHexLevel();
-            var spriteHexY = sprite.GetHexY();
-            var spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.GetHexLevel();
+            sbyte spriteHexY = sprite.GetHexY();
+            sbyte spriteHexX = sprite.GetHexX();
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -531,10 +531,10 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:513
     public void HeroListDoubleClick(ListBox sender)
     {
-        var listBox = sender;
+        ListBox listBox = sender;
         if (listBox.Selected != -1)
         {
-            var armyHexSprite = HeroNameList.Items.Objects[listBox.Selected].GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = HeroNameList.Items.Objects[listBox.Selected].GetArmyHexSprite();
             StrategicMap.Current.Select(armyHexSprite, true);
         }
     }
@@ -548,13 +548,13 @@ public partial class RealmWindow : UIModule
         if (list.Selected != -1)
         {
             sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
-            var hexLevel = sprite.GetHexLevel();
-            var hexY = sprite.GetHexY();
-            var hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.GetHexLevel();
+            sbyte hexY = sprite.GetHexY();
+            sbyte hexX = sprite.GetHexX();
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            var spriteHexLevel = sprite.GetHexLevel();
-            var spriteHexY = sprite.GetHexY();
-            var spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.GetHexLevel();
+            sbyte spriteHexY = sprite.GetHexY();
+            sbyte spriteHexX = sprite.GetHexX();
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -568,7 +568,7 @@ public partial class RealmWindow : UIModule
         if (index != -1)
         {
             // { evaluate the index before the receiver chain }
-            var hero = HeroHealthList.Items.Objects[index << 0];
+            Hero hero = HeroHealthList.Items.Objects[index << 0];
             UI.General.SelectedUnit = hero;
             UI.UnitWindow.ShowUnit();
         }
@@ -603,7 +603,7 @@ public partial class RealmWindow : UIModule
         icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
-            var listBoxIcon = UI.Graphics.ListIcons[icon - 23];
+            LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon - 23];
             UI.Graphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
         }
     }
@@ -621,7 +621,7 @@ public partial class RealmWindow : UIModule
         int icon;
         string text = CityRelationList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = UI.Graphics.ListIcons[icon + 14];
+        LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon + 14];
         UI.Graphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
 
@@ -903,7 +903,7 @@ public partial class RealmWindow : UIModule
     {
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).Units.Count > 0)
         {
-            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).Units.GetUnit(slot);
+            Troop troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             UI.UnitWindow.ShowUnit();
         }
@@ -955,7 +955,7 @@ public partial class RealmWindow : UIModule
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
@@ -968,7 +968,7 @@ public partial class RealmWindow : UIModule
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }

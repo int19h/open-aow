@@ -163,7 +163,7 @@ public partial class ChatWindow : ILayoutModule
         PlayerList.ItemHeight = 17;
         PlayerList.TextAlign = TextAlignment.Left;
         session.EndRead(PlayerList);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -191,7 +191,7 @@ public partial class ChatWindow : ILayoutModule
         sIcon.Animate = false;
         sIcon.AnimationFrameDelay = 0;
         session.EndRead(sIcon);
-        Label iwTitle = new Label(this);
+        Label iwTitle = new(this);
         session.BeginRead(iwTitle);
         iwTitle.Name = "IWTitle";
         iwTitle.Priority = 0;
@@ -214,7 +214,7 @@ public partial class ChatWindow : ILayoutModule
         iwTitle.Text = "Chat";
         iwTitle.TextColor = 0;
         session.EndRead(iwTitle);
-        Button min = new Button(this);
+        Button min = new(this);
         session.BeginRead(min);
         min.Name = "Min";
         min.Priority = 0;
@@ -248,7 +248,7 @@ public partial class ChatWindow : ILayoutModule
         min.WinWidth = 15;
         min.OnClick += _ => MinClick();
         session.EndRead(min);
-        Panel chatPnl = new Panel(this);
+        Panel chatPnl = new(this);
         session.BeginRead(chatPnl);
         chatPnl.Name = "ChatPnl";
         chatPnl.Priority = 0;
@@ -275,7 +275,7 @@ public partial class ChatWindow : ILayoutModule
         chatPnl.MinWidth = 0;
         chatPnl.MinHeight = 0;
         session.EndRead(chatPnl);
-        VerticalScrollBar nsBar = new VerticalScrollBar(this);
+        VerticalScrollBar nsBar = new(this);
         session.BeginRead(nsBar);
         nsBar.Name = "NSBar";
         nsBar.Visible = false;
@@ -349,7 +349,7 @@ public partial class ChatWindow : ILayoutModule
         ChatScrollBar.ImageLibraryIndexBack = 101;
         ChatScrollBar.ThumbImageIndex = 98;
         session.EndRead(ChatScrollBar);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

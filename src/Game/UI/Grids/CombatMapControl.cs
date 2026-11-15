@@ -225,7 +225,7 @@ public partial class CombatMapControl : Component
         {
             if (OnUnitChanged != null)
             {
-                var tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite();
+                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite();
                 OnUnitChanged(tacticalBattleUnitHexSprite);
             }
         }
@@ -421,7 +421,7 @@ public partial class CombatMapControl : Component
                 return;
             }
 
-            var info = sender is ExecuteEventLogNotification notification
+            ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
             OnExecuteEventLog(info.Log, info.Done);
         }

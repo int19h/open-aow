@@ -68,7 +68,7 @@ public partial class CombatChoice : UIModule
     // TCFCDlg.pas:70
     public void FCchkChange(CheckBox sender)
     {
-        var checkBox = sender;
+        CheckBox checkBox = sender;
         if (checkBox.Checked)
         {
             _request.Select((CombatType)1);
@@ -87,7 +87,7 @@ public partial class CombatChoice : UIModule
     // TCFCDlg.pas:79
     public void TCchkChange(CheckBox sender)
     {
-        var checkBox = sender;
+        CheckBox checkBox = sender;
         if (checkBox.Checked)
         {
             _request.Select((CombatType)2);

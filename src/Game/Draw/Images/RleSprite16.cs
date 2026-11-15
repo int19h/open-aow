@@ -333,9 +333,9 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                     surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565, null);
                     gr.Left = 0;
                     gr.Top = 0;
-                    var width = surface.GetWidth();
+                    int width = surface.GetWidth();
                     gr.Right = width;
-                    var height = surface.GetHeight();
+                    int height = surface.GetHeight();
                     gr.Bottom = height;
                     surface.Lock(ref lSD);
                     if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)

@@ -36,7 +36,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     internal string GetEngineObjectPath()
     {
         string path = GetType().Name;
-        for (var owner = ((IOwned)this).Owner; owner != null; owner = (owner as IOwned)?.Owner)
+        for (IOwner owner = ((IOwned)this).Owner; owner != null; owner = (owner as IOwned)?.Owner)
         {
             path = owner.GetType().Name + path;
         }
@@ -149,7 +149,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
             return false;
         }
 
-        var factory = new EnginePersistableFactory(engine);
+        EnginePersistableFactory factory = new(engine);
         return TreeWriter.WriteObject(this, factory: factory).ValueEquals(TreeWriter.WriteObject(objectValue, factory: factory));
     }
 
@@ -161,7 +161,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         e = GetEngine();
         if (e != null)
         {
-            for (var type = GetType(); type != typeof(EngineObject) && result == null; type = type.BaseType)
+            for (Type type = GetType(); type != typeof(EngineObject) && result == null; type = type.BaseType)
             {
                 result = e.Editors.FindEditor(EngineClass.Of(type).ClassId);
             }
@@ -182,7 +182,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // handler, of which a copy has none (persistence-tree.md 13).
     public virtual void Assign(EngineObject source, GameEngine engine)
     {
-        var factory = new EnginePersistableFactory(engine);
+        EnginePersistableFactory factory = new(engine);
         TreeReader.ReadObject(TreeWriter.WriteObject(source, factory: factory), objectValue: this, factory: factory);
     }
 
@@ -218,9 +218,9 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // A new object of this class loads the tree of this one, as Assign loads it.
     public EngineObject Copy(GameEngine engine)
     {
-        var factory = new EnginePersistableFactory(engine);
-        var tree = TreeWriter.WriteObject(this, factory: factory);
-        var result = EngineClass.CreateInstance(null, holder: engine);
+        EnginePersistableFactory factory = new(engine);
+        ObjectNode tree = TreeWriter.WriteObject(this, factory: factory);
+        EngineObject result = EngineClass.CreateInstance(null, holder: engine);
         TreeReader.ReadObject(tree, objectValue: result, factory: factory);
         return result;
     }

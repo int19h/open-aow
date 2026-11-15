@@ -78,7 +78,7 @@ public partial class MultiWindow : ILayoutModule
         GamesList.ItemHeight = 20;
         GamesList.TextAlign = TextAlignment.Center;
         session.EndRead(GamesList);
-        VerticalScrollBar glBvsc = new VerticalScrollBar(this);
+        VerticalScrollBar glBvsc = new(this);
         session.BeginRead(glBvsc);
         glBvsc.Name = "GLBvsc";
         glBvsc.Visible = false;
@@ -179,7 +179,7 @@ public partial class MultiWindow : ILayoutModule
         MultiPanel.MinWidth = 640;
         MultiPanel.MinHeight = 480;
         session.EndRead(MultiPanel);
-        Button backBtn = new Button(this);
+        Button backBtn = new(this);
         session.BeginRead(backBtn);
         backBtn.Name = "BackBtn";
         backBtn.Priority = 100;
@@ -307,7 +307,7 @@ public partial class MultiWindow : ILayoutModule
         IpxButton.WinWidth = 158;
         IpxButton.OnClick += _ => IPXBtnClick();
         session.EndRead(IpxButton);
-        Button singleBtn = new Button(this);
+        Button singleBtn = new(this);
         session.BeginRead(singleBtn);
         singleBtn.Name = "SingleBtn";
         singleBtn.Priority = 19;
@@ -342,7 +342,7 @@ public partial class MultiWindow : ILayoutModule
         singleBtn.WinWidth = 158;
         singleBtn.OnClick += _ => SingleBtnClick();
         session.EndRead(singleBtn);
-        Button emailBtn = new Button(this);
+        Button emailBtn = new(this);
         session.BeginRead(emailBtn);
         emailBtn.Name = "EmailBtn";
         emailBtn.Priority = 19;
@@ -405,7 +405,7 @@ public partial class MultiWindow : ILayoutModule
         TcpPanel.MinWidth = 0;
         TcpPanel.MinHeight = 0;
         session.EndRead(TcpPanel);
-        Label tcpNameLbl = new Label(this);
+        Label tcpNameLbl = new(this);
         session.BeginRead(tcpNameLbl);
         tcpNameLbl.Name = "TCPNameLbl";
         tcpNameLbl.Priority = 100;
@@ -428,7 +428,7 @@ public partial class MultiWindow : ILayoutModule
         tcpNameLbl.Text = "Player Name";
         tcpNameLbl.TextColor = 8472387;
         session.EndRead(tcpNameLbl);
-        Label single = new Label(this);
+        Label single = new(this);
         session.BeginRead(single);
         single.Name = "Single";
         single.Priority = 100;
@@ -451,7 +451,7 @@ public partial class MultiWindow : ILayoutModule
         single.Text = "TCP Internet Game";
         single.TextColor = 8472387;
         session.EndRead(single);
-        Label address = new Label(this);
+        Label address = new(this);
         session.BeginRead(address);
         address.Name = "Address";
         address.Priority = 100;
@@ -478,7 +478,7 @@ public partial class MultiWindow : ILayoutModule
         address.Text = "IP Address";
         address.TextColor = 8472387;
         session.EndRead(address);
-        Button cancelTCP = new Button(this);
+        Button cancelTCP = new(this);
         session.BeginRead(cancelTCP);
         cancelTCP.Name = "CancelTCP";
         cancelTCP.Priority = 100;
@@ -509,7 +509,7 @@ public partial class MultiWindow : ILayoutModule
         cancelTCP.WinWidth = 158;
         cancelTCP.OnClick += _ => CancelTCPClick();
         session.EndRead(cancelTCP);
-        Button host = new Button(this);
+        Button host = new(this);
         session.BeginRead(host);
         host.Name = "Host";
         host.Priority = 100;
@@ -544,7 +544,7 @@ public partial class MultiWindow : ILayoutModule
         host.WinWidth = 158;
         host.OnClick += _ => HostClick();
         session.EndRead(host);
-        Button find = new Button(this);
+        Button find = new(this);
         session.BeginRead(find);
         find.Name = "Find";
         find.Priority = 100;
@@ -579,7 +579,7 @@ public partial class MultiWindow : ILayoutModule
         find.WinWidth = 158;
         find.OnClick += _ => FindClick();
         session.EndRead(find);
-        Label gameLbl = new Label(this);
+        Label gameLbl = new(this);
         session.BeginRead(gameLbl);
         gameLbl.Name = "GameLbl";
         gameLbl.Priority = 19;
@@ -698,7 +698,7 @@ public partial class MultiWindow : ILayoutModule
         LanPanel.MinWidth = 0;
         LanPanel.MinHeight = 0;
         session.EndRead(LanPanel);
-        Button lanFind = new Button(this);
+        Button lanFind = new(this);
         session.BeginRead(lanFind);
         lanFind.Name = "LANFind";
         lanFind.Priority = 100;
@@ -733,7 +733,7 @@ public partial class MultiWindow : ILayoutModule
         lanFind.WinWidth = 158;
         lanFind.OnClick += _ => LANFindClick();
         session.EndRead(lanFind);
-        Label joinLbl = new Label(this);
+        Label joinLbl = new(this);
         session.BeginRead(joinLbl);
         joinLbl.Name = "JoinLbl";
         joinLbl.Priority = 100;
@@ -783,7 +783,7 @@ public partial class MultiWindow : ILayoutModule
         BottomPanel.MinWidth = 0;
         BottomPanel.MinHeight = 0;
         session.EndRead(BottomPanel);
-        Button backButn = new Button(this);
+        Button backButn = new(this);
         session.BeginRead(backButn);
         backButn.Name = "BackButn";
         backButn.Priority = 19;
@@ -814,7 +814,7 @@ public partial class MultiWindow : ILayoutModule
         backButn.WinWidth = 158;
         backButn.OnClick += _ => BackButtonClick();
         session.EndRead(backButn);
-        Panel msgPnl = new Panel(this);
+        Panel msgPnl = new(this);
         session.BeginRead(msgPnl);
         msgPnl.Name = "MsgPnl";
         msgPnl.Visible = false;
@@ -842,7 +842,7 @@ public partial class MultiWindow : ILayoutModule
         msgPnl.MinWidth = 0;
         msgPnl.MinHeight = 0;
         session.EndRead(msgPnl);
-        Button cancelOKBut = new Button(this);
+        Button cancelOKBut = new(this);
         session.BeginRead(cancelOKBut);
         cancelOKBut.Name = "CancelOKBut";
         cancelOKBut.Priority = 100;
@@ -873,7 +873,7 @@ public partial class MultiWindow : ILayoutModule
         cancelOKBut.WinWidth = 158;
         cancelOKBut.OnClick += _ => CancelOKButClick();
         session.EndRead(cancelOKBut);
-        Memo messageMemo = new Memo(this);
+        Memo messageMemo = new(this);
         session.BeginRead(messageMemo);
         messageMemo.Name = "MessageMemo";
         messageMemo.Priority = 0;
@@ -911,7 +911,7 @@ public partial class MultiWindow : ILayoutModule
         messageMemo.ColorChangeChar = 0;
         messageMemo.TextAlign = TextAlignment.Center;
         session.EndRead(messageMemo);
-        Button lanCancel = new Button(this);
+        Button lanCancel = new(this);
         session.BeginRead(lanCancel);
         lanCancel.Name = "LANCancel";
         lanCancel.Priority = 100;
@@ -942,7 +942,7 @@ public partial class MultiWindow : ILayoutModule
         lanCancel.WinWidth = 158;
         lanCancel.OnClick += _ => CancelTCPClick();
         session.EndRead(lanCancel);
-        Label label1 = new Label(this);
+        Label label1 = new(this);
         session.BeginRead(label1);
         label1.Name = "AOWLabel1";
         label1.Priority = 100;
@@ -965,7 +965,7 @@ public partial class MultiWindow : ILayoutModule
         label1.Text = "Player Name";
         label1.TextColor = 8472387;
         session.EndRead(label1);
-        Label lanLbl = new Label(this);
+        Label lanLbl = new(this);
         session.BeginRead(lanLbl);
         lanLbl.Name = "LANLbl";
         lanLbl.Priority = 100;
@@ -1021,7 +1021,7 @@ public partial class MultiWindow : ILayoutModule
         IpxNameEdit.ImageLibraryIndex = 29;
         IpxNameEdit.PassWordChar = 0;
         session.EndRead(IpxNameEdit);
-        Button lanHost = new Button(this);
+        Button lanHost = new(this);
         session.BeginRead(lanHost);
         lanHost.Name = "LANHost";
         lanHost.Priority = 100;
@@ -1084,7 +1084,7 @@ public partial class MultiWindow : ILayoutModule
         EmailPanel.MinWidth = 0;
         EmailPanel.MinHeight = 0;
         session.EndRead(EmailPanel);
-        Button cancelPBEMBtn = new Button(this);
+        Button cancelPBEMBtn = new(this);
         session.BeginRead(cancelPBEMBtn);
         cancelPBEMBtn.Name = "CancelPBEMBtn";
         cancelPBEMBtn.Priority = 100;
@@ -1115,7 +1115,7 @@ public partial class MultiWindow : ILayoutModule
         cancelPBEMBtn.WinWidth = 158;
         cancelPBEMBtn.OnClick += _ => CancelPBEMBtnClick();
         session.EndRead(cancelPBEMBtn);
-        Button checkEmailBtn = new Button(this);
+        Button checkEmailBtn = new(this);
         session.BeginRead(checkEmailBtn);
         checkEmailBtn.Name = "CheckEmailBtn";
         checkEmailBtn.Priority = 100;
@@ -1146,7 +1146,7 @@ public partial class MultiWindow : ILayoutModule
         checkEmailBtn.WinWidth = 158;
         checkEmailBtn.OnClick += _ => CheckEmailBtnClick();
         session.EndRead(checkEmailBtn);
-        Button newPBEMGameBtn = new Button(this);
+        Button newPBEMGameBtn = new(this);
         session.BeginRead(newPBEMGameBtn);
         newPBEMGameBtn.Name = "NewPBEMGameBtn";
         newPBEMGameBtn.Priority = 100;
@@ -1177,7 +1177,7 @@ public partial class MultiWindow : ILayoutModule
         newPBEMGameBtn.WinWidth = 158;
         newPBEMGameBtn.OnClick += _ => NewPBEMGameBtnClick();
         session.EndRead(newPBEMGameBtn);
-        Button loadPBEMGameBtn = new Button(this);
+        Button loadPBEMGameBtn = new(this);
         session.BeginRead(loadPBEMGameBtn);
         loadPBEMGameBtn.Name = "LoadPBEMGameBtn";
         loadPBEMGameBtn.Priority = 100;
@@ -1208,7 +1208,7 @@ public partial class MultiWindow : ILayoutModule
         loadPBEMGameBtn.WinWidth = 158;
         loadPBEMGameBtn.OnClick += _ => LoadPBEMGameBtnClick();
         session.EndRead(loadPBEMGameBtn);
-        Button emailSettingsBtn = new Button(this);
+        Button emailSettingsBtn = new(this);
         session.BeginRead(emailSettingsBtn);
         emailSettingsBtn.Name = "EmailSettingsBtn";
         emailSettingsBtn.Priority = 100;
@@ -1239,7 +1239,7 @@ public partial class MultiWindow : ILayoutModule
         emailSettingsBtn.WinWidth = 158;
         emailSettingsBtn.OnClick += _ => EmailSettingsBtnClick();
         session.EndRead(emailSettingsBtn);
-        Button heatNetBtn = new Button(this);
+        Button heatNetBtn = new(this);
         session.BeginRead(heatNetBtn);
         heatNetBtn.Name = "HeatNetBtn";
         heatNetBtn.Priority = 19;
@@ -1273,7 +1273,7 @@ public partial class MultiWindow : ILayoutModule
         heatNetBtn.WinWidth = 66;
         heatNetBtn.OnClick += _ => HeatNetBtnClick();
         session.EndRead(heatNetBtn);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

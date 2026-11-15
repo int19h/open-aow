@@ -15,7 +15,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "CampaignSettingsDlg";
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -67,7 +67,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         Window.WinHeight = 180;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 250;
@@ -98,7 +98,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         okBtn.WinWidth = 120;
         okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -125,7 +125,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -148,7 +148,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         title.Text = "Campaign Settings";
         title.TextColor = 0;
         session.EndRead(title);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -182,7 +182,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -210,7 +210,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Label difficultyLevelLbl = new Label(this);
+        Label difficultyLevelLbl = new(this);
         session.BeginRead(difficultyLevelLbl);
         difficultyLevelLbl.Name = "DifficultyLevelLbl";
         difficultyLevelLbl.Priority = 0;
@@ -270,7 +270,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         DifficultyLevelComboBox.ImageLibraryTsIndex = 8;
         DifficultyLevelComboBox.ItemHeight = 17;
         session.EndRead(DifficultyLevelComboBox);
-        VerticalScrollBar combatResolveModeSB = new VerticalScrollBar(this);
+        VerticalScrollBar combatResolveModeSB = new(this);
         session.BeginRead(combatResolveModeSB);
         combatResolveModeSB.Name = "CombatResolveModeSB";
         combatResolveModeSB.Visible = false;
@@ -307,7 +307,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         combatResolveModeSB.ImageLibraryIndexBack = 63;
         combatResolveModeSB.ThumbImageIndex = 60;
         session.EndRead(combatResolveModeSB);
-        Label turnModeLbl = new Label(this);
+        Label turnModeLbl = new(this);
         session.BeginRead(turnModeLbl);
         turnModeLbl.Name = "TurnModeLbl";
         turnModeLbl.Priority = 0;
@@ -367,7 +367,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         TurnModeComboBox.ImageLibraryTsIndex = 8;
         TurnModeComboBox.ItemHeight = 17;
         session.EndRead(TurnModeComboBox);
-        VerticalScrollBar vScrollBar1 = new VerticalScrollBar(this);
+        VerticalScrollBar vScrollBar1 = new(this);
         session.BeginRead(vScrollBar1);
         vScrollBar1.Name = "AOWVScrollBar1";
         vScrollBar1.Visible = false;
@@ -404,7 +404,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         vScrollBar1.ImageLibraryIndexBack = 63;
         vScrollBar1.ThumbImageIndex = 60;
         session.EndRead(vScrollBar1);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -431,7 +431,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 250;
@@ -462,7 +462,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         cancelBtn.WinWidth = 120;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;

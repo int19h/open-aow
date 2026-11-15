@@ -215,11 +215,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         int result;
         using (BeginUpdate())
         {
-            var unit = child;
+            EngineObject unit = child;
             unit.AddRef();
 
             result = RemoveUnitChild(child);
-            var unit2 = child;
+            EngineObject unit2 = child;
             unit2.Release();
 
         }
@@ -244,7 +244,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         int result;
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
-        var troop = (Troop)child;
+        Troop troop = (Troop)child;
         if (!Status.Contains(ArmyStatusElement.Activated) || troop.CanActivate())
         {
             result = AddUnitChild(troop);
@@ -405,7 +405,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
             message.MessageId = 4363;
             message.Result = 0;
-            var param = message.Param;
+            MapFieldMessageParameters param = message.Param;
             param[1] = player;
             message.Param = param;
             HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
@@ -416,7 +416,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     field = level.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                     {
-                        var param2 = message.Param;
+                        MapFieldMessageParameters param2 = message.Param;
                         param2[0] = walk.Radius;
                         message.Param = param2;
                         field.SendMapFieldMessage(ref message);
@@ -840,7 +840,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate26 = GetLocation();
+        MapCoordinate coordinate26 = GetLocation();
         x = coordinate26.X;
         y = coordinate26.Y;
         l = coordinate26.MapLevel;
@@ -909,7 +909,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             showCrown = leader != null;
             if (showCrown && concealed)
             {
-                var indexOf = Units.IndexOf(leader);
+                int indexOf = Units.IndexOf(leader);
                 if ((((int)(((uint)ConcealedUnits) >> indexOf)) & 1) != 0)
                 {
                     showCrown = false;
@@ -1069,7 +1069,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         if (previous != upkeep && Status.Contains(ArmyStatusElement.Activated))
         {
             delta = upkeep - previous;
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
         }
 
@@ -1112,7 +1112,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)terrainType))
                     {
                         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
-                        var unitsDrown = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
+                        string unitsDrown = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
                         log.ArmyMessages.Add(unitsDrown);
                         log.ArmyIcon = 3;
                     }
@@ -1122,13 +1122,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         {
                             case 9:
                                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsBurnedText);
-                                var unitsBurned = AbilityRules.TranslateResourceString(GetEngine(), s_unitsBurnedText);
+                                string unitsBurned = AbilityRules.TranslateResourceString(GetEngine(), s_unitsBurnedText);
                                 log.ArmyMessages.Add(unitsBurned);
                                 log.ArmyIcon = 0;
                                 break;
                             default:
                                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsCrushedText);
-                                var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsCrushedText);
+                                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsCrushedText);
                                 log.ArmyMessages.Add(translatedText);
                                 log.ArmyIcon = 2;
                                 break;
@@ -1141,7 +1141,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         troop = Units.GetUnit(i);
                         if ((((int)(((uint)selection) >> i)) & 1) != 0)
                         {
-                            var hitPoints = troop.GetHitPoints();
+                            sbyte hitPoints = troop.GetHitPoints();
                             log.DamageValues.Add((byte)hitPoints);
                             log.DamageTypes.Add(9);
                             troop.SetHitPoints(0);
@@ -1334,7 +1334,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             if (Player != -1)
             {
                 StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
-                var players = StrategicMap.Current.Players.GetPlayers(Player);
+                Player players = StrategicMap.Current.Players.GetPlayers(Player);
                 StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
             }
 
@@ -1369,7 +1369,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         byte result = ValidateSelection(selection);
         if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~selection) != 0 && Transporter(selection) != null)
         {
-            var transporter = Transporter(255);
+            Troop transporter = Transporter(255);
             result = (byte)(result & ~(1 << IndexOfChild(transporter)));
         }
 
@@ -1423,7 +1423,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 {
                     if (Player != -1)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(Player);
+                        Player players = StrategicMap.Current.Players.GetPlayers(Player);
                         StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
                         StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
                     }
@@ -1431,7 +1431,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     Player = player;
                     if (Player != -1)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(Player);
+                        Player players = StrategicMap.Current.Players.GetPlayers(Player);
                         StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
                         StrategicMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
                     }
@@ -2043,7 +2043,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
-                    var visibilityRange = VisibilityRange();
+                    byte visibilityRange = VisibilityRange();
                     StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, (sbyte)player, visibilityRange);
                 }
             }
@@ -2230,8 +2230,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     }
                 }
 
-                var count = Units.Count;
-                var transportCapacity = transport.GetTransportCapacity();
+                int count = Units.Count;
+                byte transportCapacity = transport.GetTransportCapacity();
                 if (list.Count + count <= transportCapacity + 1)
                 {
                     result = AddUnitsResult.Ok;
@@ -2243,7 +2243,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             }
             else
             {
-                var count = Units.Count;
+                int count = Units.Count;
                 if (list.Count + count <= 8)
                 {
                     i = 0;
@@ -2414,15 +2414,15 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         races.Count = troop.GetRace() + 1;
                     }
 
-                    var race = troop.GetRace();
+                    sbyte race = troop.GetRace();
                     if (races.List[race] == null)
                     {
-                        var army = new Army(null) { Holder = CreationHolder() };
-                        var aUnitRace = troop.GetRace();
+                        Army army = new(null) { Holder = CreationHolder() };
+                        sbyte aUnitRace = troop.GetRace();
                         races.List[aUnitRace] = army;
                     }
 
-                    var race2 = troop.GetRace();
+                    sbyte race2 = troop.GetRace();
                     races.List[race2].AddUnit(troop);
                     units.Delete(i);
                 }
@@ -2600,7 +2600,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 bool condition = race == Units[i].GetRace();
                 if (!condition)
                 {
-                    var alignment = Units[i].GetAlignment();
+                    Alignment alignment = Units[i].GetAlignment();
                     condition = GamePack.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment);
                 }
 
@@ -2697,12 +2697,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         {
             if (count == 1)
             {
-                var desertUnitNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitNoUpkeepText);
+                string desertUnitNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitNoUpkeepText);
                 log.Messages.Text = desertUnitNoUpkeep;
             }
             else
             {
-                var desertUnitsNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsNoUpkeepText);
+                string desertUnitsNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsNoUpkeepText);
                 log.Messages.Text = desertUnitsNoUpkeep;
             }
         }
@@ -2712,12 +2712,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (count == 1)
                 {
-                    var desertUnitLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleText);
+                    string desertUnitLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleText);
                     log.Messages.Text = desertUnitLowMorale;
                 }
                 else
                 {
-                    var desertUnitsLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleText);
+                    string desertUnitsLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleText);
                     log.Messages.Text = desertUnitsLowMorale;
                 }
             }
@@ -2725,12 +2725,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (count == 1)
                 {
-                    var desertUnitLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleSplitText);
+                    string desertUnitLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleSplitText);
                     log.Messages.Text = desertUnitLowMoraleSplit;
                 }
                 else
                 {
-                    var desertUnitsLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleSplitText);
+                    string desertUnitsLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleSplitText);
                     log.Messages.Text = desertUnitsLowMoraleSplit;
                 }
             }
@@ -2966,10 +2966,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             ResetDestinationPosition();
             if (Location.X != -1 && Player > 0)
             {
-                var visibilityRange = VisibilityRange();
+                byte visibilityRange = VisibilityRange();
                 StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, Player, visibilityRange);
-                var visibilityRange2 = VisibilityRange();
-                var trueVisionRange = TrueVisionRange();
+                byte visibilityRange2 = VisibilityRange();
+                byte trueVisionRange = TrueVisionRange();
                 StrategicMap.Current.UpdatePlayerSeen(Player, Location.X, Location.Y, Location.MapLevel, visibilityRange2, trueVisionRange);
             }
 
@@ -3150,24 +3150,24 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             if (joinCount == 1)
                             {
                                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitJoinedText);
-                                var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitJoinedForcesFormat), [name]);
+                                string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitJoinedForcesFormat), [name]);
                                 log.Messages.Text = format;
                             }
                             else
                             {
                                 log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsJoinedFormat), [IntToStr(joinCount)]);
-                                var selectionCount = SelectionCount(selection);
-                                var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsJoinedForcesFormat), [selectionCount, name]);
+                                int selectionCount = SelectionCount(selection);
+                                string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsJoinedForcesFormat), [selectionCount, name]);
                                 log.Messages.Text = format;
                             }
                         }
                         else
                         {
                             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_joinedFormat), [hero.HeroName]);
-                            var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_joinedForcesFormat), [hero.HeroName, name]);
+                            string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_joinedForcesFormat), [hero.HeroName, name]);
                             log.Messages.Text = format;
                         }
 
@@ -3178,8 +3178,8 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             locations = new MapCoordinateList();
                             if (offer.ArmyHexSprite != null)
                             {
-                                var hexY = offer.ArmyHexSprite.GetHexY();
-                                var hexX = offer.ArmyHexSprite.GetHexX();
+                                sbyte hexY = offer.ArmyHexSprite.GetHexY();
+                                sbyte hexX = offer.ArmyHexSprite.GetHexX();
                                 direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
                                 if (direction > 0 && direction <= 6)
                                 {
@@ -3214,9 +3214,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                                     placed = false;
                                     while (!placed && j < locations.Count)
                                     {
-                                        var item = locations[j];
-                                        var locationsItem = locations[j];
-                                        var item2 = locations[j];
+                                        MapCoordinate item = locations[j];
+                                        MapCoordinate locationsItem = locations[j];
+                                        MapCoordinate item2 = locations[j];
                                         placed = Units.GetUnit(i).Place(item2.X, locationsItem.Y, item.MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of()) != null;
                                         if (!placed)
                                         {
@@ -3276,10 +3276,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         log.Player = GetArmyHexSprite().Army.Player;
-        var fireDamage = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
+        string fireDamage = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         log.ArmyMessages.Add(fireDamage);
         log.ArmyIcon = 0;
-        var armyHexSprite = GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = GetArmyHexSprite();
         log.ArmyView.Setup(armyHexSprite.Army, 255);
         using (BeginUpdate())
         {
@@ -3400,7 +3400,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         log.Player = player;
         // { Original appends the storm message. }
-        var stormType = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
+        string stormType = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         log.ArmyMessages.Add(stormType);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(this, 255);
@@ -3473,7 +3473,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                             selection = GetJoinSelection(info.Player);
                             if (selection != 0)
                             {
-                                var joinAmount = JoinAmount(info.Player, selection);
+                                int joinAmount = JoinAmount(info.Player, selection);
                                 data.Cost = joinAmount;
                                 data.TargetType = AITargetType.Negotiate;
                             }
@@ -3603,7 +3603,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             return false;
         }
 
-        var field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units.GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 

@@ -58,7 +58,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         Window.WinHeight = 216;
         Window.Dockable = false;
         session.EndRead(Window);
-        Frame celtFrame = new Frame(this);
+        Frame celtFrame = new(this);
         session.BeginRead(celtFrame);
         celtFrame.Name = "CeltFrame";
         celtFrame.Priority = 13;
@@ -85,7 +85,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         celtFrame.ImageLibraryIndexLine = 0;
         celtFrame.ImageLibraryIndexTexture = 0;
         session.EndRead(celtFrame);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -119,7 +119,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 1000;
@@ -142,7 +142,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         title.Text = "Target Selector";
         title.TextColor = 0;
         session.EndRead(title);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -239,7 +239,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         DefaultMemo.ColorChangeChar = 0;
         DefaultMemo.TextAlign = TextAlignment.Center;
         session.EndRead(DefaultMemo);
-        Panel defaultPnl = new Panel(this);
+        Panel defaultPnl = new(this);
         session.BeginRead(defaultPnl);
         defaultPnl.Name = "DefaultPnl";
         defaultPnl.Priority = 15;
@@ -289,7 +289,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         HeaderLabel.Text = "########";
         HeaderLabel.TextColor = 16777215;
         session.EndRead(HeaderLabel);
-        Panel headerPnl = new Panel(this);
+        Panel headerPnl = new(this);
         session.BeginRead(headerPnl);
         headerPnl.Name = "HeaderPnl";
         headerPnl.Priority = 400;
@@ -338,7 +338,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         BorderLine.Masked = false;
         BorderLine.WinHeight = 139;
         session.EndRead(BorderLine);
-        Panel spellPnl = new Panel(this);
+        Panel spellPnl = new(this);
         session.BeginRead(spellPnl);
         spellPnl.Name = "SpellPnl";
         spellPnl.Visible = false;
@@ -366,7 +366,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         spellPnl.MinWidth = 0;
         spellPnl.MinHeight = 0;
         session.EndRead(spellPnl);
-        Memo spellMemo = new Memo(this);
+        Memo spellMemo = new(this);
         session.BeginRead(spellMemo);
         spellMemo.Name = "SpellMemo";
         spellMemo.Priority = 0;
@@ -400,7 +400,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         spellMemo.ColorChangeChar = 0;
         spellMemo.TextAlign = TextAlignment.Center;
         session.EndRead(spellMemo);
-        Label targetRangeLabel = new Label(this);
+        Label targetRangeLabel = new(this);
         session.BeginRead(targetRangeLabel);
         targetRangeLabel.Name = "TargetRangeLabel";
         targetRangeLabel.Priority = 100;
@@ -446,7 +446,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         TargetLabel.Text = "######";
         TargetLabel.TextColor = 16777215;
         session.EndRead(TargetLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -20,7 +20,7 @@ public partial class HighPrayer : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerText);
         SpellId = 102;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
@@ -86,7 +86,7 @@ public partial class HighPrayer : CombatSpell
         int value;
         FastBattleSpellCommand command;
         value = 0;
-        var side = commands.Source.GetSide();
+        CombatSideIndex side = commands.Source.GetSide();
         combatSide = commands.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
@@ -132,7 +132,7 @@ public partial class HighPrayer : CombatSpell
         CombatSide combatSide;
         CombatObject ally;
         value = 0;
-        var side = source.GetSide();
+        CombatSideIndex side = source.GetSide();
         combatSide = source.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {

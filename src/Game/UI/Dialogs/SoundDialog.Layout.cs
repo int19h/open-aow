@@ -61,7 +61,7 @@ public partial class SoundDialog : ILayoutModule
         Window.WinHeight = 400;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button closeBut = new Button(this);
+        Button closeBut = new(this);
         session.BeginRead(closeBut);
         closeBut.Name = "CloseBut";
         closeBut.Priority = 250;
@@ -92,7 +92,7 @@ public partial class SoundDialog : ILayoutModule
         closeBut.WinWidth = 136;
         closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
-        Image tCeltLL = new Image(this);
+        Image tCeltLL = new(this);
         session.BeginRead(tCeltLL);
         tCeltLL.Name = "TCeltLL";
         tCeltLL.Priority = 100;
@@ -120,7 +120,7 @@ public partial class SoundDialog : ILayoutModule
         tCeltLL.Animate = false;
         tCeltLL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLL);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -147,7 +147,7 @@ public partial class SoundDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -205,7 +205,7 @@ public partial class SoundDialog : ILayoutModule
         SongList.ItemHeight = 17;
         SongList.TextAlign = TextAlignment.Left;
         session.EndRead(SongList);
-        Label songLbl = new Label(this);
+        Label songLbl = new(this);
         session.BeginRead(songLbl);
         songLbl.Name = "SongLbl";
         songLbl.Priority = 0;
@@ -228,7 +228,7 @@ public partial class SoundDialog : ILayoutModule
         songLbl.Text = "Songs Folder:";
         songLbl.TextColor = 0;
         session.EndRead(songLbl);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -289,7 +289,7 @@ public partial class SoundDialog : ILayoutModule
         PlayListPanel.MinWidth = 0;
         PlayListPanel.MinHeight = 0;
         session.EndRead(PlayListPanel);
-        TabPanel soundTab = new TabPanel(this);
+        TabPanel soundTab = new(this);
         session.BeginRead(soundTab);
         soundTab.Name = "SoundTab";
         soundTab.Priority = 1000;
@@ -465,7 +465,7 @@ public partial class SoundDialog : ILayoutModule
         PlayButton.WinWidth = 87;
         PlayButton.OnClick += _ => PlayBtnClick();
         session.EndRead(PlayButton);
-        Label playLbl = new Label(this);
+        Label playLbl = new(this);
         session.BeginRead(playLbl);
         playLbl.Name = "PlayLbl";
         playLbl.Priority = 0;
@@ -511,7 +511,7 @@ public partial class SoundDialog : ILayoutModule
         CurrentSongLabel.Text = "#########";
         CurrentSongLabel.TextColor = 0;
         session.EndRead(CurrentSongLabel);
-        Image tCeltLR = new Image(this);
+        Image tCeltLR = new(this);
         session.BeginRead(tCeltLR);
         tCeltLR.Name = "TCeltLR";
         tCeltLR.Priority = 100;
@@ -539,7 +539,7 @@ public partial class SoundDialog : ILayoutModule
         tCeltLR.Animate = false;
         tCeltLR.AnimationFrameDelay = 0;
         session.EndRead(tCeltLR);
-        Label musicVolLbl = new Label(this);
+        Label musicVolLbl = new(this);
         session.BeginRead(musicVolLbl);
         musicVolLbl.Name = "MusicVolLbl";
         musicVolLbl.Priority = 0;
@@ -566,7 +566,7 @@ public partial class SoundDialog : ILayoutModule
         musicVolLbl.Text = "Music Volume:";
         musicVolLbl.TextColor = 0;
         session.EndRead(musicVolLbl);
-        Label sfxVolLbl = new Label(this);
+        Label sfxVolLbl = new(this);
         session.BeginRead(sfxVolLbl);
         sfxVolLbl.Name = "SFXVolLbl";
         sfxVolLbl.Priority = 0;
@@ -620,7 +620,7 @@ public partial class SoundDialog : ILayoutModule
         MainPanel.MinWidth = 0;
         MainPanel.MinHeight = 0;
         session.EndRead(MainPanel);
-        Label soundLbl = new Label(this);
+        Label soundLbl = new(this);
         session.BeginRead(soundLbl);
         soundLbl.Name = "SoundLbl";
         soundLbl.Priority = 0;
@@ -643,7 +643,7 @@ public partial class SoundDialog : ILayoutModule
         soundLbl.Text = "Sound Quality:";
         soundLbl.TextColor = 0;
         session.EndRead(soundLbl);
-        Panel settingsPnl = new Panel(this);
+        Panel settingsPnl = new(this);
         session.BeginRead(settingsPnl);
         settingsPnl.Name = "SettingsPnl";
         settingsPnl.Visible = false;
@@ -671,7 +671,7 @@ public partial class SoundDialog : ILayoutModule
         settingsPnl.MinWidth = 0;
         settingsPnl.MinHeight = 0;
         session.EndRead(settingsPnl);
-        Label sfxLbl = new Label(this);
+        Label sfxLbl = new(this);
         session.BeginRead(sfxLbl);
         sfxLbl.Name = "SFXLbl";
         sfxLbl.Priority = 0;
@@ -694,7 +694,7 @@ public partial class SoundDialog : ILayoutModule
         sfxLbl.Text = "Active Sounds:";
         sfxLbl.TextColor = 0;
         session.EndRead(sfxLbl);
-        Panel sqPnl = new Panel(this);
+        Panel sqPnl = new(this);
         session.BeginRead(sqPnl);
         sqPnl.Name = "SQPnl";
         sqPnl.Priority = 0;
@@ -757,7 +757,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityNoneCheckBox.OnChange += SQCB1Change;
         SoundQualityNoneCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityNoneCheckBox);
-        Label sqlbL1 = new Label(this);
+        Label sqlbL1 = new(this);
         session.BeginRead(sqlbL1);
         sqlbL1.Name = "SQLBL1";
         sqlbL1.Priority = 0;
@@ -820,7 +820,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityLowCheckBox.OnChange += SQCB2Change;
         SoundQualityLowCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityLowCheckBox);
-        Label sqlbL2 = new Label(this);
+        Label sqlbL2 = new(this);
         session.BeginRead(sqlbL2);
         sqlbL2.Name = "SQLBL2";
         sqlbL2.Priority = 0;
@@ -883,7 +883,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityMediumCheckBox.OnChange += SQCB3Change;
         SoundQualityMediumCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityMediumCheckBox);
-        Label sqlbL3 = new Label(this);
+        Label sqlbL3 = new(this);
         session.BeginRead(sqlbL3);
         sqlbL3.Name = "SQLBL3";
         sqlbL3.Priority = 0;
@@ -946,7 +946,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityHighCheckBox.OnChange += SQCB4Change;
         SoundQualityHighCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityHighCheckBox);
-        Label sqlbL4 = new Label(this);
+        Label sqlbL4 = new(this);
         session.BeginRead(sqlbL4);
         sqlbL4.Name = "SQLBL4";
         sqlbL4.Priority = 0;
@@ -973,7 +973,7 @@ public partial class SoundDialog : ILayoutModule
         sqlbL4.Text = "High";
         sqlbL4.TextColor = 9415072;
         session.EndRead(sqlbL4);
-        Panel sfxPnl = new Panel(this);
+        Panel sfxPnl = new(this);
         session.BeginRead(sfxPnl);
         sfxPnl.Name = "SFXPnl";
         sfxPnl.Priority = 0;
@@ -1036,7 +1036,7 @@ public partial class SoundDialog : ILayoutModule
         MusicEnabledCheckBox.OnChange += MusicEnabledChkChange;
         MusicEnabledCheckBox.RadioIndex = 0;
         session.EndRead(MusicEnabledCheckBox);
-        Label sfxlbL2 = new Label(this);
+        Label sfxlbL2 = new(this);
         session.BeginRead(sfxlbL2);
         sfxlbL2.Name = "SFXLBL2";
         sfxlbL2.Priority = 0;
@@ -1099,7 +1099,7 @@ public partial class SoundDialog : ILayoutModule
         EffectsEnabledCheckBox.OnChange += SFXEnabledChkChange;
         EffectsEnabledCheckBox.RadioIndex = 0;
         session.EndRead(EffectsEnabledCheckBox);
-        Label sfxlbL3 = new Label(this);
+        Label sfxlbL3 = new(this);
         session.BeginRead(sfxlbL3);
         sfxlbL3.Name = "SFXLBL3";
         sfxlbL3.Priority = 0;
@@ -1126,7 +1126,7 @@ public partial class SoundDialog : ILayoutModule
         sfxlbL3.Text = "Sound Effects";
         sfxlbL3.TextColor = 9415072;
         session.EndRead(sfxlbL3);
-        Frame topLine = new Frame(this);
+        Frame topLine = new(this);
         session.BeginRead(topLine);
         topLine.Name = "TopLine";
         topLine.Priority = 0;
@@ -1153,7 +1153,7 @@ public partial class SoundDialog : ILayoutModule
         topLine.ImageLibraryIndexLine = 55;
         topLine.ImageLibraryIndexTexture = 0;
         session.EndRead(topLine);
-        Image image4 = new Image(this);
+        Image image4 = new(this);
         session.BeginRead(image4);
         image4.Name = "AOWImage4";
         image4.Priority = 1000;
@@ -1181,7 +1181,7 @@ public partial class SoundDialog : ILayoutModule
         image4.Animate = false;
         image4.AnimationFrameDelay = 0;
         session.EndRead(image4);
-        Image harpL = new Image(this);
+        Image harpL = new(this);
         session.BeginRead(harpL);
         harpL.Name = "HarpL";
         harpL.Priority = 0;
@@ -1209,7 +1209,7 @@ public partial class SoundDialog : ILayoutModule
         harpL.Animate = false;
         harpL.AnimationFrameDelay = 0;
         session.EndRead(harpL);
-        Image harpR = new Image(this);
+        Image harpR = new(this);
         session.BeginRead(harpR);
         harpR.Name = "HarpR";
         harpR.Priority = 0;
@@ -1319,7 +1319,7 @@ public partial class SoundDialog : ILayoutModule
         EffectsVolumeSlider.ImageLibraryIndexBack = 80;
         EffectsVolumeSlider.ThumbImageIndex = 83;
         session.EndRead(EffectsVolumeSlider);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -1384,7 +1384,7 @@ public partial class SoundDialog : ILayoutModule
         SongScrollBar.ImageLibraryIndexBack = 101;
         SongScrollBar.ThumbImageIndex = 98;
         session.EndRead(SongScrollBar);
-        VerticalScrollBar playSB = new VerticalScrollBar(this);
+        VerticalScrollBar playSB = new(this);
         session.BeginRead(playSB);
         playSB.Name = "PlaySB";
         playSB.Visible = false;
@@ -1457,7 +1457,7 @@ public partial class SoundDialog : ILayoutModule
         DirectSoundEnabledCheckBox.OnChange += DirectSoundEnabledChkChange;
         DirectSoundEnabledCheckBox.RadioIndex = 0;
         session.EndRead(DirectSoundEnabledCheckBox);
-        Label useDirectSoundLbl = new Label(this);
+        Label useDirectSoundLbl = new(this);
         session.BeginRead(useDirectSoundLbl);
         useDirectSoundLbl.Name = "UseDirectSoundLbl";
         useDirectSoundLbl.Priority = 0;
@@ -1484,7 +1484,7 @@ public partial class SoundDialog : ILayoutModule
         useDirectSoundLbl.Text = "Use Direct Sound";
         useDirectSoundLbl.TextColor = 9415072;
         session.EndRead(useDirectSoundLbl);
-        Panel folderPnl = new Panel(this);
+        Panel folderPnl = new(this);
         session.BeginRead(folderPnl);
         folderPnl.Name = "FolderPnl";
         folderPnl.Priority = 0;
@@ -1511,7 +1511,7 @@ public partial class SoundDialog : ILayoutModule
         folderPnl.MinWidth = 0;
         folderPnl.MinHeight = 0;
         session.EndRead(folderPnl);
-        Panel playPnl = new Panel(this);
+        Panel playPnl = new(this);
         session.BeginRead(playPnl);
         playPnl.Name = "PlayPnl";
         playPnl.Priority = 0;
@@ -1538,7 +1538,7 @@ public partial class SoundDialog : ILayoutModule
         playPnl.MinWidth = 0;
         playPnl.MinHeight = 0;
         session.EndRead(playPnl);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

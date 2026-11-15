@@ -44,7 +44,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override int BlitSurface(int index)
     {
-        var surface = GetSurface(index);
+        Surface surface = GetSurface(index);
         if (surface is null)
         {
             return DisplayCodes.DCERR_FAILED;
@@ -70,7 +70,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override int ResizeBackSurfaces(int width, int height)
     {
-        foreach (var surface in _surfaces.Skip(1))
+        foreach (Surface surface in _surfaces.Skip(1))
         {
             surface?.Resize(width, height);
         }
@@ -82,7 +82,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override void GetMousePosition(ref int x, ref int y)
     {
-        var pointer = host.PointerPosition();
+        (int X, int Y, bool Inside) pointer = host.PointerPosition();
         (x, y) = host.HasFocus && pointer.Inside ? (pointer.X, pointer.Y) : (-1, -1);
         host.ShowSystemCursor(x == -1);
     }

@@ -6,7 +6,7 @@ public partial class CustomImageLibrary
     // ImageLib.pas:9890 uses Result as a temporary integer reference index.
     public LibraryImage Get(int index)
     {
-        var image = Images[index].Image;
+        LibraryImage image = Images[index].Image;
         if (image != null)
         {
             return image;
@@ -23,7 +23,7 @@ public partial class CustomImageLibrary
             return null;
         }
 
-        var image = Images[index].Image;
+        LibraryImage image = Images[index].Image;
         if (image != null)
         {
             return image;

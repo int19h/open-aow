@@ -106,7 +106,7 @@ public partial class ObservableNode : CustomNode
     // Engine.pas:7263
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        using var batch = BeginUpdate();
+        using UpdateBatch batch = BeginUpdate();
         base.Assign(source, engine);
     }
 
@@ -843,21 +843,21 @@ public partial class ObservableNode : CustomNode
     // Engine.pas:7964
     public void Sort(ListSortCompare<EngineObject> compare)
     {
-        using var batch = BeginUpdate();
+        using UpdateBatch batch = BeginUpdate();
         _children.Sort(compare);
     }
 
     // Keeps the order of equal items. Reflecting pool ordering is the only caller.
     public void SortStable(ListSortCompare<EngineObject> compare)
     {
-        using var batch = BeginUpdate();
+        using UpdateBatch batch = BeginUpdate();
         _children.SortStable(compare);
     }
 
     // Engine.pas:7971
     public override void MainPersist(IPersister persister)
     {
-        using var batch = persister.Loading ? BeginUpdate() : default;
+        using UpdateBatch batch = persister.Loading ? BeginUpdate() : default;
         base.MainPersist(persister);
     }
 
@@ -867,7 +867,7 @@ public partial class ObservableNode : CustomNode
     // Engine.pas:7983
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        var children = _children;
+        EngineObjectList children = _children;
         if (GetControlStyle().Contains(EngineServices.KeepIndex))
         {
             if ((message.MessageId & 268435456) != 0)
@@ -878,7 +878,7 @@ public partial class ObservableNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children.List[i];
+                            EngineObject node = children.List[i];
                             if (node.GetLastMessage() != message.Sequence)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -893,7 +893,7 @@ public partial class ObservableNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children[i];
+                            EngineObject node = children[i];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -911,7 +911,7 @@ public partial class ObservableNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children.List[i];
+                            EngineObject node = children.List[i];
                             node.MessageProc(ref message, this);
                         }
                     }
@@ -922,7 +922,7 @@ public partial class ObservableNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children[i];
+                            EngineObject node = children[i];
                             if (node.Owner == this)
                             {
                                 node.MessageProc(ref message, this);
@@ -940,7 +940,7 @@ public partial class ObservableNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[i];
+                        EngineObject node = children.List[i];
                         if (node.GetLastMessage() != message.Sequence)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -952,7 +952,7 @@ public partial class ObservableNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[i];
+                        EngineObject node = children[i];
                         if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -967,7 +967,7 @@ public partial class ObservableNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[i];
+                        EngineObject node = children.List[i];
                         node.MessageProc(ref message, this);
                     }
                 }
@@ -975,7 +975,7 @@ public partial class ObservableNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[i];
+                        EngineObject node = children[i];
                         if (node.Owner == this)
                         {
                             node.MessageProc(ref message, this);

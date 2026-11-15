@@ -53,7 +53,7 @@ public partial class HealingTokenEvent : TokenEvent
             {
                 ability.SetEnabled(source, false);
                 ability.HealUnit(target);
-                var coordinate9 = target.GetLocation();
+                MapCoordinate coordinate9 = target.GetLocation();
                 x = coordinate9.X;
                 y = coordinate9.Y;
                 l = coordinate9.MapLevel;

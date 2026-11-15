@@ -61,7 +61,7 @@ public partial class SmtpDialog : ILayoutModule
         Window.WinHeight = 210;
         Window.Dockable = false;
         session.EndRead(Window);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -88,7 +88,7 @@ public partial class SmtpDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -115,7 +115,7 @@ public partial class SmtpDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -143,7 +143,7 @@ public partial class SmtpDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -171,7 +171,7 @@ public partial class SmtpDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -362,7 +362,7 @@ public partial class SmtpDialog : ILayoutModule
         FailedPanel.MinWidth = 0;
         FailedPanel.MinHeight = 0;
         session.EndRead(FailedPanel);
-        Memo failedMemo = new Memo(this);
+        Memo failedMemo = new(this);
         session.BeginRead(failedMemo);
         failedMemo.Name = "FailedMemo";
         failedMemo.Priority = 0;
@@ -401,7 +401,7 @@ public partial class SmtpDialog : ILayoutModule
         failedMemo.ColorChangeChar = 0;
         failedMemo.TextAlign = TextAlignment.Center;
         session.EndRead(failedMemo);
-        Button settingsBtn = new Button(this);
+        Button settingsBtn = new(this);
         session.BeginRead(settingsBtn);
         settingsBtn.Name = "SettingsBtn";
         settingsBtn.Priority = 1000;
@@ -432,7 +432,7 @@ public partial class SmtpDialog : ILayoutModule
         settingsBtn.WinWidth = 110;
         settingsBtn.OnClick += _ => SettingsBtnClick();
         session.EndRead(settingsBtn);
-        Button retryBtn = new Button(this);
+        Button retryBtn = new(this);
         session.BeginRead(retryBtn);
         retryBtn.Name = "RetryBtn";
         retryBtn.Priority = 1000;
@@ -463,7 +463,7 @@ public partial class SmtpDialog : ILayoutModule
         retryBtn.WinWidth = 110;
         retryBtn.OnClick += _ => RetryBtnClick();
         session.EndRead(retryBtn);
-        Button exitBtn2 = new Button(this);
+        Button exitBtn2 = new(this);
         session.BeginRead(exitBtn2);
         exitBtn2.Name = "ExitBtn2";
         exitBtn2.Priority = 1000;
@@ -494,7 +494,7 @@ public partial class SmtpDialog : ILayoutModule
         exitBtn2.WinWidth = 110;
         exitBtn2.OnClick += _ => ExitBtnClick();
         session.EndRead(exitBtn2);
-        Label titleLbl = new Label(this);
+        Label titleLbl = new(this);
         session.BeginRead(titleLbl);
         titleLbl.Name = "TitleLbl";
         titleLbl.Priority = 0;
@@ -517,7 +517,7 @@ public partial class SmtpDialog : ILayoutModule
         titleLbl.Text = "Sending Email";
         titleLbl.TextColor = 0;
         session.EndRead(titleLbl);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -550,7 +550,7 @@ public partial class SmtpDialog : ILayoutModule
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
         session.EndRead(close);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -591,7 +591,7 @@ public partial class SmtpDialog : ILayoutModule
         SmtpSender.OnError += (_, ref error) => SmtpSenderError(ref error);
         SmtpSender.OnProgress += (_, progress, total) => SmtpSenderProgress(progress, total);
         session.EndRead(SmtpSender);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -75,7 +75,7 @@ public partial class HexSpriteMapViewer : Component
         {
             if (_staticSurface == null)
             {
-                var pixelFormatId = surface.GetPixelFormatId();
+                int pixelFormatId = surface.GetPixelFormatId();
                 _staticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
             }
             else

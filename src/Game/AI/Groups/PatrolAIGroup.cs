@@ -30,10 +30,10 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
         base.PersistFields(persister);
         int from = StoredCoordinateImage.From(PatrolFrom, unknownBytes: (byte)UnknownBytes).ToInt32();
         from = persister.Int32("PatrolFrom", value: from);
-        (PatrolFrom, var fromUnknown) = StoredCoordinateImage.FromInt32(from);
+        (PatrolFrom, byte fromUnknown) = StoredCoordinateImage.FromInt32(from);
         int to = StoredCoordinateImage.From(PatrolTo, unknownBytes: (byte)(UnknownBytes >> 8)).ToInt32();
         to = persister.Int32("PatrolTo", value: to);
-        (PatrolTo, var toUnknown) = StoredCoordinateImage.FromInt32(to);
+        (PatrolTo, byte toUnknown) = StoredCoordinateImage.FromInt32(to);
         UnknownBytes = (ushort)(fromUnknown | (toUnknown << 8));
         PreviousHeading = PersistSupport.UnsignedByte(persister, name: "PreviousHeading", value: PreviousHeading);
         PatrolStrength = persister.Int32("PatrolStrength", value: PatrolStrength);

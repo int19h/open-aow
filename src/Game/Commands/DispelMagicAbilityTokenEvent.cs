@@ -81,18 +81,18 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             {
                 if (count > 0)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
+                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 
             ability.SetEnabled(source, false);
-            var coordinate8 = target.GetLocation();
+            MapCoordinate coordinate8 = target.GetLocation();
             x = coordinate8.X;
             y = coordinate8.Y;
             l = coordinate8.MapLevel;

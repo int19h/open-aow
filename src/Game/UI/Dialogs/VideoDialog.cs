@@ -53,19 +53,19 @@ public partial class VideoDialog : UIModule
         DisplayModeItem mode;
         string s;
         DisplayModesList.Items.Clear();
-        var desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
+        string desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
         DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
         for (int i = 0, last = _displayModes.Count - 1; i <= last; i++)
         {
             mode = _displayModes.Items[i];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
-                var fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
+                string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
                 DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(i));
             }
         }
 
-        var currentMode = CurrentMode();
+        int currentMode = CurrentMode();
         DisplayModesList.Selected = currentMode;
         if (DisplayModesList.Selected != -1)
         {
@@ -143,7 +143,7 @@ public partial class VideoDialog : UIModule
     // AoWVideoDlg.pas:245
     public void DlgShow()
     {
-        var allowResolutionSwitches = UI.Engine.Registry.GetAllowResolutionSwitches();
+        bool allowResolutionSwitches = UI.Engine.Registry.GetAllowResolutionSwitches();
         UI.VideoDialog.ResolutionCheckBox.Checked = allowResolutionSwitches;
     }
 
@@ -161,9 +161,9 @@ public partial class VideoDialog : UIModule
 
     private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatId)
     {
-        var desktop = DesktopSize();
-        var sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
-        foreach (var size in sizes)
+        (int Width, int Height) desktop = DesktopSize();
+        IReadOnlyList<(int Width, int Height)> sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
+        foreach ((int Width, int Height) size in sizes)
         {
             if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
                 (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == PixelFormats.pfRGB555))

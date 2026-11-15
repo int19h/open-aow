@@ -63,7 +63,7 @@ public partial class TurnPlayerControl : PlayerControl
                 }
                 else
                 {
-                    var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                    string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerIsMovingFormat), [name]);
                 }
 
@@ -109,15 +109,15 @@ public partial class TurnPlayerControl : PlayerControl
             StrategicMap.Current.AIExecutor.ActivatePlayer(player);
             if (player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [independents]);
+                string independents = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [independents]);
                 StrategicMap.Current.ShowMessage(format);
             }
             else
             {
-                var players = StrategicMap.Current.Players.GetPlayers(player);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [raceNamesPlural]);
+                Player players = StrategicMap.Current.Players.GetPlayers(player);
+                string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [raceNamesPlural]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }
@@ -189,7 +189,7 @@ public partial class TurnPlayerControl : PlayerControl
         NewDay();
         if (!StrategicMap.Current.RequestCombatType)
         {
-            var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
             StrategicMap.Current.SetSeatedPlayer((sbyte)item);
             StrategicMap.Current.ResetSeatedPlayerView();
         }
@@ -361,7 +361,7 @@ public partial class TurnPlayerControl : PlayerControl
                 }
                 else
                 {
-                    var name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
+                    string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerIsMovingFormat), [name]);
                 }
 
@@ -371,7 +371,7 @@ public partial class TurnPlayerControl : PlayerControl
         }
         else
         {
-            var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
             StrategicMap.Current.SetSeatedPlayer((sbyte)item);
             StrategicMap.Current.ResetSeatedPlayerView();
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)

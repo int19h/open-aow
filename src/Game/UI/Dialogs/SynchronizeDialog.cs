@@ -69,7 +69,7 @@ public partial class SynchronizeDialog : UIModule
                 i = UI.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
                 if (i != -1)
                 {
-                    var player = UI.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(i);
+                    RemotePlayer player = UI.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(i);
                     PlayerNameLabel.Text = player.Name;
                 }
                 else
@@ -82,7 +82,7 @@ public partial class SynchronizeDialog : UIModule
                 PlayerNameLabel.Text = settings.Leader.HeroName;
             }
 
-            var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
+            string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRaceLabel.Text = raceNamesPlural;
             day2 = StrategicMap.Current.Day;
             if (day2 == 0)
@@ -90,7 +90,7 @@ public partial class SynchronizeDialog : UIModule
                 day2 = 1;
             }
 
-            var day = UI.Engine.TranslateResourceString(GameText.DayText);
+            string day = UI.Engine.TranslateResourceString(GameText.DayText);
             TurnLabel.Text = day + " " + IntToStr(day2);
             LeftShield.CurrentImage = settings.Race + 26;
             RightShield.CurrentImage = settings.Race + 26;

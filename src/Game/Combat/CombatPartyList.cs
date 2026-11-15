@@ -36,7 +36,7 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
             p.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             p.SetArrayOwner(this, position);
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
-            var players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
+            CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
             p.Army.SetPlayer(players.Player);
             if (army != null)
             {

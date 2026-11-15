@@ -64,7 +64,7 @@ public partial class HexBridge : AbstractRoad
     {
         int pixelX;
         int pixelY;
-        var mapField = Owner;
+        MapField mapField = Owner;
         pixelX = (mapField.HexX * 32) + 8;
         pixelY = ((mapField.HexX & 1) * 16) + (mapField.HexY * 32);
 
@@ -145,7 +145,7 @@ public partial class HexBridge : AbstractRoad
             {
                 for (int i = 0, last = _sideB.Count - 1; i <= last; i++)
                 {
-                    var sideB = _sideB[i];
+                    byte sideB = _sideB[i];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
                     mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                     ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
@@ -157,7 +157,7 @@ public partial class HexBridge : AbstractRoad
                 {
                     for (int i = 0, last = _sideA.Count - 1; i <= last; i++)
                     {
-                        var sideA = _sideA[i];
+                        byte sideA = _sideA[i];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
                         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                         ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);

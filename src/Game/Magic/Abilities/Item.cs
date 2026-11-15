@@ -11,7 +11,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 
 using Aow.Game.Draw.Images;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -261,7 +261,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             else
             {
                 result = false;
-                var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
+                Spell spell = GamePack.Current.SpellControl.GetSpell(_spellId);
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
@@ -312,8 +312,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
                     if (StrategicMap.Current.SeatedPlayer == hero.Player)
                     {
                         AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
+                        Spell spell = GamePack.Current.SpellControl.GetSpell(_spellId);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
                     }
 

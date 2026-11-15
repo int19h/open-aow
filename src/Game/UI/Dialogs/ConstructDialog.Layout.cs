@@ -16,7 +16,7 @@ public partial class ConstructDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "ConstructDlg";
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -44,7 +44,7 @@ public partial class ConstructDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -78,7 +78,7 @@ public partial class ConstructDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -101,7 +101,7 @@ public partial class ConstructDialog : ILayoutModule
         title.Text = "Construct";
         title.TextColor = 0;
         session.EndRead(title);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -128,7 +128,7 @@ public partial class ConstructDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 100;
@@ -159,7 +159,7 @@ public partial class ConstructDialog : ILayoutModule
         cancelBtn.WinWidth = 130;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Button constructBtn = new Button(this);
+        Button constructBtn = new(this);
         session.BeginRead(constructBtn);
         constructBtn.Name = "ConstructBtn";
         constructBtn.Priority = 100;
@@ -235,7 +235,7 @@ public partial class ConstructDialog : ILayoutModule
         Window.WinHeight = 208;
         Window.Dockable = false;
         session.EndRead(Window);
-        Panel constructPnl = new Panel(this);
+        Panel constructPnl = new(this);
         session.BeginRead(constructPnl);
         constructPnl.Name = "ConstructPnl";
         constructPnl.Priority = 0;
@@ -297,7 +297,7 @@ public partial class ConstructDialog : ILayoutModule
         ConstructionList.ItemHeight = 17;
         ConstructionList.TextAlign = TextAlignment.Left;
         session.EndRead(ConstructionList);
-        Button sortConstructionsBtn = new Button(this);
+        Button sortConstructionsBtn = new(this);
         session.BeginRead(sortConstructionsBtn);
         sortConstructionsBtn.Name = "SortConstructionsBtn";
         sortConstructionsBtn.Priority = 100;
@@ -328,7 +328,7 @@ public partial class ConstructDialog : ILayoutModule
         sortConstructionsBtn.WinWidth = 210;
         sortConstructionsBtn.OnClick += _ => SortConstructionsBtnClick();
         session.EndRead(sortConstructionsBtn);
-        Button sortConstructionCostBtn = new Button(this);
+        Button sortConstructionCostBtn = new(this);
         session.BeginRead(sortConstructionCostBtn);
         sortConstructionCostBtn.Name = "SortConstructionCostBtn";
         sortConstructionCostBtn.Priority = 100;
@@ -429,7 +429,7 @@ public partial class ConstructDialog : ILayoutModule
         ConstructionTurnsList.ItemHeight = 17;
         ConstructionTurnsList.TextAlign = TextAlignment.Left;
         session.EndRead(ConstructionTurnsList);
-        Button sortConstructionTurnsBtn = new Button(this);
+        Button sortConstructionTurnsBtn = new(this);
         session.BeginRead(sortConstructionTurnsBtn);
         sortConstructionTurnsBtn.Name = "SortConstructionTurnsBtn";
         sortConstructionTurnsBtn.Priority = 100;
@@ -460,7 +460,7 @@ public partial class ConstructDialog : ILayoutModule
         sortConstructionTurnsBtn.WinWidth = 43;
         sortConstructionTurnsBtn.OnClick += _ => SortConstructionTurnsBtnClick();
         session.EndRead(sortConstructionTurnsBtn);
-        Label label1 = new Label(this);
+        Label label1 = new(this);
         session.BeginRead(label1);
         label1.Name = "AOWLabel1";
         label1.Priority = 0;
@@ -483,7 +483,7 @@ public partial class ConstructDialog : ILayoutModule
         label1.Text = "Select object to construct";
         label1.TextColor = 0;
         session.EndRead(label1);
-        VerticalScrollBar conSB = new VerticalScrollBar(this);
+        VerticalScrollBar conSB = new(this);
         session.BeginRead(conSB);
         conSB.Name = "ConSB";
         conSB.Visible = false;
@@ -520,7 +520,7 @@ public partial class ConstructDialog : ILayoutModule
         conSB.ImageLibraryIndexBack = 101;
         conSB.ThumbImageIndex = 98;
         session.EndRead(conSB);
-        Image celtM = new Image(this);
+        Image celtM = new(this);
         session.BeginRead(celtM);
         celtM.Name = "CeltM";
         celtM.Priority = 100;
@@ -548,7 +548,7 @@ public partial class ConstructDialog : ILayoutModule
         celtM.Animate = false;
         celtM.AnimationFrameDelay = 0;
         session.EndRead(celtM);
-        Button button2 = new Button(this);
+        Button button2 = new(this);
         session.BeginRead(button2);
         button2.Name = "AOWButton2";
         button2.Priority = 100;
@@ -578,7 +578,7 @@ public partial class ConstructDialog : ILayoutModule
         button2.TextSelectedColor = 16777215;
         button2.WinWidth = 78;
         session.EndRead(button2);
-        VerticalScrollBar t4VSB = new VerticalScrollBar(this);
+        VerticalScrollBar t4VSB = new(this);
         session.BeginRead(t4VSB);
         t4VSB.Name = "T4VSB";
         t4VSB.Priority = 10;
@@ -614,7 +614,7 @@ public partial class ConstructDialog : ILayoutModule
         t4VSB.ImageLibraryIndexBack = 101;
         t4VSB.ThumbImageIndex = 98;
         session.EndRead(t4VSB);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

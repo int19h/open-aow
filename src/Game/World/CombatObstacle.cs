@@ -36,8 +36,8 @@ public partial class CombatObstacle : MultiHexMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            var hexY = HexY;
-            var hexX = HexX;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 

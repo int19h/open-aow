@@ -35,7 +35,7 @@ public static class Startup
     /// the engine.</summary>
     public static GameEngine CreateEngine()
     {
-        var engine = GameEngine.Create(null);
+        GameEngine engine = GameEngine.Create(null);
         CityRegistrar.SubscribeMapLoaded(engine);
         BehaviorRegistrar.SubscribeMapLoaded(engine);
         MainRegistrar.SubscribeMapLoaded(engine);
@@ -55,9 +55,9 @@ public static class Startup
     /// returns, so an exception stops the run and leaves the failing unit uninitialized.</summary>
     internal static void InitializeUnits(StartupUnit[] units, bool[] state, string[] selection)
     {
-        for (var index = 0; index < units.Length; index++)
+        for (int index = 0; index < units.Length; index++)
         {
-            var unit = units[index];
+            StartupUnit unit = units[index];
             if ((selection == null || Array.IndexOf(selection, unit.Name) >= 0) && !state[index])
             {
                 unit.Initialize?.Invoke();
@@ -74,9 +74,9 @@ public static class Startup
     internal static void FinalizeUnits(StartupUnit[] units, bool[] state, string[] selection)
     {
         ExceptionDispatchInfo failure = null;
-        for (var index = units.Length - 1; index >= 0; index--)
+        for (int index = units.Length - 1; index >= 0; index--)
         {
-            var unit = units[index];
+            StartupUnit unit = units[index];
             try
             {
                 if ((selection == null || Array.IndexOf(selection, unit.Name) >= 0) && state[index])

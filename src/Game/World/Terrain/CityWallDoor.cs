@@ -32,8 +32,8 @@ public partial class CityWallDoor : CityWall
         }
         else
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             combatUnit = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2228484);
             if (combatUnit != null)
             {
@@ -46,7 +46,7 @@ public partial class CityWallDoor : CityWall
             bool condition = HitPoints == 0;
             if (!condition)
             {
-                var indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
+                int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
                 condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit == null;
             }
 

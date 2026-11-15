@@ -15,7 +15,7 @@ public partial class PowerDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "PowerDlg";
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -43,7 +43,7 @@ public partial class PowerDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -77,7 +77,7 @@ public partial class PowerDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -100,7 +100,7 @@ public partial class PowerDialog : ILayoutModule
         title.Text = "Power Distribution";
         title.TextColor = 0;
         session.EndRead(title);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -127,7 +127,7 @@ public partial class PowerDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 100;
@@ -158,7 +158,7 @@ public partial class PowerDialog : ILayoutModule
         cancelBtn.WinWidth = 120;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Button setBtn = new Button(this);
+        Button setBtn = new(this);
         session.BeginRead(setBtn);
         setBtn.Name = "SetBtn";
         setBtn.Priority = 100;
@@ -256,7 +256,7 @@ public partial class PowerDialog : ILayoutModule
         NetManaLabel.Text = "20-18=2";
         NetManaLabel.TextColor = 16777215;
         session.EndRead(NetManaLabel);
-        Label netMamaLbl = new Label(this);
+        Label netMamaLbl = new(this);
         session.BeginRead(netMamaLbl);
         netMamaLbl.Name = "NetMamaLbl";
         netMamaLbl.Priority = 0;
@@ -279,7 +279,7 @@ public partial class PowerDialog : ILayoutModule
         netMamaLbl.Text = "Net Mana Income";
         netMamaLbl.TextColor = 9402970;
         session.EndRead(netMamaLbl);
-        Panel upkeePnl = new Panel(this);
+        Panel upkeePnl = new(this);
         session.BeginRead(upkeePnl);
         upkeePnl.Name = "UpkeePnl";
         upkeePnl.Priority = 0;
@@ -352,7 +352,7 @@ public partial class PowerDialog : ILayoutModule
         SpellNameLabel.Text = "Lightning Storm";
         SpellNameLabel.TextColor = 9402970;
         session.EndRead(SpellNameLabel);
-        Panel researchPnl = new Panel(this);
+        Panel researchPnl = new(this);
         session.BeginRead(researchPnl);
         researchPnl.Name = "ResearchPnl";
         researchPnl.Priority = 0;
@@ -379,7 +379,7 @@ public partial class PowerDialog : ILayoutModule
         researchPnl.MinWidth = 0;
         researchPnl.MinHeight = 0;
         session.EndRead(researchPnl);
-        Panel sliderPnl = new Panel(this);
+        Panel sliderPnl = new(this);
         session.BeginRead(sliderPnl);
         sliderPnl.Name = "SliderPnl";
         sliderPnl.Priority = 0;
@@ -406,7 +406,7 @@ public partial class PowerDialog : ILayoutModule
         sliderPnl.MinWidth = 0;
         sliderPnl.MinHeight = 0;
         session.EndRead(sliderPnl);
-        Label powerLbl = new Label(this);
+        Label powerLbl = new(this);
         session.BeginRead(powerLbl);
         powerLbl.Name = "PowerLbl";
         powerLbl.Priority = 0;
@@ -498,7 +498,7 @@ public partial class PowerDialog : ILayoutModule
         ResearchLabel.Text = "20";
         ResearchLabel.TextColor = 16777215;
         session.EndRead(ResearchLabel);
-        Panel manaPnl = new Panel(this);
+        Panel manaPnl = new(this);
         session.BeginRead(manaPnl);
         manaPnl.Name = "ManaPnl";
         manaPnl.Priority = 1000;
@@ -525,7 +525,7 @@ public partial class PowerDialog : ILayoutModule
         manaPnl.MinWidth = 0;
         manaPnl.MinHeight = 0;
         session.EndRead(manaPnl);
-        Panel resPnl = new Panel(this);
+        Panel resPnl = new(this);
         session.BeginRead(resPnl);
         resPnl.Name = "ResPnl";
         resPnl.Priority = 1000;
@@ -552,7 +552,7 @@ public partial class PowerDialog : ILayoutModule
         resPnl.MinWidth = 0;
         resPnl.MinHeight = 0;
         session.EndRead(resPnl);
-        Label manaLbl = new Label(this);
+        Label manaLbl = new(this);
         session.BeginRead(manaLbl);
         manaLbl.Name = "ManaLbl";
         manaLbl.Priority = 0;
@@ -575,7 +575,7 @@ public partial class PowerDialog : ILayoutModule
         manaLbl.Text = "Mana";
         manaLbl.TextColor = 9402970;
         session.EndRead(manaLbl);
-        Label researchLbl = new Label(this);
+        Label researchLbl = new(this);
         session.BeginRead(researchLbl);
         researchLbl.Name = "ResearchLbl";
         researchLbl.Priority = 0;
@@ -635,7 +635,7 @@ public partial class PowerDialog : ILayoutModule
         PowerSlider.ImageLibraryIndexBack = 25;
         PowerSlider.ThumbImageIndex = 28;
         session.EndRead(PowerSlider);
-        Image paMana = new Image(this);
+        Image paMana = new(this);
         session.BeginRead(paMana);
         paMana.Name = "PAMana";
         paMana.OnDraw += PAManaDraw;
@@ -664,7 +664,7 @@ public partial class PowerDialog : ILayoutModule
         paMana.Animate = false;
         paMana.AnimationFrameDelay = 0;
         session.EndRead(paMana);
-        Image paRes = new Image(this);
+        Image paRes = new(this);
         session.BeginRead(paRes);
         paRes.Name = "PARes";
         paRes.OnDraw += PAResDraw;
@@ -693,7 +693,7 @@ public partial class PowerDialog : ILayoutModule
         paRes.Animate = false;
         paRes.AnimationFrameDelay = 0;
         session.EndRead(paRes);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

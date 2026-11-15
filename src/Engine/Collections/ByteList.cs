@@ -171,7 +171,7 @@ public partial class ByteList : Persistent
     {
         if (source is ByteList)
         {
-            var byteList = (ByteList)source;
+            ByteList byteList = (ByteList)source;
             _count = byteList._count;
             SetCapacity(byteList._count);
             Array.Copy(byteList._list, 0, _list, 0, _count * 1);

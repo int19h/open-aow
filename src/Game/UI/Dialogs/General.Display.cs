@@ -1,5 +1,8 @@
 #nullable disable
+using Aow.Game.Draw;
 using Aow.Game.Host;
+using Aow.Game.UI.Windows;
+using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -15,14 +18,14 @@ public partial class General
 
     public void ManagerUpdate()
     {
-        var unit = UI.UnitBanner.BannerMenu;
+        Menu unit = UI.UnitBanner.BannerMenu;
         if (unit.ShowPending && !unit.Visible)
         {
             unit.WinLeft = unit.MenuLeft;
             unit.WinTop = unit.MenuTop;
             unit.Visible = true;
         }
-        var info = UI.InfoBanner.BannerMenu;
+        Menu info = UI.InfoBanner.BannerMenu;
         if (info.ShowPending && !info.Visible)
         {
             info.WinLeft = info.MenuLeft;
@@ -32,18 +35,18 @@ public partial class General
         UI.MapWindow.MainWindow.DoubleBuffered = Manager.OverlayPriority > UI.MapWindow.MainWindow.Priority;
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
-            var rectangle = form.FLastCursorRectangle;
+            Rect rectangle = form.FLastCursorRectangle;
             Manager.AddDrawRectangle(ref rectangle, null);
         }
     }
 
     public void MapProgress(string message, int progression)
     {
-        var progress = UI.ProgressDialog;
+        ProgressDialog progress = UI.ProgressDialog;
         progress.StatusLabel.Text = message;
         progress.ProgressBar.Position = progression;
         progress.Window.SurfaceValid = false;
-        var display = GameHost.MainForm?.Display;
+        Display display = GameHost.MainForm?.Display;
         if (display?.ActiveDisplayController is { } displayController)
         {
             Manager.DrawSurface(displayController.GetSurface(1));

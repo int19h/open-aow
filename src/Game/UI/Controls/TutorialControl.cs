@@ -48,7 +48,7 @@ public partial class TutorialControl : EngineObject
             }
 
             log = new TutorialMessageEventLog(null, holder: CreationHolder());
-            var idLocal = StrategicMap.Current.TextControl.FindId(id);
+            TextControlItem idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
             StrategicMap.Current.TriggerExecuteEventLog(log, immediate, null);
             log.Release();

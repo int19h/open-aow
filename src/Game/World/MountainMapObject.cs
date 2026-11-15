@@ -81,7 +81,7 @@ public partial class MountainMapObject : Hexes.Terrain
             hexSprite = (MapObject)mapField.HexSpriteList[i];
             if (hexSprite.EngineClass.ClassId == 131432)
             {
-                var hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
+                int hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
                 otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
                 valid = !((otherOverlay == 0 && overlay == 0) || (otherOverlay == 1 && overlay == 1));
             }

@@ -83,7 +83,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 index = aiMoveExecutorArmyList.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Arriving);
                 if (index != -1)
                 {
-                    var location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
+                    PathStep location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
                     move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
 
                     aiMoveExecutorArmyList.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
@@ -106,7 +106,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 bool condition = index != -1;
                 if (condition)
                 {
-                    var armies = aiMoveExecutorArmyList.GetArmies(index);
+                    AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(index);
                     condition = armies.TransportSource == Executor.Transporter.Location;
                 }
 
@@ -149,8 +149,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 bool test = index != -1;
                 if (test)
                 {
-                    var armies = aiMoveExecutorArmyList.GetArmies(index);
-                    var armiesArmies = aiMoveExecutorArmyList.GetArmies(index);
+                    AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(index);
+                    AIMoveExecutorArmy armiesArmies = aiMoveExecutorArmyList.GetArmies(index);
                     test = armies.TransportDestination == armiesArmies.Location;
                 }
 
@@ -163,9 +163,9 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         bool passed = transporters.GetArmies(i).TransportStatus == AIMoveExecutorTransportStatus.Done;
                         if (passed)
                         {
-                            var armies = transporters.GetArmies(i);
-                            var transportersArmies = transporters.GetArmies(i);
-                            var armies2 = transporters.GetArmies(i);
+                            AIMoveExecutorArmy armies = transporters.GetArmies(i);
+                            AIMoveExecutorArmy transportersArmies = transporters.GetArmies(i);
+                            AIMoveExecutorArmy armies2 = transporters.GetArmies(i);
                             passed = CanMoveTo(aiMoveExecutorArmyList.GetArmies(index), 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel) == 255;
                         }
 
@@ -179,15 +179,15 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
                     if (i != transporters.Count)
                     {
-                        var aiMoveExecutorArmy = transporters.GetArmies(i);
-                        var armies = transporters.GetArmies(i);
-                        var transportersArmies = transporters.GetArmies(i);
-                        var armies2 = transporters.GetArmies(i);
+                        AIMoveExecutorArmy aiMoveExecutorArmy = transporters.GetArmies(i);
+                        AIMoveExecutorArmy armies = transporters.GetArmies(i);
+                        AIMoveExecutorArmy transportersArmies = transporters.GetArmies(i);
+                        AIMoveExecutorArmy armies2 = transporters.GetArmies(i);
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
                     else
                     {
-                        var location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
+                        PathStep location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
 
@@ -215,7 +215,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     index = aiMoveExecutorArmyList.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
                     if (index != -1)
                     {
-                        var location = aiMoveExecutorArmyList.GetArmies(index).TransportDestination;
+                        MapCoordinate location = aiMoveExecutorArmyList.GetArmies(index).TransportDestination;
                         move = CreateTransporterMove(location.X, location.Y, location.MapLevel, true);
 
                         if (move == null)
@@ -268,7 +268,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     index = aiMoveExecutorArmyList.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
                     if (index != -1)
                     {
-                        var aiMoveExecutorArmy = aiMoveExecutorArmyList.GetArmies(index);
+                        AIMoveExecutorArmy aiMoveExecutorArmy = aiMoveExecutorArmyList.GetArmies(index);
                         if (Executor.Transporter.Location != aiMoveExecutorArmy.TransportSource)
                         {
                             move = CreateTransporterMove(aiMoveExecutorArmy.TransportSource.X, aiMoveExecutorArmy.TransportSource.Y, aiMoveExecutorArmy.TransportSource.MapLevel, true);
@@ -344,7 +344,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
         for (int i = Executor.Units.Count - 1; i >= 0; i--)
         {
-            var units = Executor.Units.GetUnits(i);
+            AIMoveExecutorUnit units = Executor.Units.GetUnits(i);
             if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumped).Contains(units.TransportStatus))
             {
                 Executor.Units.GetUnits(i)?.Dispose();
@@ -376,7 +376,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             }
         }
 
-        var aiMoveExecutorUnit = Executor.Transporter;
+        AIMoveExecutorUnit aiMoveExecutorUnit = Executor.Transporter;
         armyHexSprite = StrategicMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
 
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
@@ -394,8 +394,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     bool condition = position != settings.Path.Count - 1;
                     if (condition)
                     {
-                        var item = settings.Path[position];
-                        var fPathItem = settings.Path[position];
+                        PathStep item = settings.Path[position];
+                        PathStep fPathItem = settings.Path[position];
                         condition = CanMoveTo(army, 255, settings.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
                     }
 
@@ -413,7 +413,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     move.AddUnits(army, 255);
                     for (int i = position, last = settings.Path.Count - 1; i <= last; i++)
                     {
-                        var item = settings.Path[i];
+                        PathStep item = settings.Path[i];
                         move.Path.Add(item);
                     }
 
@@ -447,7 +447,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         while (i != 0 && done)
         {
             i -= 1;
-            var units = executor.Units.GetUnits(i);
+            AIMoveExecutorUnit units = executor.Units.GetUnits(i);
             if (!Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumping, AIMoveExecutorTransportStatus.Dumped, AIMoveExecutorTransportStatus.Done).Contains(units.TransportStatus))
             {
                 done = false;
@@ -599,7 +599,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             while (!found && i != 0)
             {
                 i -= 1;
-                var armies = aiMoveExecutorArmyList.GetArmies(i);
+                AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
                 found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(armies.TransportStatus);
                 if (found)
                 {
@@ -615,7 +615,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             while (!found && i != 0)
             {
                 i -= 1;
-                var armies = aiMoveExecutorArmyList.GetArmies(i);
+                AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
                 found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus);
                 if (found)
                 {
@@ -640,7 +640,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 int limit = aiMoveExecutorArmyList.Count - 1;
                 for (; i <= limit; i += 1)
                 {
-                    var armies = aiMoveExecutorArmyList.GetArmies(i);
+                    AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
                     if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting, AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus))
                     {
                         for (int j = 0, last = aiMoveExecutorArmyList.GetArmies(i).Count - 1; j <= last; j++)
@@ -685,15 +685,15 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         {
             if (MoveControl.Settings.BoardingPoint.X != -1)
             {
-                var aiMoveControlSettings = MoveControl.Settings;
+                AIMoveControlSettings aiMoveControlSettings = MoveControl.Settings;
                 index = aiMoveControlSettings.TransportPath.IndexOfMapCoordinate(aiMoveControlSettings.BoardingPoint.X, aiMoveControlSettings.BoardingPoint.Y, aiMoveControlSettings.BoardingPoint.MapLevel);
                 while (true)
                 {
                     bool condition = index != aiMoveControlSettings.TransportPath.Count - 1;
                     if (condition)
                     {
-                        var item = aiMoveControlSettings.TransportPath[index];
-                        var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
+                        PathStep item = aiMoveControlSettings.TransportPath[index];
+                        PathStep fTransportPathItem = aiMoveControlSettings.TransportPath[index];
                         condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].Location.X, item.Location.Y, fTransportPathItem.Location.MapLevel) != 255;
                     }
 
@@ -712,8 +712,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     bool condition = index != 0;
                     if (condition)
                     {
-                        var item = aiMoveControlSettings.TransportPath[index];
-                        var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
+                        PathStep item = aiMoveControlSettings.TransportPath[index];
+                        PathStep fTransportPathItem = aiMoveControlSettings.TransportPath[index];
                         condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].Location.X, item.Location.Y, fTransportPathItem.Location.MapLevel) != 255;
                     }
 
@@ -729,7 +729,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 for (int i = 0, last = army.Count - 1; i <= last; i++)
                 {
                     unitEntry = army.GetUnits(i);
-                    var units = army.GetUnits(i);
+                    AIMoveExecutorUnit units = army.GetUnits(i);
                     if (units.Location == Executor.Transporter.Location)
                     {
                         unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Transporting;

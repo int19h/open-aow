@@ -57,14 +57,14 @@ public partial class PrisonersJoinEventLog : JoinEventLog
         {
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)
             {
-                var unitType = dungeon.Prisoners.Units.GetUnit(i).GetUnitType();
+                UnitType unitType = dungeon.Prisoners.Units.GetUnit(i).GetUnitType();
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
                     index = dungeon.Prisoners.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
                     if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
                     {
-                        var random = Random(15);
-                        var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
+                        int random = Random(15);
+                        UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
                         unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
                     }
                 }

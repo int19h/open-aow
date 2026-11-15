@@ -60,7 +60,7 @@ public partial class CombatUnitInfo : ILayoutModule
         MainWindow.WinHeight = 262;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -88,7 +88,7 @@ public partial class CombatUnitInfo : ILayoutModule
         sIcon.Animate = false;
         sIcon.AnimationFrameDelay = 0;
         session.EndRead(sIcon);
-        Button min = new Button(this);
+        Button min = new(this);
         session.BeginRead(min);
         min.Name = "Min";
         min.Priority = 0;
@@ -122,7 +122,7 @@ public partial class CombatUnitInfo : ILayoutModule
         min.WinWidth = 15;
         min.OnClick += _ => MinClick();
         session.EndRead(min);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -156,7 +156,7 @@ public partial class CombatUnitInfo : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label iwTitle = new Label(this);
+        Label iwTitle = new(this);
         session.BeginRead(iwTitle);
         iwTitle.Name = "IWTitle";
         iwTitle.Priority = 0;
@@ -179,7 +179,7 @@ public partial class CombatUnitInfo : ILayoutModule
         iwTitle.Text = "Unit";
         iwTitle.TextColor = 0;
         session.EndRead(iwTitle);
-        Image uAttackIcon = new Image(this);
+        Image uAttackIcon = new(this);
         session.BeginRead(uAttackIcon);
         uAttackIcon.Name = "UAttackIcon";
         uAttackIcon.Priority = 0;
@@ -211,7 +211,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uAttackIcon.Animate = false;
         uAttackIcon.AnimationFrameDelay = 0;
         session.EndRead(uAttackIcon);
-        Image uDefenseIcon = new Image(this);
+        Image uDefenseIcon = new(this);
         session.BeginRead(uDefenseIcon);
         uDefenseIcon.Name = "UDefenseIcon";
         uDefenseIcon.Priority = 0;
@@ -275,7 +275,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitMovesIcon.Animate = false;
         UnitMovesIcon.AnimationFrameDelay = 0;
         session.EndRead(UnitMovesIcon);
-        Image uDamageIcon = new Image(this);
+        Image uDamageIcon = new(this);
         session.BeginRead(uDamageIcon);
         uDamageIcon.Name = "UDamageIcon";
         uDamageIcon.Priority = 0;
@@ -307,7 +307,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uDamageIcon.Animate = false;
         uDamageIcon.AnimationFrameDelay = 0;
         session.EndRead(uDamageIcon);
-        Image uResistanceIcon = new Image(this);
+        Image uResistanceIcon = new(this);
         session.BeginRead(uResistanceIcon);
         uResistanceIcon.Name = "UResistanceIcon";
         uResistanceIcon.Priority = 0;
@@ -339,7 +339,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uResistanceIcon.Animate = false;
         uResistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(uResistanceIcon);
-        Image uHitsIcon = new Image(this);
+        Image uHitsIcon = new(this);
         session.BeginRead(uHitsIcon);
         uHitsIcon.Name = "UHitsIcon";
         uHitsIcon.Priority = 0;
@@ -561,7 +561,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitNameMemo.ColorChangeChar = 0;
         UnitNameMemo.TextAlign = TextAlignment.Left;
         session.EndRead(UnitNameMemo);
-        Panel uStatPnl = new Panel(this);
+        Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
         uStatPnl.Name = "UStatPnl";
         uStatPnl.Priority = 0;
@@ -674,7 +674,7 @@ public partial class CombatUnitInfo : ILayoutModule
         CombatUnitPanel.MinWidth = 0;
         CombatUnitPanel.MinHeight = 0;
         session.EndRead(CombatUnitPanel);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Visible = false;
@@ -703,7 +703,7 @@ public partial class CombatUnitInfo : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Memo aUnitName = new Memo(this);
+        Memo aUnitName = new(this);
         session.BeginRead(aUnitName);
         aUnitName.Name = "AUnitName";
         aUnitName.Visible = false;
@@ -799,7 +799,7 @@ public partial class CombatUnitInfo : ILayoutModule
         CombatAbilityPanel.MinWidth = 0;
         CombatAbilityPanel.MinHeight = 0;
         session.EndRead(CombatAbilityPanel);
-        Image abilAtt = new Image(this);
+        Image abilAtt = new(this);
         session.BeginRead(abilAtt);
         abilAtt.Name = "AbilAtt";
         abilAtt.Priority = 0;
@@ -849,7 +849,7 @@ public partial class CombatUnitInfo : ILayoutModule
         AbilityAttackLabel.Masked = true;
         AbilityAttackLabel.TextColor = 9415072;
         session.EndRead(AbilityAttackLabel);
-        Panel abilStatBox = new Panel(this);
+        Panel abilStatBox = new(this);
         session.BeginRead(abilStatBox);
         abilStatBox.Name = "AbilStatBox";
         abilStatBox.Priority = 0;
@@ -909,7 +909,7 @@ public partial class CombatUnitInfo : ILayoutModule
         AbilityStatisticsList.ItemHeight = 11;
         AbilityStatisticsList.TextAlign = TextAlignment.Left;
         session.EndRead(AbilityStatisticsList);
-        Image abilDam = new Image(this);
+        Image abilDam = new(this);
         session.BeginRead(abilDam);
         abilDam.Name = "AbilDam";
         abilDam.Priority = 0;
@@ -959,7 +959,7 @@ public partial class CombatUnitInfo : ILayoutModule
         AbilityDamageLabel.Masked = true;
         AbilityDamageLabel.TextColor = 9415072;
         session.EndRead(AbilityDamageLabel);
-        Label targetLbl = new Label(this);
+        Label targetLbl = new(this);
         session.BeginRead(targetLbl);
         targetLbl.Name = "TargetLbl";
         targetLbl.Priority = 100;
@@ -1059,7 +1059,7 @@ public partial class CombatUnitInfo : ILayoutModule
         NoTargetPanel.MinWidth = 0;
         NoTargetPanel.MinHeight = 0;
         session.EndRead(NoTargetPanel);
-        Memo targetMessage = new Memo(this);
+        Memo targetMessage = new(this);
         session.BeginRead(targetMessage);
         targetMessage.Name = "TargetMessage";
         targetMessage.Priority = 0;
@@ -1163,7 +1163,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitManaGauge.ImageLibraryIndexTNormal = 4;
         UnitManaGauge.ImageLibraryIndexTSelected = 6;
         session.EndRead(UnitManaGauge);
-        Image celticCross = new Image(this);
+        Image celticCross = new(this);
         session.BeginRead(celticCross);
         celticCross.Name = "CelticCross";
         celticCross.Priority = 0;
@@ -1191,7 +1191,7 @@ public partial class CombatUnitInfo : ILayoutModule
         celticCross.Animate = false;
         celticCross.AnimationFrameDelay = 0;
         session.EndRead(celticCross);
-        Panel uStatP1 = new Panel(this);
+        Panel uStatP1 = new(this);
         session.BeginRead(uStatP1);
         uStatP1.Name = "UStatP1";
         uStatP1.Priority = 0;
@@ -1218,7 +1218,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uStatP1.MinWidth = 0;
         uStatP1.MinHeight = 0;
         session.EndRead(uStatP1);
-        Panel uStatP2 = new Panel(this);
+        Panel uStatP2 = new(this);
         session.BeginRead(uStatP2);
         uStatP2.Name = "UStatP2";
         uStatP2.Priority = 0;
@@ -1245,7 +1245,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uStatP2.MinWidth = 0;
         uStatP2.MinHeight = 0;
         session.EndRead(uStatP2);
-        Image aAttackIcon = new Image(this);
+        Image aAttackIcon = new(this);
         session.BeginRead(aAttackIcon);
         aAttackIcon.Name = "AAttackIcon";
         aAttackIcon.Priority = 0;
@@ -1273,7 +1273,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aAttackIcon.Animate = false;
         aAttackIcon.AnimationFrameDelay = 0;
         session.EndRead(aAttackIcon);
-        Image aDefenseIcon = new Image(this);
+        Image aDefenseIcon = new(this);
         session.BeginRead(aDefenseIcon);
         aDefenseIcon.Name = "ADefenseIcon";
         aDefenseIcon.Priority = 0;
@@ -1329,7 +1329,7 @@ public partial class CombatUnitInfo : ILayoutModule
         TargetMovesIcon.Animate = false;
         TargetMovesIcon.AnimationFrameDelay = 0;
         session.EndRead(TargetMovesIcon);
-        Image aDamageIcon = new Image(this);
+        Image aDamageIcon = new(this);
         session.BeginRead(aDamageIcon);
         aDamageIcon.Name = "ADamageIcon";
         aDamageIcon.Priority = 0;
@@ -1357,7 +1357,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aDamageIcon.Animate = false;
         aDamageIcon.AnimationFrameDelay = 0;
         session.EndRead(aDamageIcon);
-        Image aResistanceIcon = new Image(this);
+        Image aResistanceIcon = new(this);
         session.BeginRead(aResistanceIcon);
         aResistanceIcon.Name = "AResistanceIcon";
         aResistanceIcon.Priority = 0;
@@ -1385,7 +1385,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aResistanceIcon.Animate = false;
         aResistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(aResistanceIcon);
-        Image aHitsIcons = new Image(this);
+        Image aHitsIcons = new(this);
         session.BeginRead(aHitsIcons);
         aHitsIcons.Name = "AHitsIcons";
         aHitsIcons.Priority = 0;
@@ -1545,7 +1545,7 @@ public partial class CombatUnitInfo : ILayoutModule
         TargetHitsLabel.Masked = true;
         TargetHitsLabel.TextColor = 9415072;
         session.EndRead(TargetHitsLabel);
-        Panel aStatPnl = new Panel(this);
+        Panel aStatPnl = new(this);
         session.BeginRead(aStatPnl);
         aStatPnl.Name = "AStatPnl";
         aStatPnl.Priority = 0;
@@ -1572,7 +1572,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aStatPnl.MinWidth = 0;
         aStatPnl.MinHeight = 0;
         session.EndRead(aStatPnl);
-        Panel aStatP1 = new Panel(this);
+        Panel aStatP1 = new(this);
         session.BeginRead(aStatP1);
         aStatP1.Name = "AStatP1";
         aStatP1.Priority = 0;
@@ -1599,7 +1599,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aStatP1.MinWidth = 0;
         aStatP1.MinHeight = 0;
         session.EndRead(aStatP1);
-        Panel aStatP2 = new Panel(this);
+        Panel aStatP2 = new(this);
         session.BeginRead(aStatP2);
         aStatP2.Name = "AStatP2";
         aStatP2.Priority = 0;
@@ -1626,7 +1626,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aStatP2.MinWidth = 0;
         aStatP2.MinHeight = 0;
         session.EndRead(aStatP2);
-        Button center = new Button(this);
+        Button center = new(this);
         session.BeginRead(center);
         center.Name = "Center";
         center.Priority = 0;
@@ -1660,7 +1660,7 @@ public partial class CombatUnitInfo : ILayoutModule
         center.WinWidth = 15;
         center.OnClick += _ => CenterClick();
         session.EndRead(center);
-        VerticalScrollBar abilSB = new VerticalScrollBar(this);
+        VerticalScrollBar abilSB = new(this);
         session.BeginRead(abilSB);
         abilSB.Name = "AbilSB";
         abilSB.Visible = false;
@@ -1697,7 +1697,7 @@ public partial class CombatUnitInfo : ILayoutModule
         abilSB.ImageLibraryIndexBack = 101;
         abilSB.ThumbImageIndex = 98;
         session.EndRead(abilSB);
-        VerticalScrollBar uAbilSB = new VerticalScrollBar(this);
+        VerticalScrollBar uAbilSB = new(this);
         session.BeginRead(uAbilSB);
         uAbilSB.Name = "UAbilSB";
         uAbilSB.Priority = 0;
@@ -1733,7 +1733,7 @@ public partial class CombatUnitInfo : ILayoutModule
         uAbilSB.ImageLibraryIndexBack = 101;
         uAbilSB.ThumbImageIndex = 98;
         session.EndRead(uAbilSB);
-        VerticalScrollBar vScrollBar1 = new VerticalScrollBar(this);
+        VerticalScrollBar vScrollBar1 = new(this);
         session.BeginRead(vScrollBar1);
         vScrollBar1.Name = "AOWVScrollBar1";
         vScrollBar1.Priority = 0;
@@ -1769,7 +1769,7 @@ public partial class CombatUnitInfo : ILayoutModule
         vScrollBar1.ImageLibraryIndexBack = 101;
         vScrollBar1.ThumbImageIndex = 98;
         session.EndRead(vScrollBar1);
-        Panel abilFr = new Panel(this);
+        Panel abilFr = new(this);
         session.BeginRead(abilFr);
         abilFr.Name = "AbilFr";
         abilFr.Priority = 0;
@@ -1796,7 +1796,7 @@ public partial class CombatUnitInfo : ILayoutModule
         abilFr.MinWidth = 0;
         abilFr.MinHeight = 0;
         session.EndRead(abilFr);
-        Panel aNameFr = new Panel(this);
+        Panel aNameFr = new(this);
         session.BeginRead(aNameFr);
         aNameFr.Name = "ANameFr";
         aNameFr.Priority = 0;
@@ -1823,7 +1823,7 @@ public partial class CombatUnitInfo : ILayoutModule
         aNameFr.MinWidth = 0;
         aNameFr.MinHeight = 0;
         session.EndRead(aNameFr);
-        Panel targerFr = new Panel(this);
+        Panel targerFr = new(this);
         session.BeginRead(targerFr);
         targerFr.Name = "TargerFr";
         targerFr.Priority = 0;
@@ -1850,7 +1850,7 @@ public partial class CombatUnitInfo : ILayoutModule
         targerFr.MinWidth = 0;
         targerFr.MinHeight = 0;
         session.EndRead(targerFr);
-        Panel tNamePnl = new Panel(this);
+        Panel tNamePnl = new(this);
         session.BeginRead(tNamePnl);
         tNamePnl.Name = "TNamePnl";
         tNamePnl.Priority = 0;
@@ -1905,7 +1905,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitFramePanel.MinWidth = 0;
         UnitFramePanel.MinHeight = 0;
         session.EndRead(UnitFramePanel);
-        UserDrawBox unitBox = new UserDrawBox(this);
+        UserDrawBox unitBox = new(this);
         session.BeginRead(unitBox);
         unitBox.Name = "UnitBox";
         unitBox.OnMouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
@@ -1930,7 +1930,7 @@ public partial class CombatUnitInfo : ILayoutModule
         unitBox.WinWidth = 45;
         unitBox.WinHeight = 60;
         session.EndRead(unitBox);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

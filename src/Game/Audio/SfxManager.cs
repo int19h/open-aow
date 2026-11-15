@@ -33,13 +33,13 @@ public partial class SfxManager : Component
         void Search(string directory)
         {
             StringList directories;
-            foreach (var entry in Files.FindEntries(_searchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
+            foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
             {
                 _sfx.Add(UpperCase(directory + entry.Name));
             }
 
             directories = new StringList();
-            foreach (var entry in Files.FindEntries(directory + "*.*", attributes: 16))
+            foreach (RtlFileEntry entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {

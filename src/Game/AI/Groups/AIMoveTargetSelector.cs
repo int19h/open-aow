@@ -92,11 +92,11 @@ public partial class AIMoveTargetSelector : EngineObject
         _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
         OnTargetFound = null;
-        var movePointTable = MovePointTable;
+        MovePointTable movePointTable = MovePointTable;
         movePointTable.Fill(-1);
         MovePointTable = movePointTable;
         TargetInfo = default;
-        var targetInfo = TargetInfo;
+        AITargetInfo targetInfo = TargetInfo;
         targetInfo.Player = -1;
         TargetInfo = targetInfo;
         MovePointsMax = 250;
@@ -112,20 +112,20 @@ public partial class AIMoveTargetSelector : EngineObject
     public bool SetupArmy(ArmyHexSprite army, byte selection)
     {
         Reset();
-        var mapCoordinate = army.GetMapCoordinate();
+        MapCoordinate mapCoordinate = army.GetMapCoordinate();
         SourceLocation = mapCoordinate;
         Units.AddUnits(army.Army.Units, selection);
-        var targetInfo = TargetInfo;
+        AITargetInfo targetInfo = TargetInfo;
         targetInfo.Player = army.Army.Player;
         TargetInfo = targetInfo;
         if (TargetInfo.Player == 0)
         {
-            var targetInfo2 = TargetInfo;
+            AITargetInfo targetInfo2 = TargetInfo;
             targetInfo2.IndependentRelation = army.Army.IndependentRelation;
             TargetInfo = targetInfo2;
         }
 
-        var movePointTable = MovePointTable;
+        MovePointTable movePointTable = MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
         MovePointTable = movePointTable;
         return true;
@@ -171,9 +171,9 @@ public partial class AIMoveTargetSelector : EngineObject
         if (_bufferedTargets.Count != 0)
         {
             TriggerTargetFound(_bufferedTargets.GetTarget(0));
-            var target = _bufferedTargets.GetTarget(0);
+            MoveTarget target = _bufferedTargets.GetTarget(0);
             _targets.AddChild(target);
-            var fBufferedTargetsTarget = _bufferedTargets.GetTarget(0);
+            MoveTarget fBufferedTargetsTarget = _bufferedTargets.GetTarget(0);
             _bufferedTargets.RemoveChild(fBufferedTargetsTarget);
         }
 
@@ -192,7 +192,7 @@ public partial class AIMoveTargetSelector : EngineObject
         {
             gaps = new Int32List();
             target = _bufferedTargets.GetTarget(0);
-            var coordinate106 = _transporter.GetLocation();
+            MapCoordinate coordinate106 = _transporter.GetLocation();
             sbyte locationX = coordinate106.X;
             sbyte locationY = coordinate106.Y;
             sbyte locationMapLevel = coordinate106.MapLevel;
@@ -212,12 +212,12 @@ public partial class AIMoveTargetSelector : EngineObject
                 {
                     i -= 1;
                     _settings.ResetState();
-                    var item = gaps[i];
-                    var fMovePathItem = target.MovePath[item];
-                    var gapsItem = gaps[i];
-                    var item2 = target.MovePath[gapsItem];
-                    var item3 = gaps[i];
-                    var item4 = target.MovePath[item3];
+                    int item = gaps[i];
+                    PathStep fMovePathItem = target.MovePath[item];
+                    int gapsItem = gaps[i];
+                    PathStep item2 = target.MovePath[gapsItem];
+                    int item3 = gaps[i];
+                    PathStep item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
                     valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
@@ -301,11 +301,11 @@ public partial class AIMoveTargetSelector : EngineObject
                     field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
-                        var mapCoordinate = field.GetMapCoordinate();
+                        MapCoordinate mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
-                            var fieldMapCoordinate = field.GetMapCoordinate();
+                            MapCoordinate fieldMapCoordinate = field.GetMapCoordinate();
                             target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = -1;
@@ -370,7 +370,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         {
                             if (_settings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] == -1 && _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay] != -1)
                             {
-                                var movePointTable = _settings.MovePointTable;
+                                MovePointTable movePointTable = _settings.MovePointTable;
                                 movePointTable[terrain][overlay - MovementTables.FirstOverlay] = 8;
                                 _settings.MovePointTable = movePointTable;
                             }
@@ -409,11 +409,11 @@ public partial class AIMoveTargetSelector : EngineObject
                     field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
-                        var mapCoordinate = field.GetMapCoordinate();
+                        MapCoordinate mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
-                            var fieldMapCoordinate = field.GetMapCoordinate();
+                            MapCoordinate fieldMapCoordinate = field.GetMapCoordinate();
                             target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = _transporter.UnitId;

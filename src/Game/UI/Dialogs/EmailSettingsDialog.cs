@@ -39,11 +39,11 @@ public partial class EmailSettingsDialog : UIModule
 
     internal static void ShowEmailSettings(EmailSettingsDialog dialog)
     {
-        var localEmailAddress = dialog.UI.Engine.Registry.GetLocalEmailAddress();
+        string localEmailAddress = dialog.UI.Engine.Registry.GetLocalEmailAddress();
         dialog.LocalEmailAddressEdit.Text = localEmailAddress;
-        var smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
+        string smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
         dialog.SmtpServerEdit.Text = smtpServer;
-        var attachmentDirectory = dialog.UI.Engine.Registry.GetAttachmentDirectory();
+        string attachmentDirectory = dialog.UI.Engine.Registry.GetAttachmentDirectory();
         dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
         dialog.Window.Visible = true;
     }

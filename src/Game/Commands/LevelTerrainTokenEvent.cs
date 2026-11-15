@@ -24,7 +24,7 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
         base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         LevelTerrain();
-        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }

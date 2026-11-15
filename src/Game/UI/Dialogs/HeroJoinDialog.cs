@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWHeroJoinDlg.pas.
 using Aow.Game.Draw;
-
+using Aow.Game.Draw.Images;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
@@ -96,7 +96,7 @@ public partial class HeroJoinDialog : UIModule
             alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -106,7 +106,7 @@ public partial class HeroJoinDialog : UIModule
             _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
-                var image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -203,10 +203,10 @@ public partial class HeroJoinDialog : UIModule
     {
         if (ValidateJoin())
         {
-            var count = _units.GetCount();
+            int count = _units.GetCount();
             if (slot < count)
             {
-                var troop = _units.GetUnit(slot);
+                Troop troop = _units.GetUnit(slot);
                 UI.General.SelectedUnit = troop;
                 if (button == MouseButton.Left)
                 {
@@ -237,11 +237,11 @@ public partial class HeroJoinDialog : UIModule
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
-            var level = dialog._faceUnit.GetLevel();
-            var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
+            sbyte level = dialog._faceUnit.GetLevel();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
             dialog.HeroNameLabel.Text = dialog._faceUnit.HeroName;
-            var text = dialog._joinEvent.JoinMessage.Text;
+            string text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }
     }
@@ -252,10 +252,10 @@ public partial class HeroJoinDialog : UIModule
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog.Done = done;
-        var accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
+        string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;
-        var cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
+        string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdateHeroJoin(dialog);
         dialog.Window.Visible = true;
@@ -267,11 +267,11 @@ public partial class HeroJoinDialog : UIModule
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog.Done = done;
-        var accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
+        string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
-        var attack = dialog.UI.Engine.TranslateResourceString(GameText.AttackText);
+        string attack = dialog.UI.Engine.TranslateResourceString(GameText.AttackText);
         dialog.MiddleButton.Text = attack;
-        var cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
+        string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdateHeroJoin(dialog);
         dialog.Window.Visible = true;
@@ -290,10 +290,10 @@ public partial class HeroJoinDialog : UIModule
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog.Done = done;
-        var accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
+        string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;
-        var reject = dialog.UI.Engine.TranslateResourceString(GameText.RejectText);
+        string reject = dialog.UI.Engine.TranslateResourceString(GameText.RejectText);
         dialog.RightButton.Text = reject;
         UpdateHeroJoin(dialog);
         dialog.Window.Visible = true;

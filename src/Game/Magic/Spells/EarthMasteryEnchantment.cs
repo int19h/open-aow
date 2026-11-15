@@ -34,7 +34,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         Player playerLocal;
         base.Deactivate(player);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        var playerMagicControl = playerLocal.MagicControl;
+        PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
@@ -74,7 +74,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         // { Original doubles Air. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        var playerMagicControl = playerLocal.MagicControl;
+        PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)

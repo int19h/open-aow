@@ -71,7 +71,7 @@ public static class EngineServices
     private static ImmutableArray<int> BuildCrc32Table()
     {
         const int polynomial = -306674912;
-        var table = new int[256];
+        int[] table = new int[256];
         for (int i = 0; i <= 255; i++)
         {
             int c = i;

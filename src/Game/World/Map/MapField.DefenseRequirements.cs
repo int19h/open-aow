@@ -9,15 +9,15 @@ public partial class MapField
 {
     public bool GetAITarget(AIGroupControl control, in AITargetInfo info, out AITargetData data)
     {
-        var query = new AITargetQuery { Info = info };
-        var message = new MapFieldMessage { MessageId = 0x1200, Result = 0 };
-        var param = message.Param;
+        AITargetQuery query = new() { Info = info };
+        MapFieldMessage message = new() { MessageId = 0x1200, Result = 0 };
+        MapFieldMessageParameters param = message.Param;
         param[0] = query;
         message.Param = param;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[1] = query;
         message.Param = param2;
-        var param3 = message.Param;
+        MapFieldMessageParameters param3 = message.Param;
         param3[2] = control;
         message.Param = param3;
         try { SendMapFieldMessage(ref message); }
@@ -27,12 +27,12 @@ public partial class MapField
 
     public void GetDefenseRequirements(sbyte player, out DefenseRequirements requirements)
     {
-        var query = new DefenseRequirementsQuery();
-        var message = new MapFieldMessage { MessageId = 0x1127, Result = 0 };
-        var param = message.Param;
+        DefenseRequirementsQuery query = new();
+        MapFieldMessage message = new() { MessageId = 0x1127, Result = 0 };
+        MapFieldMessageParameters param = message.Param;
         param[0] = player;
         message.Param = param;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[1] = query;
         message.Param = param2;
         try { SendMapFieldMessage(ref message); }

@@ -55,7 +55,7 @@ public sealed partial class UIGraphics : ILayoutModule
         ScannerHighlights.LoadOnDemand = true;
         ScannerHighlights.FileName = "Int\\ScanHiLi.ilb";
         session.EndRead(ScannerHighlights);
-        InterfaceImageLibrary pyreAnim = new InterfaceImageLibrary(this);
+        InterfaceImageLibrary pyreAnim = new(this);
         session.BeginRead(pyreAnim);
         pyreAnim.Name = "PyreAnim";
         pyreAnim.LoadOnDemand = true;
@@ -277,7 +277,7 @@ public sealed partial class UIGraphics : ILayoutModule
         ProductionWindow.LoadOnDemand = true;
         ProductionWindow.FileName = "Int\\ProdWin.ILB";
         session.EndRead(ProductionWindow);
-        InterfaceImageLibrary fireLg = new InterfaceImageLibrary(this);
+        InterfaceImageLibrary fireLg = new(this);
         session.BeginRead(fireLg);
         fireLg.Name = "FireLg";
         fireLg.LoadOnDemand = true;

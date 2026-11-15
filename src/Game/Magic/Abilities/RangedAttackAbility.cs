@@ -137,13 +137,13 @@ public partial class RangedAttackAbility : AdjustableAbility
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
         int repeats;
-        var hitPoints = defender.GetHitPoints();
-        var defense = defender.GetDefense();
-        var resistance = defender.GetResistance();
-        var immunityTypes = defender.GetImmunityTypes();
-        var protectionTypes = defender.GetProtectionTypes();
-        var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
-        var damageRangedAttack = GetDamageRangedAttack(attacker);
+        sbyte hitPoints = defender.GetHitPoints();
+        sbyte defense = defender.GetDefense();
+        sbyte resistance = defender.GetResistance();
+        Set<DamageType> immunityTypes = defender.GetImmunityTypes();
+        Set<DamageType> protectionTypes = defender.GetProtectionTypes();
+        Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
+        sbyte damageRangedAttack = GetDamageRangedAttack(attacker);
         int result = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
         repeats = GetAttackRepeatRangedAttack(attacker);
         return result * repeats;
@@ -161,26 +161,26 @@ public partial class RangedAttackAbility : AdjustableAbility
             defense += 2;
         }
 
-        var hitPoints = defender.GetHitPoints();
-        var resistance = defender.GetResistance();
-        var immunityTypes = defender.GetImmunityTypes();
-        var protectionTypes = defender.GetProtectionTypes();
-        var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
-        var damageRangedAttack = GetDamageRangedAttack(attacker);
+        sbyte hitPoints = defender.GetHitPoints();
+        sbyte resistance = defender.GetResistance();
+        Set<DamageType> immunityTypes = defender.GetImmunityTypes();
+        Set<DamageType> protectionTypes = defender.GetProtectionTypes();
+        Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
+        sbyte damageRangedAttack = GetDamageRangedAttack(attacker);
         damage = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
         repeats = GetAttackRepeatRangedAttack(attacker);
         damage = damage * repeats;
         damageValues.SourceDamage = damage;
         damageValues.TargetDamage = 0;
-        var damageTypesRangedAttack2 = GetDamageTypesRangedAttack(attacker);
+        Set<DamageType> damageTypesRangedAttack2 = GetDamageTypesRangedAttack(attacker);
         damageValues.DamageTypes = damageTypesRangedAttack2;
     }
 
     // AoWAb.PAS:4703
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
-        var damageRangedAttack = GetDamageRangedAttack(owner);
+        sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        sbyte damageRangedAttack = GetDamageRangedAttack(owner);
         strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
         types = GetDamageTypesRangedAttack(owner);
     }
@@ -210,10 +210,10 @@ public partial class RangedAttackAbility : AdjustableAbility
                 defense += 2;
             }
 
-            var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
+            Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
             damageValues.DamageTypes = damageTypesRangedAttack;
-            var hitPoints = defender.GetHitPoints();
-            var resistance = defender.GetResistance();
+            sbyte hitPoints = defender.GetHitPoints();
+            sbyte resistance = defender.GetResistance();
             value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.GetAbilityOwner()), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
             repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
             value = value * repeats;
@@ -239,13 +239,13 @@ public partial class RangedAttackAbility : AdjustableAbility
     // AoWAb.PAS:4769
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        var attackRangedAttack = GetAttackRangedAttack(owner);
+        sbyte attackRangedAttack = GetAttackRangedAttack(owner);
         info.Attack = attackRangedAttack;
-        var damageRangedAttack = GetDamageRangedAttack(owner);
+        sbyte damageRangedAttack = GetDamageRangedAttack(owner);
         info.Damage = damageRangedAttack;
-        var damageTypesRangedAttack = GetDamageTypesRangedAttack(owner);
+        Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(owner);
         info.DamageTypes = damageTypesRangedAttack;
-        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         info.RepeatCount = attackRepeatRangedAttack;
         info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
     }

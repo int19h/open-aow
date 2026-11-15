@@ -89,7 +89,7 @@ public partial class Vortex : GlobalTargetSpell
         if (X != -1)
         {
             mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
-            var fieldValue = mapLevel.GetField(X, Y);
+            MapField fieldValue = mapLevel.GetField(X, Y);
             valid = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
         }
         else

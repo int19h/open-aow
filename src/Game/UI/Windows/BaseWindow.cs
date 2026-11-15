@@ -73,7 +73,7 @@ public partial class BaseWindow : WindowControl
 
             if (OwnerComponent != sender && OwnerComponent is BaseWindow)
             {
-                var indexOf = OwnerComponent.Children.IndexOf(this);
+                int indexOf = OwnerComponent.Children.IndexOf(this);
                 OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
             }
         }
@@ -124,16 +124,16 @@ public partial class BaseWindow : WindowControl
 
                 if (!Hidden)
                 {
-                    var backRectangle = BackRectangle;
+                    Rect backRectangle = BackRectangle;
                     backRectangle.Right = WinWidth;
                     BackRectangle = backRectangle;
-                    var backRectangle2 = BackRectangle;
+                    Rect backRectangle2 = BackRectangle;
                     backRectangle2.Bottom = WinHeight;
                     BackRectangle = backRectangle2;
-                    var backRectangle3 = BackRectangle;
+                    Rect backRectangle3 = BackRectangle;
                     backRectangle3.Top = WinTop;
                     BackRectangle = backRectangle3;
-                    var backRectangle4 = BackRectangle;
+                    Rect backRectangle4 = BackRectangle;
                     backRectangle4.Left = WinLeft;
                     BackRectangle = backRectangle4;
                 }
@@ -226,11 +226,11 @@ public partial class BaseWindow : WindowControl
                                 {
                                     d = DrawList[j];
                                     r = lockedSurface.ClipRectangle;
-                                    var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
+                                    Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                                     lockedSurface.ClipRectangle = rectangle;
                                     Draw(lockedSurface);
                                     lockedSurface.ClipRectangle = r;
-                                    var rectangle2 = d.Rectangle;
+                                    Rect rectangle2 = d.Rectangle;
                                     InvalidateRectangle(0, ref rectangle2, null);
                                     d.Rectangle = rectangle2;
                                 }
@@ -263,7 +263,7 @@ public partial class BaseWindow : WindowControl
                                     for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                     {
                                         d = DrawList[j];
-                                        var rectangle3 = d.Rectangle;
+                                        Rect rectangle3 = d.Rectangle;
                                         InvalidateRectangle(i + 1, ref rectangle3, null);
                                         d.Rectangle = rectangle3;
                                     }
@@ -314,7 +314,7 @@ public partial class BaseWindow : WindowControl
                                         }
                                         else
                                         {
-                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
+                                            int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
                                             BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
                                         }
 

@@ -39,7 +39,7 @@ public partial class MoveControl
         Settings.AddRef();
         if (Settings.Status == MoveControlSettingsStatus.Idle)
         {
-            var container = Map.MapContainer;
+            MapContainer container = Map.MapContainer;
             Settings.SetupMovePointData(container.Width, container.Height, container.LevelCount);
             MovePointsLimit = Settings.MovePointsMax;
         }

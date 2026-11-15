@@ -33,7 +33,7 @@ public partial class PestilenceStorm : Storm
         int frame;
         int blend;
         ImageSequence sequence;
-        var hexY = GetHexY();
+        sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
         x = x - pixelXSurface + 8;
         y = y - pixelYSurface;
@@ -115,9 +115,9 @@ public partial class PestilenceStorm : Storm
             cloud = (PoisonCloud)_cloudResource.CreateResourceUser();
             cloud.TurnsRemaining = 3;
             cloud.Player = StrategicMap.Current.CurrentPlayer;
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
             {
                 cloud.TriggerDamage();

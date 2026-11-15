@@ -14,7 +14,7 @@ internal static class ContentChildren
         }
 
         int count = 0;
-        foreach (var child in children.Items)
+        foreach (JsonValue child in children.Items)
         {
             if (child is JsonObject c && c["$class"] is JsonString name && GameFiles.Schema.Find(name.Value) is { } classValue && classValue.InheritsFrom(family))
             {

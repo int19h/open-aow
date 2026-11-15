@@ -18,7 +18,7 @@ public partial class ImageLibraryFont
 
         foreach (char c in text)
         {
-            var image = GetSafe(Cp1252.Byte(c));
+            LibraryImage image = GetSafe(Cp1252.Byte(c));
             width += (image?.Width ?? 5) + _characterDistance;
         }
         return width;
@@ -33,7 +33,7 @@ public partial class ImageLibraryFont
 
         foreach (char c in text)
         {
-            var image = GetSafe(Cp1252.Byte(c));
+            LibraryImage image = GetSafe(Cp1252.Byte(c));
             if (image != null)
             {
                 image.Show(x, y, lockedSurface);
@@ -47,7 +47,7 @@ public partial class ImageLibraryFont
     {
         if (_fontColorPaletteIndex >= 0 && PaletteManager.Palettes.Count != 0)
         {
-            var palette = PaletteManager.Palettes[0];
+            LibraryImagePalette palette = PaletteManager.Palettes[0];
             palette.Palette[_fontColorPaletteIndex] =
                 new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
             if (palette.RemapPaletteValue != null)

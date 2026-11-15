@@ -24,7 +24,7 @@ public abstract partial record DiplomaticProposal
     // The proposal the stored kind, gold and mana name. A kind no proposal registered reads as
     // UnknownProposal, which writes the three fields back unchanged.
     public static DiplomaticProposal FromFields(byte kind, int gold, int mana) =>
-        s_kinds.TryGet(kind, out var create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
+        s_kinds.TryGet(kind, out Func<int, int, DiplomaticProposal> create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
 
     // Registers the proposal of a kind. A second registration of a kind throws.
     internal static void Register(byte kind, Func<int, int, DiplomaticProposal> create) => s_kinds.Add(kind, create);
@@ -38,7 +38,7 @@ public abstract partial record DiplomaticProposal
     // The lines of Text.
     public static IReadOnlyList<string> Lines(StringCollection text)
     {
-        var lines = new string[text.Count];
+        string[] lines = new string[text.Count];
         for (int i = 0; i < lines.Length; i++)
         {
             lines[i] = text[i];
@@ -50,9 +50,9 @@ public abstract partial record DiplomaticProposal
     // The lines TStrings.Text splits Text into.
     public static IReadOnlyList<string> Lines(string text)
     {
-        var list = new StringList();
+        StringList list = new();
         list.Text = text;
-        var lines = Lines(list);
+        IReadOnlyList<string> lines = Lines(list);
         list?.Dispose();
         return lines;
     }
@@ -132,7 +132,7 @@ public abstract partial record DiplomaticProposal
     {
         if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
-            var players = StrategicMap.Current.Players.GetPlayers(other);
+            Player players = StrategicMap.Current.Players.GetPlayers(other);
             return Round((StrategicMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier * 0.01);
         }
 
@@ -155,7 +155,7 @@ public abstract partial record DiplomaticProposal
     // Announces the action to every player who knows both sides but Exclude, and shows it to Viewer.
     protected static void Broadcast(DiplomaticAction action, sbyte exclude, sbyte viewer)
     {
-        var log = action.CreateEventLog();
+        DiplomaticActionEventLog log = action.CreateEventLog();
         BroadcastDiplomaticEvent(log, exclude);
         ShowTo(log, viewer);
         log.Release();
@@ -167,11 +167,11 @@ public abstract partial record DiplomaticProposal
         StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), s_messageSentText);
+            string messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), s_messageSentText);
             StrategicMap.Current.ShowMessage(messageSent);
         }
 
-        var log = action.CreateEventLog();
+        DiplomaticActionEventLog log = action.CreateEventLog();
         StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
         ShowTo(log, action.Target);
         log.Release();
@@ -181,7 +181,7 @@ public abstract partial record DiplomaticProposal
     // Drops the target's logbook entry of the answered proposal.
     protected static void RemoveTargetLog(DiplomaticAction action)
     {
-        var log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        DiplomaticActionEventLog log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
         if (log != null)
         {
             log.SetOwner(null);
@@ -191,7 +191,7 @@ public abstract partial record DiplomaticProposal
     // Moves the target's logbook entry, now holding the answer, to the source and shows it there.
     protected static void ReturnToSource(DiplomaticAction action)
     {
-        var log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        DiplomaticActionEventLog log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
         log.SetDiplomaticAction(action);
         StrategicMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
         ShowTo(log, action.Source);

@@ -151,8 +151,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            var s = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, Width);
-                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
+                            Span<byte> s = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, Width);
+                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 Palette.Entry p = lockedSurface.Palette[s[x]];
@@ -178,8 +178,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
-                            var s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), Width * 3);
+                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
+                            Span<byte> s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), Width * 3);
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));

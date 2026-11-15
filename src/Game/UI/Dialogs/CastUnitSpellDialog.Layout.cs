@@ -15,7 +15,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "CastUnitSpellDlg";
-        Gauge unit1Gge = new Gauge(this);
+        Gauge unit1Gge = new(this);
         session.BeginRead(unit1Gge);
         unit1Gge.Name = "Unit1Gge";
         unit1Gge.Visible = false;
@@ -45,7 +45,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit1Gge.ImageLibraryIndexTNormal = 4;
         unit1Gge.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit1Gge);
-        Gauge unit2Gge = new Gauge(this);
+        Gauge unit2Gge = new(this);
         session.BeginRead(unit2Gge);
         unit2Gge.Name = "Unit2Gge";
         unit2Gge.Visible = false;
@@ -75,7 +75,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit2Gge.ImageLibraryIndexTNormal = 4;
         unit2Gge.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit2Gge);
-        Gauge unit3Gge = new Gauge(this);
+        Gauge unit3Gge = new(this);
         session.BeginRead(unit3Gge);
         unit3Gge.Name = "Unit3Gge";
         unit3Gge.Visible = false;
@@ -105,7 +105,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit3Gge.ImageLibraryIndexTNormal = 4;
         unit3Gge.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit3Gge);
-        Gauge unit4Gge = new Gauge(this);
+        Gauge unit4Gge = new(this);
         session.BeginRead(unit4Gge);
         unit4Gge.Name = "Unit4Gge";
         unit4Gge.Visible = false;
@@ -135,7 +135,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit4Gge.ImageLibraryIndexTNormal = 4;
         unit4Gge.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit4Gge);
-        Gauge unit5Gg = new Gauge(this);
+        Gauge unit5Gg = new(this);
         session.BeginRead(unit5Gg);
         unit5Gg.Name = "Unit5Gg";
         unit5Gg.Visible = false;
@@ -165,7 +165,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit5Gg.ImageLibraryIndexTNormal = 4;
         unit5Gg.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit5Gg);
-        Gauge unit6Gg = new Gauge(this);
+        Gauge unit6Gg = new(this);
         session.BeginRead(unit6Gg);
         unit6Gg.Name = "Unit6Gg";
         unit6Gg.Visible = false;
@@ -195,7 +195,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit6Gg.ImageLibraryIndexTNormal = 4;
         unit6Gg.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit6Gg);
-        Gauge unit7Gg = new Gauge(this);
+        Gauge unit7Gg = new(this);
         session.BeginRead(unit7Gg);
         unit7Gg.Name = "Unit7Gg";
         unit7Gg.Visible = false;
@@ -225,7 +225,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit7Gg.ImageLibraryIndexTNormal = 4;
         unit7Gg.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit7Gg);
-        Gauge unit8Gg = new Gauge(this);
+        Gauge unit8Gg = new(this);
         session.BeginRead(unit8Gg);
         unit8Gg.Name = "Unit8Gg";
         unit8Gg.Visible = false;
@@ -255,7 +255,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         unit8Gg.ImageLibraryIndexTNormal = 4;
         unit8Gg.ImageLibraryIndexTSelected = 5;
         session.EndRead(unit8Gg);
-        Button castBut = new Button(this);
+        Button castBut = new(this);
         session.BeginRead(castBut);
         castBut.Name = "CastBut";
         castBut.Priority = 100;
@@ -286,7 +286,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         castBut.WinWidth = 128;
         castBut.OnClick += _ => CastButClick();
         session.EndRead(castBut);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -314,7 +314,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -348,7 +348,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -371,7 +371,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         title.Text = "Cast Unit Spell";
         title.TextColor = 0;
         session.EndRead(title);
-        Button cancelBut = new Button(this);
+        Button cancelBut = new(this);
         session.BeginRead(cancelBut);
         cancelBut.Name = "CancelBut";
         cancelBut.Priority = 100;
@@ -447,7 +447,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Window.WinHeight = 236;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label selectLbl = new Label(this);
+        Label selectLbl = new(this);
         session.BeginRead(selectLbl);
         selectLbl.Name = "SelectLbl";
         selectLbl.Priority = 100;
@@ -941,7 +941,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit8CheckBox.OnChange += sender => U1Change(sender, 7);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
-        Image decoL = new Image(this);
+        Image decoL = new(this);
         session.BeginRead(decoL);
         decoL.Name = "DecoL";
         decoL.Priority = 1000;
@@ -969,7 +969,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         decoL.Animate = false;
         decoL.AnimationFrameDelay = 0;
         session.EndRead(decoL);
-        Image decoR = new Image(this);
+        Image decoR = new(this);
         session.BeginRead(decoR);
         decoR.Name = "DecoR";
         decoR.Priority = 1000;
@@ -1055,7 +1055,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         FaceFrame.Animate = false;
         FaceFrame.AnimationFrameDelay = 0;
         session.EndRead(FaceFrame);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -1082,7 +1082,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Panel selectionInfoPnl = new Panel(this);
+        Panel selectionInfoPnl = new(this);
         session.BeginRead(selectionInfoPnl);
         selectionInfoPnl.Name = "SelectionInfoPnl";
         selectionInfoPnl.Priority = 1;
@@ -1132,7 +1132,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         SelectionInfoLabel.Text = "#########";
         SelectionInfoLabel.TextColor = 0;
         session.EndRead(SelectionInfoLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

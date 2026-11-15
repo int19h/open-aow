@@ -218,6 +218,6 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         public MapLevel this[int index] => target.GetMapLevel(index);
     }
 
-    public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);
+    public MapLevelsAccessor MapLevels => new(this);
 
 }

@@ -60,7 +60,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     bool condition = aiMoveExecutorArmyList.Count != i;
                     if (condition)
                     {
-                        var armies = aiMoveExecutorArmyList.GetArmies(i);
+                        AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
                         condition = _adjacentArmies.IndexOfLocation(armies.Location) != -1;
                     }
 
@@ -125,7 +125,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
             case 1:
                 if (_adjacentArmies.GetAdjacent())
                 {
-                    var slowestArmy = _adjacentArmies.GetSlowestArmy();
+                    int slowestArmy = _adjacentArmies.GetSlowestArmy();
                     if ((double)_adjacentArmies.GetAdjacentArmies(slowestArmy).GetMovementDays() <= 1.25 && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                     {
                         if (ExecuteSurroundMove())
@@ -146,7 +146,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 }
                 else
                 {
-                    var slowestArmy = _adjacentArmies.GetSlowestArmy();
+                    int slowestArmy = _adjacentArmies.GetSlowestArmy();
                     if ((double)_adjacentArmies.GetAdjacentArmies(slowestArmy).GetMovementDays() <= 1 && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                     {
                         if (ExecuteSurroundMove())
@@ -338,8 +338,8 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     bool condition = moveResult != 0;
                     if (!condition)
                     {
-                        var armies = aiMoveExecutorArmyList.GetArmies(i);
-                        var armiesArmies = aiMoveExecutorArmyList.GetArmies(i);
+                        AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
+                        AIMoveExecutorArmy armiesArmies = aiMoveExecutorArmyList.GetArmies(i);
                         condition = HexGeometry.DeltaHexToRadius(Executor.Destination.X, Executor.Destination.Y, armiesArmies.Location.X, armies.Location.Y) == 1 && aiMoveExecutorArmyList.GetArmies(i).Location.MapLevel == Executor.Destination.MapLevel;
                     }
 
@@ -402,7 +402,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         int last = _adjacentArmies.Count - 1;
         for (; i <= last; i += 1)
         {
-            var movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
+            float movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
             sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(i), Round((double)movementDays * 100));
         }
 
@@ -481,8 +481,8 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         bool condition = position > 1;
                         if (condition)
                         {
-                            var item = adjacent.Path[position];
-                            var fPathItem = adjacent.Path[position];
+                            PathStep item = adjacent.Path[position];
+                            PathStep fPathItem = adjacent.Path[position];
                             condition = CanMoveTo(army, 255, adjacent.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
                         }
 
@@ -515,7 +515,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         mapCoordinate = CalculateMeetingPoint();
         if (mapCoordinate == MapCoordinate.None)
         {
-            var location = Executor.Destination;
+            MapCoordinate location = Executor.Destination;
             mapCoordinate = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
         }
 
@@ -523,7 +523,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         sorted = new DoubleItemList<AdjacentArmy>();
         for (int i = 0, last = _adjacentArmies.Count - 1; i <= last; i++)
         {
-            var movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
+            float movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
             sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(i), Round((double)movementDays * 100));
         }
 

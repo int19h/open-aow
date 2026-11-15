@@ -229,7 +229,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     {
         int s1;
         int s2;
-        var troop = item1;
+        Troop troop = item1;
         s1 = troop.GetUnitLevel();
         if (troop.GetTransporter())
         {
@@ -245,7 +245,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
             }
         }
 
-        var troop2 = item2;
+        Troop troop2 = item2;
         s2 = troop2.GetUnitLevel();
         if (troop2.GetTransporter())
         {

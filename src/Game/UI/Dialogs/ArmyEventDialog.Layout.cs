@@ -62,7 +62,7 @@ public partial class ArmyEventDialog : ILayoutModule
         ArmyEventWindow.WinHeight = 240;
         ArmyEventWindow.Dockable = false;
         session.EndRead(ArmyEventWindow);
-        Frame bGoldSq = new Frame(this);
+        Frame bGoldSq = new(this);
         session.BeginRead(bGoldSq);
         bGoldSq.Name = "BGoldSq";
         bGoldSq.Priority = 1000;
@@ -169,7 +169,7 @@ public partial class ArmyEventDialog : ILayoutModule
         DamagePicture.Animate = false;
         DamagePicture.AnimationFrameDelay = 0;
         session.EndRead(DamagePicture);
-        Button closeBut = new Button(this);
+        Button closeBut = new(this);
         session.BeginRead(closeBut);
         closeBut.Name = "CloseBut";
         closeBut.Priority = 100;
@@ -204,7 +204,7 @@ public partial class ArmyEventDialog : ILayoutModule
         closeBut.WinWidth = 120;
         closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -232,7 +232,7 @@ public partial class ArmyEventDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -266,7 +266,7 @@ public partial class ArmyEventDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -289,7 +289,7 @@ public partial class ArmyEventDialog : ILayoutModule
         title.Text = "Party Damage";
         title.TextColor = 0;
         session.EndRead(title);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -316,7 +316,7 @@ public partial class ArmyEventDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Image decoL = new Image(this);
+        Image decoL = new(this);
         session.BeginRead(decoL);
         decoL.Name = "DecoL";
         decoL.Priority = 1000;
@@ -344,7 +344,7 @@ public partial class ArmyEventDialog : ILayoutModule
         decoL.Animate = false;
         decoL.AnimationFrameDelay = 0;
         session.EndRead(decoL);
-        Image decoR = new Image(this);
+        Image decoR = new(this);
         session.BeginRead(decoR);
         decoR.Name = "DecoR";
         decoR.Priority = 1000;
@@ -372,7 +372,7 @@ public partial class ArmyEventDialog : ILayoutModule
         decoR.Animate = false;
         decoR.AnimationFrameDelay = 0;
         session.EndRead(decoR);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

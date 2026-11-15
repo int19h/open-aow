@@ -1,7 +1,7 @@
 #nullable disable
 
 using Aow.Game.Combat;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -31,14 +31,14 @@ internal static class RosterTables
                 }
                 else
                 {
-                    var players = StrategicMap.Current.Players.GetPlayers(player);
-                    var alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
+                    Player players = StrategicMap.Current.Players.GetPlayers(player);
+                    Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
                     value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }
             else
             {
-                var iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation);
+                Alignment iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation);
                 value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)iRtoAlignment];
             }
 

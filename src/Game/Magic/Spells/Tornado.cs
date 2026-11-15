@@ -76,7 +76,7 @@ public partial class Tornado : GlobalTargetSpell
         if (result)
         {
             message.MessageId = 4384;
-            var param = message.Param;
+            MapFieldMessageParameters param = message.Param;
             param[0] = army;
             message.Param = param;
             message.Result = 0;
@@ -100,8 +100,8 @@ public partial class Tornado : GlobalTargetSpell
         int x;
         locations = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(selection, out table);
-        var hexY = army.HexY;
-        var hexX = army.HexX;
+        sbyte hexY = army.HexY;
+        sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
         mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 15)

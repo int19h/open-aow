@@ -48,7 +48,7 @@ public partial class AnimateHero : Spell
         ArmyInfoEventLog infoLog = default;
         if (executeCount == 0)
         {
-            var coordinate51 = source.GetLocation();
+            MapCoordinate coordinate51 = source.GetLocation();
             x = coordinate51.X;
             y = coordinate51.Y;
             layer = coordinate51.MapLevel;
@@ -76,11 +76,11 @@ public partial class AnimateHero : Spell
 
             if (heroes.Count != 0)
             {
-                var coordinate52 = source.GetLocation();
+                MapCoordinate coordinate52 = source.GetLocation();
                 x = coordinate52.X;
                 y = coordinate52.Y;
                 layer = coordinate52.MapLevel;
-                var count = heroes.Count;
+                int count = heroes.Count;
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Animate();
                 army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
@@ -100,11 +100,11 @@ public partial class AnimateHero : Spell
                 else
                 {
                     infoLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
-                    var indexOf = army.Army.Units.IndexOf(hero);
+                    int indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
-                    var noJoinAnimate = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinAnimateText);
+                    string noJoinAnimate = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinAnimateText);
                     infoLog.Messages.Text = noJoinAnimate;
                     infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
                     infoLog.Execute(true, ExecuteTrigger.Event, null);
@@ -115,7 +115,7 @@ public partial class AnimateHero : Spell
             {
                 if (source.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
+                    string noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
                     StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
                     GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
                 }

@@ -201,9 +201,9 @@ public partial class TurnUndeadAbility : TouchAbility
             hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         }
@@ -246,9 +246,9 @@ public partial class TurnUndeadAbility : TouchAbility
             hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         }
@@ -267,9 +267,9 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         int level;
         level = GetLevel(owner);
-        var touchAttack = GetTouchAttack(level);
+        sbyte touchAttack = GetTouchAttack(level);
         info.Attack = touchAttack;
-        var turnUndeadDamage = GetTurnUndeadDamage(level);
+        sbyte turnUndeadDamage = GetTurnUndeadDamage(level);
         info.Damage = turnUndeadDamage;
         info.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         info.RepeatCount = 1;
@@ -320,7 +320,7 @@ public partial class TurnUndeadAbility : TouchAbility
         bool result = base.CanTouchUnit(source, target);
         if (result)
         {
-            var unitType = target.GetUnitType();
+            UnitType unitType = target.GetUnitType();
             result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
         }
 

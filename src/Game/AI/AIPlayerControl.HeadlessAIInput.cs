@@ -40,7 +40,7 @@ public partial class AIPlayerControl
                             done = _action.Process();
                             if (!done)
                             {
-                                var action = _action;
+                                AIPlayerAction action = _action;
                                 DeactivateAction();
                                 action?.Dispose();
                             }

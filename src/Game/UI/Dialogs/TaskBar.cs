@@ -149,12 +149,12 @@ public partial class TaskBar : UIModule
     {
         if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
         {
-            var endTurn = StrategicMap.Current.EndTurn();
+            bool endTurn = StrategicMap.Current.EndTurn();
             WorldTurnButton.Checked = endTurn;
         }
         else
         {
-            var cancelEndTurn = StrategicMap.Current.CancelEndTurn();
+            bool cancelEndTurn = StrategicMap.Current.CancelEndTurn();
             WorldTurnButton.Checked = !cancelEndTurn;
         }
     }
@@ -223,7 +223,7 @@ public partial class TaskBar : UIModule
     {
         if (CombatTurnButton.Checked)
         {
-            var endTurn = CombatMap.Current.EndTurn(false);
+            bool endTurn = CombatMap.Current.EndTurn(false);
             CombatTurnButton.Checked = endTurn;
         }
         else
@@ -248,8 +248,8 @@ public partial class TaskBar : UIModule
         position = 0;
         for (int i = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
         {
-            var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
-            var player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
+            byte turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
+            TacticalBattlePlayer player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
             race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
             {
@@ -422,7 +422,7 @@ public partial class TaskBar : UIModule
     public void RelationsBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var relationWindow = UI.RelationWindow;
+        RelationWindow relationWindow = UI.RelationWindow;
         if (relationWindow.MainWindow.Visible)
         {
             relationWindow.MainWindow.Visible = false;

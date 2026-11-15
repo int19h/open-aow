@@ -51,7 +51,7 @@ public partial class Image
             }
 
             RaisePreDraw(this, surface);
-            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft,
+            SizedRectangle rectangle = new(Window.WinLeft + WinLeft,
                 Window.WinTop + WinTop, WinWidth, WinHeight);
             _imageLibrary.DrawTiled(_currentImage, rectangle, ref surface);
             RaiseDraw(this, surface);

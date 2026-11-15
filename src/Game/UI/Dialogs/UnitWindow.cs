@@ -138,38 +138,38 @@ public partial class UnitWindow : UIModule
 
                     GroundPreviousButton.Visible = _groundOffset > 0;
                     GroundNextButton.Visible = _groundOffset + 5 <= _groundCount;
-                    var count = hero.GetItemsOnGround().Count;
+                    int count = hero.GetItemsOnGround().Count;
                     if (_groundOffset < count)
                     {
-                        var item = hero.GetItemsOnGround().GetItem(_groundOffset);
+                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset);
                         Ground1CheckBox.Tag = item.ItemId;
                     }
 
-                    var count2 = hero.GetItemsOnGround().Count;
+                    int count2 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 1 < count2)
                     {
-                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 1);
+                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 1);
                         Ground2CheckBox.Tag = item.ItemId;
                     }
 
-                    var count3 = hero.GetItemsOnGround().Count;
+                    int count3 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 2 < count3)
                     {
-                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 2);
+                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 2);
                         Ground3CheckBox.Tag = item.ItemId;
                     }
 
-                    var count4 = hero.GetItemsOnGround().Count;
+                    int count4 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 3 < count4)
                     {
-                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 3);
+                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 3);
                         Ground4CheckBox.Tag = item.ItemId;
                     }
 
-                    var count5 = hero.GetItemsOnGround().Count;
+                    int count5 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 4 < count5)
                     {
-                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 4);
+                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 4);
                         Ground5CheckBox.Tag = item.ItemId;
                     }
                 }
@@ -182,7 +182,7 @@ public partial class UnitWindow : UIModule
     {
         bool enabled;
         Ability a;
-        var objectValue = AbilityAbilityList.Items.Objects[drawItem];
+        object objectValue = AbilityAbilityList.Items.Objects[drawItem];
         a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
         if (StrategicMap.Current.CombatMap == null)
         {
@@ -193,15 +193,15 @@ public partial class UnitWindow : UIModule
             bool condition = a != null && UI.General.CombatUnit != null;
             if (condition)
             {
-                var objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
+                object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                var objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
+                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.GetMoves() == UI.General.CombatUnit.Unit.MovePoints;
             }
 
@@ -232,22 +232,22 @@ public partial class UnitWindow : UIModule
         {
             if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && AbilityAbilityList.Selected > -1)
             {
-                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (a != null && a.GetEnabled(UI.General.SelectedUnit))
                 {
                     if (StrategicMap.Current.CombatMap == null)
                     {
-                        var controlType = a.GetControlType(UI.General.SelectedUnit);
+                        Set<AbilityControlTypeElement> controlType = a.GetControlType(UI.General.SelectedUnit);
                         AbilityUseButton.Visible = controlType.Contains(AbilityControlTypeElement.Action);
                     }
                     else
                     {
-                        var objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                        object objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                         bool condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(UI.General.SelectedUnit) != CombatMode.None;
                         if (condition)
                         {
-                            var objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                            object objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                             condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(UI.General.SelectedUnit) != CombatMode.Melee;
                         }
 
@@ -256,8 +256,8 @@ public partial class UnitWindow : UIModule
 
                     if (AbilityUseButton.Visible)
                     {
-                        var name = a.GetName(UI.General.SelectedUnit);
-                        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
+                        string name = a.GetName(UI.General.SelectedUnit);
+                        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
                         AbilityUseButton.Text = format;
                     }
                 }
@@ -276,24 +276,24 @@ public partial class UnitWindow : UIModule
             bool condition = AbilityAbilityList.Selected > -1 && UI.General.CombatUnit != null;
             if (condition)
             {
-                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.GetMoves() == UI.General.CombatUnit.Unit.MovePoints;
             }
 
             if (test)
             {
                 AbilityUseButton.Visible = true;
-                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                var name = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(UI.General.CombatUnit.Unit.Troop);
-                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
+                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                string name = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(UI.General.CombatUnit.Unit.Troop);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
                 AbilityUseButton.Text = format;
             }
             else
@@ -419,7 +419,7 @@ public partial class UnitWindow : UIModule
         Ability a;
         string reason = "";
         UI.General.PlayButtonSound(0);
-        var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+        object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
         a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
         if (a != null && a.GetEnabled(UI.General.SelectedUnit))
         {
@@ -444,7 +444,7 @@ public partial class UnitWindow : UIModule
             {
                 if (UI.General.CombatUnit != null && UI.General.CombatUnit.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                 {
-                    var objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                    object objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                     if (UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
                     {
                         MainWindow.Visible = false;
@@ -523,7 +523,7 @@ public partial class UnitWindow : UIModule
 
             if (item != null)
             {
-                var checkBox = component;
+                UIComponent checkBox = component;
                 if (item.GetImage() != null)
                 {
                     item.GetImage().ShowClipped(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface);
@@ -540,7 +540,7 @@ public partial class UnitWindow : UIModule
         {
             if (UI.General.SelectedUnit.GetFace() != null)
             {
-                var image = sender;
+                UIComponent image = sender;
                 r = new Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
                 UI.General.SelectedUnit.ShowFace(r, lockedSurface);
@@ -563,7 +563,7 @@ public partial class UnitWindow : UIModule
                 _showInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
             }
 
-            var image = sender;
+            UIComponent image = sender;
             UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
         }
     }
@@ -605,7 +605,7 @@ public partial class UnitWindow : UIModule
         Gnd1Draw(sender, lockedSurface);
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == 0)
         {
-            var checkBox = sender;
+            UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
@@ -616,7 +616,7 @@ public partial class UnitWindow : UIModule
         Gnd1Draw(sender, lockedSurface);
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)1)
         {
-            var checkBox = sender;
+            UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
@@ -627,7 +627,7 @@ public partial class UnitWindow : UIModule
         Gnd1Draw(sender, lockedSurface);
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)2)
         {
-            var checkBox = sender;
+            UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
@@ -638,7 +638,7 @@ public partial class UnitWindow : UIModule
         Gnd1Draw(sender, lockedSurface);
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)3)
         {
-            var checkBox = sender;
+            UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
@@ -649,7 +649,7 @@ public partial class UnitWindow : UIModule
         Gnd1Draw(sender, lockedSurface);
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)4)
         {
-            var checkBox = sender;
+            UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
@@ -657,8 +657,8 @@ public partial class UnitWindow : UIModule
     // AoWUnitWindow.pas:921
     public void DisbandBtnClick()
     {
-        var disbandUnit = UI.Engine.TranslateResourceString(s_disbandUnitText);
-        var confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
+        string disbandUnit = UI.Engine.TranslateResourceString(s_disbandUnitText);
+        string confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
         UI.ConfirmationDialog.Confirm(confirm, text: disbandUnit, onConfirmed: DisbandSelectedUnit);
     }
 
@@ -688,7 +688,7 @@ public partial class UnitWindow : UIModule
         Ability a;
         if (button == MouseButton.Right && UI.General.SelectedUnit != null && AbilityAbilityList.Selected != -1)
         {
-            var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+            object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
             a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (a != null)
             {
@@ -728,7 +728,7 @@ public partial class UnitWindow : UIModule
                     }
                 }
 
-                var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
+                Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }
@@ -756,7 +756,7 @@ public partial class UnitWindow : UIModule
                     i = 0;
                 }
 
-                var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
+                Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }

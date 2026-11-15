@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -102,7 +103,7 @@ public partial class GroupDefenseSelector : IDisposable
     {
         if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) != null)
         {
-            var mapCoordinate = mapField.GetMapCoordinate();
+            MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
             DefenseLocation = mapCoordinate;
         }
     }
@@ -132,7 +133,7 @@ public partial class GroupDefenseSelector : IDisposable
             {
                 candidates.Clear();
                 mapField.GetDefenseRequirements(group.Player, out strengths);
-                var openedStrengths = strengths.DamageStrengths;
+                Array10<int> openedStrengths = strengths.DamageStrengths;
                 if (!EnoughStrength(openedStrengths))
                 {
                     UpdateDefenseLocation(mapField);
@@ -147,8 +148,8 @@ public partial class GroupDefenseSelector : IDisposable
                         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
-                            var strength = troop.GetStrength(damageType);
-                            var damageStrengths = strengths.DamageStrengths;
+                            int strength = troop.GetStrength(damageType);
+                            Array10<int> damageStrengths = strengths.DamageStrengths;
                             damageStrengths[(int)damageType] -= strength;
                             strengths.DamageStrengths = damageStrengths;
                         }
@@ -165,8 +166,8 @@ public partial class GroupDefenseSelector : IDisposable
                         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
-                            var strength = troop.GetStrength(damageType);
-                            var damageStrengths2 = strengths.DamageStrengths;
+                            int strength = troop.GetStrength(damageType);
+                            Array10<int> damageStrengths2 = strengths.DamageStrengths;
                             damageStrengths2[(int)damageType] -= strength;
                             strengths.DamageStrengths = damageStrengths2;
                         }
@@ -175,7 +176,7 @@ public partial class GroupDefenseSelector : IDisposable
                     i = start;
                     while (true)
                     {
-                        var required = strengths.DamageStrengths;
+                        Array10<int> required = strengths.DamageStrengths;
                         if (EnoughStrength(required) || candidates.Count <= i || candidates.GetUnit(i).GroupId != group.GroupId)
                         {
                             break;
@@ -188,8 +189,8 @@ public partial class GroupDefenseSelector : IDisposable
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                             {
                                 damageType = (DamageType)damageTypeOrdinal;
-                                var strength = troop.GetStrength(damageType);
-                                var damageStrengths3 = strengths.DamageStrengths;
+                                int strength = troop.GetStrength(damageType);
+                                Array10<int> damageStrengths3 = strengths.DamageStrengths;
                                 damageStrengths3[(int)damageType] -= strength;
                                 strengths.DamageStrengths = damageStrengths3;
                             }
@@ -211,7 +212,7 @@ public partial class GroupDefenseSelector : IDisposable
             while (result && i != 0)
             {
                 i -= 1;
-                var unit = units.GetUnit(i);
+                Troop unit = units.GetUnit(i);
                 if (Defenders.IndexOf(unit) != -1)
                 {
                     result = false;

@@ -101,9 +101,9 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         MapField field;
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
@@ -111,9 +111,9 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var hexLevel2 = GetHexLevel();
-                var hexY2 = GetHexY();
-                var hexX2 = GetHexX();
+                sbyte hexLevel2 = GetHexLevel();
+                sbyte hexY2 = GetHexY();
+                sbyte hexX2 = GetHexX();
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
@@ -127,10 +127,10 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     // Mountain.pas:240
     public void NewFrameRaiseTerrainAnimation(Animation animation, int frameCounter)
     {
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
-        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(131434) == this && frameCounter == 9)
         {
             Mode = Mode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);

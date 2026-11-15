@@ -10,7 +10,7 @@ public partial class ItemHSList
 
     public override GameEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 
-    public override MapCoordinate GetLocation() => new MapCoordinate(
+    public override MapCoordinate GetLocation() => new(
         Sprite.GetHexX(),
         Sprite.GetHexY(),
         Sprite.GetHexLevel());

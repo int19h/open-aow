@@ -127,12 +127,12 @@ public partial class ItemBanner : UIModule
             {
                 if (item.GetAbEnabled(x))
                 {
-                    var name = GamePack.Current.AbilityControl.GetAbility(x).GetName(item);
+                    string name = GamePack.Current.AbilityControl.GetAbility(x).GetName(item);
                     AbilityList.Items.AddObject(name, IntToObject(x));
                 }
             }
 
-            var count = AbilityList.Items.Count;
+            int count = AbilityList.Items.Count;
             BannerMenu.WinHeight = (count * AbilityList.ItemHeight) + y + 50;
             if (BannerMenu.WinHeight > 200)
             {

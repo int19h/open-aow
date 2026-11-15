@@ -45,7 +45,7 @@ public partial class PyreScreen : ILayoutModule
         DeadPanel.MinWidth = 640;
         DeadPanel.MinHeight = 480;
         session.EndRead(DeadPanel);
-        Image pyreTop = new Image(this);
+        Image pyreTop = new(this);
         session.BeginRead(pyreTop);
         pyreTop.Name = "PyreTop";
         pyreTop.Priority = 0;

@@ -41,12 +41,12 @@ public partial class BreathAbility : RangedAttackAbility
             target = command.Target;
             for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
             {
-                var side = target.GetSide();
+                CombatSideIndex side = target.GetSide();
                 other = combat.Sides[(int)side].GetObjects(i);
                 bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= combat.GetRoundDistance();
                 if (condition)
                 {
-                    var immunityTypes = other.GetImmunityTypes();
+                    Set<DamageType> immunityTypes = other.GetImmunityTypes();
                     condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
                 }
 
@@ -76,8 +76,8 @@ public partial class BreathAbility : RangedAttackAbility
     // AoWAb.PAS:4860
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
-        var damageRangedAttack = GetDamageRangedAttack(owner);
+        sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        sbyte damageRangedAttack = GetDamageRangedAttack(owner);
         strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
         strength = strength * 2;
         types = GetDamageTypesRangedAttack(owner);
@@ -96,12 +96,12 @@ public partial class BreathAbility : RangedAttackAbility
             count = 0;
             for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
-                var side = defender.GetSide();
+                CombatSideIndex side = defender.GetSide();
                 target = combat.Sides[(int)side].GetObjects(i);
                 bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.GetRoundDistance();
                 if (condition)
                 {
-                    var immunityTypes = target.GetImmunityTypes();
+                    Set<DamageType> immunityTypes = target.GetImmunityTypes();
                     condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
                 }
 

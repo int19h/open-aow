@@ -25,7 +25,7 @@ public partial class CityProductionControl : ProductionControl
     public City City { get; set; }
 
     // City.pas:645
-    public override MapCoordinate GetLocation() => new MapCoordinate(
+    public override MapCoordinate GetLocation() => new(
         City.GetHexX(),
         City.GetHexY(),
         City.GetHexLevel());
@@ -46,14 +46,14 @@ public partial class CityProductionControl : ProductionControl
         valid = false;
         count = city.GetTerrainCount();
         level = city.Owner.Owner;
-        var hexY = city.GetHexY();
-        var hexX = city.GetHexX();
+        sbyte hexY = city.GetHexY();
+        sbyte hexX = city.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < count && !valid)
         {
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                var hexLevel = city.GetHexLevel();
+                sbyte hexLevel = city.GetHexLevel();
                 valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) != null;
             }
 
@@ -62,16 +62,16 @@ public partial class CityProductionControl : ProductionControl
 
         if (!valid)
         {
-            var hexLevel = city.GetHexLevel();
-            var cityHexY = city.GetHexY();
-            var cityHexX = city.GetHexX();
+            sbyte hexLevel = city.GetHexLevel();
+            sbyte cityHexY = city.GetHexY();
+            sbyte cityHexX = city.GetHexX();
             valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         }
 
         log = new CityProductionEventLog(null) { Holder = CreationHolder() };
         log.Player = city.Player;
-        var name = Settings.Unit.GetName();
-        var fCityName = City.GetName();
+        string name = Settings.Unit.GetName();
+        string fCityName = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
@@ -88,9 +88,9 @@ public partial class CityProductionControl : ProductionControl
         city = City;
         log = new CityProductionEventLog(null) { Holder = CreationHolder() };
         log.Player = city.Player;
-        var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
-        var name = City.GetName();
+        UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        string name = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
@@ -124,8 +124,8 @@ public partial class CityProductionControl : ProductionControl
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        var unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
-        var size = City.GetSize();
+        UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        int size = City.GetSize();
         int result = unitResource.Level - (size / 2) + 1;
         if (result < 1)
         {

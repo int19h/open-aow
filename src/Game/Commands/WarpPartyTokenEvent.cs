@@ -73,7 +73,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         MapField field;
         ImageSequenceAnimation animation;
         base.Process(source, value);
-        var coordinate15 = source.GetLocation();
+        MapCoordinate coordinate15 = source.GetLocation();
         x = coordinate15.X;
         y = coordinate15.Y;
         layer = coordinate15.MapLevel;
@@ -110,7 +110,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         }
 
-        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }

@@ -46,7 +46,7 @@ public partial class AnimateRuins : CityTargetSpell
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log.Player = source.Player;
-            var animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
+            string animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
             log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
             EventLog.DistributeLocationEventLog(y: targetCity.GetHexY(), level: targetCity.GetHexLevel(), x: targetCity.GetHexX(), log: log, player: source.Player, execute: false);
@@ -60,9 +60,9 @@ public partial class AnimateRuins : CityTargetSpell
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
                 a.OnShow += ShowAnimation;
-                var hexLevel2 = targetCity.GetHexLevel();
-                var hexY2 = targetCity.GetHexY();
-                var targetCityHexX = targetCity.GetHexX();
+                sbyte hexLevel2 = targetCity.GetHexLevel();
+                sbyte hexY2 = targetCity.GetHexY();
+                sbyte targetCityHexX = targetCity.GetHexX();
                 StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
             }
 
@@ -75,15 +75,15 @@ public partial class AnimateRuins : CityTargetSpell
                 targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
                 targetCity.SetRace(StrategicMap.Current.Players.GetPlayers(source.Player).PlayerRace);
                 targetCity.SetRazed(false);
-                var size = targetCity.GetSize();
+                int size = targetCity.GetSize();
                 count = StrategicMap.Current.Random(size * 2) + 1;
                 for (int i = 0; i <= count; i++)
                 {
                     unit = new Unit(null) { Holder = CreationHolder() };
-                    var random = StrategicMap.Current.Random(2);
+                    int random = StrategicMap.Current.Random(2);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
-                    var hexLevel = targetCity.GetHexLevel();
-                    var hexY = targetCity.GetHexY();
+                    sbyte hexLevel = targetCity.GetHexLevel();
+                    sbyte hexY = targetCity.GetHexY();
                     unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     unit.Release();
                 }
@@ -110,10 +110,10 @@ public partial class AnimateRuins : CityTargetSpell
     // CitySpells.pas:930
     public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        var imageSequenceAnimation = (ImageSequenceAnimation)animation;
+        ImageSequenceAnimation imageSequenceAnimation = (ImageSequenceAnimation)animation;
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
-            var random = Random(2);
+            int random = Random(2);
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }

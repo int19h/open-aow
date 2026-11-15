@@ -275,7 +275,7 @@ public partial class PlayerCropStructure : PlayerStructure
         if (player != Player && Player > 0 && player > 0)
         {
             race = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-            var playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
+            int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, playerRelationValue - -5);
         }
     }

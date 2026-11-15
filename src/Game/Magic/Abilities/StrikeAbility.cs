@@ -157,13 +157,13 @@ public partial class StrikeAbility : AdjustableAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)))
         {
             MeleeRound.CalculateUnit(attacker, defender);
-            var attackerDamageValue = MeleeRound.GetAttackerDamageValue();
+            int attackerDamageValue = MeleeRound.GetAttackerDamageValue();
             damageValues.SourceDamage = attackerDamageValue;
             damageValues.SourceCost = 0;
-            var defenderDamageValue = MeleeRound.GetDefenderDamageValue();
+            int defenderDamageValue = MeleeRound.GetDefenderDamageValue();
             damageValues.TargetDamage = defenderDamageValue;
             damageValues.TargetCost = 0;
-            var immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = MeleeRound.AttackerDamageTypes - immunityTypes;
         }
         else
@@ -207,13 +207,13 @@ public partial class StrikeAbility : AdjustableAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)))
         {
             MeleeRound.Calculate(attacker, defender);
-            var attackerDamageValue = MeleeRound.GetAttackerDamageValue();
+            int attackerDamageValue = MeleeRound.GetAttackerDamageValue();
             damageValues.SourceDamage = attackerDamageValue;
             damageValues.SourceCost = 0;
-            var defenderDamageValue = MeleeRound.GetDefenderDamageValue();
+            int defenderDamageValue = MeleeRound.GetDefenderDamageValue();
             damageValues.TargetDamage = defenderDamageValue;
             damageValues.TargetCost = 0;
-            var immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = MeleeRound.AttackerDamageTypes - immunityTypes;
         }
         else
@@ -231,13 +231,13 @@ public partial class StrikeAbility : AdjustableAbility
     {
         if (owner is Troop)
         {
-            var troop = (Troop)owner;
-            var attack = troop.GetAttack();
+            Troop troop = (Troop)owner;
+            sbyte attack = troop.GetAttack();
             info.Attack = attack;
-            var damage = troop.GetDamage();
+            sbyte damage = troop.GetDamage();
             info.Damage = damage;
 
-            var damageTypes = GetDamageTypes(owner);
+            Set<DamageType> damageTypes = GetDamageTypes(owner);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
         }
@@ -287,7 +287,7 @@ public partial class StrikeAbility : AdjustableAbility
         if (owner is Troop && ((Troop)owner).GetAbilityEnabled(21))
         {
             result = Set<DamageType>.Of(DamageType.Physical);
-            var troop = (Troop)owner;
+            Troop troop = (Troop)owner;
             if (troop.GetAbilityEnabled(14) || troop.GetAbilityEnabled(163))
             {
                 result = result + Set<DamageType>.Of(DamageType.Fire);
@@ -308,7 +308,7 @@ public partial class StrikeAbility : AdjustableAbility
                 result = result + Set<DamageType>.Of(DamageType.Poison);
             }
 
-            var troop2 = (Troop)owner;
+            Troop troop2 = (Troop)owner;
             if (troop2.GetAbilityEnabled(18) || troop2.GetAbilityEnabled(169))
             {
                 result = result + Set<DamageType>.Of(DamageType.Death);
@@ -319,7 +319,7 @@ public partial class StrikeAbility : AdjustableAbility
                 result = result + Set<DamageType>.Of(DamageType.Holy);
             }
 
-            var troop3 = (Troop)owner;
+            Troop troop3 = (Troop)owner;
             if (troop3.GetAbilityEnabled(20) || troop3.GetAbilityEnabled(154))
             {
                 result = result + Set<DamageType>.Of(DamageType.Magic);

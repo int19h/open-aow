@@ -26,13 +26,13 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            var coordinate87 = troop.GetLocation();
+            MapCoordinate coordinate87 = troop.GetLocation();
             x = coordinate87.X;
             y = coordinate87.Y;
             l = coordinate87.MapLevel;
             if (x != -1)
             {
-                var mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
+                MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }

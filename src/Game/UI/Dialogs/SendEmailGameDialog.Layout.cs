@@ -60,7 +60,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         Window.WinHeight = 270;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label titleLbl = new Label(this);
+        Label titleLbl = new(this);
         session.BeginRead(titleLbl);
         titleLbl.Name = "TitleLbl";
         titleLbl.Priority = 0;
@@ -83,7 +83,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         titleLbl.Text = "Send Email Game";
         titleLbl.TextColor = 0;
         session.EndRead(titleLbl);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -110,7 +110,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -137,7 +137,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -165,7 +165,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -193,7 +193,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -221,7 +221,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Panel okCancelPnl = new Panel(this);
+        Panel okCancelPnl = new(this);
         session.BeginRead(okCancelPnl);
         okCancelPnl.Name = "OKCancelPnl";
         okCancelPnl.Priority = 99999;
@@ -248,7 +248,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         okCancelPnl.MinWidth = 0;
         okCancelPnl.MinHeight = 0;
         session.EndRead(okCancelPnl);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 99999;
@@ -279,7 +279,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         okBtn.WinWidth = 120;
         okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
-        Button exitBtn = new Button(this);
+        Button exitBtn = new(this);
         session.BeginRead(exitBtn);
         exitBtn.Name = "ExitBtn";
         exitBtn.Priority = 99999;
@@ -351,7 +351,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         EmailAddressEdit.ImageLibraryIndex = 15;
         EmailAddressEdit.PassWordChar = 0;
         session.EndRead(EmailAddressEdit);
-        Label seletModeInfoLbl = new Label(this);
+        Label seletModeInfoLbl = new(this);
         session.BeginRead(seletModeInfoLbl);
         seletModeInfoLbl.Name = "SeletModeInfoLbl";
         seletModeInfoLbl.Priority = 0;
@@ -444,7 +444,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         AutomatedCheckBox.Checked = false;
         AutomatedCheckBox.RadioIndex = 1;
         session.EndRead(AutomatedCheckBox);
-        Label manualLbl = new Label(this);
+        Label manualLbl = new(this);
         session.BeginRead(manualLbl);
         manualLbl.Name = "ManualLbl";
         manualLbl.Priority = 0;
@@ -467,7 +467,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         manualLbl.Text = "Manual (use Email program)";
         manualLbl.TextColor = 9415072;
         session.EndRead(manualLbl);
-        Label automatedLbl = new Label(this);
+        Label automatedLbl = new(this);
         session.BeginRead(automatedLbl);
         automatedLbl.Name = "AutomatedLbl";
         automatedLbl.Priority = 0;
@@ -513,7 +513,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         RecipientNameLabel.Text = "##########";
         RecipientNameLabel.TextColor = 16777215;
         session.EndRead(RecipientNameLabel);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -541,7 +541,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Panel modePnl = new Panel(this);
+        Panel modePnl = new(this);
         session.BeginRead(modePnl);
         modePnl.Name = "ModePnl";
         modePnl.Priority = 3000;
@@ -568,7 +568,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         modePnl.MinWidth = 0;
         modePnl.MinHeight = 0;
         session.EndRead(modePnl);
-        Panel modePnlin = new Panel(this);
+        Panel modePnlin = new(this);
         session.BeginRead(modePnlin);
         modePnlin.Name = "ModePnlin";
         modePnlin.Priority = 3000;
@@ -595,7 +595,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         modePnlin.MinWidth = 0;
         modePnlin.MinHeight = 0;
         session.EndRead(modePnlin);
-        Panel editPnl = new Panel(this);
+        Panel editPnl = new(this);
         session.BeginRead(editPnl);
         editPnl.Name = "EditPnl";
         editPnl.Priority = 100;
@@ -622,7 +622,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         editPnl.MinWidth = 0;
         editPnl.MinHeight = 0;
         session.EndRead(editPnl);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -656,7 +656,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => ExitBtnClick();
         session.EndRead(close);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

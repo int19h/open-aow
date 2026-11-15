@@ -112,7 +112,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
                 chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
-                    var enchantments = enchantmentList.GetEnchantments(i);
+                    Enchantment enchantments = enchantmentList.GetEnchantments(i);
                     EnchantmentIds.Add(enchantments.EnchantmentId);
                 }
             }

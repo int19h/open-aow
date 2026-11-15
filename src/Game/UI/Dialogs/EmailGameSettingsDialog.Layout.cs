@@ -17,7 +17,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         Name = "EmailGameSettingsDlg";
         LayoutOnCreate += _ => EmailGameSettingsDialogCreate();
         LayoutOnDestroy += _ => EmailGameSettingsDialogDestroy();
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 9999;
@@ -48,7 +48,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         okBtn.WinWidth = 110;
         okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -76,7 +76,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -99,7 +99,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         title.Text = "Email Game Settings";
         title.TextColor = 0;
         session.EndRead(title);
-        Button cancelBut = new Button(this);
+        Button cancelBut = new(this);
         session.BeginRead(cancelBut);
         cancelBut.Name = "CancelBut";
         cancelBut.Priority = 9999;
@@ -174,7 +174,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         Window.WinHeight = 335;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label localEmailAdressLbl = new Label(this);
+        Label localEmailAdressLbl = new(this);
         session.BeginRead(localEmailAdressLbl);
         localEmailAdressLbl.Name = "LocalEmailAdressLbl";
         localEmailAdressLbl.Priority = 100;
@@ -197,7 +197,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         localEmailAdressLbl.Text = "Local Email Address";
         localEmailAdressLbl.TextColor = 16777215;
         session.EndRead(localEmailAdressLbl);
-        Image decoL = new Image(this);
+        Image decoL = new(this);
         session.BeginRead(decoL);
         decoL.Name = "DecoL";
         decoL.Priority = 1000;
@@ -225,7 +225,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         decoL.Animate = false;
         decoL.AnimationFrameDelay = 0;
         session.EndRead(decoL);
-        Image decoR = new Image(this);
+        Image decoR = new(this);
         session.BeginRead(decoR);
         decoR.Name = "DecoR";
         decoR.Priority = 1000;
@@ -253,7 +253,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         decoR.Animate = false;
         decoR.AnimationFrameDelay = 0;
         session.EndRead(decoR);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -312,7 +312,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         LocalEmailAddressEdit.ImageLibraryIndex = 15;
         LocalEmailAddressEdit.PassWordChar = 0;
         session.EndRead(LocalEmailAddressEdit);
-        Label playerEMailAddressesLbl = new Label(this);
+        Label playerEMailAddressesLbl = new(this);
         session.BeginRead(playerEMailAddressesLbl);
         playerEMailAddressesLbl.Name = "PlayerEMailAddressesLbl";
         playerEMailAddressesLbl.Priority = 100;
@@ -618,7 +618,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.ImageLibraryIndex = 15;
         EmailAddressEdit4.PassWordChar = 0;
         session.EndRead(EmailAddressEdit4);
-        Label emailGameNameLbl = new Label(this);
+        Label emailGameNameLbl = new(this);
         session.BeginRead(emailGameNameLbl);
         emailGameNameLbl.Name = "EmailGameNameLbl";
         emailGameNameLbl.Priority = 100;
@@ -672,7 +672,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailGameNameEdit.ImageLibraryIndex = 15;
         EmailGameNameEdit.PassWordChar = 0;
         session.EndRead(EmailGameNameEdit);
-        Button settingsBtn = new Button(this);
+        Button settingsBtn = new(this);
         session.BeginRead(settingsBtn);
         settingsBtn.Name = "SettingsBtn";
         settingsBtn.Priority = 9999;
@@ -703,7 +703,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         settingsBtn.WinWidth = 135;
         settingsBtn.OnClick += _ => SettingsBtnClick();
         session.EndRead(settingsBtn);
-        Panel player1Pnl = new Panel(this);
+        Panel player1Pnl = new(this);
         session.BeginRead(player1Pnl);
         player1Pnl.Name = "Player1Pnl";
         player1Pnl.Priority = 100;
@@ -731,7 +731,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player1Pnl.MinWidth = 0;
         player1Pnl.MinHeight = 0;
         session.EndRead(player1Pnl);
-        Panel powePnl = new Panel(this);
+        Panel powePnl = new(this);
         session.BeginRead(powePnl);
         powePnl.Name = "PowePnl";
         powePnl.Priority = 1;
@@ -758,7 +758,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         powePnl.MinWidth = 0;
         powePnl.MinHeight = 0;
         session.EndRead(powePnl);
-        Panel player2Pnl = new Panel(this);
+        Panel player2Pnl = new(this);
         session.BeginRead(player2Pnl);
         player2Pnl.Name = "Player2Pnl";
         player2Pnl.Tag = 1;
@@ -787,7 +787,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player2Pnl.MinWidth = 0;
         player2Pnl.MinHeight = 0;
         session.EndRead(player2Pnl);
-        Panel player3Pnl = new Panel(this);
+        Panel player3Pnl = new(this);
         session.BeginRead(player3Pnl);
         player3Pnl.Name = "Player3Pnl";
         player3Pnl.Tag = 2;
@@ -816,7 +816,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player3Pnl.MinWidth = 0;
         player3Pnl.MinHeight = 0;
         session.EndRead(player3Pnl);
-        Panel player4Pnl = new Panel(this);
+        Panel player4Pnl = new(this);
         session.BeginRead(player4Pnl);
         player4Pnl.Name = "Player4Pnl";
         player4Pnl.Tag = 3;
@@ -955,7 +955,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.ImageLibraryIndex = 15;
         EmailAddressEdit6.PassWordChar = 0;
         session.EndRead(EmailAddressEdit6);
-        Panel player5Pnl = new Panel(this);
+        Panel player5Pnl = new(this);
         session.BeginRead(player5Pnl);
         player5Pnl.Name = "Player5Pnl";
         player5Pnl.Tag = 4;
@@ -984,7 +984,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player5Pnl.MinWidth = 0;
         player5Pnl.MinHeight = 0;
         session.EndRead(player5Pnl);
-        Panel player6Pnl = new Panel(this);
+        Panel player6Pnl = new(this);
         session.BeginRead(player6Pnl);
         player6Pnl.Name = "Player6Pnl";
         player6Pnl.Tag = 5;
@@ -1013,7 +1013,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player6Pnl.MinWidth = 0;
         player6Pnl.MinHeight = 0;
         session.EndRead(player6Pnl);
-        Panel namePnl = new Panel(this);
+        Panel namePnl = new(this);
         session.BeginRead(namePnl);
         namePnl.Name = "NamePnl";
         namePnl.Priority = 1;
@@ -1040,7 +1040,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         namePnl.MinWidth = 0;
         namePnl.MinHeight = 0;
         session.EndRead(namePnl);
-        Panel localPnl = new Panel(this);
+        Panel localPnl = new(this);
         session.BeginRead(localPnl);
         localPnl.Name = "LocalPnl";
         localPnl.Priority = 1;
@@ -1067,7 +1067,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         localPnl.MinWidth = 0;
         localPnl.MinHeight = 0;
         session.EndRead(localPnl);
-        Button closeBtn = new Button(this);
+        Button closeBtn = new(this);
         session.BeginRead(closeBtn);
         closeBtn.Name = "CloseBtn";
         closeBtn.Priority = 0;
@@ -1101,7 +1101,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.WinWidth = 15;
         closeBtn.OnClick += _ => CancelButClick();
         session.EndRead(closeBtn);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

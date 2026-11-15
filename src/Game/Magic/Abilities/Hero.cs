@@ -314,8 +314,8 @@ public partial class Hero : Troop
             }
         }
 
-        var defense = HeroItems.GetDefense();
-        var morale = GetMorale();
+        sbyte defense = HeroItems.GetDefense();
+        Morale morale = GetMorale();
         result = (sbyte)(defense + (UnitDefense + result + HeroResource.Defense) + MoraleDefense[(int)morale]);
         if (result < 1)
         {
@@ -378,8 +378,8 @@ public partial class Hero : Troop
             }
         }
 
-        var resistance = HeroItems.GetResistance();
-        var morale = GetMorale();
+        sbyte resistance = HeroItems.GetResistance();
+        Morale morale = GetMorale();
         result = (sbyte)(resistance + (UnitResistance + result + HeroResource.Resistance) + MoraleResistance[(int)morale]);
         if (result < 1)
         {
@@ -773,7 +773,7 @@ public partial class Hero : Troop
             bool condition = Player != -1;
             if (condition)
             {
-                var count = StrategicMap.Current.Players.Count;
+                int count = StrategicMap.Current.Players.Count;
                 condition = Player < count;
             }
 
@@ -887,7 +887,7 @@ public partial class Hero : Troop
         bool condition = Player != -1;
         if (condition)
         {
-            var count = StrategicMap.Current.Players.Count;
+            int count = StrategicMap.Current.Players.Count;
             condition = Player < count;
         }
 
@@ -908,7 +908,7 @@ public partial class Hero : Troop
         if (Race != -1)
         {
             playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-            var playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
+            Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
             result = Set<Status>.Of(Status.Polite, Status.Friendly).Contains(playerRelation);
             if (result)
             {
@@ -918,7 +918,7 @@ public partial class Hero : Troop
                     bool test = !GetAbilityEnabled(128) || player != _deathPlayer;
                     if (!test)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(player);
+                        Player players = StrategicMap.Current.Players.GetPlayers(player);
                         test = _deathDay + 2 < players.Day;
                     }
 
@@ -984,7 +984,7 @@ public partial class Hero : Troop
         if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
         {
             GetEngine().CombatFont.Color = 16777215;
-            var level = GetLevel();
+            sbyte level = GetLevel();
             GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), lockedSurface);
         }
 
@@ -1216,12 +1216,12 @@ public partial class Hero : Troop
         int result;
         if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            var usedSkillPoints = UsedSkillPoints();
+            int usedSkillPoints = UsedSkillPoints();
             result = (Level * 10) + 15 - usedSkillPoints - _usedSkillPoints;
         }
         else
         {
-            var usedSkillPoints = UsedSkillPoints();
+            int usedSkillPoints = UsedSkillPoints();
             result = (Level * 10) + 15 - usedSkillPoints;
         }
 
@@ -1643,7 +1643,7 @@ public partial class Hero : Troop
         int level;
         int oldLevel;
         HeroUpgradeEventLog log;
-        var coordinate42 = GetLocation();
+        MapCoordinate coordinate42 = GetLocation();
         x = coordinate42.X;
         y = coordinate42.Y;
         l = coordinate42.MapLevel;
@@ -1852,7 +1852,7 @@ public partial class Hero : Troop
     // Hero.PAS:1708
     public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
     {
-        HeroUpdateTokenEvent result = new HeroUpdateTokenEvent(null) { Holder = CreationHolder() };
+        HeroUpdateTokenEvent result = new(null) { Holder = CreationHolder() };
         result.UnitId = UnitId;
         return result;
     }
@@ -1926,11 +1926,11 @@ public partial class Hero : Troop
         item = StrategicMap.Current.ItemControl.FindItem(itemId);
         if (item != null)
         {
-            var coordinate43 = GetLocation();
+            MapCoordinate coordinate43 = GetLocation();
             x = coordinate43.X;
             y = coordinate43.Y;
             l = coordinate43.MapLevel;
-            var coordinate44 = item.GetLocation();
+            MapCoordinate coordinate44 = item.GetLocation();
             ix = coordinate44.X;
             iy = coordinate44.Y;
             imageLibrary = coordinate44.MapLevel;
@@ -2159,18 +2159,18 @@ public partial class Hero : Troop
         }
 
         spell = GamePack.Current.SpellControl.GetSpell(spellId);
-        var players = StrategicMap.Current.Players.GetPlayers(Player);
-        var castingMana = CastingMana(spell);
+        Player players = StrategicMap.Current.Players.GetPlayers(Player);
+        int castingMana = CastingMana(spell);
         if (players.MagicControl.Mana >= castingMana && CastingMana(spell) > CastingPoints)
         {
             CastingProgress = CastingMana(spell);
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana - CastingProgress);
             CastingManaValue = CastingPoints;
             CastingPoints = 0;
             if (StrategicMap.Current.SeatedPlayer == Player)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingInProgressFormat), [spell.SpellName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingInProgressFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
 
@@ -2216,7 +2216,7 @@ public partial class Hero : Troop
                 CastingPoints = (sbyte)(CastingPoints + CastingManaValue);
             }
 
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana + CastingProgress);
             CastingSpellId = 0;
             CastingManaValue = 0;
@@ -2252,7 +2252,7 @@ public partial class Hero : Troop
 
             if (!StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                var players = StrategicMap.Current.Players.GetPlayers(Player);
+                Player players = StrategicMap.Current.Players.GetPlayers(Player);
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana - mana);
                 CastingPoints = (sbyte)(CastingPoints - mana);
             }
@@ -2302,9 +2302,9 @@ public partial class Hero : Troop
         {
             if (CastingManaValue < CastingProgress)
             {
-                var castingPointsMax = GetCastingPointsMax();
+                sbyte castingPointsMax = GetCastingPointsMax();
                 result = (CastingProgress - CastingManaValue) / castingPointsMax;
-                var castingPointsMax2 = GetCastingPointsMax();
+                sbyte castingPointsMax2 = GetCastingPointsMax();
                 if ((CastingProgress - CastingManaValue) % castingPointsMax2 != 0)
                 {
                     result += 1;
@@ -2355,8 +2355,8 @@ public partial class Hero : Troop
         if (CastingSpellId == 0)
         {
             spell = GamePack.Current.SpellControl.GetSpell(spellId);
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
-            var castingMana = CastingMana(spell);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
+            int castingMana = CastingMana(spell);
             if (players.MagicControl.Mana >= castingMana || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
                 result = spell.CanActivate(this, ref reason);
@@ -2399,8 +2399,8 @@ public partial class Hero : Troop
                 {
                     if (!StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(Player);
-                        var castingMana = CastingMana(spell);
+                        Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                        int castingMana = CastingMana(spell);
                         if (players.MagicControl.Mana >= castingMana)
                         {
                             tokenEvent = CreateHeroUpdateTokenEvent();
@@ -2453,8 +2453,8 @@ public partial class Hero : Troop
             spell = GamePack.Current.SpellControl.GetSpell(spellId);
             if (CastingMana(spell) <= CastingPoints || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                var players = StrategicMap.Current.Players.GetPlayers(Player);
-                var castingMana = CastingMana(spell);
+                Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                int castingMana = CastingMana(spell);
                 if (players.MagicControl.Mana >= castingMana || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
                     result = spell.CanActivateCombat(this, ref reason);

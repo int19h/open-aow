@@ -166,13 +166,13 @@ public partial class RelationWindow : UIModule
 
         for (int i = 1; i <= 12; i++)
         {
-            var check = FChecks[i - 1];
+            CheckBox check = FChecks[i - 1];
             if (i <= Players.Count)
             {
                 check.Visible = true;
                 check.ToolTipText.Clear();
-                var player = Players[i - 1];
-                var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                int player = Players[i - 1];
+                string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
                 check.ToolTipText.Add(name);
             }
             else
@@ -181,7 +181,7 @@ public partial class RelationWindow : UIModule
             }
         }
 
-        var indexOf = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
+        int indexOf = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
         PlayerGlow.Alignment.LeftOffset = (indexOf * 51) - 37 + 51;
         PlayerGlow.Aligned = false;
     }
@@ -204,14 +204,14 @@ public partial class RelationWindow : UIModule
 
         for (int i = 0; i <= 11; i++)
         {
-            var check = FChecks[i + 12];
+            CheckBox check = FChecks[i + 12];
             if (i < Races.Count)
             {
                 check.Visible = true;
                 check.ToolTipText.Clear();
-                var race = Races[i];
-                var fRacesRace = StrategicMap.Current.Races.GetRace(race);
-                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
+                int race = Races[i];
+                Race fRacesRace = StrategicMap.Current.Races.GetRace(race);
+                string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
                 check.ToolTipText.Add(raceNamesPlural);
             }
             else
@@ -230,7 +230,7 @@ public partial class RelationWindow : UIModule
         }
 
         index = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
-        var seated = ControlAt(index + 24);
+        UIComponent seated = ControlAt(index + 24);
         if (seated is CheckBox seatedCheck)
         {
             seatedCheck.Checked = true;
@@ -249,14 +249,14 @@ public partial class RelationWindow : UIModule
         PlayerGlow.Alignment.TopOffset = 10;
         for (int i = 0; i <= 11; i++)
         {
-            var check = FChecks[i];
+            CheckBox check = FChecks[i];
             check.Checked = false;
             check.Alignment.TopOffset = 10;
         }
 
         for (int i = 12; i <= 23; i++)
         {
-            var check = FChecks[i];
+            CheckBox check = FChecks[i];
             check.Checked = false;
             check.Alignment.TopOffset = 185;
         }
@@ -273,8 +273,8 @@ public partial class RelationWindow : UIModule
         StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, ref _actions);
         for (int i = 0, last = _actions.GetCount() - 1; i <= last; i++)
         {
-            var name = _actions.GetDiplomaticActions(i).GetName(StrategicMap.Current.SeatedPlayer);
-            var diplomaticAction = _actions.GetDiplomaticActions(i);
+            string name = _actions.GetDiplomaticActions(i).GetName(StrategicMap.Current.SeatedPlayer);
+            DiplomaticAction diplomaticAction = _actions.GetDiplomaticActions(i);
             ActionsList.Items.AddObject(name, diplomaticAction);
         }
 
@@ -296,12 +296,12 @@ public partial class RelationWindow : UIModule
         PlayerStatusLabel.Visible = true;
         PlayerInfoPanel.Visible = true;
         RaceInfoPanel.Visible = false;
-        var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
         LeftShield.CurrentImage = playerPlayerRace.PlayerRace + 26;
         LeftShield.Visible = true;
         RightShield.CurrentImage = LeftShield.CurrentImage;
         RightShield.Visible = true;
-        var firstDaySeen = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(player);
+        int firstDaySeen = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(player);
         NoContactLabel.Visible = firstDaySeen == -1;
         PlayerNameLabel.Visible = !NoContactLabel.Visible;
         OfTheLabel.Visible = PlayerNameLabel.Visible;
@@ -311,7 +311,7 @@ public partial class RelationWindow : UIModule
             if (player != StrategicMap.Current.SeatedPlayer)
             {
                 relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, StrategicMap.Current.SeatedPlayer);
-                var diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
+                string diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
                 if (relation != DiplomaticRelation.Unknown)
                 {
@@ -332,17 +332,17 @@ public partial class RelationWindow : UIModule
         else
         {
             PlayerStatusIcon.Visible = false;
-            var noContact = UI.Engine.TranslateResourceString(s_noContactText);
+            string noContact = UI.Engine.TranslateResourceString(s_noContactText);
             PlayerStatusValueLabel.Text = noContact;
         }
 
-        var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+        string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         PlayerNameLabel.Text = name;
         OfTheLabel.Text = UI.PlayerInfoWindow.OfTheLabel.Text;
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
-        var playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(playerPlayerType.PlayerType))
         {
             switch (StrategicMap.Current.Players.GetPlayers(player).PlayerType)
@@ -374,8 +374,8 @@ public partial class RelationWindow : UIModule
             PlayerTypeIcon.Visible = false;
         }
 
-        var player2 = StrategicMap.Current.Players.GetPlayers(player);
-        var playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
+        Player player2 = StrategicMap.Current.Players.GetPlayers(player);
+        string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
         PlayerTypeLabel.Text = playerType;
     }
 
@@ -388,7 +388,7 @@ public partial class RelationWindow : UIModule
         SelectedIndex = Players.IndexOf(player);
         if (SelectedIndex != -1)
         {
-            var check = FChecks[SelectedIndex];
+            CheckBox check = FChecks[SelectedIndex];
             check.Alignment.TopOffset = 20;
             check.Checked = true;
             if (StrategicMap.Current.SeatedPlayer == player)
@@ -399,7 +399,7 @@ public partial class RelationWindow : UIModule
 
         for (int i = 0; i <= 11; i++)
         {
-            var image = FImages[i];
+            Image image = FImages[i];
             if (i < Players.Count)
             {
                 image.Visible = true;
@@ -432,14 +432,14 @@ public partial class RelationWindow : UIModule
                     {
                         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                         {
-                            var playerLocal = Players[i];
+                            int playerLocal = Players[i];
                             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)playerLocal) != -1)
                             {
-                                var player2 = Players[i];
+                                int player2 = Players[i];
                                 if (StrategicMap.Current.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen((sbyte)player2) != -1)
                                 {
-                                    var player3 = Players[i];
-                                    var diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player3);
+                                    int player3 = Players[i];
+                                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player3);
                                     image.ToolTipText.Add(GameTables.DiplomaticRelationTexts[(int)diplomaticRelation]);
                                 }
                             }
@@ -455,7 +455,7 @@ public partial class RelationWindow : UIModule
 
         for (int i = 0; i <= 11; i++)
         {
-            var image = FImages[i + 12];
+            Image image = FImages[i + 12];
             if (i < Races.Count)
             {
                 image.CurrentImage = 4;
@@ -473,11 +473,11 @@ public partial class RelationWindow : UIModule
                     {
                         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                         {
-                            var race = Races[i];
-                            var playerRelation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(SelectedPlayer);
-                            var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
-                            var race2 = Races[i];
-                            var playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
+                            int race = Races[i];
+                            Status playerRelation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(SelectedPlayer);
+                            string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
+                            int race2 = Races[i];
+                            int playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
                             image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
@@ -501,30 +501,30 @@ public partial class RelationWindow : UIModule
         ActionPanel.Visible = true;
         PlayerInfoPanel.Visible = false;
         RaceInfoPanel.Visible = true;
-        var playerRelation = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+        Status playerRelation = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
         RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
-        var playerRelation2 = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
-        var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
+        Status playerRelation2 = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+        string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
         RaceRelationValueLabel.Text = status;
-        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
+        string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
         RaceNameLabel.Text = raceNamesPlural;
         switch (race)
         {
             case >= 0 and <= 3:
-                var neutral = UI.Engine.TranslateResourceString(GameTables.NeutralText);
-                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [neutral]);
+                string neutral = UI.Engine.TranslateResourceString(GameTables.NeutralText);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [neutral]);
                 AlignmentLabel.Text = format;
                 AlignmentImage.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
-                var good = UI.Engine.TranslateResourceString(s_goodText);
-                var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [good]);
+                string good = UI.Engine.TranslateResourceString(s_goodText);
+                string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [good]);
                 AlignmentLabel.Text = formattedText;
                 AlignmentImage.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
-                var evil = UI.Engine.TranslateResourceString(s_evilText);
-                var format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [evil]);
+                string evil = UI.Engine.TranslateResourceString(s_evilText);
+                string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [evil]);
                 AlignmentLabel.Text = format2;
                 AlignmentImage.CurrentImage = 35;
                 break;
@@ -540,13 +540,13 @@ public partial class RelationWindow : UIModule
         SelectedRace = race;
         index = Races.IndexOf(race);
         // A missing race yields -1, and check 11 is P12CB, the old slot 35.
-        var check = FChecks[index + 12];
+        CheckBox check = FChecks[index + 12];
         check.Alignment.TopOffset = 175;
         check.Checked = true;
         SelectedIndex = 20 + index;
         for (int i = 0; i <= 11; i++)
         {
-            var image = FImages[i];
+            Image image = FImages[i];
             if (i < Players.Count)
             {
                 image.CurrentImage = 1;
@@ -560,14 +560,14 @@ public partial class RelationWindow : UIModule
             {
                 case 1:
                     image.ToolTipText.Clear();
-                    var player = Players[i];
+                    int player = Players[i];
                     if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
-                        var player2 = Players[i];
-                        var playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player2);
-                        var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
-                        var player3 = Players[i];
-                        var playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
+                        int player2 = Players[i];
+                        Status playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player2);
+                        string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
+                        int player3 = Players[i];
+                        int playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
                         image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
@@ -580,7 +580,7 @@ public partial class RelationWindow : UIModule
 
         for (int i = 0; i <= 11; i++)
         {
-            var image = FImages[i + 12];
+            Image image = FImages[i + 12];
             image.CurrentImage = 5;
             image.ToolTipText.Clear();
         }
@@ -768,7 +768,7 @@ public partial class RelationWindow : UIModule
                 }
             }
 
-            var player = StrategicMap.Current.Players.GetPlayers(player2);
+            Player player = StrategicMap.Current.Players.GetPlayers(player2);
             UI.Graphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, surface);
         }
     }
@@ -811,7 +811,7 @@ public partial class RelationWindow : UIModule
         int player;
         DiplomaticRelation relation;
         int image;
-        var component = sender;
+        Image component = sender;
         if (Players.Count > slot && slot != SelectedIndex)
         {
             player = Players[slot];
@@ -842,7 +842,7 @@ public partial class RelationWindow : UIModule
             {
                 if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                 {
-                    var playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player);
+                    Status playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player);
                     UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, surface);
                 }
             }
@@ -860,7 +860,7 @@ public partial class RelationWindow : UIModule
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
             {
                 raceIndex = Races[slot - 20];
-                var playerRelation = StrategicMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
+                Status playerRelation = StrategicMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
                 UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(s.WinLeft, s.WinTop + 15, surface);
             }
         }
@@ -1000,7 +1000,7 @@ public partial class RelationWindow : UIModule
         if (ActionsList.Selected != -1)
         {
             SetAction(ActionsList.Items.Objects[ActionsList.Selected]);
-            var view = _action.Proposal.View;
+            ProposalView view = _action.Proposal.View;
             if (view == ProposalView.Notice || view == ProposalView.Threat)
             {
                 if (!_action.Send(ref reason))
@@ -1015,13 +1015,13 @@ public partial class RelationWindow : UIModule
                 SendBribePanel.Visible = true;
                 BribeGoldSlider.Position = 0;
                 BribeManaSlider.Position = 0;
-                var playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 BribeGoldSlider.Max = playerGems.Gems;
-                var playerMagicControl = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player playerMagicControl = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 BribeManaSlider.Max = playerMagicControl.MagicControl.Mana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
-                var name = _action.GetName(StrategicMap.Current.SeatedPlayer);
+                string name = _action.GetName(StrategicMap.Current.SeatedPlayer);
                 BribeHeaderLabel.Text = name;
                 if (_action.Proposal.Icon >= 0)
                 {
@@ -1077,7 +1077,7 @@ public partial class RelationWindow : UIModule
     {
         if (_action != null)
         {
-            var text = sender.Items.Text;
+            string text = sender.Items.Text;
             _action.Proposal = _action.Proposal with { Message = DiplomaticProposal.Lines(text) };
         }
     }
@@ -1179,19 +1179,19 @@ public partial class RelationWindow : UIModule
         {
             dialog.ShowRelations(eventValue.Action.Target);
             dialog.SetAction(eventValue.Action);
-            var proposal = dialog._action.Proposal;
-            var view = proposal.View;
+            DiplomaticProposal proposal = dialog._action.Proposal;
+            ProposalView view = proposal.View;
             if (view == ProposalView.Message)
             {
-                var from = proposal.SignedAsOtherPlayer ? dialog._action.OtherPlayer : dialog._action.Source;
+                sbyte from = proposal.SignedAsOtherPlayer ? dialog._action.OtherPlayer : dialog._action.Source;
                 dialog.HighlightPlayer(from);
                 dialog.ShowPlayerInformation(from);
                 dialog.NewActionPanel.Visible = false;
                 dialog.ReceivedMessagePanel.Visible = true;
-                var text = proposal.MessageText;
+                string text = proposal.MessageText;
                 dialog.ReceivedMessageMemo.Items.Text = text;
-                var name = StrategicMap.Current.Players.GetPlayers(from).GetName();
-                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.MessageFormat), [name]);
+                string name = StrategicMap.Current.Players.GetPlayers(from).GetName();
+                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.MessageFormat), [name]);
                 dialog.ReceivedMessageHeaderLabel.Text = format;
             }
             else if (view == ProposalView.Offer)
@@ -1202,10 +1202,10 @@ public partial class RelationWindow : UIModule
                     dialog.HighlightPlayer(dialog._action.Source);
                     dialog.ShowPlayerInformation(dialog._action.Source);
                     dialog.IncomingPanel.Visible = true;
-                    var (_, gold, mana) = proposal.ToFields();
+                    (byte _, int gold, int mana) = proposal.ToFields();
                     dialog.ReceivedGoldLabel.Text = IntToStr(gold);
                     dialog.ReceivedManaLabel.Text = IntToStr(mana);
-                    var text2 = proposal.MessageText;
+                    string text2 = proposal.MessageText;
                     dialog.IncomingMemo.Items.Text = text2;
                     if (proposal.Icon >= 0)
                     {
@@ -1220,7 +1220,7 @@ public partial class RelationWindow : UIModule
                         dialog.ShowPlayerInformation(dialog._action.Target);
                         dialog.NewActionPanel.Visible = false;
                         dialog.IncomingInfoPanel.Visible = true;
-                        var text2 = proposal.MessageText;
+                        string text2 = proposal.MessageText;
                         dialog.IncomingInfoMemo.Items.Text = text2;
                         if (proposal.Icon >= 0)
                         {
@@ -1256,7 +1256,7 @@ public partial class RelationWindow : UIModule
                         dialog.ShowPlayerInformation(dialog._action.Source);
                         dialog.NewActionPanel.Visible = false;
                         dialog.IncomingInfoPanel.Visible = true;
-                        var text2 = proposal.MessageText;
+                        string text2 = proposal.MessageText;
                         dialog.IncomingInfoMemo.Items.Text = text2;
                         if (proposal.Icon >= 0)
                         {
@@ -1276,7 +1276,7 @@ public partial class RelationWindow : UIModule
                 dialog.ShowPlayerInformation(dialog._action.Source);
                 dialog.NewActionPanel.Visible = false;
                 dialog.IncomingInfoPanel.Visible = true;
-                var text3 = proposal.MessageText;
+                string text3 = proposal.MessageText;
                 dialog.IncomingInfoMemo.Items.Text = text3;
                 if (proposal.Icon >= 0)
                 {

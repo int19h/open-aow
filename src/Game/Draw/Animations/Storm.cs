@@ -49,7 +49,7 @@ public partial class Storm : Animation
         int intensity;
         hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
         intensity = (Math.Abs(((StrategicMap.Current.Frame + hexNumber) % 9) - 4) * 20) + 20;
-        var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
+        BlendTable lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
         selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
     }
 

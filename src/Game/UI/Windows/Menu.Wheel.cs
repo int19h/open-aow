@@ -1,4 +1,5 @@
 
+using Aow.Game.UI.Controls;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Windows;
@@ -14,7 +15,7 @@ public partial class Menu
             return false;
         }
 
-        var child = TopWheelChild(X, Y);
+        UIComponent child = TopWheelChild(X, Y);
         if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
         {
             return true;

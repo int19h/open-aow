@@ -33,7 +33,7 @@ public sealed partial record DeclareWar : DiplomaticProposal
         StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), s_warDeclaredText);
+            string warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), s_warDeclaredText);
             StrategicMap.Current.ShowMessage(warDeclared);
         }
 

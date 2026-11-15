@@ -39,7 +39,7 @@ public partial class PlayerControl : EngineObject
     {
         if (StrategicMap.Current != null && StrategicMap.Current.TokenManager != null)
         {
-            var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
+            TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.ClearGetSyncValueHandler();
             tokenExecutor.ClearSyncErrorHandler();
         }
@@ -70,7 +70,7 @@ public partial class PlayerControl : EngineObject
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_newDayFormat), [StrategicMap.Current.Day]);
             if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
             {
-                var formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
+                string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
                 log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 
@@ -119,7 +119,7 @@ public partial class PlayerControl : EngineObject
             messageLog.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.InfoText);
             messageLog.Buttons = MessageEventLogButtons.Ok;
             messageLog.Layout = MessageEventLogLayout.Normal;
-            var turnLimitReached = AbilityRules.TranslateResourceString(GetEngine(), s_turnLimitReachedText);
+            string turnLimitReached = AbilityRules.TranslateResourceString(GetEngine(), s_turnLimitReachedText);
             messageLog.Message.Text = turnLimitReached;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, null);
             messageLog.Release();
@@ -141,14 +141,14 @@ public partial class PlayerControl : EngineObject
         EngineMessage message = default;
         if (StrategicMap.Current.Day != 1)
         {
-            var players = StrategicMap.Current.Players.GetPlayers(player);
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            var upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
+            Player players = StrategicMap.Current.Players.GetPlayers(player);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            int upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
             StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
             if (StrategicMap.Current.Players.GetPlayers(player).Gems < 0)
             {
                 StrategicMap.Current.Players.GetPlayers(player).SetGems(0);
-                var players2 = StrategicMap.Current.Players.GetPlayers(player);
+                Player players2 = StrategicMap.Current.Players.GetPlayers(player);
                 players2.MoraleValue = (sbyte)(players2.MoraleValue - 5);
                 if (StrategicMap.Current.Players.GetPlayers(player).MoraleValue < -50)
                 {
@@ -163,7 +163,7 @@ public partial class PlayerControl : EngineObject
             StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(false);
         }
 
-        var players3 = StrategicMap.Current.Players.GetPlayers(player);
+        Player players3 = StrategicMap.Current.Players.GetPlayers(player);
         players3.Day += 1;
         StrategicMap.Current.LockUpdateVisibility();
         EngineMessage.InitializeMessage(out message, 537001986, this);
@@ -210,7 +210,7 @@ public partial class PlayerControl : EngineObject
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [fileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [fileName]);
                 StrategicMap.Current.ShowWarning(format);
             }
         }
@@ -223,7 +223,7 @@ public partial class PlayerControl : EngineObject
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [fileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [fileName]);
                 StrategicMap.Current.ShowWarning(format);
             }
         }
@@ -245,7 +245,7 @@ public partial class PlayerControl : EngineObject
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
 
-            var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
+            TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.SetGetSyncValueHandler(GetSyncValue);
             tokenExecutor.SetSyncErrorHandler(OutOfSync);
         }
@@ -376,9 +376,9 @@ public partial class PlayerControl : EngineObject
                     log.Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText);
                     log.Buttons = MessageEventLogButtons.YesNoCancel;
                     log.Layout = MessageEventLogLayout.Normal;
-                    var yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(GetEngine(), s_yourAboutToExitMultiPlayerGameText);
+                    string yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(GetEngine(), s_yourAboutToExitMultiPlayerGameText);
                     log.Message.Add(yourAboutToExitAMultiPlayerGame);
-                    var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueExitingText);
+                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueExitingText);
                     log.Message.Add(translatedText);
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitNetworkGameCallback);
                     log.Release();
@@ -389,7 +389,7 @@ public partial class PlayerControl : EngineObject
                     log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText);
                     log.Buttons = MessageEventLogButtons.Ok;
                     log.Layout = MessageEventLogLayout.Normal;
-                    var pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(GetEngine(), s_pleaseWaitTillItIsYourTurnText);
+                    string pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(GetEngine(), s_pleaseWaitTillItIsYourTurnText);
                     log.Message.Add(pleaseWaitTillItIsYourTurn);
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                     log.Release();
@@ -412,8 +412,8 @@ public partial class PlayerControl : EngineObject
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
-                                var fileName = ExtractFileName(FileBoundary.WriteName(StrategicMap.Current.FileName));
-                                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
+                                string fileName = ExtractFileName(FileBoundary.WriteName(StrategicMap.Current.FileName));
+                                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
                                 log.Message.Add(format);
                             }
                             else
@@ -422,14 +422,14 @@ public partial class PlayerControl : EngineObject
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     log.Layout = MessageEventLogLayout.Normal;
-                                    var fileName = ExtractFileName(FileBoundary.WriteName(GetEngine().Campaign.FileName));
-                                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
+                                    string fileName = ExtractFileName(FileBoundary.WriteName(GetEngine().Campaign.FileName));
+                                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
                                     log.Message.Add(format);
                                 }
                                 else
                                 {
                                     log.Layout = MessageEventLogLayout.Normal;
-                                    var doYouWantToSaveThisGame = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToSaveThisGameText);
+                                    string doYouWantToSaveThisGame = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToSaveThisGameText);
                                     log.Message.Add(doYouWantToSaveThisGame);
                                 }
                             }
@@ -587,7 +587,7 @@ public partial class PlayerControl : EngineObject
             race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[race]);
+                string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[race]);
                 text = text + "(" + raceNamesPlural + ")";
             }
 
@@ -753,10 +753,10 @@ public partial class PlayerControl : EngineObject
             messageLog = new MessageEventLog(null, holder: CreationHolder());
             messageLog.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
             messageLog.Buttons = MessageEventLogButtons.YesNo;
-            var passwordFailed = AbilityRules.TranslateResourceString(GetEngine(), s_passwordFailedText);
+            string passwordFailed = AbilityRules.TranslateResourceString(GetEngine(), s_passwordFailedText);
             messageLog.Message.Text = passwordFailed;
             messageLog.Message.Add("");
-            var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToTryAgainText);
+            string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToTryAgainText);
             messageLog.Message.Add(translatedText);
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
             messageLog.Release();

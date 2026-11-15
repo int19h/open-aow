@@ -40,7 +40,7 @@ public partial class LifeMastery : GlobalEnchantmentSpell
         TwinkleAnimation twinkle;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Life);
-        var coordinate73 = source.GetLocation();
+        MapCoordinate coordinate73 = source.GetLocation();
         x = coordinate73.X;
         y = coordinate73.Y;
         l = coordinate73.MapLevel;

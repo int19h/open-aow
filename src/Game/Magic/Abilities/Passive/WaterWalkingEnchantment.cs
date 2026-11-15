@@ -26,13 +26,13 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            var coordinate89 = troop.GetLocation();
+            MapCoordinate coordinate89 = troop.GetLocation();
             x = coordinate89.X;
             y = coordinate89.Y;
             l = coordinate89.MapLevel;
             if (x != -1)
             {
-                var mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
+                MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }

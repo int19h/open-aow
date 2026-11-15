@@ -454,7 +454,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkSphereImage.Animate = false;
         DarkSphereImage.AnimationFrameDelay = 0;
         session.EndRead(DarkSphereImage);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

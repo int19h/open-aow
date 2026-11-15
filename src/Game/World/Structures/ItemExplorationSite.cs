@@ -100,9 +100,9 @@ public partial class ItemExplorationSite : ExplorationSite
             }
 
             // { Original parses the formatted text as CSV. }
-            var itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
-            var resourceEditName = Resource.ResourceEditName();
-            var format = Format(itemsExplored, [resourceEditName]);
+            string itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
+            string resourceEditName = Resource.ResourceEditName();
+            string format = Format(itemsExplored, [resourceEditName]);
             log.Messages.CommaText = format;
             log.Execute(false, ExecuteTrigger.Event, null);
             log.Release();

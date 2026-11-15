@@ -20,7 +20,7 @@ public partial class Slow : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SlowText);
         SpellId = 110;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -45,7 +45,7 @@ public partial class Slow : CombatSpell
 
         if (!target.GetAbilityEnabled(132))
         {
-            var resistance = target.GetResistance();
+            sbyte resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
@@ -55,7 +55,7 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1300
     public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        ref var abilityDamageValues = ref values;
+        ref AbilityDamageValues abilityDamageValues = ref values;
         abilityDamageValues.SourceDamage = 0;
         abilityDamageValues.SourceCost = 0;
         abilityDamageValues.TargetDamage = 0;

@@ -17,7 +17,7 @@ internal static class StringSorting
             context.Strings = strings;
             context.Compare = compare;
             context.ExchangeProc = null;
-            var count = strings.Count;
+            int count = strings.Count;
             SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
         }
     }
@@ -49,7 +49,7 @@ internal static class StringSorting
                 lists = null;
             }
 
-            var count = strings.Count;
+            int count = strings.Count;
             SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
             if (lists != null)
             {

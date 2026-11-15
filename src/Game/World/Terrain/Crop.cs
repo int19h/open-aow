@@ -94,7 +94,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
     {
         if (CropOwner != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            var playerCropStructure = CropOwner;
+            PlayerCropStructure playerCropStructure = CropOwner;
             CropOwner = null;
             playerCropStructure.CropsChanged();
         }
@@ -202,7 +202,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         // Crops.pas:257
         public Crop PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)
         {
-            Crop result = new Crop(null) { Holder = CreationHolder() };
+            Crop result = new(null) { Holder = CreationHolder() };
             result.SetResource(this);
             result.ResourceLinked = true;
             result.CropOwner = cropOwner;

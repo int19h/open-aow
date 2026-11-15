@@ -7,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -57,7 +58,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         if (value == 0)
         {
             _angle = 0;
-            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
             StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
@@ -81,7 +82,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 log = new ArmyEventLog(null) { Holder = CreationHolder() };
                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText);
                 log.Player = source.Player;
-                var vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
+                string vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
                 log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
                 log.ArmyView.Setup(army.Army, 255);
@@ -181,7 +182,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 18;
                     height = -16;
                     xShift = 16;
-                    var pi = Math.PI;
+                    double pi = Math.PI;
                     angle = (float)((double)(-(direction + _angle) * pi) / 180);
                     if (GetEngine().AnimationDetail == 0)
                     {

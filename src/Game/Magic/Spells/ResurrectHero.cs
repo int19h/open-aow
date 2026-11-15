@@ -48,7 +48,7 @@ public partial class ResurrectHero : Spell
         ArmyInfoEventLog infoLog = default;
         if (executeCount == 0)
         {
-            var coordinate75 = source.GetLocation();
+            MapCoordinate coordinate75 = source.GetLocation();
             x = coordinate75.X;
             y = coordinate75.Y;
             layer = coordinate75.MapLevel;
@@ -76,11 +76,11 @@ public partial class ResurrectHero : Spell
 
             if (heroes.Count != 0)
             {
-                var coordinate76 = source.GetLocation();
+                MapCoordinate coordinate76 = source.GetLocation();
                 x = coordinate76.X;
                 y = coordinate76.Y;
                 layer = coordinate76.MapLevel;
-                var count = heroes.Count;
+                int count = heroes.Count;
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
                 army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
@@ -100,11 +100,11 @@ public partial class ResurrectHero : Spell
                 else
                 {
                     infoLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
-                    var indexOf = army.Army.Units.IndexOf(hero);
+                    int indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
-                    var noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinResurrectionText);
+                    string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinResurrectionText);
                     infoLog.Messages.Text = noJoinResurrection;
                     infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
                     infoLog.Execute(true, ExecuteTrigger.Event, null);
@@ -113,7 +113,7 @@ public partial class ResurrectHero : Spell
             }
             else
             {
-                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
+                string noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 

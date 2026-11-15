@@ -146,5 +146,5 @@ public sealed class UIContext(GameEngine engine) : IDisposable
     }
 
     private T Module<T>() where T : DataModule =>
-        _modules.TryGetValue(typeof(T), out var module) ? (T)module : null;
+        _modules.TryGetValue(typeof(T), out DataModule module) ? (T)module : null;
 }

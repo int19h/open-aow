@@ -60,13 +60,13 @@ public partial class ImageLibraryManager : Component
         void SearchDirectory(string subDirectory)
         {
             StringList list;
-            foreach (var entry in Files.FindEntries(_searchPath + subDirectory + "*.ilb", attributes: 63 - 16))
+            foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + subDirectory + "*.ilb", attributes: 63 - 16))
             {
                 _diskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
             list = new StringList();
-            foreach (var entry in Files.FindEntries(subDirectory + "*.*", attributes: 16))
+            foreach (RtlFileEntry entry in Files.FindEntries(subDirectory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {

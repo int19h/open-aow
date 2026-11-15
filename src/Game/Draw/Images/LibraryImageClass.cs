@@ -76,7 +76,7 @@ public sealed class LibraryImageClass
 
                 image = imageClass.CreateInstance(null);
                 grabInfo.FileIndex = i;
-                var rectangle = rects.Rectangles[i];
+                Rectangle rectangle = rects.Rectangles[i];
                 if (image.GrabImage(lockedSurface, rectangle.Bounds, grabInfo))
                 {
                     imageLibrary.Add(image);
@@ -100,7 +100,7 @@ public sealed class LibraryImageClass
 
     internal static RectangleList GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, ProgressEvent onProgress)
     {
-        RectangleList rectangleList = new RectangleList();
+        RectangleList rectangleList = new();
         int i = 0;
         for (int number = lockedSurface.Height - 1; i <= number; i++)
         {

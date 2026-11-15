@@ -69,7 +69,7 @@ public partial class GameEngine : OwningNode
     // loads for editing (persistence-tree.md 7).
     public virtual void LoadHsm(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
-        var tree = FileBoundary.Open(fileName, profile: profile);
+        GameFileTree tree = FileBoundary.Open(fileName, profile: profile);
         if (tree == null)
         {
             return;
@@ -84,7 +84,7 @@ public partial class GameEngine : OwningNode
         try
         {
             SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
-            var expandFileName = ExpandFileName(fileName);
+            string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             if (edit)
@@ -137,7 +137,7 @@ public partial class GameEngine : OwningNode
         string fullName;
         GameMap result = null;
         fullName = ExpandFileName(fileName);
-        var tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
+        GameFileTree tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
         if (tree == null)
         {
             return null;
@@ -203,12 +203,12 @@ public partial class GameEngine : OwningNode
         {
             StringList directories;
             HssHeader header = default;
-            foreach (var entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
+            foreach (RtlFileEntry entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
             {
                 header = default;
                 // An own scenario set lists the 52-byte header of its validated image, or the header
                 // taken from the document when that image cannot carry the set (own-formats.md 4.1).
-                var head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
+                byte[] head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
                 if (head.Length == 52)
                 {
                     header = MemoryMarshal.Read<HssHeader>(head);
@@ -221,7 +221,7 @@ public partial class GameEngine : OwningNode
             }
 
             directories = new StringList();
-            foreach (var entry in Files.FindEntries(directory + "*.*", attributes: 16))
+            foreach (RtlFileEntry entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
@@ -249,7 +249,7 @@ public partial class GameEngine : OwningNode
     public void LoadHss(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
         EngineMessage message = default;
-        var tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
+        GameFileTree tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
         _hexSpriteSet.Clear();
         _hssFileName = ExpandFileName(fileName);
         _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
@@ -293,7 +293,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5100
     public void LoadPreviewHsm(string fileName, GameProfile profile)
     {
-        var tree = FileBoundary.Open(fileName, profile: profile, operation: "preview");
+        GameFileTree tree = FileBoundary.Open(fileName, profile: profile, operation: "preview");
         if (tree == null)
         {
             return;
@@ -309,7 +309,7 @@ public partial class GameEngine : OwningNode
         {
             SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
             _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
-            var expandFileName = ExpandFileName(fileName);
+            string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
@@ -335,7 +335,7 @@ public partial class GameEngine : OwningNode
         string fullName;
         GameMap result = null;
         fullName = ExpandFileName(fileName);
-        var tree = FileBoundary.Open(fullName, profile: profile);
+        GameFileTree tree = FileBoundary.Open(fullName, profile: profile);
         if (tree == null)
         {
             return null;
@@ -394,7 +394,7 @@ public partial class GameEngine : OwningNode
             {
                 cStream.LoadFromStream(stream);
                 byte[] payload = cStream.ToArray();
-                var tree = IsOwnMapDocument(payload)
+                GameFileTree tree = IsOwnMapDocument(payload)
                     ? ReadOwnMap(payload)
                     : GameBoundary.ReadImageTree(payload, use: GameProfile.WorldMap);
                 SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
@@ -444,7 +444,7 @@ public partial class GameEngine : OwningNode
         _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
         try
         {
-            var tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
+            ObjectNode tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
             string className = NameTable.Stored(_hexSpriteMap.GetType());
             byte[] image;
             try
@@ -453,7 +453,7 @@ public partial class GameEngine : OwningNode
             }
             catch (ConversionException error) when (GameBoundary.LacksImage(error))
             {
-                var prepared = GameBoundary.PrepareSave(tree, className: className, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
+                GameFileResult prepared = GameBoundary.PrepareSave(tree, className: className, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
                 if (!prepared.Succeeded || prepared.Bytes is null)
                 {
                     throw new ConversionException(prepared.Report.Error ?? error.Diagnostic);
@@ -463,7 +463,7 @@ public partial class GameEngine : OwningNode
                 return;
             }
 
-            var cStream = new CompressStream();
+            CompressStream cStream = new();
             try
             {
                 cStream.Write(image);
@@ -486,7 +486,7 @@ public partial class GameEngine : OwningNode
 
     private static GameFileTree ReadOwnMap(byte[] payload)
     {
-        var prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
+        GameFileResult prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
         if (!prepared.Succeeded)
         {
             throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."));

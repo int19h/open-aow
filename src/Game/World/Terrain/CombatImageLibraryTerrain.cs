@@ -35,7 +35,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
             {
                 if (message.Param[0].Int < ((CombatImageLibraryTerrainResource)Resource).Defense)
                 {
-                    var param = message.Param;
+                    MapFieldMessageParameters param = message.Param;
                     param[0] = ((CombatImageLibraryTerrainResource)Resource).Defense;
                     message.Param = param;
                 }

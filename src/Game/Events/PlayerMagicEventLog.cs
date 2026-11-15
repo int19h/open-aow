@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
@@ -53,7 +53,7 @@ public partial class PlayerMagicEventLog : EventLog
         switch (Mode)
         {
             case EventMode.SpellResearched:
-                var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+                Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:

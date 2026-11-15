@@ -91,7 +91,7 @@ public partial class TokenEventList : EngineObject
     {
         for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
-            var tokenEvent = events[i];
+            TokenEvent tokenEvent = events[i];
             List.AddChild(tokenEvent);
         }
     }
@@ -102,7 +102,7 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1074
     public void Delete(int index)
     {
-        var child = List.Children[index];
+        EngineObject child = List.Children[index];
         List.RemoveChild(child);
     }
 

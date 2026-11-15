@@ -63,7 +63,7 @@ public partial class MagicWindow : ILayoutModule
         Window.WinHeight = 160;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label owTitle = new Label(this);
+        Label owTitle = new(this);
         session.BeginRead(owTitle);
         owTitle.Name = "OWTitle";
         owTitle.Priority = 0;
@@ -86,7 +86,7 @@ public partial class MagicWindow : ILayoutModule
         owTitle.Text = "Magic Management";
         owTitle.TextColor = 0;
         session.EndRead(owTitle);
-        Image owTitleIc = new Image(this);
+        Image owTitleIc = new(this);
         session.BeginRead(owTitleIc);
         owTitleIc.Name = "OWTitleIc";
         owTitleIc.Priority = 0;
@@ -114,7 +114,7 @@ public partial class MagicWindow : ILayoutModule
         owTitleIc.Animate = false;
         owTitleIc.AnimationFrameDelay = 0;
         session.EndRead(owTitleIc);
-        TabPanel headerTab = new TabPanel(this);
+        TabPanel headerTab = new(this);
         session.BeginRead(headerTab);
         headerTab.Name = "HeaderTab";
         headerTab.Priority = 1000;
@@ -151,7 +151,7 @@ public partial class MagicWindow : ILayoutModule
         headerTab.ImageLibraryIndexUp = 70;
         headerTab.BorderHeightSelected = 7;
         session.EndRead(headerTab);
-        Frame owrPillar = new Frame(this);
+        Frame owrPillar = new(this);
         session.BeginRead(owrPillar);
         owrPillar.Name = "OWRPillar";
         owrPillar.Visible = false;
@@ -179,7 +179,7 @@ public partial class MagicWindow : ILayoutModule
         owrPillar.ImageLibraryIndexLine = 0;
         owrPillar.ImageLibraryIndexTexture = 0;
         session.EndRead(owrPillar);
-        Frame owlPillar = new Frame(this);
+        Frame owlPillar = new(this);
         session.BeginRead(owlPillar);
         owlPillar.Name = "OWLPillar";
         owlPillar.Visible = false;
@@ -207,7 +207,7 @@ public partial class MagicWindow : ILayoutModule
         owlPillar.ImageLibraryIndexLine = 0;
         owlPillar.ImageLibraryIndexTexture = 0;
         session.EndRead(owlPillar);
-        Panel t1Pnl = new Panel(this);
+        Panel t1Pnl = new(this);
         session.BeginRead(t1Pnl);
         t1Pnl.Name = "T1Pnl";
         t1Pnl.Priority = 1;
@@ -257,7 +257,7 @@ public partial class MagicWindow : ILayoutModule
         ResearchPointsLabel.Text = "30";
         ResearchPointsLabel.TextColor = 12632256;
         session.EndRead(ResearchPointsLabel);
-        Label resLbl = new Label(this);
+        Label resLbl = new(this);
         session.BeginRead(resLbl);
         resLbl.Name = "ResLbl";
         resLbl.Priority = 0;
@@ -280,7 +280,7 @@ public partial class MagicWindow : ILayoutModule
         resLbl.Text = "Research Points";
         resLbl.TextColor = 9415072;
         session.EndRead(resLbl);
-        Panel t2Pnl = new Panel(this);
+        Panel t2Pnl = new(this);
         session.BeginRead(t2Pnl);
         t2Pnl.Name = "T2Pnl";
         t2Pnl.Visible = false;
@@ -308,7 +308,7 @@ public partial class MagicWindow : ILayoutModule
         t2Pnl.MinWidth = 0;
         t2Pnl.MinHeight = 0;
         session.EndRead(t2Pnl);
-        Panel t2LBPnl = new Panel(this);
+        Panel t2LBPnl = new(this);
         session.BeginRead(t2LBPnl);
         t2LBPnl.Name = "T2LBPnl";
         t2LBPnl.Priority = 0;
@@ -371,7 +371,7 @@ public partial class MagicWindow : ILayoutModule
         EnchantmentList.ItemHeight = 17;
         EnchantmentList.TextAlign = TextAlignment.Left;
         session.EndRead(EnchantmentList);
-        Button enchantmentSortBtn = new Button(this);
+        Button enchantmentSortBtn = new(this);
         session.BeginRead(enchantmentSortBtn);
         enchantmentSortBtn.Name = "EnchantmentSortBtn";
         enchantmentSortBtn.Priority = 100;
@@ -438,7 +438,7 @@ public partial class MagicWindow : ILayoutModule
         UpkeepList.ItemHeight = 17;
         UpkeepList.TextAlign = TextAlignment.Center;
         session.EndRead(UpkeepList);
-        Button upkeepSortBtn = new Button(this);
+        Button upkeepSortBtn = new(this);
         session.BeginRead(upkeepSortBtn);
         upkeepSortBtn.Name = "UpkeepSortBtn";
         upkeepSortBtn.Priority = 100;
@@ -505,7 +505,7 @@ public partial class MagicWindow : ILayoutModule
         BindingList.ItemHeight = 17;
         BindingList.TextAlign = TextAlignment.Left;
         session.EndRead(BindingList);
-        Button bindingSortBtn = new Button(this);
+        Button bindingSortBtn = new(this);
         session.BeginRead(bindingSortBtn);
         bindingSortBtn.Name = "BindingSortBtn";
         bindingSortBtn.Priority = 100;
@@ -536,7 +536,7 @@ public partial class MagicWindow : ILayoutModule
         bindingSortBtn.WinWidth = 186;
         bindingSortBtn.OnClick += _ => BindingSortBtnClick();
         session.EndRead(bindingSortBtn);
-        Panel resPnl = new Panel(this);
+        Panel resPnl = new(this);
         session.BeginRead(resPnl);
         resPnl.Name = "ResPnl";
         resPnl.Priority = 1;
@@ -586,7 +586,7 @@ public partial class MagicWindow : ILayoutModule
         NetManaLabel.Text = "20-18=2";
         NetManaLabel.TextColor = 12632256;
         session.EndRead(NetManaLabel);
-        Label netMamaLbl = new Label(this);
+        Label netMamaLbl = new(this);
         session.BeginRead(netMamaLbl);
         netMamaLbl.Name = "NetMamaLbl";
         netMamaLbl.Priority = 0;
@@ -609,7 +609,7 @@ public partial class MagicWindow : ILayoutModule
         netMamaLbl.Text = "Net Mana Income";
         netMamaLbl.TextColor = 9415072;
         session.EndRead(netMamaLbl);
-        Panel netManaPnl = new Panel(this);
+        Panel netManaPnl = new(this);
         session.BeginRead(netManaPnl);
         netManaPnl.Name = "NetManaPnl";
         netManaPnl.Priority = 0;
@@ -636,7 +636,7 @@ public partial class MagicWindow : ILayoutModule
         netManaPnl.MinWidth = 0;
         netManaPnl.MinHeight = 0;
         session.EndRead(netManaPnl);
-        Panel t3Pnl = new Panel(this);
+        Panel t3Pnl = new(this);
         session.BeginRead(t3Pnl);
         t3Pnl.Name = "T3Pnl";
         t3Pnl.Visible = false;
@@ -664,7 +664,7 @@ public partial class MagicWindow : ILayoutModule
         t3Pnl.MinWidth = 0;
         t3Pnl.MinHeight = 0;
         session.EndRead(t3Pnl);
-        Panel t3LBPnl = new Panel(this);
+        Panel t3LBPnl = new(this);
         session.BeginRead(t3LBPnl);
         t3LBPnl.Name = "T3LBPnl";
         t3LBPnl.Priority = 0;
@@ -726,7 +726,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList.ItemHeight = 17;
         GlobalEnchantmentList.TextAlign = TextAlignment.Left;
         session.EndRead(GlobalEnchantmentList);
-        Button globalEnchantmentSortBtn = new Button(this);
+        Button globalEnchantmentSortBtn = new(this);
         session.BeginRead(globalEnchantmentSortBtn);
         globalEnchantmentSortBtn.Name = "GlobalEnchantmentSortBtn";
         globalEnchantmentSortBtn.Priority = 100;
@@ -792,7 +792,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalUpkeepList.ItemHeight = 17;
         GlobalUpkeepList.TextAlign = TextAlignment.Center;
         session.EndRead(GlobalUpkeepList);
-        Button globalUpkeepSortBtn = new Button(this);
+        Button globalUpkeepSortBtn = new(this);
         session.BeginRead(globalUpkeepSortBtn);
         globalUpkeepSortBtn.Name = "GlobalUpkeepSortBtn";
         globalUpkeepSortBtn.Priority = 100;
@@ -858,7 +858,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalNameList.ItemHeight = 17;
         GlobalNameList.TextAlign = TextAlignment.Left;
         session.EndRead(GlobalNameList);
-        Button globalNameSortBtn = new Button(this);
+        Button globalNameSortBtn = new(this);
         session.BeginRead(globalNameSortBtn);
         globalNameSortBtn.Name = "GlobalNameSortBtn";
         globalNameSortBtn.Priority = 100;
@@ -889,7 +889,7 @@ public partial class MagicWindow : ILayoutModule
         globalNameSortBtn.WinWidth = 186;
         globalNameSortBtn.OnClick += _ => GlobalNameSortBtnClick();
         session.EndRead(globalNameSortBtn);
-        Panel rightPnl = new Panel(this);
+        Panel rightPnl = new(this);
         session.BeginRead(rightPnl);
         rightPnl.Name = "RightPnl";
         rightPnl.Priority = 0;
@@ -1003,7 +1003,7 @@ public partial class MagicWindow : ILayoutModule
         DispelButton.WinWidth = 160;
         DispelButton.OnClick += _ => DispelBtnClick();
         session.EndRead(DispelButton);
-        Button researchBtn = new Button(this);
+        Button researchBtn = new(this);
         session.BeginRead(researchBtn);
         researchBtn.Name = "ResearchBtn";
         researchBtn.Priority = 100;
@@ -1134,7 +1134,7 @@ public partial class MagicWindow : ILayoutModule
         SpellCostLabel.Text = "#########";
         SpellCostLabel.TextColor = 9415072;
         session.EndRead(SpellCostLabel);
-        Image spellIcn = new Image(this);
+        Image spellIcn = new(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
         spellIcn.OnDraw += SpellIcnDraw;
@@ -1163,7 +1163,7 @@ public partial class MagicWindow : ILayoutModule
         spellIcn.Animate = false;
         spellIcn.AnimationFrameDelay = 0;
         session.EndRead(spellIcn);
-        Button minimize = new Button(this);
+        Button minimize = new(this);
         session.BeginRead(minimize);
         minimize.Name = "Minimize";
         minimize.Priority = 0;
@@ -1197,7 +1197,7 @@ public partial class MagicWindow : ILayoutModule
         minimize.WinWidth = 15;
         minimize.OnClick += _ => MinimizeClick();
         session.EndRead(minimize);
-        Button changePowerBut = new Button(this);
+        Button changePowerBut = new(this);
         session.BeginRead(changePowerBut);
         changePowerBut.Name = "ChangePowerBut";
         changePowerBut.Priority = 100;
@@ -1255,7 +1255,7 @@ public partial class MagicWindow : ILayoutModule
         PowerLabel.Text = "50";
         PowerLabel.TextColor = 12632256;
         session.EndRead(PowerLabel);
-        Label powerLbl = new Label(this);
+        Label powerLbl = new(this);
         session.BeginRead(powerLbl);
         powerLbl.Name = "PowerLbl";
         powerLbl.Priority = 0;
@@ -1278,7 +1278,7 @@ public partial class MagicWindow : ILayoutModule
         powerLbl.Text = "Power Base";
         powerLbl.TextColor = 9415072;
         session.EndRead(powerLbl);
-        Panel powePnl = new Panel(this);
+        Panel powePnl = new(this);
         session.BeginRead(powePnl);
         powePnl.Name = "PowePnl";
         powePnl.Priority = 1;
@@ -1305,7 +1305,7 @@ public partial class MagicWindow : ILayoutModule
         powePnl.MinWidth = 0;
         powePnl.MinHeight = 0;
         session.EndRead(powePnl);
-        Panel leftPnl = new Panel(this);
+        Panel leftPnl = new(this);
         session.BeginRead(leftPnl);
         leftPnl.Name = "LeftPnl";
         leftPnl.Priority = 0;
@@ -1332,7 +1332,7 @@ public partial class MagicWindow : ILayoutModule
         leftPnl.MinWidth = 0;
         leftPnl.MinHeight = 0;
         session.EndRead(leftPnl);
-        Panel nonePnl = new Panel(this);
+        Panel nonePnl = new(this);
         session.BeginRead(nonePnl);
         nonePnl.Name = "NonePnl";
         nonePnl.Priority = 0;
@@ -1359,7 +1359,7 @@ public partial class MagicWindow : ILayoutModule
         nonePnl.MinWidth = 0;
         nonePnl.MinHeight = 0;
         session.EndRead(nonePnl);
-        Label noneMsg = new Label(this);
+        Label noneMsg = new(this);
         session.BeginRead(noneMsg);
         noneMsg.Name = "NoneMsg";
         noneMsg.Priority = 0;
@@ -1382,7 +1382,7 @@ public partial class MagicWindow : ILayoutModule
         noneMsg.Text = "No spell is being researched";
         noneMsg.TextColor = 9415072;
         session.EndRead(noneMsg);
-        Panel t4Pnl = new Panel(this);
+        Panel t4Pnl = new(this);
         session.BeginRead(t4Pnl);
         t4Pnl.Name = "T4Pnl";
         t4Pnl.Visible = false;
@@ -1410,7 +1410,7 @@ public partial class MagicWindow : ILayoutModule
         t4Pnl.MinWidth = 0;
         t4Pnl.MinHeight = 0;
         session.EndRead(t4Pnl);
-        Panel t4LBPnl = new Panel(this);
+        Panel t4LBPnl = new(this);
         session.BeginRead(t4LBPnl);
         t4LBPnl.Name = "T4LBPnl";
         t4LBPnl.Priority = 0;
@@ -1473,7 +1473,7 @@ public partial class MagicWindow : ILayoutModule
         PowerValueList.ItemHeight = 17;
         PowerValueList.TextAlign = TextAlignment.Center;
         session.EndRead(PowerValueList);
-        Button powerValueSortBtn = new Button(this);
+        Button powerValueSortBtn = new(this);
         session.BeginRead(powerValueSortBtn);
         powerValueSortBtn.Name = "PowerValueSortBtn";
         powerValueSortBtn.Priority = 100;
@@ -1540,7 +1540,7 @@ public partial class MagicWindow : ILayoutModule
         PowerSourceList.ItemHeight = 17;
         PowerSourceList.TextAlign = TextAlignment.Left;
         session.EndRead(PowerSourceList);
-        Button powerSourceSortBtn = new Button(this);
+        Button powerSourceSortBtn = new(this);
         session.BeginRead(powerSourceSortBtn);
         powerSourceSortBtn.Name = "PowerSourceSortBtn";
         powerSourceSortBtn.Priority = 100;
@@ -1571,7 +1571,7 @@ public partial class MagicWindow : ILayoutModule
         powerSourceSortBtn.WinWidth = 344;
         powerSourceSortBtn.OnClick += _ => PowerSourceSortBtnClick();
         session.EndRead(powerSourceSortBtn);
-        Panel t2BottonPnl = new Panel(this);
+        Panel t2BottonPnl = new(this);
         session.BeginRead(t2BottonPnl);
         t2BottonPnl.Name = "T2BottonPnl";
         t2BottonPnl.Priority = 0;
@@ -1712,7 +1712,7 @@ public partial class MagicWindow : ILayoutModule
         PowerScrollBar.ImageLibraryIndexBack = 101;
         PowerScrollBar.ThumbImageIndex = 98;
         session.EndRead(PowerScrollBar);
-        Panel t3BottomPnl = new Panel(this);
+        Panel t3BottomPnl = new(this);
         session.BeginRead(t3BottomPnl);
         t3BottomPnl.Name = "T3BottomPnl";
         t3BottomPnl.Priority = 0;
@@ -1739,7 +1739,7 @@ public partial class MagicWindow : ILayoutModule
         t3BottomPnl.MinWidth = 0;
         t3BottomPnl.MinHeight = 0;
         session.EndRead(t3BottomPnl);
-        Panel leftFr = new Panel(this);
+        Panel leftFr = new(this);
         session.BeginRead(leftFr);
         leftFr.Name = "LeftFr";
         leftFr.Priority = 10;
@@ -1766,7 +1766,7 @@ public partial class MagicWindow : ILayoutModule
         leftFr.MinWidth = 0;
         leftFr.MinHeight = 0;
         session.EndRead(leftFr);
-        Panel t2ButtonPnl = new Panel(this);
+        Panel t2ButtonPnl = new(this);
         session.BeginRead(t2ButtonPnl);
         t2ButtonPnl.Name = "T2ButtonPnl";
         t2ButtonPnl.Priority = 0;
@@ -1793,7 +1793,7 @@ public partial class MagicWindow : ILayoutModule
         t2ButtonPnl.MinWidth = 0;
         t2ButtonPnl.MinHeight = 0;
         session.EndRead(t2ButtonPnl);
-        Panel t3ButtonPnl = new Panel(this);
+        Panel t3ButtonPnl = new(this);
         session.BeginRead(t3ButtonPnl);
         t3ButtonPnl.Name = "T3ButtonPnl";
         t3ButtonPnl.Priority = 0;
@@ -1820,7 +1820,7 @@ public partial class MagicWindow : ILayoutModule
         t3ButtonPnl.MinWidth = 0;
         t3ButtonPnl.MinHeight = 0;
         session.EndRead(t3ButtonPnl);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -1828,7 +1828,7 @@ public partial class MagicWindow : ILayoutModule
         translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(translator);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;

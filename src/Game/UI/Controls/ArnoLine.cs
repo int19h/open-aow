@@ -32,11 +32,11 @@ public partial class ArnoLine : Control
         if (_imageTop != null && _imageMiddle != null && _imageBottom != null)
         {
             _lineLibrary.Clear();
-            var copy = _imageTop.Copy();
+            LibraryImage copy = _imageTop.Copy();
             _lineLibrary.Add(copy);
-            var fImageMiddleCopy = _imageMiddle.Copy();
+            LibraryImage fImageMiddleCopy = _imageMiddle.Copy();
             _lineLibrary.Add(fImageMiddleCopy);
-            var fImageBottomCopy = _imageBottom.Copy();
+            LibraryImage fImageBottomCopy = _imageBottom.Copy();
             _lineLibrary.Add(fImageBottomCopy);
             Valid = true;
         }
@@ -64,12 +64,12 @@ public partial class ArnoLine : Control
                 oldClip = lockedSurface.ClipRectangle;
                 if (WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    var clipRectangle = lockedSurface.ClipRectangle;
+                    Rect clipRectangle = lockedSurface.ClipRectangle;
                     clipRectangle.Top = WinTop;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
-                var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _lineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
                 RaiseDraw(this, lockedSurface);
 

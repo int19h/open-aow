@@ -20,14 +20,14 @@ internal static class MovementTables
         MoveArmyTokenEvent result;
         MoveControlSettings settings;
         settings = new MoveControlSettings(null) { Holder = army };
-        var hexLevel = army.GetHexLevel();
-        var hexY = army.GetHexY();
+        sbyte hexLevel = army.GetHexLevel();
+        sbyte hexY = army.GetHexY();
         settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
         settings.Player = army.Army.Player;
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
-        var movePointTable = settings.MovePointTable;
+        MovePointTable movePointTable = settings.MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);

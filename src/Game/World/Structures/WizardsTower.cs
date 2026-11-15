@@ -10,7 +10,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
@@ -60,13 +60,13 @@ public partial class WizardsTower : Structure
         if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
         {
             player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
-            var buyCost = BuyCost();
+            int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             player.MagicControl.Spells.Add(SpellId);
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
+                Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+                string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }
@@ -95,7 +95,7 @@ public partial class WizardsTower : Structure
         bool found;
         MapCoordinate location;
         base.ArmyPlaced(placedArmy);
-        var player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
         {
             army = placedArmy.Army;
@@ -114,7 +114,7 @@ public partial class WizardsTower : Structure
             if (found && CanBuy(army.Player, ref reason))
             {
                 group.ReturnTargetExpense();
-                var playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
+                Player playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
                 StrategicMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
                 StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
@@ -138,7 +138,7 @@ public partial class WizardsTower : Structure
                             data.Priority = 10;
                         }
 
-                        var buyCost = BuyCost();
+                        int buyCost = BuyCost();
                         data.Cost = buyCost;
                     }
 
@@ -232,8 +232,8 @@ public partial class WizardsTower : Structure
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-                var buyCost = BuyCost();
+                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                int buyCost = BuyCost();
                 if (playerLocal.Gems >= buyCost)
                 {
                     result = true;

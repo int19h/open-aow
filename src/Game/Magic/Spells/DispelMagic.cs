@@ -83,7 +83,7 @@ public partial class DispelMagic : UnitSpell
             target.ListEnchantments(enchantments);
             for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
-                var dispelMana = GetDispelMana(source);
+                int dispelMana = GetDispelMana(source);
                 chance = enchantments.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
@@ -96,12 +96,12 @@ public partial class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    var format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
+                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }

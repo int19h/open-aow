@@ -90,38 +90,38 @@ public partial class ImageSequenceAnimation : Animation
     {
         ImageSequence sequence;
         Rect r = default;
-        var dimensions = Dimensions;
+        Rect dimensions = Dimensions;
         dimensions.Left = 0;
         Dimensions = dimensions;
-        var dimensions2 = Dimensions;
+        Rect dimensions2 = Dimensions;
         dimensions2.Right = 0;
         Dimensions = dimensions2;
-        var dimensions3 = Dimensions;
+        Rect dimensions3 = Dimensions;
         dimensions3.Top = 0;
         Dimensions = dimensions3;
-        var dimensions4 = Dimensions;
+        Rect dimensions4 = Dimensions;
         dimensions4.Bottom = 0;
         Dimensions = dimensions4;
         sequence = ImageSequence;
         while (sequence != null)
         {
             sequence.GetDimensions(out r);
-            var dimensions5 = Dimensions;
+            Rect dimensions5 = Dimensions;
             UnionRect(out dimensions5, dimensions5, r);
             Dimensions = dimensions5;
             sequence = sequence.Next;
         }
 
-        var dimensions6 = Dimensions;
+        Rect dimensions6 = Dimensions;
         dimensions6.Left += 16;
         Dimensions = dimensions6;
-        var dimensions7 = Dimensions;
+        Rect dimensions7 = Dimensions;
         dimensions7.Right += 16;
         Dimensions = dimensions7;
-        var dimensions8 = Dimensions;
+        Rect dimensions8 = Dimensions;
         dimensions8.Top += 16;
         Dimensions = dimensions8;
-        var dimensions9 = Dimensions;
+        Rect dimensions9 = Dimensions;
         dimensions9.Bottom += 16;
         Dimensions = dimensions9;
     }

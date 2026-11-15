@@ -115,15 +115,15 @@ public partial class SummonSpell : Spell
     // SummonSpells.pas:261
     public virtual void SetupSummonSpellTokenEvent(SummonSpellTokenEvent eventValue)
     {
-        var random = Random(UnitIndices.Count);
-        var unitIndex = UnitIndices[random];
+        int random = Random(UnitIndices.Count);
+        int unitIndex = UnitIndices[random];
         eventValue.UnitIndices.Add(unitIndex);
     }
 
     // SummonSpells.pas:283
     public int GetAIUpkeepPriority()
     {
-        var unitIndex = UnitIndices[0];
+        int unitIndex = UnitIndices[0];
         return ((SummonedAbility)GamePack.Current.AbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndex);
     }
 

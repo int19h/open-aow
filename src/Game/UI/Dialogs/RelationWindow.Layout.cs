@@ -119,7 +119,7 @@ public partial class RelationWindow : ILayoutModule
         LeftShield.Animate = false;
         LeftShield.AnimationFrameDelay = 0;
         session.EndRead(LeftShield);
-        Button mExitBtn = new Button(this);
+        Button mExitBtn = new(this);
         session.BeginRead(mExitBtn);
         mExitBtn.Name = "MExitBtn";
         mExitBtn.Priority = 1000;
@@ -209,7 +209,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingPanel.MinWidth = 0;
         IncomingPanel.MinHeight = 0;
         session.EndRead(IncomingPanel);
-        Button mAcceptBtn = new Button(this);
+        Button mAcceptBtn = new(this);
         session.BeginRead(mAcceptBtn);
         mAcceptBtn.Name = "MAcceptBtn";
         mAcceptBtn.Priority = 1000;
@@ -244,7 +244,7 @@ public partial class RelationWindow : ILayoutModule
         mAcceptBtn.WinWidth = 86;
         mAcceptBtn.OnClick += _ => MAcceptBtnClick();
         session.EndRead(mAcceptBtn);
-        Button mRejectBtn = new Button(this);
+        Button mRejectBtn = new(this);
         session.BeginRead(mRejectBtn);
         mRejectBtn.Name = "MRejectBtn";
         mRejectBtn.Priority = 1000;
@@ -279,7 +279,7 @@ public partial class RelationWindow : ILayoutModule
         mRejectBtn.WinWidth = 86;
         mRejectBtn.OnClick += _ => MRejectBtnClick();
         session.EndRead(mRejectBtn);
-        VerticalScrollBar mScroll = new VerticalScrollBar(this);
+        VerticalScrollBar mScroll = new(this);
         session.BeginRead(mScroll);
         mScroll.Name = "MScroll";
         mScroll.Visible = false;
@@ -1098,7 +1098,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingMemo.ColorChangeChar = 0;
         IncomingMemo.TextAlign = TextAlignment.Center;
         session.EndRead(IncomingMemo);
-        Label mbGoldLbl = new Label(this);
+        Label mbGoldLbl = new(this);
         session.BeginRead(mbGoldLbl);
         mbGoldLbl.Name = "MBGoldLbl";
         mbGoldLbl.Priority = 0;
@@ -1212,7 +1212,7 @@ public partial class RelationWindow : ILayoutModule
         SendBribePanel.MinWidth = 0;
         SendBribePanel.MinHeight = 0;
         session.EndRead(SendBribePanel);
-        VerticalScrollBar sScroll = new VerticalScrollBar(this);
+        VerticalScrollBar sScroll = new(this);
         session.BeginRead(sScroll);
         sScroll.Name = "SScroll";
         sScroll.Visible = false;
@@ -1411,7 +1411,7 @@ public partial class RelationWindow : ILayoutModule
         NewActionPanel.MinWidth = 0;
         NewActionPanel.MinHeight = 0;
         session.EndRead(NewActionPanel);
-        Button aExit = new Button(this);
+        Button aExit = new(this);
         session.BeginRead(aExit);
         aExit.Name = "AExit";
         aExit.Priority = 2000;
@@ -2633,7 +2633,7 @@ public partial class RelationWindow : ILayoutModule
         ActionsList.ItemHeight = 17;
         ActionsList.TextAlign = TextAlignment.Left;
         session.EndRead(ActionsList);
-        VerticalScrollBar actionSB = new VerticalScrollBar(this);
+        VerticalScrollBar actionSB = new(this);
         session.BeginRead(actionSB);
         actionSB.Name = "ActionSB";
         actionSB.Visible = false;
@@ -2670,7 +2670,7 @@ public partial class RelationWindow : ILayoutModule
         actionSB.ImageLibraryIndexBack = 101;
         actionSB.ThumbImageIndex = 98;
         session.EndRead(actionSB);
-        Panel lbActionsPnl = new Panel(this);
+        Panel lbActionsPnl = new(this);
         session.BeginRead(lbActionsPnl);
         lbActionsPnl.Name = "LBActionsPnl";
         lbActionsPnl.Priority = 10;
@@ -2697,7 +2697,7 @@ public partial class RelationWindow : ILayoutModule
         lbActionsPnl.MinWidth = 0;
         lbActionsPnl.MinHeight = 0;
         session.EndRead(lbActionsPnl);
-        Label actionLbl = new Label(this);
+        Label actionLbl = new(this);
         session.BeginRead(actionLbl);
         actionLbl.Name = "ActionLbl";
         actionLbl.Priority = 0;
@@ -2720,7 +2720,7 @@ public partial class RelationWindow : ILayoutModule
         actionLbl.Text = "Actions";
         actionLbl.TextColor = 2566452;
         session.EndRead(actionLbl);
-        Image piRelIcn = new Image(this);
+        Image piRelIcn = new(this);
         session.BeginRead(piRelIcn);
         piRelIcn.Name = "PIRelIcn";
         piRelIcn.Visible = false;
@@ -2753,7 +2753,7 @@ public partial class RelationWindow : ILayoutModule
         piRelIcn.Animate = false;
         piRelIcn.AnimationFrameDelay = 0;
         session.EndRead(piRelIcn);
-        Label piRelLbl = new Label(this);
+        Label piRelLbl = new(this);
         session.BeginRead(piRelLbl);
         piRelLbl.Name = "PIRelLbl";
         piRelLbl.Visible = false;
@@ -2777,7 +2777,7 @@ public partial class RelationWindow : ILayoutModule
         piRelLbl.Text = "Race Relation:";
         piRelLbl.TextColor = 9415072;
         session.EndRead(piRelLbl);
-        Panel piRelPnl = new Panel(this);
+        Panel piRelPnl = new(this);
         session.BeginRead(piRelPnl);
         piRelPnl.Name = "PIRelPnl";
         piRelPnl.Visible = false;
@@ -2805,7 +2805,7 @@ public partial class RelationWindow : ILayoutModule
         piRelPnl.MinWidth = 0;
         piRelPnl.MinHeight = 0;
         session.EndRead(piRelPnl);
-        Label piRelV = new Label(this);
+        Label piRelV = new(this);
         session.BeginRead(piRelV);
         piRelV.Name = "PIRelV";
         piRelV.Visible = false;
@@ -2939,7 +2939,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerStatusLabel.Text = "Status:";
         PlayerStatusLabel.TextColor = 9415072;
         session.EndRead(PlayerStatusLabel);
-        Panel piStatPnl = new Panel(this);
+        Panel piStatPnl = new(this);
         session.BeginRead(piStatPnl);
         piStatPnl.Name = "PIStatPnl";
         piStatPnl.Priority = 10;
@@ -2989,7 +2989,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerStatusValueLabel.Text = "####";
         PlayerStatusValueLabel.TextColor = 9415072;
         session.EndRead(PlayerStatusValueLabel);
-        Panel pTypePnl = new Panel(this);
+        Panel pTypePnl = new(this);
         session.BeginRead(pTypePnl);
         pTypePnl.Name = "PTypePnl";
         pTypePnl.Priority = 10;
@@ -3016,7 +3016,7 @@ public partial class RelationWindow : ILayoutModule
         pTypePnl.MinWidth = 0;
         pTypePnl.MinHeight = 0;
         session.EndRead(pTypePnl);
-        Panel piFrame = new Panel(this);
+        Panel piFrame = new(this);
         session.BeginRead(piFrame);
         piFrame.Name = "PIFrame";
         piFrame.Priority = 10;
@@ -3043,7 +3043,7 @@ public partial class RelationWindow : ILayoutModule
         piFrame.MinWidth = 0;
         piFrame.MinHeight = 0;
         session.EndRead(piFrame);
-        Panel riFrame = new Panel(this);
+        Panel riFrame = new(this);
         session.BeginRead(riFrame);
         riFrame.Name = "RIFrame";
         riFrame.Priority = 10;
@@ -3070,7 +3070,7 @@ public partial class RelationWindow : ILayoutModule
         riFrame.MinWidth = 0;
         riFrame.MinHeight = 0;
         session.EndRead(riFrame);
-        Panel riRelPnl = new Panel(this);
+        Panel riRelPnl = new(this);
         session.BeginRead(riRelPnl);
         riRelPnl.Name = "RIRelPnl";
         riRelPnl.Priority = 10;
@@ -3097,7 +3097,7 @@ public partial class RelationWindow : ILayoutModule
         riRelPnl.MinWidth = 0;
         riRelPnl.MinHeight = 0;
         session.EndRead(riRelPnl);
-        Panel rAlignPnl = new Panel(this);
+        Panel rAlignPnl = new(this);
         session.BeginRead(rAlignPnl);
         rAlignPnl.Name = "RAlignPnl";
         rAlignPnl.Priority = 10;
@@ -3156,7 +3156,7 @@ public partial class RelationWindow : ILayoutModule
         RaceRelationIcon.Animate = false;
         RaceRelationIcon.AnimationFrameDelay = 0;
         session.EndRead(RaceRelationIcon);
-        Label riRelLbl = new Label(this);
+        Label riRelLbl = new(this);
         session.BeginRead(riRelLbl);
         riRelLbl.Name = "RIRelLbl";
         riRelLbl.Priority = 0;
@@ -3229,7 +3229,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedGoldLabel.Text = "2000";
         ReceivedGoldLabel.TextColor = 0;
         session.EndRead(ReceivedGoldLabel);
-        Image mbGoldIcn = new Image(this);
+        Image mbGoldIcn = new(this);
         session.BeginRead(mbGoldIcn);
         mbGoldIcn.Name = "MBGoldIcn";
         mbGoldIcn.Priority = 0;
@@ -3261,7 +3261,7 @@ public partial class RelationWindow : ILayoutModule
         mbGoldIcn.Animate = false;
         mbGoldIcn.AnimationFrameDelay = 0;
         session.EndRead(mbGoldIcn);
-        Panel mbGoldPnl = new Panel(this);
+        Panel mbGoldPnl = new(this);
         session.BeginRead(mbGoldPnl);
         mbGoldPnl.Name = "MBGoldPnl";
         mbGoldPnl.Priority = 10;
@@ -3288,7 +3288,7 @@ public partial class RelationWindow : ILayoutModule
         mbGoldPnl.MinWidth = 0;
         mbGoldPnl.MinHeight = 0;
         session.EndRead(mbGoldPnl);
-        Panel mbManaPnl = new Panel(this);
+        Panel mbManaPnl = new(this);
         session.BeginRead(mbManaPnl);
         mbManaPnl.Name = "MBManaPnl";
         mbManaPnl.Priority = 10;
@@ -3315,7 +3315,7 @@ public partial class RelationWindow : ILayoutModule
         mbManaPnl.MinWidth = 0;
         mbManaPnl.MinHeight = 0;
         session.EndRead(mbManaPnl);
-        Label mbManaLbl = new Label(this);
+        Label mbManaLbl = new(this);
         session.BeginRead(mbManaLbl);
         mbManaLbl.Name = "MBManaLbl";
         mbManaLbl.Priority = 0;
@@ -3369,7 +3369,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedManaLabel.Text = "2000";
         ReceivedManaLabel.TextColor = 0;
         session.EndRead(ReceivedManaLabel);
-        Image mbManaIcn = new Image(this);
+        Image mbManaIcn = new(this);
         session.BeginRead(mbManaIcn);
         mbManaIcn.Name = "MBManaIcn";
         mbManaIcn.Priority = 0;
@@ -3401,7 +3401,7 @@ public partial class RelationWindow : ILayoutModule
         mbManaIcn.Animate = false;
         mbManaIcn.AnimationFrameDelay = 0;
         session.EndRead(mbManaIcn);
-        Label msgLbl = new Label(this);
+        Label msgLbl = new(this);
         session.BeginRead(msgLbl);
         msgLbl.Name = "MsgLbl";
         msgLbl.Priority = 0;
@@ -3424,7 +3424,7 @@ public partial class RelationWindow : ILayoutModule
         msgLbl.Text = "Edit a Message:";
         msgLbl.TextColor = 2566452;
         session.EndRead(msgLbl);
-        Button msgSendBtn = new Button(this);
+        Button msgSendBtn = new(this);
         session.BeginRead(msgSendBtn);
         msgSendBtn.Name = "MsgSendBtn";
         msgSendBtn.Priority = 1000;
@@ -3459,7 +3459,7 @@ public partial class RelationWindow : ILayoutModule
         msgSendBtn.WinWidth = 92;
         msgSendBtn.OnClick += _ => SendActionButtonClick();
         session.EndRead(msgSendBtn);
-        Button msgCancelBtn = new Button(this);
+        Button msgCancelBtn = new(this);
         session.BeginRead(msgCancelBtn);
         msgCancelBtn.Name = "MsgCancelBtn";
         msgCancelBtn.Priority = 1000;
@@ -3494,7 +3494,7 @@ public partial class RelationWindow : ILayoutModule
         msgCancelBtn.WinWidth = 86;
         msgCancelBtn.OnClick += _ => CancelSelectedAction();
         session.EndRead(msgCancelBtn);
-        Frame rsBribe2 = new Frame(this);
+        Frame rsBribe2 = new(this);
         session.BeginRead(rsBribe2);
         rsBribe2.Name = "RSBribe2";
         rsBribe2.Priority = 0;
@@ -3544,7 +3544,7 @@ public partial class RelationWindow : ILayoutModule
         BribeGoldValueLabel.Text = "2000";
         BribeGoldValueLabel.TextColor = 0;
         session.EndRead(BribeGoldValueLabel);
-        Image sbGoldIcn = new Image(this);
+        Image sbGoldIcn = new(this);
         session.BeginRead(sbGoldIcn);
         sbGoldIcn.Name = "SBGoldIcn";
         sbGoldIcn.Priority = 0;
@@ -3576,7 +3576,7 @@ public partial class RelationWindow : ILayoutModule
         sbGoldIcn.Animate = false;
         sbGoldIcn.AnimationFrameDelay = 0;
         session.EndRead(sbGoldIcn);
-        Panel sbGold = new Panel(this);
+        Panel sbGold = new(this);
         session.BeginRead(sbGold);
         sbGold.Name = "SBGold";
         sbGold.Priority = 10;
@@ -3603,7 +3603,7 @@ public partial class RelationWindow : ILayoutModule
         sbGold.MinWidth = 0;
         sbGold.MinHeight = 0;
         session.EndRead(sbGold);
-        Panel sbMana = new Panel(this);
+        Panel sbMana = new(this);
         session.BeginRead(sbMana);
         sbMana.Name = "SBMana";
         sbMana.Priority = 10;
@@ -3653,7 +3653,7 @@ public partial class RelationWindow : ILayoutModule
         BribeManaValueLabel.Text = "2000";
         BribeManaValueLabel.TextColor = 0;
         session.EndRead(BribeManaValueLabel);
-        Image sbManaIcn = new Image(this);
+        Image sbManaIcn = new(this);
         session.BeginRead(sbManaIcn);
         sbManaIcn.Name = "SBManaIcn";
         sbManaIcn.Priority = 0;
@@ -3685,7 +3685,7 @@ public partial class RelationWindow : ILayoutModule
         sbManaIcn.Animate = false;
         sbManaIcn.AnimationFrameDelay = 0;
         session.EndRead(sbManaIcn);
-        Frame rsbSep1 = new Frame(this);
+        Frame rsbSep1 = new(this);
         session.BeginRead(rsbSep1);
         rsbSep1.Name = "RSBSep1";
         rsbSep1.Priority = 0;
@@ -3712,7 +3712,7 @@ public partial class RelationWindow : ILayoutModule
         rsbSep1.ImageLibraryIndexLine = 0;
         rsbSep1.ImageLibraryIndexTexture = 0;
         session.EndRead(rsbSep1);
-        Label sBribeBtn = new Label(this);
+        Label sBribeBtn = new(this);
         session.BeginRead(sBribeBtn);
         sBribeBtn.Name = "SBribeBtn";
         sBribeBtn.Priority = 0;
@@ -3808,7 +3808,7 @@ public partial class RelationWindow : ILayoutModule
         SendBribeIcon.Animate = false;
         SendBribeIcon.AnimationFrameDelay = 0;
         session.EndRead(SendBribeIcon);
-        Button rsbSendBtn = new Button(this);
+        Button rsbSendBtn = new(this);
         session.BeginRead(rsbSendBtn);
         rsbSendBtn.Name = "RSBSendBtn";
         rsbSendBtn.Priority = 1000;
@@ -3843,7 +3843,7 @@ public partial class RelationWindow : ILayoutModule
         rsbSendBtn.WinWidth = 86;
         rsbSendBtn.OnClick += _ => SendActionButtonClick();
         session.EndRead(rsbSendBtn);
-        Button rbsCanlBtn = new Button(this);
+        Button rbsCanlBtn = new(this);
         session.BeginRead(rbsCanlBtn);
         rbsCanlBtn.Name = "RBSCanlBtn";
         rbsCanlBtn.Priority = 1000;
@@ -3878,7 +3878,7 @@ public partial class RelationWindow : ILayoutModule
         rbsCanlBtn.WinWidth = 86;
         rbsCanlBtn.OnClick += _ => CancelSelectedAction();
         session.EndRead(rbsCanlBtn);
-        Image statusGlow = new Image(this);
+        Image statusGlow = new(this);
         session.BeginRead(statusGlow);
         statusGlow.Name = "StatusGlow";
         statusGlow.Tag = 1;
@@ -4016,7 +4016,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedMessageHeaderLabel.Text = "######";
         ReceivedMessageHeaderLabel.TextColor = 0;
         session.EndRead(ReceivedMessageHeaderLabel);
-        Button rmReplyBtn = new Button(this);
+        Button rmReplyBtn = new(this);
         session.BeginRead(rmReplyBtn);
         rmReplyBtn.Name = "RMReplyBtn";
         rmReplyBtn.Priority = 1000;
@@ -4051,7 +4051,7 @@ public partial class RelationWindow : ILayoutModule
         rmReplyBtn.WinWidth = 92;
         rmReplyBtn.OnClick += _ => ReplyButtonClick();
         session.EndRead(rmReplyBtn);
-        Button rmCancelBtn = new Button(this);
+        Button rmCancelBtn = new(this);
         session.BeginRead(rmCancelBtn);
         rmCancelBtn.Name = "RMCancelBtn";
         rmCancelBtn.Priority = 1000;
@@ -4086,7 +4086,7 @@ public partial class RelationWindow : ILayoutModule
         rmCancelBtn.WinWidth = 86;
         rmCancelBtn.OnClick += _ => RMCancelBtnClick();
         session.EndRead(rmCancelBtn);
-        Button rmExitBtn = new Button(this);
+        Button rmExitBtn = new(this);
         session.BeginRead(rmExitBtn);
         rmExitBtn.Name = "RMExitBtn";
         rmExitBtn.Priority = 1000;
@@ -4149,7 +4149,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingInfoPanel.MinWidth = 0;
         IncomingInfoPanel.MinHeight = 0;
         session.EndRead(IncomingInfoPanel);
-        Button iiOkBtn = new Button(this);
+        Button iiOkBtn = new(this);
         session.BeginRead(iiOkBtn);
         iiOkBtn.Name = "IIOkBtn";
         iiOkBtn.Priority = 1000;
@@ -4180,7 +4180,7 @@ public partial class RelationWindow : ILayoutModule
         iiOkBtn.WinWidth = 86;
         iiOkBtn.OnClick += _ => IIOkBtnClick();
         session.EndRead(iiOkBtn);
-        Button iiExitBtn = new Button(this);
+        Button iiExitBtn = new(this);
         session.BeginRead(iiExitBtn);
         iiExitBtn.Name = "IIExitBtn";
         iiExitBtn.Priority = 1000;
@@ -4215,7 +4215,7 @@ public partial class RelationWindow : ILayoutModule
         iiExitBtn.WinWidth = 86;
         iiExitBtn.OnClick += _ => ExitClick();
         session.EndRead(iiExitBtn);
-        VerticalScrollBar irScroll = new VerticalScrollBar(this);
+        VerticalScrollBar irScroll = new(this);
         session.BeginRead(irScroll);
         irScroll.Name = "IRScroll";
         irScroll.Visible = false;
@@ -4318,7 +4318,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingInfoIcon.Animate = false;
         IncomingInfoIcon.AnimationFrameDelay = 0;
         session.EndRead(IncomingInfoIcon);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

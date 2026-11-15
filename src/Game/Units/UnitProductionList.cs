@@ -38,7 +38,7 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
     // Structur.PAS:20
     public void Add(int unitIndex, bool researched)
     {
-        var unitProduction = new UnitProduction(this);
+        UnitProduction unitProduction = new(this);
         unitProduction.UnitIndex = unitIndex;
         unitProduction.Researched = researched;
     }

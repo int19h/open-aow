@@ -58,7 +58,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
         {
             case 0:
                 {
-                    var aiGroupControl = GroupControl;
+                    AIGroupControl aiGroupControl = GroupControl;
                     _selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, null);
                 }
 
@@ -69,7 +69,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
                         case GroupDefendMode.Split:
                             units = new UnitUserList(null) { Holder = CreationHolder() };
                             {
-                                var aiGroupControl = GroupControl;
+                                AIGroupControl aiGroupControl = GroupControl;
                                 _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
                             }
 

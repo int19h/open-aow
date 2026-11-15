@@ -19,7 +19,7 @@ public partial class Vaporize : CombatSpell
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_vaporizeText);
         SpellId = 121;
         DamageMode = 1;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);

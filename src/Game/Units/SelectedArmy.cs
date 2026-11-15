@@ -56,9 +56,9 @@ public partial class SelectedArmy : MoveSelector
             {
                 if (MoveSettingsList.Count == 1 && MoveSettingsList.GetMoveSettings(0).Path.Count != 0)
                 {
-                    var item = MoveSettingsList.GetMoveSettings(0).Path[0];
-                    var fPathItem = MoveSettingsList.GetMoveSettings(0).Path[0];
-                    var item2 = MoveSettingsList.GetMoveSettings(0).Path[0];
+                    PathStep item = MoveSettingsList.GetMoveSettings(0).Path[0];
+                    PathStep fPathItem = MoveSettingsList.GetMoveSettings(0).Path[0];
+                    PathStep item2 = MoveSettingsList.GetMoveSettings(0).Path[0];
                     if (!ValidMultiMoveSelection(Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel)))
                     {
                         return;
@@ -67,8 +67,8 @@ public partial class SelectedArmy : MoveSelector
 
                 if (StrategicMap.Current.Mouse.HexX != -1)
                 {
-                    var hexY = StrategicMap.Current.Mouse.HexY;
-                    var hexX = StrategicMap.Current.Mouse.HexX;
+                    int hexY = StrategicMap.Current.Mouse.HexY;
+                    int hexX = StrategicMap.Current.Mouse.HexX;
                     armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                     {
@@ -98,8 +98,8 @@ public partial class SelectedArmy : MoveSelector
                 {
                     if (MoveSettingsList.Count > 1 && StrategicMap.Current.Mouse.HexX != -1)
                     {
-                        var hexY = StrategicMap.Current.Mouse.HexY;
-                        var hexX = StrategicMap.Current.Mouse.HexX;
+                        int hexY = StrategicMap.Current.Mouse.HexY;
+                        int hexX = StrategicMap.Current.Mouse.HexX;
                         armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).GetArmyHexSprite();
                         if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                         {
@@ -129,7 +129,7 @@ public partial class SelectedArmy : MoveSelector
                     {
                         if (StrategicMap.Current.Mouse.Capture == this && StrategicMap.Current.Mouse.Button == MouseButton.Left)
                         {
-                            var hexY = Map.Mouse.HexY;
+                            int hexY = Map.Mouse.HexY;
                             SelectPath((sbyte)Map.Mouse.HexX, (sbyte)hexY, (sbyte)Map.ViewMapLevel);
                         }
                     }
@@ -153,9 +153,9 @@ public partial class SelectedArmy : MoveSelector
             armyHexSprite = (ArmyHexSprite)settings.MoveObject;
             settings.PathMovePoints = 0;
             MoveControlSettings.Reset();
-            var hexLevel = armyHexSprite.GetHexLevel();
-            var hexY = armyHexSprite.GetHexY();
-            var hexX = armyHexSprite.GetHexX();
+            sbyte hexLevel = armyHexSprite.GetHexLevel();
+            sbyte hexY = armyHexSprite.GetHexY();
+            sbyte hexX = armyHexSprite.GetHexX();
             MoveControlSettings.SetSourcePosition(hexX, hexY, hexLevel);
             MoveControlSettings.Player = armyHexSprite.Army.Player;
             MoveControlSettings.ArmyHexSprite = armyHexSprite;
@@ -166,7 +166,7 @@ public partial class SelectedArmy : MoveSelector
                 MoveControlSettings.Mode = MoveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.ExploredTerrainOnly);
             }
 
-            var movePointTable = MoveControlSettings.MovePointTable;
+            MovePointTable movePointTable = MoveControlSettings.MovePointTable;
             armyHexSprite.Army.CreateMovePointTable((byte)settings.Selection, out movePointTable);
             MoveControlSettings.MovePointTable = movePointTable;
             StrategicMap.Current.MoveControl.ProcessMove(MoveControlSettings);
@@ -174,9 +174,9 @@ public partial class SelectedArmy : MoveSelector
             {
                 settings.Path.Assign(MoveControlSettings.Path);
                 settings.PathMovePoints = settings.Path.PositionToMovePoints(0);
-                var item = settings.Path[0];
-                var fPathItem = settings.Path[0];
-                var item2 = settings.Path[0];
+                PathStep item = settings.Path[0];
+                PathStep fPathItem = settings.Path[0];
+                PathStep item2 = settings.Path[0];
                 armyHexSprite.Army.SetDestinationPosition(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                 MoveControlSettings.Path.Clear();
                 if (_mode == SelectedArmyMode.BuildRoads)
@@ -184,15 +184,15 @@ public partial class SelectedArmy : MoveSelector
                     if (settings.MovePoints < settings.PathMovePoints)
                     {
                         settings.Path.Clear();
-                        var armyNotEnoughMovePoints = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotEnoughMovePointsText);
+                        string armyNotEnoughMovePoints = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotEnoughMovePointsText);
                         StrategicMap.Current.ShowMessage(armyNotEnoughMovePoints);
                     }
                     else
                     {
                         if (settings.Path.Count != 0)
                         {
-                            var roadConstructionCost = AbilityRules.RoadConstructionCost(GetArmyHexSprite().Army.Player, settings.Path, settings.MovePoints);
-                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyRoadConstructionCostFormat), [IntToStr(roadConstructionCost)]);
+                            int roadConstructionCost = AbilityRules.RoadConstructionCost(GetArmyHexSprite().Army.Player, settings.Path, settings.MovePoints);
+                            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyRoadConstructionCostFormat), [IntToStr(roadConstructionCost)]);
                             StrategicMap.Current.ShowMessage(format);
                         }
                     }
@@ -211,14 +211,14 @@ public partial class SelectedArmy : MoveSelector
     {
         if (CurrentMove != -1 && GetArmyHexSprite() != null)
         {
-            var armyHexSprite = GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetArmyHexSprite();
             StrategicMap.Current.Selection.TriggerDeselectEvent(armyHexSprite);
         }
 
         CurrentMove = value;
         if (CurrentMove != -1 && GetArmyHexSprite() != null)
         {
-            var armyHexSprite = GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetArmyHexSprite();
             StrategicMap.Current.Selection.TriggerSelectEvent(armyHexSprite);
         }
 
@@ -233,9 +233,9 @@ public partial class SelectedArmy : MoveSelector
         MoveSettings settings;
         if (GetArmyHexSprite() != null && GetArmyHexSprite().GetHexX() == StrategicMap.Current.Mouse.HexX && GetArmyHexSprite().GetHexY() == StrategicMap.Current.Mouse.HexY && GetArmyHexSprite().GetHexLevel() == StrategicMap.Current.ViewMapLevel)
         {
-            var hexLevel = GetArmyHexSprite().GetHexLevel();
-            var hexY = GetArmyHexSprite().GetHexY();
-            var hexX = GetArmyHexSprite().GetHexX();
+            sbyte hexLevel = GetArmyHexSprite().GetHexLevel();
+            sbyte hexY = GetArmyHexSprite().GetHexY();
+            sbyte hexX = GetArmyHexSprite().GetHexX();
             StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
         }
         else
@@ -323,19 +323,19 @@ public partial class SelectedArmy : MoveSelector
         int cost;
         if (MoveSettingsList.Count == 1)
         {
-            var moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
+            MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
             if (moveSettings.Path.Count > 1 && GetArmyHexSprite() != null)
             {
                 armyHexSprite = GetArmyHexSprite();
-                var item = moveSettings.Path[0];
-                var fPathItem = moveSettings.Path[0];
-                var item2 = moveSettings.Path[0];
+                PathStep item = moveSettings.Path[0];
+                PathStep fPathItem = moveSettings.Path[0];
+                PathStep item2 = moveSettings.Path[0];
                 field = StrategicMap.Current.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
-                    var player = field.GetPlayer();
-                    var diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
+                    sbyte player = field.GetPlayer();
+                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
                     condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                 }
 
@@ -359,22 +359,22 @@ public partial class SelectedArmy : MoveSelector
                         }
                         else
                         {
-                            var notEnoughGold = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NotEnoughGoldText);
+                            string notEnoughGold = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NotEnoughGoldText);
                             StrategicMap.Current.ShowWarning(notEnoughGold);
                         }
                     }
                     else
                     {
-                        var item3 = moveSettings.Path[0];
-                        var item4 = moveSettings.Path[0];
-                        var item5 = moveSettings.Path[0];
+                        PathStep item3 = moveSettings.Path[0];
+                        PathStep item4 = moveSettings.Path[0];
+                        PathStep item5 = moveSettings.Path[0];
                         armyHexSprite.Army.SetDestinationPosition(item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
                         if (ArmyHexSprite.MoveArmy(armyHexSprite, GetSelection(), moveSettings.Path))
                         {
-                            var movePoints = armyHexSprite.Army.MovePoints(255);
+                            sbyte movePoints = armyHexSprite.Army.MovePoints(255);
                             if (moveSettings.Path.MovePointsToPosition(movePoints) > 0)
                             {
-                                var army = armyHexSprite.Army;
+                                Army army = armyHexSprite.Army;
                                 army.UserMode = army.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
                             }
 
@@ -392,10 +392,10 @@ public partial class SelectedArmy : MoveSelector
                 {
                     if (field.FogCount != 0 || !StrategicMap.Current.FogEnabled)
                     {
-                        var player = field.GetPlayer();
-                        var players = StrategicMap.Current.Players.GetPlayers(player);
-                        var raceNamesPlural = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotAtWarFormat), [raceNamesPlural]);
+                        sbyte player = field.GetPlayer();
+                        Player players = StrategicMap.Current.Players.GetPlayers(player);
+                        string raceNamesPlural = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotAtWarFormat), [raceNamesPlural]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -407,10 +407,10 @@ public partial class SelectedArmy : MoveSelector
             {
                 for (int i = 0, last = MoveSettingsList.Count - 1; i <= last; i++)
                 {
-                    var moveSettings = MoveSettingsList.GetMoveSettings(i);
-                    var item = moveSettings.Path[0];
-                    var fPathItem = moveSettings.Path[0];
-                    var item2 = moveSettings.Path[0];
+                    MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(i);
+                    PathStep item = moveSettings.Path[0];
+                    PathStep fPathItem = moveSettings.Path[0];
+                    PathStep item2 = moveSettings.Path[0];
                     ((ArmyHexSprite)moveSettings.MoveObject).Army.SetDestinationPosition(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                     moveSettings.Path.Clear();
                 }
@@ -444,9 +444,9 @@ public partial class SelectedArmy : MoveSelector
         int index;
         index = AddMoveObject(armyHexSprite);
         MoveSettingsList.GetMoveSettings(index).Selection = selection;
-        var movePoints = armyHexSprite.Army.MovePoints(selection);
+        sbyte movePoints = armyHexSprite.Army.MovePoints(selection);
         MoveSettingsList.GetMoveSettings(index).MovePoints = movePoints;
-        var moves = armyHexSprite.Army.Moves(selection);
+        sbyte moves = armyHexSprite.Army.Moves(selection);
         MoveSettingsList.GetMoveSettings(index).Moves = moves;
         return index;
     }
@@ -500,7 +500,7 @@ public partial class SelectedArmy : MoveSelector
                 MoveSettingsList.GetMoveSettings(CurrentMove).Selection = selection;
                 points = GetArmyHexSprite().Army.MovePoints(selection);
                 MoveSettingsList.GetMoveSettings(CurrentMove).MovePoints = points;
-                var moves = GetArmyHexSprite().Army.Moves(selection);
+                sbyte moves = GetArmyHexSprite().Army.Moves(selection);
                 MoveSettingsList.GetMoveSettings(CurrentMove).Moves = moves;
             }
 
@@ -515,7 +515,7 @@ public partial class SelectedArmy : MoveSelector
         Set<MoveType> result;
         if (CurrentMove != -1)
         {
-            var moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
+            MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
             result = ((ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject).Army.MoveTypes((byte)moveSettings.Selection);
         }
         else
@@ -531,7 +531,7 @@ public partial class SelectedArmy : MoveSelector
     {
         for (int i = _selectedUnitGraphics.Count - 1; i >= 0; i--)
         {
-            var item = _selectedUnitGraphics[i];
+            int item = _selectedUnitGraphics[i];
             GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(item).Release();
             _selectedUnitGraphics.Delete(i);
         }
@@ -566,7 +566,7 @@ public partial class SelectedArmy : MoveSelector
         {
             if (sender != null)
             {
-                var armyHexSprite = sender.GetArmyHexSprite();
+                ArmyHexSprite armyHexSprite = sender.GetArmyHexSprite();
                 index = MoveSettingsList.IndexOfMoveObject(armyHexSprite);
                 if (index != -1)
                 {
@@ -623,7 +623,7 @@ public partial class SelectedArmy : MoveSelector
             for (int i = 0, last = armies.Count - 1; i <= last; i++)
             {
                 AddMoveArmy(armies.GetArmyHexSprite(i), 255);
-                var armyHS = armies.GetArmyHexSprite(i);
+                ArmyHexSprite armyHS = armies.GetArmyHexSprite(i);
                 StrategicMap.Current.Selection.SelectLocationHexSprite(armyHS);
             }
 
@@ -674,8 +674,8 @@ public partial class SelectedArmy : MoveSelector
         UpdateSelectedUnitGraphics();
         if (GetArmyHexSprite() != null)
         {
-            var selection = GetSelection();
-            var movePointTable = MoveControlSettings.MovePointTable;
+            byte selection = GetSelection();
+            MovePointTable movePointTable = MoveControlSettings.MovePointTable;
             GetArmyHexSprite().Army.CreateMovePointTable(selection, out movePointTable);
             MoveControlSettings.MovePointTable = movePointTable;
         }
@@ -684,9 +684,9 @@ public partial class SelectedArmy : MoveSelector
         {
             selection2 = (byte)MoveSettingsList.GetMoveSettings(i).Selection;
             armyHexSprite = (ArmyHexSprite)MoveSettingsList.GetMoveSettings(i).MoveObject;
-            var movePoints = armyHexSprite.Army.MovePoints(selection2);
+            sbyte movePoints = armyHexSprite.Army.MovePoints(selection2);
             MoveSettingsList.GetMoveSettings(i).MovePoints = movePoints;
-            var moves = armyHexSprite.Army.Moves(selection2);
+            sbyte moves = armyHexSprite.Army.Moves(selection2);
             MoveSettingsList.GetMoveSettings(i).Moves = moves;
         }
 
@@ -699,7 +699,7 @@ public partial class SelectedArmy : MoveSelector
                 {
                     if (armyHexSprite.Army.Destination.X != -1 && armyHexSprite.Army.Destination.X != 0)
                     {
-                        var army = armyHexSprite.Army;
+                        Army army = armyHexSprite.Army;
                         field = StrategicMap.Current.MapContainer.GetField(army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
                         if (ValidateSelection(field))
                         {
@@ -714,7 +714,7 @@ public partial class SelectedArmy : MoveSelector
                     {
                         if (MoveSettingsList.GetMoveSettings(i).Path.Count != 0)
                         {
-                            var location = MoveSettingsList.GetMoveSettings(i).Path[0];
+                            PathStep location = MoveSettingsList.GetMoveSettings(i).Path[0];
                             CalculateMovePath(i, location.Location.X, location.Location.Y, location.Location.MapLevel);
                         }
                     }
@@ -736,7 +736,7 @@ public partial class SelectedArmy : MoveSelector
             group = GetArmyHexSprite().Army.Units.GetUnit(i).Group;
             if (group != null)
             {
-                var behavior = group.GroupClass.Behavior;
+                GroupBehavior behavior = group.GroupClass.Behavior;
                 text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(group.TargetMapCoordinate.Location.X) + "," + IntToStr(group.TargetMapCoordinate.Location.Y) + "," + IntToStr(group.TargetMapCoordinate.Location.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
                 if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
@@ -750,7 +750,7 @@ public partial class SelectedArmy : MoveSelector
                     }
                 }
 
-                var troop = GetArmyHexSprite().Army.Units.GetUnit(i);
+                Troop troop = GetArmyHexSprite().Army.Units.GetUnit(i);
                 if (group.Leader == troop)
                 {
                     text = text + "/Leader";
@@ -760,7 +760,7 @@ public partial class SelectedArmy : MoveSelector
             Creator.GetEngine().OutputDebugString(text);
         }
 
-        var strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
+        int strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
         Creator.GetEngine().OutputDebugString("Army strength: " + IntToStr(strengthMax));
     }
 
@@ -829,7 +829,7 @@ public partial class SelectedArmy : MoveSelector
                 CurrentMove = 0;
             }
 
-            var selectRoadConstructionPath = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_selectRoadConstructionPathText);
+            string selectRoadConstructionPath = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_selectRoadConstructionPathText);
             StrategicMap.Current.ShowMessage(selectRoadConstructionPath);
             _roadBuilderId = troop.UnitId;
             _mode = SelectedArmyMode.BuildRoads;
@@ -841,9 +841,9 @@ public partial class SelectedArmy : MoveSelector
     {
         if (GetArmyHexSprite() != null)
         {
-            var hexSpriteMap = StrategicMap.Current;
-            var hexLevel = GetArmyHexSprite().GetHexLevel();
-            var hexY = GetArmyHexSprite().GetHexY();
+            StrategicMap hexSpriteMap = StrategicMap.Current;
+            sbyte hexLevel = GetArmyHexSprite().GetHexLevel();
+            sbyte hexY = GetArmyHexSprite().GetHexY();
             hexSpriteMap.CenterViewTo(GetArmyHexSprite().GetHexX(), hexY, hexLevel);
         }
     }
@@ -853,7 +853,7 @@ public partial class SelectedArmy : MoveSelector
     {
         if (GetArmyHexSprite() != null && GetArmyHexSprite().Army.Player == StrategicMap.Current.SeatedPlayer)
         {
-            var armyHexSprite = GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetArmyHexSprite();
             GetArmyHexSprite().Army.UserMode = armyHexSprite.Army.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
             StrategicMap.Current.SelectNextArmy();
         }
@@ -884,14 +884,14 @@ public partial class SelectedArmy : MoveSelector
     // intf_P2_02.inc:23
     public override void UpdateMoveCursor()
     {
-        var map = StrategicMap.Current;
-        var mouse = map.Mouse;
+        StrategicMap map = StrategicMap.Current;
+        HexSpriteMapMouse mouse = map.Mouse;
         if (mouse.HexX == -1 || mouse.HexY == -1 || mouse.Capture != this)
         {
             return;
         }
 
-        var field = map.MapContainer.GetField(mouse.HexX, mouse.HexY, map.ViewMapLevel);
+        MapField field = map.MapContainer.GetField(mouse.HexX, mouse.HexY, map.ViewMapLevel);
         bool visible = !map.FogEnabled || field.FogCount != 0;
         if (CurrentMove != -1 && (!map.ExplorationEnabled || field.GetExplored(map.SeatedPlayer)) && visible)
         {
@@ -912,7 +912,7 @@ public partial class SelectedArmy : MoveSelector
             return;
         }
 
-        var types = GetMoveTypes();
+        Set<MoveType> types = GetMoveTypes();
         if (types.Contains(MoveType.Walking))
         {
             mouse.Cursor = 64;

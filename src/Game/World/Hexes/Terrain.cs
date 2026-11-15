@@ -93,14 +93,14 @@ public partial class Terrain : TerrainMapObject
             return;
         }
 
-        var resource = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 3, 3);
+        TerrainMapObjectResource resource = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 3, 3);
         if (resource == null)
         {
             return;
         }
 
         UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
-        var owner = Owner;
+        MapField owner = Owner;
         RemoveFromMap();
         SetResource(resource);
         Owner = owner;

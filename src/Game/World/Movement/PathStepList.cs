@@ -45,7 +45,7 @@ public class PathStepList : DefaultItemList<PathStep>
         SetCapacity(count);
         while (count != Count)
         {
-            var item = ReadStep(stream);
+            PathStep item = ReadStep(stream);
             if (item == Default)
             {
                 stream.ReadExactly(Bytes.Of(ref run, 4));

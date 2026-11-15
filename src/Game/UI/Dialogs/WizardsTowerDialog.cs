@@ -86,7 +86,7 @@ public partial class WizardsTowerDialog : UIModule
         Spell s;
         int x;
         int y;
-        var wizardsTower = _event.Tower;
+        WizardsTower wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
             s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
@@ -121,24 +121,24 @@ public partial class WizardsTowerDialog : UIModule
         tower = dialog._event.Tower;
         if (tower.SpellId != 0)
         {
-            var buyCost = dialog._event.Tower.BuyCost();
-            var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
+            int buyCost = dialog._event.Tower.BuyCost();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = format + ".";
             spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
-            var magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-            var level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
+            string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+            string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
             dialog.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-            var castingCost = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
-            var mana = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
+            string castingCost = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
+            string mana = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
             dialog.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
-            var text = spell.SpellText.Text;
+            string text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
         }
         else
         {
             dialog.PriceLabel.Text = "";
-            var none = dialog.UI.Engine.TranslateResourceString(GameTables.NoneText);
+            string none = dialog.UI.Engine.TranslateResourceString(GameTables.NoneText);
             dialog.SpellNameLabel.Text = none;
             dialog.SpellClassLabel.Text = "";
             dialog.SpellCostLabel.Text = "";

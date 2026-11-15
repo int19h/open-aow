@@ -44,7 +44,7 @@ public partial class TownGate : CityTargetSpell
         sbyte y = default;
         sbyte l = default;
         ImageSequenceAnimation a;
-        var coordinate84 = source.GetLocation();
+        MapCoordinate coordinate84 = source.GetLocation();
         x = coordinate84.X;
         y = coordinate84.Y;
         l = coordinate84.MapLevel;
@@ -176,9 +176,9 @@ public partial class TownGate : CityTargetSpell
 
             if (found)
             {
-                var id = army.Army.CreateId(selection);
+                ArmyId id = army.Army.CreateId(selection);
                 ((TownGateTokenEvent)eventValue).ArmyId = id;
-                var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                 ((TownGateTokenEvent)eventValue).TeleportLocation = packMapCoordinate;
                 result = true;
             }

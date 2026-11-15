@@ -15,7 +15,7 @@ public partial class ArenaDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "ArenaDlg";
-        Button selectBtn = new Button(this);
+        Button selectBtn = new(this);
         session.BeginRead(selectBtn);
         selectBtn.Name = "SelectBtn";
         selectBtn.Priority = 100;
@@ -46,7 +46,7 @@ public partial class ArenaDialog : ILayoutModule
         selectBtn.WinWidth = 128;
         selectBtn.OnClick += _ => SelectBtnClick();
         session.EndRead(selectBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -74,7 +74,7 @@ public partial class ArenaDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -108,7 +108,7 @@ public partial class ArenaDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -131,7 +131,7 @@ public partial class ArenaDialog : ILayoutModule
         title.Text = "Arena";
         title.TextColor = 2502709;
         session.EndRead(title);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 100;
@@ -235,7 +235,7 @@ public partial class ArenaDialog : ILayoutModule
         UnitPanel.MinWidth = 0;
         UnitPanel.MinHeight = 0;
         session.EndRead(UnitPanel);
-        Panel mapViewPnl = new Panel(this);
+        Panel mapViewPnl = new(this);
         session.BeginRead(mapViewPnl);
         mapViewPnl.Name = "MapViewPnl";
         mapViewPnl.Priority = 1;
@@ -533,7 +533,7 @@ public partial class ArenaDialog : ILayoutModule
         Unit8CheckBox.OnChange += sender => U1Change(sender, 7);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
-        Image decoL = new Image(this);
+        Image decoL = new(this);
         session.BeginRead(decoL);
         decoL.Name = "DecoL";
         decoL.Priority = 1000;
@@ -561,7 +561,7 @@ public partial class ArenaDialog : ILayoutModule
         decoL.Animate = false;
         decoL.AnimationFrameDelay = 0;
         session.EndRead(decoL);
-        Image decoR = new Image(this);
+        Image decoR = new(this);
         session.BeginRead(decoR);
         decoR.Name = "DecoR";
         decoR.Priority = 1000;
@@ -589,7 +589,7 @@ public partial class ArenaDialog : ILayoutModule
         decoR.Animate = false;
         decoR.AnimationFrameDelay = 0;
         session.EndRead(decoR);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -616,7 +616,7 @@ public partial class ArenaDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Panel selectionInfoPnl = new Panel(this);
+        Panel selectionInfoPnl = new(this);
         session.BeginRead(selectionInfoPnl);
         selectionInfoPnl.Name = "SelectionInfoPnl";
         selectionInfoPnl.Priority = 1;
@@ -666,7 +666,7 @@ public partial class ArenaDialog : ILayoutModule
         SelectionInfoLabel.Text = "#####";
         SelectionInfoLabel.TextColor = 0;
         session.EndRead(SelectionInfoLabel);
-        Label selectionLbl = new Label(this);
+        Label selectionLbl = new(this);
         session.BeginRead(selectionLbl);
         selectionLbl.Name = "SelectionLbl";
         selectionLbl.Priority = 100;
@@ -714,7 +714,7 @@ public partial class ArenaDialog : ILayoutModule
         MapView.WinWidth = 446;
         MapView.WinHeight = 134;
         session.EndRead(MapView);
-        Image infoSep = new Image(this);
+        Image infoSep = new(this);
         session.BeginRead(infoSep);
         infoSep.Name = "InfoSep";
         infoSep.Priority = 1500;
@@ -742,7 +742,7 @@ public partial class ArenaDialog : ILayoutModule
         infoSep.Animate = false;
         infoSep.AnimationFrameDelay = 0;
         session.EndRead(infoSep);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

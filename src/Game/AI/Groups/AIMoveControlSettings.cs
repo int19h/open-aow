@@ -112,14 +112,14 @@ public partial class AIMoveControlSettings : EngineObject
     // AIGroup.pas:3901
     public void Setup(ArmyHexSprite army, byte selection, int X, int Y, int L)
     {
-        var hexLevel = army.GetHexLevel();
-        var hexY = army.GetHexY();
+        sbyte hexLevel = army.GetHexLevel();
+        sbyte hexY = army.GetHexY();
         SetSourcePosition(army.GetHexX(), hexY, hexLevel);
         SetDestinationPosition(X, Y, L);
         ArmyHexSprite = army;
         Selection = selection;
         Player = army.Army.Player;
-        var movePointTable = MovePointTable;
+        MovePointTable movePointTable = MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
         MovePointTable = movePointTable;
     }

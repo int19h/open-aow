@@ -88,8 +88,8 @@ public partial class PopupWindows : UIModule
         switch (sender.SelectedItem)
         {
             case 0:
-                var quitCombat = UI.Engine.TranslateResourceString(QuitCombatText);
-                var confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
+                string quitCombat = UI.Engine.TranslateResourceString(QuitCombatText);
+                string confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
                 UI.ConfirmationDialog.Confirm(confirm, text: quitCombat, onConfirmed: SurrenderCombat);
                 break;
         }

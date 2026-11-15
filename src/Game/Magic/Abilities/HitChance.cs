@@ -2,7 +2,7 @@
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
-
+using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
@@ -63,12 +63,12 @@ internal static class HitChance
         LockedSurface lockedSurface;
         lockedSurface = surface;
         GamePack.Current.CombatImages[0].Show(x + 20, y + 54, lockedSurface);
-        var clipRectangle = lockedSurface.ClipRectangle;
+        Rect clipRectangle = lockedSurface.ClipRectangle;
         clipRectangle.Right = x + 20 + ((percent + 3) / 4);
         lockedSurface.ClipRectangle = clipRectangle;
         if (lockedSurface.ClipRectangle.Right > surface.ClipRectangle.Right)
         {
-            var clipRectangle2 = lockedSurface.ClipRectangle;
+            Rect clipRectangle2 = lockedSurface.ClipRectangle;
             clipRectangle2.Right = surface.ClipRectangle.Right;
             lockedSurface.ClipRectangle = clipRectangle2;
         }

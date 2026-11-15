@@ -102,8 +102,8 @@ public partial class HexSpriteMapMouse : IDisposable
         {
             if (_button == MouseButton.Left)
             {
-                var pixelY = GetPixelY();
-                var pixelX = GetPixelX();
+                int pixelY = GetPixelY();
+                int pixelX = GetPixelX();
                 _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap.ViewMapLevel);
                 result = false;
             }

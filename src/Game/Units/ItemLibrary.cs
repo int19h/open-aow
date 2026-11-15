@@ -47,7 +47,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     // Army.PAS:4909
     public override int AddChild(EngineObject child)
     {
-        var item = (Item)child;
+        Item item = (Item)child;
         // { Original checks the world item ID, not the library ID. }
         if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) != null)
         {

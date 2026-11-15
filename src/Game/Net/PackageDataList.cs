@@ -42,7 +42,7 @@ public partial class PackageDataList : IDisposable
         MemoryStream s;
         s = new MemoryStream();
         s.SetLength(stream.Length);
-        var size = (int)s.Length;
+        int size = (int)s.Length;
         Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
         _list.Add(s);
     }
@@ -63,7 +63,7 @@ public partial class PackageDataList : IDisposable
         MemoryStream s;
         s = new MemoryStream();
         s.SetLength(stream.Length);
-        var size = (int)s.Length;
+        int size = (int)s.Length;
         Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
         _list.Insert(index, s);
     }
@@ -82,6 +82,6 @@ public partial class PackageDataList : IDisposable
         public MemoryStream this[int index] => target.GetPackageData(index);
     }
 
-    public PackageDataAccessor PackageData => new PackageDataAccessor(this);
+    public PackageDataAccessor PackageData => new(this);
 
 }

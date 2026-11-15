@@ -34,7 +34,7 @@ public partial class FlagControl : ControlStyleObject
     // PlayerC.PAS:1909
     private protected FlagControl(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
-        var gameSet = (GamePack)owner;
+        GamePack gameSet = (GamePack)owner;
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
         _raceResources = gameSet.RaceResources;
 

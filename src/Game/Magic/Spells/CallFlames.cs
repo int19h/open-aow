@@ -18,7 +18,7 @@ public partial class CallFlames : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_callFlamesText);
         SpellId = 113;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);

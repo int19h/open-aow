@@ -60,7 +60,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 }
 
                 {
-                    var moveControlSettings = _moveSettings;
+                    MoveControlSettings moveControlSettings = _moveSettings;
                     moveControlSettings.MovePointsMax = MovePointsMax;
                     moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
                     moveControlSettings.Selection = control.Selection;
@@ -70,7 +70,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 }
 
                 {
-                    var group = control.Group;
+                    AIGroup group = control.Group;
                     // { Original reloads the current control. }
                     if (group.TargetMode == 1 && _control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && _control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location))
                     {
@@ -156,7 +156,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 break;
             case 2:
                 {
-                    var aiGroupControl = _control;
+                    AIGroupControl aiGroupControl = _control;
                     aiGroupControl.SetupME();
                     aiGroupControl.ExecuteME(aiGroupControl.Group.TargetMapCoordinate.Location.X, aiGroupControl.Group.TargetMapCoordinate.Location.Y, aiGroupControl.Group.TargetMapCoordinate.Location.MapLevel);
                 }

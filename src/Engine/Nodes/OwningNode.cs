@@ -109,7 +109,7 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2884
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        var children = _children;
+        EngineObjectList children = _children;
         if (GetControlStyle().Contains(EngineServices.KeepIndex))
         {
             if ((message.MessageId & 268435456) != 0)
@@ -120,7 +120,7 @@ public partial class OwningNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children.List[i];
+                            EngineObject node = children.List[i];
                             if (node.GetLastMessage() != message.Sequence)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -135,7 +135,7 @@ public partial class OwningNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children[i];
+                            EngineObject node = children[i];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -153,7 +153,7 @@ public partial class OwningNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children.List[i];
+                            EngineObject node = children.List[i];
                             node.MessageProc(ref message, this);
                         }
                     }
@@ -164,7 +164,7 @@ public partial class OwningNode : CustomNode
                     {
                         if (children.List[i] != null)
                         {
-                            var node = children[i];
+                            EngineObject node = children[i];
                             if (node.Owner == this)
                             {
                                 node.MessageProc(ref message, this);
@@ -182,7 +182,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[i];
+                        EngineObject node = children.List[i];
                         if (node.GetLastMessage() != message.Sequence)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -194,7 +194,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[i];
+                        EngineObject node = children[i];
                         if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -209,7 +209,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[i];
+                        EngineObject node = children.List[i];
                         node.MessageProc(ref message, this);
                     }
                 }
@@ -217,7 +217,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[i];
+                        EngineObject node = children[i];
                         if (node.Owner == this)
                         {
                             node.MessageProc(ref message, this);

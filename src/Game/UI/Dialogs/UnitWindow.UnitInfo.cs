@@ -1,12 +1,14 @@
 #nullable disable
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
-
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
+using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -49,29 +51,29 @@ public partial class UnitWindow
             UI.UnitWindow.ManaLabel.Visible = false;
             UI.UnitWindow.ManaIcon.Visible = false;
             UI.UnitWindow.UnitTabs.Items.Clear();
-            var abilities = UI.Engine.TranslateResourceString(s_abilitiesText);
+            string abilities = UI.Engine.TranslateResourceString(s_abilitiesText);
             UI.UnitWindow.UnitTabs.Items.Add(abilities);
-            var info = UI.Engine.TranslateResourceString(s_infoText);
+            string info = UI.Engine.TranslateResourceString(s_infoText);
             UI.UnitWindow.UnitTabs.Items.Add(info);
             if (u.GetRace() > -1)
             {
-                var race = u.GetRace();
-                var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[race]);
+                sbyte race = u.GetRace();
+                string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[race]);
                 UI.UnitWindow.TypeValueLabel.Text = raceNames;
                 UI.UnitWindow.RelationIcon.Visible = true;
-                var uRace = u.GetRace();
-                var playerRelation = StrategicMap.Current.Races.GetRace(uRace).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+                sbyte uRace = u.GetRace();
+                Status playerRelation = StrategicMap.Current.Races.GetRace(uRace).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
                 UI.UnitWindow.RelationIcon.CurrentImage = (int)playerRelation + 11;
-                var race2 = u.GetRace();
-                var playerRelation2 = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
-                var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
+                sbyte race2 = u.GetRace();
+                Status playerRelation2 = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+                string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
                 UI.UnitWindow.RelationValueLabel.Text = status;
             }
             else
             {
                 UI.UnitWindow.TypeValueLabel.Text = "";
                 UI.UnitWindow.RelationIcon.Visible = false;
-                var none = UI.Engine.TranslateResourceString(s_noneText);
+                string none = UI.Engine.TranslateResourceString(s_noneText);
                 UI.UnitWindow.RelationValueLabel.Text = none;
             }
 
@@ -90,31 +92,31 @@ public partial class UnitWindow
             switch (u.GetUnitType())
             {
                 case UnitType.Creature:
-                    var creature = UI.Engine.TranslateResourceString(s_creatureText);
+                    string creature = UI.Engine.TranslateResourceString(s_creatureText);
                     UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + creature;
                     UI.UnitWindow.TypeIcon.CurrentImage = 21;
                     break;
                 case UnitType.Machine:
-                    var machine = UI.Engine.TranslateResourceString(s_machineText);
+                    string machine = UI.Engine.TranslateResourceString(s_machineText);
                     UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + machine;
                     UI.UnitWindow.TypeIcon.CurrentImage = 22;
                     break;
                 default:
                     if (h == null)
                     {
-                        var unit = UI.Engine.TranslateResourceString(s_unitText);
+                        string unit = UI.Engine.TranslateResourceString(s_unitText);
                         UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + unit;
                     }
                     else
                     {
                         if (h is Leader)
                         {
-                            var leader = UI.Engine.TranslateResourceString(s_leaderText);
+                            string leader = UI.Engine.TranslateResourceString(s_leaderText);
                             UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + leader;
                         }
                         else
                         {
-                            var hero = UI.Engine.TranslateResourceString(s_heroText);
+                            string hero = UI.Engine.TranslateResourceString(s_heroText);
                             UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + hero;
                         }
                     }
@@ -125,15 +127,15 @@ public partial class UnitWindow
 
             if (h == null)
             {
-                var level = UI.Engine.TranslateResourceString(s_levelText);
-                var unitLevel = u.GetUnitLevel();
+                string level = UI.Engine.TranslateResourceString(s_levelText);
+                sbyte unitLevel = u.GetUnitLevel();
                 UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(unitLevel);
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
-                var description = u.GetDescription();
+                StringCollection description = u.GetDescription();
                 UI.UnitWindow.InfoMemo.Items.Assign(description);
                 UI.UnitWindow.InfoScrollBar.Position = 0;
-                var name = u.GetName();
+                string name = u.GetName();
                 UI.UnitWindow.UnitNameLabel.Text = name;
             }
             else
@@ -141,7 +143,7 @@ public partial class UnitWindow
                 if (h.Player == 0)
                 {
                     UI.UnitWindow.SpherePanel.Visible = false;
-                    var noLeader = UI.Engine.TranslateResourceString(s_noLeaderText);
+                    string noLeader = UI.Engine.TranslateResourceString(s_noLeaderText);
                     UI.UnitWindow.SphereLabel.Text = noLeader;
                 }
                 else
@@ -150,8 +152,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 0)
                     {
                         UI.UnitWindow.Sphere1Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(0);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(0);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere1Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -162,8 +164,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 1)
                     {
                         UI.UnitWindow.Sphere2Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(1);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(1);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere2Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -174,8 +176,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 2)
                     {
                         UI.UnitWindow.Sphere3Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(2);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(2);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere3Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -186,8 +188,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 3)
                     {
                         UI.UnitWindow.Sphere4Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(3);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(3);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere4Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -198,8 +200,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 4)
                     {
                         UI.UnitWindow.Sphere5Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(4);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(4);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere5Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -210,8 +212,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 5)
                     {
                         UI.UnitWindow.Sphere6Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(5);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(5);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere6Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -222,8 +224,8 @@ public partial class UnitWindow
                     if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 6)
                     {
                         UI.UnitWindow.Sphere7Button.Visible = true;
-                        var sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(6);
-                        var sphereToImage = UI.General.SphereToImage(sphere);
+                        MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(6);
+                        int sphereToImage = UI.General.SphereToImage(sphere);
                         UI.UnitWindow.Sphere7Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
@@ -231,39 +233,39 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere7Button.Visible = false;
                     }
 
-                    var leaderSpheres = UI.Engine.TranslateResourceString(s_leaderSpheresText);
+                    string leaderSpheres = UI.Engine.TranslateResourceString(s_leaderSpheresText);
                     UI.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
                 if ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
                 {
-                    var items = UI.Engine.TranslateResourceString(s_itemsText);
+                    string items = UI.Engine.TranslateResourceString(s_itemsText);
                     UI.UnitWindow.UnitTabs.Items.Add(items);
                 }
 
                 if (h.GetCastingPointsMax() > 0)
                 {
                     UI.UnitWindow.ManaLabel.Visible = true;
-                    var castingPoints = h.GetCastingPoints();
-                    var castingPointsMax = h.GetCastingPointsMax();
+                    sbyte castingPoints = h.GetCastingPoints();
+                    sbyte castingPointsMax = h.GetCastingPointsMax();
                     UI.UnitWindow.ManaLabel.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
                     UI.UnitWindow.ManaIcon.Visible = true;
                 }
 
                 UI.UnitWindow.ItemUseButton.Visible = false;
                 UI.UnitWindow._groundOffset = 0;
-                var level = UI.Engine.TranslateResourceString(s_levelText);
-                var hLevel = h.GetLevel();
+                string level = UI.Engine.TranslateResourceString(s_levelText);
+                sbyte hLevel = h.GetLevel();
                 UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(hLevel);
                 UI.UnitWindow.InfoLeaderPanel.Visible = true;
                 UI.UnitWindow.InfoTextPanel.Visible = false;
-                var nickname = h.GetNickname();
+                string nickname = h.GetNickname();
                 UI.UnitWindow.UnitNameLabel.Text = h.HeroName + " " + nickname;
             }
 
-            var exp = UI.Engine.TranslateResourceString(s_experienceText);
-            var experience = u.GetExperience();
-            var nextLevelExperience = u.GetNextLevelExperience();
+            string exp = UI.Engine.TranslateResourceString(s_experienceText);
+            int experience = u.GetExperience();
+            int nextLevelExperience = u.GetNextLevelExperience();
             UI.UnitWindow.ExperienceLabel.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
             UI.UnitWindow.MainWindow.Cursor = 0;
             if (UI.UnitWindow.UnitTabs.Items.Count <= UI.UnitWindow.UnitTabs.Selected || UI.UnitWindow.UnitTabs.Selected < 0)
@@ -276,7 +278,7 @@ public partial class UnitWindow
             {
                 if (h.Inventory.Items.GetItem(0) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(0);
+                    Item inventory = h.Inventory.Items.GetItem(0);
                     UI.UnitWindow.Backpack1CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -286,7 +288,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(1) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(1);
+                    Item inventory = h.Inventory.Items.GetItem(1);
                     UI.UnitWindow.Backpack2CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -296,7 +298,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(2) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(2);
+                    Item inventory = h.Inventory.Items.GetItem(2);
                     UI.UnitWindow.Backpack3CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -306,7 +308,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(3) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(3);
+                    Item inventory = h.Inventory.Items.GetItem(3);
                     UI.UnitWindow.Backpack4CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -316,7 +318,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(4) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(4);
+                    Item inventory = h.Inventory.Items.GetItem(4);
                     UI.UnitWindow.Backpack5CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -326,7 +328,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(5) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(5);
+                    Item inventory = h.Inventory.Items.GetItem(5);
                     UI.UnitWindow.Backpack6CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -336,7 +338,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(6) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(6);
+                    Item inventory = h.Inventory.Items.GetItem(6);
                     UI.UnitWindow.Backpack7CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -346,7 +348,7 @@ public partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(7) != null)
                 {
-                    var inventory = h.Inventory.Items.GetItem(7);
+                    Item inventory = h.Inventory.Items.GetItem(7);
                     UI.UnitWindow.Backpack8CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -356,7 +358,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
                     UI.UnitWindow.AttackSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -366,7 +368,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
                     UI.UnitWindow.DefendSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -376,7 +378,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
                     UI.UnitWindow.HeadSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -386,7 +388,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
                     UI.UnitWindow.TorsoSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -396,7 +398,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
                     UI.UnitWindow.LeftRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -406,7 +408,7 @@ public partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) != null)
                 {
-                    var positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
+                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
                     UI.UnitWindow.RightRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -435,49 +437,49 @@ public partial class UnitWindow
 
             if (u != null)
             {
-                var hitPoints = u.GetHitPoints();
-                var hits = u.GetHits();
+                sbyte hitPoints = u.GetHitPoints();
+                sbyte hits = u.GetHits();
                 UI.UnitWindow.UnitHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                 if (StrategicMap.Current.CombatMap == null)
                 {
-                    var movePoints = u.GetMovePoints();
-                    var moves = u.GetMoves();
+                    sbyte movePoints = u.GetMovePoints();
+                    sbyte moves = u.GetMoves();
                     UI.UnitWindow.UnitMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                 }
                 else
                 {
                     if (UI.General.CombatUnit != null)
                     {
-                        var moves = UI.General.CombatUnit.Unit.GetMoves();
+                        int moves = UI.General.CombatUnit.Unit.GetMoves();
                         UI.UnitWindow.UnitMovesLabel.Text = IntToStr(UI.General.CombatUnit.Unit.MovePoints) + "/" + IntToStr(moves);
                     }
                 }
 
-                var attack = u.GetAttack();
+                sbyte attack = u.GetAttack();
                 UI.UnitWindow.UnitAttackLabel.Text = IntToStr(attack);
-                var damage = u.GetDamage();
+                sbyte damage = u.GetDamage();
                 UI.UnitWindow.UnitDamageLabel.Text = IntToStr(damage);
-                var defense = u.GetDefense();
+                sbyte defense = u.GetDefense();
                 UI.UnitWindow.UnitDefenseLabel.Text = IntToStr(defense);
-                var resistance = u.GetResistance();
+                sbyte resistance = u.GetResistance();
                 UI.UnitWindow.UnitResistanceLabel.Text = IntToStr(resistance);
-                var moveTypes = u.GetMoveTypes();
-                var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
+                Set<MoveType> moveTypes = u.GetMoveTypes();
+                int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UI.UnitWindow.UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 if (u.GetManaUpkeep() > 0)
                 {
-                    var manaUpkeep = u.GetManaUpkeep();
+                    int manaUpkeep = u.GetManaUpkeep();
                     UI.UnitWindow.UpkeepLabel.Text = IntToStr(manaUpkeep);
                     UpkeepIcon.CurrentImage = 52;
                 }
                 else
                 {
-                    var upkeep = u.GetUpkeep();
+                    byte upkeep = u.GetUpkeep();
                     UI.UnitWindow.UpkeepLabel.Text = IntToStr(upkeep);
                     UpkeepIcon.CurrentImage = 51;
                 }
 
-                var alignment = u.GetAlignment();
+                Units.Alignment alignment = u.GetAlignment();
                 AlignmentImage.Visible = alignment != Units.Alignment.None;
                 switch (u.GetAlignment())
                 {
@@ -499,17 +501,17 @@ public partial class UnitWindow
                         break;
                 }
 
-                var uAlignment = u.GetAlignment();
-                var alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
+                Units.Alignment uAlignment = u.GetAlignment();
+                string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
                 AlignmentLabel.Text = alignmentText;
                 UI.UnitWindow.AbilityAbilityList.Items.Clear();
                 UI.UnitWindow.AbilityTypeList.Items.Clear();
                 UI.UnitWindow.AbilitySourceList.Items.Clear();
-                var morale = u.GetMorale();
-                var moraleText = UI.Engine.TranslateResourceString(s_moraleTexts[(int)morale]);
-                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), [moraleText]);
+                Troop.Morale morale = u.GetMorale();
+                string moraleText = UI.Engine.TranslateResourceString(s_moraleTexts[(int)morale]);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), [moraleText]);
                 MoraleLabel.Text = format;
-                var unitType = u.GetUnitType();
+                UnitType unitType = u.GetUnitType();
                 MoraleLabel.Visible = unitType != UnitType.Machine;
                 if (StrategicMap.Current.CombatMap == null)
                 {

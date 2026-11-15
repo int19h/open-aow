@@ -223,13 +223,13 @@ public partial class PyreScreen : UIModule
 
         if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
-            var replay = window.UI.Engine.TranslateResourceString(s_replayText);
+            string replay = window.UI.Engine.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;
             window.ExitButton.Visible = true;
         }
         else
         {
-            var continueText = window.UI.Engine.TranslateResourceString(s_continueText);
+            string continueText = window.UI.Engine.TranslateResourceString(s_continueText);
             window.ContinueButton.Text = continueText;
             window.ExitButton.Visible = false;
         }

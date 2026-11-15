@@ -202,8 +202,8 @@ public partial class CombatObject : EngineObject
             bool condition = player != 255;
             if (condition)
             {
-                var players = Combat.CombatData.Players.GetPlayers((sbyte)player);
-                var side = GetSide();
+                CombatPlayer players = Combat.CombatData.Players.GetPlayers((sbyte)player);
+                CombatSideIndex side = GetSide();
                 condition = (CombatSideIndex)players.SideIndex != side;
             }
 
@@ -211,7 +211,7 @@ public partial class CombatObject : EngineObject
             if (CombatPlayer != -1)
             {
                 combat = Combat;
-                var players = combat.CombatData.Players.GetPlayers(CombatPlayer);
+                CombatPlayer players = combat.CombatData.Players.GetPlayers(CombatPlayer);
                 combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
             }
 
@@ -219,7 +219,7 @@ public partial class CombatObject : EngineObject
             if (CombatPlayer != -1)
             {
                 newCombat = Combat;
-                var players = newCombat.CombatData.Players.GetPlayers(CombatPlayer);
+                CombatPlayer players = newCombat.CombatData.Players.GetPlayers(CombatPlayer);
                 newCombat.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
             }
 
@@ -314,7 +314,7 @@ public partial class CombatObject : EngineObject
         {
             combatLocal = Combat;
             // { This eliminated copy preserves the original saved registers. }
-            var players = combatLocal.CombatData.Players.GetPlayers((sbyte)player);
+            CombatPlayer players = combatLocal.CombatData.Players.GetPlayers((sbyte)player);
             combatLocal.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
         }
     }
@@ -330,7 +330,7 @@ public partial class CombatObject : EngineObject
         {
             combat = Combat;
             // { This eliminated copy preserves the original saved registers. }
-            var players = combat.CombatData.Players.GetPlayers((sbyte)player);
+            CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)player);
             combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
         }
     }
@@ -698,7 +698,7 @@ public partial class CombatObject : EngineObject
         int wallCombatValue;
         CombatObject target;
         CombatSide side;
-        var opponentSide = GetOpponentSide();
+        CombatSideIndex opponentSide = GetOpponentSide();
         side = Combat.Sides[(int)opponentSide];
         for (int i = side.Count - 1; i >= 0; i--)
         {
@@ -821,7 +821,7 @@ public partial class CombatObject : EngineObject
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
@@ -834,7 +834,7 @@ public partial class CombatObject : EngineObject
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
@@ -874,7 +874,7 @@ public partial class CombatObject : EngineObject
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
@@ -887,7 +887,7 @@ public partial class CombatObject : EngineObject
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 

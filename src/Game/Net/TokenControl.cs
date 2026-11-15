@@ -62,7 +62,7 @@ public partial class TokenControl : IDisposable
                     if (executor.HasSyncErrorHandlers)
                     {
                         tokenEvent = new SyncTokenEvent(null) { Holder = _tokenManager.Owner };
-                        var syncValue = executor.GetSyncValue();
+                        int syncValue = executor.GetSyncValue();
                         ((SyncTokenEvent)tokenEvent).SyncValue = syncValue;
                         _events.Insert(0, tokenEvent);
                         tokenEvent.Release();
@@ -189,21 +189,21 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1246
     public bool Local()
     {
-        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
-        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
-        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Remote;
     }
 

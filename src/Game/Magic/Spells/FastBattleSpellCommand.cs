@@ -20,7 +20,7 @@ public partial class FastBattleSpellCommand : FastBattleCommand
     // Spells.PAS:1
     public override string GetName()
     {
-        var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
         string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_castFormat), [spell.SpellName]);
         if (Target != null)
         {

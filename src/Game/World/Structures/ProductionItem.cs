@@ -28,7 +28,7 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        var (kind, parameter, groupId) = Order.ToFields();
+        (int kind, int parameter, int groupId) = Order.ToFields();
         kind = persister.Int32("Kind", value: kind);
         parameter = persister.Int32("Parameter", value: parameter);
         groupId = persister.Int32("GroupId", value: groupId);

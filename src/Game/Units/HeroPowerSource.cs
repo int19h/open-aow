@@ -36,7 +36,7 @@ public partial class HeroPowerSource : PowerSource
         sbyte y = default;
         sbyte l = default;
         ArmyHexSprite armyHexSprite;
-        var coordinate27 = GetLocation();
+        MapCoordinate coordinate27 = GetLocation();
         x = coordinate27.X;
         y = coordinate27.Y;
         l = coordinate27.MapLevel;

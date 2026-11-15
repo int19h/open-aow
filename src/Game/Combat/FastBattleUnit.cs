@@ -244,7 +244,7 @@ public partial class FastBattleUnit : CombatUnit
                 }
 
                 TargetPriorityInvalid = false;
-                var commandingTargetPriority = CommandingTargetPriority();
+                int commandingTargetPriority = CommandingTargetPriority();
                 TargetPriority += commandingTargetPriority * 2;
             }
             catch
@@ -319,14 +319,14 @@ public partial class FastBattleUnit : CombatUnit
         FleeCombatAction action;
         bool executed;
         combat = (FastBattle)Combat;
-        var side = GetSide();
+        CombatSideIndex side = GetSide();
         fastBattleCommandList = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
         troop = Troop;
         for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
         {
             if (troop.GetAbilityEnabled(i))
             {
-                var ability = GamePack.Current.AbilityControl.GetAbility(i);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
                 ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
             }
         }
@@ -343,7 +343,7 @@ public partial class FastBattleUnit : CombatUnit
                     {
                         if (troop.GetAbilityEnabled(i))
                         {
-                            var ability = GamePack.Current.AbilityControl.GetAbility(i);
+                            Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
                             ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
                         }
                     }
@@ -357,8 +357,8 @@ public partial class FastBattleUnit : CombatUnit
         {
             for (int i = fastBattleCommandList.GetCount() - 1; i >= 0; i--)
             {
-                var commands = fastBattleCommandList.GetCommands(i);
-                var hitPoints = GetHitPoints();
+                FastBattleCommand commands = fastBattleCommandList.GetCommands(i);
+                sbyte hitPoints = GetHitPoints();
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
                     fastBattleCommandList.Delete(i);
@@ -371,8 +371,8 @@ public partial class FastBattleUnit : CombatUnit
             fastBattleCommandList.Sort();
             if (fastBattleCommandList.GetCommands(0).MoveCost <= moveCost)
             {
-                var commands = fastBattleCommandList.GetCommands(0);
-                var commandsCommands = fastBattleCommandList.GetCommands(0);
+                FastBattleCommand commands = fastBattleCommandList.GetCommands(0);
+                FastBattleCommand commandsCommands = fastBattleCommandList.GetCommands(0);
                 executed = GamePack.Current.AbilityControl.GetAbility(commandsCommands.AbilityId).FastBattleExecuteCombatCommand(this, commands);
                 if (fastBattleCommandList.GetCommands(0).AbilityId == 52)
                 {
@@ -494,7 +494,7 @@ public partial class FastBattleUnit : CombatUnit
         troop = Troop;
         if (troop is Hero hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
-            var combatData = Combat.CombatData;
+            CombatData combatData = Combat.CombatData;
             hero.DropItemsOnMap(StrategicMap.Current, combatData.Location.X, combatData.Location.Y, combatData.Location.MapLevel);
         }
 

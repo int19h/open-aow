@@ -296,7 +296,7 @@ public partial class MapControl : Component
         {
             if (OnMapChanged != null)
             {
-                var info = sender.Info;
+                MapChangedInfo info = sender.Info;
                 OnMapChanged(ref info);
                 sender.Info = info;
             }
@@ -314,7 +314,7 @@ public partial class MapControl : Component
         {
             if (OnScannerIconsChanged != null)
             {
-                var info = sender.Info;
+                MapChangedInfo info = sender.Info;
                 OnScannerIconsChanged(ref info);
                 sender.Info = info;
             }
@@ -452,7 +452,7 @@ public partial class MapControl : Component
         {
             if (OnEndTurn != null)
             {
-                var listed = (object)StrategicMap.Current.Players.GetPlayers(player);
+                object listed = StrategicMap.Current.Players.GetPlayers(player);
                 OnEndTurn(player, !((Player)listed).SingleProcessCycle);
             }
         }
@@ -565,7 +565,7 @@ public partial class MapControl : Component
         {
             if (OnShowMessage != null)
             {
-                var info = sender.Info;
+                ShowMessageInfo info = sender.Info;
                 OnShowMessage(ref info);
                 sender.Info = info;
             }

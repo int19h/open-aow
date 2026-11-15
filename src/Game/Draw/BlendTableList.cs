@@ -44,6 +44,6 @@ public partial class BlendTableList : IDisposable
         public BlendTable this[int index] => target.GetTables(index);
     }
 
-    public TablesAccessor Tables => new TablesAccessor(this);
+    public TablesAccessor Tables => new(this);
 
 }

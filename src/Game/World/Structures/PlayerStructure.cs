@@ -91,7 +91,7 @@ public partial class PlayerStructure : Structure
         pixelYSurface = pixelY - pixelYSurface;
         if (_flagId != 63 && (!StrategicMap.Current.FogEnabled || !Fogged))
         {
-            var playerStructureResource = (PlayerStructureResource)Resource;
+            PlayerStructureResource playerStructureResource = (PlayerStructureResource)Resource;
             if (playerStructureResource.FlagType <= 1)
             {
                 GamePack.Current.FlagControl.ShowFlag(playerStructureResource.FlagX + pixelXSurface, playerStructureResource.FlagY + pixelYSurface, playerStructureResource.Engine.HexSpriteMap.Frame + pixelX, _flagId, lockedSurface);
@@ -116,35 +116,35 @@ public partial class PlayerStructure : Structure
                 {
                     if (Player > 0)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(Player);
-                        var param = message.Param;
+                        Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                        MapFieldMessageParameters param = message.Param;
                         param[0] = param[0].Int + ((players.PlayerRace + 1) * 256);
                         message.Param = param;
                     }
                     else
                     {
-                        var param2 = message.Param;
+                        MapFieldMessageParameters param2 = message.Param;
                         param2[0] = param2[0].Int + 3328;
                         message.Param = param2;
                     }
                 }
                 else
                 {
-                    var param3 = message.Param;
+                    MapFieldMessageParameters param3 = message.Param;
                     param3[0] = param3[0].Int + 3584;
                     message.Param = param3;
                 }
 
                 if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[StrategicMap.Current.SeatedPlayer])
                 {
-                    var param4 = message.Param;
+                    MapFieldMessageParameters param4 = message.Param;
                     param4[0] = param4[0].Int | 16777216;
                     message.Param = param4;
                 }
             }
             else
             {
-                var param5 = message.Param;
+                MapFieldMessageParameters param5 = message.Param;
                 param5[0] = param5[0].Int + 3584;
                 message.Param = param5;
             }
@@ -182,13 +182,13 @@ public partial class PlayerStructure : Structure
                 bool condition = Player > 0;
                 if (condition)
                 {
-                    var visibilityRange = VisibilityRange();
+                    int visibilityRange = VisibilityRange();
                     condition = message.Param[0].Int <= visibilityRange;
                 }
 
                 if (condition)
                 {
-                    var trueVisionRange = TrueVisionRange();
+                    int trueVisionRange = TrueVisionRange();
                     StrategicMap.Current.UpdatePlayerSeen(Player, message.MapField.HexX, message.MapField.HexY, message.MapField.HexLevel, message.Param[0].Int, trueVisionRange);
                 }
             }
@@ -202,8 +202,8 @@ public partial class PlayerStructure : Structure
                 {
                     if (message.MessageId == 4353 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                     {
-                        var moveAction = GetMoveAction((sbyte)message.Param[0].Int, (MoveAction)message.Param[1].Int);
-                        var param6 = message.Param;
+                        MoveAction moveAction = GetMoveAction((sbyte)message.Param[0].Int, (MoveAction)message.Param[1].Int);
+                        MapFieldMessageParameters param6 = message.Param;
                         param6[1] = (int)moveAction;
                         message.Param = param6;
                     }
@@ -213,7 +213,7 @@ public partial class PlayerStructure : Structure
                         {
                             if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
                             {
-                                var visibilityRange = VisibilityRange();
+                                int visibilityRange = VisibilityRange();
                                 if (message.Param[0].Int <= visibilityRange)
                                 {
                                     message.Result = 1;
@@ -229,7 +229,7 @@ public partial class PlayerStructure : Structure
         {
             if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
             {
-                var trueVisionRange = TrueVisionRange();
+                int trueVisionRange = TrueVisionRange();
                 if (message.Param[0].Int <= trueVisionRange)
                 {
                     message.Result = 1;
@@ -246,7 +246,7 @@ public partial class PlayerStructure : Structure
             {
                 if (message.MessageId == 4361 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                 {
-                    var combatEventText = GetCombatEventText(message.Param[0].As<Battle>());
+                    string combatEventText = GetCombatEventText(message.Param[0].As<Battle>());
                     message.Result.As<CombatResultQuery>().Text = combatEventText;
                 }
             }
@@ -420,7 +420,7 @@ public partial class PlayerStructure : Structure
                 {
                     if (Player == 0 || AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                     {
-                        var defaultAITargetPriority = GetDefaultAITargetPriority();
+                        int defaultAITargetPriority = GetDefaultAITargetPriority();
                         data.Priority = defaultAITargetPriority;
                     }
                 }
@@ -457,16 +457,16 @@ public partial class PlayerStructure : Structure
             UpdateUnfog();
             UpdatePlayerSeen();
             UpdateExploration();
-            var hexNumberToRadius = HexGeometry.HexNumberToRadius(Resource.TerrainList.Count);
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            int hexNumberToRadius = HexGeometry.HexNumberToRadius(Resource.TerrainList.Count);
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             StrategicMap.Current.ScannerIconsChangedRadius(hexX, hexY, hexLevel, hexNumberToRadius);
             UpdateFlagId();
             FogChanged();
-            var hexLevel2 = GetHexLevel();
-            var hexY2 = GetHexY();
-            var hexX2 = GetHexX();
+            sbyte hexLevel2 = GetHexLevel();
+            sbyte hexY2 = GetHexY();
+            sbyte hexX2 = GetHexX();
             StrategicMap.Current.NotifyPlayerChanged(hexX2, hexY2, hexLevel2);
             if (Player != -1)
             {
@@ -609,7 +609,7 @@ public partial class PlayerStructure : Structure
                         if (Resource.TerrainList.Terrain[i] >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
-                            var visibilityRange = VisibilityRange();
+                            int visibilityRange = VisibilityRange();
                             StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)player, visibilityRange);
                         }
                     }
@@ -636,7 +636,7 @@ public partial class PlayerStructure : Structure
         {
             if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
             {
-                var editName = EditName();
+                string editName = EditName();
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             }
             else
@@ -656,7 +656,7 @@ public partial class PlayerStructure : Structure
         {
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
-            var editName = EditName();
+            string editName = EditName();
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
@@ -801,9 +801,9 @@ public partial class PlayerStructure : Structure
                 if (Resource.TerrainList.Terrain[i] >= 0)
                 {
                     HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
-                    var hexLevel = GetHexLevel();
-                    var visibilityRange = VisibilityRange();
-                    var trueVisionRange = TrueVisionRange();
+                    sbyte hexLevel = GetHexLevel();
+                    int visibilityRange = VisibilityRange();
+                    int trueVisionRange = TrueVisionRange();
                     StrategicMap.Current.UpdatePlayerSeen(Player, x, y, hexLevel, visibilityRange, trueVisionRange);
                 }
             }

@@ -12,7 +12,7 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
 
     public bool IsStored(int index)
     {
-        var child = node.GetChild(index);
+        EngineObject child = node.GetChild(index);
         return child != null && child.Owner == node
             && !child.GetControlStyle().Contains(EngineServices.Shared)
             && child.GetControlStyle().Contains(EngineServices.Stored);
@@ -26,7 +26,7 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
 
     public void Place(int slot, IPersistable child)
     {
-        var objectValue = (EngineObject)child;
+        EngineObject objectValue = (EngineObject)child;
         objectValue.SetOwnerWithoutNotify(null);
         if (KeepIndex)
         {

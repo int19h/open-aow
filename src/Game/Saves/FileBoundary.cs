@@ -68,7 +68,7 @@ public static class FileBoundary
         }
         catch (ConversionException error)
         {
-            var report = prepared.Report;
+            GameFileReport report = prepared.Report;
             report.Error = error.Diagnostic;
             report.Validation = "refused";
             Record(RtlUnit.Files, fileName: fileName, report: report);
@@ -89,7 +89,7 @@ public static class FileBoundary
 
     private static Prepared? Prepare(string fileName, GameProfile profile, string operation)
     {
-        var files = RtlUnit.Files;
+        IFileSystem files = RtlUnit.Files;
         byte[] bytes;
         try
         {
@@ -105,13 +105,13 @@ public static class FileBoundary
         // A final open always validates the actual bytes. A document the original image cannot
         // carry has no image, so a preview of it is not cached.
         bool preview = operation != "open";
-        var key = preview ? new PreviewKey(layer, fileName, profile.Name, OwnFormat.CurrentVersion, Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
-        if (preview && Previews.TryGet(key, out var cached))
+        PreviewKey key = preview ? new PreviewKey(layer, fileName, profile.Name, OwnFormat.CurrentVersion, Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
+        if (preview && Previews.TryGet(key, out PreviewEntry? cached))
         {
             Record(new FileLogRecord(fileName, layer, cached.Report, cached: true));
             return new Prepared(cached.Image, Report: cached.Report, Result: null);
         }
-        var result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
+        GameFileResult result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
         Record(new FileLogRecord(fileName, layer, result.Report));
         if (!result.Succeeded)
         {
@@ -161,7 +161,7 @@ public static class FileBoundary
     /// </summary>
     public static void Save(string fileName, GameProfile profile, EngineObject root, ProgressEvent? progress = null, string? headerName = null)
     {
-        var files = RtlUnit.Files;
+        IFileSystem files = RtlUnit.Files;
         GameFileResult result;
         try
         {
@@ -200,11 +200,11 @@ public static class FileBoundary
     /// </summary>
     public static byte[] ListingHeader(string fileName, GameProfile profile, int count)
     {
-        var files = RtlUnit.Files;
+        IFileSystem files = RtlUnit.Files;
         byte[] head;
         try
         {
-            using var stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+            using Stream stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
             head = new byte[count];
             int total = 0, read;
             while (total < count && (read = stream.Read(head, total, count - total)) > 0)
@@ -247,7 +247,7 @@ public static class FileBoundary
             return [];
         }
 
-        var header = ListingHeaderFromDocument(document, profile);
+        byte[] header = ListingHeaderFromDocument(document, profile);
         return header.Length >= count ? header[..count] : [];
     }
 
@@ -305,7 +305,7 @@ public static class FileBoundary
     // caller sends nothing. A nil packet is not an image of the file.
     private static void RefuseThroughPacket(Prepared prepared, GameProfile profile)
     {
-        var tree = GameBoundary.ReadTree(prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result."), use: profile);
+        GameFileTree tree = GameBoundary.ReadTree(prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result."), use: profile);
         GameBoundary.WritePacket(tree.Root, classId: tree.ClassId, className: tree.ClassName);
     }
 
@@ -351,7 +351,7 @@ public static class FileBoundary
             return [];
         }
 
-        var head = new byte[52];
+        byte[] head = new byte[52];
         BinaryPrimitives.WriteInt32LittleEndian(head, 52);
         head[4] = 4;
         "HSS\0"u8.CopyTo(head.AsSpan(5));
@@ -383,7 +383,7 @@ public static class FileBoundary
             reserved = (int)word.Value;
         }
 
-        var head = new byte[16];
+        byte[] head = new byte[16];
         BinaryPrimitives.WriteInt32LittleEndian(head, 16);
         HsmProfile.Magic.CopyTo(head.AsSpan(4));
         BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(8), reserved);
@@ -409,7 +409,7 @@ public static class FileBoundary
             return fileName;
         }
 
-        var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
+        DocumentKind? kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
         if (kind is null || IsEmailExchange(directory + fileName))
         {
             return fileName;
@@ -433,7 +433,7 @@ public static class FileBoundary
     public static string ReadName(string fileName)
     {
         string extension = RtlUnit.ExtractFileExt(fileName);
-        var kind = DocumentKind.ForExtension(extension);
+        DocumentKind? kind = DocumentKind.ForExtension(extension);
         if (kind is null)
         {
             return fileName;
@@ -464,10 +464,10 @@ public static class FileBoundary
     /// </summary>
     public static List<string> FindDocuments(string directory, DocumentKind kind)
     {
-        var originals = FindNames(directory + "*" + kind.OriginalExtension);
-        var owns = FindNames(directory + "*" + kind.OwnExtension);
-        var result = new List<string>();
-        foreach (var name in originals)
+        List<string> originals = FindNames(directory + "*" + kind.OriginalExtension);
+        List<string> owns = FindNames(directory + "*" + kind.OwnExtension);
+        List<string> result = new();
+        foreach (string name in originals)
         {
             string own = RtlUnit.ChangeFileExt(name, kind.OwnExtension);
             int index = owns.FindIndex(o => RtlUnit.CompareText(o, own) == 0);
@@ -485,8 +485,8 @@ public static class FileBoundary
 
     private static List<string> FindNames(string mask)
     {
-        var names = new List<string>();
-        foreach (var entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16))
+        List<string> names = new();
+        foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16))
         {
             names.Add(entry.Name);
         }
@@ -507,7 +507,7 @@ public static class FileBoundary
         bool replaced = false;
         try
         {
-            using (var stream = files.Open(temporary, RtlUnit.fmCreate))
+            using (Stream stream = files.Open(temporary, RtlUnit.fmCreate))
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
@@ -538,8 +538,8 @@ public static class FileBoundary
 
     private static byte[] ReadAll(IFileSystem files, string fileName)
     {
-        using var stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
-        using var memory = new MemoryStream();
+        using Stream stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();
     }

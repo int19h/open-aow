@@ -32,9 +32,9 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     {
         HexNumberWalkData hexNumberWalkData = default;
         bool result = PlayerIndex == player;
-        ref var walk = ref hexNumberWalkData;
-        var hexY = Cloud.HexY;
-        var hexX = Cloud.HexX;
+        ref HexNumberWalkData walk = ref hexNumberWalkData;
+        sbyte hexY = Cloud.HexY;
+        sbyte hexX = Cloud.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         while (!result && walk.Radius <= 3)
         {

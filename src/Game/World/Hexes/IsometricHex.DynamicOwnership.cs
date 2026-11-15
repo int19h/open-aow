@@ -1,6 +1,6 @@
 #nullable disable
 using Aow.Game.Draw;
-
+using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
 
@@ -12,16 +12,16 @@ public partial class IsometricHex
     {
         OpenSides = 0;
         Sides &= 0xC0;
-        var field = Owner;
-        var level = field.Owner;
+        MapField field = Owner;
+        MapLevel level = field.Owner;
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 1);
         while (walk.HexNumber <= 6)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                var neighbour = level.GetField(walk.X, walk.Y);
-                var sprite = neighbour.FindOwnedHexSprite(peer);
+                MapField neighbour = level.GetField(walk.X, walk.Y);
+                HexSprite sprite = neighbour.FindOwnedHexSprite(peer);
                 bool peerFound = sprite != null;
                 sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHex));
                 if (sprite == null)

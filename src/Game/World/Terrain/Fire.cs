@@ -221,7 +221,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
-            var hexX = GetHexX();
+            sbyte hexX = GetHexX();
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
@@ -234,7 +234,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         if (result)
         {
-            var classId = EngineClass.ClassId;
+            int classId = EngineClass.ClassId;
             result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) == null;
         }
 
@@ -325,7 +325,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         MapFieldMessage message = default;
         message.MessageId = 4357;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = this;
         message.Param = param;
         message.Result = 0;
@@ -377,8 +377,8 @@ public partial class Fire : ImageLibraryTerrainMapObject
         if (Age > 0)
         {
             mapLevel = Owner.Owner;
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
             while (walk.Radius == 1)
             {
@@ -389,7 +389,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
                     if (chance > StrategicMap.Current.Random(1000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        var hexLevel = GetHexLevel();
+                        sbyte hexLevel = GetHexLevel();
                         fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
                         if (fire != null)
                         {

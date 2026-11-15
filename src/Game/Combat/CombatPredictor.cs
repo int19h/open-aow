@@ -28,9 +28,9 @@ public partial class CombatPredictor : IDisposable
         Creator = creator;
         _allUnits = new CombatPredictorUnitList();
         _activeUnits = new CombatPredictorUnitList();
-        var combatPredictorSide = new CombatPredictorSide();
+        CombatPredictorSide combatPredictorSide = new();
         Sides[0] = combatPredictorSide;
-        var combatPredictorSide2 = new CombatPredictorSide();
+        CombatPredictorSide combatPredictorSide2 = new();
         Sides[1] = combatPredictorSide2;
     }
 
@@ -366,7 +366,7 @@ public partial class CombatPredictor : IDisposable
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
                     d = (DamageType)dOrdinal;
-                    var strength = troop.GetStrength(d);
+                    int strength = troop.GetStrength(d);
                     Sides[u.Side].Strength[(int)d] += strength;
                 }
             }
@@ -391,7 +391,7 @@ public partial class CombatPredictor : IDisposable
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             d = (DamageType)dOrdinal;
-            var strength = troop.GetStrength(d);
+            int strength = troop.GetStrength(d);
             Sides[side].Strength[(int)d] += strength;
         }
 
@@ -496,7 +496,7 @@ public partial class CombatPredictor : IDisposable
         HexNumberWalkData walk = default;
         AddUnits(army.Army.Units);
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        var armyLocal = army.Army;
+        Army armyLocal = army.Army;
         player = (byte)armyLocal.Player;
         relation = (byte)armyLocal.IndependentRelation;
 
@@ -505,8 +505,8 @@ public partial class CombatPredictor : IDisposable
         if (defender != 255)
         {
             message.MessageId = 4387;
-            var fieldValue = level.GetField(X, Y);
-            var param = message.Param;
+            MapField fieldValue = level.GetField(X, Y);
+            MapFieldMessageParameters param = message.Param;
             param[0] = fieldValue;
             message.Param = param;
             message.Result = 0;
@@ -529,8 +529,8 @@ public partial class CombatPredictor : IDisposable
                         {
                             field = level.GetField(X, Y);
                             message.MessageId = 4387;
-                            var levelField = level.GetField(walk.X, walk.Y);
-                            var param2 = message.Param;
+                            MapField levelField = level.GetField(walk.X, walk.Y);
+                            MapFieldMessageParameters param2 = message.Param;
                             param2[0] = levelField;
                             message.Param = param2;
                             message.Result = 0;
@@ -570,8 +570,8 @@ public partial class CombatPredictor : IDisposable
         if (defender != 255)
         {
             message.MessageId = 4387;
-            var fieldValue = level.GetField(X, Y);
-            var param = message.Param;
+            MapField fieldValue = level.GetField(X, Y);
+            MapFieldMessageParameters param = message.Param;
             param[0] = fieldValue;
             message.Param = param;
             message.Result = 0;
@@ -594,8 +594,8 @@ public partial class CombatPredictor : IDisposable
                         {
                             field = level.GetField(X, Y);
                             message.MessageId = 4387;
-                            var levelField = level.GetField(walk.X, walk.Y);
-                            var param2 = message.Param;
+                            MapField levelField = level.GetField(walk.X, walk.Y);
+                            MapFieldMessageParameters param2 = message.Param;
                             param2[0] = levelField;
                             message.Param = param2;
                             message.Result = 0;
@@ -724,14 +724,14 @@ public partial class CombatPredictor : IDisposable
                     u = Sides[side].List[i];
                     if (u.Status.Contains(CombatPredictorUnitStatusElement.Destroyed))
                     {
-                        var obtainValue = u.Troop.GetObtainValue();
+                        int obtainValue = u.Troop.GetObtainValue();
                         lost[side] += obtainValue;
                     }
                     else
                     {
                         if (u.HitPoints < u.InitialHitPoints)
                         {
-                            var obtainValue = u.Troop.GetObtainValue();
+                            int obtainValue = u.Troop.GetObtainValue();
                             lost[side] += Round((double)(obtainValue * u.HitPoints) / (u.InitialHitPoints * 2));
                         }
                     }

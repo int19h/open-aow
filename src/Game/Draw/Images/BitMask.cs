@@ -84,16 +84,16 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        var maskWidth = MaskWidth;
+        int maskWidth = MaskWidth;
         stream.ReadExactly(Bytes.Of(ref maskWidth, 4));
         MaskWidth = maskWidth;
-        var maskHeight = MaskHeight;
+        int maskHeight = MaskHeight;
         stream.ReadExactly(Bytes.Of(ref maskHeight, 4));
         MaskHeight = maskHeight;
-        var maskLeft = MaskLeft;
+        int maskLeft = MaskLeft;
         stream.ReadExactly(Bytes.Of(ref maskLeft, 4));
         MaskLeft = maskLeft;
-        var maskTop = MaskTop;
+        int maskTop = MaskTop;
         stream.ReadExactly(Bytes.Of(ref maskTop, 4));
         MaskTop = maskTop;
     }
@@ -102,16 +102,16 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        var maskWidth = MaskWidth;
+        int maskWidth = MaskWidth;
         stream.Write(Bytes.Of(ref maskWidth, 4));
         MaskWidth = maskWidth;
-        var maskHeight = MaskHeight;
+        int maskHeight = MaskHeight;
         stream.Write(Bytes.Of(ref maskHeight, 4));
         MaskHeight = maskHeight;
-        var maskLeft = MaskLeft;
+        int maskLeft = MaskLeft;
         stream.Write(Bytes.Of(ref maskLeft, 4));
         MaskLeft = maskLeft;
-        var maskTop = MaskTop;
+        int maskTop = MaskTop;
         stream.Write(Bytes.Of(ref maskTop, 4));
         MaskTop = maskTop;
     }
@@ -377,7 +377,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         public override void LoadFromStream(Stream stream)
         {
             base.LoadFromStream(stream);
-            var inverse = Inverse;
+            bool inverse = Inverse;
             stream.ReadExactly(Bytes.Of(ref inverse, 1));
             Inverse = inverse;
         }
@@ -386,7 +386,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         public override void SaveToStream(Stream stream)
         {
             base.SaveToStream(stream);
-            var inverse = Inverse;
+            bool inverse = Inverse;
             stream.Write(Bytes.Of(ref inverse, 1));
             Inverse = inverse;
         }

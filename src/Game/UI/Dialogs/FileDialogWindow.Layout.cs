@@ -63,7 +63,7 @@ public partial class FileDialogWindow : ILayoutModule
         Window.WinHeight = 363;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button cancelBut = new Button(this);
+        Button cancelBut = new(this);
         session.BeginRead(cancelBut);
         cancelBut.Name = "CancelBut";
         cancelBut.Priority = 250;
@@ -94,7 +94,7 @@ public partial class FileDialogWindow : ILayoutModule
         cancelBut.WinWidth = 122;
         cancelBut.OnClick += _ => CloseClick();
         session.EndRead(cancelBut);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -242,7 +242,7 @@ public partial class FileDialogWindow : ILayoutModule
         FileNameEdit.ImageLibraryIndex = 15;
         FileNameEdit.PassWordChar = 0;
         session.EndRead(FileNameEdit);
-        Label scenLbl = new Label(this);
+        Label scenLbl = new(this);
         session.BeginRead(scenLbl);
         scenLbl.Name = "ScenLbl";
         scenLbl.Visible = false;
@@ -303,7 +303,7 @@ public partial class FileDialogWindow : ILayoutModule
         DriveComboBox.ImageLibraryTsIndex = 8;
         DriveComboBox.ItemHeight = 17;
         session.EndRead(DriveComboBox);
-        Label driveL = new Label(this);
+        Label driveL = new(this);
         session.BeginRead(driveL);
         driveL.Name = "DriveL";
         driveL.Priority = 0;
@@ -326,7 +326,7 @@ public partial class FileDialogWindow : ILayoutModule
         driveL.Text = "Drive";
         driveL.TextColor = 9415072;
         session.EndRead(driveL);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -360,7 +360,7 @@ public partial class FileDialogWindow : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Button upDirBtn = new Button(this);
+        Button upDirBtn = new(this);
         session.BeginRead(upDirBtn);
         upDirBtn.Name = "UpDirBtn";
         upDirBtn.Priority = 900;
@@ -394,7 +394,7 @@ public partial class FileDialogWindow : ILayoutModule
         upDirBtn.WinWidth = 32;
         upDirBtn.OnClick += _ => UpDirBtnClick();
         session.EndRead(upDirBtn);
-        Label pathL = new Label(this);
+        Label pathL = new(this);
         session.BeginRead(pathL);
         pathL.Name = "PathL";
         pathL.Priority = 0;
@@ -417,7 +417,7 @@ public partial class FileDialogWindow : ILayoutModule
         pathL.Text = "Path";
         pathL.TextColor = 9415072;
         session.EndRead(pathL);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -445,7 +445,7 @@ public partial class FileDialogWindow : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        VerticalScrollBar driveSB = new VerticalScrollBar(this);
+        VerticalScrollBar driveSB = new(this);
         session.BeginRead(driveSB);
         driveSB.Name = "DriveSB";
         driveSB.Visible = false;
@@ -482,7 +482,7 @@ public partial class FileDialogWindow : ILayoutModule
         driveSB.ImageLibraryIndexBack = 101;
         driveSB.ThumbImageIndex = 98;
         session.EndRead(driveSB);
-        Image celtM = new Image(this);
+        Image celtM = new(this);
         session.BeginRead(celtM);
         celtM.Name = "CeltM";
         celtM.Priority = 100;
@@ -510,7 +510,7 @@ public partial class FileDialogWindow : ILayoutModule
         celtM.Animate = false;
         celtM.AnimationFrameDelay = 0;
         session.EndRead(celtM);
-        Image lPlayersI = new Image(this);
+        Image lPlayersI = new(this);
         session.BeginRead(lPlayersI);
         lPlayersI.Name = "LPlayersI";
         lPlayersI.Priority = 0;
@@ -542,7 +542,7 @@ public partial class FileDialogWindow : ILayoutModule
         lPlayersI.Animate = false;
         lPlayersI.AnimationFrameDelay = 0;
         session.EndRead(lPlayersI);
-        Panel lSavedInfo = new Panel(this);
+        Panel lSavedInfo = new(this);
         session.BeginRead(lSavedInfo);
         lSavedInfo.Name = "LSavedInfo";
         lSavedInfo.Priority = 0;
@@ -569,7 +569,7 @@ public partial class FileDialogWindow : ILayoutModule
         lSavedInfo.MinWidth = 0;
         lSavedInfo.MinHeight = 0;
         session.EndRead(lSavedInfo);
-        Image lSizeI = new Image(this);
+        Image lSizeI = new(this);
         session.BeginRead(lSizeI);
         lSizeI.Name = "LSizeI";
         lSizeI.Priority = 0;
@@ -601,7 +601,7 @@ public partial class FileDialogWindow : ILayoutModule
         lSizeI.Animate = false;
         lSizeI.AnimationFrameDelay = 0;
         session.EndRead(lSizeI);
-        Image lTownsI = new Image(this);
+        Image lTownsI = new(this);
         session.BeginRead(lTownsI);
         lTownsI.Name = "LTownsI";
         lTownsI.Priority = 0;
@@ -633,7 +633,7 @@ public partial class FileDialogWindow : ILayoutModule
         lTownsI.Animate = false;
         lTownsI.AnimationFrameDelay = 0;
         session.EndRead(lTownsI);
-        Image lTurnsI = new Image(this);
+        Image lTurnsI = new(this);
         session.BeginRead(lTurnsI);
         lTurnsI.Name = "LTurnsI";
         lTurnsI.Priority = 0;
@@ -773,7 +773,7 @@ public partial class FileDialogWindow : ILayoutModule
         SavedTurnsLabel.Text = "##";
         SavedTurnsLabel.TextColor = 9415072;
         session.EndRead(SavedTurnsLabel);
-        Image celtL = new Image(this);
+        Image celtL = new(this);
         session.BeginRead(celtL);
         celtL.Name = "CeltL";
         celtL.Priority = 100;
@@ -801,7 +801,7 @@ public partial class FileDialogWindow : ILayoutModule
         celtL.Animate = false;
         celtL.AnimationFrameDelay = 0;
         session.EndRead(celtL);
-        Image celtR = new Image(this);
+        Image celtR = new(this);
         session.BeginRead(celtR);
         celtR.Name = "CeltR";
         celtR.Priority = 100;
@@ -829,7 +829,7 @@ public partial class FileDialogWindow : ILayoutModule
         celtR.Animate = false;
         celtR.AnimationFrameDelay = 0;
         session.EndRead(celtR);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -856,7 +856,7 @@ public partial class FileDialogWindow : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCelt = new Image(this);
+        Image tCelt = new(this);
         session.BeginRead(tCelt);
         tCelt.Name = "TCelt";
         tCelt.Priority = 100;
@@ -884,7 +884,7 @@ public partial class FileDialogWindow : ILayoutModule
         tCelt.Animate = false;
         tCelt.AnimationFrameDelay = 0;
         session.EndRead(tCelt);
-        Image sPlayersI = new Image(this);
+        Image sPlayersI = new(this);
         session.BeginRead(sPlayersI);
         sPlayersI.Name = "SPlayersI";
         sPlayersI.Priority = 0;
@@ -916,7 +916,7 @@ public partial class FileDialogWindow : ILayoutModule
         sPlayersI.Animate = false;
         sPlayersI.AnimationFrameDelay = 0;
         session.EndRead(sPlayersI);
-        Panel newInfo = new Panel(this);
+        Panel newInfo = new(this);
         session.BeginRead(newInfo);
         newInfo.Name = "NewInfo";
         newInfo.Priority = 10;
@@ -943,7 +943,7 @@ public partial class FileDialogWindow : ILayoutModule
         newInfo.MinWidth = 0;
         newInfo.MinHeight = 0;
         session.EndRead(newInfo);
-        Image sSizeI = new Image(this);
+        Image sSizeI = new(this);
         session.BeginRead(sSizeI);
         sSizeI.Name = "SSizeI";
         sSizeI.Priority = 0;
@@ -975,7 +975,7 @@ public partial class FileDialogWindow : ILayoutModule
         sSizeI.Animate = false;
         sSizeI.AnimationFrameDelay = 0;
         session.EndRead(sSizeI);
-        Image sTownsI = new Image(this);
+        Image sTownsI = new(this);
         session.BeginRead(sTownsI);
         sTownsI.Name = "STownsI";
         sTownsI.Priority = 0;
@@ -1184,7 +1184,7 @@ public partial class FileDialogWindow : ILayoutModule
         SaveFileNameEdit.OnReturn += _ => SFileNameReturn();
         SaveFileNameEdit.PassWordChar = 0;
         session.EndRead(SaveFileNameEdit);
-        Label savedInfo = new Label(this);
+        Label savedInfo = new(this);
         session.BeginRead(savedInfo);
         savedInfo.Name = "SavedInfo";
         savedInfo.Visible = false;
@@ -1270,7 +1270,7 @@ public partial class FileDialogWindow : ILayoutModule
         DateList.ItemHeight = 17;
         DateList.TextAlign = TextAlignment.Left;
         session.EndRead(DateList);
-        Button saveBtn = new Button(this);
+        Button saveBtn = new(this);
         session.BeginRead(saveBtn);
         saveBtn.Name = "SaveBtn";
         saveBtn.Priority = 100;
@@ -1301,7 +1301,7 @@ public partial class FileDialogWindow : ILayoutModule
         saveBtn.WinWidth = 180;
         saveBtn.OnClick += _ => SaveBtnClick();
         session.EndRead(saveBtn);
-        Button dateBtn = new Button(this);
+        Button dateBtn = new(this);
         session.BeginRead(dateBtn);
         dateBtn.Name = "DateBtn";
         dateBtn.Priority = 100;
@@ -1332,7 +1332,7 @@ public partial class FileDialogWindow : ILayoutModule
         dateBtn.WinWidth = 130;
         dateBtn.OnClick += _ => DateBtnClick();
         session.EndRead(dateBtn);
-        VerticalScrollBar nsBar = new VerticalScrollBar(this);
+        VerticalScrollBar nsBar = new(this);
         session.BeginRead(nsBar);
         nsBar.Name = "NSBar";
         nsBar.Priority = 0;
@@ -1368,7 +1368,7 @@ public partial class FileDialogWindow : ILayoutModule
         nsBar.ImageLibraryIndexBack = 101;
         nsBar.ThumbImageIndex = 98;
         session.EndRead(nsBar);
-        Panel driveFr = new Panel(this);
+        Panel driveFr = new(this);
         session.BeginRead(driveFr);
         driveFr.Name = "DriveFr";
         driveFr.Priority = 10;
@@ -1395,7 +1395,7 @@ public partial class FileDialogWindow : ILayoutModule
         driveFr.MinWidth = 0;
         driveFr.MinHeight = 0;
         session.EndRead(driveFr);
-        Panel topPnl = new Panel(this);
+        Panel topPnl = new(this);
         session.BeginRead(topPnl);
         topPnl.Name = "TopPnl";
         topPnl.Priority = 0;
@@ -1422,7 +1422,7 @@ public partial class FileDialogWindow : ILayoutModule
         topPnl.MinWidth = 0;
         topPnl.MinHeight = 0;
         session.EndRead(topPnl);
-        Panel pathFr = new Panel(this);
+        Panel pathFr = new(this);
         session.BeginRead(pathFr);
         pathFr.Name = "PathFr";
         pathFr.Priority = 0;
@@ -1480,7 +1480,7 @@ public partial class FileDialogWindow : ILayoutModule
         PathEdit.ImageLibraryIndex = 15;
         PathEdit.PassWordChar = 0;
         session.EndRead(PathEdit);
-        Panel newLBFr = new Panel(this);
+        Panel newLBFr = new(this);
         session.BeginRead(newLBFr);
         newLBFr.Name = "NewLBFr";
         newLBFr.Priority = 10;
@@ -1507,7 +1507,7 @@ public partial class FileDialogWindow : ILayoutModule
         newLBFr.MinWidth = 0;
         newLBFr.MinHeight = 0;
         session.EndRead(newLBFr);
-        Panel newInfo1 = new Panel(this);
+        Panel newInfo1 = new(this);
         session.BeginRead(newInfo1);
         newInfo1.Name = "NewInfo1";
         newInfo1.Priority = 0;
@@ -1534,7 +1534,7 @@ public partial class FileDialogWindow : ILayoutModule
         newInfo1.MinWidth = 0;
         newInfo1.MinHeight = 0;
         session.EndRead(newInfo1);
-        Panel newInfo2 = new Panel(this);
+        Panel newInfo2 = new(this);
         session.BeginRead(newInfo2);
         newInfo2.Name = "NewInfo2";
         newInfo2.Priority = 0;
@@ -1561,7 +1561,7 @@ public partial class FileDialogWindow : ILayoutModule
         newInfo2.MinWidth = 0;
         newInfo2.MinHeight = 0;
         session.EndRead(newInfo2);
-        Panel newInfo3 = new Panel(this);
+        Panel newInfo3 = new(this);
         session.BeginRead(newInfo3);
         newInfo3.Name = "NewInfo3";
         newInfo3.Priority = 0;
@@ -1652,7 +1652,7 @@ public partial class FileDialogWindow : ILayoutModule
         SaveScrollBar.ImageLibraryIndexBack = 101;
         SaveScrollBar.ThumbImageIndex = 98;
         session.EndRead(SaveScrollBar);
-        Panel savedInfo1 = new Panel(this);
+        Panel savedInfo1 = new(this);
         session.BeginRead(savedInfo1);
         savedInfo1.Name = "SavedInfo1";
         savedInfo1.Priority = 0;
@@ -1679,7 +1679,7 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo1.MinWidth = 0;
         savedInfo1.MinHeight = 0;
         session.EndRead(savedInfo1);
-        Panel savedInfo2 = new Panel(this);
+        Panel savedInfo2 = new(this);
         session.BeginRead(savedInfo2);
         savedInfo2.Name = "SavedInfo2";
         savedInfo2.Priority = 0;
@@ -1706,7 +1706,7 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo2.MinWidth = 0;
         savedInfo2.MinHeight = 0;
         session.EndRead(savedInfo2);
-        Panel savedInfo3 = new Panel(this);
+        Panel savedInfo3 = new(this);
         session.BeginRead(savedInfo3);
         savedInfo3.Name = "SavedInfo3";
         savedInfo3.Priority = 0;
@@ -1733,7 +1733,7 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo3.MinWidth = 0;
         savedInfo3.MinHeight = 0;
         session.EndRead(savedInfo3);
-        Panel savedInfo4 = new Panel(this);
+        Panel savedInfo4 = new(this);
         session.BeginRead(savedInfo4);
         savedInfo4.Name = "SavedInfo4";
         savedInfo4.Priority = 0;
@@ -1760,7 +1760,7 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo4.MinWidth = 0;
         savedInfo4.MinHeight = 0;
         session.EndRead(savedInfo4);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -115,11 +115,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         bool result = result2;
         if (result)
         {
-            var activeAction = city.GetActiveAction();
+            CityAction activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.GetActiveAction();
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -273,11 +273,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         bool result = result2;
         if (result)
         {
-            var activeAction = city.GetActiveAction();
+            CityAction activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.GetActiveAction();
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -406,11 +406,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         bool result = result2;
         if (result)
         {
-            var activeAction = city.GetActiveAction();
+            CityAction activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.GetActiveAction();
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -457,7 +457,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         {
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
-            var fortifyCost = city.FortifyCost();
+            int fortifyCost = city.FortifyCost();
             player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
             production = new ProductionItem(null) { Holder = CreationHolder() };
             production.Order = new Fortify();
@@ -533,7 +533,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             if (structure is City)
             {
                 _ = (City)structure;
-                var city = (City)structure;
+                City city = (City)structure;
                 if (city.GetSize() > city.UpgradeLevel)
                 {
                     count += 1;

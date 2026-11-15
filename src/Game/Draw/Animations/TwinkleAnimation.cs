@@ -43,8 +43,8 @@ public partial class TwinkleAnimation : Animation
         HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
         pixelXSurface = x - pixelXSurface + 16;
         pixelYSurface = y - pixelYSurface + 16;
-        var hexX = GetHexX();
-        var hexY = GetHexY();
+        sbyte hexX = GetHexX();
+        sbyte hexY = GetHexY();
         RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + (hexY * 3);
         for (int i = 0, last = _count - 1; i <= last; i++)
         {

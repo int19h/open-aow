@@ -103,7 +103,7 @@ public partial class ConfirmationDialog : ILayoutModule
         MessageLabel.Masked = true;
         MessageLabel.TextColor = 13165253;
         session.EndRead(MessageLabel);
-        Button dButton = new Button(this);
+        Button dButton = new(this);
         session.BeginRead(dButton);
         dButton.Name = "DButton";
         dButton.Priority = 1000;
@@ -134,7 +134,7 @@ public partial class ConfirmationDialog : ILayoutModule
         dButton.WinWidth = 140;
         dButton.OnClick += _ => DButtonClick();
         session.EndRead(dButton);
-        Window debugWin = new Window(this);
+        Window debugWin = new(this);
         session.BeginRead(debugWin);
         debugWin.Name = "DebugWin";
         debugWin.Visible = false;
@@ -177,7 +177,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugWin.WinHeight = 216;
         debugWin.Dockable = false;
         session.EndRead(debugWin);
-        Label debugDTitle = new Label(this);
+        Label debugDTitle = new(this);
         session.BeginRead(debugDTitle);
         debugDTitle.Name = "DebugDTitle";
         debugDTitle.Priority = 0;
@@ -200,7 +200,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugDTitle.Text = "Debug";
         debugDTitle.TextColor = 0;
         session.EndRead(debugDTitle);
-        Button debugDOkBtn = new Button(this);
+        Button debugDOkBtn = new(this);
         session.BeginRead(debugDOkBtn);
         debugDOkBtn.Name = "DebugDOkBtn";
         debugDOkBtn.Priority = 1000;
@@ -231,7 +231,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugDOkBtn.WinWidth = 160;
         debugDOkBtn.OnClick += _ => DebugDOkBtnClick();
         session.EndRead(debugDOkBtn);
-        Label frameLbl = new Label(this);
+        Label frameLbl = new(this);
         session.BeginRead(frameLbl);
         frameLbl.Name = "FrameLbl";
         frameLbl.Priority = 0;
@@ -253,7 +253,7 @@ public partial class ConfirmationDialog : ILayoutModule
         frameLbl.Masked = true;
         frameLbl.TextColor = 16777215;
         session.EndRead(frameLbl);
-        Label debugDfrTitle = new Label(this);
+        Label debugDfrTitle = new(this);
         session.BeginRead(debugDfrTitle);
         debugDfrTitle.Name = "DebugDfrTitle";
         debugDfrTitle.Priority = 0;
@@ -276,7 +276,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugDfrTitle.Text = "Framerate:";
         debugDfrTitle.TextColor = 16777215;
         session.EndRead(debugDfrTitle);
-        Memo debugMemo = new Memo(this);
+        Memo debugMemo = new(this);
         session.BeginRead(debugMemo);
         debugMemo.Name = "DebugMemo";
         debugMemo.Priority = 0;
@@ -310,7 +310,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugMemo.ColorChangeChar = 0;
         debugMemo.TextAlign = TextAlignment.Left;
         session.EndRead(debugMemo);
-        VerticalScrollBar dMemoScroll = new VerticalScrollBar(this);
+        VerticalScrollBar dMemoScroll = new(this);
         session.BeginRead(dMemoScroll);
         dMemoScroll.Name = "DMemoScroll";
         dMemoScroll.Priority = 0;
@@ -401,7 +401,7 @@ public partial class ConfirmationDialog : ILayoutModule
         YesNoPanel.MinWidth = 0;
         YesNoPanel.MinHeight = 0;
         session.EndRead(YesNoPanel);
-        Button yesBtn = new Button(this);
+        Button yesBtn = new(this);
         session.BeginRead(yesBtn);
         yesBtn.Name = "yesBtn";
         yesBtn.Priority = 1000;
@@ -432,7 +432,7 @@ public partial class ConfirmationDialog : ILayoutModule
         yesBtn.WinWidth = 105;
         yesBtn.OnClick += _ => yesBtnClick();
         session.EndRead(yesBtn);
-        Button noBtn = new Button(this);
+        Button noBtn = new(this);
         session.BeginRead(noBtn);
         noBtn.Name = "noBtn";
         noBtn.Priority = 1000;
@@ -463,7 +463,7 @@ public partial class ConfirmationDialog : ILayoutModule
         noBtn.WinWidth = 105;
         noBtn.OnClick += _ => DButtonClick();
         session.EndRead(noBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -490,7 +490,7 @@ public partial class ConfirmationDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -517,7 +517,7 @@ public partial class ConfirmationDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -545,7 +545,7 @@ public partial class ConfirmationDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -573,7 +573,7 @@ public partial class ConfirmationDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -601,7 +601,7 @@ public partial class ConfirmationDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -628,7 +628,7 @@ public partial class ConfirmationDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Frame signBLine = new Frame(this);
+        Frame signBLine = new(this);
         session.BeginRead(signBLine);
         signBLine.Name = "SignBLine";
         signBLine.Priority = 500;
@@ -655,7 +655,7 @@ public partial class ConfirmationDialog : ILayoutModule
         signBLine.ImageLibraryIndexLine = 55;
         signBLine.ImageLibraryIndexTexture = 0;
         session.EndRead(signBLine);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -683,7 +683,7 @@ public partial class ConfirmationDialog : ILayoutModule
         sIcon.Animate = false;
         sIcon.AnimationFrameDelay = 0;
         session.EndRead(sIcon);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
