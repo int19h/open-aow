@@ -2,6 +2,7 @@ using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
+using Aow.Formats.Schema;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
@@ -37,16 +38,16 @@ public sealed partial class PersistEquivalenceTests
     [InlineData("AIGroup", 23)]
     public void APackedLocationKeepsItsFourthByte(string className, int id)
     {
-        var property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(className + " has no id " + id.ToString(CultureInfo.InvariantCulture) + ".");
+        SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(className + " has no id " + id.ToString(CultureInfo.InvariantCulture) + ".");
         EngineObject? blank = null;
         EngineObject? loaded = null;
         try
         {
             blank = Blank(className);
-            var document = PilotImage.Decode(Image(blank), className);
+            JsonObject document = PilotImage.Decode(Image(blank), className);
             document.Remove(property.Name);
             document.Add(property.Name, new JsonInteger(PackedWithFourthByte));
-            var image = PilotImage.Encode(document, className);
+            byte[] image = PilotImage.Encode(document, className);
             loaded = Blank(className);
             Load(loaded, image);
             EqualBytes(image, Image(loaded), className + " id " + id.ToString(CultureInfo.InvariantCulture));
@@ -78,8 +79,8 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void TheTreeKeepsTheFourthByteOfACityEnchantmentAndAnArmyId()
     {
-        var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
-        var city = new CityEnchantment(null!)
+        GlobalMagicControl control = new(null!) { Holder = EngineFixture.Engine };
+        CityEnchantment city = new(null!)
         {
             Holder = EngineFixture.Engine,
             CityEnchantmentId = CityEnchantmentId.GoldRush,
@@ -88,14 +89,14 @@ public sealed partial class PersistEquivalenceTests
         };
         city.SetOwner(control.Enchantments);
         Check("GlobalMagicControl", control, converterRead: false);
-        var army = new ArmyId(null!) { Holder = EngineFixture.Engine, Player = 2, Location = new MapCoordinate(-1, 7, 2), UnknownBytes = 0xFF };
+        ArmyId army = new(null!) { Holder = EngineFixture.Engine, Player = 2, Location = new MapCoordinate(-1, 7, 2), UnknownBytes = 0xFF };
         Check("ArmyId", army);
     }
 
     [Fact]
     public void TheAITargetKeepsTheNoneValueTheClearedMarkerAndEveryFourthByte()
     {
-        foreach (var target in new[]
+        foreach (AITargetLocation target in new[]
         {
             AITargetLocation.None,
             AITargetLocation.Cleared,
@@ -103,13 +104,13 @@ public sealed partial class PersistEquivalenceTests
             AITargetLocation.At(new MapCoordinate(40, 21, 1)),
         })
         {
-            var group = new AIGroup(null!) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
+            AIGroup group = new(null!) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
             Check("AIGroup", group);
         }
         Assert.Equal(0x00FF_FFFF, AITargetLocation.None.ToStored().ToInt32());
         Assert.Equal(-1, AITargetLocation.Cleared.ToStored().ToInt32());
         Assert.NotEqual(AITargetLocation.None, AITargetLocation.Cleared);
-        var minimum = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
+        AITargetLocation minimum = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
         Assert.Equal(new AITargetLocation(Location: new MapCoordinate(0, 0, 0), Marker: 0x80), minimum);
         Assert.Equal(int.MinValue, minimum.ToStored().ToInt32());
     }
@@ -129,13 +130,13 @@ public sealed partial class PersistEquivalenceTests
             0xFE, 0x01, 0x01, 0xFF,
             0x7F, 0x7F, 0x02, 0x7F,
         ];
-        var path = new MovePath();
-        using (var input = new MemoryStream(payload))
+        MovePath path = new();
+        using (MemoryStream input = new(payload))
         {
             path.LoadFromStream(input);
         }
 
-        var stored = new PathStep(Location: MapCoordinate.None, MoveCost: 9);
+        PathStep stored = new(Location: MapCoordinate.None, MoveCost: 9);
         Assert.Equal(stored, path.Default);
         Assert.Equal(5, path.Count);
         Assert.Equal(new PathStep(Location: new MapCoordinate(1, 2, 0), MoveCost: 3), path[0]);
@@ -143,7 +144,7 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal(stored, path[2]);
         Assert.Equal(new PathStep(Location: new MapCoordinate(-2, 1, 1), MoveCost: -1), path[3]);
         Assert.Equal(new PathStep(Location: new MapCoordinate(127, 127, 2), MoveCost: 127), path[4]);
-        using (var output = new MemoryStream())
+        using (MemoryStream output = new())
         {
             path.SaveToStream(output);
             Assert.Equal(payload, output.ToArray());
@@ -156,7 +157,7 @@ public sealed partial class PersistEquivalenceTests
         {
             move = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
             move.Path.Assign(path);
-            var image = Image(move);
+            byte[] image = Image(move);
             read = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
             Load(read, image);
             Assert.True(read.Path.Compare(move.Path));

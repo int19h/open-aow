@@ -13,10 +13,10 @@ public sealed class ObservableNodeTests
     [Fact]
     public void AddsRemovesReplacementsAndDirectCallsMatchChanged()
     {
-        var node = new RecordingNode();
-        var first = new Leaf(1);
-        var second = new Leaf(2);
-        var third = new Leaf(3);
+        RecordingNode node = new();
+        Leaf first = new(1);
+        Leaf second = new(2);
+        Leaf third = new(3);
         node.AddChild(first);
         node.AddChild(second);
         node.SetChild(0, child: third);
@@ -35,7 +35,7 @@ public sealed class ObservableNodeTests
         Assert.Equal([third], Children(node));
 
         node.Trace.Clear();
-        var padded = new Leaf(7);
+        Leaf padded = new(7);
         node.SetChild(3, child: padded);
         Assert.Equal(Calls("Replaced:3:-1:7:-"), node.Trace);
         Assert.Equal(4, node.Count);
@@ -46,7 +46,7 @@ public sealed class ObservableNodeTests
     [Fact]
     public void ClearSendsOneRemovePerChildAndThenAReset()
     {
-        var node = new RecordingNode();
+        RecordingNode node = new();
         node.AddChild(new Leaf(1));
         node.AddChild(new Leaf(2));
         node.Trace.Clear();
@@ -64,9 +64,9 @@ public sealed class ObservableNodeTests
     [Fact]
     public void SortAndABatchFoldIntoTheResetEndUpdateSends()
     {
-        var node = new RecordingNode();
-        var low = new Leaf(1);
-        var high = new Leaf(2);
+        RecordingNode node = new();
+        Leaf low = new(1);
+        Leaf high = new(2);
         node.AddChild(high);
         node.AddChild(low);
         node.Trace.Clear();
@@ -117,9 +117,9 @@ public sealed class ObservableNodeTests
     [Fact]
     public void DirectReordersDoNotNotifyAndAMoveCarriesItsIndexes()
     {
-        var node = new RecordingNode();
-        var first = new Leaf(1);
-        var second = new Leaf(2);
+        RecordingNode node = new();
+        Leaf first = new(1);
+        Leaf second = new(2);
         node.AddChild(first);
         node.AddChild(second);
         node.Trace.Clear();
@@ -127,7 +127,7 @@ public sealed class ObservableNodeTests
         node.ExchangeChildren(0, second: 1);
         node.SortChildren((left, right) => Tag(left) - Tag(right));
         Assert.Empty(node.Trace);
-        var moved = ObservableChange.Moved(0, newIndex: 1, item: first);
+        ObservableChange moved = ObservableChange.Moved(0, newIndex: 1, item: first);
         Assert.Equal(ObservableChangeKind.Moved, moved.Kind);
         Assert.Equal(0, moved.Index);
         Assert.Equal(1, moved.NewIndex);
@@ -138,8 +138,8 @@ public sealed class ObservableNodeTests
     [Fact]
     public void KeepIndexRemoveNotifiesTheSlotItClears()
     {
-        var node = new KeepingNode();
-        var child = new Leaf(1);
+        KeepingNode node = new();
+        Leaf child = new(1);
         node.AddChild(child);
         node.Trace.Clear();
         Assert.Equal(0, node.RemoveChild(child));
@@ -151,8 +151,8 @@ public sealed class ObservableNodeTests
     [Fact]
     public void EventListRaisesItsMulticastBeforeTheCollectionEvent()
     {
-        var list = new ObservableEventList(null!) { Holder = EngineFixture.Engine };
-        var trace = new List<string>();
+        ObservableEventList list = new(null!) { Holder = EngineFixture.Engine };
+        List<string> trace = new();
         list.Events += _ => trace.Add("events");
         list.CollectionChanged += (_, change) => trace.Add(change.Kind.ToString());
         list.AddChild(new Leaf(1));
@@ -163,8 +163,8 @@ public sealed class ObservableNodeTests
     [Fact]
     public void ItemListOnChangedRunsBeforeTheCollectionEvent()
     {
-        var items = new ItemList(null!) { Holder = EngineFixture.Engine };
-        var trace = new List<string>();
+        ItemList items = new(null!) { Holder = EngineFixture.Engine };
+        List<string> trace = new();
         items.OnChanged += _ => trace.Add("on");
         items.CollectionChanged += (_, _) => trace.Add("collection");
         items.AddChild(new Item(null!) { Holder = EngineFixture.Engine });
@@ -178,7 +178,7 @@ public sealed class ObservableNodeTests
 
     private static string[] Calls(params string[] events)
     {
-        var lines = new List<string>(events.Length * 2);
+        List<string> lines = new(events.Length * 2);
         foreach (string line in events)
         {
             lines.Add("changed");

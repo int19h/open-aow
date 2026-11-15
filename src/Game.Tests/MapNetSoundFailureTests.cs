@@ -94,10 +94,10 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainDynamicLevelRemainsPublishedUntilDestroy()
     {
-        var owner = new SoundOwner();
+        SoundOwner owner = new();
         // A level takes a container as its owner. This one passes membership on to the recorder.
-        var container = new EngineFixture.ContainerOwner(owner);
-        var level = new MapLevel(container);
+        EngineFixture.ContainerOwner container = new(owner);
+        MapLevel level = new(container);
         Assert.Same(level, Assert.Single(owner.Members));
         Assert.Same(container, level.Owner);
         Assert.Equal(0, level.Count);
@@ -110,11 +110,11 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EngineClass.Of<MapLevel>(), EngineClass.Of<CombatMapLevel>() })
+        foreach (EngineClass? descriptor in new[] { EngineClass.Of<MapLevel>(), EngineClass.Of<CombatMapLevel>() })
         {
-            var owner = new SoundOwner();
-            var container = new EngineFixture.ContainerOwner(owner);
-            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container, holder: EngineFixture.Engine));
+            SoundOwner owner = new();
+            EngineFixture.ContainerOwner container = new(owner);
+            MapLevel level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container, holder: EngineFixture.Engine));
             Assert.IsType(descriptor.Type, level);
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(container, level.Owner);
@@ -128,13 +128,13 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void FailedSampleRestoresMembershipAndDataReference()
     {
-        var oldSamples = AudioHost.SampleList;
-        var oldData = AudioHost.SampleDataList;
+        SampleList oldSamples = AudioHost.SampleList;
+        SampleDataList oldData = AudioHost.SampleDataList;
         AudioHost.SampleList = new SampleList();
         AudioHost.SampleDataList = new SampleDataList();
         try
         {
-            var data = SampleData.Create("reference");
+            SampleData data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
             Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).CreateInstance(data));
             Assert.Empty(AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
@@ -151,11 +151,11 @@ public sealed class MapNetSoundFailureTests
     [InlineData(true)]
     public void MissingAndCorruptSdlWavesLeaveNoCacheEntryOnRetry(bool corrupt)
     {
-        var oldSamples = AudioHost.SampleList;
-        var oldData = AudioHost.SampleDataList;
-        var oldSystems = AudioHost.SoundSystems;
-        var oldPath = AudioHost.BaseSoundEnginePath;
-        var oldFiles = Runtime.Files;
+        SampleList oldSamples = AudioHost.SampleList;
+        SampleDataList oldData = AudioHost.SampleDataList;
+        SoundSystemList oldSystems = AudioHost.SoundSystems;
+        string oldPath = AudioHost.BaseSoundEnginePath;
+        IFileSystem oldFiles = Runtime.Files;
         AudioHost.SampleList = new SampleList();
         AudioHost.SampleDataList = new SampleDataList();
         AudioHost.SoundSystems = new SoundSystemList();
@@ -170,16 +170,16 @@ public sealed class MapNetSoundFailureTests
         }
 
         AudioHost.BaseSoundEnginePath = "";
-        var files = new ObservingFiles(oldFiles, path);
+        ObservingFiles files = new(oldFiles, path);
         Runtime.Files = files;
         try
         {
             SdlSoundSystem.Install(mute: true, audioOutput: false);
-            var meta = SdlSoundSystem.SampleData;
+            SampleDataClass meta = SdlSoundSystem.SampleData;
             SampleData? previous = null;
             for (int i = 0; i < 2; i++)
             {
-                var error = Record.Exception(() => meta.CreateInstance(path));
+                Exception error = Record.Exception(() => meta.CreateInstance(path));
                 if (corrupt)
                 {
                     Assert.IsType<InvalidDataException>(error);

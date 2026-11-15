@@ -18,8 +18,8 @@ public sealed class TypedNameRoundTripTests
     [Fact]
     public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
     {
-        var font = new ImageLibraryFont(null!);
-        var edit = new Edit(null!) { Font = font, Valid = true, Redraw = true, FirstChar = 1 };
+        ImageLibraryFont font = new(null!);
+        Edit edit = new(null!) { Font = font, Valid = true, Redraw = true, FirstChar = 1 };
         edit.SetVisibleWithoutUpdate(true);
         edit.SetWinWidthWithoutInvalidate(10000);
         Leader source = null!, loaded = null!;
@@ -53,7 +53,7 @@ public sealed class TypedNameRoundTripTests
 
     private static byte[] Save(Leader leader)
     {
-        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        EnginePersistableFactory factory = new(EngineFixture.Engine);
         return OriginalBackend.Write(TreeWriter.Write(leader, factory: factory), classValue: FormatSchema.Current.Get(factory.ClassName(leader)), schema: FormatSchema.Current, engine: "game");
     }
 

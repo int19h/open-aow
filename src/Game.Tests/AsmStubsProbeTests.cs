@@ -156,11 +156,11 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> EngineFillLines()
     {
-        var lines = new List<string>();
-        var ints = new int[12];
-        var words = new ushort[12];
-        var doubles = new DoubleItemList.DoubleItem[12];
-        var quads = new QuadItemList.QuadInteger[12];
+        List<string> lines = new();
+        int[] ints = new int[12];
+        ushort[] words = new ushort[12];
+        DoubleItemList.DoubleItem[] doubles = new DoubleItemList.DoubleItem[12];
+        QuadItemList.QuadInteger[] quads = new QuadItemList.QuadInteger[12];
         QuadItemList.QuadInteger quadValue = default;
         for (int i = 0; i < s_counts.Length; i++)
         {
@@ -173,7 +173,7 @@ public sealed class AsmStubsProbeTests
                 Int32List.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
                 UInt16List.FillWord(words.AsSpan(1), count, (ushort)value);
-                var large = new DoubleItemList.DoubleItem(First: value, Second: ~value);
+                DoubleItemList.DoubleItem large = new(First: value, Second: ~value);
                 FillA5(doubles);
                 FillLarge(doubles, 1, count, large);
                 quadValue = new QuadItemList.QuadInteger(First: value, Second: ~value, Third: value ^ 0x55AA55AA, Fourth: -17);
@@ -210,8 +210,8 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> BitListAccessLines()
     {
-        var lines = new List<string>();
-        var bits = new BitList();
+        List<string> lines = new();
+        BitList bits = new();
         for (int j = 0; j <= 1; j++)
         {
             bits.Clear();
@@ -233,7 +233,7 @@ public sealed class AsmStubsProbeTests
         }
 
         bits.Count = 32;
-        var guard = new byte[64];
+        byte[] guard = new byte[64];
         bits.List = guard.AsMemory(32);
         try
         {
@@ -276,19 +276,19 @@ public sealed class AsmStubsProbeTests
     // header and the bits of the raised count.
     private static List<string> BitListStreamLines()
     {
-        var lines = new List<string>();
+        List<string> lines = new();
         int[] sizes = [1, 3, 13, 31, 32, 33];
         foreach (int count in sizes)
         {
-            var list = new BitList();
-            var data = new byte[(count + 7) >> 3];
+            BitList list = new();
+            byte[] data = new byte[(count + 7) >> 3];
             data.AsSpan().Fill(0xA5);
             list.LoadImage(new BitListImage(Default: 0, Count: count, Bits: data));
             string tag = Decrement(count);
             AddNumber(lines, "Engine.TBitList.Load_count_" + tag, list.Count);
             AddNumber(lines, "Engine.TBitList.Load_capacity_" + tag, list.Capacity);
             AddNumber(lines, "Engine.TBitList.Load_position_" + tag, 5 + ((list.Count + 7) >> 3));
-            var saved = list.SaveImage();
+            BitListImage saved = list.SaveImage();
             AddNumber(lines, "Engine.TBitList.Save_size_" + tag, 5 + saved.Bits.Length);
             AddNumber(lines, "Engine.TBitList.Save_count_" + tag, saved.Count);
         }
@@ -298,8 +298,8 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> ExploredLines()
     {
-        var lines = new List<string>();
-        var field = new MapField(null!) { Holder = EngineFixture.Engine };
+        List<string> lines = new();
+        MapField field = new(null!) { Holder = EngineFixture.Engine };
         for (int j = 0; j < s_values.Length; j++)
         {
             field.FieldFlags = s_values[j];
@@ -331,9 +331,9 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> RazedLines()
     {
-        var lines = new List<string>();
-        var mine = new Mine(null!) { Holder = EngineFixture.Engine };
-        var teleport = new Teleport(null!) { Holder = EngineFixture.Engine };
+        List<string> lines = new();
+        Mine mine = new(null!) { Holder = EngineFixture.Engine };
+        Teleport teleport = new(null!) { Holder = EngineFixture.Engine };
         for (int i = 0; i <= 255; i++)
         {
             mine.State = (byte)i;
@@ -347,9 +347,9 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> AbilityLines()
     {
-        var lines = new List<string>();
-        var abilities = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
-        var troop = new Troop(null!) { Holder = EngineFixture.Engine };
+        List<string> lines = new();
+        CustomAbilityList abilities = new(null!) { Holder = EngineFixture.Engine };
+        Troop troop = new(null!) { Holder = EngineFixture.Engine };
         abilities.SetAbilityCount(0);
         for (int i = 1; i < s_indices.Length; i++)
         {
@@ -384,10 +384,10 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> GraphicsLines()
     {
-        var lines = new List<string>();
-        var ints = new int[12];
-        var words = new ushort[12];
-        var quads = new QuadItemList.QuadInteger[12];
+        List<string> lines = new();
+        int[] ints = new int[12];
+        ushort[] words = new ushort[12];
+        QuadItemList.QuadInteger[] quads = new QuadItemList.QuadInteger[12];
         for (int i = 0; i < s_counts.Length; i++)
         {
             for (int j = 0; j < s_values.Length; j++)
@@ -432,8 +432,8 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> HexLines()
     {
-        var lines = new List<string>();
-        var small = new byte[12];
+        List<string> lines = new();
+        byte[] small = new byte[12];
         for (int i = -65; i <= 65; i++)
         {
             for (int j = -3; j <= 3; j++)
@@ -478,12 +478,12 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> WalkLines()
     {
-        var lines = new List<string>();
+        List<string> lines = new();
         for (int a = -1; a <= 1; a++)
         {
             for (int b = -1; b <= 1; b++)
             {
-                var walk = new HexNumberWalkData();
+                HexNumberWalkData walk = new();
                 walk.CenterX = a;
                 walk.CenterY = b;
                 for (int i = 0; i < 80; i++)

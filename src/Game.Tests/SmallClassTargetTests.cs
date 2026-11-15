@@ -10,7 +10,7 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
-        var events = new EventStore<GameMap>();
+        EventStore<GameMap> events = new();
         events.Add(BehaviorRegistrar.MapLoaded);
         events.Add(CityRegistrar.MapLoaded);
         events.Add(IndependentRegistrar.MapLoaded);
@@ -39,8 +39,8 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
-        var log = new List<string>();
-        using var executor = new AIMoveExecutor(null!) { Holder = EngineFixture.Engine };
+        List<string> log = new();
+        using AIMoveExecutor executor = new(null!) { Holder = EngineFixture.Engine };
         executor.ActivateMoveExecutorControl(() => new TrackedControl(log));
         log.Clear();
         executor.ActivateMoveExecutorControl(() =>

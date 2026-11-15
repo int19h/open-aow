@@ -38,7 +38,7 @@ public sealed class CombatDataTests
     [InlineData(true)]
     public void DestroyFreesCombatObjectsAndBothLists(bool countCalls)
     {
-        var data = new CombatData(null!) { Holder = EngineFixture.Engine };
+        CombatData data = new(null!) { Holder = EngineFixture.Engine };
         if (countCalls)
         {
             data.CombatObjects?.Dispose();
@@ -48,10 +48,10 @@ public sealed class CombatDataTests
             data.DefeatedLeaders = new ObservedList();
             data.InvolvedLeaders = new ObservedList();
         }
-        var node = data.CombatObjects;
-        var defeated = data.DefeatedLeaders;
-        var involved = data.InvolvedLeaders;
-        var child = new ObservedChild(node);
+        OwningNode node = data.CombatObjects;
+        ByteList defeated = data.DefeatedLeaders;
+        ByteList involved = data.InvolvedLeaders;
+        ObservedChild child = new(node);
         defeated.Add(3);
         involved.Add(4);
         Assert.Same(child, Assert.Single(((IOwner)node).Children.Cast<object>()));
@@ -74,7 +74,7 @@ public sealed class CombatDataTests
     [Fact]
     public void BinaryStateMatchesBeforeTypedFieldsAndRoundTrips()
     {
-        var data = new CombatData(null!)
+        CombatData data = new(null!)
         {
             Holder = EngineFixture.Engine,
             Location = new MapCoordinate(12, 34, 2),
@@ -99,7 +99,7 @@ public sealed class CombatDataTests
                 "010000140A000B040C080D0C0E0E0F0F1010111112151319141D15211628172C183019341A3B1B421C431D43" +
                 "0C00000022000000020000000000FF03000700000001010000010100000101000006436F6D62617409000000" +
                 "0800000001000000000200000003050002000000020102000100000004"), before);
-            using var loaded = new CombatData(null!) { Holder = EngineFixture.Engine };
+            using CombatData loaded = new(null!) { Holder = EngineFixture.Engine };
             EngineFixture.Engine.ReadObjectImage(before, objectValue: loaded, progress: null, classTable: "game");
             Assert.Equal(before, Save(loaded));
         }

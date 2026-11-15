@@ -3,6 +3,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Original;
+using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Net;
@@ -18,10 +19,10 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void EveryTokenEventAndPacketIsOnTheTree()
     {
-        var missing = new List<string>();
-        foreach (var engineClass in EngineClass.All)
+        List<string> missing = new();
+        foreach (EngineClass engineClass in EngineClass.All)
         {
-            var type = engineClass.Type;
+            Type type = engineClass.Type;
             if (!PacketFamily(type))
             {
                 continue;
@@ -57,15 +58,15 @@ public sealed partial class PersistEquivalenceTests
             0xFE, 0x01, 0x01, 0xFF,
             0x7F, 0x7F, 0x02, 0x7F,
         ];
-        var path = new MovePath();
-        using (var input = new MemoryStream(payload))
+        MovePath path = new();
+        using (MemoryStream input = new(payload))
         {
             path.LoadFromStream(input);
         }
 
         try
         {
-            var move = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
+            MoveArmyTokenEvent move = new(null!) { Holder = EngineFixture.Engine };
             move.Path.Assign(path);
             Alike("MoveArmyTokenEvent", objectValue: move);
         }
@@ -78,7 +79,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AUnitSpellPacketMatchesReadWrite()
     {
-        var spell = new UnitSpellTokenEvent(null!) { Holder = EngineFixture.Engine };
+        UnitSpellTokenEvent spell = new(null!) { Holder = EngineFixture.Engine };
         spell.TargetUnitIds.Add(3);
         spell.TargetUnitIds.Add(9);
         spell.SpellData[0] = 11;
@@ -90,7 +91,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ADataPackageWithPartiesMatchesReadWrite()
     {
-        var package = new DataPackage(null!) { Holder = EngineFixture.Engine, Sender = 4, Receiver = 7 };
+        DataPackage package = new(null!) { Holder = EngineFixture.Engine, Sender = 4, Receiver = 7 };
         Alike("DataPackage", objectValue: package);
     }
 
@@ -98,7 +99,7 @@ public sealed partial class PersistEquivalenceTests
     public void ANilPacketIsAnEmptyObjectInsideTheTable()
     {
         byte[] packet = GameBoundary.WritePacket(root: null, classId: 0, className: null);
-        using var stored = new MemoryStream();
+        using MemoryStream stored = new();
         EngineFixture.Engine.StoreEngineObject(stored, objectValue: null, progress: null);
         EqualBytes(packet, actual: stored.ToArray(), label: "nil store");
         Assert.Equal(0, GameBoundary.ReadPacketClassId(packet));
@@ -111,7 +112,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ATokenPackageWithACombatMoveRoundTripsAsAPacket()
     {
-        var descriptor = EngineClass.Of<CombatMoveTokenEvent>();
+        EngineClass descriptor = EngineClass.Of<CombatMoveTokenEvent>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
         if (added)
         {
@@ -121,16 +122,16 @@ public sealed partial class PersistEquivalenceTests
         CombatMoveTokenEvent move = new(null!) { Holder = EngineFixture.Engine, TokenCounter = 4 };
         try
         {
-            using var package = new TokenPackage(null!) { Holder = EngineFixture.Engine };
+            using TokenPackage package = new(null!) { Holder = EngineFixture.Engine };
             package.TokenEvents.Add(move);
-            using var memory = new MemoryStream();
+            using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: package, progress: null);
             byte[] sent = memory.ToArray();
             memory.Position = 0;
-            using var received = Assert.IsType<TokenPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
-            var child = Assert.IsType<CombatMoveTokenEvent>(received.TokenEvents[0]);
+            using TokenPackage received = Assert.IsType<TokenPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            CombatMoveTokenEvent child = Assert.IsType<CombatMoveTokenEvent>(received.TokenEvents[0]);
             Assert.Equal(4, child.TokenCounter);
-            using var again = new MemoryStream();
+            using MemoryStream again = new();
             EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
             EqualBytes(sent, actual: again.ToArray(), label: "combat token package resent");
         }
@@ -150,14 +151,14 @@ public sealed partial class PersistEquivalenceTests
         EngineObject? loaded = null;
         try
         {
-            var classValue = s_schema.Get(className);
+            SchemaClass classValue = s_schema.Get(className);
             string engine = GameBoundary.PacketClassTable(classValue);
             byte[] image = Image(objectValue);
-            var tree = TreeWriter.Write(objectValue, factory: Factory);
+            ObjectNode tree = TreeWriter.Write(objectValue, factory: Factory);
             EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " original");
             EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " write");
             byte[] packet = GameBoundary.WritePacket(tree, classId: objectValue.EngineClass.ClassId, className: Factory.ClassName(objectValue));
-            using (var stored = new MemoryStream())
+            using (MemoryStream stored = new())
             {
                 EngineFixture.Engine.StoreEngineObject(stored, objectValue: objectValue, progress: null);
                 EqualBytes(packet, actual: stored.ToArray(), label: className + " store");
@@ -165,7 +166,7 @@ public sealed partial class PersistEquivalenceTests
             viaPersist = Blank(className);
             Load(viaPersist, image: image);
             EqualBytes(image, actual: Image(viaPersist!), label: className + " read");
-            bool registered = EngineFixture.Engine.ClassTable.TryGetValue(objectValue.EngineClass.ClassId, out var registeredClass)
+            bool registered = EngineFixture.Engine.ClassTable.TryGetValue(objectValue.EngineClass.ClassId, out EngineClass registeredClass)
                 && registeredClass is not null
                 && registeredClass.Type == objectValue.GetType();
             if (!registered)
@@ -192,10 +193,10 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> PacketClasses()
     {
-        var names = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var engineClass in EngineClass.All)
+        SortedSet<string> names = new(StringComparer.Ordinal);
+        foreach (EngineClass engineClass in EngineClass.All)
         {
-            var type = engineClass.Type;
+            Type type = engineClass.Type;
             if (!PacketFamily(type) || type.IsAbstract)
             {
                 continue;
@@ -213,8 +214,8 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        var data = new TheoryData<string>();
-        foreach (var name in names)
+        TheoryData<string> data = new();
+        foreach (string name in names)
         {
             data.Add(name);
         }

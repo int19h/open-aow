@@ -1,5 +1,6 @@
 #nullable disable warnings
 
+using System.Reflection;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -24,7 +25,7 @@ public sealed partial class RuleConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            var troop = (Troop)child;
+            Troop troop = (Troop)child;
             Events.Add($"insert:{troop.RefCount}:{troop.UnitId}:{troop.GroupId}");
             if (reject)
             {
@@ -40,7 +41,7 @@ public sealed partial class RuleConstructionTests
 
     private static Troop CreateUnit(Type type, CustomNode owner, int route)
     {
-        var meta = EngineClass.Of(type);
+        EngineClass meta = EngineClass.Of(type);
         if (route == 1)
         {
             return (Troop)meta.CreateInstance(owner, holder: EngineFixture.Engine);
@@ -48,7 +49,7 @@ public sealed partial class RuleConstructionTests
 
         if (route == 2)
         {
-            using GameEngine engine = new GameEngine(null!);
+            using GameEngine engine = new(null!);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -60,7 +61,7 @@ public sealed partial class RuleConstructionTests
             return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
 
-        var constructor = EngineClassCreation.OwnerConstructor(type)!;
+        ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type)!;
         return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
     }
 
@@ -69,18 +70,18 @@ public sealed partial class RuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        var previous = StrategicMap.Current;
+        StrategicMap previous = StrategicMap.Current;
         StrategicMap.Current = null!;
         try
         {
-            var states = new List<string>();
+            List<string> states = new();
             for (int ownerMode = 0; ownerMode < 3; ownerMode++)
             {
                 string? expected = null;
                 for (int route = 0; route < 4; route++)
                 {
-                    var owner = new UnitOwner(ownerMode == 2);
-                    var value = CreateUnit(type, ownerMode == 0 ? null! : owner, route);
+                    UnitOwner owner = new(ownerMode == 2);
+                    Troop value = CreateUnit(type, ownerMode == 0 ? null! : owner, route);
                     Assert.IsType(type, value);
                     Assert.Equal(1, value.RefCount);
                     Assert.Equal(-1, value.UnitId);
@@ -107,17 +108,17 @@ public sealed partial class RuleConstructionTests
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = StrategicMap.Current;
-        var previousSet = GamePack.Current;
+        StrategicMap previousMap = StrategicMap.Current;
+        GamePack previousSet = GamePack.Current;
         StrategicMap.Current = null!;
-        var set = EngineFixture.Configure(GamePack.Create(null!, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null!) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null!) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null!) { Holder = EngineFixture.Engine }; });
+        GamePack set = EngineFixture.Configure(GamePack.Create(null!, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null!) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null!) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null!) { Holder = EngineFixture.Engine }; });
         GamePack.Current = set;
         Type type = TypeNamed(name);
-        var meta = EngineClass.Of(type);
-        GameEngine engine = new GameEngine(null!);
+        EngineClass meta = EngineClass.Of(type);
+        GameEngine engine = new(null!);
         EngineObject source = CreateUnit(type, null!, 0);
         EngineObject result = null!;
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         try
         {
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
@@ -144,7 +145,7 @@ public sealed partial class RuleConstructionTests
             engine.StoreEngineObject(memory, objectValue: source, progress: null);
             memory.Position = 0;
             result = engine.RetrieveEngineObject(memory, progress: null);
-            var loaded = Assert.IsAssignableFrom<Troop>(result);
+            Troop loaded = Assert.IsAssignableFrom<Troop>(result);
             Assert.IsType(type, loaded);
             Assert.Equal(1, loaded.RefCount);
             Assert.Equal(317, loaded.UnitId);
@@ -187,9 +188,9 @@ public sealed partial class RuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = StrategicMap.Current;
+        StrategicMap previous = StrategicMap.Current;
         StrategicMap.Current = null!;
-        var owner = new UnitOwner(reject);
+        UnitOwner owner = new(reject);
         s_refcountOwner = owner;
         try
         {

@@ -12,12 +12,12 @@ internal static class ConstructionSnapshot
 
     private static JsonObject Load(string name)
     {
-        if (s_recordings.TryGetValue(name, out var value))
+        if (s_recordings.TryGetValue(name, out JsonObject? value))
         {
             return value;
         }
 
-        using var stream = typeof(ConstructionSnapshot).Assembly.GetManifestResourceStream(
+        using Stream stream = typeof(ConstructionSnapshot).Assembly.GetManifestResourceStream(
             "Aow.Game.Tests.Snapshots." + name + "Snapshot.json")!;
         value = JsonNode.Parse(stream)!.AsObject();
         s_recordings.Add(name, value);
@@ -28,7 +28,7 @@ internal static class ConstructionSnapshot
 
     private static JsonNode? Entry(JsonObject recording, string key)
     {
-        var seen = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> seen = new(StringComparer.Ordinal);
         while (recording[key] is JsonObject { Count: 1 } entry && entry["$sameAs"] is { } reference)
         {
             Assert.True(seen.Add(key), "Snapshot reference cycle: " + key);
@@ -40,7 +40,7 @@ internal static class ConstructionSnapshot
 
     internal static void Check(string name, string key, string actual, string? member = null)
     {
-        var recording = Load(name);
+        JsonObject recording = Load(name);
         Assert.True(recording.ContainsKey(key), name + " has no recording for " + key);
         JsonNode? expected = member is null ? Entry(recording, key) : Entry(recording, key)![member];
         JsonNode? value = Readable(actual);
@@ -57,11 +57,11 @@ internal static class ConstructionSnapshot
                 recording[key]![member] = value?.DeepClone();
             }
             Directory.CreateDirectory(target);
-            var sorted = new JsonObject();
-            var shared = new Dictionary<string, string>(StringComparer.Ordinal);
+            JsonObject sorted = new();
+            Dictionary<string, string> shared = new(StringComparer.Ordinal);
             foreach (string entryKey in Keys(name))
             {
-                var entryValue = Entry(recording, entryKey);
+                JsonNode? entryValue = Entry(recording, entryKey);
                 string text = entryValue?.ToJsonString() ?? "null";
                 sorted[entryKey] = shared.TryGetValue(text, out string? first)
                     ? new JsonObject { ["$sameAs"] = first } : entryValue?.DeepClone();
@@ -81,7 +81,7 @@ internal static class ConstructionSnapshot
             Assert.True(left.Select(pair => pair.Key).Order(StringComparer.Ordinal)
                 .SequenceEqual(right.Select(pair => pair.Key).Order(StringComparer.Ordinal)), path + " field names differ: expected "
                     + string.Join(", ", left.Select(pair => pair.Key)) + ", actual " + string.Join(", ", right.Select(pair => pair.Key)));
-            foreach (var pair in left)
+            foreach (KeyValuePair<string, JsonNode?> pair in left)
             {
                 Compare(pair.Value, right[pair.Key], path + "." + pair.Key);
             }

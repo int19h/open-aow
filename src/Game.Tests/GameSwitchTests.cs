@@ -46,8 +46,8 @@ public sealed class GameSwitchTests
 
     private static void Edit(JsonObject document, string edit)
     {
-        var root = Root(document);
-        var players = Children((JsonObject)root["Players"]!);
+        JsonObject root = Root(document);
+        JsonArray players = Children((JsonObject)root["Players"]!);
         switch (edit)
         {
             case "removed-referenced-child":
@@ -96,7 +96,7 @@ public sealed class GameSwitchTests
     [MemberData(nameof(Refusals))]
     public void RefusedEditLeavesTheLiveGameAndTheFileIntact(string edit, string code)
     {
-        var document = ShippedSave();
+        JsonObject document = ShippedSave();
         Edit(document, edit);
         string directory = Path.Combine(EngineFixture.Root, "Save");
         Directory.CreateDirectory(directory);
@@ -104,8 +104,8 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
-        var live = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.MapName = "live"; });
-        var previous = engine.HexSpriteMap;
+        StrategicMap live = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.MapName = "live"; });
+        GameMap previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(live);
         try
         {
@@ -114,7 +114,7 @@ public sealed class GameSwitchTests
             Assert.Equal(7, live.Day);
             Assert.Equal("live", live.MapName);
             Assert.Equal(bytes, File.ReadAllBytes(file));
-            var failure = FileBoundary.LastFailure;
+            FileLogRecord? failure = FileBoundary.LastFailure;
             Assert.NotNull(failure);
             Assert.Equal(file, failure.Path);
             Assert.Equal(code, failure.Report.Error!.Code);
@@ -136,25 +136,25 @@ public sealed class GameSwitchTests
     public void CampaignSaveAtTheFirstNewDayKeepsTheNestedMapReferences()
     {
         string campaignDirectory = Path.Combine(InstalledSave.Root, "Scenario", "Campaign");
-        var campaign = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Keepers.CAM")), GameProfile.Campaign.Profile, "campaign").Document;
-        var map = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Halfling1.csm")), GameProfile.WorldMap.Profile, "campaign-map").Document;
-        var mapRoot = Root(map);
-        var items = new JsonArray().Add(new JsonInteger(0)).Add(new JsonInteger(1)).Add(new JsonInteger(2));
+        JsonObject campaign = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Keepers.CAM")), GameProfile.Campaign.Profile, "campaign").Document;
+        JsonObject map = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Halfling1.csm")), GameProfile.WorldMap.Profile, "campaign-map").Document;
+        JsonObject mapRoot = Root(map);
+        JsonArray items = new JsonArray().Add(new JsonInteger(0)).Add(new JsonInteger(1)).Add(new JsonInteger(2));
         Replace(mapRoot, "TurnOrder", new JsonObject().Add("default", new JsonInteger(0)).Add("items", items));
         Assert.Equal([0L, 1L, 2L], Children((JsonObject)mapRoot["Players"]!).Items.Cast<JsonObject>().Select(p => ((JsonInteger)p["$slot"]!).Value));
         Root(campaign).Members.Insert(1, new JsonMember("Map", new JsonObject().Add("$container", map["$container"]!).Add("root", mapRoot)));
         Replace(campaign, "$kind", new JsonString("campaign-save"));
         byte[] image = GameFiles.ExportImage(GameFiles.Read(GameFiles.Write(campaign)).Document);
 
-        var tree = GameBoundary.ReadImageTree(image, use: GameProfile.Campaign);
-        var saved = GameBoundary.PrepareSave(tree.Root, className: tree.ClassName, fileName: "autosave.acg", use: GameProfile.Campaign, validators: FormatMapping.Validators);
+        GameFileTree tree = GameBoundary.ReadImageTree(image, use: GameProfile.Campaign);
+        GameFileResult saved = GameBoundary.PrepareSave(tree.Root, className: tree.ClassName, fileName: "autosave.acg", use: GameProfile.Campaign, validators: FormatMapping.Validators);
         Assert.True(saved.Succeeded, saved.Report.Error?.ToString());
-        var loaded = GameBoundary.PrepareLoad(saved.Bytes!, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        GameFileResult loaded = GameBoundary.PrepareLoad(saved.Bytes!, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
         Assert.True(loaded.Succeeded, loaded.Report.Error?.ToString());
         Assert.Equal(image, loaded.Bytes);
 
         items.Add(new JsonInteger(7));
-        var refused = GameBoundary.PrepareLoad(GameFiles.Write(campaign), "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        GameFileResult refused = GameBoundary.PrepareLoad(GameFiles.Write(campaign), "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
         Assert.Equal(Codes.Reference, refused.Report.Error!.Code);
         Assert.Equal("root.Map.root.TurnOrder.items[3]", refused.Report.Error.Path);
         Assert.Contains("root.Map.root.Players.Children", refused.Report.Error.Message);
@@ -163,9 +163,9 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void RemovedReferencedChildNamesTheReferenceAndItsDomain()
     {
-        var document = ShippedSave();
+        JsonObject document = ShippedSave();
         Edit(document, "removed-referenced-child");
-        var result = GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.False(result.Succeeded);
         Assert.Equal("refused", result.Report.Validation);
         Assert.Equal("root.CurrentPlayer", result.Report.Error!.Path);
@@ -178,13 +178,13 @@ public sealed class GameSwitchTests
     {
         // own-formats.md 2.7: a surviving slot keeps its number. Slot 12 is in TurnOrder, so the
         // turn order loses it too.
-        var document = ShippedSave();
-        var root = Root(document);
+        JsonObject document = ShippedSave();
+        JsonObject root = Root(document);
         Children((JsonObject)root["Players"]!).Items.Remove(Player(document, 12));
         ((JsonArray)((JsonObject)root["TurnOrder"]!)["items"]!).Items.RemoveAt(12);
-        var result = GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        var image = GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document;
+        JsonObject image = GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document;
         Assert.Equal(Enumerable.Range(0, 12).Select(i => (long)i),
             Children((JsonObject)Root(image)["Players"]!).Items.Cast<JsonObject>().Select(p => ((JsonInteger)p["$slot"]!).Value));
     }
@@ -194,16 +194,16 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void ValidEditKeepsEverythingElseIdentical()
     {
-        var document = ShippedSave();
-        var root = Root(document);
+        JsonObject document = ShippedSave();
+        JsonObject root = Root(document);
         long day = ((JsonInteger)root["Day"]!).Value;
         Replace(root, "Day", new JsonInteger(day + 1));
         Replace(root, "DefendersSeed", new JsonInteger(123456789));
         byte[] edited = GameFiles.Write(document);
-        var result = GameBoundary.PrepareLoad(edited, "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(edited, "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         Assert.Equal("not applicable: own document", result.Report.OriginalRoundTrip);
-        var reread = GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document;
+        JsonObject reread = GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document;
         Assert.Equal(edited, GameFiles.Write(reread));
         Assert.Equal(day + 1, ((JsonInteger)Root(reread)["Day"]!).Value);
     }
@@ -221,20 +221,20 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void AllowedClassChangeValidatesTheNewClassFields()
     {
-        var document = ShippedSave();
-        var groups = Groups(document);
+        JsonObject document = ShippedSave();
+        JsonArray groups = Groups(document);
         int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "PassiveAIGroup" });
         string before = Encoding.UTF8.GetString(JsonWriter.ToUtf8(groups.Items[passive]));
         Replace((JsonObject)groups.Items[passive], "$class", new JsonString("FortifyAIGroup"));
-        var result = Prepare(document);
+        GameFileResult result = Prepare(document);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
+        JsonArray reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
         Assert.Equal(before.Replace("\"PassiveAIGroup\"", "\"FortifyAIGroup\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
 
         document = ShippedSave();
-        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "GuardAreaAIGroup" } && g["GuardLocation"] is not null);
+        JsonObject area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "GuardAreaAIGroup" } && g["GuardLocation"] is not null);
         Replace(area, "$class", new JsonString("PassiveAIGroup"));
-        var refused = Prepare(document);
+        GameFileResult refused = Prepare(document);
         Assert.Equal(Codes.UnknownMember, refused.Report.Error!.Code);
         Assert.EndsWith(".GuardLocation", refused.Report.Error.Path);
     }
@@ -244,18 +244,18 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void RemovedReadWriteDataPropertyKeepsTheConstructorDefault()
     {
-        var document = ShippedSave();
-        var groups = Groups(document);
+        JsonObject document = ShippedSave();
+        JsonArray groups = Groups(document);
         int index = groups.Items.FindIndex(g => ((JsonObject)g)["IndependentRelation"] is not null);
         Assert.True(index >= 0, "a stored AI group relation");
         ((JsonObject)groups.Items[index]).Remove("IndependentRelation");
-        var result = Prepare(document);
+        GameFileResult result = Prepare(document);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
+        JsonArray reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
-        var group = new PassiveAIGroup(null!) { Holder = EngineFixture.Engine };
+        PassiveAIGroup group = new(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(-1, group.IndependentRelation);
     }
 
@@ -266,13 +266,13 @@ public sealed class GameSwitchTests
         Directory.CreateDirectory(directory);
         try
         {
-            foreach (var (source, profile) in new[] { (InstalledSave.Save, GameProfile.WorldMap), (Path.Combine(InstalledSave.Root, "Release", "Release.hss"), GameProfile.ScenarioSet) })
+            foreach ((string? source, GameProfile? profile) in new[] { (InstalledSave.Save, GameProfile.WorldMap), (Path.Combine(InstalledSave.Root, "Release", "Release.hss"), GameProfile.ScenarioSet) })
             {
                 byte[] original = File.ReadAllBytes(source);
                 string originalPath = Path.Combine(directory, "original" + Path.GetExtension(source));
                 string ownPath = Path.Combine(directory, "own" + Path.GetExtension(source));
                 File.WriteAllBytes(originalPath, original);
-                var imported = GameFiles.Import(original, profile.Profile, profile.Kinds.First(k => GameFiles.KindForExtension(Path.GetExtension(source)) == k), source);
+                ImportResult imported = GameFiles.Import(original, profile.Profile, profile.Kinds.First(k => GameFiles.KindForExtension(Path.GetExtension(source)) == k), source);
                 File.WriteAllBytes(ownPath, GameFiles.Write(imported.Document));
                 Assert.NotEqual(0, FileBoundary.ImageCrc32(originalPath, profile));
                 Assert.Equal(FileBoundary.ImageCrc32(originalPath, profile), FileBoundary.ImageCrc32(ownPath, profile));
@@ -293,7 +293,7 @@ public sealed class GameSwitchTests
     public void OriginalLoadPassesUnmaskedG1()
     {
         byte[] file = File.ReadAllBytes(InstalledSave.Save);
-        var result = GameBoundary.PrepareLoad(file, InstalledSave.Save, GameProfile.WorldMap, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(file, InstalledSave.Save, GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         Assert.Equal("equal", result.Report.OriginalRoundTrip);
         Assert.Equal("passed", result.Report.Validation);
@@ -304,9 +304,9 @@ public sealed class GameSwitchTests
     public void ReconstructedOriginalMismatchNamesTheFirstDifferingOffset()
     {
         byte[] file = File.ReadAllBytes(InstalledSave.Save);
-        var document = GameFiles.Import(file, GameProfile.WorldMap.Profile, "save").Document;
+        JsonObject document = GameFiles.Import(file, GameProfile.WorldMap.Profile, "save").Document;
         byte[] image = GameFiles.ExportImage(document);
-        var container = (JsonObject)document["$container"]!;
+        JsonObject container = (JsonObject)document["$container"]!;
         Assert.Null(GameFiles.FirstG1Difference(file, GameProfile.WorldMap.Profile, container, image));
         image[1000] ^= 0xFF;
         // B of a CFS file is the five-byte prefix and the inflated payload.
@@ -318,7 +318,7 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void OwnDocumentOfAnotherProfileIsRefused()
     {
-        var result = GameBoundary.PrepareLoad(GameFiles.Write(ShippedSave()), fileName: "map.hsm", use: GameProfile.TacticalMap, validators: FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(GameFiles.Write(ShippedSave()), fileName: "map.hsm", use: GameProfile.TacticalMap, validators: FormatMapping.Validators);
         Assert.Equal(Codes.Profile, result.Report.Error!.Code);
     }
 
@@ -340,9 +340,9 @@ public sealed class GameSwitchTests
     [MemberData(nameof(InstalledFiles))]
     public void ShippedFilePassesThePreflight(string relative, string use)
     {
-        var profile = new[] { GameProfile.WorldMap, GameProfile.TacticalMap, GameProfile.Campaign, GameProfile.ScenarioSet, GameProfile.HeroList, GameProfile.ItemList }.Single(p => p.Name == use);
+        GameProfile profile = new[] { GameProfile.WorldMap, GameProfile.TacticalMap, GameProfile.Campaign, GameProfile.ScenarioSet, GameProfile.HeroList, GameProfile.ItemList }.Single(p => p.Name == use);
         string file = Path.Combine(InstalledSave.Root, relative.Replace('/', Path.DirectorySeparatorChar));
-        var result = GameBoundary.PrepareLoad(File.ReadAllBytes(file), file, profile, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad(File.ReadAllBytes(file), file, profile, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         Assert.Equal("equal", result.Report.OriginalRoundTrip);
     }
@@ -350,7 +350,7 @@ public sealed class GameSwitchTests
     [Fact]
     public void MalformedOwnInputNeverFallsBackToBinary()
     {
-        var result = GameBoundary.PrepareLoad("{\"$format\": \"OpenAoW\", "u8.ToArray(), "broken.asg", GameProfile.WorldMap, FormatMapping.Validators);
+        GameFileResult result = GameBoundary.PrepareLoad("{\"$format\": \"OpenAoW\", "u8.ToArray(), "broken.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.False(result.Succeeded);
         Assert.Equal(DetectedFormat.OwnJson.ToString(), result.Report.Format);
         Assert.Equal(Codes.Syntax, result.Report.Error!.Code);

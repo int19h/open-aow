@@ -23,8 +23,8 @@ internal static class InlineArrays
     private static object?[] Read<TArray, TElement>(object boxed, int length) where TArray : struct
     {
         TArray value = (TArray)boxed;
-        var elements = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<TArray, TElement>(ref value), length);
-        var result = new object?[length];
+        ReadOnlySpan<TElement> elements = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<TArray, TElement>(ref value), length);
+        object?[] result = new object?[length];
         for (int i = 0; i < length; i++)
         {
             result[i] = elements[i];

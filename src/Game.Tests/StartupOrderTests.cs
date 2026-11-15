@@ -38,8 +38,8 @@ public sealed class StartupOrderTests
 
     private static (StartupUnit[] Units, List<string> Calls) Recording()
     {
-        var calls = new List<string>();
-        var units = Startup.Units.Select(u => new StartupUnit(u.Name,
+        List<string> calls = new();
+        StartupUnit[] units = Startup.Units.Select(u => new StartupUnit(u.Name,
             u.Initialize is null ? null! : () => calls.Add("I " + u.Name),
             u.Finalize is null ? null! : () => calls.Add("F " + u.Name))).ToArray();
         return (units, calls);
@@ -61,8 +61,8 @@ public sealed class StartupOrderTests
     [Fact]
     public void FullSetInitializesInOrderAndFinalizesInReverse()
     {
-        var (units, calls) = Recording();
-        var state = new bool[units.Length];
+        (StartupUnit[]? units, List<string>? calls) = Recording();
+        bool[] state = new bool[units.Length];
         Startup.InitializeUnits(units, state, null!);
         Assert.Equal(Split(Initializations).Select(n => "I " + n), calls);
         Assert.All(state, Assert.True);
@@ -77,8 +77,8 @@ public sealed class StartupOrderTests
     [Fact]
     public void SelectionLimitsInitializationAndFinalization()
     {
-        var (units, calls) = Recording();
-        var state = new bool[units.Length];
+        (StartupUnit[]? units, List<string>? calls) = Recording();
+        bool[] state = new bool[units.Length];
         Startup.InitializeUnits(units, state, ["AoWTitleScene", "ImageLib", "Sound"]);
         Assert.Equal(["I ImageLib", "I Sound", "I AoWTitleScene"], calls);
         calls.Clear();
@@ -96,10 +96,10 @@ public sealed class StartupOrderTests
     [Fact]
     public void FailingInitializationStopsTheRun()
     {
-        var calls = new List<string>();
+        List<string> calls = new();
         StartupUnit[] units = [new("A", () => calls.Add("A"), null!), new("B", () => throw new InvalidOperationException("B"), null!),
             new("C", () => calls.Add("C"), null!)];
-        var state = new bool[units.Length];
+        bool[] state = new bool[units.Length];
         Assert.Throws<InvalidOperationException>(() => Startup.InitializeUnits(units, state, null!));
         Assert.Equal(["A"], calls);
         Assert.Equal([true, false, false], state);
@@ -108,11 +108,11 @@ public sealed class StartupOrderTests
     [Fact]
     public void FailingFinalizationFinalizesTheRestAndRethrowsTheLastFailure()
     {
-        var calls = new List<string>();
+        List<string> calls = new();
         StartupUnit[] units = [new("A", null!, () => throw new InvalidOperationException("A")), new("B", null!, () => calls.Add("B")),
             new("C", null!, () => throw new InvalidOperationException("C")), new("D", null!, () => calls.Add("D"))];
         bool[] state = [true, true, true, true];
-        var failure = Assert.Throws<InvalidOperationException>(() => Startup.FinalizeUnits(units, state, null!));
+        InvalidOperationException failure = Assert.Throws<InvalidOperationException>(() => Startup.FinalizeUnits(units, state, null!));
         Assert.Equal("A", failure.Message);
         Assert.Equal(["D", "B"], calls);
         Assert.All(state, Assert.False);

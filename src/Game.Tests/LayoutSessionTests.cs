@@ -72,10 +72,10 @@ public sealed class LayoutSessionTests
     [Fact]
     public void FailingModuleLeavesItsGlobalNullAndItsTreeDestroyed()
     {
-        var session = new LayoutSession();
-        var module = new FailingModule();
+        LayoutSession session = new();
+        FailingModule module = new();
         s_failingGlobal = null;
-        var error = Assert.Throws<ArgumentException>(() => session.Load(module, value => s_failingGlobal = value));
+        ArgumentException error = Assert.Throws<ArgumentException>(() => session.Load(module, value => s_failingGlobal = value));
         Assert.Contains("Child", error.Message);
         Assert.Null(s_failingGlobal);
         Assert.Equal(0, module.ComponentCount);
@@ -91,9 +91,9 @@ public sealed class LayoutSessionTests
     [Fact]
     public void CleanupFailureIsReportedWithTheOriginal()
     {
-        var session = new LayoutSession();
-        var module = new ThrowingCleanupModule();
-        var error = Assert.Throws<AggregateException>(() => session.Load(module, value => s_failingGlobal = value));
+        LayoutSession session = new();
+        ThrowingCleanupModule module = new();
+        AggregateException error = Assert.Throws<AggregateException>(() => session.Load(module, value => s_failingGlobal = value));
         Assert.Null(s_failingGlobal);
         Assert.Collection(error.InnerExceptions,
             original => Assert.IsType<ArgumentException>(original),
@@ -104,8 +104,8 @@ public sealed class LayoutSessionTests
     [Fact]
     public void SuccessfulLoadPublishesBeforeInitializationAndKeepsTheGlobal()
     {
-        var session = new LayoutSession();
-        using var module = new GoodModule();
+        LayoutSession session = new();
+        using GoodModule module = new();
         GoodModule? seen = null;
         session.Load(module, value => { s_goodGlobal = value; seen ??= value; });
         Assert.Same(module, s_goodGlobal);
@@ -119,9 +119,9 @@ public sealed class LayoutSessionTests
     [Fact]
     public void LoadingFlagsAreSetByTheSessionAndClearedInTwoSteps()
     {
-        var session = new LayoutSession();
-        using var root = new DataModule(null!);
-        var child = new Label(root);
+        LayoutSession session = new();
+        using DataModule root = new(null!);
+        Label child = new(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);
         Assert.True(root.ComponentState.Contains(ComponentState.Loading));

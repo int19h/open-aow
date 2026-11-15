@@ -35,29 +35,29 @@ public sealed class OwnershipTroopTests
 
     private static byte[] Image(EngineObject objectValue)
     {
-        var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var root = TreeWriter.Write(objectValue, factory: factory);
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(factory.ClassName(objectValue));
+        EnginePersistableFactory factory = new(EngineFixture.Engine);
+        ObjectNode root = TreeWriter.Write(objectValue, factory: factory);
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(factory.ClassName(objectValue));
         return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 
     private static void Load(EngineObject objectValue, byte[] image)
     {
-        var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(factory.ClassName(objectValue));
+        EnginePersistableFactory factory = new(EngineFixture.Engine);
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(factory.ClassName(objectValue));
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue)), objectValue: objectValue, factory: factory);
     }
 
     [Fact]
     public void TroopTakesAUnitListOrAHeroListOnly()
     {
-        var army = new Army(null!) { Holder = EngineFixture.Engine };
-        var heroes = new HeroList(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var troop = new Troop(null!) { Holder = EngineFixture.Engine };
-        var hero = new Hero(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null!) { Holder = EngineFixture.Engine };
+        HeroList heroes = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        Troop troop = new(null!) { Holder = EngineFixture.Engine };
+        Hero hero = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => new Troop(stranger));
         Assert.Throws<ArgumentException>(() => troop.SetOwner(stranger));
         Assert.Throws<ArgumentException>(() => troop.SetArrayOwner(stranger, index: 0));
@@ -75,7 +75,7 @@ public sealed class OwnershipTroopTests
         Assert.Same(troop, army.Units[0]);
 
         // A unit list that is not an army holds generated troops apart from an army.
-        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        UnitList units = new(null!) { Holder = EngineFixture.Engine };
         troop.SetOwner(units);
         Assert.Empty(army.Units);
         Assert.Same(units, troop.UnitHolder);
@@ -101,10 +101,10 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void UnitListTakesTroopsOnlyAtEveryWrite()
     {
-        var army = new Army(null!) { Holder = EngineFixture.Engine };
-        var units = new UnitUserList(null!) { Holder = EngineFixture.Engine };
-        var item = new Item(null!) { Holder = EngineFixture.Engine };
-        var node = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null!) { Holder = EngineFixture.Engine };
+        UnitUserList units = new(null!) { Holder = EngineFixture.Engine };
+        Item item = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode node = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => army.AddChild(item));
         Assert.Throws<ArgumentException>(() => army.AddChild(node));
         Assert.Throws<ArgumentException>(() => army.SetChild(0, child: node));
@@ -112,8 +112,8 @@ public sealed class OwnershipTroopTests
         Assert.Empty(army.Units);
         Assert.Equal(0, units.Count);
 
-        var first = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
-        var second = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
+        Unit first = new(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
+        Unit second = new(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
         ((IChildSink<Troop>)army).AddChild(first);
         army.SetChild(3, child: second);
         Assert.Equal(4, army.Units.Count);
@@ -131,10 +131,10 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void AnArmyHoldsItsTroopsInUnitsAndAddsThroughItsOwnHooks()
     {
-        var army = new Army(null!) { Holder = EngineFixture.Engine };
-        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
-        var first = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
-        var second = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
+        Army army = new(null!) { Holder = EngineFixture.Engine };
+        UnitList units = new(null!) { Holder = EngineFixture.Engine };
+        Troop first = new(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
+        Troop second = new(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
         Assert.False(typeof(UnitList).IsAssignableFrom(typeof(Army)));
         Assert.True(army.Units.AddUnit(first));
         Assert.True(units.Units.AddUnit(second));
@@ -160,9 +160,9 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void AnAIGroupHoldsTroopReferencesAndDoesNotOwnThem()
     {
-        var group = new AIGroup(null!) { Holder = EngineFixture.Engine };
-        var army = new Army(null!) { Holder = EngineFixture.Engine };
-        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
+        AIGroup group = new(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null!) { Holder = EngineFixture.Engine };
+        Troop troop = new(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
         Assert.False(typeof(UnitList).IsAssignableFrom(typeof(AIGroup)));
         Assert.False(typeof(UnitUserList).IsAssignableFrom(typeof(AIGroup)));
         Assert.True(army.Units.AddUnit(troop));
@@ -185,8 +185,8 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void AUnitUserListHoldsTroopReferencesAndCanOwnThem()
     {
-        var list = new UnitUserList(null!) { Holder = EngineFixture.Engine };
-        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        UnitUserList list = new(null!) { Holder = EngineFixture.Engine };
+        Troop troop = new(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
         Assert.False(typeof(UnitList).IsAssignableFrom(typeof(UnitUserList)));
         Assert.True(list.AddUnit(troop));
         Assert.Null(troop.Owner);
@@ -207,9 +207,9 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void ItemTakesAnItemHolderOnly()
     {
-        var army = new Army(null!) { Holder = EngineFixture.Engine };
-        var items = new ItemList(null!) { Holder = EngineFixture.Engine };
-        var item = new Item(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null!) { Holder = EngineFixture.Engine };
+        ItemList items = new(null!) { Holder = EngineFixture.Engine };
+        Item item = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => new Item(army));
         Assert.Throws<ArgumentException>(() => item.SetOwner(army));
         Assert.Throws<ArgumentException>(() => item.SetOwnerWithoutNotify(army));
@@ -231,15 +231,15 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void AnInventoryWornItemsAndALibraryHoldTheirItemsInItems()
     {
-        var inventory = new HeroInventory(null!) { Holder = EngineFixture.Engine };
-        var worn = new HeroItems(null!) { Holder = EngineFixture.Engine };
-        var library = new ItemLibrary(null!) { Holder = EngineFixture.Engine };
-        var hex = new ItemHSList(null!) { Holder = EngineFixture.Engine };
-        var site = new ExplorationSiteItemList(null!) { Holder = EngineFixture.Engine };
-        var carried = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 1 };
-        var equipped = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 2 };
-        var stored = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 3 };
-        var ground = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 4 };
+        HeroInventory inventory = new(null!) { Holder = EngineFixture.Engine };
+        HeroItems worn = new(null!) { Holder = EngineFixture.Engine };
+        ItemLibrary library = new(null!) { Holder = EngineFixture.Engine };
+        ItemHSList hex = new(null!) { Holder = EngineFixture.Engine };
+        ExplorationSiteItemList site = new(null!) { Holder = EngineFixture.Engine };
+        Item carried = new(null!) { Holder = EngineFixture.Engine, ItemId = 1 };
+        Item equipped = new(null!) { Holder = EngineFixture.Engine, ItemId = 2 };
+        Item stored = new(null!) { Holder = EngineFixture.Engine, ItemId = 3 };
+        Item ground = new(null!) { Holder = EngineFixture.Engine, ItemId = 4 };
         Assert.False(typeof(ItemList).IsAssignableFrom(typeof(HeroInventory)));
         Assert.False(typeof(ItemList).IsAssignableFrom(typeof(HeroItems)));
         Assert.False(typeof(ItemList).IsAssignableFrom(typeof(ItemLibrary)));
@@ -277,9 +277,9 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void ALibraryHoldsItsHeroesInHeroes()
     {
-        var library = new HeroLibrary(null!) { Holder = EngineFixture.Engine };
-        var list = new HeroList(null!) { Holder = EngineFixture.Engine };
-        var stored = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 3 };
+        HeroLibrary library = new(null!) { Holder = EngineFixture.Engine };
+        HeroList list = new(null!) { Holder = EngineFixture.Engine };
+        Hero stored = new(null!) { Holder = EngineFixture.Engine, UnitId = 3 };
         Assert.False(typeof(HeroList).IsAssignableFrom(typeof(HeroLibrary)));
         Assert.True(typeof(EngineReferenceNode).IsAssignableFrom(typeof(HeroLibrary)));
         Assert.True(typeof(HeroList).IsAssignableFrom(list.GetType()));
@@ -299,7 +299,7 @@ public sealed class OwnershipTroopTests
         Assert.Null(stored.ArmyOwner);
         Assert.Null(stored.UnitHolder);
 
-        var referenced = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        Hero referenced = new(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
         referenced.SetOwner(list);
         Assert.Null(referenced.Owner);
         Assert.True(referenced.Owner is not HeroLibrary);
@@ -314,9 +314,9 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void PrisonersKeepTheirItemsOffTheUnitList()
     {
-        var prisoners = new PrisonersArmy(null!) { Holder = EngineFixture.Engine };
+        PrisonersArmy prisoners = new(null!) { Holder = EngineFixture.Engine };
         Assert.NotEmpty(Image(prisoners));
-        var item = new Item(null!) { Holder = EngineFixture.Engine };
+        Item item = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => item.SetOwner(prisoners));
         Assert.Empty(prisoners.Units);
         item.SetOwner(prisoners.Items);
@@ -325,10 +325,10 @@ public sealed class OwnershipTroopTests
         Assert.Equal(1, prisoners.Items.Count);
         Assert.Null(prisoners.Items.Owner);
 
-        var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var root = TreeWriter.Write(prisoners, factory: factory);
+        EnginePersistableFactory factory = new(EngineFixture.Engine);
+        ObjectNode root = TreeWriter.Write(prisoners, factory: factory);
         Assert.NotNull(root.Find("Items"));
-        var error = Assert.Throws<ConversionException>(() => Image(prisoners));
+        ConversionException error = Assert.Throws<ConversionException>(() => Image(prisoners));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.Equal("root.Items", error.Diagnostic.Path);
     }
@@ -336,10 +336,10 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void ChildSlotsKeepTheirEmptySlotsAndReorderInPlace()
     {
-        var list = new MoveTargetList(null!) { Holder = EngineFixture.Engine };
-        var first = new MoveTarget(null!) { Holder = EngineFixture.Engine };
-        var second = new MoveTarget(null!) { Holder = EngineFixture.Engine };
-        var third = new MoveTarget(null!) { Holder = EngineFixture.Engine };
+        MoveTargetList list = new(null!) { Holder = EngineFixture.Engine };
+        MoveTarget first = new(null!) { Holder = EngineFixture.Engine };
+        MoveTarget second = new(null!) { Holder = EngineFixture.Engine };
+        MoveTarget third = new(null!) { Holder = EngineFixture.Engine };
         list.AddChild(first);
         list.SetChild(2, child: second);
         list.AddChild(third);
@@ -366,10 +366,10 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void ReorderingTheSlotsDoesNotNotifyAndSortDoes()
     {
-        var items = new ItemList(null!) { Holder = EngineFixture.Engine };
+        ItemList items = new(null!) { Holder = EngineFixture.Engine };
         int changes = 0;
-        var first = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 1 };
-        var second = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 2 };
+        Item first = new(null!) { Holder = EngineFixture.Engine, ItemId = 1 };
+        Item second = new(null!) { Holder = EngineFixture.Engine, ItemId = 2 };
         first.SetOwner(items);
         second.SetOwner(items);
         items.OnChanged += _ => changes++;
@@ -387,15 +387,15 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void ReferenceListChildrenTakeTheirListOnly()
     {
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => new MoveTarget(stranger));
         Assert.Throws<ArgumentException>(() => new TokenEvent(stranger));
         Assert.Throws<ArgumentException>(() => new Player(stranger));
         Assert.Throws<ArgumentException>(() => new EventLog(stranger));
-        var events = new TokenEventReferenceList(null!) { Holder = EngineFixture.Engine };
+        TokenEventReferenceList events = new(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => events.AddChild(new MoveTarget(null!) { Holder = EngineFixture.Engine }));
         Assert.Equal(EngineClass.Of<EngineReferenceNode>().ClassId, events.EngineClass.ClassId);
-        var target = new MoveTarget(null!) { Holder = EngineFixture.Engine };
+        MoveTarget target = new(null!) { Holder = EngineFixture.Engine };
         ((IOwnedSink<MoveTargetList>)target).SetOwner(new MoveTargetList(null!) { Holder = EngineFixture.Engine });
         Assert.Null(target.Owner);
         stranger.Dispose();
@@ -406,14 +406,14 @@ public sealed class OwnershipTroopTests
     [Fact]
     public void TokenEventsSaveAndLoadThroughTheirTypedList()
     {
-        var events = new TokenEventList(null!) { Holder = EngineFixture.Engine };
-        var empty = Image(events);
-        var tokenEvent = new CheatTokenEvent(null!) { Holder = EngineFixture.Engine };
+        TokenEventList events = new(null!) { Holder = EngineFixture.Engine };
+        byte[] empty = Image(events);
+        CheatTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine };
         events.Add(tokenEvent);
-        var image = Image(events);
+        byte[] image = Image(events);
         Assert.True(image.Length > empty.Length);
         Assert.Null(tokenEvent.Owner);
-        var loaded = new TokenEventList(null!) { Holder = EngineFixture.Engine };
+        TokenEventList loaded = new(null!) { Holder = EngineFixture.Engine };
         Load(loaded, image: image);
         Assert.Equal(1, loaded.Count);
         Assert.IsType<CheatTokenEvent>(loaded[0]);

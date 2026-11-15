@@ -19,7 +19,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void LayoutSlotReachesTheSharedHandler()
     {
-        var dialog = _host.Dialog;
+        EmailGameSettingsDialog dialog = _host.Dialog;
         dialog.PlayerScrollBar.Position = 0;
         dialog.EmailAddresses.Clear();
         for (int i = 0; i < 6; i++)
@@ -40,9 +40,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void OneHandlerRunsFromAButtonAndAList()
     {
-        var owner = new Component(null!);
-        var button = new Button(owner);
-        var list = new ListBox(owner);
+        Component owner = new(null!);
+        Button button = new(owner);
+        ListBox list = new(owner);
         int runs = 0;
         void Open() => runs++;
         button.OnClick += _ => Open();
@@ -58,8 +58,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void BaseHandlerBindsToTheButtonEvent()
     {
-        var owner = new Component(null!);
-        var button = new Button(owner);
+        Component owner = new(null!);
+        Button button = new(owner);
         object? seen = null;
         void Ignore(object sender) => seen = sender;
         button.OnClick += Ignore;
@@ -73,8 +73,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TypedAndBaseHandlersReachTheBaseEventAndLeaveIt()
     {
-        var owner = new Component(null!);
-        var button = new Button(owner);
+        Component owner = new(null!);
+        Button button = new(owner);
         Button? seen = null;
         NotifyEvent<Button> click = sender => seen = sender;
         button.OnClick += click;
@@ -112,8 +112,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void DirectCallPassesNoSender()
     {
-        using var owner = new Component(null!);
-        using var window = new RelationWindow(new UIContext(EngineFixture.Engine));
+        using Component owner = new(null!);
+        using RelationWindow window = new(new UIContext(EngineFixture.Engine));
         window.BribeGoldSlider = new HorizontalScrollBar(owner);
         window.BribeGoldValueLabel = new Label(owner);
         window.BribeGoldSlider.SetPositionUnclamped(17);
@@ -126,9 +126,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void FileDialogClicksReachOpenbutClick()
     {
-        var previousImagePath = ImageLibraries.BaseImageLibraryPath;
+        string previousImagePath = ImageLibraries.BaseImageLibraryPath;
         ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
-        var system = AudioHost.SoundSystem;
+        SoundSystem system = AudioHost.SoundSystem;
         bool muted = false;
         if (system != null && system.SfxEnabled)
         {
@@ -137,15 +137,15 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         }
 
         FileDialogWindow dialog = null!;
-        var previousDirectories = FileDialogWindow.Directories;
+        StringList previousDirectories = FileDialogWindow.Directories;
         try
         {
             dialog = Load(new LayoutSession(), module: new FileDialogWindow(_host.UI), publish: static module => { _ = module; });
             Assert.NotNull(EventFields.Handler<NotifyEvent<Button>>(dialog.OpenButton, declaring: typeof(Button), name: nameof(Button.OnClick)));
             Assert.NotNull(EventFields.Handler<NotifyEvent<ListBox>>(dialog.FileList, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick)));
             FileDialogWindow.Directories = null!;
-            var click = Assert.Throws<NullReferenceException>(() => Click(dialog.OpenButton));
-            var doubleClick = Assert.Throws<NullReferenceException>(() => DoubleClick(dialog.FileList));
+            NullReferenceException click = Assert.Throws<NullReferenceException>(() => Click(dialog.OpenButton));
+            NullReferenceException doubleClick = Assert.Throws<NullReferenceException>(() => DoubleClick(dialog.FileList));
             Assert.Contains(nameof(FileDialogWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
             Assert.Contains(nameof(FileDialogWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
         }
@@ -165,9 +165,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TwoLevelMouseDownFiresTheDerivedOwner()
     {
-        using var owner = new Component(null!);
-        var button = new Button(owner);
-        var other = new Button(owner);
+        using Component owner = new(null!);
+        Button button = new(owner);
+        Button other = new(owner);
         Button? seen = null;
         button.OnMouseDown += (sender, mouseButton, shift, x, y) => seen = sender;
         BaseButton? middleSeen = null;
@@ -183,8 +183,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void BaseAndDerivedHandlersBothRunInTheOrderTheyJoined()
     {
-        using var owner = new Component(null!);
-        var button = new Button(owner);
+        using Component owner = new(null!);
+        Button button = new(owner);
         List<string> runs = [];
         button.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add("button " + (sender == button));
         UIComponent component = button;
@@ -198,9 +198,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void RemoveTakesTheTypedHandlerOffTheBaseEvent()
     {
-        using var owner = new Component(null!);
-        var button = new Button(owner);
-        var other = new Button(owner);
+        using Component owner = new(null!);
+        Button button = new(owner);
+        Button other = new(owner);
         Button? seen = null;
         byte key = 65;
         KeyPressEvent<Button> handler = (sender, ref pressed) =>
@@ -222,9 +222,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void RemovingAnotherHandlerKeepsTheView()
     {
-        using var owner = new Component(null!);
-        var button = new Button(owner);
-        var other = new Button(owner);
+        using Component owner = new(null!);
+        Button button = new(owner);
+        Button other = new(owner);
         Button? seen = null;
         MouseEvent<Button> handler = (sender, mouseButton, shift, x, y) => seen = sender;
         MouseEvent<Button> stranger = (sender, mouseButton, shift, x, y) => { };
@@ -273,12 +273,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 
         public Host()
         {
-            var previousImagePath = ImageLibraries.BaseImageLibraryPath;
+            string previousImagePath = ImageLibraries.BaseImageLibraryPath;
             Runtime.MessageHandler = _ => { };
             ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
             try
             {
-                var session = new LayoutSession();
+                LayoutSession session = new();
                 UI.Load(session, module: new UIGraphics());
                 UI.Load(session, module: new UIFonts());
                 UI.Load(session, module: new General(UI));

@@ -56,7 +56,7 @@ public sealed class OfflineStubTests
     private static T Populate<T>(T module) where T : Component
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        foreach (var property in typeof(T).GetProperties(flags))
+        foreach (PropertyInfo property in typeof(T).GetProperties(flags))
         {
             if (!property.PropertyType.IsSubclassOf(typeof(Component)))
             {
@@ -80,17 +80,17 @@ public sealed class OfflineStubTests
 
     private static SetupEvents OfflineSetupEvents(UIContext ui)
     {
-        var events = ui.Add(new SetupEvents(ui) { DirectPlay = new GDPlay { PlayerName = "No Name" } });
+        SetupEvents events = ui.Add(new SetupEvents(ui) { DirectPlay = new GDPlay { PlayerName = "No Name" } });
         events.SetupControl = new SetupControl(events);
         return events;
     }
 
     private static MultiWindow NewGameWindow(UIContext ui)
     {
-        var window = ui.Add(Populate(new MultiWindow(ui)));
+        MultiWindow window = ui.Add(Populate(new MultiWindow(ui)));
         ui.Add(Populate(new TitleWindow(ui)));
         ui.Add(new VideoDialog(ui));
-        var songs = new SongPlayer();
+        SongPlayer songs = new();
         AudioHost.SongPlayer = songs;
         ui.Add(new General(ui));
         return window;
@@ -99,13 +99,13 @@ public sealed class OfflineStubTests
     [Fact]
     public void OfflineComponentNeverConnects()
     {
-        var play = new GDPlay();
+        GDPlay play = new();
         Assert.False(play.Connected);
         Assert.False(play.InSession);
         Assert.Equal(0, play.GetConnections());
         Assert.Equal(1, play.Connections.Count);
         Assert.Equal("Internet TCP/IP Connection For DirectPlay", play.Connections[0]);
-        var provider = Assert.IsType<GDConnection>(Assert.Single(play.ConnectionItems.List.Take(play.ConnectionItems.Count)));
+        GDConnection provider = Assert.IsType<GDConnection>(Assert.Single(play.ConnectionItems.List.Take(play.ConnectionItems.Count)));
         Assert.Equal(ConnectionType.TCP, provider.FType);
         Assert.Equal(GDPlay.E_FAIL, play.Connect(0));
         Assert.Equal(GDPlay.E_FAIL, play.CreateSession());
@@ -121,14 +121,14 @@ public sealed class OfflineStubTests
     [Fact]
     public void LeaderSetupFinishCommitsTheLeaderOffline()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
-        var events = OfflineSetupEvents(ui);
-        var heroes = new HeroResourceList(null!) { Holder = EngineFixture.Engine };
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
+        SetupEvents events = OfflineSetupEvents(ui);
+        HeroResourceList heroes = new(null!) { Holder = EngineFixture.Engine };
         new HeroResource(heroes);
         GamePack.Current.HeroResources = heroes;
-        var window = Populate(new LeaderSetupWindow(ui));
-        var control = new LeaderSetupControl(null!) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null!) { Holder = EngineFixture.Engine } };
+        LeaderSetupWindow window = Populate(new LeaderSetupWindow(ui));
+        LeaderSetupControl control = new(null!) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null!) { Holder = EngineFixture.Engine } };
         bool done = false;
         control.OnDone += sender => done = ReferenceEquals(sender, control);
         control.AddRef();
@@ -157,10 +157,10 @@ public sealed class OfflineStubTests
     [Fact]
     public void NewGameWindowShowsTcpAndHidesIpx()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
         OfflineSetupEvents(ui);
-        var window = NewGameWindow(ui);
+        MultiWindow window = NewGameWindow(ui);
         window.TcpButton.Visible = false;
         window.IpxButton.Visible = true;
 
@@ -178,13 +178,13 @@ public sealed class OfflineStubTests
     [Fact]
     public void TcpFindAndHostSayNetworkPlayIsNotAvailable()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
-        var events = OfflineSetupEvents(ui);
-        var window = NewGameWindow(ui);
-        var setup = ui.Add(Populate(new ScenarioSetup(ui)));
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
+        SetupEvents events = OfflineSetupEvents(ui);
+        MultiWindow window = NewGameWindow(ui);
+        ScenarioSetup setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.ScenarioSetupPanel.Visible = false;
-        var messages = new List<string>();
+        List<string> messages = new();
         Runtime.MessageHandler = messages.Add;
         window.Execute("");
         window.TCPBtnClick();
@@ -207,11 +207,11 @@ public sealed class OfflineStubTests
     [Fact]
     public void ScenarioSetupExitReturnsToTheNewGameWindow()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
         OfflineSetupEvents(ui);
-        var window = NewGameWindow(ui);
-        var setup = ui.Add(Populate(new ScenarioSetup(ui)));
+        MultiWindow window = NewGameWindow(ui);
+        ScenarioSetup setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.SetupControl = new SetupControl(setup);
         setup.ScenarioSetupPanel.Visible = true;
         window.MultiPanel.Visible = false;
@@ -230,15 +230,15 @@ public sealed class OfflineStubTests
     [Fact]
     public void BackToTitleHidesTheNewGameWindowAndShowsTheTitleScene()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
         OfflineSetupEvents(ui);
-        var window = NewGameWindow(ui);
+        MultiWindow window = NewGameWindow(ui);
         ui.Add(new TitleScene(ui));
         ui.TitleWindow.MainWindow.Visible = true;
         window.MultiPanel.Visible = true;
 
-        var error = Record.Exception(window.BackButtonClick);
+        Exception error = Record.Exception(window.BackButtonClick);
 
         Assert.False(ui.TitleWindow.MainWindow.Visible);
         Assert.False(window.MultiPanel.Visible);
@@ -251,19 +251,19 @@ public sealed class OfflineStubTests
     [Fact]
     public void HelpMenuShowsTheTwoHelpTopics()
     {
-        using var saved = new SavedGlobals();
-        var ui = new UIContext(EngineFixture.Engine);
-        var text = new TextControl(null!) { Holder = EngineFixture.Engine };
-        foreach (var (id, header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
+        using SavedGlobals saved = new();
+        UIContext ui = new(EngineFixture.Engine);
+        TextControl text = new(null!) { Holder = EngineFixture.Engine };
+        foreach ((int id, string? header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {
-            var item = text.New();
+            TextControlItem item = text.New();
             item.Id = id;
             item.Text.Text = header + "\r\nBody " + id;
         }
         GamePack.Current.TextControl = text;
-        var help = ui.Add(Populate(new HelpWindow(ui)));
-        var popups = new PopupWindows(ui);
-        var menu = new Menu(null!);
+        HelpWindow help = ui.Add(Populate(new HelpWindow(ui)));
+        PopupWindows popups = new(ui);
+        Menu menu = new(null!);
 
         menu.SelectedItem = 0;
         popups.HelpMenuSelect(menu);
@@ -276,7 +276,7 @@ public sealed class OfflineStubTests
         Assert.Equal("Topic 500", help.HeaderMemo.Items[0]);
         Assert.Equal("Body 500", help.HelpMemo.Items[0]);
 
-        var shell = new RecordingShell();
+        RecordingShell shell = new();
         Runtime.Shell = shell;
         menu.SelectedItem = 2;
         popups.HelpMenuSelect(menu);
@@ -289,10 +289,10 @@ public sealed class OfflineStubTests
     [Fact]
     public void EarthMasteryWalksEveryViewRow()
     {
-        using var saved = new SavedGlobals();
-        var recorder = new RecordingImage();
-        var library = new CustomImageLibrary(null!);
-        var images = new CustomImageLibrary.ImageItem[128];
+        using SavedGlobals saved = new();
+        RecordingImage recorder = new();
+        CustomImageLibrary library = new(null!);
+        CustomImageLibrary.ImageItem[] images = new CustomImageLibrary.ImageItem[128];
         for (int i = 0; i < 128; i++)
         {
             images[i] = new() { Image = recorder, Reference = -1 };
@@ -300,30 +300,30 @@ public sealed class OfflineStubTests
 
         SetField(library, "Images", images);
         SetField(library, "_count", 128);
-        var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
+        MapLevel level = new(null!) { Holder = EngineFixture.Engine };
         SetField(level, "_width", 2);
         int[] overlaid = [0, 4, 3];
         MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null!)
         { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "_fields", fields);
-        var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
-        var levels = new EngineObjectList();
+        MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+        EngineObjectList levels = new();
         levels.Add(level);
         SetField(container, "_children", levels);
-        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null!, holder: EngineFixture.Engine);
         SetField(map, "_mapContainer", container);
         SetField(map, "_viewWidthHex", 2);
         SetField(map, "_viewHeightHex", 3);
         StrategicMap.Current = map;
-        var sequence = new ImageSequence(null!);
+        ImageSequence sequence = new(null!);
         SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
-        var cast = new ImageSequenceList(null!, null!);
+        ImageSequenceList cast = new(null!, null!);
         cast.Add(sequence);
-        var spell = new EarthMastery(null!, holder: EngineFixture.Engine);
+        EarthMastery spell = new(null!, holder: EngineFixture.Engine);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;
-        var animation = new FinishedAnimation { FrameCounter = 100 };
+        FinishedAnimation animation = new() { FrameCounter = 100 };
 
         spell.ShowAnimation(animation, 0, 0, default);
         Assert.Equal([(24, 16), (24, 80), (56, 64)], recorder.Calls);

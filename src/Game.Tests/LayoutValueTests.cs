@@ -16,15 +16,15 @@ public sealed class LayoutValueTests
     {
         // Two items whose 64-bit images differ only in the lowest bit, above 2^53. The port compared
         // them through double, which rounds both to the same value. The Delphi Comp compare is exact.
-        var low = new DoubleItemList.DoubleItem(First: 0, Second: 0x00400000);
-        var high = new DoubleItemList.DoubleItem(First: 1, Second: 0x00400000);
+        DoubleItemList.DoubleItem low = new(First: 0, Second: 0x00400000);
+        DoubleItemList.DoubleItem high = new(First: 1, Second: 0x00400000);
         long lowImage = ((long)low.Second << 32) | (uint)low.First;
         long highImage = ((long)high.Second << 32) | (uint)high.First;
         Assert.True(lowImage > 1L << 53);
         Assert.Equal<double>(lowImage, highImage);
         Assert.NotEqual(low, high);
 
-        using var list = new DoubleItemList();
+        using DoubleItemList list = new();
         list.Add(low);
         Assert.Equal(-1, list.IndexOf(high));
         Assert.Equal(0, list.IndexOf(low));
@@ -39,7 +39,7 @@ public sealed class LayoutValueTests
     [Fact]
     public void ValueListsMoveCompareAndFillTypedItems()
     {
-        using var list = new DoubleItemList();
+        using DoubleItemList list = new();
         for (int i = 0; i < 5; i++)
         {
             list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
@@ -48,13 +48,13 @@ public sealed class LayoutValueTests
         list.Insert(1, new DoubleItemList.DoubleItem(First: 9, Second: 9));
         list.Delete(3);
         Assert.Equal([0, 9, 1, 3, 4], Enumerable.Range(0, list.Count).Select(i => list[i].First));
-        using var copy = new DoubleItemList();
+        using DoubleItemList copy = new();
         copy.Assign(list);
         Assert.True(list.Compare(copy));
         copy[4] = new DoubleItemList.DoubleItem(First: 4, Second: 0);
         Assert.False(list.Compare(copy));
 
-        using var quads = new QuadItemList();
+        using QuadItemList quads = new();
         for (int i = 0; i < 4; i++)
         {
             quads.AddABCD(i, i + 1, i + 2, i + 3);
@@ -64,7 +64,7 @@ public sealed class LayoutValueTests
         quads.Delete(2);
         Assert.Equal([7, 0, 2, 3], Enumerable.Range(0, quads.Count).Select(i => quads[i].First));
 
-        using var bytes = new SByteList { Default = -3 };
+        using SByteList bytes = new() { Default = -3 };
         bytes.Count = 3;
         Assert.Equal([-3, -3, -3], bytes.List.Take(3));
     }
@@ -74,7 +74,7 @@ public sealed class LayoutValueTests
     {
         // ImageLib.pas:9517 fills new items with FillChar, so each byte of a new item is the low
         // byte of the default.
-        using var frames = new FrameTableList { DefaultValue = 0x1234 };
+        using FrameTableList frames = new() { DefaultValue = 0x1234 };
         frames.Count = 2;
         Assert.Equal(0x34343434, frames[0]);
         Assert.Equal(0x34343434, frames[1]);
@@ -83,7 +83,7 @@ public sealed class LayoutValueTests
     [Fact]
     public void TerrainPairsKeepTheWordView()
     {
-        var terrain = new TerrainList();
+        TerrainList terrain = new();
         terrain.SetTandO(0, 0x05FE);
         Assert.Equal(-2, terrain.GetTerrain(0));
         Assert.Equal(5, terrain.GetOverlay(0));
@@ -104,7 +104,7 @@ public sealed class LayoutValueTests
         // the untyped table of TArmy.CreateMovePointTable, which fills its first 256 bytes. Cost[t, o]
         // is then byte 1 + 16 t + o of the army table, and Cost[15, 15] is the byte after it.
         MovePointTable army = default;
-        var image = new byte[257];
+        byte[] image = new byte[257];
         for (int offset = 0; offset < MovePointTable.EntryCount; offset++)
         {
             sbyte value = (sbyte)((offset * 7) - 100);

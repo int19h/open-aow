@@ -20,10 +20,10 @@ public sealed class OwnershipTests
     [Fact]
     public void ChildrenAndOwnerWalkTheTreeThroughTheInterfaces()
     {
-        var root = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var first = new OwningNode(root);
-        var second = new OwningNode(first);
-        var shared = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        OwningNode root = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode first = new(root);
+        OwningNode second = new(first);
+        OwningNode shared = new(null!) { Holder = EngineFixture.Engine };
         root.AddChild(shared);
         try
         {
@@ -33,8 +33,8 @@ public sealed class OwnershipTests
             Assert.Null(((IOwned)shared).Owner);
             Assert.Equal(new IOwned[] { first }, owner.Children.OfType<IOwned>().Where(child => child.Owner == owner));
             Assert.Equal("OwningNodeOwningNodeOwningNode", second.EngineObjectPath);
-            var owners = new List<IOwner>();
-            for (var current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner)
+            List<IOwner> owners = new();
+            for (IOwner? current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner)
             {
                 owners.Add(current);
             }
@@ -52,9 +52,9 @@ public sealed class OwnershipTests
     [Fact]
     public void TypedChildListReadsTheChildrenInStoredOrder()
     {
-        var list = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
-        var first = new AIBudget(list);
-        var second = new AIBudget(null!) { Holder = EngineFixture.Engine };
+        AIBudgetList list = new(null!) { Holder = EngineFixture.Engine };
+        AIBudget first = new(list);
+        AIBudget second = new(null!) { Holder = EngineFixture.Engine };
         try
         {
             IChildSink<AIBudget> sink = list;
@@ -76,11 +76,11 @@ public sealed class OwnershipTests
     [Fact]
     public void TypedChildListRefusesAnotherChildAtTheGenericAdder()
     {
-        var list = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
+        AIBudgetList list = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
+            ArgumentException error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
             Assert.Contains("AIBudgetList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
             Assert.Equal(0, list.Count);
@@ -96,9 +96,9 @@ public sealed class OwnershipTests
     [Fact]
     public void TypedOwnerRefusesAnotherOwnerAtEveryWrite()
     {
-        var field = new EngineFixture.FieldOwner(new EngineFixture.Owner());
-        var stranger = new OwningNode(null!) { Holder = EngineFixture.Engine };
-        var sprite = new SingleHexSprite(field);
+        EngineFixture.FieldOwner field = new(new EngineFixture.Owner());
+        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        SingleHexSprite sprite = new(field);
         try
         {
             IOwned<MapField> owned = sprite;
@@ -110,8 +110,8 @@ public sealed class OwnershipTests
             Assert.Throws<ArgumentException>(() => sprite.SetOwnerWithoutNotify(stranger));
             Assert.Same(field, sprite.Owner);
             Assert.Throws<ArgumentException>(() => new MapField(stranger));
-            var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
-            var mapField = new MapField(level);
+            MapLevel level = new(null!) { Holder = EngineFixture.Engine };
+            MapField mapField = new(level);
             Assert.Same(level, ((IOwned<MapLevel>)mapField).Owner);
             ((IOwnedSink<MapLevel>)mapField).SetOwner(null!);
             Assert.Null(mapField.Owner);
@@ -127,9 +127,9 @@ public sealed class OwnershipTests
     [Fact]
     public void ClearListDisposesEachItemAndSkipsEmptySlots()
     {
-        var list = new EngineObjectList();
-        var items = new[] { new Disposable(), null, new Disposable(), new Disposable() };
-        foreach (var item in items)
+        EngineObjectList list = new();
+        Disposable?[] items = new[] { new Disposable(), null, new Disposable(), new Disposable() };
+        foreach (Disposable? item in items)
         {
             list.Add(item);
         }

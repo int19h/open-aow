@@ -17,29 +17,29 @@ public sealed class StaticStringTableTests
         // Unit initialization runs once per process, so the check starts a fresh one.
         if (Environment.GetEnvironmentVariable("AOW_STATIC_TABLES_ISOLATED") is null)
         {
-            var start = new ProcessStartInfo("dotnet") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+            ProcessStartInfo start = new("dotnet") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
             start.ArgumentList.Add("vstest");
             start.ArgumentList.Add(typeof(StaticStringTableTests).Assembly.Location);
             start.ArgumentList.Add("/TestCaseFilter:FullyQualifiedName~StaticStringTableTests");
             start.Environment["AOW_STATIC_TABLES_ISOLATED"] = "1";
-            using var process = Process.Start(start)!;
-            var stdout = process.StandardOutput.ReadToEndAsync();
-            var stderr = process.StandardError.ReadToEndAsync();
-            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            using Process process = Process.Start(start)!;
+            Task<string> stdout = process.StandardOutput.ReadToEndAsync();
+            Task<string> stderr = process.StandardError.ReadToEndAsync();
+            using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(60));
             try { await process.WaitForExitAsync(timeout.Token); }
             catch (OperationCanceledException) { process.Kill(entireProcessTree: true); throw; }
             Assert.True(process.ExitCode == 0, await stdout + await stderr);
             return;
         }
-        using var host = new EngineFixture.RecordingHost("fixture");
+        using EngineFixture.RecordingHost host = new("fixture");
         Runtime.InstallHost(host);
         NullSoundSystem.Install();
         Startup.InitializeAll();
-        var nulls = new List<string>();
+        List<string> nulls = new();
         int tables = 0;
-        foreach (var type in typeof(Startup).Assembly.GetTypes())
+        foreach (Type type in typeof(Startup).Assembly.GetTypes())
         {
-            foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+            foreach (FieldInfo field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
                 if (field.IsLiteral || field.FieldType.ContainsGenericParameters || type.ContainsGenericParameters)
                 {
