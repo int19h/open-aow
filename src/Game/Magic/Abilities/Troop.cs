@@ -979,9 +979,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
     }
 
-    // A hero list or a hero library is not an army or a unit list. Callers treat that owner as
-    // absent. A unit list or a unit user list fails the cast.
-    internal Army ArmyOwner => Owner is IHeroHolder ? null : (Army)Owner;
+    // The army this troop stands in, or null for every other owner: a hero list, a hero
+    // library, a unit list, a unit user list, or no owner. The troop admits all of those owners,
+    // so the read cannot cast. Callers treat a missing army as absent.
+    internal Army ArmyOwner => Owner as Army;
 
     // The army or unit list that holds this troop, or null for a hero list or no owner.
     internal IUnitHolder UnitHolder => Owner as IUnitHolder;

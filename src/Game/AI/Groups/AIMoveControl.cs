@@ -402,7 +402,7 @@ public partial class AIMoveControl : EngineObject
         else
         {
             _mode = AIMoveControlMode.TransporterCanMove;
-            var armyHexSprite = Settings.Transporter.Owner is IHeroHolder ? null : Settings.Transporter.ArmyOwner.GetArmyHexSprite();
+            var armyHexSprite = Settings.Transporter.ArmyOwner?.GetArmyHexSprite();
             _pathSettings.TransporterArmy = armyHexSprite;
             if (Settings.SourceL == Settings.DestinationL)
             {
