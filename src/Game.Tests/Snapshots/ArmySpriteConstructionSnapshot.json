@@ -50,6 +50,7 @@
             "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -136,6 +137,7 @@
             "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,

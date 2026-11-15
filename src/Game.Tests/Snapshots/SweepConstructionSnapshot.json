@@ -3858,6 +3858,7 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -3889,6 +3890,7 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -4282,6 +4284,7 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -4312,6 +4315,7 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -21185,6 +21189,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -21199,6 +21204,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -21289,6 +21295,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -21303,6 +21310,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -22340,6 +22348,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -22349,6 +22358,7 @@
               "EngineObject._owner": null,
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -22407,6 +22417,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -22498,6 +22509,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -22507,6 +22519,7 @@
               "EngineObject._owner": null,
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
+                "ObservableNode.CollectionChanged": null,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
@@ -22565,6 +22578,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -23264,6 +23278,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -23356,6 +23371,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -24871,6 +24887,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -24885,6 +24902,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -24975,6 +24993,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -24989,6 +25008,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -27198,6 +27218,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -27212,6 +27233,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -27302,6 +27324,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -27316,6 +27339,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -29742,6 +29766,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -29756,6 +29781,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -29846,6 +29872,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -29860,6 +29887,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -31073,6 +31101,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -31087,6 +31116,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -31177,6 +31207,7 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -31191,6 +31222,7 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
+              "ObservableNode.CollectionChanged": null,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,

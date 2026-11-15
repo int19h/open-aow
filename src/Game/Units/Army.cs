@@ -293,7 +293,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:716
-    public override void Changed()
+    protected override void OnChange()
     {
         Update();
     }

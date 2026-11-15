@@ -1048,6 +1048,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -2388,6 +2389,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -3728,6 +3730,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -5068,6 +5071,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -6410,6 +6414,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -7752,6 +7757,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -9094,6 +9100,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
@@ -10436,6 +10443,7 @@
           "MoveControlSettings.TransporterArmy": null,
           "MoveControlSettings.Units": {
             "$type": "Aow.Game.Units.UnitUserList",
+            "ObservableNode.CollectionChanged": null,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
