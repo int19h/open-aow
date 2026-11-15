@@ -115,7 +115,7 @@ public partial class Dungeon : ExplorationSite
         PrisonersJoinEventLog log;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            army = Owner.GetArmyHexSprite();
             log = new PrisonersJoinEventLog(null) { Holder = CreationHolder() };
             log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             log.Player = army.Army.Player;

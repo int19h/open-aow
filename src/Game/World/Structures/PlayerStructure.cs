@@ -707,7 +707,7 @@ public partial class PlayerStructure : Structure
         {
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                army = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army != null)
                 {
                     if (player != -1)

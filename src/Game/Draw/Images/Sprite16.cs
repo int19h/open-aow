@@ -366,10 +366,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                         }
                     }
@@ -383,10 +383,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                         }
                     }
@@ -405,10 +405,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                         }
                     }
@@ -422,10 +422,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
                         }
                     }

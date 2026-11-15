@@ -157,7 +157,7 @@ public partial class ArmyCombatMoveTokenEvent
 
             StrategicMap.Current.DestroyCombat();
             StrategicMap.Current.UnlockGameOverEvent();
-            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[MoveIndex].Location).FindOwnedChild(131607);
+            ArmyHexSprite = GetMapField(Path[MoveIndex].Location).GetArmyHexSprite();
             if (ArmyHexSprite != null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
             {
                 FinishMove();

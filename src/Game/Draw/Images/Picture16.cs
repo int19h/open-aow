@@ -398,10 +398,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
-                                    BlendSurface565(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    BlendSurface555(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
                             }
                         }
@@ -422,10 +422,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
-                                    BlendSurface565(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    BlendSurface555(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
                             }
                         }
@@ -451,10 +451,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
-                                    BlendSurface565(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    BlendSurface555(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
                             }
                         }
@@ -475,10 +475,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
-                                    BlendSurface565(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    BlendSurface555(source, destination, w, h, ((BlendTable5Bit)table).Bytes);
+                                    BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
                             }
                         }

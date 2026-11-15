@@ -11,7 +11,8 @@ public partial class ArmyHSList : ObservableEventList
     { }
 
     // Army.PAS:3562
-    public ArmyHexSprite GetArmyHexSprite(int index) => (ArmyHexSprite)GetChild(index);
+    // The list stores army sprites. A child of another class throws, the same way the old cast did.
+    public ArmyHexSprite GetArmyHexSprite(int index) => GetChild<ArmyHexSprite>(index);
 
     // Engine.pas:708
 

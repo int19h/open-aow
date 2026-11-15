@@ -449,7 +449,7 @@ public partial class ProductionPlace : PlayerStructure
             }
 
             budget = (_defenderLevel - 2) * 25 + 25;
-            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite != null)
             {
                 budget -= armyHexSprite.Army.ObtainValue(255);
