@@ -16,18 +16,18 @@ public partial class TokenPackageDistributor
     {
         if (TokenManager != null)
         {
-            if (Pc.PlayerCommunicationControl.GetLocalSystemId() != Pc.PlayerCommunicationControl.GetPlayers(tp._sender)._systemId)
+            if (Pc.PlayerCommunicationControl.GetLocalSystemId() != Pc.PlayerCommunicationControl.GetPlayers(tp.Sender).SystemId)
             {
                 for (int i = 0, last = tp.TokenEvents.Count - 1; i <= last; i++)
                 {
                     if (tp.TokenEvents[i].TokenCounter >= TokenManager.TokenExecutor.TokenCounter)
                     {
                         var tokenEvent = tp.TokenEvents[i];
-                        if (TokenManager.GetTokenControl(tp._sender).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
+                        if (TokenManager.GetTokenControl(tp.Sender).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
                         {
                             var fTokenEventsItem = tp.TokenEvents[i];
-                            TokenManager.GetTokenControl(tp._sender).Add(fTokenEventsItem);
-                            TokenManager.GetTokenControl(tp._sender).Events.SortOnTokenCounter();
+                            TokenManager.GetTokenControl(tp.Sender).Add(fTokenEventsItem);
+                            TokenManager.GetTokenControl(tp.Sender).Events.SortOnTokenCounter();
                         }
                         else
                         {

@@ -654,7 +654,7 @@ public partial class Hero : Troop
                 if (CastingManaValue == CastingProgress)
                 {
                     log = new SpellCastEventLog(null) { Holder = CreationHolder() };
-                    log._player = Player;
+                    log.Player = Player;
                     log.UnitId = UnitId;
                     log.SpellId = CastingSpellId;
                     StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.AddEvent(log);
@@ -1704,7 +1704,7 @@ public partial class Hero : Troop
                 log.OldLevel = (byte)oldLevel;
                 log.NewLevel = Level;
                 log.UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
-                log._player = Player;
+                log.Player = Player;
                 log.UnitId = UnitId;
                 EventLog.DistributeLocationEventLog(log, Player, x, y, l, true);
                 log.Release();

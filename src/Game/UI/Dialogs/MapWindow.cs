@@ -385,6 +385,6 @@ public partial class MapWindow : UIModule
     {
         if (StrategicMap.Current is null) return;
         StrategicMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
-        MainWindow.Drawn &= MainWindow._doubleBuffered;
+        MainWindow.Drawn &= MainWindow.DoubleBuffered;
     }
 }

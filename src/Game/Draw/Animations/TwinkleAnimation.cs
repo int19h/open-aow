@@ -42,7 +42,7 @@ public partial class TwinkleAnimation : Animation
         int angle;
         int index;
         oldSeed = RandSeed;
-        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
         pixelXSurface = x - pixelXSurface + 16;
         pixelYSurface = y - pixelYSurface + 16;
         var hexX = GetHexX();

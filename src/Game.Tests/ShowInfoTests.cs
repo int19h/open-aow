@@ -120,7 +120,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         var reader = new BlendRecorder(null!);
         reader.ReadImageData(stream);
         Assert.Equal(stream.Length, stream.Position);
-        Assert.Equal(3, reader._version);
+        Assert.Equal(3, reader.Version);
         return reader;
     }
 
@@ -200,7 +200,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     public void DrawingThroughTheBlendSlotAllocatesNothing() => WithBlendTables(() =>
     {
         using var image = new LibraryImage(null!);
-        image._showInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Shadow, Blend = 40 };
+        image.ShowInfoValue = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Shadow, Blend = 40 };
         var caller = new ShowInfo { ShowMode = ShowMode.Blended, Blend = 60 };
         LockedSurface lockedSurface = default;
         image.Show(0, 0, lockedSurface);
@@ -303,13 +303,13 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
 
         tally.Images++;
-        if (image._version < 3)
+        if (image.Version < 3)
         {
             tally.WithoutShowInfo++;
             return;
         }
 
-        var info = image._showInfo;
+        var info = image.ShowInfoValue;
         Assert.True(info.Blend is int, $"{file}: a show info read from a file holds a percentage");
         tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
         tally.Modes[$"{info.ShowMode} {info.BlendMode}"] = seen + 1;
@@ -320,7 +320,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         int at = bytes.AsSpan(from).IndexOf(header);
         if (at >= 0) at += from;
         else at = bytes.AsSpan().IndexOf(header);
-        Assert.True(at >= 0, $"{file}: the header of {image._fileName} at data position {image._dataPosition} is not in the file");
+        Assert.True(at >= 0, $"{file}: the header of {image.FileName} at data position {image.DataPosition} is not in the file");
         int record = at + header.Length;
         Assert.Equal(bytes.AsSpan(record, 8).ToArray(), Written(info));
         from = record + 8;
@@ -330,20 +330,20 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     // (TLibraryImage.ReadImageData).
     private static byte[] Header(LibraryImage image)
     {
-        byte[] name = Cp1252.Encode(image._fileName);
+        byte[] name = Cp1252.Encode(image.FileName);
         byte[] header = new byte[4 + name.Length + 37];
         var span = header.AsSpan();
         BinaryPrimitives.WriteInt32LittleEndian(span, name.Length);
         name.CopyTo(span[4..]);
         span = span[(4 + name.Length)..];
-        foreach (int value in new[] { image._dataWidth, image._dataHeight, image._xshift, image._yshift, image._fileIndex })
+        foreach (int value in new[] { image.DataWidth, image.DataHeight, image.Xshift, image.Yshift, image.FileIndex })
         {
             BinaryPrimitives.WriteInt32LittleEndian(span, value);
             span = span[4..];
         }
-        span[0] = (byte)image._loadMode;
+        span[0] = (byte)image.LoadMode;
         span = span[1..];
-        foreach (int value in new[] { image._dataSize, image._dataPosition, image._width, image._height })
+        foreach (int value in new[] { image.DataSize, image.DataPosition, image.Width, image.Height })
         {
             BinaryPrimitives.WriteInt32LittleEndian(span, value);
             span = span[4..];

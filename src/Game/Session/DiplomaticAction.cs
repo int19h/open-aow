@@ -332,7 +332,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         DiplomaticActionEventLog log;
         log = new DiplomaticActionEventLog(null) { Holder = CreationHolder() };
-        log._day = StrategicMap.Current.Day;
+        log.Day = StrategicMap.Current.Day;
         log.SetDiplomaticAction(this);
         return log;
     }

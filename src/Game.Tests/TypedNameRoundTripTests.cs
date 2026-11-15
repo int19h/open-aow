@@ -20,14 +20,14 @@ public sealed class TypedNameRoundTripTests
     public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
     {
         var font = new ImageLibraryFont(null!);
-        var edit = new Edit(null!) { _font = font, Valid = true, Redraw = true, FirstChar = 1 };
+        var edit = new Edit(null!) { Font = font, Valid = true, Redraw = true, FirstChar = 1 };
         edit.SetVisibleWithoutUpdate(true);
         edit.SetWinWidthWithoutInvalidate(10000);
         Leader source = null!, loaded = null!;
         try
         {
             InputMapper.Text("Jörg €„äß", new Keyboard(edit));
-            string typed = edit._text;
+            string typed = edit.Text;
             Assert.Equal("Jörg €„äß", typed);
             Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Cp1252.Encode(typed).ToArray());
 

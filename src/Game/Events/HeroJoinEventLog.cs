@@ -29,7 +29,7 @@ public partial class HeroJoinEventLog : JoinEventLog
         bool executeNow;
         var unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player))
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             executeNow = trigger == ExecuteTrigger.User;
             executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
@@ -58,13 +58,13 @@ public partial class HeroJoinEventLog : JoinEventLog
         Troop u;
         MapCoordinate location = default;
         bool result = base.Accept(ref errorText);
-        if (result && !StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
+        if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
             u.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
             location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
             tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
-            tokenEvent.Player = _player;
+            tokenEvent.Player = Player;
             tokenEvent.Object = NegotiateObject.Army;
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
@@ -74,7 +74,7 @@ public partial class HeroJoinEventLog : JoinEventLog
             tokenEvent.Mode = Set<NegotiateModeElement>.Of();
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             tokenEvent.EventLogId = JoinIndex;
-            StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             tokenEvent.Release();
         }
 
@@ -91,15 +91,15 @@ public partial class HeroJoinEventLog : JoinEventLog
         string errorText = "";
         bool result = false;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player))
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
-            var players = StrategicMap.Current.Players.GetPlayers(_player);
-            if (StrategicMap.Current.Players.GetPlayers(_player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
+            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
             {
                 if (Accept(ref errorText))
                 {
-                    var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(_player);
-                    StrategicMap.Current.Players.GetPlayers(_player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
+                    var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
+                    StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
                 result = true;

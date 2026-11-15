@@ -61,7 +61,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:4269
@@ -73,14 +73,14 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:4276
     public override void SetWidth(int value)
     {
         int w;
-        w = _xshift + _spriteX + _spriteWidth;
+        w = Xshift + _spriteX + _spriteWidth;
         if (value < w)
         {
             value = w;
@@ -93,7 +93,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override void SetHeight(int value)
     {
         int w;
-        w = _yshift + _spriteY + _spriteHeight;
+        w = Yshift + _spriteY + _spriteHeight;
         if (value < w)
         {
             value = w;
@@ -105,9 +105,9 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:4294
     public override void GetVisualDimensions(out Rect R)
     {
-        R.Left = _xshift + _spriteX;
+        R.Left = Xshift + _spriteX;
         R.Right = R.Left + _spriteWidth;
-        R.Top = _yshift + _spriteY;
+        R.Top = Yshift + _spriteY;
         R.Bottom = R.Top + _spriteHeight;
     }
 
@@ -210,7 +210,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         SurfaceView source;
         SurfaceView destination;
         X += _spriteX;
-        destinationX = _xshift + X;
+        destinationX = Xshift + X;
         w = _spriteWidth;
         right = _spriteWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
@@ -232,7 +232,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         if (w > 0)
         {
             Y += _spriteY;
-            destinationY = Y + _yshift;
+            destinationY = Y + Yshift;
             h = _spriteHeight;
             bottom = destinationY + _spriteHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
@@ -272,7 +272,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -313,7 +313,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         SurfaceView source;
         SurfaceView destination;
         X += _spriteX;
-        destinationX = _xshift + X;
+        destinationX = Xshift + X;
         w = _spriteWidth;
         right = _spriteWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
@@ -335,7 +335,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         if (w > 0)
         {
             Y += _spriteY;
-            destinationY = Y + _yshift;
+            destinationY = Y + Yshift;
             h = _spriteHeight;
             bottom = destinationY + _spriteHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
@@ -391,7 +391,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         }
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -488,14 +488,14 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
                 Clear();
                 DataLoaded = true;
-                _dataWidth = gr.Right - gr.Left;
-                _dataHeight = gr.Bottom - gr.Top;
-                _width = _dataWidth;
-                _height = _dataHeight;
-                _fileName = ExtractFileName(grabInfo.FileName);
-                _fileIndex = grabInfo.FileIndex;
-                _storedPixelFormatId = lSD.PixelFormatId;
-                PixelFormatId = _storedPixelFormatId;
+                DataWidth = gr.Right - gr.Left;
+                DataHeight = gr.Bottom - gr.Top;
+                SetWidthWithoutOverrides(DataWidth);
+                SetHeightWithoutOverrides(DataHeight);
+                FileName = ExtractFileName(grabInfo.FileName);
+                FileIndex = grabInfo.FileIndex;
+                StoredPixelFormatId = lSD.PixelFormatId;
+                PixelFormatId = StoredPixelFormatId;
                 _colorKey = _transparentColor;
                 LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, out mr);
                 left = mr.Left;
@@ -505,7 +505,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 _spriteWidth = mr.Right - left;
                 bottom = mr.Bottom;
                 _spriteHeight = bottom - top;
-                _dataSize = _spriteWidth * _spriteHeight * 2;
+                DataSize = _spriteWidth * _spriteHeight * 2;
                 AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
                 for (int y = top; y <= bottom - 1; y++)
                 {

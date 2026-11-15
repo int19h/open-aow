@@ -285,7 +285,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
                 log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                log._player = Player.PlayerIndex;
+                log.Player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
                 Enchantments.GetEnchantments(index).GetLocation(out var locationX, out var locationY, out var locationMapLevel);
                 log.Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
@@ -397,7 +397,7 @@ public partial class PlayerMagicControl : EngineObject
                     }
 
                     log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                    log._player = Player.PlayerIndex;
+                    log.Player = Player.PlayerIndex;
                     log.Mode = PlayerMagicEventLog.EventMode.SpellResearched;
                     log.SpellId = ResearchSpellId;
                     Player.EventLogbook.AddEvent(log);

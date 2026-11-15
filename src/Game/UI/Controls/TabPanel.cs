@@ -59,7 +59,7 @@ public partial class TabPanel : Control
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
         }
 
-        if (_imageLibraryButton != null && _font != null)
+        if (_imageLibraryButton != null && base.Font != null)
         {
             Valid = true;
         }
@@ -111,14 +111,14 @@ public partial class TabPanel : Control
                         var fItemsCount = _items.Count;
                         var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
-                        if (_font != null)
+                        if (base.Font != null)
                         {
-                            _font.Color = SelectedColor;
+                            base.Font.Color = SelectedColor;
                             var item = _items[i];
-                            var textWidth = _font.GetTextWidth(item);
+                            var textWidth = base.Font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[i];
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeight, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + base.BorderHeight, item2, lockedSurface);
                         }
                     }
                     else
@@ -127,14 +127,14 @@ public partial class TabPanel : Control
                         var fItemsCount = _items.Count;
                         var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
-                        if (_font != null)
+                        if (base.Font != null)
                         {
-                            _font.Color = Color;
+                            base.Font.Color = Color;
                             var item = _items[i];
-                            var textWidth = _font.GetTextWidth(item);
+                            var textWidth = base.Font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[i];
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -247,7 +247,7 @@ public partial class TabPanel : Control
             for (int i = 0, last = Panels.Count - 1; i <= last; i++)
             {
                 var component = Panels[i];
-                if (component._ownerItem == this._selected)
+                if (component.OwnerItem == this._selected)
                 {
                     component.SetVisible(true);
                 }
@@ -264,13 +264,7 @@ public partial class TabPanel : Control
     }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
     public StringList Items { get => _items; set => SetFStrings(value); }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
     public int Selected { get => _selected; set => SetIndex(value); }

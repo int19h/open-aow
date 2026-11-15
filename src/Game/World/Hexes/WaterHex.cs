@@ -41,7 +41,7 @@ public partial class WaterHex : LowerIsometricHex
         HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         x -= xSurface + 8;
         y -= ySurface;
-        var library = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        var library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int phase = FrameFixtureInputs.WaterBasePhase(Owner);
         library[((phase + field.HexX + field.HexY * 2 + (Sides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;

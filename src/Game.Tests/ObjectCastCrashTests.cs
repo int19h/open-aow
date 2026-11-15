@@ -99,16 +99,16 @@ public sealed class ObjectCastCrashTests
 
     private static void Own(MapObject sprite, MapField field)
     {
-        sprite._resource = new MapObjectResource(null!) { Holder = EngineFixture.Engine };
+        sprite.SetResourceWithoutOverrides(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
         sprite.Owner = field;
     }
 
     private static Animation AnimationAtOrigin()
     {
         var animation = new Animation(null!) { Holder = EngineFixture.Engine };
-        animation._hexX = 0;
-        animation._hexY = 0;
-        animation._hexLevel = 0;
+        animation.StoredHexX = 0;
+        animation.StoredHexY = 0;
+        animation.StoredHexLevel = 0;
         return animation;
     }
 
@@ -208,7 +208,7 @@ public sealed class ObjectCastCrashTests
             resource.TerrainType = 4;
             resource.DecorationType = 9;
             var finder = new ListedTerrain(list);
-            finder._resource = resource;
+            finder.SetResourceWithoutOverrides(resource);
             Assert.Same(match, finder.FindDecorationResource(2));
 
             var clearing = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
@@ -217,7 +217,7 @@ public sealed class ObjectCastCrashTests
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
             var terrain = new ListedTerrain(clearing);
-            terrain._resource = wide;
+            terrain.SetResourceWithoutOverrides(wide);
             terrain.ClearTerrain(null!, 0);
             Assert.True(terrain.Destroyed);
         }
@@ -302,12 +302,12 @@ public sealed class ObjectCastCrashTests
             window.RelationWindowCreate();
 
             window.ShowRelations(0);
-            Assert.False(window.Race12Image._checked);
+            Assert.False(window.Race12Image.Checked);
             Assert.False(window.Player1CheckBox.Checked);
             Assert.Equal(0, window.ShowCount);
 
             window.ShowRelations(1);
-            Assert.False(window.Race12Image._checked);
+            Assert.False(window.Race12Image.Checked);
             Assert.True(window.Player1CheckBox.Checked);
             Assert.False(window.RelationPanel.Aligned);
             Assert.False(window.MainWindow.Drawn);
@@ -321,7 +321,7 @@ public sealed class ObjectCastCrashTests
             Assert.Equal(1, window.ShowCount);
             Assert.Equal(1, window.ShownPlayer);
             Assert.True(window.Player1CheckBox.Checked);
-            Assert.False(window.Race12Image._checked);
+            Assert.False(window.Race12Image.Checked);
         }
         finally
         {
@@ -342,7 +342,7 @@ public sealed class ObjectCastCrashTests
             marker.HexY = 20;
             marker.OverlayType = 4;
             var bridge = new HexBridge(marker);
-            bridge._resource = new MapObjectResource(null!) { Holder = EngineFixture.Engine };
+            bridge.SetResourceWithoutOverrides(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
             Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
@@ -378,7 +378,7 @@ public sealed class ObjectCastCrashTests
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new Bridge(null!) { Holder = EngineFixture.Engine };
-            bridge._resource = new Bridge.Resource(null!) { Holder = EngineFixture.Engine };
+            bridge.SetResourceWithoutOverrides(new Bridge.Resource(null!) { Holder = EngineFixture.Engine });
             Assert.True(bridge.PlaceHex(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);
             Assert.True(bridge.PlaceHex(container, 1, 0, 0));

@@ -131,7 +131,7 @@ public partial class Farm : PlayerCropStructure
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    count = ((PlayerCropStructureResource)_resource).CropLocations.Count;
+                    count = ((PlayerCropStructureResource)base.Resource).CropLocations.Count;
                 }
                 else
                 {

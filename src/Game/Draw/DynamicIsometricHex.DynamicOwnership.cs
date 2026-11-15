@@ -19,7 +19,7 @@ public partial class DynamicIsometricHex
     }
 
     public override GameEngine GetEngine() => _hex.GetEngine();
-    public override byte GetLevel() => ((IsometricHexResource)_hex._resource).DynamicLevel;
+    public override byte GetLevel() => ((IsometricHexResource)_hex.Resource).DynamicLevel;
     public override sbyte GetHexX() => Field.HexX;
     public override sbyte GetHexY() => Field.HexY;
     public override sbyte GetHexLevel() => Field.HexLevel;

@@ -24,7 +24,7 @@ public partial class SingleCombatHex : AbstractHexagon
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
         x = x - pixelXSurface - 8;
         y = y - pixelYSurface;
-        sequence = _resource.ImageSequenceList.GetImageSequence(0);
+        sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
         sequence.ImageLibrary.Get(sequence.ImageIndex).Show(x, y, lockedSurface);
     }
 

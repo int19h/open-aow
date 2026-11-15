@@ -19,7 +19,7 @@ public partial class MapObject : HexSprite
 
     public new const int ClassId = 65878;
 
-    protected internal MapObjectResource _resource;
+    private MapObjectResource _resource;
     private Set<MapObjectStatusElement> _status;
 
     // MAPOBJ.PAS:88
@@ -432,6 +432,9 @@ public partial class MapObject : HexSprite
     }
 
     public MapObjectResource Resource { get => _resource; set => SetResource(value); }
+
+    internal void SetResourceWithoutOverrides(MapObjectResource value) => _resource = value;
+
     public int ResourceId { get => GetResourceId(); set => SetResourceId(value); }
     public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
     public Set<MapObjectStatusElement> Status { get => _status; protected set => _status = value; }

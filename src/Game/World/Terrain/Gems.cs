@@ -146,7 +146,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             player.SetGems(player.Gems + _amount);
 
             eventValue = new LocationTextEventLog(null) { Holder = CreationHolder() };
-            eventValue._player = armyHexSprite.Army.Player;
+            eventValue.Player = armyHexSprite.Army.Player;
             eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
             eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);

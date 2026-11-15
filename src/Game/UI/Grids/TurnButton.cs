@@ -204,7 +204,7 @@ public partial class TurnButton : Controls.Control
     public bool Animating { get => _animating; set => _animating = value; }
 
     [Published]
-    public bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
+    public override bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
 
     public new event MouseEvent<TurnButton> OnMouseDown
     {

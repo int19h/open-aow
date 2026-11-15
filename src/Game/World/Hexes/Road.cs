@@ -29,7 +29,7 @@ public partial class Road : AbstractRoad
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        ((Resource)_resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
+        ((Resource)base.Resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
     // Road.pas:60

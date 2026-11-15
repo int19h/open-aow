@@ -21,7 +21,7 @@ public partial class HexSpriteSelection
             while (!result && i != 0)
             {
                 i -= 1;
-                result = mapField._hexSpriteList[i].CanSelect(pixelX, pixelY);
+                result = mapField.HexSpriteList[i].CanSelect(pixelX, pixelY);
             }
         }
         else
@@ -52,7 +52,7 @@ public partial class HexSpriteSelection
         n = mapField.Count;
         while (n != 0 && hexSprite == null)
         {
-            hexSprite = mapField._hexSpriteList[i];
+            hexSprite = mapField.HexSpriteList[i];
             if (!hexSprite.CanSelect(pixelX, pixelY))
             {
                 hexSprite = null;
@@ -89,7 +89,7 @@ public partial class HexSpriteSelection
             HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
             while (result == -1 && i != mapField.Count)
             {
-                hexSprite = mapField._hexSpriteList[i];
+                hexSprite = mapField.HexSpriteList[i];
                 if (hexSprite.CanSelect(pixelX, pixelY))
                 {
                     if (_locationHexSprite.IndexOf(hexSprite) != -1)

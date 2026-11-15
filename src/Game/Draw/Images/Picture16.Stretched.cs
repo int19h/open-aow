@@ -31,8 +31,8 @@ public partial class Picture16
         h = R.Bottom - R.Top;
         if (w > 0 && h > 0)
         {
-            xScale = (float)((double)w / _dataWidth);
-            yScale = (float)((double)h / _height);
+            xScale = (float)((double)w / DataWidth);
+            yScale = (float)((double)h / Height);
             l = R.Left;
             if (l < lockedSurface.ClipRectangle.Left)
             {
@@ -91,9 +91,9 @@ public partial class Picture16
                 for (int i = 0; i <= w - 1; i++)
                 {
                     c = (int)(((uint)xPosition) >> 16);
-                    if (c >= _dataWidth)
+                    if (c >= DataWidth)
                     {
-                        c = _dataWidth - 1;
+                        c = DataWidth - 1;
                     }
 
                     columnTable[i] = c;
@@ -116,9 +116,9 @@ public partial class Picture16
                     for (int i = 0; i <= h - 1; i++)
                     {
                         c = (int)(((uint)yPosition) >> 16);
-                        if (c >= _dataHeight)
+                        if (c >= DataHeight)
                         {
-                            c = _dataHeight - 1;
+                            c = DataHeight - 1;
                         }
 
                         rowTable[i] = c * _pitch;
@@ -139,7 +139,7 @@ public partial class Picture16
                         BlitStretched16(View, rowTable, columnTable, destination, w, h);
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -149,9 +149,9 @@ public partial class Picture16
                     for (int i = 0; i <= h - 1; i++)
                     {
                         c = (int)(((uint)yPosition) >> 16);
-                        if (c >= _dataHeight)
+                        if (c >= DataHeight)
                         {
-                            c = _dataHeight - 1;
+                            c = DataHeight - 1;
                         }
 
                         rowTable[i] = c * _pitch;
@@ -201,8 +201,8 @@ public partial class Picture16
         h = R.Bottom - R.Top;
         if (w > 0 && h > 0)
         {
-            xScale = (float)((double)w / _dataWidth);
-            yScale = (float)((double)h / _height);
+            xScale = (float)((double)w / DataWidth);
+            yScale = (float)((double)h / Height);
             l = R.Left;
             if (l < lockedSurface.ClipRectangle.Left)
             {
@@ -261,9 +261,9 @@ public partial class Picture16
                 for (int i = 0; i <= w - 1; i++)
                 {
                     c = (int)(((uint)xPosition) >> 16);
-                    if (c >= _dataWidth)
+                    if (c >= DataWidth)
                     {
-                        c = _dataWidth - 1;
+                        c = DataWidth - 1;
                     }
 
                     columnTable[i] = c;
@@ -286,9 +286,9 @@ public partial class Picture16
                     for (int i = 0; i <= h - 1; i++)
                     {
                         c = (int)(((uint)yPosition) >> 16);
-                        if (c >= _dataHeight)
+                        if (c >= DataHeight)
                         {
-                            c = _dataHeight - 1;
+                            c = DataHeight - 1;
                         }
 
                         rowTable[i] = c * _pitch;
@@ -325,7 +325,7 @@ public partial class Picture16
                         }
                     }
 
-                    if (_loadMode == LoadMode.LoadFreeOnDemand)
+                    if (LoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -335,9 +335,9 @@ public partial class Picture16
                     for (int i = 0; i <= h - 1; i++)
                     {
                         c = (int)(((uint)yPosition) >> 16);
-                        if (c >= _dataHeight)
+                        if (c >= DataHeight)
                         {
-                            c = _dataHeight - 1;
+                            c = DataHeight - 1;
                         }
 
                         rowTable[i] = c * _pitch;

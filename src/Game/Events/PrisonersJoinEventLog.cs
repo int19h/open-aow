@@ -30,13 +30,13 @@ public partial class PrisonersJoinEventLog : JoinEventLog
         Dungeon dungeon;
         StructureTokenEvent tokenEvent;
         dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
-        if (dungeon != null && !StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
+        if (dungeon != null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             tokenEvent = dungeon.CreateTokenEvent();
             dungeon.SetupTokenEvent(tokenEvent);
-            tokenEvent.Param = _player;
+            tokenEvent.Param = Player;
             tokenEvent.Action = 1;
-            StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }

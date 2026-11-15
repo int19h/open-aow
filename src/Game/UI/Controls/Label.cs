@@ -18,7 +18,7 @@ public partial class Label : Control
     // AoWLabel.pas:38
     public override void Validate()
     {
-        if (_font != null)
+        if (base.Font != null)
         {
             Valid = true;
         }
@@ -30,8 +30,8 @@ public partial class Label : Control
     // AoWLabel.pas:46
     public override void SetSize()
     {
-        SetWinWidthWithoutInvalidate(_font.GetTextWidth(_text));
-        SetWinHeightWithoutInvalidate(_font.GetTextHeight(_text));
+        SetWinWidthWithoutInvalidate(base.Font.GetTextWidth(base.Text));
+        SetWinHeightWithoutInvalidate(base.Font.GetTextHeight(base.Text));
         base.SetSize();
     }
 
@@ -44,8 +44,8 @@ public partial class Label : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                _font.Color = Color;
-                _font.SetText(Window.WinLeft + WinLeft, Window.WinTop + WinTop, _text, lockedSurface);
+                base.Font.Color = Color;
+                base.Font.SetText(Window.WinLeft + WinLeft, Window.WinTop + WinTop, base.Text, lockedSurface);
                 RaiseDraw(this, lockedSurface);
             }
         }
@@ -99,9 +99,9 @@ public partial class Label : Control
     // AoWLabel.pas:53
     public void SetGFont(ImageLibraryFont value)
     {
-        if (value != _font)
+        if (value != base.Font)
         {
-            _font = value;
+            base.Font = value;
             Valid = false;
         }
     }
@@ -109,19 +109,19 @@ public partial class Label : Control
     // AoWLabel.pas:62
     public void SetGText(string value)
     {
-        if (_text != value)
+        if (base.Text != value)
         {
-            _text = value;
+            base.Text = value;
             Sized = false;
             Aligned = false;
         }
     }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => SetGFont(value); }
+    public override ImageLibraryFont Font { get => base.Font; set => SetGFont(value); }
 
     [Published]
-    public string Text { get => _text; set => SetGText(value); }
+    public override string Text { get => base.Text; set => SetGText(value); }
 
     public new event NotifyEvent<Label> OnChange
     {

@@ -43,14 +43,14 @@ public partial class GameOverEventLog : EventLog
     public override string GetText()
     {
         string result = "";
-        switch (StrategicMap.Current.Players.GetPlayers(_player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                var name = StrategicMap.Current.Players.GetPlayers(_player).GetName();
+                var name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
                 break;
             case GameOverStatus.Won:
-                var name2 = StrategicMap.Current.Players.GetPlayers(_player).GetName();
+                var name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
                 break;
         }
@@ -65,7 +65,7 @@ public partial class GameOverEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                if (StrategicMap.Current.SeatedPlayer != _player)
+                if (StrategicMap.Current.SeatedPlayer != Player)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
                     result = true;
@@ -95,7 +95,7 @@ public partial class GameOverEventLog : EventLog
     // EventLog.pas:791
     public void Handled()
     {
-        StrategicMap.Current.GameOverEventHandled(_player);
+        StrategicMap.Current.GameOverEventHandled(Player);
     }
 
     private static readonly string s_gameOverDefeatEventLogFormat = "%s is defeated!";

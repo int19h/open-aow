@@ -60,7 +60,7 @@ public partial class PlayerMagicEventLog : EventLog
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:
-                if (StrategicMap.Current.SeatedPlayer == _player)
+                if (StrategicMap.Current.SeatedPlayer == Player)
                 {
                     result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName]);
                 }

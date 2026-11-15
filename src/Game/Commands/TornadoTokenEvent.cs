@@ -148,7 +148,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 if (selection != 0)
                 {
                     log = new ArmyEventLog(null) { Holder = CreationHolder() };
-                    log._player = source.Player;
+                    log.Player = source.Player;
                     var tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
                     var tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);

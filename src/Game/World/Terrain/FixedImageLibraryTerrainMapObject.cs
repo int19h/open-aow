@@ -17,12 +17,12 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
         bool result;
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
             if (validTerrainType)
             {
-                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY) == info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
             }
 
             result = validTerrainType;
@@ -38,7 +38,7 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
     // ILTer.pas:305
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             if (ValidTerrainType(info.TerrainType))
             {
@@ -51,12 +51,12 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
     // ILTer.pas:315
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             if (ValidTerrainType(info.TerrainType))
             {
                 TerrainType = info.TerrainType;
-                UpdateTerrain(Owner.Owner, _hexX, _hexY);
+                UpdateTerrain(Owner.Owner, StoredHexX, StoredHexY);
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else

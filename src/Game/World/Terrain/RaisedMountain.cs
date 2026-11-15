@@ -63,7 +63,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4402)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 RestoreTerrain();
             }

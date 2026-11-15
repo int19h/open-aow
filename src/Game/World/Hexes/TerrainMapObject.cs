@@ -25,9 +25,9 @@ public partial class TerrainMapObject : MultiHexMapObject
         bool result;
         if (this != info.Sender)
         {
-            if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
             {
-                if (GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY) == info.MapField.TerrainType)
+                if (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType)
                 {
                     result = CanChangeOwnTerrain(info.HexNumber);
                 }
@@ -56,10 +56,10 @@ public partial class TerrainMapObject : MultiHexMapObject
         sbyte newTerrainType;
         TerrainMapObjectResource r;
         MapField oldOwner;
-        terrainType = _resource.TerrainList.GetTerrain(info.HexNumber);
+        terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
         if (terrainType >= 0 && terrainType != info.TerrainType)
         {
-            newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY);
+            newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
             if (newTerrainType != terrainType)
             {
                 r = FindTerrainResource((byte)newTerrainType);
@@ -70,9 +70,9 @@ public partial class TerrainMapObject : MultiHexMapObject
                     SetResource(r);
                     Owner = oldOwner;
                     PlaceOnMap();
-                    if (_resource.Level <= 15)
+                    if (Resource.Level <= 15)
                     {
-                        _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
+                        Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
                     }
 
                     OverrideTerrain();
@@ -90,7 +90,7 @@ public partial class TerrainMapObject : MultiHexMapObject
     {
         if (message.MessageId == 16)
         {
-            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
                 ClearTerrain(message.MapField, message.HexNumber);
             }
@@ -109,9 +109,9 @@ public partial class TerrainMapObject : MultiHexMapObject
 
         if (message.MessageId == 17)
         {
-            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                message.Result = ((TerrainMapObjectResource)_resource).DecorationType;
+                message.Result = ((TerrainMapObjectResource)Resource).DecorationType;
             }
         }
     }
@@ -142,10 +142,10 @@ public partial class TerrainMapObject : MultiHexMapObject
         MapObjectResourceList resources;
         int i;
         bool found;
-        if (_resource.TerrainList.UsedTerrain() > 1)
+        if (Resource.TerrainList.UsedTerrain() > 1)
         {
             r = null;
-            resources = GetResourceList(_resource.Engine);
+            resources = GetResourceList(Resource.Engine);
             i = resources.Count;
             found = false;
             while (!found && i != 0)
@@ -154,7 +154,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 if (resources[i] is TerrainMapObjectResource terrain)
                 {
                     r = terrain;
-                    found = r.EngineClass.ClassId == _resource.EngineClass.ClassId && r.DecorationType == ((TerrainMapObjectResource)_resource).DecorationType && r.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
+                    found = r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.DecorationType == ((TerrainMapObjectResource)Resource).DecorationType && r.TerrainType == ((TerrainMapObjectResource)Resource).TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -164,7 +164,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 hexY = GetHexY();
                 hexLevel = GetHexLevel();
                 map = Owner.Owner.Map;
-                terrainList = _resource.TerrainList;
+                terrainList = Resource.TerrainList;
                 Dispose();
                 i = 0;
                 int last = terrainList.Count - 1;
@@ -196,13 +196,13 @@ public partial class TerrainMapObject : MultiHexMapObject
         MapObjectResourceList resources;
         TerrainMapObjectResource r;
         candidates = new DelphiList<TerrainMapObjectResource>();
-        resources = GetResourceList(_resource.Engine);
+        resources = GetResourceList(Resource.Engine);
         for (int i = 0, last = resources.Count - 1; i <= last; i++)
         {
             if (resources[i] is TerrainMapObjectResource terrain)
             {
                 r = terrain;
-                if (r.EngineClass.ClassId == _resource.EngineClass.ClassId && r.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && r.DecorationType == decorationType && r != _resource && r.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == ((TerrainMapObjectResource)Resource).TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     candidates.Add(r);
                 }
@@ -232,7 +232,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         bool result = true;
         level = Owner.Owner;
         count = GetTerrainCount();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && result)
         {
             if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

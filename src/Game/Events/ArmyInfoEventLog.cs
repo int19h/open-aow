@@ -76,7 +76,7 @@ public partial class ArmyInfoEventLog : EventLog
                     result = true;
                     break;
                 case ExecuteTrigger.NewTurn:
-                    if (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
+                    if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                     {
                         StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                         result = true;
@@ -84,7 +84,7 @@ public partial class ArmyInfoEventLog : EventLog
 
                     break;
                 case ExecuteTrigger.Event:
-                    if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player))
+                    if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player))
                     {
                         StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                         result = true;

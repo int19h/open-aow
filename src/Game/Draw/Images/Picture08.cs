@@ -33,7 +33,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:7312
@@ -45,15 +45,15 @@ public partial class Picture08 : Image08, ILibraryImageClass
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:7319
     public override void SetWidth(int value)
     {
-        if (value < _dataWidth + _xshift)
+        if (value < DataWidth + Xshift)
         {
-            value = _dataWidth + _xshift;
+            value = DataWidth + Xshift;
         }
 
         base.SetWidth(value);
@@ -62,9 +62,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
     // ImageLib.pas:7325
     public override void SetHeight(int value)
     {
-        if (value < _dataHeight + _yshift)
+        if (value < DataHeight + Yshift)
         {
-            value = _dataHeight + _yshift;
+            value = DataHeight + Yshift;
         }
 
         base.SetHeight(value);
@@ -107,10 +107,10 @@ public partial class Picture08 : Image08, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        AllocateDiscardableImageData(_dataWidth, _dataHeight);
-        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
+        AllocateDiscardableImageData(DataWidth, DataHeight);
+        for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(y * _pitch, _dataWidth));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, DataWidth));
         }
     }
 
@@ -118,9 +118,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        for (int y = 0, last = _dataHeight - 1; y <= last; y++)
+        for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(y * _pitch, _dataWidth));
+            stream.Write(_buffer.AsSpan(y * _pitch, DataWidth));
         }
     }
 
@@ -136,19 +136,19 @@ public partial class Picture08 : Image08, ILibraryImageClass
             Clear();
             result = true;
             DataLoaded = true;
-            _dataWidth = R.Right - R.Left;
-            _dataHeight = R.Bottom - R.Top;
-            _width = _dataWidth;
-            _height = _dataHeight;
-            _fileName = ExtractFileName(grabInfo.FileName);
-            _fileIndex = grabInfo.FileIndex;
-            _dataSize = _dataWidth * _dataHeight;
-            AllocateDiscardableImageData(_width, _height);
+            DataWidth = R.Right - R.Left;
+            DataHeight = R.Bottom - R.Top;
+            SetWidthWithoutOverrides(DataWidth);
+            SetHeightWithoutOverrides(DataHeight);
+            FileName = ExtractFileName(grabInfo.FileName);
+            FileIndex = grabInfo.FileIndex;
+            DataSize = DataWidth * DataHeight;
+            AllocateDiscardableImageData(Width, Height);
             if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
             {
-                for (int y = 0, last = _height - 1; y <= last; y++)
+                for (int y = 0, last = Height - 1; y <= last; y++)
                 {
-                    lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, _dataWidth).CopyTo(_buffer.AsSpan(_pitch * y, _dataWidth));
+                    lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, DataWidth).CopyTo(_buffer.AsSpan(_pitch * y, DataWidth));
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
@@ -173,9 +173,9 @@ public partial class Picture08 : Image08, ILibraryImageClass
 
     public override void ShowOpaque(int x, int y, in LockedSurface lockedSurface)
     {
-        int destinationX = x + _xshift, destinationY = y + _yshift;
-        int right = destinationX + _dataWidth, bottom = destinationY + _dataHeight;
-        int width = _dataWidth, height = _dataHeight, sourceX = 0, sourceY = 0;
+        int destinationX = x + Xshift, destinationY = y + Yshift;
+        int right = destinationX + DataWidth, bottom = destinationY + DataHeight;
+        int width = DataWidth, height = DataHeight, sourceX = 0, sourceY = 0;
         // Preserve the source offsets and byte destination offset of ImageLib.pas:7424.
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
@@ -202,14 +202,14 @@ public partial class Picture08 : Image08, ILibraryImageClass
             BlitRects.BlitRectangle(source, destination, width, height);
         else
         {
-            if (lockedSurface.PixelFormatId != _remapPalette.PixelFormatId &&
+            if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId &&
                 RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
                 throw new NotSupportedException("Surface pixel format not supported!");
             if (lockedSurface.PixelFormatId == PixelFormats.pfRGB555)
-                PixelRemap.RemapSurface08To555(source, destination, width, height, _remapPalette);
+                PixelRemap.RemapSurface08To555(source, destination, width, height, RemapPaletteValue);
             else if (lockedSurface.PixelFormatId == PixelFormats.pfRGB565)
-                PixelRemap.RemapSurface08To565(source, destination, width, height, _remapPalette);
+                PixelRemap.RemapSurface08To565(source, destination, width, height, RemapPaletteValue);
         }
-        if (loadedHere && _loadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
+        if (loadedHere && LoadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
     }
 }

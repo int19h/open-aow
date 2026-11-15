@@ -13,7 +13,7 @@ public partial class TransparentRleSprite16 : RleSprite16, ILibraryImageClass
     // ImageLib.pas:3592
     public TransparentRleSprite16(CustomImageLibrary owner) : base(owner)
     {
-        _showInfo.ShowMode = ShowMode.Transparent;
+        ShowInfoValue.ShowMode = ShowMode.Transparent;
     }
 
     // ImageLib.pas:3608

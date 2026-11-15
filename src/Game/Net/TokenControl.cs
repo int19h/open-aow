@@ -195,21 +195,21 @@ public partial class TokenControl : IDisposable
     public bool Local()
     {
         var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Local;
+        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
         var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Global;
+        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
         var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Remote;
+        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Remote;
     }
 
     // NetworkE.pas:1266

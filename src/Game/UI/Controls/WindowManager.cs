@@ -114,7 +114,7 @@ public partial class WindowManager : UIComponent
                     c = Children[i];
                     if (c.Valid && c.Visible && WinLeft + c.WinLeft <= rectangle.Right && WinLeft + c.WinLeft + c.WinWidth >= rectangle.Left && WinTop + c.WinTop <= rectangle.Bottom && WinTop + c.WinTop + c.WinHeight >= rectangle.Top && rectangle.Left <= rectangle.Right && rectangle.Top <= rectangle.Bottom)
                     {
-                        if (c._doubleBuffered)
+                        if (c.DoubleBuffered)
                         {
                             r = new Rect(rectangle.Left - c.WinLeft, rectangle.Top - c.WinTop, rectangle.Right - c.WinLeft, rectangle.Bottom - c.WinTop);
                             c.AddBlitRectangle(ref r, c);
@@ -158,7 +158,7 @@ public partial class WindowManager : UIComponent
                         {
                             if (!Drawn)
                             {
-                                if (c._doubleBuffered)
+                                if (c.DoubleBuffered)
                                 {
                                     c.SurfaceValid = false;
                                 }
@@ -485,8 +485,8 @@ public partial class WindowManager : UIComponent
     {
         WindowControl c = default;
         Handled = false;
-        _oldCursor = _cursor;
-        _cursor = _defaultCursor;
+        _oldCursor = base.Cursor;
+        base.Cursor = _defaultCursor;
         if (X < 0)
         {
             X = 0;
@@ -519,7 +519,7 @@ public partial class WindowManager : UIComponent
                     {
                         if (!Handled)
                         {
-                            _cursor = c._cursor;
+                            base.Cursor = c.Cursor;
                             if (!c.MouseInside)
                             {
                                 c.MouseInside = true;
@@ -557,7 +557,7 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        if (_cursor != _oldCursor)
+        if (base.Cursor != _oldCursor)
         {
             if (OnChangeCursor != null)
             {
@@ -666,9 +666,9 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:147
     public void SetCursor(int value)
     {
-        if (value != _cursor)
+        if (value != base.Cursor)
         {
-            _cursor = value;
+            base.Cursor = value;
             if (OnChangeCursor != null)
             {
                 OnChangeCursor(this);
@@ -677,7 +677,7 @@ public partial class WindowManager : UIComponent
     }
 
     [Published]
-    public int Cursor { get => _cursor; set => SetCursor(value); }
+    public override int Cursor { get => base.Cursor; set => SetCursor(value); }
 
     [Published]
     public InterfaceImageLibrary BackgroundTexture { get => _backgroundTexture; set => SetILTB(value); }

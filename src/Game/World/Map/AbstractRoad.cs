@@ -32,8 +32,8 @@ public partial class AbstractRoad : MapObject
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classId = _resource.EngineClass.ClassId;
-            r = ((AbstractRoadResource)_resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
+            var classId = Resource.EngineClass.ClassId;
+            r = ((AbstractRoadResource)Resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
             if (r != null)
             {
                 SetResource(r);
@@ -41,14 +41,14 @@ public partial class AbstractRoad : MapObject
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
+                Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                if (((AbstractRoadResource)_resource).GetRoadControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
+                if (((AbstractRoadResource)Resource).GetRoadControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
                 {
                     Dispose();
                 }
@@ -77,7 +77,7 @@ public partial class AbstractRoad : MapObject
         if (condition)
         {
             var fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            var terrain = _resource.TerrainList.GetTerrain(0);
+            var terrain = Resource.TerrainList.GetTerrain(0);
             condition = fieldValue.TerrainType == terrain;
         }
 

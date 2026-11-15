@@ -222,7 +222,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
                     ActivatePlugin(recruit);
@@ -241,7 +241,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.ForceRecruit;
                     ActivatePlugin(recruit);
@@ -479,7 +479,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 22:
-                if (Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < _requiredStrength)
+                if (Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < _requiredStrength)
                 {
                     ProductionLocations.Clear();
                     productionFinder = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
@@ -500,7 +500,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     produce = new AIGroupProductionControl(null) { Holder = CreationHolder() };
                     produce.Setup(this);
-                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     produce.ProduceStrength = _requiredStrength - (strengthMax + StrengthMax);
                     produce.Mode = AIGroupProductionControlMode.AutoProduce;
                     ActivatePlugin(produce);
@@ -562,7 +562,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         var moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
         StrategicMap.Current.MoveControl.ProcessMove(settings);
-        BattleFieldInfo.SetupBattleFieldInfo(out info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+        BattleFieldInfo.SetupBattleFieldInfo(out info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         message.MessageId = 4360;
         message.Param[0] = query;
@@ -655,7 +655,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 i -= 1;
                 if (!(units.GetUnit(i) is Leader))
                 {
-                    excess -= units.GetUnit(i).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    excess -= units.GetUnit(i).GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     if (excess >= 0)
                     {
                         passive.AddUnit(units.GetUnit(i));
@@ -695,8 +695,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
     private static int CompareFortifyUnits(Troop item1, Troop item2)
     {
-        int number = item1.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
-        int number2 = item2.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number = item1.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number2 = item2.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
         if (item1 is Leader)
         {
             number = number2 + 16777215;

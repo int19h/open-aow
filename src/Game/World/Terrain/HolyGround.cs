@@ -83,7 +83,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         MapLevel level;
         level = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(level, _hexX, _hexY);
+        UpdateMapFields(level, StoredHexX, StoredHexY);
     }
 
     // HolyG.pas:219
@@ -92,7 +92,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                 return;
@@ -103,7 +103,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
 
         if (message.MessageId == 4384)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 if (CanDoDamage(message.Param[0].As<ArmyHexSprite>().Army.Units))
                 {
@@ -115,7 +115,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         {
             if (message.MessageId == 4402)
             {
-                if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && Player > 0 && Duration > 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && Player > 0 && Duration > 0)
                 {
                     RestoreTerrain();
                 }
@@ -127,7 +127,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         int result;
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
             if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units))
             {
@@ -149,7 +149,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     // HolyG.pas:181
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -169,7 +169,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         var holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
         log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
-        log._player = army.Army.Player;
+        log.Player = army.Army.Player;
         log.ArmyView.Setup(army.Army, 255);
         var armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
@@ -209,7 +209,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         log.ValidateGameOver();
         if (damaged != 0)
         {
-            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log._player, execute: true);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
         }
 
         log.Release();

@@ -118,10 +118,10 @@ public abstract partial record ProductionOrder
     protected static void Log(ProductionControl control, City city, string text)
     {
         var eventValue = new CityProductionEventLog(null) { Holder = control };
-        eventValue._player = control.GetPlayer();
+        eventValue.Player = control.GetPlayer();
         eventValue.Text = text;
         eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
-        StrategicMap.Current.Players.GetPlayers(eventValue._player).EventLogbook.AddEvent(eventValue);
+        StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
         eventValue.Release();
     }
 

@@ -14,16 +14,16 @@ namespace Aow.Game.Draw.Images;
 public partial class ImageSequence : IDisposable
 {
     private readonly ImageSequenceList _owner;
-    internal byte _layer;
+    private byte _layer;
     private ImageSequence _next;
     private CustomImageLibrary _imageLibrary;
     private string _imageLibraryName = "";
     private byte _sequenceSpeed;
-    internal SequenceMode _sequenceMode;
+    private SequenceMode _sequenceMode;
     private FrameTableList _frameTable;
     private int _imageIndex;
-    internal int _offsetX;
-    internal int _offsetY;
+    private int _offsetX;
+    private int _offsetY;
     private int _lastFrame;
     private byte _speedCount;
     private int _frameCounter;
@@ -96,7 +96,7 @@ public partial class ImageSequence : IDisposable
         if (this != null)
         {
             result = null;
-            if (_frameTable != null && _frameTable._count != 0)
+            if (_frameTable != null && _frameTable.Count != 0)
             {
                 result = _imageLibrary.GetSafe(_frameTable.List[0]);
             }

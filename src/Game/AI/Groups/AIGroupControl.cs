@@ -326,7 +326,7 @@ public partial class AIGroupControl : EngineObject
         MovePointTable movePointTable = default;
         if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
         {
-            _immunityTypes = AbilityRules.s_allDamageTypes;
+            _immunityTypes = AbilityRules.AllDamageTypes;
             StrengthMax = 0;
             Array.Clear(_strength);
             if (Group.Units.Count != 0)
@@ -351,7 +351,7 @@ public partial class AIGroupControl : EngineObject
                     _strength[(int)damageType] += strength;
                 }
 
-                var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes);
+                var strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes);
                 StrengthMax += strengthMax;
             }
 

@@ -148,13 +148,13 @@ public partial class Altar : PlayerStructure
                     var targetMana = TargetMana();
                     if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(out friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         var hexLevel2 = GetHexLevel();
                         var hexY2 = GetHexY();
                         var hexX = GetHexX();
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(out enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         var hexLevel3 = GetHexLevel();
                         var hexY3 = GetHexY();
                         var hexX2 = GetHexX();

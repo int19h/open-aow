@@ -128,7 +128,7 @@ public partial class BaseButton : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                if (_checked)
+                if (Checked)
                 {
                     if (_buttonType == UIComponentButtonType.Text)
                     {
@@ -141,11 +141,11 @@ public partial class BaseButton : Control
                         _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
 
-                    if (_font != null)
+                    if (base.Font != null)
                     {
-                        _font.Color = SelectedColor;
-                        var textWidth = _font.GetTextWidth(_text);
-                        _font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, _text, lockedSurface);
+                        base.Font.Color = SelectedColor;
+                        var textWidth = base.Font.GetTextWidth(base.Text);
+                        base.Font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, base.Text, lockedSurface);
                     }
                 }
                 else
@@ -177,11 +177,11 @@ public partial class BaseButton : Control
                         }
                     }
 
-                    if (_font != null)
+                    if (base.Font != null)
                     {
-                        _font.Color = Color;
-                        var textWidth = _font.GetTextWidth(_text);
-                        _font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + _borderHeight, _text, lockedSurface);
+                        base.Font.Color = Color;
+                        var textWidth = base.Font.GetTextWidth(base.Text);
+                        base.Font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + base.BorderHeight, base.Text, lockedSurface);
                     }
                 }
 
@@ -249,15 +249,9 @@ public partial class BaseButton : Control
     // AoWButton.pas:130
     public void SetGText(string value)
     {
-        _text = value;
+        base.Text = value;
         Drawn = false;
     }
-
-    [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
     public int BorderHeightSelected { get => _borderHeightSelected; set => _borderHeightSelected = value; }
@@ -281,7 +275,7 @@ public partial class BaseButton : Control
     public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
 
     [Published]
-    public string Text { get => _text; set => SetGText(value); }
+    public override string Text { get => base.Text; set => SetGText(value); }
 
     public new event NotifyEvent<BaseButton> OnChange
     {

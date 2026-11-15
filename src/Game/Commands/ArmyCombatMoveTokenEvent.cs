@@ -240,7 +240,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     flow.Mode = flow.Mode + Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch);
                 }
 
-                flow.Player = request.Player;
+                flow.Player = request.AttackerPlayer;
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                 flow.Release();
                 if (request.ArmyId.RetrieveArmy(ref ArmyHexSprite, ref Selection))
@@ -615,7 +615,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             if (StrategicMap.Current.SeatedPlayer == player2)
             {
                 request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
-                request.Player = ArmyHexSprite.Army.Player;
+                request.AttackerPlayer = ArmyHexSprite.Army.Player;
                 request.DefenderPlayer = field.GetPlayer();
                 request.X = field.HexX;
                 request.Y = field.HexY;
@@ -625,7 +625,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 request.ArmyId = ArmyHexSprite.Army.CreateId(Selection);
                 if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.Choose)
                 {
-                    if (StrategicMap.Current.SeatedPlayer != request.Player)
+                    if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
                     {
                         var hexLevel = ArmyHexSprite.GetHexLevel();
                         var hexY = ArmyHexSprite.GetHexY();
@@ -693,12 +693,12 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             ArmyHexSprite.PauseMove();
             request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
-            request.Player = ArmyHexSprite.Army.Player;
+            request.AttackerPlayer = ArmyHexSprite.Army.Player;
             request.DefenderPlayer = field.GetPlayer();
             request.X = field.HexX;
             request.Y = field.HexY;
             request.MapLevel = field.HexLevel;
-            if (StrategicMap.Current.SeatedPlayer != request.Player)
+            if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
             {
                 var hexLevel = ArmyHexSprite.GetHexLevel();
                 var hexY = ArmyHexSprite.GetHexY();

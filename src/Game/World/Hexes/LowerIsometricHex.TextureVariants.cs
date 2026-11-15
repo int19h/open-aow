@@ -20,7 +20,7 @@ public partial class LowerIsometricHex
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
-        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {

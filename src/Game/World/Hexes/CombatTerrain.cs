@@ -55,7 +55,7 @@ public partial class CombatTerrain : TerrainMapObject
         MapLevel mapLevel;
         mapLevel = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(mapLevel, _hexX, _hexY);
+        UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
 
     // CombatTerrain.pas:149
@@ -66,7 +66,7 @@ public partial class CombatTerrain : TerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
-            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)_resource).DecorationType))
+            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType))
             {
                 switch (message.MessageId)
                 {
@@ -162,9 +162,9 @@ public partial class CombatTerrain : TerrainMapObject
             switch (message.MessageId)
             {
                 case 135169:
-                    if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < ((Resource)_resource).Defense)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < ((Resource)base.Resource).Defense)
                     {
-                        message.Param[0] = ((Resource)_resource).Defense;
+                        message.Param[0] = ((Resource)base.Resource).Defense;
                     }
 
                     break;
@@ -177,7 +177,7 @@ public partial class CombatTerrain : TerrainMapObject
     {
         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (_resource.TerrainList.GetOverlay(info.HexNumber) == 8)
+            if (base.Resource.TerrainList.GetOverlay(info.HexNumber) == 8)
             {
                 moveResult.Code = -1;
                 moveResult.Done = true;
@@ -189,7 +189,7 @@ public partial class CombatTerrain : TerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)_resource).DecorationType))
+        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType))
         {
             _hitPoints = 3;
         }
@@ -213,7 +213,7 @@ public partial class CombatTerrain : TerrainMapObject
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
         base.UpdateMapField(info);
-        if (info.HexNumber < _resource.TerrainList.Count)
+        if (info.HexNumber < base.Resource.TerrainList.Count)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag;
         }
@@ -245,7 +245,7 @@ public partial class CombatTerrain : TerrainMapObject
         {
             if (GetVisible())
             {
-                _resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                base.Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();
@@ -256,7 +256,7 @@ public partial class CombatTerrain : TerrainMapObject
     // CombatTerrain.pas:111
     public void CreateShadow()
     {
-        if (_resource.ImageSequenceList.GetImageSequence(40) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(40) != null)
         {
             if (_shadow != null)
             {
@@ -266,7 +266,7 @@ public partial class CombatTerrain : TerrainMapObject
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatTerrainShadow(null) { Holder = CreationHolder() };
-                _shadow._terrain = this;
+                _shadow.Terrain = this;
             }
         }
     }
@@ -281,10 +281,10 @@ public partial class CombatTerrain : TerrainMapObject
     {
         int x = default;
         int y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     public new partial class Resource : TerrainMapObjectResource

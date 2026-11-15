@@ -745,7 +745,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 
-    internal static readonly Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
+    private static readonly Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 
     internal static ImmutableArray<string> ExplosionSfx { get; } = ["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"];
 

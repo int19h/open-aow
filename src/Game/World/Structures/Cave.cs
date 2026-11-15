@@ -44,7 +44,7 @@ public partial class Cave : Structure
             {
                 if (oldEntrance == CaveEntrance.Up)
                 {
-                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1).FindOwnedChild(131966);
+                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
@@ -52,7 +52,7 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1).FindOwnedChild(131966);
+                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
@@ -76,7 +76,7 @@ public partial class Cave : Structure
     // Cave.pas:273
     public override sbyte GetOverlay(int index)
     {
-        sbyte result = _resource.TerrainList.Terrain[index];
+        sbyte result = base.Resource.TerrainList.Terrain[index];
         if (result >= 0)
         {
             result = -1;
@@ -94,10 +94,10 @@ public partial class Cave : Structure
             switch (Entrance)
             {
                 case CaveEntrance.Up:
-                    field = StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1);
+                    field = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1);
                     break;
                 case CaveEntrance.Down:
-                    field = StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1);
+                    field = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1);
                     break;
                 default:
                     field = null;
@@ -155,7 +155,7 @@ public partial class Cave : Structure
                     up = (Cave)mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild(131966);
                     if (up == null)
                     {
-                        up = (Cave)_resource.CreateResourceUser();
+                        up = (Cave)base.Resource.CreateResourceUser();
                         up.Entrance = CaveEntrance.Up;
                         result = up.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel + 1));
                     }
@@ -179,7 +179,7 @@ public partial class Cave : Structure
                     down = (Cave)mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild(131966);
                     if (down == null)
                     {
-                        down = (Cave)_resource.CreateResourceUser();
+                        down = (Cave)base.Resource.CreateResourceUser();
                         down.Entrance = CaveEntrance.Down;
                         result = down.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel - 1));
                     }
@@ -225,9 +225,9 @@ public partial class Cave : Structure
         LibraryImage result;
         if (Entrance == CaveEntrance.Up)
         {
-            if (_resource.ImageSequenceList != null && _resource.ImageSequenceList.ImageSequences[33] != null)
+            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[33] != null)
             {
-                result = _resource.ImageSequenceList.ImageSequences[33].GetPreviewImage();
+                result = base.Resource.ImageSequenceList.ImageSequences[33].GetPreviewImage();
             }
             else
             {
@@ -248,9 +248,9 @@ public partial class Cave : Structure
         LibraryImage result;
         if (Entrance == CaveEntrance.Up)
         {
-            if (_resource.ImageSequenceList != null && _resource.ImageSequenceList.ImageSequences[34] != null)
+            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[34] != null)
             {
-                result = _resource.ImageSequenceList.ImageSequences[34].GetPreviewImage();
+                result = base.Resource.ImageSequenceList.ImageSequences[34].GetPreviewImage();
             }
             else
             {
@@ -271,9 +271,9 @@ public partial class Cave : Structure
         LibraryImage result;
         if (Entrance == CaveEntrance.Up)
         {
-            if (_resource.ImageSequenceList != null && _resource.ImageSequenceList.ImageSequences[35] != null)
+            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[35] != null)
             {
-                result = _resource.ImageSequenceList.ImageSequences[35].GetPreviewImage();
+                result = base.Resource.ImageSequenceList.ImageSequences[35].GetPreviewImage();
             }
             else
             {

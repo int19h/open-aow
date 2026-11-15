@@ -30,7 +30,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
-        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         variant = FrameFixtureInputs.CombatTextureVariant(this);
         if (variant == 3)
         {

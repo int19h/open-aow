@@ -50,12 +50,12 @@ public partial class ProductionPlaceControl : ProductionControl
         }
 
         log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-        log._player = productionPlace.Player;
+        log.Player = productionPlace.Player;
         var name = Settings.Unit.GetName();
         var fProductionPlaceName = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
-        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         log.Release();
 
         return result;
@@ -68,13 +68,13 @@ public partial class ProductionPlaceControl : ProductionControl
         base.UnitResearched();
         var productionPlace = ProductionPlace;
         log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-        log._player = productionPlace.Player;
+        log.Player = productionPlace.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
-        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         log.Release();
     }
 

@@ -34,10 +34,10 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
         int pixelX = default;
         int pixelY = default;
         int framesLeft;
-        HexGeometry.HexToPixel(Structure._hexX, Structure._hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Structure.StoredHexX, Structure.StoredHexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sequence = Structure._resource.ImageSequenceList.GetImageSequence(19);
+        sequence = ((global::Aow.Game.World.MapObject)(Structure)).Resource.ImageSequenceList.GetImageSequence(19);
         if (sequence != null)
         {
             blend = 50;

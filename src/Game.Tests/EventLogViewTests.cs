@@ -60,13 +60,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.X, negotiateRequestEventLog.Y, negotiateRequestEventLog.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
-                    var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog._player);
+                    var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
                     return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
         }
-        if (eventValue is GameOverEventLog) return StrategicMap.Current.SeatedPlayer == eventValue._player ? "GameOver" : "ReceivedMessage";
+        if (eventValue is GameOverEventLog) return StrategicMap.Current.SeatedPlayer == eventValue.Player ? "GameOver" : "ReceivedMessage";
         if (eventValue is NewTurnEventLog) return "NewTurn";
         if (eventValue is CombatTypeRequestEventLog) return "CombatType";
         if (eventValue is ShowBookEventLog) return "InformationBook";
@@ -221,8 +221,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(GameOverEventLog).IsAssignableFrom(type))
         {
-            yield return new State("seated", (e, _) => e._player = Seated);
-            yield return new State("other", (e, _) => e._player = OtherPlayer);
+            yield return new State("seated", (e, _) => e.Player = Seated);
+            yield return new State("other", (e, _) => e.Player = OtherPlayer);
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
@@ -288,7 +288,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             var request = (NegotiateRequestEventLog)log;
             request.Object = what;
-            request._player = Seated;
+            request.Player = Seated;
             request.X = 0;
             request.Y = 0;
             request.MapLevel = 0;

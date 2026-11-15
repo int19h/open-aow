@@ -54,7 +54,7 @@ public partial class Edit : Control
             _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, 3, this);
         }
 
-        if (_imageLibraryEdit != null && _font != null)
+        if (_imageLibraryEdit != null && base.Font != null)
         {
             Valid = true;
         }
@@ -76,20 +76,20 @@ public partial class Edit : Control
 
         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_imageLibraryIndex].Height);
         FirstChar = 1;
-        if (_text.Length < _cursorPosition)
+        if (base.Text.Length < _cursorPosition)
         {
-            _cursorPosition = _text.Length;
+            _cursorPosition = base.Text.Length;
         }
 
-        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > WinWidth - 2 * _borderWidth - 1)
+        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * base.BorderWidth - 1)
         {
-            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
+            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
             {
                 FirstChar += 1;
             }
         }
 
-        _shownChars = _text.Length - FirstChar + 1;
+        _shownChars = base.Text.Length - FirstChar + 1;
         base.SetSize();
     }
 
@@ -137,10 +137,10 @@ public partial class Edit : Control
                     lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
                 }
 
-                _font.Color = Color;
+                base.Font.Color = Color;
                 if (_passWordChar == 0)
                 {
-                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, Copy(_text, FirstChar, _shownChars), lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
                 }
                 else
                 {
@@ -150,14 +150,14 @@ public partial class Edit : Control
                         s = s + Cp1252.Text(_passWordChar);
                     }
 
-                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, s, lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth, Window.WinTop + WinTop + base.BorderHeight, s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
                 if (_editable && Redraw == true && _cursorShown == true)
                 {
-                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, _cursorPosition));
-                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth + textWidth, Window.WinTop + WinTop + _borderHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
+                    base.Font.SetText(Window.WinLeft + WinLeft + base.BorderWidth + textWidth, Window.WinTop + WinTop + base.BorderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -191,28 +191,28 @@ public partial class Edit : Control
                         Redraw = true;
                     }
 
-                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, _text.Length));
-                    if (X > Window.WinLeft + WinLeft + _borderWidth + textWidth)
+                    var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
+                    if (X > Window.WinLeft + WinLeft + base.BorderWidth + textWidth)
                     {
                         FirstChar = 1;
-                        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > WinWidth - 2 * _borderWidth - 1)
+                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * base.BorderWidth - 1)
                         {
-                            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
+                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
                             {
                                 FirstChar += 1;
                             }
                         }
 
-                        _cursorPosition = _text.Length - FirstChar + 1;
+                        _cursorPosition = base.Text.Length - FirstChar + 1;
                     }
                     else
                     {
                         i = 0;
-                        w = _font.GetTextWidth(Copy(_text, FirstChar, i + 1));
-                        while (X > Window.WinLeft + WinLeft + _borderWidth + w && _text.Length > i + FirstChar - 1)
+                        w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
+                        while (X > Window.WinLeft + WinLeft + base.BorderWidth + w && base.Text.Length > i + FirstChar - 1)
                         {
                             i += 1;
-                            w = _font.GetTextWidth(Copy(_text, FirstChar, i + 1));
+                            w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
                         }
 
                         _cursorPosition = i;
@@ -267,7 +267,7 @@ public partial class Edit : Control
             Handled = true;
             if (_editable == true)
             {
-                Window._cursor = -4;
+                Window.Cursor = -4;
             }
 
             RaiseMouseMove(this, shift, X, Y);
@@ -289,7 +289,7 @@ public partial class Edit : Control
                 case 8:
                     if (_cursorPosition > 0)
                     {
-                        _text = Copy(_text, 1, _cursorPosition + FirstChar - 2) + Copy(_text, _cursorPosition + FirstChar, _text.Length - _cursorPosition - FirstChar + 1);
+                        base.Text = Copy(base.Text, 1, _cursorPosition + FirstChar - 2) + Copy(base.Text, _cursorPosition + FirstChar, base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition = _cursorPosition + FirstChar - 2;
                     }
 
@@ -310,9 +310,9 @@ public partial class Edit : Control
                     break;
                 default:
                     c = key;
-                    if (_text.Length < _maxChars || _maxChars == 0)
+                    if (base.Text.Length < _maxChars || _maxChars == 0)
                     {
-                        _text = Copy(_text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(_text, FirstChar + _cursorPosition, _text.Length - _cursorPosition - FirstChar + 1);
+                        base.Text = Copy(base.Text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, FirstChar + _cursorPosition, base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition += 1;
                         _cursorPosition = _cursorPosition + FirstChar - 1;
                         FirstChar = 1;
@@ -323,13 +323,13 @@ public partial class Edit : Control
 
             if (scroll == true)
             {
-                while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
+                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * base.BorderWidth - 1)
                 {
                     FirstChar += 1;
                     _cursorPosition -= 1;
                 }
 
-                _shownChars = _text.Length - FirstChar + 1;
+                _shownChars = base.Text.Length - FirstChar + 1;
                 if (_cursorPosition < 0)
                 {
                     _cursorPosition = 0;
@@ -357,7 +357,7 @@ public partial class Edit : Control
     // AoWEdit.pas:113
     public void SetGText(string value)
     {
-        _text = value;
+        base.Text = value;
         Sized = false;
     }
 
@@ -372,16 +372,7 @@ public partial class Edit : Control
     }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
-    public string Text { get => _text; set => SetGText(value); }
-
-    [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
+    public override string Text { get => base.Text; set => SetGText(value); }
 
     [Published]
     public int MaxChars { get => _maxChars; set => _maxChars = value; }
@@ -417,19 +408,19 @@ public partial class Edit : Control
                 break;
             case 39:
                 if (_shownChars > _cursorPosition) _cursorPosition++;
-                else if (FirstChar + _shownChars < _text.Length) FirstChar++;
+                else if (FirstChar + _shownChars < base.Text.Length) FirstChar++;
                 break;
             case 46:
-                if (_cursorPosition < _text.Length)
+                if (_cursorPosition < base.Text.Length)
                 {
-                    _text = Copy(_text, 1, _cursorPosition + FirstChar - 1) +
-                        Copy(_text, _cursorPosition + FirstChar + 1, _text.Length - _cursorPosition - FirstChar);
+                    base.Text = Copy(base.Text, 1, _cursorPosition + FirstChar - 1) +
+                        Copy(base.Text, _cursorPosition + FirstChar + 1, base.Text.Length - _cursorPosition - FirstChar);
                     _cursorPosition += FirstChar - 1;
                     FirstChar = 1;
                 }
                 break;
         }
-        _shownChars = _text.Length - FirstChar + 1;
+        _shownChars = base.Text.Length - FirstChar + 1;
         _cursorPosition = Math.Max(_cursorPosition, 0);
         _cursorShown = true;
         _blinkCount = 0;

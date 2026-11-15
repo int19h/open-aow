@@ -89,7 +89,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             {
                 log = new ArmyEventLog(null) { Holder = CreationHolder() };
                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText);
-                log._player = source.Player;
+                log.Player = source.Player;
                 var vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
                 log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;

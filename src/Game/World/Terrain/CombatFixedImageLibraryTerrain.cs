@@ -17,12 +17,12 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
         bool result;
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
             if (validTerrainType)
             {
-                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: _resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: _hexX, hexY: _hexY) == info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: base.Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
             }
 
             result = validTerrainType;
@@ -38,7 +38,7 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     // CombatILTer.pas:206
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             if (ValidTerrainType(info.TerrainType))
             {
@@ -51,7 +51,7 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     // CombatILTer.pas:216
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             if (ValidTerrainType(info.TerrainType))
             {

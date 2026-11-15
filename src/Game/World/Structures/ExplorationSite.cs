@@ -109,7 +109,7 @@ public partial class ExplorationSite : Structure
         else
         {
             image = terrainType + 100;
-            if (_resource.ImageSequenceList.ImageSequences[image << 0] != null)
+            if (Resource.ImageSequenceList.ImageSequences[image << 0] != null)
             {
                 result = image;
             }
@@ -282,7 +282,7 @@ public partial class ExplorationSite : Structure
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
-                request.Player = armyHexSprite.Army.Player;
+                request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
                 request.Release();
@@ -397,11 +397,11 @@ public partial class ExplorationSite : Structure
             _defendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);
         }
 
-        collection = ((ExplorationSiteResource)_resource).DefenderCollections.GetRandomCollection();
+        collection = ((ExplorationSiteResource)Resource).DefenderCollections.GetRandomCollection();
         if (collection != -1)
         {
             list = new UnitIndexList();
-            collections = ((ExplorationSiteResource)_resource).DefenderCollections;
+            collections = ((ExplorationSiteResource)Resource).DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 list.Add(collections.GetU(collection, i));

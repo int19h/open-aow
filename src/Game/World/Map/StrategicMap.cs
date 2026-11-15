@@ -1794,7 +1794,7 @@ public partial class StrategicMap : GameMap
         for (int i = 1, last = Current.Players.Count - 1; i <= last; i++)
         {
             player = Current.Players.GetPlayers(i);
-            if (i == eventValue._player || player.GameOverStatus == GameOverStatus.None)
+            if (i == eventValue.Player || player.GameOverStatus == GameOverStatus.None)
             {
                 log = (GameOverEventLog)eventValue.Copy(GetEngine());
                 if (_gameOverLockCount == 0)

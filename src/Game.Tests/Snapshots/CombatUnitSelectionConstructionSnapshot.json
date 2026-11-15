@@ -51,7 +51,7 @@
               "CustomImageLibrary._loadedFileName": "",
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager._palettes": []
+                "PaletteManager.Palettes": []
               },
               "CustomImageLibrary._reloading": false,
               "CustomImageLibrary._status": {

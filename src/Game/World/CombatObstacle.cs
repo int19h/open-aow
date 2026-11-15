@@ -49,7 +49,7 @@ public partial class CombatObstacle : MultiHexMapObject
         MapLevel mapLevel;
         mapLevel = Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(mapLevel, _hexX, _hexY);
+        UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
 
     // CombatObstacle.pas:229
@@ -57,7 +57,7 @@ public partial class CombatObstacle : MultiHexMapObject
     {
         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (_resource.TerrainList.GetOverlay(info.HexNumber) == 8)
+            if (base.Resource.TerrainList.GetOverlay(info.HexNumber) == 8)
             {
                 moveResult.Code = -1;
                 moveResult.Done = true;
@@ -85,7 +85,7 @@ public partial class CombatObstacle : MultiHexMapObject
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
         base.UpdateMapField(info);
-        if (info.HexNumber < _resource.TerrainList.Count)
+        if (info.HexNumber < base.Resource.TerrainList.Count)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag;
         }
@@ -121,7 +121,7 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:125
     public void CreateShadow()
     {
-        if (_resource.ImageSequenceList.GetImageSequence(40) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(40) != null)
         {
             if (_shadow != null)
             {
@@ -154,7 +154,7 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:148
     public void CreateOverlay()
     {
-        if (_resource.ImageSequenceList.GetImageSequence(41) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(41) != null)
         {
             if (_overlay != null)
             {
@@ -189,10 +189,10 @@ public partial class CombatObstacle : MultiHexMapObject
     {
         int x = default;
         int y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatObstacle.pas:182
@@ -200,10 +200,10 @@ public partial class CombatObstacle : MultiHexMapObject
     {
         int x = default;
         int y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     public new partial class Resource : MultiHexMapObjectResource

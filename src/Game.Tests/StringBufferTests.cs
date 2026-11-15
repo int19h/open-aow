@@ -100,7 +100,7 @@ public sealed class StringBufferTests
         var memo = new Memo(null!)
         {
             NoFrame = true,
-            _font = font,
+            Font = font,
             ColorChangeChar = (byte)'#'
         };
         memo.SetWinWidthWithoutInvalidate(28);
@@ -140,7 +140,7 @@ public sealed class StringBufferTests
     {
         var memo = new HtmlMemo(null!)
         {
-            _font = new ImageLibraryFont(null!)
+            Font = new ImageLibraryFont(null!)
         };
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);

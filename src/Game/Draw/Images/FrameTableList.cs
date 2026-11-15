@@ -9,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 public partial class FrameTableList : Persistent
 {
     private int[] _list;
-    internal int _count;
+    private int _count;
     private int _capacity;
     private int _defaultValue;
 

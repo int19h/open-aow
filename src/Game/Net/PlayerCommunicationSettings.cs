@@ -9,8 +9,8 @@ namespace Aow.Game.Net;
 // _connectionMode (stored with id 5), _systemId (id 6). One per player
 public partial class PlayerCommunicationSettings : EngineObject
 {
-    internal ConnectionMode _connectionMode;
-    internal int _systemId;
+    private ConnectionMode _connectionMode;
+    private int _systemId;
 
     // NetworkE.pas:452
     public override void PersistFields(IPersister persister)

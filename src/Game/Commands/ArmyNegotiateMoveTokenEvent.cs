@@ -139,7 +139,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 negotiateRequestEventLog.X = (sbyte)(byte)X;
                 negotiateRequestEventLog.Y = (sbyte)(byte)Y;
                 negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
-                negotiateRequestEventLog._player = (sbyte)(byte)player;
+                negotiateRequestEventLog.Player = (sbyte)(byte)player;
                 message.MessageId = 4366;
                 message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
                 message.Param[1] = (MsgArg)(0);
@@ -160,7 +160,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             negotiateRequestEventLog.X = (sbyte)(byte)X;
             negotiateRequestEventLog.Y = (sbyte)(byte)Y;
             negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
-            negotiateRequestEventLog._player = (sbyte)(byte)player;
+            negotiateRequestEventLog.Player = (sbyte)(byte)player;
             message.MessageId = 4366;
             message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
             message.Param[1] = (MsgArg)(0);

@@ -10,7 +10,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
     public int IndexOfItemA(TA A)
     {
         int result = 0;
-        while (result < Count && !ReferenceEquals(_list[result].First, A))
+        while (result < Count && !ReferenceEquals(List[result].First, A))
         {
             result += 1;
         }
@@ -21,7 +21,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
     public int IndexOfItemB(int B)
     {
         int result = 0;
-        while (result < Count && _list[result].Second != B)
+        while (result < Count && List[result].Second != B)
         {
             result += 1;
         }
@@ -45,7 +45,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
             total = 0;
             for (int i = Count - 1; i >= 0; i--)
             {
-                chance = _list[i].Second + bonus;
+                chance = List[i].Second + bonus;
                 if (chance > 0)
                 {
                     total += chance;
@@ -55,7 +55,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
             r = Random(total);
             result = 0;
             total = 0;
-            chance = _list[0].Second + bonus;
+            chance = List[0].Second + bonus;
             if (chance > 0)
             {
                 total += chance;
@@ -64,7 +64,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
             while (total <= r)
             {
                 result += 1;
-                chance = _list[result].Second + bonus;
+                chance = List[result].Second + bonus;
                 if (chance > 0)
                 {
                     total += chance;

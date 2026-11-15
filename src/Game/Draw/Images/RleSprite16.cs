@@ -40,7 +40,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         }
 
         base.SetXshift(value);
-        SetWidth(_width);
+        SetWidth(Width);
     }
 
     // ImageLib.pas:2903
@@ -52,14 +52,14 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         }
 
         base.SetYshift(value);
-        SetHeight(_height);
+        SetHeight(Height);
     }
 
     // ImageLib.pas:2910
     public override void SetWidth(int value)
     {
         int w;
-        w = _xshift + _spriteX + _spriteWidth;
+        w = Xshift + _spriteX + _spriteWidth;
         if (value < w)
         {
             value = w;
@@ -72,7 +72,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     public override void SetHeight(int value)
     {
         int w;
-        w = _yshift + _spriteY + _spriteHeight;
+        w = Yshift + _spriteY + _spriteHeight;
         if (value < w)
         {
             value = w;
@@ -84,9 +84,9 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:2928
     public override void GetVisualDimensions(out Rect R)
     {
-        R.Left = _xshift + _spriteX;
+        R.Left = Xshift + _spriteX;
         R.Right = R.Left + _spriteWidth;
-        R.Top = _yshift + _spriteY;
+        R.Top = Yshift + _spriteY;
         R.Bottom = R.Top + _spriteHeight;
     }
 
@@ -132,15 +132,15 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        _data = MemorySurfaces.Reallocate(_data, _dataSize);
-        stream.ReadExactly(_data.AsSpan(0, _dataSize));
+        _data = MemorySurfaces.Reallocate(_data, DataSize);
+        stream.ReadExactly(_data.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:2980
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(_data.AsSpan(0, _dataSize));
+        stream.Write(_data.AsSpan(0, DataSize));
     }
 
     // ImageLib.pas:2986
@@ -179,7 +179,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
             LoadDiscardableImageData();
             if (lockedSurface.PixelFormatId == PixelFormatId)
             {
-                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                BlitRle16(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
             else
             {
@@ -188,10 +188,10 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                BlitRle16(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
 
-            if (_loadMode == LoadMode.LoadFreeOnDemand)
+            if (LoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -200,7 +200,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         {
             if (lockedSurface.PixelFormatId == PixelFormatId)
             {
-                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                BlitRle16(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
             else
             {
@@ -209,7 +209,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                BlitRle16(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
         }
     }
@@ -229,14 +229,14 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
             switch (PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                    BlendRle565(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    BlendRle555(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                    BlendRle555(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
             }
 
-            if (_loadMode == LoadMode.LoadFreeOnDemand)
+            if (LoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -251,10 +251,10 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
             switch (PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                    BlendRle565(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    BlendRle555(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                    BlendRle555(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
             }
         }
@@ -280,7 +280,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         int c;
         void AddWord(ushort W)
         {
-            if (_dataSize <= position)
+            if (DataSize <= position)
             {
                 _data = MemorySurfaces.Reallocate(_data, position + 4096);
             }
@@ -309,7 +309,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         void EndRow()
         {
             FlushSkip();
-            if (_dataSize <= position)
+            if (DataSize <= position)
             {
                 _data = MemorySurfaces.Reallocate(_data, position + 4096);
             }
@@ -354,14 +354,14 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
 
                 Clear();
                 DataLoaded = true;
-                _dataWidth = gr.Right - gr.Left;
-                _dataHeight = gr.Bottom - gr.Top;
-                _width = _dataWidth;
-                _height = _dataHeight;
-                _fileName = ExtractFileName(grabInfo.FileName);
-                _fileIndex = grabInfo.FileIndex;
-                _storedPixelFormatId = lSD.PixelFormatId;
-                PixelFormatId = _storedPixelFormatId;
+                DataWidth = gr.Right - gr.Left;
+                DataHeight = gr.Bottom - gr.Top;
+                SetWidthWithoutOverrides(DataWidth);
+                SetHeightWithoutOverrides(DataHeight);
+                FileName = ExtractFileName(grabInfo.FileName);
+                FileIndex = grabInfo.FileIndex;
+                StoredPixelFormatId = lSD.PixelFormatId;
+                PixelFormatId = StoredPixelFormatId;
                 position = 0;
                 skip = 0;
                 LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, out mr);
@@ -391,7 +391,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                 }
 
                 _data = MemorySurfaces.Reallocate(_data, position);
-                _dataSize = position;
+                DataSize = position;
             }
             finally
             {

@@ -832,7 +832,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         MoveDayFactor = (float)0.1;
         _spareUnits.Clear();
         Mode = Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets, AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
-        _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         BattleFieldFactor = 1;
         CurrentBattleFieldFactor = (float)0.8;
         _battleFieldMoveFactor = 0;

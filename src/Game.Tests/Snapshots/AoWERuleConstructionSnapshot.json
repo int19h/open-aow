@@ -16096,7 +16096,7 @@
         "$type": "Aow.Game.Magic.GlobalEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -18160,7 +18160,7 @@
             },
             "SortedNode.Capacity": 0,
             "SortedNode.Items": [],
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode._sorted": false,
             "EngineObject._owner": "$owner"
           },
@@ -18179,7 +18179,7 @@
             },
             "SortedNode.Capacity": 0,
             "SortedNode.Items": "$ref:$.MoveControl.Map.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode._sorted": false,
             "EngineObject._owner": "$owner"
           },
@@ -18346,7 +18346,7 @@
             },
             "SortedNode.Capacity": 0,
             "SortedNode.Items": "$ref:$.MoveControl.Map.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode._sorted": false,
             "EngineObject._owner": "$owner"
           },
@@ -18365,7 +18365,7 @@
             },
             "SortedNode.Capacity": 0,
             "SortedNode.Items": "$ref:$.MoveControl.Map.GameMap._dynamicFixedVisibleHexSprite.SortedNode.Items",
-            "SortedNode._count": 0,
+            "SortedNode.StoredCount": 0,
             "SortedNode._sorted": false,
             "EngineObject._owner": "$owner"
           },

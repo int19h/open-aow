@@ -19,7 +19,7 @@ public partial class MountainMapObject : Hexes.Terrain
     // Mountain.pas:104
     public override sbyte GetOverlay(int index)
     {
-        sbyte result = _resource.TerrainList.Overlay[index];
+        sbyte result = ((MapObject)this).Resource.TerrainList.Overlay[index];
         if (result >= 0)
         {
             result = 0;
@@ -43,7 +43,7 @@ public partial class MountainMapObject : Hexes.Terrain
         HexSprite hexSprite;
         i = 0;
         valid = true;
-        list = _resource.TerrainList;
+        list = ((MapObject)this).Resource.TerrainList;
         while (valid && i < list.Count)
         {
             if (list.Terrain[i] >= 0 || list.Overlay[i] >= 0)
@@ -67,7 +67,7 @@ public partial class MountainMapObject : Hexes.Terrain
             i += 1;
         }
 
-        return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, _resource.TerrainList);
+        return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, ((MapObject)this).Resource.TerrainList);
     }
 
     // Mountain.pas:113

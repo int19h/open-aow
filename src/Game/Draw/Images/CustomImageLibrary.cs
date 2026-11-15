@@ -1261,7 +1261,7 @@ public partial class CustomImageLibrary : Component
                     for (int j = 0, lastJ = imageLibrary.GetSubCount(i) - 1; j <= lastJ; j++)
                     {
                         sub = imageLibrary.GetSub(i, j);
-                        if (sub != null && CompareText(sub._fileName, image._fileName) == 0 && sub._fileIndex == image._fileIndex)
+                        if (sub != null && CompareText(sub.FileName, image.FileName) == 0 && sub.FileIndex == image.FileIndex)
                         {
                             newImage = image.Copy();
                             newImage.Xshift = sub.Xshift;

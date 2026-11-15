@@ -414,7 +414,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         _goldUpkeep = 0;
         _manaUpkeep = 0;
         ProduceStrength = 0;
-        _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         Array.Clear(_produceStrengths);
         _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
         Complete = false;
@@ -523,7 +523,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         bool result;
         if (location.PathStrength != 0)
         {
-            result = _control.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
+            result = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
         }
         else
         {

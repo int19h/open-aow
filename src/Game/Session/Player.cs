@@ -711,7 +711,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
 
             eventValue = new GameOverEventLog(null) { Holder = CreationHolder() };
-            eventValue._player = PlayerIndex;
+            eventValue.Player = PlayerIndex;
             if (value == GameOverStatus.Lost)
             {
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[PlayerRace]);
@@ -1465,7 +1465,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (condition)
             {
                 var logs = EventLogbook.GetLogs(0);
-                condition = StrategicMap.Current.Day - logs._day >= 3;
+                condition = StrategicMap.Current.Day - logs.Day >= 3;
             }
 
             if (!condition)
@@ -1496,7 +1496,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     troop = army.Units.GetUnit(j);
                     if (info.ArmyStrength < 1073741823)
                     {
-                        var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        var strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         info.ArmyStrength += strengthMax;
                     }
                 }
@@ -1707,7 +1707,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         while (!result && i != 0)
         {
             i -= 1;
-            if (logbook.GetLogs(i)._day == StrategicMap.Current.Day)
+            if (logbook.GetLogs(i).Day == StrategicMap.Current.Day)
             {
                 if (logbook.GetLogs(i) is DiplomaticActionEventLog)
                 {

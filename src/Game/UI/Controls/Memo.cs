@@ -84,7 +84,7 @@ public partial class Memo : Control
     // AoWMemo.pas:150
     public override void Validate()
     {
-        if (_font != null)
+        if (base.Font != null)
         {
             if (_imageLibraryFrame != null)
             {
@@ -181,11 +181,11 @@ public partial class Memo : Control
             start = 0;
             if (!NoFrame)
             {
-                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2;
+                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + base.BorderWidth * 2;
             }
             else
             {
-                w = _borderWidth * 2;
+                w = base.BorderWidth * 2;
             }
 
             string item = NullTerminatedText(_items[i]);
@@ -212,7 +212,7 @@ public partial class Memo : Control
                 if (text[j] == 32 || j == length - 1)
                 {
                     s = Copy(item, start + 1, j + 1 - start);
-                    tw = _font.GetTextWidth(s);
+                    tw = base.Font.GetTextWidth(s);
                     if (w + tw > WinWidth)
                     {
                         Lines.Add(s);
@@ -220,11 +220,11 @@ public partial class Memo : Control
                         ColorList.Add(colorChange2);
                         if (!NoFrame)
                         {
-                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2);
+                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + base.BorderWidth * 2);
                         }
                         else
                         {
-                            w = tw + _borderWidth * 2;
+                            w = tw + base.BorderWidth * 2;
                         }
                     }
                     else
@@ -389,7 +389,7 @@ public partial class Memo : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                _font.Color = Color;
+                base.Font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
                 switch (NoFrame)
                 {
@@ -439,26 +439,26 @@ public partial class Memo : Control
                         cc = ColorList[_topItem + i];
                         if (cc.HasColor)
                         {
-                            _font.Color = cc.Color;
+                            base.Font.Color = cc.Color;
                         }
 
                         switch (_textAlign)
                         {
                             case TextAlignment.Left:
                                 var line = Lines[_topItem + i];
-                                _font.SetText(_borderWidth + x, _borderHeight + y + _itemHeight * i, line, lockedSurface);
+                                base.Font.SetText(base.BorderWidth + x, base.BorderHeight + y + _itemHeight * i, line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var line2 = Lines[_topItem + i];
-                                var textWidth = _font.GetTextWidth(line2);
+                                var textWidth = base.Font.GetTextWidth(line2);
                                 var line3 = Lines[_topItem + i];
-                                _font.SetText(x + w - _borderWidth - textWidth, _borderHeight + y + _itemHeight * i, line3, lockedSurface);
+                                base.Font.SetText(x + w - base.BorderWidth - textWidth, base.BorderHeight + y + _itemHeight * i, line3, lockedSurface);
                                 break;
                             default:
                                 var line4 = Lines[_topItem + i];
-                                var fontTextWidth = _font.GetTextWidth(line4);
+                                var fontTextWidth = base.Font.GetTextWidth(line4);
                                 var line5 = Lines[_topItem + i];
-                                _font.SetText(x + w / 2 - fontTextWidth / 2, _borderHeight + y + _itemHeight * i, line5, lockedSurface);
+                                base.Font.SetText(x + w / 2 - fontTextWidth / 2, base.BorderHeight + y + _itemHeight * i, line5, lockedSurface);
                                 break;
                         }
                         _itemRectangle = new Rect(x, y + _itemHeight * i, x + w, y + (i + 1) * _itemHeight);
@@ -485,8 +485,8 @@ public partial class Memo : Control
                 if (condition && Redraw == true && _editable && _blink == true)
                 {
                     var line = Lines[_currentLine];
-                    var textWidth = _font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    _font.SetText(_borderWidth + x + textWidth, _borderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    var textWidth = base.Font.GetTextWidth(Copy(line, 1, _currentColumn));
+                    base.Font.SetText(base.BorderWidth + x + textWidth, base.BorderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -520,7 +520,7 @@ public partial class Memo : Control
             Handled = true;
             if (_editable == true)
             {
-                Window._cursor = -4;
+                Window.Cursor = -4;
             }
 
             RaiseMouseMove(this, shift, X, Y);
@@ -968,16 +968,7 @@ public partial class Memo : Control
     public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
-
-    [Published]
     public StringList Items { get => _items; set => SetFStrings(value); }
-
-    [Published]
-    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
-
-    [Published]
-    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }

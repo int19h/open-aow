@@ -716,7 +716,7 @@ public partial class General : UIModule
     {
         for (int i = 0; i < Manager.Children.Count; i++)
             if (Manager.Children[i] is WindowControl window &&
-                window != UI.MapWindow.MainWindow && window._modal && window.Visible)
+                window != UI.MapWindow.MainWindow && window.Modal && window.Visible)
                 window.Visible = false;
     }
 
@@ -879,7 +879,7 @@ public partial class General : UIModule
     {
         for (int i = controller.Manager.Children.Count - 1; i >= 0; i--)
             if (controller.Manager.Children[i] is WindowControl window &&
-                window != controller.UI.MapWindow.MainWindow && window._modal && window.Visible)
+                window != controller.UI.MapWindow.MainWindow && window.Modal && window.Visible)
                 return true;
         return false;
     }

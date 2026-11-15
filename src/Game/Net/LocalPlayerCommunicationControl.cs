@@ -69,14 +69,14 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
         for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
             var localSystemId = GetLocalSystemId();
-            PlayerCommunicationSettingsList.Players[i]._systemId = localSystemId;
+            PlayerCommunicationSettingsList.Players[i].SystemId = localSystemId;
         }
     }
 
     // NetworkE.pas:752
     public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        PlayerCommunicationSettingsList.Players[index]._connectionMode = mode;
+        PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
     }
 
 }

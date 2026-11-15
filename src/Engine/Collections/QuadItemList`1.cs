@@ -9,7 +9,7 @@ public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     public int IndexOfItemA(TA A)
     {
         int result = 0;
-        while (result < Count && !ReferenceEquals(_list[result].First, A))
+        while (result < Count && !ReferenceEquals(List[result].First, A))
         {
             result += 1;
         }
@@ -20,7 +20,7 @@ public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     public int IndexOfItemB(int B)
     {
         int result = 0;
-        while (result < Count && _list[result].Second != B)
+        while (result < Count && List[result].Second != B)
         {
             result += 1;
         }
@@ -31,7 +31,7 @@ public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     public int IndexOfItemC(int C)
     {
         int result = 0;
-        while (result < Count && _list[result].Third != C)
+        while (result < Count && List[result].Third != C)
         {
             result += 1;
         }
@@ -42,7 +42,7 @@ public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     public int IndexOfItemD(int D)
     {
         int result = 0;
-        while (result < Count && _list[result].Fourth != D)
+        while (result < Count && List[result].Fourth != D)
         {
             result += 1;
         }

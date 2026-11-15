@@ -54,7 +54,7 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(0, image.Height);
                 if (image is ImageNode) Assert.Equal("(multi images)", image.FileName);
                 Assert.Equal(0, owner.Count);
-                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "_paletteManager")!, "_palettes")!);
+                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "_paletteManager")!, "Palettes")!);
                 image.Dispose();
             }
     }
@@ -136,7 +136,7 @@ public sealed class GraphicsConstructionTests
         var palette = new LibraryImagePalette();
         Assert.NotNull(Field(palette, "_palette"));
         var manager = new PaletteManager();
-        Assert.NotNull(Field(manager, "_palettes"));
+        Assert.NotNull(Field(manager, "Palettes"));
         var imageLibraryManager = new ImageLibraryManager(null!);
         var list = new ImageLibraryManagerList(imageLibraryManager);
         Assert.Same(imageLibraryManager, Field(list, "_owner"));

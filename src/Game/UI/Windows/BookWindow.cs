@@ -66,7 +66,7 @@ public partial class BookWindow : Window
         if (value != Visible)
         {
             Animating = false;
-            if (_freeSurfaceOnHide)
+            if (FreeSurfaceOnHide)
             {
                 s = _pageSurface;
                 if (s != null)

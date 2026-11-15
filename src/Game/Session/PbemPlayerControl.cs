@@ -309,7 +309,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         RestartGameEventLog log;
         StrategicMap.Current.SynchronizeBegin();
         log = new RestartGameEventLog(null, holder: CreationHolder());
-        log._player = player;
+        log.Player = player;
         var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartEventLogFormat), [name]);
         log.Message.Text = format;

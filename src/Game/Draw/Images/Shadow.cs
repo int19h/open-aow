@@ -29,16 +29,16 @@ public partial class Shadow : BitMask, ILibraryImageClass
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
+                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
+                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }
 
-            if (_loadMode == LoadMode.LoadFreeOnDemand)
+            if (LoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -48,10 +48,10 @@ public partial class Shadow : BitMask, ILibraryImageClass
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
+                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
+                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");

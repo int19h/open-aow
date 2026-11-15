@@ -199,7 +199,7 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(c.Token, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
-            var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, _day = 5, Action = Action(c) };
+            var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
             Assert.Equal(c.Logged, Write(engine, log));
             log.Dispose();
 
@@ -231,7 +231,7 @@ public sealed class DiplomaticProposalTests
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
-            using var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, _day = 5 };
+            using var log = new DiplomaticActionEventLog(null!) { Holder = EngineFixture.Engine, Day = 5 };
             log.Action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, log);
             var copy = Read<DiplomaticActionEventLog>(engine, bytes);

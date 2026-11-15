@@ -421,7 +421,7 @@ public partial class ProductionPlace : PlayerStructure
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
         {
             log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-            log._player = newPlayer;
+            log.Player = newPlayer;
             var editName = EditName();
             log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.HexX = HexX;

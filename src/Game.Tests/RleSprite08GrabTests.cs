@@ -34,7 +34,7 @@ public sealed class RleSprite08GrabTests
         }
     }
 
-    private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, image._dataSize).ToArray();
+    private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, image.DataSize).ToArray();
 
     [Fact]
     public void GrabEncodesTheOpaqueRectangle()
@@ -49,8 +49,8 @@ public sealed class RleSprite08GrabTests
         try
         {
             Assert.True(grabbed);
-            Assert.Equal((5, 3), (image._width, image._height));
-            Assert.Equal((1, 1, 4, 1), (image._rleLeft, image._rleTop, image._rleWidth, image._rleHeight));
+            Assert.Equal((5, 3), (image.Width, image.Height));
+            Assert.Equal((1, 1, 4, 1), (image.RleLeft, image.RleTop, image.RleWidth, image.RleHeight));
             // Row 1 from x = 1: 7, a run of two, 9. The length word counts 8 bytes.
             Assert.Equal(new byte[] { 8, 0, 0, 0, 7, 0, 2, 9 }, Encoded(image));
             Assert.Equal(new byte[,] { { 0x55, 0x55, 0x55, 0x55, 0x55 }, { 0x55, 7, 0x55, 0x55, 9 }, { 0x55, 0x55, 0x55, 0x55, 0x55 } }, Draw(image, 5, 3));
@@ -69,7 +69,7 @@ public sealed class RleSprite08GrabTests
         try
         {
             Assert.True(grabbed);
-            Assert.Equal((0, 0, 300, 2), (image._rleLeft, image._rleTop, image._rleWidth, image._rleHeight));
+            Assert.Equal((0, 0, 300, 2), (image.RleLeft, image.RleTop, image.RleWidth, image.RleHeight));
             // Row 0: 3, a run of 298 as 254 and 44, 4. Row 1: a run of 10, 5, a run of 289 as 254
             // and 35, flushed by EndLine.
             Assert.Equal(new byte[] { 10, 0, 0, 0, 3, 0, 254, 0, 44, 4, 11, 0, 0, 0, 0, 10, 5, 0, 254, 0, 35 }, Encoded(image));
@@ -94,8 +94,8 @@ public sealed class RleSprite08GrabTests
         try
         {
             Assert.True(grabbed);
-            Assert.Equal((2, 2), (image._width, image._height));
-            Assert.Equal((0, 0, 2, 2), (image._rleLeft, image._rleTop, image._rleWidth, image._rleHeight));
+            Assert.Equal((2, 2), (image.Width, image.Height));
+            Assert.Equal((0, 0, 2, 2), (image.RleLeft, image.RleTop, image.RleWidth, image.RleHeight));
             Assert.Equal(new byte[] { 7, 0, 0, 0, 0, 1, 6, 6, 0, 0, 0, 6, 6 }, Encoded(image));
         }
         finally { image.Dispose(); }

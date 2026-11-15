@@ -139,7 +139,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         int index;
         index = GetTerrainTypeImage(TerrainType);
         this.ImageIndex = index;
-        if (!_resource.ImageLibrary.ImageExist(index))
+        if (!base.Resource.ImageLibrary.ImageExist(index))
         {
             Dispose();
         }
@@ -170,7 +170,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         HexNumberWalkData walk = default;
         found = null;
         mapLevel = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 1);
         while (walk.Radius <= 1 && found == null)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

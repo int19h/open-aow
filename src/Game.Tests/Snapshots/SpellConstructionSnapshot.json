@@ -6061,7 +6061,7 @@
         "$type": "Aow.Game.Magic.Spells.AirMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6094,7 +6094,7 @@
         "$type": "Aow.Game.Magic.Spells.AirMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6213,7 +6213,7 @@
         "$type": "Aow.Game.Magic.Spells.DeathMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6246,7 +6246,7 @@
         "$type": "Aow.Game.Magic.Spells.DeathMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6365,7 +6365,7 @@
         "$type": "Aow.Game.Magic.Spells.EarthMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6398,7 +6398,7 @@
         "$type": "Aow.Game.Magic.Spells.EarthMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6517,7 +6517,7 @@
         "$type": "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 50,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6550,7 +6550,7 @@
         "$type": "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6669,7 +6669,7 @@
         "$type": "Aow.Game.Magic.Spells.FireMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6702,7 +6702,7 @@
         "$type": "Aow.Game.Magic.Spells.FireMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6852,7 +6852,7 @@
         "FloodEnchantment.RestoreDays": -1,
         "FloodEnchantment.TurnsActive": 0,
         "GlobalEnchantment.DispelMana": 100,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6890,7 +6890,7 @@
         "FloodEnchantment.RestoreDays": 0,
         "FloodEnchantment.TurnsActive": 0,
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7093,7 +7093,7 @@
         "$type": "Aow.Game.Magic.Spells.HarmonyEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 50,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7127,7 +7127,7 @@
         "$type": "Aow.Game.Magic.Spells.HarmonyEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7247,7 +7247,7 @@
         "$type": "Aow.Game.Magic.Spells.HatredEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 50,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7281,7 +7281,7 @@
         "$type": "Aow.Game.Magic.Spells.HatredEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7401,7 +7401,7 @@
         "$type": "Aow.Game.Magic.Spells.LifeMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7434,7 +7434,7 @@
         "$type": "Aow.Game.Magic.Spells.LifeMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7553,7 +7553,7 @@
         "$type": "Aow.Game.Magic.Spells.PowerLeakEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 25,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7586,7 +7586,7 @@
         "$type": "Aow.Game.Magic.Spells.PowerLeakEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7705,7 +7705,7 @@
         "$type": "Aow.Game.Magic.Spells.SpellWardEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 50,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7738,7 +7738,7 @@
         "$type": "Aow.Game.Magic.Spells.SpellWardEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7857,7 +7857,7 @@
         "$type": "Aow.Game.Magic.Spells.WaterMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 175,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7890,7 +7890,7 @@
         "$type": "Aow.Game.Magic.Spells.WaterMasteryEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9485,7 +9485,7 @@
         "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 50,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9519,7 +9519,7 @@
         "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
         "EngineObject._owner": "$owner",
         "GlobalEnchantment.DispelMana": 0,
-        "GlobalEnchantment._enchantmentId": 0,
+        "GlobalEnchantment.EnchantmentId": 0,
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

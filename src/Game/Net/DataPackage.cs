@@ -9,8 +9,8 @@ namespace Aow.Game.Net;
 // packages that TPlayerCommunicator sends
 public partial class DataPackage : EngineObject
 {
-    internal int _sender;
-    internal int _receiver;
+    private int _sender;
+    private int _receiver;
 
     internal int RefCount { get; private set; }
 

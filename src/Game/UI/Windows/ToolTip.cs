@@ -48,17 +48,17 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:79
     public override void Validate()
     {
-        if (_imageLibraryFrame != null)
+        if (ImageLibraryFrame != null)
         {
-            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+            ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
         }
 
-        if (_imageLibraryTexture != null)
+        if (ImageLibraryTexture != null)
         {
-            _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
+            ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
         }
 
-        if (OwnerComponent != null && _imageLibraryFrame != null && _imageLibraryTexture != null && _font != null)
+        if (OwnerComponent != null && ImageLibraryFrame != null && ImageLibraryTexture != null && base.Font != null)
         {
             Valid = true;
         }
@@ -78,30 +78,30 @@ public partial class ToolTip : GenericWindow
         int w;
         bool moved;
         bool done;
-        if (_ownerItem != 0)
+        if (OwnerItem != 0)
         {
-            SetWinWidthWithoutInvalidate(_ownerItem);
+            SetWinWidthWithoutInvalidate(OwnerItem);
         }
         else
         {
-            _ownerItem = WinWidth;
+            OwnerItem = WinWidth;
         }
 
-        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+        var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+        var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
         if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
         {
-            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+            var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
             SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
         }
 
-        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
-        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+        var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+        var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
         if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
         {
-            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame];
+            var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame];
             SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
         }
 
@@ -127,10 +127,10 @@ public partial class ToolTip : GenericWindow
                     if (!notDone)
                     {
                         var line = _lines[i];
-                        var textWidth = _font.GetTextWidth(line);
-                        var imageLibraryFrame2 = _imageLibraryFrame[3];
-                        var imageLibraryFrame3 = _imageLibraryFrame[4];
-                        notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - _borderWidth * 2;
+                        var textWidth = base.Font.GetTextWidth(line);
+                        var imageLibraryFrame2 = ImageLibraryFrame[3];
+                        var imageLibraryFrame3 = ImageLibraryFrame[4];
+                        notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - BorderWidth * 2;
                     }
 
                     if (!(notDone && _lines[i].Length > 1))
@@ -173,40 +173,40 @@ public partial class ToolTip : GenericWindow
                 i += 1;
             }
 
-            var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+            var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             var count = _lines.Count;
-            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + _borderHeight * 2 + count * _itemHeight);
+            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + BorderHeight * 2 + count * _itemHeight);
             var line6 = _lines[0];
-            w = _font.GetTextWidth(line6);
-            var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame];
-            var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-            if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - _borderWidth * 2)
+            w = base.Font.GetTextWidth(line6);
+            var imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            var imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+            if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - BorderWidth * 2)
             {
-                var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + _borderWidth * 2);
+                var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + BorderWidth * 2);
             }
         }
 
         if (Masked)
         {
-            FrameLeft = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width;
-            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+            FrameLeft = ImageLibraryFrame[ImageLibraryIndexFrame + 3].Width;
+            var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
             FrameRight = WinWidth - imageLibraryFrame2.Width;
-            FrameTop = _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height;
-            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            FrameTop = ImageLibraryFrame[ImageLibraryIndexFrame + 1].Height;
+            var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             FrameBottom = WinHeight - imageLibraryFrame3.Height;
         }
 
         SetWinLeftWithoutInvalidate(ControlRectangle.Right);
         SetWinTopWithoutInvalidate(ControlRectangle.Bottom);
-        if (_windowManager.WinWidth < WinLeft + WinWidth)
+        if (WindowManager.WinWidth < WinLeft + WinWidth)
         {
-            SetWinLeftWithoutInvalidate(_windowManager.WinWidth - WinWidth);
+            SetWinLeftWithoutInvalidate(WindowManager.WinWidth - WinWidth);
         }
 
-        if (WinTop + WinHeight > _windowManager.WinHeight)
+        if (WinTop + WinHeight > WindowManager.WinHeight)
         {
             SetWinTopWithoutInvalidate(ControlRectangle.Top - WinHeight);
         }
@@ -223,10 +223,10 @@ public partial class ToolTip : GenericWindow
     public override void Update()
     {
         bool b;
-        b = _doubleBuffered;
-        _doubleBuffered = false;
+        b = DoubleBuffered;
+        DoubleBuffered = false;
         base.Update();
-        _doubleBuffered = b;
+        DoubleBuffered = b;
     }
 
     // AOWToolTip.pas:186
@@ -242,7 +242,7 @@ public partial class ToolTip : GenericWindow
             }
             else
             {
-                if (_doubleBuffered)
+                if (DoubleBuffered)
                 {
                     SurfaceValid = false;
                 }
@@ -282,37 +282,37 @@ public partial class ToolTip : GenericWindow
             if (Valid && Visible)
             {
                 var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
-                _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
-                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                 var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
-                _font.Color = Color;
+                ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                base.Font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
                 if (_lines.Count > 0)
                 {
                     for (int i = 0, last = _lines.Count - 1; i <= last; i++)
                     {
-                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
                         {
-                            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                            var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                             lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
                         }
 
                         if (i < _lines.Count && _lines.Count > 0)
                         {
                             var line = _lines[i];
-                            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                            var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame7.Width, WinTop + _borderHeight + imageLibraryFrame6.Height + _itemHeight * i, line, lockedSurface);
-                            var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                            var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                            var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                            var imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + _itemHeight * i, line, lockedSurface);
+                            var imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            var imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            var libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             if (OnDrawItem != null)
                             {
                                 OnDrawItem(this);
@@ -353,9 +353,6 @@ public partial class ToolTip : GenericWindow
 
         Sized = false;
     }
-
-    [Published]
-    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
     public StringList Items { get => _items; set => SetFStrings(value); }

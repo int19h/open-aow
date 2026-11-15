@@ -42,7 +42,7 @@ public partial class IsometricHex
             Dynamic?.Dispose();
             Dynamic = null;
             Sides = (byte)(RtlUnit.Random(4) << 6);
-            _resource.Engine.HexSpriteMap.InvalidateStaticScene(field.HexX, field.HexY, field.HexLevel);
+            Resource.Engine.HexSpriteMap.InvalidateStaticScene(field.HexX, field.HexY, field.HexLevel);
         }
     }
 }

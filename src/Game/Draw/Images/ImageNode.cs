@@ -45,7 +45,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1286
     public ImageNode(CustomImageLibrary owner) : base(owner)
     {
-        _fileName = "(multi images)";
+        FileName = "(multi images)";
     }
 
     // ImageLib.pas:1292
@@ -80,18 +80,18 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1343
     public void UpdateDimensions()
     {
-        _width = 0;
-        _height = 0;
+        SetWidthWithoutOverrides(0);
+        SetHeightWithoutOverrides(0);
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (Images[i]._width > _width)
+            if (Images[i].Width > Width)
             {
-                _width = Images[i]._width;
+                SetWidthWithoutOverrides(Images[i].Width);
             }
 
-            if (Images[i]._height > _height)
+            if (Images[i].Height > Height)
             {
-                _height = Images[i]._height;
+                SetHeightWithoutOverrides(Images[i].Height);
             }
         }
     }
@@ -101,14 +101,14 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         SetCount(_count + 1);
         Images[_count - 1] = image;
-        if (image._width > _width)
+        if (image.Width > Width)
         {
-            _width = image._width;
+            SetWidthWithoutOverrides(image.Width);
         }
 
-        if (image._height > _height)
+        if (image.Height > Height)
         {
-            _height = image._height;
+            SetHeightWithoutOverrides(image.Height);
         }
 
         return _count;
@@ -128,14 +128,14 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         }
 
         Images[index] = image;
-        if (image._width > _width)
+        if (image.Width > Width)
         {
-            _width = image._width;
+            SetWidthWithoutOverrides(image.Width);
         }
 
-        if (image._height > _height)
+        if (image.Height > Height)
         {
-            _height = image._height;
+            SetHeightWithoutOverrides(image.Height);
         }
 
         _count += 1;
@@ -359,7 +359,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
             Images[i].SetLoadMode(value);
         }
 
-        _loadMode = value;
+        SetLoadModeWithoutOverrides(value);
     }
 
     // ImageLib.pas:1578

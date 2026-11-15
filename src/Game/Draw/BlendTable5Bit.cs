@@ -5,16 +5,16 @@ namespace Aow.Game.Draw;
 // Table (32 x 32 bytes, row I at byte I * 32)
 public partial class BlendTable5Bit : BlendTable
 {
-    // The rows of the table, so Table[I][J] reads and writes the byte of `Table[I, J]`.
+    // The rows of the table. RowView[I][J] reads and writes the byte at row I and column J.
     public readonly struct Rows(byte[] bytes)
     {
         public Span<byte> this[int I] => bytes.AsSpan(I * 32, 32);
     }
 
-    public new Rows Table => new(_table);
+    public Rows RowView => new(Table);
 
     // The 32 by 32 bytes of the table in one span, as the blenders read it.
-    public ReadOnlySpan<byte> Bytes => _table;
+    public ReadOnlySpan<byte> Bytes => Table;
 
     // GFXE.pas:9609
     public BlendTable5Bit()

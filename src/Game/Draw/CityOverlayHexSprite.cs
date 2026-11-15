@@ -33,7 +33,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
         int index;
         int frame;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(City._hexX, City._hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(City.StoredHexX, City.StoredHexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (City.EnchantmentsVisible)
@@ -41,11 +41,11 @@ public partial class CityOverlayHexSprite : SingleHexSprite
             if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
                 intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 50;
-                sequence = City._resource.ImageSequenceList.ImageSequences[17];
+                sequence = City.Resource.ImageSequenceList.ImageSequences[17];
                 while (sequence != null)
                 {
                     index = sequence.GetFrameIndex(0, 0);
-                    if (sequence == City._resource.ImageSequenceList.ImageSequences[17])
+                    if (sequence == City.Resource.ImageSequenceList.ImageSequences[17])
                     {
                         sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                     }
@@ -61,10 +61,10 @@ public partial class CityOverlayHexSprite : SingleHexSprite
             if (City.Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
                 intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 70;
-                sequence = City._resource.ImageSequenceList.ImageSequences[18];
+                sequence = City.Resource.ImageSequenceList.ImageSequences[18];
                 while (sequence != null)
                 {
-                    if (sequence == City._resource.ImageSequenceList.ImageSequences[18])
+                    if (sequence == City.Resource.ImageSequenceList.ImageSequences[18])
                     {
                         index = sequence.GetFrameIndex(0, 0);
                         if (sequence.ImageLibrary.ImageExist(index))
@@ -87,7 +87,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (City.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
             {
-                sequence = City._resource.ImageSequenceList.ImageSequences[19];
+                sequence = City.Resource.ImageSequenceList.ImageSequences[19];
                 if (sequence != null)
                 {
                     intensity = 50;
@@ -129,7 +129,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (Mode == OverlayMode.Looting)
             {
-                City._resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + City.Owner.HexY * 16));
+                City.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + City.Owner.HexY * 16));
             }
         }
     }

@@ -29,24 +29,24 @@ public partial class CheckBox : BaseButton
 
             if (button == MouseButton.Left)
             {
-                if (_radioIndex > 0)
+                if (base.RadioIndex > 0)
                 {
-                    if (!_checked)
+                    if (!base.Checked)
                     {
-                        _checked = true;
+                        base.Checked = true;
                         RaiseChange(this);
 
-                        _checked = !_checked;
-                        Checked = !_checked;
+                        base.Checked = !base.Checked;
+                        Checked = !base.Checked;
                     }
                 }
                 else
                 {
-                    _checked = !_checked;
+                    base.Checked = !base.Checked;
                     RaiseChange(this);
 
-                    _checked = !_checked;
-                    Checked = !_checked;
+                    base.Checked = !base.Checked;
+                    Checked = !base.Checked;
                 }
 
                 if ((shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
@@ -64,14 +64,14 @@ public partial class CheckBox : BaseButton
                     PopupMenu.WinLeft = X;
                     PopupMenu.WinTop = Y;
                     PopupMenu.SetPopupOwner(this);
-                    if (PopupMenu._windowManager != null)
+                    if (PopupMenu.WindowManager != null)
                     {
-                        if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu._windowManager.WinWidth)
+                        if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                         {
                             PopupMenu.SetWinLeftWithoutInvalidate(X - PopupMenu.WinWidth);
                         }
 
-                        if (PopupMenu.WinTop + PopupMenu.WinHeight > PopupMenu._windowManager.WinHeight)
+                        if (PopupMenu.WinTop + PopupMenu.WinHeight > PopupMenu.WindowManager.WinHeight)
                         {
                             PopupMenu.SetWinTopWithoutInvalidate(Y - PopupMenu.WinHeight);
                         }
@@ -109,7 +109,7 @@ public partial class CheckBox : BaseButton
         else
         {
             Handled = true;
-            Lit = !_checked && !OwnerComponent.Handled;
+            Lit = !base.Checked && !OwnerComponent.Handled;
             RaiseMouseMove(this, shift, X, Y);
         }
 
@@ -123,15 +123,15 @@ public partial class CheckBox : BaseButton
     // AoWCheckBox.pas:38
     public virtual void SetChecked(bool value)
     {
-        if (value != _checked)
+        if (value != base.Checked)
         {
-            _checked = value;
+            base.Checked = value;
             Drawn = false;
-            if (_radioIndex > 0)
+            if (base.RadioIndex > 0)
             {
                 if (Window != null)
                 {
-                    if (_checked)
+                    if (base.Checked)
                     {
                         Window.RadioChange(this);
                     }
@@ -141,10 +141,7 @@ public partial class CheckBox : BaseButton
     }
 
     [Published]
-    public bool Checked { get => _checked; set => SetChecked(value); }
-
-    [Published]
-    public int RadioIndex { get => _radioIndex; set => _radioIndex = value; }
+    public override bool Checked { get => base.Checked; set => SetChecked(value); }
 
     public new event NotifyEvent<CheckBox> OnChange
     {

@@ -32,9 +32,9 @@ public partial class ImageLibraryFont
 
     internal void SetColor(int value)
     {
-        if (_fontColorPaletteIndex >= 0 && PaletteManager._palettes.Count != 0)
+        if (_fontColorPaletteIndex >= 0 && PaletteManager.Palettes.Count != 0)
         {
-            var palette = PaletteManager._palettes[0];
+            var palette = PaletteManager.Palettes[0];
             palette.Palette[_fontColorPaletteIndex] =
                 new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
             if (palette.RemapPaletteValue != null)
