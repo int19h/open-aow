@@ -63,7 +63,7 @@ public partial class Farm : PlayerCropStructure
     // Farm.pas:76
     public override string GetCurrentActivityText()
     {
-        var income = GetIncome();
+        int income = GetIncome();
         return Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 

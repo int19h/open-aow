@@ -44,7 +44,7 @@ public partial class HeroJoinDialog : ILayoutModule
         UnitPanel.MinWidth = 0;
         UnitPanel.MinHeight = 0;
         session.EndRead(UnitPanel);
-        Frame u1 = new Frame(this);
+        Frame u1 = new(this);
         session.BeginRead(u1);
         u1.Name = "U1";
         u1.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
@@ -73,7 +73,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u1.ImageLibraryIndexLine = 0;
         u1.ImageLibraryIndexTexture = 0;
         session.EndRead(u1);
-        Frame u2 = new Frame(this);
+        Frame u2 = new(this);
         session.BeginRead(u2);
         u2.Name = "U2";
         u2.Tag = 1;
@@ -103,7 +103,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u2.ImageLibraryIndexLine = 0;
         u2.ImageLibraryIndexTexture = 0;
         session.EndRead(u2);
-        Frame u4 = new Frame(this);
+        Frame u4 = new(this);
         session.BeginRead(u4);
         u4.Name = "U4";
         u4.Tag = 3;
@@ -133,7 +133,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u4.ImageLibraryIndexLine = 0;
         u4.ImageLibraryIndexTexture = 0;
         session.EndRead(u4);
-        Frame u5 = new Frame(this);
+        Frame u5 = new(this);
         session.BeginRead(u5);
         u5.Name = "U5";
         u5.Tag = 4;
@@ -163,7 +163,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u5.ImageLibraryIndexLine = 0;
         u5.ImageLibraryIndexTexture = 0;
         session.EndRead(u5);
-        Frame u3 = new Frame(this);
+        Frame u3 = new(this);
         session.BeginRead(u3);
         u3.Name = "U3";
         u3.Tag = 2;
@@ -193,7 +193,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u3.ImageLibraryIndexLine = 0;
         u3.ImageLibraryIndexTexture = 0;
         session.EndRead(u3);
-        Frame u6 = new Frame(this);
+        Frame u6 = new(this);
         session.BeginRead(u6);
         u6.Name = "U6";
         u6.Tag = 5;
@@ -223,7 +223,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u6.ImageLibraryIndexLine = 0;
         u6.ImageLibraryIndexTexture = 0;
         session.EndRead(u6);
-        Frame u7 = new Frame(this);
+        Frame u7 = new(this);
         session.BeginRead(u7);
         u7.Name = "U7";
         u7.Tag = 6;
@@ -253,7 +253,7 @@ public partial class HeroJoinDialog : ILayoutModule
         u7.ImageLibraryIndexLine = 0;
         u7.ImageLibraryIndexTexture = 0;
         session.EndRead(u7);
-        Frame u8 = new Frame(this);
+        Frame u8 = new(this);
         session.BeginRead(u8);
         u8.Name = "U8";
         u8.Tag = 7;
@@ -314,7 +314,7 @@ public partial class HeroJoinDialog : ILayoutModule
         MiddleButton.WinWidth = 112;
         MiddleButton.OnClick += _ => MiddleBtnClick();
         session.EndRead(MiddleButton);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -523,7 +523,7 @@ public partial class HeroJoinDialog : ILayoutModule
         FaceFrame.Animate = false;
         FaceFrame.AnimationFrameDelay = 0;
         session.EndRead(FaceFrame);
-        Label detailsLbl = new Label(this);
+        Label detailsLbl = new(this);
         session.BeginRead(detailsLbl);
         detailsLbl.Name = "DetailsLbl";
         detailsLbl.Priority = 9999;
@@ -584,7 +584,7 @@ public partial class HeroJoinDialog : ILayoutModule
         JoinMemo.ColorChangeChar = 0;
         JoinMemo.TextAlign = TextAlignment.Center;
         session.EndRead(JoinMemo);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

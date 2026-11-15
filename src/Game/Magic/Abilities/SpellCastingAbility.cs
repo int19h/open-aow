@@ -45,20 +45,20 @@ public partial class SpellCastingAbility : MultiLevelAbility
         source = commands.Source;
         if (source is CombatUnit sourceUnit)
         {
-            var players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
+            CombatPlayer players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
             if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || sourceUnit.Troop.GetCastingSpellId() == 0)
             {
-                var side = source.GetSide();
-                var opponentSide = source.GetOpponentSide();
+                CombatSideIndex side = source.GetSide();
+                CombatSideIndex opponentSide = source.GetOpponentSide();
                 if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || (combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop)))
                 {
-                    var player = commands.Source.GetPlayer();
+                    sbyte player = commands.Source.GetPlayer();
                     magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
                     if (!magic.GetCheatEnabled())
                     {
                         for (int i = magic.Spells.Count - 1; i >= 0; i--)
                         {
-                            var item = magic.Spells[i];
+                            int item = magic.Spells[i];
                             spell = GamePack.Current.SpellControl.GetSpell(item);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
@@ -144,12 +144,12 @@ public partial class SpellCastingAbility : MultiLevelAbility
         damageValues = default;
         if (attacker is CombatUnit attackerUnit)
         {
-            var player = attacker.GetPlayer();
+            sbyte player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = attackerUnit.Troop;
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
-                var item = magic.Spells[i];
+                int item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
@@ -173,12 +173,12 @@ public partial class SpellCastingAbility : MultiLevelAbility
         damageValues = default;
         if (attacker is CombatUnit attackerUnit)
         {
-            var player = attacker.GetPlayer();
+            sbyte player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = attackerUnit.Troop;
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
-                var item = magic.Spells[i];
+                int item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
@@ -238,7 +238,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
             while (!result && i != 0)
             {
                 i -= 1;
-                var item = magic.Spells[i];
+                int item = magic.Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellType == SpellType.Combat)
                 {
@@ -272,14 +272,14 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool result = StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerType != PlayerType.Human || troop.GetCastingSpellId() == 0;
         if (result)
         {
-            var side = source.GetSide();
+            CombatSideIndex side = source.GetSide();
             sourceStrength = source.Combat.Sides[(int)side].Strength;
             if (sourceStrength <= 0)
             {
                 sourceStrength = 0;
             }
 
-            var opponentSide = source.GetOpponentSide();
+            CombatSideIndex opponentSide = source.GetOpponentSide();
             targetStrength = source.Combat.Sides[(int)opponentSide].Strength;
             if (targetStrength <= 0)
             {

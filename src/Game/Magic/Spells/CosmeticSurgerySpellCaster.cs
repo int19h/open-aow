@@ -36,7 +36,7 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
         if (source != null && target != null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
-            var spell = GamePack.Current.SpellControl.GetSpell(59);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(59);
             eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
             eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;

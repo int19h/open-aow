@@ -20,7 +20,7 @@ public partial class Window
             return false;
         }
 
-        var child = TopWheelChild(X, Y);
+        UIComponent child = TopWheelChild(X, Y);
         if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
         {
             return true;

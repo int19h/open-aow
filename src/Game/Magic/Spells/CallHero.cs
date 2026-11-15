@@ -44,7 +44,7 @@ public partial class CallHero : Spell
         ArmyHexSprite army;
         ImageSequenceAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate55 = source.GetLocation();
+        MapCoordinate coordinate55 = source.GetLocation();
         x = coordinate55.X;
         y = coordinate55.Y;
         layer = coordinate55.MapLevel;
@@ -61,9 +61,9 @@ public partial class CallHero : Spell
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
-                var hexLevel = army.GetHexLevel();
-                var hexY = army.GetHexY();
-                var hexX = army.GetHexX();
+                sbyte hexLevel = army.GetHexLevel();
+                sbyte hexY = army.GetHexY();
+                sbyte hexX = army.GetHexX();
                 condition = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
             }
 
@@ -84,34 +84,34 @@ public partial class CallHero : Spell
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
-                    var hexLevel = army.GetHexLevel();
-                    var hexY = army.GetHexY();
-                    var hexX = army.GetHexX();
+                    sbyte hexLevel = army.GetHexLevel();
+                    sbyte hexY = army.GetHexY();
+                    sbyte hexX = army.GetHexX();
                     StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
                 }
             }
 
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                var hexLevel = army.GetHexLevel();
-                var hexY = army.GetHexY();
-                var hexX = army.GetHexX();
+                sbyte hexLevel = army.GetHexLevel();
+                sbyte hexY = army.GetHexY();
+                sbyte hexX = army.GetHexX();
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
             else
             {
-                var hexLevel = army.GetHexLevel();
-                var hexY = army.GetHexY();
-                var hexX = army.GetHexX();
+                sbyte hexLevel = army.GetHexLevel();
+                sbyte hexY = army.GetHexY();
+                sbyte hexX = army.GetHexX();
                 StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
             }
 
             bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, layer, 0);
             if (!test)
             {
-                var hexLevel = army.GetHexLevel();
-                var hexY = army.GetHexY();
-                var hexX = army.GetHexX();
+                sbyte hexLevel = army.GetHexLevel();
+                sbyte hexY = army.GetHexY();
+                sbyte hexX = army.GetHexX();
                 test = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
@@ -124,13 +124,13 @@ public partial class CallHero : Spell
         {
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                var noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), s_noHeroAnsweredYourCallText);
+                string noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), s_noHeroAnsweredYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnsweredYourCall);
                 GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
 
-        var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
         GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }

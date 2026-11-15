@@ -36,15 +36,15 @@ public partial class SaveGameTokenEvent : TokenEvent
         {
             if (tokenEvent.ExecuteCount == 0)
             {
-                var fileName = ExtractFileName(FileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
+                string fileName = ExtractFileName(FileName);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 result = ExecuteResult.Retry;
             }
             else
             {
-                var fileName = ExtractFileName(FileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [fileName]);
+                string fileName = ExtractFileName(FileName);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 try
                 {
@@ -65,7 +65,7 @@ public partial class SaveGameTokenEvent : TokenEvent
                 catch
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_errorSavingFormat), [FileName]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_errorSavingFormat), [FileName]);
                     StrategicMap.Current.ShowMessage(formattedText);
                 }
 

@@ -101,9 +101,9 @@ public partial class CombatSide : OwningNode, IChildList<CombatObject>
 
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            var idString = GetObjects(i).IdString();
-            var targetPriority = GetObjects(i).GetTargetPriority();
-            var targetStrength = GetObjects(i).GetTargetStrength();
+            string idString = GetObjects(i).IdString();
+            int targetPriority = GetObjects(i).GetTargetPriority();
+            int targetStrength = GetObjects(i).GetTargetStrength();
             s = "(" + IntToStr(i) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
             GetEngine().OutputDebugMessage(DebugChannel.Combat, s);
         }

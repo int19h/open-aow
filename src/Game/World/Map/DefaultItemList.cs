@@ -219,7 +219,7 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            var item = Get(currentIndex);
+            TItem item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }

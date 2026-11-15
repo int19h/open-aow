@@ -602,7 +602,7 @@ public partial class WorldMap : ILayoutModule
         InfoPanel.MinWidth = 0;
         InfoPanel.MinHeight = 0;
         session.EndRead(InfoPanel);
-        Label elves = new Label(this);
+        Label elves = new(this);
         session.BeginRead(elves);
         elves.Name = "Elves";
         elves.Priority = 2000;
@@ -625,7 +625,7 @@ public partial class WorldMap : ILayoutModule
         elves.Text = "Elves";
         elves.TextColor = 0;
         session.EndRead(elves);
-        Label halflings = new Label(this);
+        Label halflings = new(this);
         session.BeginRead(halflings);
         halflings.Name = "Halflings";
         halflings.Priority = 2000;
@@ -648,7 +648,7 @@ public partial class WorldMap : ILayoutModule
         halflings.Text = "Halflings";
         halflings.TextColor = 0;
         session.EndRead(halflings);
-        Label goblins = new Label(this);
+        Label goblins = new(this);
         session.BeginRead(goblins);
         goblins.Name = "Goblins";
         goblins.Priority = 2000;
@@ -671,7 +671,7 @@ public partial class WorldMap : ILayoutModule
         goblins.Text = "Goblins";
         goblins.TextColor = 0;
         session.EndRead(goblins);
-        Label orcs = new Label(this);
+        Label orcs = new(this);
         session.BeginRead(orcs);
         orcs.Name = "Orcs";
         orcs.Priority = 2000;
@@ -694,7 +694,7 @@ public partial class WorldMap : ILayoutModule
         orcs.Text = "Orcs";
         orcs.TextColor = 0;
         session.EndRead(orcs);
-        Label dwarves = new Label(this);
+        Label dwarves = new(this);
         session.BeginRead(dwarves);
         dwarves.Name = "Dwarves";
         dwarves.Priority = 2000;
@@ -717,7 +717,7 @@ public partial class WorldMap : ILayoutModule
         dwarves.Text = "Dwarves";
         dwarves.TextColor = 0;
         session.EndRead(dwarves);
-        Label undead = new Label(this);
+        Label undead = new(this);
         session.BeginRead(undead);
         undead.Name = "Undead";
         undead.Priority = 2000;
@@ -740,7 +740,7 @@ public partial class WorldMap : ILayoutModule
         undead.Text = "Undead";
         undead.TextColor = 0;
         session.EndRead(undead);
-        Label highmen = new Label(this);
+        Label highmen = new(this);
         session.BeginRead(highmen);
         highmen.Name = "Highmen";
         highmen.Priority = 2000;
@@ -763,7 +763,7 @@ public partial class WorldMap : ILayoutModule
         highmen.Text = "High Men";
         highmen.TextColor = 0;
         session.EndRead(highmen);
-        Label lizardmen = new Label(this);
+        Label lizardmen = new(this);
         session.BeginRead(lizardmen);
         lizardmen.Name = "Lizardmen";
         lizardmen.Priority = 2000;
@@ -786,7 +786,7 @@ public partial class WorldMap : ILayoutModule
         lizardmen.Text = "Lizard Men";
         lizardmen.TextColor = 0;
         session.EndRead(lizardmen);
-        Label darkElves = new Label(this);
+        Label darkElves = new(this);
         session.BeginRead(darkElves);
         darkElves.Name = "DarkElves";
         darkElves.Priority = 2000;
@@ -809,7 +809,7 @@ public partial class WorldMap : ILayoutModule
         darkElves.Text = "Dark Elves";
         darkElves.TextColor = 0;
         session.EndRead(darkElves);
-        Label voW = new Label(this);
+        Label voW = new(this);
         session.BeginRead(voW);
         voW.Name = "VoW";
         voW.Priority = 2000;
@@ -832,7 +832,7 @@ public partial class WorldMap : ILayoutModule
         voW.Text = "Valley of Wonders";
         voW.TextColor = 0;
         session.EndRead(voW);
-        Label elvenC = new Label(this);
+        Label elvenC = new(this);
         session.BeginRead(elvenC);
         elvenC.Name = "ElvenC";
         elvenC.Priority = 2000;
@@ -855,7 +855,7 @@ public partial class WorldMap : ILayoutModule
         elvenC.Text = "The Elven Court";
         elvenC.TextColor = 11642509;
         session.EndRead(elvenC);
-        Label ioLG = new Label(this);
+        Label ioLG = new(this);
         session.BeginRead(ioLG);
         ioLG.Name = "IoLG";
         ioLG.Priority = 2000;
@@ -878,7 +878,7 @@ public partial class WorldMap : ILayoutModule
         ioLG.Text = "Isle of Last Goodbyes";
         ioLG.TextColor = 11642509;
         session.EndRead(ioLG);
-        Label deepmir = new Label(this);
+        Label deepmir = new(this);
         session.BeginRead(deepmir);
         deepmir.Name = "Deepmir";
         deepmir.Priority = 2000;
@@ -901,7 +901,7 @@ public partial class WorldMap : ILayoutModule
         deepmir.Text = "Deepmir";
         deepmir.TextColor = 11642509;
         session.EndRead(deepmir);
-        Label aldor = new Label(this);
+        Label aldor = new(this);
         session.BeginRead(aldor);
         aldor.Name = "Aldor";
         aldor.Priority = 2000;
@@ -924,7 +924,7 @@ public partial class WorldMap : ILayoutModule
         aldor.Text = "Aldor Isle";
         aldor.TextColor = 11642509;
         session.EndRead(aldor);
-        Label serpent = new Label(this);
+        Label serpent = new(this);
         session.BeginRead(serpent);
         serpent.Name = "Serpent";
         serpent.Priority = 2000;
@@ -947,7 +947,7 @@ public partial class WorldMap : ILayoutModule
         serpent.Text = "Serpent River";
         serpent.TextColor = 11642509;
         session.EndRead(serpent);
-        Label blackwater = new Label(this);
+        Label blackwater = new(this);
         session.BeginRead(blackwater);
         blackwater.Name = "Blackwater";
         blackwater.Priority = 2000;
@@ -970,7 +970,7 @@ public partial class WorldMap : ILayoutModule
         blackwater.Text = "Blackwater Lake";
         blackwater.TextColor = 11642509;
         session.EndRead(blackwater);
-        Label skull = new Label(this);
+        Label skull = new(this);
         session.BeginRead(skull);
         skull.Name = "Skull";
         skull.Priority = 2000;
@@ -993,7 +993,7 @@ public partial class WorldMap : ILayoutModule
         skull.Text = "The Skull";
         skull.TextColor = 11642509;
         session.EndRead(skull);
-        Label sylvanus = new Label(this);
+        Label sylvanus = new(this);
         session.BeginRead(sylvanus);
         sylvanus.Name = "Sylvanus";
         sylvanus.Priority = 2000;
@@ -1016,7 +1016,7 @@ public partial class WorldMap : ILayoutModule
         sylvanus.Text = "Sylvanus";
         sylvanus.TextColor = 11642509;
         session.EndRead(sylvanus);
-        Label pass = new Label(this);
+        Label pass = new(this);
         session.BeginRead(pass);
         pass.Name = "Pass";
         pass.Priority = 2000;
@@ -1039,7 +1039,7 @@ public partial class WorldMap : ILayoutModule
         pass.Text = "Pass of Grief";
         pass.TextColor = 11642509;
         session.EndRead(pass);
-        Label arcalot = new Label(this);
+        Label arcalot = new(this);
         session.BeginRead(arcalot);
         arcalot.Name = "Arcalot";
         arcalot.Priority = 2000;
@@ -1062,7 +1062,7 @@ public partial class WorldMap : ILayoutModule
         arcalot.Text = "Arcalot";
         arcalot.TextColor = 11642509;
         session.EndRead(arcalot);
-        Label flowershire = new Label(this);
+        Label flowershire = new(this);
         session.BeginRead(flowershire);
         flowershire.Name = "Flowershire";
         flowershire.Priority = 2000;
@@ -1085,7 +1085,7 @@ public partial class WorldMap : ILayoutModule
         flowershire.Text = "Flowershire";
         flowershire.TextColor = 11642509;
         session.EndRead(flowershire);
-        Label sobek = new Label(this);
+        Label sobek = new(this);
         session.BeginRead(sobek);
         sobek.Name = "Sobek";
         sobek.Priority = 2000;
@@ -1108,7 +1108,7 @@ public partial class WorldMap : ILayoutModule
         sobek.Text = "Peninsula of Sobek";
         sobek.TextColor = 11642509;
         session.EndRead(sobek);
-        Label steppe = new Label(this);
+        Label steppe = new(this);
         session.BeginRead(steppe);
         steppe.Name = "Steppe";
         steppe.Priority = 2000;
@@ -1131,7 +1131,7 @@ public partial class WorldMap : ILayoutModule
         steppe.Text = "Ashen Steppe";
         steppe.TextColor = 11642509;
         session.EndRead(steppe);
-        Label bronnam = new Label(this);
+        Label bronnam = new(this);
         session.BeginRead(bronnam);
         bronnam.Name = "Bronnam";
         bronnam.Priority = 2000;
@@ -1154,7 +1154,7 @@ public partial class WorldMap : ILayoutModule
         bronnam.Text = "Bronnam Outpost";
         bronnam.TextColor = 11642509;
         session.EndRead(bronnam);
-        Label uc = new Label(this);
+        Label uc = new(this);
         session.BeginRead(uc);
         uc.Name = "UC";
         uc.Priority = 2000;
@@ -1177,7 +1177,7 @@ public partial class WorldMap : ILayoutModule
         uc.Text = "United Cities";
         uc.TextColor = 11642509;
         session.EndRead(uc);
-        Label woods = new Label(this);
+        Label woods = new(this);
         session.BeginRead(woods);
         woods.Name = "Woods";
         woods.Priority = 2000;
@@ -1200,7 +1200,7 @@ public partial class WorldMap : ILayoutModule
         woods.Text = "Tollrock Woods";
         woods.TextColor = 11642509;
         session.EndRead(woods);
-        Label burbatak = new Label(this);
+        Label burbatak = new(this);
         session.BeginRead(burbatak);
         burbatak.Name = "Burbatak";
         burbatak.Priority = 2000;
@@ -1316,7 +1316,7 @@ public partial class WorldMap : ILayoutModule
         SelectLabel.Text = "Select a Destination";
         SelectLabel.TextColor = 0;
         session.EndRead(SelectLabel);
-        Label alliesLnl = new Label(this);
+        Label alliesLnl = new(this);
         session.BeginRead(alliesLnl);
         alliesLnl.Name = "AlliesLnl";
         alliesLnl.Priority = 2000;
@@ -1339,7 +1339,7 @@ public partial class WorldMap : ILayoutModule
         alliesLnl.Text = "-Allies-";
         alliesLnl.TextColor = 14211288;
         session.EndRead(alliesLnl);
-        Panel frame = new Panel(this);
+        Panel frame = new(this);
         session.BeginRead(frame);
         frame.Name = "Frame";
         frame.Priority = 0;
@@ -1366,7 +1366,7 @@ public partial class WorldMap : ILayoutModule
         frame.MinWidth = 0;
         frame.MinHeight = 0;
         session.EndRead(frame);
-        Label azrac = new Label(this);
+        Label azrac = new(this);
         session.BeginRead(azrac);
         azrac.Name = "Azrac";
         azrac.Priority = 2000;
@@ -1419,7 +1419,7 @@ public partial class WorldMap : ILayoutModule
         StarImage.Animate = false;
         StarImage.AnimationFrameDelay = 0;
         session.EndRead(StarImage);
-        Label terstar = new Label(this);
+        Label terstar = new(this);
         session.BeginRead(terstar);
         terstar.Name = "Terstar";
         terstar.Priority = 2000;
@@ -1589,7 +1589,7 @@ public partial class WorldMap : ILayoutModule
         SetButton.WinWidth = 130;
         SetButton.OnClick += _ => SetBtnClick();
         session.EndRead(SetButton);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -146,7 +146,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 if (_pendingHeroes.Count != 0)
                 {
                     done = false;
-                    var item = _pendingHeroes[0];
+                    int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
                     if (hero != null && hero.Owner != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
@@ -172,7 +172,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
 
                 break;
             case 2:
-                var castingHeroesMax = CastingHeroesMax();
+                int castingHeroesMax = CastingHeroesMax();
                 if (_castingHeroes.Count < castingHeroesMax && _idleHeroes.Count != 0)
                 {
                     _pendingHeroes.Assign(_idleHeroes);
@@ -188,7 +188,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             case 3:
                 if (_pendingHeroes.Count != 0)
                 {
-                    var item = _pendingHeroes[0];
+                    int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
                     if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
@@ -216,8 +216,8 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             bool condition = i < _castSpellActions.GetCount();
                             if (condition)
                             {
-                                var castSpellActions = _castSpellActions.GetCastSpellActions(i);
-                                var fCastSpellActionsCastSpellActions = _castSpellActions.GetCastSpellActions(0);
+                                AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(i);
+                                AICastSpellAction fCastSpellActionsCastSpellActions = _castSpellActions.GetCastSpellActions(0);
                                 condition = castSpellActions.Priority >= fCastSpellActionsCastSpellActions.Priority * 0.75;
                             }
 
@@ -230,11 +230,11 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                         }
 
                         index = StrategicMap.Current.Random(i);
-                        var castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
+                        AICastSpellAction castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
                         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
                         if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                         {
-                            var castSpellActions = _castSpellActions.GetCastSpellActions(index);
+                            AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
                             if (GamePack.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
                             {
                                 _castingHeroes.Add(hero.UnitId);

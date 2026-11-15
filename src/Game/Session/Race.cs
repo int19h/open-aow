@@ -183,11 +183,11 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
             {
                 for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {
-                    var players = StrategicMap.Current.Players.GetPlayers(i + 1);
+                    Player players = StrategicMap.Current.Players.GetPlayers(i + 1);
                     defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
                     if (_playerRelations[i] > defaultValue)
                     {
-                        var item = _playerRelations[i];
+                        int item = _playerRelations[i];
                         _playerRelations[i] = item - 1;
                         if (_playerRelations[i] < defaultValue)
                         {
@@ -197,7 +197,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
 
                     if (_playerRelations[i] < defaultValue)
                     {
-                        var item = _playerRelations[i];
+                        int item = _playerRelations[i];
                         _playerRelations[i] = item + 1;
                         if (_playerRelations[i] > defaultValue)
                         {
@@ -248,8 +248,8 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         _playerRelations.Clear();
         for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            var players = StrategicMap.Current.Players.GetPlayers(i);
-            var statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
+            Player players = StrategicMap.Current.Players.GetPlayers(i);
+            int statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
             _playerRelations.Add(statusToStatusValue);
         }
     }

@@ -472,7 +472,7 @@ public partial class ResultsWindow : ILayoutModule
         Player12CheckBox.OnChange += sender => P1CBChange(sender, 11);
         Player12CheckBox.RadioIndex = 1;
         session.EndRead(Player12CheckBox);
-        Label strLbl = new Label(this);
+        Label strLbl = new(this);
         session.BeginRead(strLbl);
         strLbl.Name = "StrLbl";
         strLbl.Priority = 100;
@@ -518,7 +518,7 @@ public partial class ResultsWindow : ILayoutModule
         TurnLabel.Text = "Turns";
         TurnLabel.TextColor = 0;
         session.EndRead(TurnLabel);
-        Memo resNames = new Memo(this);
+        Memo resNames = new(this);
         session.BeginRead(resNames);
         resNames.Name = "ResNames";
         resNames.Visible = false;
@@ -671,7 +671,7 @@ public partial class ResultsWindow : ILayoutModule
         ExitButton.WinWidth = 120;
         ExitButton.OnClick += _ => ExitBtnClick();
         session.EndRead(ExitButton);
-        Image faceGrid = new Image(this);
+        Image faceGrid = new(this);
         session.BeginRead(faceGrid);
         faceGrid.Name = "FaceGrid";
         faceGrid.Priority = 40;
@@ -699,7 +699,7 @@ public partial class ResultsWindow : ILayoutModule
         faceGrid.Animate = false;
         faceGrid.AnimationFrameDelay = 0;
         session.EndRead(faceGrid);
-        Button loadBtn = new Button(this);
+        Button loadBtn = new(this);
         session.BeginRead(loadBtn);
         loadBtn.Name = "LoadBtn";
         loadBtn.Visible = false;
@@ -827,7 +827,7 @@ public partial class ResultsWindow : ILayoutModule
         StrengthCheckBox.OnChange += _ => AgendaChange();
         StrengthCheckBox.RadioIndex = 1;
         session.EndRead(StrengthCheckBox);
-        Panel agendaPnl = new Panel(this);
+        Panel agendaPnl = new(this);
         session.BeginRead(agendaPnl);
         agendaPnl.Name = "AgendaPnl";
         agendaPnl.Priority = 100;
@@ -854,7 +854,7 @@ public partial class ResultsWindow : ILayoutModule
         agendaPnl.MinWidth = 0;
         agendaPnl.MinHeight = 0;
         session.EndRead(agendaPnl);
-        Label strengthLbl = new Label(this);
+        Label strengthLbl = new(this);
         session.BeginRead(strengthLbl);
         strengthLbl.Name = "StrengthLbl";
         strengthLbl.Priority = 100;
@@ -913,7 +913,7 @@ public partial class ResultsWindow : ILayoutModule
         GoldCheckBox.OnChange += _ => AgendaChange();
         GoldCheckBox.RadioIndex = 1;
         session.EndRead(GoldCheckBox);
-        Label goldLbl = new Label(this);
+        Label goldLbl = new(this);
         session.BeginRead(goldLbl);
         goldLbl.Name = "GoldLbl";
         goldLbl.Priority = 100;
@@ -972,7 +972,7 @@ public partial class ResultsWindow : ILayoutModule
         ArmiesCheckBox.OnChange += _ => AgendaChange();
         ArmiesCheckBox.RadioIndex = 1;
         session.EndRead(ArmiesCheckBox);
-        Label armiesLbl = new Label(this);
+        Label armiesLbl = new(this);
         session.BeginRead(armiesLbl);
         armiesLbl.Name = "ArmiesLbl";
         armiesLbl.Priority = 100;
@@ -1031,7 +1031,7 @@ public partial class ResultsWindow : ILayoutModule
         HeroesCheckBox.OnChange += _ => AgendaChange();
         HeroesCheckBox.RadioIndex = 1;
         session.EndRead(HeroesCheckBox);
-        Label heroesLbl = new Label(this);
+        Label heroesLbl = new(this);
         session.BeginRead(heroesLbl);
         heroesLbl.Name = "HeroesLbl";
         heroesLbl.Priority = 100;
@@ -1090,7 +1090,7 @@ public partial class ResultsWindow : ILayoutModule
         StructuresCheckBox.OnChange += _ => AgendaChange();
         StructuresCheckBox.RadioIndex = 1;
         session.EndRead(StructuresCheckBox);
-        Label structuresLbl = new Label(this);
+        Label structuresLbl = new(this);
         session.BeginRead(structuresLbl);
         structuresLbl.Name = "StructuresLbl";
         structuresLbl.Priority = 100;
@@ -1136,7 +1136,7 @@ public partial class ResultsWindow : ILayoutModule
         KeyMaximumLabel.Text = "Turns";
         KeyMaximumLabel.TextColor = 0;
         session.EndRead(KeyMaximumLabel);
-        Label keyMin = new Label(this);
+        Label keyMin = new(this);
         session.BeginRead(keyMin);
         keyMin.Name = "KeyMin";
         keyMin.Priority = 100;
@@ -1194,7 +1194,7 @@ public partial class ResultsWindow : ILayoutModule
         ManaCheckBox.Checked = false;
         ManaCheckBox.RadioIndex = 1;
         session.EndRead(ManaCheckBox);
-        Label manaLbl = new Label(this);
+        Label manaLbl = new(this);
         session.BeginRead(manaLbl);
         manaLbl.Name = "ManaLbl";
         manaLbl.Priority = 100;
@@ -1217,7 +1217,7 @@ public partial class ResultsWindow : ILayoutModule
         manaLbl.Text = "Mana";
         manaLbl.TextColor = 0;
         session.EndRead(manaLbl);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -61,7 +61,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         }
         else
         {
-            var indexValue = _imagePalette.IndexValue;
+            int indexValue = _imagePalette.IndexValue;
             stream.Write(Bytes.Of(ref indexValue, 4));
             _imagePalette.IndexValue = indexValue;
         }

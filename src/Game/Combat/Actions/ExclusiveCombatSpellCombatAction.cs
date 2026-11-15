@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
@@ -72,7 +72,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
 
         if (objectValue.Id == SourceId)
         {
-            var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
@@ -91,7 +91,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else

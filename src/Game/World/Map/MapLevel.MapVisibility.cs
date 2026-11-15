@@ -24,7 +24,7 @@ public partial class MapLevel
     public bool FogArea(int x, int y, int radius)
     {
         bool result = false;
-        foreach (var field in Area(x, y, radius))
+        foreach (MapField field in Area(x, y, radius))
         {
             byte count = field.FogCount;
             if (count == 1)
@@ -40,7 +40,7 @@ public partial class MapLevel
     public bool UnFogArea(int x, int y, int radius)
     {
         bool result = false;
-        foreach (var field in Area(x, y, radius))
+        foreach (MapField field in Area(x, y, radius))
         {
             byte count = field.FogCount;
             if (count == 0)
@@ -61,7 +61,7 @@ public partial class MapLevel
         }
 
         field.SetExplored(player, true);
-        var map = Map;
+        GameMap map = Map;
         if (map.ExplorationEnabled && map.SeatedPlayer == player)
         {
             Map.InvalidateStaticScene(field.HexX, field.HexY, HexLevel);
@@ -74,7 +74,7 @@ public partial class MapLevel
     {
         RtlUnit.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
         Set<FogExplorationChangedElement> result = default;
-        foreach (var field in Area(x, y, radius))
+        foreach (MapField field in Area(x, y, radius))
         {
             byte count = field.FogCount;
             if (count == 0)
@@ -94,7 +94,7 @@ public partial class MapLevel
     public bool ExploreArea(int x, int y, sbyte player, int radius)
     {
         bool result = false;
-        foreach (var field in Area(x, y, radius))
+        foreach (MapField field in Area(x, y, radius))
         {
             result |= Explore(field, player);
         }

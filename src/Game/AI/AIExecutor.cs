@@ -105,7 +105,7 @@ public partial class AIExecutor : EngineObject
                 break;
             case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
-                var elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
+                int elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
                 result = _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
                 break;
             default:

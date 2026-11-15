@@ -59,7 +59,7 @@ public partial class SynchronizeDialog : ILayoutModule
         Window.WinHeight = 343;
         Window.Dockable = false;
         session.EndRead(Window);
-        Frame tCeltB = new Frame(this);
+        Frame tCeltB = new(this);
         session.BeginRead(tCeltB);
         tCeltB.Name = "TCeltB";
         tCeltB.Priority = 0;
@@ -86,7 +86,7 @@ public partial class SynchronizeDialog : ILayoutModule
         tCeltB.ImageLibraryIndexLine = 55;
         tCeltB.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltB);
-        Label bottomMsg = new Label(this);
+        Label bottomMsg = new(this);
         session.BeginRead(bottomMsg);
         bottomMsg.Name = "BottomMsg";
         bottomMsg.Priority = 0;
@@ -159,7 +159,7 @@ public partial class SynchronizeDialog : ILayoutModule
         PlayerNameLabel.Text = "######";
         PlayerNameLabel.TextColor = 9757931;
         session.EndRead(PlayerNameLabel);
-        Label infoMsg = new Label(this);
+        Label infoMsg = new(this);
         session.BeginRead(infoMsg);
         infoMsg.Name = "InfoMsg";
         infoMsg.Priority = 100;
@@ -256,7 +256,7 @@ public partial class SynchronizeDialog : ILayoutModule
         RightShield.Animate = false;
         RightShield.AnimationFrameDelay = 0;
         session.EndRead(RightShield);
-        Frame blueFr = new Frame(this);
+        Frame blueFr = new(this);
         session.BeginRead(blueFr);
         blueFr.Name = "BlueFr";
         blueFr.Priority = 0;
@@ -283,7 +283,7 @@ public partial class SynchronizeDialog : ILayoutModule
         blueFr.ImageLibraryIndexLine = 0;
         blueFr.ImageLibraryIndexTexture = 14;
         session.EndRead(blueFr);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -311,7 +311,7 @@ public partial class SynchronizeDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image tCeltLineR = new Image(this);
+        Image tCeltLineR = new(this);
         session.BeginRead(tCeltLineR);
         tCeltLineR.Name = "TCeltLineR";
         tCeltLineR.Priority = 100;
@@ -339,7 +339,7 @@ public partial class SynchronizeDialog : ILayoutModule
         tCeltLineR.Animate = false;
         tCeltLineR.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineR);
-        Panel newTPnl = new Panel(this);
+        Panel newTPnl = new(this);
         session.BeginRead(newTPnl);
         newTPnl.Name = "NewTPnl";
         newTPnl.Priority = 0;
@@ -366,7 +366,7 @@ public partial class SynchronizeDialog : ILayoutModule
         newTPnl.MinWidth = 0;
         newTPnl.MinHeight = 0;
         session.EndRead(newTPnl);
-        Image faceFrame = new Image(this);
+        Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
         faceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
@@ -395,7 +395,7 @@ public partial class SynchronizeDialog : ILayoutModule
         faceFrame.Animate = false;
         faceFrame.AnimationFrameDelay = 0;
         session.EndRead(faceFrame);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

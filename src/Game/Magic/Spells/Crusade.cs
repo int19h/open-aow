@@ -45,13 +45,13 @@ public partial class Crusade : Spell
         Unit newUnit;
         if (executeCount == 0)
         {
-            var coordinate61 = source.GetLocation();
+            MapCoordinate coordinate61 = source.GetLocation();
             x = coordinate61.X;
             y = coordinate61.Y;
             layer = coordinate61.MapLevel;
             StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
             HexGeometry.HexToPixel(x, y, out pixelX, out pixelY);
-            var worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
+            WorldEffectHexSprite worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
             worldEffectHexSprite.X = pixelX + 16;
             worldEffectHexSprite.Y = pixelY + 16;
             worldEffectHexSprite.Layer = layer;
@@ -163,19 +163,19 @@ public partial class Crusade : Spell
         sbyte y = default;
         sbyte layer = default;
         ImageSequenceAnimation animation;
-        var coordinate62 = source.GetLocation();
+        MapCoordinate coordinate62 = source.GetLocation();
         x = coordinate62.X;
         y = coordinate62.Y;
         layer = coordinate62.MapLevel;
-        var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
+        int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
             party.Activate();
             party.Army.SetBehavior(255, GroupBehavior.Suicidal);
-            var hexLevel = party.GetHexLevel();
-            var hexY = party.GetHexY();
-            var hexX = party.GetHexX();
+            sbyte hexLevel = party.GetHexLevel();
+            sbyte hexY = party.GetHexY();
+            sbyte hexX = party.GetHexX();
             if (StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0))
             {
                 if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
@@ -184,9 +184,9 @@ public partial class Crusade : Spell
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
-                    var partyHexLevel = party.GetHexLevel();
-                    var partyHexY = party.GetHexY();
-                    var partyHexX = party.GetHexX();
+                    sbyte partyHexLevel = party.GetHexLevel();
+                    sbyte partyHexY = party.GetHexY();
+                    sbyte partyHexX = party.GetHexX();
                     StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
                 }
             }

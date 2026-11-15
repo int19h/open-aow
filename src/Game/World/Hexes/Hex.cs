@@ -50,7 +50,7 @@ public partial class Hex : AbstractHexagon
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classId = base.Resource.EngineClass.ClassId;
+            int classId = base.Resource.EngineClass.ClassId;
             r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
             if (r != null)
             {
@@ -60,9 +60,9 @@ public partial class Hex : AbstractHexagon
             }
             else
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
         }
@@ -75,16 +75,16 @@ public partial class Hex : AbstractHexagon
         {
             if (message.TerrainType != 14)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
@@ -137,7 +137,7 @@ public partial class Hex : AbstractHexagon
                 {
                     if (neighbourTerrain == 10 || neighbourTerrain == 13)
                     {
-                        var random = Random(3);
+                        int random = Random(3);
                         Transitions[side] = (byte)((random * 3) + side + 182);
                     }
                     else
@@ -155,7 +155,7 @@ public partial class Hex : AbstractHexagon
                     {
                         if (ownTerrain == 10 || ownTerrain == 13)
                         {
-                            var random = Random(3);
+                            int random = Random(3);
                             Transitions[side] = (byte)((random * 3) + side + 182);
                         }
                         else
@@ -233,7 +233,7 @@ public partial class Hex : AbstractHexagon
                                                 }
                                                 else
                                                 {
-                                                    var random = Random(3);
+                                                    int random = Random(3);
                                                     Transitions[side] = (byte)((random * 3) + (byte)(ownTerrain << 4) + side + 6);
                                                 }
                                             }
@@ -278,7 +278,7 @@ public partial class Hex : AbstractHexagon
         {
             if (message.MessageId == 65556)
             {
-                var terrain = TerrainList.Terrain[0];
+                sbyte terrain = TerrainList.Terrain[0];
                 if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain))
                 {
                     return;

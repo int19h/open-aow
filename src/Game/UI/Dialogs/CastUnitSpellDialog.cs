@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWCastUnitSpellDlg.pas.
 using Aow.Game.Draw;
-
+using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Controls;
@@ -59,12 +59,12 @@ public partial class CastUnitSpellDialog : UIModule
         if (index < Caster.TargetUnits.GetCount())
         {
             oldClip = surface.ClipRectangle;
-            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             surface.ClipRectangle = rectangle;
             alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
             }
 
@@ -74,7 +74,7 @@ public partial class CastUnitSpellDialog : UIModule
             Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
             if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
-                var image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
             }
 
@@ -175,7 +175,7 @@ public partial class CastUnitSpellDialog : UIModule
         Caster.SetSelection((byte)(sender.Checked
             ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
             : Caster.SelectionMask & ~bit));
-        var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
+        CheckBox[] checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
         for (int i = 0; i < checks.Length; i++)
         {
             checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;

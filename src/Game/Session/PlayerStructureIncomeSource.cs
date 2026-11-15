@@ -20,7 +20,7 @@ public partial class PlayerStructureIncomeSource : IncomeSource
     public override int Income() => _structure.GetIncome();
 
     // Structur.PAS:2496
-    public override MapCoordinate GetLocation() => new MapCoordinate(
+    public override MapCoordinate GetLocation() => new(
         _structure.HexX,
         _structure.HexY,
         _structure.HexLevel);

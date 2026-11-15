@@ -174,7 +174,7 @@ public partial class Int32List : Persistent
     {
         if (source is Int32List)
         {
-            var int32List = (Int32List)source;
+            Int32List int32List = (Int32List)source;
             _count = int32List._count;
             SetCapacity(int32List._count);
             Array.Copy(int32List._list, 0, _list, 0, _count);

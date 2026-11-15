@@ -317,7 +317,7 @@ public partial class WindowControl : UIComponent
         }
         else
         {
-            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
+            int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
             BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
         }
 
@@ -369,7 +369,7 @@ public partial class WindowControl : UIComponent
 
             if (BackSurface == null)
             {
-                var pixelFormatId = surface.GetPixelFormatId();
+                int pixelFormatId = surface.GetPixelFormatId();
                 BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 if (Masked)
                 {

@@ -42,16 +42,16 @@ public partial class AbstractHexagon : MapObject
                 {
                     SetResource(r);
                     UpdateTransitions();
-                    var hexLevel = GetHexLevel();
-                    var hexY = GetHexY();
-                    var hexX = GetHexX();
+                    sbyte hexLevel = GetHexLevel();
+                    sbyte hexY = GetHexY();
+                    sbyte hexX = GetHexX();
                     Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    var hexLevel = GetHexLevel();
-                    var hexY = GetHexY();
-                    var hexX = GetHexX();
+                    sbyte hexLevel = GetHexLevel();
+                    sbyte hexY = GetHexY();
+                    sbyte hexX = GetHexX();
                     ((AbstractHexagonResource)Resource).GetHexControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }

@@ -34,13 +34,13 @@ public partial class BirdsView : Spell
         sbyte layer = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        var coordinate53 = source.GetLocation();
+        MapCoordinate coordinate53 = source.GetLocation();
         x = coordinate53.X;
         y = coordinate53.Y;
         layer = coordinate53.MapLevel;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            var birdsViewHexSprite = new BirdsViewHexSprite(null) { Holder = CreationHolder() };
+            BirdsViewHexSprite birdsViewHexSprite = new(null) { Holder = CreationHolder() };
             birdsViewHexSprite.StartAnimation(x, y, layer, 14);
         }
 
@@ -60,7 +60,7 @@ public partial class BirdsView : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            var coordinate54 = source.GetLocation();
+            MapCoordinate coordinate54 = source.GetLocation();
             x = coordinate54.X;
             y = coordinate54.Y;
             layer = coordinate54.MapLevel;

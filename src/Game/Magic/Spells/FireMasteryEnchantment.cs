@@ -52,7 +52,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         Player playerLocal;
         base.Deactivate(player);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        var playerMagicControl = playerLocal.MagicControl;
+        PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
@@ -74,8 +74,8 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         bool result;
         if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
-            var name = GetName();
+            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+            string name = GetName();
             reason = Format(xIsAlreadyActive, [name]);
             result = false;
         }
@@ -95,7 +95,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         // { Original doubles Water. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        var playerMagicControl = playerLocal.MagicControl;
+        PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)

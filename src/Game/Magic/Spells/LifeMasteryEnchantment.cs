@@ -35,7 +35,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
         base.Deactivate(player);
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
         EngineMessage.InitializeMessage(out message, 537002240, this);
         StrategicMap.Current.SendMessage(ref message, this);
@@ -50,8 +50,8 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
-                var name = GetName();
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;
             }
@@ -68,7 +68,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        var playerMagicControl = playerLocal.MagicControl;
+        PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)

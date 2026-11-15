@@ -104,7 +104,7 @@ public partial class PaletteManager : IDisposable
         }
         else
         {
-            var libraryImagePalette = Palettes[i];
+            LibraryImagePalette libraryImagePalette = Palettes[i];
             libraryImagePalette.RefCount += 1;
             result = Palettes[i];
         }

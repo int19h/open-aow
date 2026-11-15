@@ -52,7 +52,7 @@ public partial class CityRebelDialog : UIModule
     public void CenterButClick()
     {
         UI.General.PlayButtonSound(0);
-        var cityRebellionEventLog = _event;
+        CityRebellionEventLog cityRebellionEventLog = _event;
         StrategicMap.Current.CenterViewTo(cityRebellionEventLog.Location.X, cityRebellionEventLog.Location.Y, cityRebellionEventLog.Location.MapLevel);
     }
 

@@ -9,7 +9,7 @@ public partial class TurnPlayerControl
 {
     public override void NewDay()
     {
-        var map = StrategicMap.Current;
+        StrategicMap map = StrategicMap.Current;
         int player = map.SeatedPlayer;
         if (map.RequestCombatType)
         {

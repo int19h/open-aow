@@ -71,16 +71,16 @@ public partial class GameMapMouse : HexSpriteMapMouse
     // AoWHSMap.PAS:1063
     public void ResetRectangleSelection()
     {
-        var selectionRectangle = SelectionRectangle;
+        Rect selectionRectangle = SelectionRectangle;
         selectionRectangle.Left = -1;
         SelectionRectangle = selectionRectangle;
-        var selectionRectangle2 = SelectionRectangle;
+        Rect selectionRectangle2 = SelectionRectangle;
         selectionRectangle2.Top = -1;
         SelectionRectangle = selectionRectangle2;
-        var selectionRectangle3 = SelectionRectangle;
+        Rect selectionRectangle3 = SelectionRectangle;
         selectionRectangle3.Right = -1;
         SelectionRectangle = selectionRectangle3;
-        var selectionRectangle4 = SelectionRectangle;
+        Rect selectionRectangle4 = SelectionRectangle;
         selectionRectangle4.Bottom = -1;
         SelectionRectangle = selectionRectangle4;
     }
@@ -104,16 +104,16 @@ public partial class GameMapMouse : HexSpriteMapMouse
     // AoWHSMap.PAS:1079
     public void StartRectangleSelection(int pixelX, int pixelY)
     {
-        var selectionRectangle = SelectionRectangle;
+        Rect selectionRectangle = SelectionRectangle;
         selectionRectangle.Left = pixelX;
         SelectionRectangle = selectionRectangle;
-        var selectionRectangle2 = SelectionRectangle;
+        Rect selectionRectangle2 = SelectionRectangle;
         selectionRectangle2.Top = pixelY;
         SelectionRectangle = selectionRectangle2;
-        var selectionRectangle3 = SelectionRectangle;
+        Rect selectionRectangle3 = SelectionRectangle;
         selectionRectangle3.Right = pixelX;
         SelectionRectangle = selectionRectangle3;
-        var selectionRectangle4 = SelectionRectangle;
+        Rect selectionRectangle4 = SelectionRectangle;
         selectionRectangle4.Bottom = pixelY;
         SelectionRectangle = selectionRectangle4;
     }
@@ -145,10 +145,10 @@ public partial class GameMapMouse : HexSpriteMapMouse
                     pixelY = SelectionRectangle.Top + 600;
                 }
 
-                var selectionRectangle = SelectionRectangle;
+                Rect selectionRectangle = SelectionRectangle;
                 selectionRectangle.Right = pixelX;
                 SelectionRectangle = selectionRectangle;
-                var selectionRectangle2 = SelectionRectangle;
+                Rect selectionRectangle2 = SelectionRectangle;
                 selectionRectangle2.Bottom = pixelY;
                 SelectionRectangle = selectionRectangle2;
             }
@@ -163,10 +163,10 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public void StopRectangleSelection(int pixelX, int pixelY)
     {
         Rect r = default;
-        var selectionRectangle = SelectionRectangle;
+        Rect selectionRectangle = SelectionRectangle;
         selectionRectangle.Right = pixelX;
         SelectionRectangle = selectionRectangle;
-        var selectionRectangle2 = SelectionRectangle;
+        Rect selectionRectangle2 = SelectionRectangle;
         selectionRectangle2.Bottom = pixelY;
         SelectionRectangle = selectionRectangle2;
         if (SelectionRectangle.Left < SelectionRectangle.Right)

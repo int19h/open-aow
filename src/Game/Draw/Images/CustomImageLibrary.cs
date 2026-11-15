@@ -371,7 +371,7 @@ public partial class CustomImageLibrary : Component
                 {
                     stream.Write(Bytes.Of(ref i, 4));
                     LibraryImage.WriteImageToStream(Images[i].Image, stream, swap);
-                    var reference = Images[i].Reference;
+                    int reference = Images[i].Reference;
                     stream.Write(Bytes.Of(ref reference, 4));
                     Images[i].Reference = reference;
                 }
@@ -379,11 +379,11 @@ public partial class CustomImageLibrary : Component
 
             i = -1;
             stream.Write(Bytes.Of(ref i, 4));
-            var position = stream.Position;
+            long position = stream.Position;
             header.IndexEnd = (int)position - startPosition;
             swap.Position = 0;
             stream.CopyFrom(swap, (int)swap.Length);
-            var streamPosition = stream.Position;
+            long streamPosition = stream.Position;
             header.Size = (int)streamPosition - startPosition;
             stream.Position = startPosition;
             stream.Write(Bytes.Of(ref header, 24));
@@ -942,7 +942,7 @@ public partial class CustomImageLibrary : Component
                     node.Delete(subIndex);
                     if (node.Count == 1)
                     {
-                        var image = node.GetImage(0);
+                        LibraryImage image = node.GetImage(0);
                         Images[index].Image = image;
                         node.Delete(0);
                         node?.Dispose();

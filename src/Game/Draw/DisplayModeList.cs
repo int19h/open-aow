@@ -50,7 +50,7 @@ public partial class DisplayModeList : IDisposable
         public DisplayModeItem this[int index] => target.GetItems(index);
     }
 
-    public ItemsAccessor Items => new ItemsAccessor(this);
+    public ItemsAccessor Items => new(this);
     public int Count => GetCount();
 
 }

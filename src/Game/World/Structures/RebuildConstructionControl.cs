@@ -20,7 +20,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate36 = troop.GetLocation();
+        MapCoordinate coordinate36 = troop.GetLocation();
         x = coordinate36.X;
         y = coordinate36.Y;
         l = coordinate36.MapLevel;
@@ -43,13 +43,13 @@ public partial class RebuildConstructionControl : ConstructionControl
         structure = GetStructure(troop);
         if (structure != null)
         {
-            var editName = structure.EditName();
+            string editName = structure.EditName();
             text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [editName]);
             structure.GetRebuildInfo(out gold, out days);
         }
         else
         {
-            var structureLocal = AbilityRules.TranslateResourceString(GetEngine(), s_structureText);
+            string structureLocal = AbilityRules.TranslateResourceString(GetEngine(), s_structureText);
             text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [structureLocal]);
             gold = 0;
             days = 0;

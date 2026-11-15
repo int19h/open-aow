@@ -37,7 +37,7 @@ public partial class ProgressDialog : ILayoutModule
         TitleLabel.Masked = false;
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -65,7 +65,7 @@ public partial class ProgressDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -186,7 +186,7 @@ public partial class ProgressDialog : ILayoutModule
         ProgressBar.ImageLibraryIndexTNormal = 14;
         ProgressBar.ImageLibraryIndexTSelected = 6;
         session.EndRead(ProgressBar);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -213,7 +213,7 @@ public partial class ProgressDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -241,7 +241,7 @@ public partial class ProgressDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -269,7 +269,7 @@ public partial class ProgressDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

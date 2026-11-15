@@ -258,7 +258,7 @@ internal static class TacticalTables
         lastY = 0;
         point = path[0];
         HexGeometry.PixelToHex(point.X, point.Y, out startX, out startY);
-        var count = path.Count;
+        int count = path.Count;
         point = path[count - 1];
         HexGeometry.PixelToHex(point.X, point.Y, out endX, out endY);
         i = 0;

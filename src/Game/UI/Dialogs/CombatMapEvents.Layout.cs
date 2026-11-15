@@ -13,7 +13,7 @@ public partial class CombatMapEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "TCMapEvents";
-        CombatMapControl tcMap = new CombatMapControl(this);
+        CombatMapControl tcMap = new(this);
         session.BeginRead(tcMap);
         tcMap.Name = "TCMap";
         tcMap.OnSelected += TCMapSelected;

@@ -7,9 +7,9 @@ public partial class MoveControl
     // MoveT.PAS:1687. Resolve native field offsets through hex neighbors.
     public int CalculateTurnAroundMovePoints(ref int gapIndex)
     {
-        var start = GapStarts[gapIndex];
-        var rightField = MapLevel.GetField(start.X, start.Y);
-        var leftField = rightField;
+        MapCoordinate start = GapStarts[gapIndex];
+        MapField rightField = MapLevel.GetField(start.X, start.Y);
+        MapField leftField = rightField;
         int rightDirection = start.MapLevel, leftDirection = start.MapLevel;
         int rightPoints = 0, leftPoints = 0;
         int rightOver = rightField.CanMoveOver(this), leftOver = rightOver;

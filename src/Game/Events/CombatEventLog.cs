@@ -58,8 +58,8 @@ public partial class CombatEventLog : EventLog
         data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
-            var players = data.Players.GetPlayers(data.AttackerPlayer);
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
+            CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
             result = AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
@@ -78,7 +78,7 @@ public partial class CombatEventLog : EventLog
         data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
-            var players = data.Players.GetPlayers(data.AttackerPlayer);
+            CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
             result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
@@ -100,7 +100,7 @@ public partial class CombatEventLog : EventLog
         data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
-            var players = data.Players.GetPlayers(data.DefenderPlayer);
+            CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
             result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
@@ -191,7 +191,7 @@ public partial class CombatEventLog : EventLog
 
     public override void ViewLocation()
     {
-        var data = Logbook.FinalData;
+        CombatData data = Logbook.FinalData;
         CenterViewTo(data.Location.X, data.Location.Y, data.Location.MapLevel);
     }
 }

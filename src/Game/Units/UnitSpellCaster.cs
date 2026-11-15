@@ -162,7 +162,7 @@ public partial class UnitSpellCaster : SpellCaster
     public void SetSelection(byte selection)
     {
         byte value = selection;
-        var source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         ((UnitSpell)GamePack.Current.SpellControl.GetSpell(CasterSpellId)).ValidateUnitSelection(source, TargetUnits, ref value);
         SelectionMask = value;
     }

@@ -133,7 +133,7 @@ public partial class UnitEnchantment : Enchantment
         sbyte hexY = default;
         sbyte hexLevel = default;
         ArmyHexSprite armyHexSprite;
-        var coordinate28 = GetLocation();
+        MapCoordinate coordinate28 = GetLocation();
         hexX = coordinate28.X;
         hexY = coordinate28.Y;
         hexLevel = coordinate28.MapLevel;
@@ -149,8 +149,8 @@ public partial class UnitEnchantment : Enchantment
             }
             else
             {
-                var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
+                string binding = GetBinding();
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

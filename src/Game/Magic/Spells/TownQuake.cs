@@ -100,7 +100,7 @@ public partial class TownQuake : CityTargetSpell
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText);
         log.Player = source.Player;
-        var townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
+        string townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
         log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(army.Army, 255);

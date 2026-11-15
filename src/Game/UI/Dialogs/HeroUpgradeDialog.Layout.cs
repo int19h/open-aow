@@ -60,7 +60,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         Window.WinHeight = 432;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 250;
@@ -95,7 +95,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         cancelBtn.WinWidth = 135;
         cancelBtn.OnClick += _ => CloseClick();
         session.EndRead(cancelBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -122,7 +122,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button done = new Button(this);
+        Button done = new(this);
         session.BeginRead(done);
         done.Name = "Done";
         done.Priority = 250;
@@ -157,7 +157,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         done.WinWidth = 135;
         done.OnClick += _ => DoneClick();
         session.EndRead(done);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -180,7 +180,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         title.Text = "Upgrade Hero";
         title.TextColor = 0;
         session.EndRead(title);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -214,7 +214,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -242,7 +242,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Image celtM = new Image(this);
+        Image celtM = new(this);
         session.BeginRead(celtM);
         celtM.Name = "CeltM";
         celtM.Priority = 100;
@@ -270,7 +270,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         celtM.Animate = false;
         celtM.AnimationFrameDelay = 0;
         session.EndRead(celtM);
-        Image celtL = new Image(this);
+        Image celtL = new(this);
         session.BeginRead(celtL);
         celtL.Name = "CeltL";
         celtL.Priority = 100;
@@ -298,7 +298,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         celtL.Animate = false;
         celtL.AnimationFrameDelay = 0;
         session.EndRead(celtL);
-        Image celtR = new Image(this);
+        Image celtR = new(this);
         session.BeginRead(celtR);
         celtR.Name = "CeltR";
         celtR.Priority = 100;
@@ -326,7 +326,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         celtR.Animate = false;
         celtR.AnimationFrameDelay = 0;
         session.EndRead(celtR);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -353,7 +353,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCelt = new Image(this);
+        Image tCelt = new(this);
         session.BeginRead(tCelt);
         tCelt.Name = "TCelt";
         tCelt.Priority = 100;
@@ -381,7 +381,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         tCelt.Animate = false;
         tCelt.AnimationFrameDelay = 0;
         session.EndRead(tCelt);
-        Panel upgradePnl = new Panel(this);
+        Panel upgradePnl = new(this);
         session.BeginRead(upgradePnl);
         upgradePnl.Name = "UpgradePnl";
         upgradePnl.Priority = 2000;
@@ -431,7 +431,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         HeaderLabel.Text = "#######";
         HeaderLabel.TextColor = 0;
         session.EndRead(HeaderLabel);
-        Label skillPointsLbl = new Label(this);
+        Label skillPointsLbl = new(this);
         session.BeginRead(skillPointsLbl);
         skillPointsLbl.Name = "SkillPointsLbl";
         skillPointsLbl.Priority = 0;
@@ -600,7 +600,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesScrollBar.ImageLibraryIndexBack = 79;
         SelectedAbilitiesScrollBar.ThumbImageIndex = 76;
         session.EndRead(SelectedAbilitiesScrollBar);
-        Button selectedAbilitiesSort = new Button(this);
+        Button selectedAbilitiesSort = new(this);
         session.BeginRead(selectedAbilitiesSort);
         selectedAbilitiesSort.Name = "SelectedAbilitiesSort";
         selectedAbilitiesSort.Priority = 1000;
@@ -631,7 +631,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         selectedAbilitiesSort.WinWidth = 123;
         selectedAbilitiesSort.OnClick += _ => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
-        Button availableAbilityCostSort = new Button(this);
+        Button availableAbilityCostSort = new(this);
         session.BeginRead(availableAbilityCostSort);
         availableAbilityCostSort.Name = "AvailableAbilityCostSort";
         availableAbilityCostSort.Priority = 1000;
@@ -697,7 +697,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesCostList.ItemHeight = 17;
         AvailableAbilitiesCostList.TextAlign = TextAlignment.Center;
         session.EndRead(AvailableAbilitiesCostList);
-        Button availableAbilitiesSort = new Button(this);
+        Button availableAbilitiesSort = new(this);
         session.BeginRead(availableAbilitiesSort);
         availableAbilitiesSort.Name = "AvailableAbilitiesSort";
         availableAbilitiesSort.Priority = 1000;
@@ -728,7 +728,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         availableAbilitiesSort.WinWidth = 125;
         availableAbilitiesSort.OnClick += _ => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
-        Button addAbilityBtn = new Button(this);
+        Button addAbilityBtn = new(this);
         session.BeginRead(addAbilityBtn);
         addAbilityBtn.Name = "AddAbilityBtn";
         addAbilityBtn.Priority = 100;
@@ -763,7 +763,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         addAbilityBtn.WinWidth = 140;
         addAbilityBtn.OnClick += _ => AddAbilityBtnClick();
         session.EndRead(addAbilityBtn);
-        Button removeBtn = new Button(this);
+        Button removeBtn = new(this);
         session.BeginRead(removeBtn);
         removeBtn.Name = "RemoveBtn";
         removeBtn.Priority = 100;
@@ -798,7 +798,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         removeBtn.WinWidth = 140;
         removeBtn.OnClick += _ => RemoveBtnClick();
         session.EndRead(removeBtn);
-        Image faceFrame = new Image(this);
+        Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
         faceFrame.OnPreDraw += FaceFramePreDraw;
@@ -859,7 +859,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         UnitNameEdit.ImageLibraryIndex = 12;
         UnitNameEdit.PassWordChar = 0;
         session.EndRead(UnitNameEdit);
-        Edit alignment = new Edit(this);
+        Edit alignment = new(this);
         session.BeginRead(alignment);
         alignment.Name = "Alignment";
         alignment.Priority = 0;
@@ -918,7 +918,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         TopPanel.MinWidth = 0;
         TopPanel.MinHeight = 0;
         session.EndRead(TopPanel);
-        Panel statisicsPnl = new Panel(this);
+        Panel statisicsPnl = new(this);
         session.BeginRead(statisicsPnl);
         statisicsPnl.Name = "StatisicsPnl";
         statisicsPnl.Priority = 9999;
@@ -968,7 +968,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         AttackValueLabel.Text = "10";
         AttackValueLabel.TextColor = 9402970;
         session.EndRead(AttackValueLabel);
-        Label attLbl = new Label(this);
+        Label attLbl = new(this);
         session.BeginRead(attLbl);
         attLbl.Name = "AttLbl";
         attLbl.Priority = 0;
@@ -991,7 +991,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attLbl.Text = "Attack";
         attLbl.TextColor = 9402970;
         session.EndRead(attLbl);
-        Panel attPnl = new Panel(this);
+        Panel attPnl = new(this);
         session.BeginRead(attPnl);
         attPnl.Name = "AttPnl";
         attPnl.Priority = 0;
@@ -1041,7 +1041,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         DamageValueLabel.Text = "10";
         DamageValueLabel.TextColor = 9402970;
         session.EndRead(DamageValueLabel);
-        Label damLbl = new Label(this);
+        Label damLbl = new(this);
         session.BeginRead(damLbl);
         damLbl.Name = "DamLbl";
         damLbl.Priority = 0;
@@ -1064,7 +1064,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damLbl.Text = "Damage";
         damLbl.TextColor = 9402970;
         session.EndRead(damLbl);
-        Panel damPnl = new Panel(this);
+        Panel damPnl = new(this);
         session.BeginRead(damPnl);
         damPnl.Name = "DamPnl";
         damPnl.Priority = 0;
@@ -1114,7 +1114,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         DefenseValueLabel.Text = "10";
         DefenseValueLabel.TextColor = 9402970;
         session.EndRead(DefenseValueLabel);
-        Label defLbl = new Label(this);
+        Label defLbl = new(this);
         session.BeginRead(defLbl);
         defLbl.Name = "DefLbl";
         defLbl.Priority = 0;
@@ -1137,7 +1137,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defLbl.Text = "Defense";
         defLbl.TextColor = 9402970;
         session.EndRead(defLbl);
-        Panel defPnl = new Panel(this);
+        Panel defPnl = new(this);
         session.BeginRead(defPnl);
         defPnl.Name = "DefPnl";
         defPnl.Priority = 0;
@@ -1187,7 +1187,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         ResistanceValueLabel.Text = "10";
         ResistanceValueLabel.TextColor = 9402970;
         session.EndRead(ResistanceValueLabel);
-        Label resLbl = new Label(this);
+        Label resLbl = new(this);
         session.BeginRead(resLbl);
         resLbl.Name = "ResLbl";
         resLbl.Priority = 0;
@@ -1210,7 +1210,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resLbl.Text = "Resistance";
         resLbl.TextColor = 9402970;
         session.EndRead(resLbl);
-        Panel resPnl = new Panel(this);
+        Panel resPnl = new(this);
         session.BeginRead(resPnl);
         resPnl.Name = "ResPnl";
         resPnl.Priority = 0;
@@ -1260,7 +1260,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         HitsValueLabel.Text = "10";
         HitsValueLabel.TextColor = 9402970;
         session.EndRead(HitsValueLabel);
-        Label hitLbl = new Label(this);
+        Label hitLbl = new(this);
         session.BeginRead(hitLbl);
         hitLbl.Name = "HitLbl";
         hitLbl.Priority = 0;
@@ -1283,7 +1283,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitLbl.Text = "Hits";
         hitLbl.TextColor = 9402970;
         session.EndRead(hitLbl);
-        Panel hitPnl = new Panel(this);
+        Panel hitPnl = new(this);
         session.BeginRead(hitPnl);
         hitPnl.Name = "HitPnl";
         hitPnl.Priority = 0;
@@ -1333,7 +1333,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         MovesValueLabel.Text = "10";
         MovesValueLabel.TextColor = 9402970;
         session.EndRead(MovesValueLabel);
-        Label movLbl = new Label(this);
+        Label movLbl = new(this);
         session.BeginRead(movLbl);
         movLbl.Name = "MovLbl";
         movLbl.Priority = 0;
@@ -1356,7 +1356,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         movLbl.Text = "Moves";
         movLbl.TextColor = 9402970;
         session.EndRead(movLbl);
-        Panel movPnl = new Panel(this);
+        Panel movPnl = new(this);
         session.BeginRead(movPnl);
         movPnl.Name = "MovPnl";
         movPnl.Priority = 0;
@@ -1383,7 +1383,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         movPnl.MinWidth = 0;
         movPnl.MinHeight = 0;
         session.EndRead(movPnl);
-        Label attI = new Label(this);
+        Label attI = new(this);
         session.BeginRead(attI);
         attI.Name = "AttI";
         attI.Priority = 0;
@@ -1406,7 +1406,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attI.Text = "=";
         attI.TextColor = 9402970;
         session.EndRead(attI);
-        Label damI = new Label(this);
+        Label damI = new(this);
         session.BeginRead(damI);
         damI.Name = "DamI";
         damI.Priority = 0;
@@ -1429,7 +1429,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damI.Text = "=";
         damI.TextColor = 9402970;
         session.EndRead(damI);
-        Label defI = new Label(this);
+        Label defI = new(this);
         session.BeginRead(defI);
         defI.Name = "DefI";
         defI.Priority = 0;
@@ -1452,7 +1452,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defI.Text = "=";
         defI.TextColor = 9402970;
         session.EndRead(defI);
-        Label resI = new Label(this);
+        Label resI = new(this);
         session.BeginRead(resI);
         resI.Name = "ResI";
         resI.Priority = 0;
@@ -1475,7 +1475,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resI.Text = "=";
         resI.TextColor = 9402970;
         session.EndRead(resI);
-        Label hitI = new Label(this);
+        Label hitI = new(this);
         session.BeginRead(hitI);
         hitI.Name = "HitI";
         hitI.Priority = 0;
@@ -1498,7 +1498,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitI.Text = "=";
         hitI.TextColor = 9402970;
         session.EndRead(hitI);
-        Label movI = new Label(this);
+        Label movI = new(this);
         session.BeginRead(movI);
         movI.Name = "MovI";
         movI.Priority = 0;
@@ -1659,7 +1659,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         MovesAddedLabel.Text = "3";
         MovesAddedLabel.TextColor = 12632256;
         session.EndRead(MovesAddedLabel);
-        Label attP = new Label(this);
+        Label attP = new(this);
         session.BeginRead(attP);
         attP.Name = "AttP";
         attP.Priority = 0;
@@ -1682,7 +1682,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attP.Text = "+";
         attP.TextColor = 9402970;
         session.EndRead(attP);
-        Label damP = new Label(this);
+        Label damP = new(this);
         session.BeginRead(damP);
         damP.Name = "DamP";
         damP.Priority = 0;
@@ -1705,7 +1705,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damP.Text = "+";
         damP.TextColor = 9402970;
         session.EndRead(damP);
-        Label defP = new Label(this);
+        Label defP = new(this);
         session.BeginRead(defP);
         defP.Name = "DefP";
         defP.Priority = 0;
@@ -1728,7 +1728,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defP.Text = "+";
         defP.TextColor = 9402970;
         session.EndRead(defP);
-        Label resP = new Label(this);
+        Label resP = new(this);
         session.BeginRead(resP);
         resP.Name = "ResP";
         resP.Priority = 0;
@@ -1751,7 +1751,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resP.Text = "+";
         resP.TextColor = 9402970;
         session.EndRead(resP);
-        Label hitP = new Label(this);
+        Label hitP = new(this);
         session.BeginRead(hitP);
         hitP.Name = "HitP";
         hitP.Priority = 0;
@@ -1774,7 +1774,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitP.Text = "+";
         hitP.TextColor = 9402970;
         session.EndRead(hitP);
-        Label movP = new Label(this);
+        Label movP = new(this);
         session.BeginRead(movP);
         movP.Name = "MovP";
         movP.Priority = 0;
@@ -1935,7 +1935,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         MovesBaseLabel.Text = "9";
         MovesBaseLabel.TextColor = 9402970;
         session.EndRead(MovesBaseLabel);
-        Button attUp = new Button(this);
+        Button attUp = new(this);
         session.BeginRead(attUp);
         attUp.Name = "AttUp";
         attUp.Priority = 0;
@@ -1965,7 +1965,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attUp.WinWidth = 9;
         attUp.OnClick += _ => AttUpClick();
         session.EndRead(attUp);
-        Button attDn = new Button(this);
+        Button attDn = new(this);
         session.BeginRead(attDn);
         attDn.Name = "AttDn";
         attDn.Priority = 0;
@@ -1995,7 +1995,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attDn.WinWidth = 9;
         attDn.OnClick += _ => AttDnClick();
         session.EndRead(attDn);
-        Button damUp = new Button(this);
+        Button damUp = new(this);
         session.BeginRead(damUp);
         damUp.Name = "DamUp";
         damUp.Priority = 0;
@@ -2025,7 +2025,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damUp.WinWidth = 9;
         damUp.OnClick += _ => DamUpClick();
         session.EndRead(damUp);
-        Button damDn = new Button(this);
+        Button damDn = new(this);
         session.BeginRead(damDn);
         damDn.Name = "DamDn";
         damDn.Priority = 0;
@@ -2055,7 +2055,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damDn.WinWidth = 9;
         damDn.OnClick += _ => DamDnClick();
         session.EndRead(damDn);
-        Button defUp = new Button(this);
+        Button defUp = new(this);
         session.BeginRead(defUp);
         defUp.Name = "DefUp";
         defUp.Priority = 0;
@@ -2085,7 +2085,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defUp.WinWidth = 9;
         defUp.OnClick += _ => DefUpClick();
         session.EndRead(defUp);
-        Button defDn = new Button(this);
+        Button defDn = new(this);
         session.BeginRead(defDn);
         defDn.Name = "DefDn";
         defDn.Priority = 0;
@@ -2115,7 +2115,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defDn.WinWidth = 9;
         defDn.OnClick += _ => DefDnClick();
         session.EndRead(defDn);
-        Button resUp = new Button(this);
+        Button resUp = new(this);
         session.BeginRead(resUp);
         resUp.Name = "ResUp";
         resUp.Priority = 0;
@@ -2145,7 +2145,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resUp.WinWidth = 9;
         resUp.OnClick += _ => ResUpClick();
         session.EndRead(resUp);
-        Button resDn = new Button(this);
+        Button resDn = new(this);
         session.BeginRead(resDn);
         resDn.Name = "ResDn";
         resDn.Priority = 0;
@@ -2175,7 +2175,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resDn.WinWidth = 9;
         resDn.OnClick += _ => ResDnClick();
         session.EndRead(resDn);
-        Button hitUp = new Button(this);
+        Button hitUp = new(this);
         session.BeginRead(hitUp);
         hitUp.Name = "HitUp";
         hitUp.Priority = 0;
@@ -2205,7 +2205,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitUp.WinWidth = 9;
         hitUp.OnClick += _ => HitUpClick();
         session.EndRead(hitUp);
-        Button hitDn = new Button(this);
+        Button hitDn = new(this);
         session.BeginRead(hitDn);
         hitDn.Name = "HitDn";
         hitDn.Priority = 0;
@@ -2235,7 +2235,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitDn.WinWidth = 9;
         hitDn.OnClick += _ => HitDnClick();
         session.EndRead(hitDn);
-        Button movUp = new Button(this);
+        Button movUp = new(this);
         session.BeginRead(movUp);
         movUp.Name = "MovUp";
         movUp.Priority = 0;
@@ -2265,7 +2265,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         movUp.WinWidth = 9;
         movUp.OnClick += _ => MovUpClick();
         session.EndRead(movUp);
-        Button movDn = new Button(this);
+        Button movDn = new(this);
         session.BeginRead(movDn);
         movDn.Name = "MovDn";
         movDn.Priority = 0;
@@ -2295,7 +2295,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         movDn.WinWidth = 9;
         movDn.OnClick += _ => MovDnClick();
         session.EndRead(movDn);
-        Image attIc = new Image(this);
+        Image attIc = new(this);
         session.BeginRead(attIc);
         attIc.Name = "AttIc";
         attIc.Priority = 0;
@@ -2323,7 +2323,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         attIc.Animate = false;
         attIc.AnimationFrameDelay = 0;
         session.EndRead(attIc);
-        Image damIcn = new Image(this);
+        Image damIcn = new(this);
         session.BeginRead(damIcn);
         damIcn.Name = "DamIcn";
         damIcn.Priority = 0;
@@ -2351,7 +2351,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         damIcn.Animate = false;
         damIcn.AnimationFrameDelay = 0;
         session.EndRead(damIcn);
-        Image defIc = new Image(this);
+        Image defIc = new(this);
         session.BeginRead(defIc);
         defIc.Name = "DefIc";
         defIc.Priority = 0;
@@ -2379,7 +2379,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         defIc.Animate = false;
         defIc.AnimationFrameDelay = 0;
         session.EndRead(defIc);
-        Image resIc = new Image(this);
+        Image resIc = new(this);
         session.BeginRead(resIc);
         resIc.Name = "ResIc";
         resIc.Priority = 0;
@@ -2407,7 +2407,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         resIc.Animate = false;
         resIc.AnimationFrameDelay = 0;
         session.EndRead(resIc);
-        Image hitIc = new Image(this);
+        Image hitIc = new(this);
         session.BeginRead(hitIc);
         hitIc.Name = "HitIc";
         hitIc.Priority = 0;
@@ -2435,7 +2435,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         hitIc.Animate = false;
         hitIc.AnimationFrameDelay = 0;
         session.EndRead(hitIc);
-        Image movIc = new Image(this);
+        Image movIc = new(this);
         session.BeginRead(movIc);
         movIc.Name = "MovIc";
         movIc.Priority = 0;
@@ -2463,7 +2463,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         movIc.Animate = false;
         movIc.AnimationFrameDelay = 0;
         session.EndRead(movIc);
-        Button selectedAbilitiesCostSort = new Button(this);
+        Button selectedAbilitiesCostSort = new(this);
         session.BeginRead(selectedAbilitiesCostSort);
         selectedAbilitiesCostSort.Name = "SelectedAbilitiesCostSort";
         selectedAbilitiesCostSort.Priority = 1000;
@@ -2529,7 +2529,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesCostList.ItemHeight = 17;
         SelectedAbilitiesCostList.TextAlign = TextAlignment.Center;
         session.EndRead(SelectedAbilitiesCostList);
-        Panel infoPnl = new Panel(this);
+        Panel infoPnl = new(this);
         session.BeginRead(infoPnl);
         infoPnl.Name = "InfoPnl";
         infoPnl.Priority = 2000;
@@ -2602,7 +2602,7 @@ public partial class HeroUpgradeDialog : ILayoutModule
         SkillPointsLabel.Text = "10/10";
         SkillPointsLabel.TextColor = 16777215;
         session.EndRead(SkillPointsLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

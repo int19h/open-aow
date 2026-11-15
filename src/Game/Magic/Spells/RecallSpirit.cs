@@ -20,7 +20,7 @@ public partial class RecallSpirit : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_recallSpiritText);
         SpellId = 129;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();

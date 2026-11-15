@@ -45,7 +45,7 @@ public partial class CombatParty : EngineObject
     // Combat2.pas:61
     public void Activate(Battle combat)
     {
-        var players = combat.CombatData.Players.GetPlayers((sbyte)PlayerIndex);
+        CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)PlayerIndex);
         Army.SetPlayer(players.Player);
     }
 

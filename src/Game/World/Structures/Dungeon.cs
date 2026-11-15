@@ -125,18 +125,18 @@ public partial class Dungeon : ExplorationSite
             log.FirstUnitId = Prisoners.Units.GetUnit(0).UnitId;
             for (int i = 0, last = Prisoners.Units.Count - 1; i <= last; i++)
             {
-                var troop = Prisoners.Units.GetUnit(i);
+                Troop troop = Prisoners.Units.GetUnit(i);
                 log.UnitIds.Add(troop.UnitId);
             }
 
             if (Prisoners.Units.Count == 1)
             {
-                var liberatePrisonerMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonerMessageText);
+                string liberatePrisonerMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonerMessageText);
                 log.JoinMessage.Text = liberatePrisonerMessage;
             }
             else
             {
-                var liberatePrisonersMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonersMessageText);
+                string liberatePrisonersMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonersMessageText);
                 log.JoinMessage.Text = liberatePrisonersMessage;
             }
 
@@ -181,18 +181,18 @@ public partial class Dungeon : ExplorationSite
         ArmyHexSprite army;
         locationLog = new LocationTextEventLog(null) { Holder = CreationHolder() };
         locationLog.Player = GetPlayer();
-        var name = GetName();
+        string name = GetName();
         locationLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
         locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: locationLog, player: player, x: GetHexX(), execute: false);
         locationLog.Release();
         armyLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
-        var hexX = GetHexX();
+        sbyte hexX = GetHexX();
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = hexX };
-        var hexY3 = GetHexY();
+        sbyte hexY3 = GetHexY();
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { Y = hexY3 };
-        var hexLevel3 = GetHexLevel();
+        sbyte hexLevel3 = GetHexLevel();
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { MapLevel = hexLevel3 };
         armyLog.Selection = 255;
         armyLog.Player = GetPlayer();
@@ -204,25 +204,25 @@ public partial class Dungeon : ExplorationSite
             if (Prisoners.Units.Count == 1)
             {
                 armyLog.Text = AbilityRules.TranslateResourceString(GetEngine(), s_onePrisonerLiberatedText);
-                var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
+                string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
                 armyLog.Messages.Text = format;
             }
             else
             {
-                var count = Prisoners.Units.Count;
+                int count = Prisoners.Units.Count;
                 armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_prisonersLiberatedFormat), [IntToStr(count)]);
-                var fPrisonersCount = Prisoners.Units.Count;
-                var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
+                int fPrisonersCount = Prisoners.Units.Count;
+                string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
                 armyLog.Messages.Text = format;
             }
         }
         else
         {
             armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_liberatedFormat), [hero.HeroName]);
-            var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-            var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
+            string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+            string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: armyLog, player: -1, x: GetHexX(), execute: false);

@@ -42,7 +42,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         {
             while (true)
             {
-                var count = StrategicMap.Current.Players.Count;
+                int count = StrategicMap.Current.Players.Count;
                 if (!(_nextPlayer < count && !Control.Player.GetBusy()))
                 {
                     break;
@@ -51,7 +51,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 _nextPlayer = (sbyte)(_nextPlayer + 1);
                 while (true)
                 {
-                    var fPlayersCount = StrategicMap.Current.Players.Count;
+                    int fPlayersCount = StrategicMap.Current.Players.Count;
                     if (!(_nextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)_nextPlayer) == -1 || Control.Player.PlayerIndex == _nextPlayer)))
                     {
                         break;
@@ -60,14 +60,14 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                     _nextPlayer = (sbyte)(_nextPlayer + 1);
                 }
 
-                var count2 = StrategicMap.Current.Players.Count;
+                int count2 = StrategicMap.Current.Players.Count;
                 if (_nextPlayer < count2)
                 {
                     ExecuteDiplomacy(_nextPlayer);
                 }
             }
 
-            var count3 = StrategicMap.Current.Players.Count;
+            int count3 = StrategicMap.Current.Players.Count;
             result = _nextPlayer < count3;
         }
         else
@@ -270,19 +270,19 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         idealWar = new ByteList();
         Control.ListIdealPeaceWarPlayers(idealPeace, idealWar);
         player = Control.Player.PlayerIndex;
-        var players = StrategicMap.Current.Players.GetPlayers(player);
+        Player players = StrategicMap.Current.Players.GetPlayers(player);
         s = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-        var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+        string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         s = s + "/" + name;
         GetEngine().OutputDebugMessage(DebugChannel.AI, "DIPLOMACY (" + s + ")");
         GetEngine().OutputDebugMessage(DebugChannel.AI, "IDEAL PEACE PLAYERS");
         for (int i = 0, last = idealPeace.Count - 1; i <= last; i++)
         {
-            var item = idealPeace[i];
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(item);
+            byte item = idealPeace[i];
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(item);
             s = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
-            var idealPeaceItem = idealPeace[i];
-            var name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
+            byte idealPeaceItem = idealPeace[i];
+            string name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
             s = s + "/" + name2;
             GetEngine().OutputDebugMessage(DebugChannel.AI, s);
         }
@@ -290,8 +290,8 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         GetEngine().OutputDebugMessage(DebugChannel.AI, "IDEAL WAR PLAYERS");
         for (int i = 0, last = idealWar.Count - 1; i <= last; i++)
         {
-            var item = idealWar[i];
-            var name2 = StrategicMap.Current.Players.GetPlayers(item).GetName();
+            byte item = idealWar[i];
+            string name2 = StrategicMap.Current.Players.GetPlayers(item).GetName();
             GetEngine().OutputDebugMessage(DebugChannel.AI, name2);
         }
 

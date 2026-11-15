@@ -1,3 +1,4 @@
+using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 
@@ -16,10 +17,10 @@ public partial class NegotiateRequestEventLog
 
         if (Object == NegotiateObject.Army)
         {
-            var armyHexSprite = World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null)
             {
-                var joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
+                byte joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
                 return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }

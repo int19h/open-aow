@@ -160,7 +160,7 @@ public partial class TitleScene : ILayoutModule
         NameLabel.Text = "######";
         NameLabel.TextColor = 255;
         session.EndRead(NameLabel);
-        Label copyright = new Label(this);
+        Label copyright = new(this);
         session.BeginRead(copyright);
         copyright.Name = "Copyright";
         copyright.Priority = 0;

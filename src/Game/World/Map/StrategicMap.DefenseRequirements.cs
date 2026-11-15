@@ -9,12 +9,12 @@ public partial class StrategicMap
 {
     public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref BattleFieldInfo info)
     {
-        var query = new BattleFieldQuery { Info = info };
-        var message = new MapFieldMessage { MessageId = 0x1108 };
-        var param = message.Param;
+        BattleFieldQuery query = new() { Info = info };
+        MapFieldMessage message = new() { MessageId = 0x1108 };
+        MapFieldMessageParameters param = message.Param;
         param[0] = query;
         message.Param = param;
-        var mapLevel = MapContainer.GetMapLevel(level);
+        MapLevel mapLevel = MapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         try
@@ -23,15 +23,15 @@ public partial class StrategicMap
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var field = mapLevel.GetField(walk.X, walk.Y);
+                    MapField field = mapLevel.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
                     {
                         int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;
                         field.SendMapFieldMessage(ref message);
-                        var info2 = query.Info;
+                        BattleFieldInfo info2 = query.Info;
                         info2.FriendlyStrength = Math.Max(friendly, info2.FriendlyStrength);
                         query.Info = info2;
-                        var info3 = query.Info;
+                        BattleFieldInfo info3 = query.Info;
                         info3.Strength = Math.Max(enemy, info3.Strength);
                         query.Info = info3;
                     }

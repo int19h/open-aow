@@ -58,9 +58,9 @@ public partial class SpringOfLife : Structure
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
@@ -69,9 +69,9 @@ public partial class SpringOfLife : Structure
             AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
-        var hexLevel2 = GetHexLevel();
-        var hexY2 = GetHexY();
-        var hexX2 = GetHexX();
+        sbyte hexLevel2 = GetHexLevel();
+        sbyte hexY2 = GetHexY();
+        sbyte hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
             animation = new SpringOfLifeAnimation(null) { Holder = CreationHolder() };
@@ -79,9 +79,9 @@ public partial class SpringOfLife : Structure
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }

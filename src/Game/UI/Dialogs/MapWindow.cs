@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
+using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -62,7 +63,7 @@ public partial class MapWindow : UIModule
         if (InsideMap(X, Y))
         {
             X = X - 12 - MainWindow.WinLeft;
-            var window = MainWindow;
+            Window window = MainWindow;
             Y = Y - 12 - window.WinTop;
             // Port extension: the black area around a centered map is outside the map.
             if (!MapViewer.SceneToMapMouse(ref X, ref Y))
@@ -82,7 +83,7 @@ public partial class MapWindow : UIModule
     // AOWMWindow.pas:82
     public void MapWindowMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        var window = MainWindow;
+        Window window = MainWindow;
         if (X > window.WinLeft + 11 && X < MainWindow.WinLeft + window.WinWidth - 11 && Y > window.WinTop + 11 && Y < window.WinTop + window.WinHeight - 11)
         {
             X = X - 12 - MainWindow.WinLeft;
@@ -118,7 +119,7 @@ public partial class MapWindow : UIModule
         {
             if (StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != UI.ScannerWindow.Scanner.Level)
             {
-                var scanner = UI.ScannerWindow.Scanner;
+                Scanner scanner = UI.ScannerWindow.Scanner;
                 scanner.UpdateStep = -1;
                 scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
@@ -128,12 +129,12 @@ public partial class MapWindow : UIModule
 
         if (StrategicMap.Current.CombatMap != null)
         {
-            var hexSpriteMapMouse = StrategicMap.Current.CombatMap.Mouse;
+            HexSpriteMapMouse hexSpriteMapMouse = StrategicMap.Current.CombatMap.Mouse;
             hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
         else
         {
-            var hexSpriteMapMouse = StrategicMap.Current.Mouse;
+            HexSpriteMapMouse hexSpriteMapMouse = StrategicMap.Current.Mouse;
             hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
     }

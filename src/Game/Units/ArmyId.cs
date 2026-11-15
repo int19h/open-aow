@@ -50,7 +50,7 @@ public partial class ArmyId : EngineObject
                 while (result && i != 0)
                 {
                     i -= 1;
-                    var item = UnitIds[i];
+                    int item = UnitIds[i];
                     result = armyHexSprite.Army.Units.IndexOfId(item) != -1;
                 }
             }
@@ -84,7 +84,7 @@ public partial class ArmyId : EngineObject
                 while (result && i != 0)
                 {
                     i -= 1;
-                    var item = UnitIds[i];
+                    int item = UnitIds[i];
                     index = armyHexSprite.Army.Units.IndexOfId(item);
                     // { Original shifts by the missing unit index before reporting failure. }
                     selection = (byte)(selection | (1 << index));

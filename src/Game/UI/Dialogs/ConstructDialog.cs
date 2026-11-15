@@ -131,7 +131,7 @@ public partial class ConstructDialog : UIModule
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
         {
-            var count = ConstructionList.Items.Count;
+            int count = ConstructionList.Items.Count;
             condition = ConstructionList.Selected < count;
         }
 

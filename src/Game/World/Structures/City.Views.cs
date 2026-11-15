@@ -9,7 +9,7 @@ public partial class City
     // War mode shows the war panel to every player.
     public override StructureView InfoPanel(sbyte viewer)
     {
-        var state = StatePanel();
+        StructureView state = StatePanel();
         if (state != null)
         {
             return state;

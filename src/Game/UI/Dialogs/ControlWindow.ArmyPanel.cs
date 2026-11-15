@@ -1,6 +1,6 @@
 #nullable disable
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -15,12 +15,12 @@ public partial class ControlWindow
 
     public void UpdateArmy()
     {
-        var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
-        var emptyFrames = new[] { EmptySlot1Frame, EmptySlot2Frame, EmptySlot3Frame, EmptySlot4Frame, EmptySlot5Frame, EmptySlot6Frame, EmptySlot7Frame, EmptySlot8Frame };
-        var emptyChecks = new[] { EmptyCheck1Frame, EmptyCheck2Frame, EmptyCheck3Frame, EmptyCheck4Frame, EmptyCheck5Frame, EmptyCheck6Frame, EmptyCheck7Frame, EmptyCheck8Frame };
-        var frames = new[] { Unit1Frame, Unit2Frame, Unit3Frame, Unit4Frame, Unit5Frame, Unit6Frame, Unit7Frame, Unit8Frame };
-        var icons = new[] { Unit1MovesIcon, Unit2MovesIcon, Unit3MovesIcon, Unit4MovesIcon, Unit5MovesIcon, Unit6MovesIcon, Unit7MovesIcon, Unit8MovesIcon };
-        var gauges = new[] { Unit1Gauge, Unit2Gauge, Unit3Gauge, Unit4Gauge, Unit5Gauge, Unit6Gauge, Unit7Gauge, Unit8Gauge };
+        CheckBox[] checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
+        Frame[] emptyFrames = new[] { EmptySlot1Frame, EmptySlot2Frame, EmptySlot3Frame, EmptySlot4Frame, EmptySlot5Frame, EmptySlot6Frame, EmptySlot7Frame, EmptySlot8Frame };
+        Frame[] emptyChecks = new[] { EmptyCheck1Frame, EmptyCheck2Frame, EmptyCheck3Frame, EmptyCheck4Frame, EmptyCheck5Frame, EmptyCheck6Frame, EmptyCheck7Frame, EmptyCheck8Frame };
+        Frame[] frames = new[] { Unit1Frame, Unit2Frame, Unit3Frame, Unit4Frame, Unit5Frame, Unit6Frame, Unit7Frame, Unit8Frame };
+        Image[] icons = new[] { Unit1MovesIcon, Unit2MovesIcon, Unit3MovesIcon, Unit4MovesIcon, Unit5MovesIcon, Unit6MovesIcon, Unit7MovesIcon, Unit8MovesIcon };
+        Gauge[] gauges = new[] { Unit1Gauge, Unit2Gauge, Unit3Gauge, Unit4Gauge, Unit5Gauge, Unit6Gauge, Unit7Gauge, Unit8Gauge };
         for (int i = 0; i < 8; i++)
         {
             checks[i].Checked = false;
@@ -28,7 +28,7 @@ public partial class ControlWindow
             frames[i].ImageLibraryIndexFrame = 12;
         }
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
-        var army = UI.General.UnitList;
+        Army army = UI.General.UnitList;
         bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
         if (army.Player == 0)
         {
@@ -80,7 +80,7 @@ public partial class ControlWindow
 
             byte selection = (byte)(1 << index);
             icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
-            var troop = army.Units.GetUnit(index);
+            Troop troop = army.Units.GetUnit(index);
             gauges[i].Max = troop.GetHits();
             gauges[i].Position = troop.GetHitPoints();
             checks[i].Text = UnitMoveText(army.MovePoints(selection));

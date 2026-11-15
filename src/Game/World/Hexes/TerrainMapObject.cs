@@ -212,7 +212,7 @@ public partial class TerrainMapObject : MultiHexMapObject
 
         if (candidates.Count != 0)
         {
-            var random = Random(candidates.Count);
+            int random = Random(candidates.Count);
             result = candidates.List[random];
         }
         else

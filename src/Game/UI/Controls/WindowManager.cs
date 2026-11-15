@@ -256,16 +256,16 @@ public partial class WindowManager : UIComponent
                                     }
                                 }
 
-                                var backRectangle = c.BackRectangle;
+                                Rect backRectangle = c.BackRectangle;
                                 backRectangle.Top = c.WinTop;
                                 c.BackRectangle = backRectangle;
-                                var backRectangle2 = c.BackRectangle;
+                                Rect backRectangle2 = c.BackRectangle;
                                 backRectangle2.Left = c.WinLeft;
                                 c.BackRectangle = backRectangle2;
-                                var backRectangle3 = c.BackRectangle;
+                                Rect backRectangle3 = c.BackRectangle;
                                 backRectangle3.Right = c.WinWidth;
                                 c.BackRectangle = backRectangle3;
-                                var backRectangle4 = c.BackRectangle;
+                                Rect backRectangle4 = c.BackRectangle;
                                 backRectangle4.Bottom = c.WinHeight;
                                 c.BackRectangle = backRectangle4;
                             }
@@ -281,7 +281,7 @@ public partial class WindowManager : UIComponent
                     Draw(lockedSurface);
                     if (_drawOverlay && _overlayPriority > 0)
                     {
-                        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                         _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
                     }
 
@@ -297,48 +297,48 @@ public partial class WindowManager : UIComponent
                         d = DrawList[j];
                         if (WinLeft > d.Rectangle.Left)
                         {
-                            var rectangle3 = d.Rectangle;
+                            Rect rectangle3 = d.Rectangle;
                             rectangle3.Left = WinLeft;
                             d.Rectangle = rectangle3;
                         }
 
                         if (WinTop > d.Rectangle.Top)
                         {
-                            var rectangle4 = d.Rectangle;
+                            Rect rectangle4 = d.Rectangle;
                             rectangle4.Top = WinTop;
                             d.Rectangle = rectangle4;
                         }
 
-                        var rectangle5 = d.Rectangle;
+                        Rect rectangle5 = d.Rectangle;
                         rectangle5.Right += 1;
                         d.Rectangle = rectangle5;
-                        var rectangle6 = d.Rectangle;
+                        Rect rectangle6 = d.Rectangle;
                         rectangle6.Bottom += 1;
                         d.Rectangle = rectangle6;
                         if (WinLeft + WinWidth < d.Rectangle.Right)
                         {
-                            var rectangle7 = d.Rectangle;
+                            Rect rectangle7 = d.Rectangle;
                             rectangle7.Right = WinLeft + WinWidth;
                             d.Rectangle = rectangle7;
                         }
 
                         if (WinTop + WinHeight < d.Rectangle.Bottom)
                         {
-                            var rectangle8 = d.Rectangle;
+                            Rect rectangle8 = d.Rectangle;
                             rectangle8.Bottom = WinTop + WinHeight;
                             d.Rectangle = rectangle8;
                         }
 
-                        var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
+                        Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
                         lockedSurface.ClipRectangle = rectangle;
                         Draw(lockedSurface);
                         if (_drawOverlay && _overlayPriority > 0)
                         {
-                            var rectangle2 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle2 = new(WinLeft, WinTop, WinWidth, WinHeight);
                             _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                         }
 
-                        var rectangle9 = d.Rectangle;
+                        Rect rectangle9 = d.Rectangle;
                         InvalidateRectangle(0, ref rectangle9, null);
                         d.Rectangle = rectangle9;
                     }
@@ -372,7 +372,7 @@ public partial class WindowManager : UIComponent
                     for (int j = 0, lastJ = BlitCount - 1; j <= lastJ; j++)
                     {
                         d = BlitList[j];
-                        var rectangle10 = d.Rectangle;
+                        Rect rectangle10 = d.Rectangle;
                         InvalidateRectangle(i + 1, ref rectangle10, null);
                         d.Rectangle = rectangle10;
                     }
@@ -386,41 +386,41 @@ public partial class WindowManager : UIComponent
                                 d = BlitList[j];
                                 if (c.WinLeft > d.Rectangle.Left)
                                 {
-                                    var rectangle11 = d.Rectangle;
+                                    Rect rectangle11 = d.Rectangle;
                                     rectangle11.Left = c.WinLeft;
                                     d.Rectangle = rectangle11;
                                 }
 
                                 if (c.WinTop > d.Rectangle.Top)
                                 {
-                                    var rectangle12 = d.Rectangle;
+                                    Rect rectangle12 = d.Rectangle;
                                     rectangle12.Top = c.WinTop;
                                     d.Rectangle = rectangle12;
                                 }
 
-                                var rectangle13 = d.Rectangle;
+                                Rect rectangle13 = d.Rectangle;
                                 rectangle13.Right += 1;
                                 d.Rectangle = rectangle13;
-                                var rectangle14 = d.Rectangle;
+                                Rect rectangle14 = d.Rectangle;
                                 rectangle14.Bottom += 1;
                                 d.Rectangle = rectangle14;
                                 if (c.WinLeft + c.WinWidth < d.Rectangle.Right)
                                 {
-                                    var rectangle15 = d.Rectangle;
+                                    Rect rectangle15 = d.Rectangle;
                                     rectangle15.Right = c.WinLeft + c.WinWidth;
                                     d.Rectangle = rectangle15;
                                 }
 
                                 if (c.WinTop + c.WinHeight < d.Rectangle.Bottom)
                                 {
-                                    var rectangle16 = d.Rectangle;
+                                    Rect rectangle16 = d.Rectangle;
                                     rectangle16.Bottom = c.WinTop + c.WinHeight;
                                     d.Rectangle = rectangle16;
                                 }
 
-                                var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
+                                Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
                                 lockedSurface.ClipRectangle = rectangle;
-                                var rectangle2 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                                SizedRectangle rectangle2 = new(WinLeft, WinTop, WinWidth, WinHeight);
                                 _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                             }
 
@@ -460,7 +460,7 @@ public partial class WindowManager : UIComponent
         }
 
         _overlayPriority = _newOverlayPriority;
-        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+        SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
         _backgroundTexture.DrawTiled(_imageLibraryIndexTBack, rectangle, ref lockedSurface);
     }
 

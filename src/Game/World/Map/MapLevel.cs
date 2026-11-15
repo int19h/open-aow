@@ -106,5 +106,5 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
         public MapField this[int X, int Y] => target.GetField(X, Y);
     }
 
-    public FieldAccessor Field => new FieldAccessor(this);
+    public FieldAccessor Field => new(this);
 }

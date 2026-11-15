@@ -60,7 +60,7 @@ public partial class GamePlayDialog : ILayoutModule
         Window.WinHeight = 290;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 250;
@@ -91,7 +91,7 @@ public partial class GamePlayDialog : ILayoutModule
         cancelBtn.WinWidth = 110;
         cancelBtn.OnClick += _ => CancelClick();
         session.EndRead(cancelBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -118,7 +118,7 @@ public partial class GamePlayDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -141,7 +141,7 @@ public partial class GamePlayDialog : ILayoutModule
         title.Text = "GamePlay Settings";
         title.TextColor = 0;
         session.EndRead(title);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -175,7 +175,7 @@ public partial class GamePlayDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelClick();
         session.EndRead(close);
-        Image tCeltLR = new Image(this);
+        Image tCeltLR = new(this);
         session.BeginRead(tCeltLR);
         tCeltLR.Name = "TCeltLR";
         tCeltLR.Priority = 100;
@@ -203,7 +203,7 @@ public partial class GamePlayDialog : ILayoutModule
         tCeltLR.Animate = false;
         tCeltLR.AnimationFrameDelay = 0;
         session.EndRead(tCeltLR);
-        Image tCeltLL = new Image(this);
+        Image tCeltLL = new(this);
         session.BeginRead(tCeltLL);
         tCeltLL.Name = "TCeltLL";
         tCeltLL.Priority = 100;
@@ -231,7 +231,7 @@ public partial class GamePlayDialog : ILayoutModule
         tCeltLL.Animate = false;
         tCeltLL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLL);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -294,7 +294,7 @@ public partial class GamePlayDialog : ILayoutModule
         AutoSaveCheckBox.Checked = false;
         AutoSaveCheckBox.RadioIndex = 0;
         session.EndRead(AutoSaveCheckBox);
-        Label asLbl = new Label(this);
+        Label asLbl = new(this);
         session.BeginRead(asLbl);
         asLbl.Name = "asLbl";
         asLbl.Priority = 0;
@@ -352,7 +352,7 @@ public partial class GamePlayDialog : ILayoutModule
         SkipIntroCheckBox.Checked = false;
         SkipIntroCheckBox.RadioIndex = 0;
         session.EndRead(SkipIntroCheckBox);
-        Label siLbl = new Label(this);
+        Label siLbl = new(this);
         session.BeginRead(siLbl);
         siLbl.Name = "siLbl";
         siLbl.Priority = 0;
@@ -375,7 +375,7 @@ public partial class GamePlayDialog : ILayoutModule
         siLbl.Text = "Skip Intro";
         siLbl.TextColor = 9415072;
         session.EndRead(siLbl);
-        TabPanel tab1 = new TabPanel(this);
+        TabPanel tab1 = new(this);
         session.BeginRead(tab1);
         tab1.Name = "Tab1";
         tab1.Priority = 3000;
@@ -409,7 +409,7 @@ public partial class GamePlayDialog : ILayoutModule
         tab1.ImageLibraryIndexUp = 70;
         tab1.BorderHeightSelected = 7;
         session.EndRead(tab1);
-        Panel pnl1 = new Panel(this);
+        Panel pnl1 = new(this);
         session.BeginRead(pnl1);
         pnl1.Name = "Pnl1";
         pnl1.Priority = 0;
@@ -436,7 +436,7 @@ public partial class GamePlayDialog : ILayoutModule
         pnl1.MinWidth = 0;
         pnl1.MinHeight = 0;
         session.EndRead(pnl1);
-        Panel pnl2 = new Panel(this);
+        Panel pnl2 = new(this);
         session.BeginRead(pnl2);
         pnl2.Name = "Pnl2";
         pnl2.Visible = false;
@@ -464,7 +464,7 @@ public partial class GamePlayDialog : ILayoutModule
         pnl2.MinWidth = 0;
         pnl2.MinHeight = 0;
         session.EndRead(pnl2);
-        Label gamePasswordLbl = new Label(this);
+        Label gamePasswordLbl = new(this);
         session.BeginRead(gamePasswordLbl);
         gamePasswordLbl.Name = "GamePasswordLbl";
         gamePasswordLbl.Priority = 0;
@@ -555,7 +555,7 @@ public partial class GamePlayDialog : ILayoutModule
         CombatResolveModeComboBox.ImageLibraryTsIndex = 8;
         CombatResolveModeComboBox.ItemHeight = 17;
         session.EndRead(CombatResolveModeComboBox);
-        VerticalScrollBar combatResolveModeSB = new VerticalScrollBar(this);
+        VerticalScrollBar combatResolveModeSB = new(this);
         session.BeginRead(combatResolveModeSB);
         combatResolveModeSB.Name = "CombatResolveModeSB";
         combatResolveModeSB.Visible = false;
@@ -623,7 +623,7 @@ public partial class GamePlayDialog : ILayoutModule
         Classic1CheckBox.Checked = false;
         Classic1CheckBox.RadioIndex = 0;
         session.EndRead(Classic1CheckBox);
-        Label popupLbl1 = new Label(this);
+        Label popupLbl1 = new(this);
         session.BeginRead(popupLbl1);
         popupLbl1.Name = "PopupLbl1";
         popupLbl1.Priority = 0;
@@ -678,7 +678,7 @@ public partial class GamePlayDialog : ILayoutModule
         Classic2CheckBox.Checked = false;
         Classic2CheckBox.RadioIndex = 0;
         session.EndRead(Classic2CheckBox);
-        Label popupLbl2 = new Label(this);
+        Label popupLbl2 = new(this);
         session.BeginRead(popupLbl2);
         popupLbl2.Name = "PopupLbl2";
         popupLbl2.Priority = 0;
@@ -733,7 +733,7 @@ public partial class GamePlayDialog : ILayoutModule
         Classic3CheckBox.Checked = false;
         Classic3CheckBox.RadioIndex = 0;
         session.EndRead(Classic3CheckBox);
-        Label popupLbl3 = new Label(this);
+        Label popupLbl3 = new(this);
         session.BeginRead(popupLbl3);
         popupLbl3.Name = "PopupLbl3";
         popupLbl3.Priority = 0;
@@ -852,7 +852,7 @@ public partial class GamePlayDialog : ILayoutModule
         Classic6CheckBox.Checked = false;
         Classic6CheckBox.RadioIndex = 0;
         session.EndRead(Classic6CheckBox);
-        Label windowPopupLbl = new Label(this);
+        Label windowPopupLbl = new(this);
         session.BeginRead(windowPopupLbl);
         windowPopupLbl.Name = "WindowPopupLbl";
         windowPopupLbl.Priority = 0;
@@ -875,7 +875,7 @@ public partial class GamePlayDialog : ILayoutModule
         windowPopupLbl.Text = "Window Popup";
         windowPopupLbl.TextColor = 16777215;
         session.EndRead(windowPopupLbl);
-        Label classicLbl = new Label(this);
+        Label classicLbl = new(this);
         session.BeginRead(classicLbl);
         classicLbl.Name = "ClassicLbl";
         classicLbl.Priority = 0;
@@ -898,7 +898,7 @@ public partial class GamePlayDialog : ILayoutModule
         classicLbl.Text = "Classic";
         classicLbl.TextColor = 16777215;
         session.EndRead(classicLbl);
-        Label simultaneousLbl = new Label(this);
+        Label simultaneousLbl = new(this);
         session.BeginRead(simultaneousLbl);
         simultaneousLbl.Name = "SimultaneousLbl";
         simultaneousLbl.Priority = 0;
@@ -1112,7 +1112,7 @@ public partial class GamePlayDialog : ILayoutModule
         Simultaneous6CheckBox.Checked = false;
         Simultaneous6CheckBox.RadioIndex = 0;
         session.EndRead(Simultaneous6CheckBox);
-        Label popupLbl4 = new Label(this);
+        Label popupLbl4 = new(this);
         session.BeginRead(popupLbl4);
         popupLbl4.Name = "PopupLbl4";
         popupLbl4.Priority = 0;
@@ -1135,7 +1135,7 @@ public partial class GamePlayDialog : ILayoutModule
         popupLbl4.Text = "Spell ready";
         popupLbl4.TextColor = 0;
         session.EndRead(popupLbl4);
-        Label popupLbl5 = new Label(this);
+        Label popupLbl5 = new(this);
         session.BeginRead(popupLbl5);
         popupLbl5.Name = "PopupLbl5";
         popupLbl5.Priority = 0;
@@ -1158,7 +1158,7 @@ public partial class GamePlayDialog : ILayoutModule
         popupLbl5.Text = "Rebellion/desertion";
         popupLbl5.TextColor = 0;
         session.EndRead(popupLbl5);
-        Label popupLbl6 = new Label(this);
+        Label popupLbl6 = new(this);
         session.BeginRead(popupLbl6);
         popupLbl6.Name = "PopupLbl6";
         popupLbl6.Priority = 0;
@@ -1245,7 +1245,7 @@ public partial class GamePlayDialog : ILayoutModule
         Simultaneous7CheckBox.Checked = false;
         Simultaneous7CheckBox.RadioIndex = 0;
         session.EndRead(Simultaneous7CheckBox);
-        Label popupLbl7 = new Label(this);
+        Label popupLbl7 = new(this);
         session.BeginRead(popupLbl7);
         popupLbl7.Name = "PopupLbl7";
         popupLbl7.Priority = 0;
@@ -1268,7 +1268,7 @@ public partial class GamePlayDialog : ILayoutModule
         popupLbl7.Text = "Hero upgrade";
         popupLbl7.TextColor = 0;
         session.EndRead(popupLbl7);
-        Button changePasswordBtn = new Button(this);
+        Button changePasswordBtn = new(this);
         session.BeginRead(changePasswordBtn);
         changePasswordBtn.Name = "ChangePasswordBtn";
         changePasswordBtn.Priority = 99;
@@ -1342,7 +1342,7 @@ public partial class GamePlayDialog : ILayoutModule
         MovementSpeedComboBox.ImageLibraryTsIndex = 8;
         MovementSpeedComboBox.ItemHeight = 17;
         session.EndRead(MovementSpeedComboBox);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 250;
@@ -1437,7 +1437,7 @@ public partial class GamePlayDialog : ILayoutModule
         Simultaneous8CheckBox.Checked = false;
         Simultaneous8CheckBox.RadioIndex = 0;
         session.EndRead(Simultaneous8CheckBox);
-        Label popupLbl8 = new Label(this);
+        Label popupLbl8 = new(this);
         session.BeginRead(popupLbl8);
         popupLbl8.Name = "PopupLbl8";
         popupLbl8.Priority = 0;
@@ -1460,7 +1460,7 @@ public partial class GamePlayDialog : ILayoutModule
         popupLbl8.Text = "Hero join";
         popupLbl8.TextColor = 0;
         session.EndRead(popupLbl8);
-        Label combLbl = new Label(this);
+        Label combLbl = new(this);
         session.BeginRead(combLbl);
         combLbl.Name = "CombLbl";
         combLbl.Priority = 0;
@@ -1483,7 +1483,7 @@ public partial class GamePlayDialog : ILayoutModule
         combLbl.Text = "Combat";
         combLbl.TextColor = 9415072;
         session.EndRead(combLbl);
-        Panel combFr = new Panel(this);
+        Panel combFr = new(this);
         session.BeginRead(combFr);
         combFr.Name = "CombFr";
         combFr.Priority = 10;
@@ -1510,7 +1510,7 @@ public partial class GamePlayDialog : ILayoutModule
         combFr.MinWidth = 0;
         combFr.MinHeight = 0;
         session.EndRead(combFr);
-        Panel combPnl = new Panel(this);
+        Panel combPnl = new(this);
         session.BeginRead(combPnl);
         combPnl.Name = "CombPnl";
         combPnl.Priority = 0;
@@ -1537,7 +1537,7 @@ public partial class GamePlayDialog : ILayoutModule
         combPnl.MinWidth = 0;
         combPnl.MinHeight = 0;
         session.EndRead(combPnl);
-        Label movelbl = new Label(this);
+        Label movelbl = new(this);
         session.BeginRead(movelbl);
         movelbl.Name = "Movelbl";
         movelbl.Priority = 0;
@@ -1560,7 +1560,7 @@ public partial class GamePlayDialog : ILayoutModule
         movelbl.Text = "Movement";
         movelbl.TextColor = 9415072;
         session.EndRead(movelbl);
-        Panel movFr = new Panel(this);
+        Panel movFr = new(this);
         session.BeginRead(movFr);
         movFr.Name = "MovFr";
         movFr.Priority = 10;
@@ -1587,7 +1587,7 @@ public partial class GamePlayDialog : ILayoutModule
         movFr.MinWidth = 0;
         movFr.MinHeight = 0;
         session.EndRead(movFr);
-        Panel btmPnl = new Panel(this);
+        Panel btmPnl = new(this);
         session.BeginRead(btmPnl);
         btmPnl.Name = "BtmPnl";
         btmPnl.Priority = 0;
@@ -1614,7 +1614,7 @@ public partial class GamePlayDialog : ILayoutModule
         btmPnl.MinWidth = 0;
         btmPnl.MinHeight = 0;
         session.EndRead(btmPnl);
-        Panel movPnl = new Panel(this);
+        Panel movPnl = new(this);
         session.BeginRead(movPnl);
         movPnl.Name = "MovPnl";
         movPnl.Priority = 0;
@@ -1641,7 +1641,7 @@ public partial class GamePlayDialog : ILayoutModule
         movPnl.MinWidth = 0;
         movPnl.MinHeight = 0;
         session.EndRead(movPnl);
-        Panel panel1 = new Panel(this);
+        Panel panel1 = new(this);
         session.BeginRead(panel1);
         panel1.Name = "AOWPanel1";
         panel1.Priority = 0;
@@ -1668,7 +1668,7 @@ public partial class GamePlayDialog : ILayoutModule
         panel1.MinWidth = 0;
         panel1.MinHeight = 0;
         session.EndRead(panel1);
-        Image celtLineL = new Image(this);
+        Image celtLineL = new(this);
         session.BeginRead(celtLineL);
         celtLineL.Name = "CeltLineL";
         celtLineL.Priority = 1000;
@@ -1696,7 +1696,7 @@ public partial class GamePlayDialog : ILayoutModule
         celtLineL.Animate = false;
         celtLineL.AnimationFrameDelay = 0;
         session.EndRead(celtLineL);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

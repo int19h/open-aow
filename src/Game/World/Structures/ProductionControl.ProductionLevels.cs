@@ -1,4 +1,5 @@
 
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
@@ -13,13 +14,13 @@ public partial class ProductionControl
         int result = 0;
         for (int i = UnitProductions.Count - 1; i >= 0; i--)
         {
-            var production = UnitProductions.GetItem(i);
+            UnitProduction production = UnitProductions.GetItem(i);
             if (production.Researched != researched || production.UnitIndex < 0)
             {
                 continue;
             }
 
-            var resource = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex);
+            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex);
             if (resource != null && result < resource.Level)
             {
                 result = resource.Level;

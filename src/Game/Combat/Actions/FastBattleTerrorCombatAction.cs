@@ -23,7 +23,7 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
         base.Execute(combat);
         for (int i = TargetIds.Count - 1; i >= 0; i--)
         {
-            var targetId = TargetIds[i];
+            byte targetId = TargetIds[i];
             target = combat.CombatData.FindId<CombatUnit>(targetId);
             GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
@@ -36,8 +36,8 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
         CombatObject target;
         SpellId = 105;
         SourceId = source.Id;
-        var combat = source.Combat;
-        var opponentSide = source.GetOpponentSide();
+        Battle combat = source.Combat;
+        CombatSideIndex opponentSide = source.GetOpponentSide();
         side = combat.Sides[(int)opponentSide];
 
         for (int i = side.GetCount() - 1; i >= 0; i--)

@@ -43,7 +43,7 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
         MapField mapField = default;
         UnholyGround ground = default;
         ImageSequenceAnimation animation = default;
-        var walk = hexNumberWalkData;
+        HexNumberWalkData walk = hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
         resource = (UnholyGround.Resource)GamePack.Current.MapObjectResourceList.FindChild(131986);

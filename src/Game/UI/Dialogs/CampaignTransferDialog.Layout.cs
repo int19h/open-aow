@@ -498,7 +498,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableUnit4CheckBox.RadioIndex = 0;
         AvailableUnit4CheckBox.OnDoubleClick += _ => AddBtnClick();
         session.EndRead(AvailableUnit4CheckBox);
-        Label available = new Label(this);
+        Label available = new(this);
         session.BeginRead(available);
         available.Name = "Available";
         available.Priority = 10;
@@ -564,7 +564,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         Book.WinHeight = 465;
         Book.Dockable = false;
         session.EndRead(Book);
-        Button bookStart = new Button(this);
+        Button bookStart = new(this);
         session.BeginRead(bookStart);
         bookStart.Name = "BookStart";
         bookStart.Priority = 0;
@@ -594,7 +594,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         bookStart.WinWidth = 39;
         bookStart.OnClick += _ => BookStartClick();
         session.EndRead(bookStart);
-        Button cancel = new Button(this);
+        Button cancel = new(this);
         session.BeginRead(cancel);
         cancel.Name = "Cancel";
         cancel.Priority = 0;
@@ -624,7 +624,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         cancel.WinWidth = 39;
         cancel.OnClick += _ => CancelClick();
         session.EndRead(cancel);
-        Panel pnlL = new Panel(this);
+        Panel pnlL = new(this);
         session.BeginRead(pnlL);
         pnlL.Name = "PnlL";
         pnlL.Priority = 10;
@@ -651,7 +651,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         pnlL.MinWidth = 0;
         pnlL.MinHeight = 0;
         session.EndRead(pnlL);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 10;
@@ -724,7 +724,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferPointsLabel.Text = "1000/5000";
         TransferPointsLabel.TextColor = 1055529;
         session.EndRead(TransferPointsLabel);
-        Button addBtn = new Button(this);
+        Button addBtn = new(this);
         session.BeginRead(addBtn);
         addBtn.Name = "AddBtn";
         addBtn.Priority = 100;
@@ -760,7 +760,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         addBtn.WinWidth = 115;
         addBtn.OnClick += _ => AddBtnClick();
         session.EndRead(addBtn);
-        Label lGoldLbl = new Label(this);
+        Label lGoldLbl = new(this);
         session.BeginRead(lGoldLbl);
         lGoldLbl.Name = "LGoldLbl";
         lGoldLbl.Priority = 10;
@@ -810,7 +810,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableGoldLabel.Text = "290";
         AvailableGoldLabel.TextColor = 1055529;
         session.EndRead(AvailableGoldLabel);
-        Label lManaLbl = new Label(this);
+        Label lManaLbl = new(this);
         session.BeginRead(lManaLbl);
         lManaLbl.Name = "LManaLbl";
         lManaLbl.Priority = 10;
@@ -860,7 +860,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableManaLabel.Text = "3400";
         AvailableManaLabel.TextColor = 1055529;
         session.EndRead(AvailableManaLabel);
-        Label next = new Label(this);
+        Label next = new(this);
         session.BeginRead(next);
         next.Name = "Next";
         next.Priority = 10;
@@ -883,7 +883,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         next.Text = "Next Scenario";
         next.TextColor = 12632256;
         session.EndRead(next);
-        Frame lSep1 = new Frame(this);
+        Frame lSep1 = new(this);
         session.BeginRead(lSep1);
         lSep1.Name = "LSep1";
         lSep1.Priority = 0;
@@ -910,7 +910,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lSep1.ImageLibraryIndexLine = 15;
         lSep1.ImageLibraryIndexTexture = 0;
         session.EndRead(lSep1);
-        Image lHeroImgL = new Image(this);
+        Image lHeroImgL = new(this);
         session.BeginRead(lHeroImgL);
         lHeroImgL.Name = "LHeroImgL";
         lHeroImgL.Visible = false;
@@ -966,7 +966,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableHeroPanel.MinWidth = 0;
         AvailableHeroPanel.MinHeight = 0;
         session.EndRead(AvailableHeroPanel);
-        Image lItemImgL = new Image(this);
+        Image lItemImgL = new(this);
         session.BeginRead(lItemImgL);
         lItemImgL.Name = "LItemImgL";
         lItemImgL.Visible = false;
@@ -995,7 +995,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lItemImgL.Animate = false;
         lItemImgL.AnimationFrameDelay = 0;
         session.EndRead(lItemImgL);
-        Image lUnitImgL = new Image(this);
+        Image lUnitImgL = new(this);
         session.BeginRead(lUnitImgL);
         lUnitImgL.Name = "LUnitImgL";
         lUnitImgL.Visible = false;
@@ -1024,7 +1024,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lUnitImgL.Animate = false;
         lUnitImgL.AnimationFrameDelay = 0;
         session.EndRead(lUnitImgL);
-        Image lHeroImgR = new Image(this);
+        Image lHeroImgR = new(this);
         session.BeginRead(lHeroImgR);
         lHeroImgR.Name = "LHeroImgR";
         lHeroImgR.Visible = false;
@@ -1053,7 +1053,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lHeroImgR.Animate = false;
         lHeroImgR.AnimationFrameDelay = 0;
         session.EndRead(lHeroImgR);
-        Image lItemImgR = new Image(this);
+        Image lItemImgR = new(this);
         session.BeginRead(lItemImgR);
         lItemImgR.Name = "LItemImgR";
         lItemImgR.Visible = false;
@@ -1082,7 +1082,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lItemImgR.Animate = false;
         lItemImgR.AnimationFrameDelay = 0;
         session.EndRead(lItemImgR);
-        Image lUnitImgR = new Image(this);
+        Image lUnitImgR = new(this);
         session.BeginRead(lUnitImgR);
         lUnitImgR.Name = "LUnitImgR";
         lUnitImgR.Visible = false;
@@ -1594,7 +1594,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferUnit4CheckBox.RadioIndex = 0;
         TransferUnit4CheckBox.OnDoubleClick += _ => RemoveBtnClick();
         session.EndRead(TransferUnit4CheckBox);
-        Image rHeroImgL = new Image(this);
+        Image rHeroImgL = new(this);
         session.BeginRead(rHeroImgL);
         rHeroImgL.Name = "RHeroImgL";
         rHeroImgL.Visible = false;
@@ -1650,7 +1650,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferHeroPanel.MinWidth = 0;
         TransferHeroPanel.MinHeight = 0;
         session.EndRead(TransferHeroPanel);
-        Image rItemImgL = new Image(this);
+        Image rItemImgL = new(this);
         session.BeginRead(rItemImgL);
         rItemImgL.Name = "RItemImgL";
         rItemImgL.Visible = false;
@@ -1679,7 +1679,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rItemImgL.Animate = false;
         rItemImgL.AnimationFrameDelay = 0;
         session.EndRead(rItemImgL);
-        Image rUnitImgL = new Image(this);
+        Image rUnitImgL = new(this);
         session.BeginRead(rUnitImgL);
         rUnitImgL.Name = "RUnitImgL";
         rUnitImgL.Visible = false;
@@ -1708,7 +1708,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rUnitImgL.Animate = false;
         rUnitImgL.AnimationFrameDelay = 0;
         session.EndRead(rUnitImgL);
-        Image rHeroImgR = new Image(this);
+        Image rHeroImgR = new(this);
         session.BeginRead(rHeroImgR);
         rHeroImgR.Name = "RHeroImgR";
         rHeroImgR.Visible = false;
@@ -1737,7 +1737,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rHeroImgR.Animate = false;
         rHeroImgR.AnimationFrameDelay = 0;
         session.EndRead(rHeroImgR);
-        Image rItemImgR = new Image(this);
+        Image rItemImgR = new(this);
         session.BeginRead(rItemImgR);
         rItemImgR.Name = "RItemImgR";
         rItemImgR.Visible = false;
@@ -1766,7 +1766,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rItemImgR.Animate = false;
         rItemImgR.AnimationFrameDelay = 0;
         session.EndRead(rItemImgR);
-        Image rUnitImgR = new Image(this);
+        Image rUnitImgR = new(this);
         session.BeginRead(rUnitImgR);
         rUnitImgR.Name = "RUnitImgR";
         rUnitImgR.Visible = false;
@@ -1795,7 +1795,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rUnitImgR.Animate = false;
         rUnitImgR.AnimationFrameDelay = 0;
         session.EndRead(rUnitImgR);
-        Frame rSep1 = new Frame(this);
+        Frame rSep1 = new(this);
         session.BeginRead(rSep1);
         rSep1.Name = "RSep1";
         rSep1.Priority = 0;
@@ -1822,7 +1822,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rSep1.ImageLibraryIndexLine = 15;
         rSep1.ImageLibraryIndexTexture = 0;
         session.EndRead(rSep1);
-        Button removeBtn = new Button(this);
+        Button removeBtn = new(this);
         session.BeginRead(removeBtn);
         removeBtn.Name = "RemoveBtn";
         removeBtn.Priority = 100;
@@ -1857,7 +1857,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         removeBtn.WinWidth = 140;
         removeBtn.OnClick += _ => RemoveBtnClick();
         session.EndRead(removeBtn);
-        Frame lSep2 = new Frame(this);
+        Frame lSep2 = new(this);
         session.BeginRead(lSep2);
         lSep2.Name = "LSep2";
         lSep2.Priority = 0;
@@ -1884,7 +1884,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lSep2.ImageLibraryIndexLine = 15;
         lSep2.ImageLibraryIndexTexture = 0;
         session.EndRead(lSep2);
-        Frame rSep2 = new Frame(this);
+        Frame rSep2 = new(this);
         session.BeginRead(rSep2);
         rSep2.Name = "RSep2";
         rSep2.Priority = 0;
@@ -2023,7 +2023,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableHeroPreviousButton.WinWidth = 13;
         AvailableHeroPreviousButton.OnClick += _ => LHeroLBClick();
         session.EndRead(AvailableHeroPreviousButton);
-        Button autoBtn = new Button(this);
+        Button autoBtn = new(this);
         session.BeginRead(autoBtn);
         autoBtn.Name = "AutoBtn";
         autoBtn.Priority = 100;
@@ -2388,7 +2388,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferUnitNextButton.WinWidth = 13;
         TransferUnitNextButton.OnClick += _ => RUnitRBClick();
         session.EndRead(TransferUnitNextButton);
-        Image costImg = new Image(this);
+        Image costImg = new(this);
         session.BeginRead(costImg);
         costImg.Name = "CostImg";
         costImg.Visible = false;
@@ -2417,7 +2417,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         costImg.Animate = false;
         costImg.AnimationFrameDelay = 0;
         session.EndRead(costImg);
-        Panel costPnl = new Panel(this);
+        Panel costPnl = new(this);
         session.BeginRead(costPnl);
         costPnl.Name = "CostPnl";
         costPnl.Visible = false;
@@ -2445,7 +2445,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         costPnl.MinWidth = 0;
         costPnl.MinHeight = 0;
         session.EndRead(costPnl);
-        Label costLbl = new Label(this);
+        Label costLbl = new(this);
         session.BeginRead(costLbl);
         costLbl.Name = "CostLbl";
         costLbl.Visible = false;
@@ -2469,7 +2469,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         costLbl.Text = "100";
         costLbl.TextColor = 16777215;
         session.EndRead(costLbl);
-        Image lGoldImg = new Image(this);
+        Image lGoldImg = new(this);
         session.BeginRead(lGoldImg);
         lGoldImg.Name = "LGoldImg";
         lGoldImg.Priority = 0;
@@ -2497,7 +2497,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lGoldImg.Animate = false;
         lGoldImg.AnimationFrameDelay = 0;
         session.EndRead(lGoldImg);
-        Image lManaImg = new Image(this);
+        Image lManaImg = new(this);
         session.BeginRead(lManaImg);
         lManaImg.Name = "LManaImg";
         lManaImg.Priority = 0;
@@ -2525,7 +2525,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         lManaImg.Animate = false;
         lManaImg.AnimationFrameDelay = 0;
         session.EndRead(lManaImg);
-        Label tGoldLbl = new Label(this);
+        Label tGoldLbl = new(this);
         session.BeginRead(tGoldLbl);
         tGoldLbl.Name = "TGoldLbl";
         tGoldLbl.Priority = 10;
@@ -2575,7 +2575,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferGoldLabel.Text = "290";
         TransferGoldLabel.TextColor = 1055529;
         session.EndRead(TransferGoldLabel);
-        Label tManaLbl = new Label(this);
+        Label tManaLbl = new(this);
         session.BeginRead(tManaLbl);
         tManaLbl.Name = "TManaLbl";
         tManaLbl.Priority = 10;
@@ -2625,7 +2625,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferManaLabel.Text = "3400";
         TransferManaLabel.TextColor = 1055529;
         session.EndRead(TransferManaLabel);
-        Image rGoldImg = new Image(this);
+        Image rGoldImg = new(this);
         session.BeginRead(rGoldImg);
         rGoldImg.Name = "RGoldImg";
         rGoldImg.Priority = 0;
@@ -2653,7 +2653,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rGoldImg.Animate = false;
         rGoldImg.AnimationFrameDelay = 0;
         session.EndRead(rGoldImg);
-        Image rManaImg = new Image(this);
+        Image rManaImg = new(this);
         session.BeginRead(rManaImg);
         rManaImg.Name = "RManaImg";
         rManaImg.Priority = 0;
@@ -2681,7 +2681,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         rManaImg.Animate = false;
         rManaImg.AnimationFrameDelay = 0;
         session.EndRead(rManaImg);
-        Image resBackG = new Image(this);
+        Image resBackG = new(this);
         session.BeginRead(resBackG);
         resBackG.Name = "ResBackG";
         resBackG.Visible = false;
@@ -2710,7 +2710,7 @@ public partial class CampaignTransferDialog : ILayoutModule
         resBackG.Animate = false;
         resBackG.AnimationFrameDelay = 0;
         session.EndRead(resBackG);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

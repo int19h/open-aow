@@ -69,8 +69,8 @@ public partial class House : CombatStructure
         if (HitPoints == 0)
         {
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
             {
                 case 3:
@@ -103,8 +103,8 @@ public partial class House : CombatStructure
         }
         else
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
             {
                 case 3:
@@ -133,8 +133,8 @@ public partial class House : CombatStructure
                             {
                                 if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                                 {
-                                    var hexX2 = GetHexX();
-                                    var hexY2 = GetHexY();
+                                    sbyte hexX2 = GetHexX();
+                                    sbyte hexY2 = GetHexY();
                                     GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), (byte)_flagId, lockedSurface, false);
                                 }
                             }

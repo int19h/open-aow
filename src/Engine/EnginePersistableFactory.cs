@@ -35,10 +35,10 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
 
     public IPersistable Create(string className)
     {
-        var byName = _byName ??= Index();
-        if (!byName.TryGetValue(className, out var engineClass))
+        Dictionary<string, EngineClass> byName = _byName ??= Index();
+        if (!byName.TryGetValue(className, out EngineClass? engineClass))
         {
-            var resolved = NameTable.ResolveStored(className);
+            string? resolved = NameTable.ResolveStored(className);
             if (resolved is null || !byName.TryGetValue(resolved, out engineClass))
             {
                 throw new InvalidOperationException("The engine has no class " + className + ".");
@@ -57,8 +57,8 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
 
     private static Dictionary<string, EngineClass> Index()
     {
-        var byName = new Dictionary<string, EngineClass>();
-        foreach (var engineClass in EngineClass.All)
+        Dictionary<string, EngineClass> byName = new();
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
             if (!byName.TryAdd(engineClass.StorageKey, engineClass))
             {

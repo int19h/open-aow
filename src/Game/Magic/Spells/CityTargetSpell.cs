@@ -90,10 +90,10 @@ public partial class CityTargetSpell : Spell
         HexNumberWalkData walk = default;
         bool playSound;
         playSound = false;
-        var hexLevel = targetCity.GetHexLevel();
+        sbyte hexLevel = targetCity.GetHexLevel();
         level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
-        var hexY = targetCity.GetHexY();
-        var hexX = targetCity.GetHexX();
+        sbyte hexY = targetCity.GetHexY();
+        sbyte hexX = targetCity.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
@@ -102,7 +102,7 @@ public partial class CityTargetSpell : Spell
                 bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    var targetCityHexLevel = targetCity.GetHexLevel();
+                    sbyte targetCityHexLevel = targetCity.GetHexLevel();
                     condition = StrategicMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
                 }
 
@@ -113,12 +113,12 @@ public partial class CityTargetSpell : Spell
                     a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
-                    var targetCityHexLevel = targetCity.GetHexLevel();
+                    sbyte targetCityHexLevel = targetCity.GetHexLevel();
                     StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
                     bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
-                        var hexLevel2 = targetCity.GetHexLevel();
+                        sbyte hexLevel2 = targetCity.GetHexLevel();
                         test = StrategicMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
                     }
 
@@ -146,14 +146,14 @@ public partial class CityTargetSpell : Spell
         sbyte l = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
+        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
         targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
-        var coordinate58 = source.GetLocation();
+        MapCoordinate coordinate58 = source.GetLocation();
         x = coordinate58.X;
         y = coordinate58.Y;
         l = coordinate58.MapLevel;
@@ -208,7 +208,7 @@ public partial class CityTargetSpell : Spell
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
-            var coordinate59 = source.GetLocation();
+            MapCoordinate coordinate59 = source.GetLocation();
             x = coordinate59.X;
             y = coordinate59.Y;
             l = coordinate59.MapLevel;
@@ -220,7 +220,7 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:346
-    public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new CityTargetSpellTokenEvent(null) { Holder = CreationHolder() };
+    public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)

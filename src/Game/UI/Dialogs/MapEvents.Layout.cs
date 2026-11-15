@@ -13,7 +13,7 @@ public partial class MapEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "MapEvents";
-        MapControl theMap = new MapControl(this);
+        MapControl theMap = new(this);
         session.BeginRead(theMap);
         theMap.Name = "TheMap";
         theMap.OnArmySelected += TheMapArmySelected;

@@ -124,11 +124,11 @@ public partial class AIGroupRecruitControl : AIGroupTask
         int result = -1;
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
-            var troop = Units.GetUnit(i);
+            Troop troop = Units.GetUnit(i);
             group = _control.RecruitmentGroups.FindUnit(troop);
             if (group != null && Units.GetUnit(i).GetMoves() != 0)
             {
-                var moves = Units.GetUnit(i).GetMoves();
+                sbyte moves = Units.GetUnit(i).GetMoves();
                 days = (group.MovePoints - 1) / moves;
                 if (days > result)
                 {
@@ -206,11 +206,11 @@ public partial class AIGroupRecruitControl : AIGroupTask
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             d = (DamageType)dOrdinal;
-            var strength = troop.GetStrength(d);
+            int strength = troop.GetStrength(d);
             _remainingStrengths[(int)d] -= strength;
         }
 
-        var strengthMax = troop.GetStrengthMax(_damageTypes);
+        int strengthMax = troop.GetStrengthMax(_damageTypes);
         _remainingStrength -= strengthMax;
         if (Superiority != -1)
         {
@@ -229,11 +229,11 @@ public partial class AIGroupRecruitControl : AIGroupTask
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 d = (DamageType)dOrdinal;
-                var strength = troop.GetStrength(d);
+                int strength = troop.GetStrength(d);
                 _remainingStrengths[(int)d] += strength;
             }
 
-            var strengthMax = troop.GetStrengthMax(_damageTypes);
+            int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength += strengthMax;
             if (Superiority != -1)
             {

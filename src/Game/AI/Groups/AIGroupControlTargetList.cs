@@ -45,7 +45,7 @@ public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGrou
     {
         AIGroupControlTarget target;
         bool result = true;
-        var count = Count;
+        int count = Count;
         StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int i = Count - 1; i >= 0; i--)
         {

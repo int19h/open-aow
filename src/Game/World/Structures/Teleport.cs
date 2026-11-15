@@ -50,9 +50,9 @@ public partial class Teleport : Structure
             bool notFogEnabled = !StrategicMap.Current.FogEnabled;
             if (!notFogEnabled)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
             }
 
@@ -70,7 +70,7 @@ public partial class Teleport : Structure
     {
         if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
         {
-            var fieldValue = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
+            MapField fieldValue = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
             ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, fieldValue, 0);
         }
     }
@@ -137,9 +137,9 @@ public partial class Teleport : Structure
         ImageSequenceAnimation animation;
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[13]);
-        var hexLevel = GetHexLevel();
-        var hexY = GetHexY();
-        var hexX = GetHexX();
+        sbyte hexLevel = GetHexLevel();
+        sbyte hexY = GetHexY();
+        sbyte hexX = GetHexX();
         StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
@@ -202,8 +202,8 @@ public partial class Teleport : Structure
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
-                    var playerLocal = field.GetPlayer();
-                    var diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, playerLocal);
+                    sbyte playerLocal = field.GetPlayer();
+                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, playerLocal);
                     condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                 }
 
@@ -244,9 +244,9 @@ public partial class Teleport : Structure
                 }
                 else
                 {
-                    var playerLocal = field.GetPlayer();
-                    var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    sbyte playerLocal = field.GetPlayer();
+                    Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                     result = false;

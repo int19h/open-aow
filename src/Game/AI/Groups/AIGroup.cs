@@ -7,7 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -286,7 +286,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             leader = Leader;
             if (leader == troop)
             {
-                var coordinate91 = leader.GetLocation();
+                MapCoordinate coordinate91 = leader.GetLocation();
                 x1 = coordinate91.X;
                 y1 = coordinate91.Y;
                 l1 = coordinate91.MapLevel;
@@ -296,7 +296,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 while (i != 0 && Leader == null)
                 {
                     i -= 1;
-                    var coordinate92 = Units[i].GetLocation();
+                    MapCoordinate coordinate92 = Units[i].GetLocation();
                     x2 = coordinate92.X;
                     y2 = coordinate92.Y;
                     l2 = coordinate92.MapLevel;
@@ -364,7 +364,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         // { Reach the leader through its field. }
         if (Leader != null)
         {
-            var coordinate93 = Leader.GetLocation();
+            MapCoordinate coordinate93 = Leader.GetLocation();
             sbyte locationX = coordinate93.X;
             sbyte locationY = coordinate93.Y;
             sbyte locationMapLevel = coordinate93.MapLevel;
@@ -433,7 +433,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         locations = new MapCoordinateList();
         for (int i = Units.Count - 1; i >= 0; i--)
         {
-            var coordinate94 = Units.GetUnit(i).GetLocation();
+            MapCoordinate coordinate94 = Units.GetUnit(i).GetLocation();
             x = coordinate94.X;
             y = coordinate94.Y;
             l = coordinate94.MapLevel;
@@ -510,7 +510,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         int m;
         g = gold - GoldBudget;
         m = mana - ManaBudget;
-        var players = StrategicMap.Current.Players.GetPlayers(Player);
+        Player players = StrategicMap.Current.Players.GetPlayers(Player);
         return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, m, players.AIBudget.DefaultBudget, true);
     }
 
@@ -521,7 +521,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (RequestTargetExpense(gold, mana))
         {
             ReturnTargetExpense();
-            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player players = StrategicMap.Current.Players.GetPlayers(Player);
             result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, players.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
             if (result)
             {
@@ -550,7 +550,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetMode = (byte)(mode << 0);
             if (targetType == AIGroupTargetStatus.Execute)
             {
-                var movePointsMin = GetMovePointsMin();
+                int movePointsMin = GetMovePointsMin();
                 TargetMovePoints -= movePointsMin;
             }
 
@@ -595,7 +595,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetMode = mode;
             if (targetType == AIGroupTargetStatus.Execute)
             {
-                var movePointsMin = GetMovePointsMin();
+                int movePointsMin = GetMovePointsMin();
                 TargetMovePoints -= movePointsMin;
             }
             result = MakeTargetExpense(mana: target.GetTargetMana(), gold: target.GetTargetGold());
@@ -688,11 +688,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         sbyte l2 = default;
         if (Leader != null)
         {
-            var coordinate95 = GetLocation();
+            MapCoordinate coordinate95 = GetLocation();
             x1 = coordinate95.X;
             y1 = coordinate95.Y;
             l1 = coordinate95.MapLevel;
-            var coordinate96 = troop.GetLocation();
+            MapCoordinate coordinate96 = troop.GetLocation();
             x2 = coordinate96.X;
             y2 = coordinate96.Y;
             l2 = coordinate96.MapLevel;

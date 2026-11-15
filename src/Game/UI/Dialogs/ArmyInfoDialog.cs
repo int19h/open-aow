@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
@@ -110,10 +111,10 @@ public partial class ArmyInfoDialog : UIModule
     // AoWArmyInfoDlg.pas:121
     public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = _event.ArmyView.Units.Count;
+        int count = _event.ArmyView.Units.Count;
         if (slot < count)
         {
-            var troop = _event.ArmyView.Units.GetUnit(slot);
+            Troop troop = _event.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -174,7 +175,7 @@ public partial class ArmyInfoDialog : UIModule
         dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
-        var text = eventValue.Messages.Text;
+        string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         dialog.TitleLabel.Text = eventValue.Title;
         dialog.HeaderLabel.Text = eventValue.Description;

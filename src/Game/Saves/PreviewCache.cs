@@ -27,7 +27,7 @@ public sealed class PreviewCache(long capacityBytes)
 
         _order.Enqueue(key);
         Bytes += entry.Image.LongLength;
-        while (Bytes > capacityBytes && _entries.Remove(_order.Dequeue(), out var oldest))
+        while (Bytes > capacityBytes && _entries.Remove(_order.Dequeue(), out PreviewEntry? oldest))
         {
             Bytes -= oldest.Image.LongLength;
         }

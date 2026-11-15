@@ -85,7 +85,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         bool condition = Player > 0;
         if (condition)
         {
-            var count = StrategicMap.Current.Players.GetCount();
+            int count = StrategicMap.Current.Players.GetCount();
             condition = Player < count;
         }
 
@@ -108,7 +108,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         bool condition = Player > 0;
         if (condition)
         {
-            var count = StrategicMap.Current.Players.GetCount();
+            int count = StrategicMap.Current.Players.GetCount();
             condition = Player < count;
         }
 
@@ -176,7 +176,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate16 = GetLocation();
+        MapCoordinate coordinate16 = GetLocation();
         x = coordinate16.X;
         y = coordinate16.Y;
         l = coordinate16.MapLevel;

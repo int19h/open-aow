@@ -22,8 +22,8 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
     /// <summary>One JSON line: operation, logical path, layer, profile, kind, format, version, G1, validation and error.</summary>
     public string ToJson()
     {
-        using var buffer = new MemoryStream();
-        using (var json = new Utf8JsonWriter(buffer))
+        using MemoryStream buffer = new();
+        using (Utf8JsonWriter json = new(buffer))
         {
             json.WriteStartObject();
             json.WriteString("operation", Report.Operation);

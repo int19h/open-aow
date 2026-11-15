@@ -89,12 +89,12 @@ public partial class Control : UIComponent
 
                                 if (_window != w)
                                 {
-                                    var rectangle = new Rect(_window.WinLeft + w.WinLeft + WinLeft, _window.WinTop + w.WinTop + WinTop, _window.WinLeft + w.WinLeft + ToolTipLeft, _window.WinTop + w.WinTop + WinTop + WinHeight);
+                                    Rect rectangle = new(_window.WinLeft + w.WinLeft + WinLeft, _window.WinTop + w.WinTop + WinTop, _window.WinLeft + w.WinLeft + ToolTipLeft, _window.WinTop + w.WinTop + WinTop + WinHeight);
                                     _toolTip.ControlRectangle = rectangle;
                                 }
                                 else
                                 {
-                                    var rectangle = new Rect(_window.WinLeft + WinLeft, _window.WinTop + WinTop, _window.WinLeft + ToolTipLeft, _window.WinTop + WinTop + WinHeight);
+                                    Rect rectangle = new(_window.WinLeft + WinLeft, _window.WinTop + WinTop, _window.WinLeft + ToolTipLeft, _window.WinTop + WinTop + WinHeight);
                                     _toolTip.ControlRectangle = rectangle;
                                 }
 
@@ -159,20 +159,20 @@ public partial class Control : UIComponent
                         r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                     }
 
-                    var indexOf = OwnerComponent.Children.IndexOf(this);
+                    int indexOf = OwnerComponent.Children.IndexOf(this);
                     OwnerComponent.InvalidateRectangle(indexOf, ref r, this);
                 }
 
-                var oldRectangle = OldRectangle;
+                Rect oldRectangle = OldRectangle;
                 oldRectangle.Left = WinLeft;
                 OldRectangle = oldRectangle;
-                var oldRectangle2 = OldRectangle;
+                Rect oldRectangle2 = OldRectangle;
                 oldRectangle2.Top = WinTop;
                 OldRectangle = oldRectangle2;
-                var oldRectangle3 = OldRectangle;
+                Rect oldRectangle3 = OldRectangle;
                 oldRectangle3.Right = WinWidth;
                 OldRectangle = oldRectangle3;
-                var oldRectangle4 = OldRectangle;
+                Rect oldRectangle4 = OldRectangle;
                 oldRectangle4.Bottom = WinHeight;
                 OldRectangle = oldRectangle4;
             }
@@ -241,7 +241,7 @@ public partial class Control : UIComponent
         _toolTipText.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[i];
+            string valueValue = value[i];
             _toolTipText.Add(valueValue);
         }
     }

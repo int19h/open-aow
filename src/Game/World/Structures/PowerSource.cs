@@ -25,7 +25,7 @@ public partial class PowerSource : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate34 = GetLocation();
+        MapCoordinate coordinate34 = GetLocation();
         x = coordinate34.X;
         y = coordinate34.Y;
         l = coordinate34.MapLevel;

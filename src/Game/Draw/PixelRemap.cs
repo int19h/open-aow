@@ -24,8 +24,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = source.Row(y, width * 3);
-            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, width * 3);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -38,8 +38,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = source.Row(y, width * 3);
-            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, width * 3);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -52,8 +52,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = PixelFormats.Words(source.Row(y, width * 2));
-            var d = destination.Row(y, width * 3);
+            Span<ushort> s = PixelFormats.Words(source.Row(y, width * 2));
+            Span<byte> d = destination.Row(y, width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -68,8 +68,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = PixelFormats.Words(source.Row(y, width * 2));
-            var d = destination.Row(y, width * 3);
+            Span<ushort> s = PixelFormats.Words(source.Row(y, width * 2));
+            Span<byte> d = destination.Row(y, width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -86,8 +86,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = source.Row(y, width * 4);
-            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, width * 4);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 4;
@@ -100,8 +100,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            var s = source.Row(y, width);
-            var d = destination.Row(y, width * 3);
+            Span<byte> s = source.Row(y, width);
+            Span<byte> d = destination.Row(y, width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 Palette.Entry e = palette[s[x]];
@@ -222,8 +222,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y < height; y++)
         {
-            var sourceLocal = source.Row(y, width);
-            var destinationLocal = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
+            Span<byte> sourceLocal = source.Row(y, width);
+            Span<ushort> destinationLocal = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
             for (int x = 0; x < width; x++)
             {
                 Palette.Entry entry = palette[sourceLocal[x]];

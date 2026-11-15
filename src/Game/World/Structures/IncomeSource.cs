@@ -25,7 +25,7 @@ public partial class IncomeSource : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate33 = GetLocation();
+        MapCoordinate coordinate33 = GetLocation();
         x = coordinate33.X;
         y = coordinate33.Y;
         l = coordinate33.MapLevel;

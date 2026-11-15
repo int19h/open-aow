@@ -65,7 +65,7 @@ public partial class TutorialWindow : UIModule
         dialog.HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
-            var message = eventValue.Message[0];
+            string message = eventValue.Message[0];
             dialog.HeaderMemo.Items.Add(message);
         }
 

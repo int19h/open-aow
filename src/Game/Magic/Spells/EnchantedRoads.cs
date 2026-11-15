@@ -39,7 +39,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         Animation animation = default;
         TwinkleAnimation twinkle = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate65 = source.GetLocation();
+        MapCoordinate coordinate65 = source.GetLocation();
         x = coordinate65.X;
         y = coordinate65.Y;
         l = coordinate65.MapLevel;
@@ -62,8 +62,8 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
 
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
-        var map = StrategicMap.Current;
-        var level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
+        StrategicMap map = StrategicMap.Current;
+        MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
         {
@@ -73,7 +73,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
-                var field = level.GetField(x, y);
+                MapField field = level.GetField(x, y);
                 if (field.OverlayType == 4 && map.SeatedPlayer != -1 && field.GetExplored(map.SeatedPlayer))
                 {
                     CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 15), surface);

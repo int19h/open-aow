@@ -9,7 +9,7 @@ public partial class TacticalBattle
     // AoWTC.pas:5134. The native remote methods access only the common PCS list.
     public static void RestorePlayerConnection(PlayerCommunicationControl control, int player)
     {
-        var settings = control.PlayerCommunicationSettingsList.Players[player];
+        PlayerCommunicationSettings settings = control.PlayerCommunicationSettingsList.Players[player];
         settings.ConnectionMode = ConnectionMode.Global;
         settings.SystemId = 0;
     }

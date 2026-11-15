@@ -95,7 +95,7 @@ public static class PersistSupport
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {
-        var list = new List<int>(values.Length);
+        List<int> list = new(values.Length);
         for (int i = 0; i < values.Length; i++)
         {
             list.Add(values[i]);
@@ -120,7 +120,7 @@ public static class PersistSupport
 
     public static void UInt16Array(IPersister persister, string name, Span<ushort> values)
     {
-        var list = new List<ushort>(values.Length);
+        List<ushort> list = new(values.Length);
         for (int i = 0; i < values.Length; i++)
         {
             list.Add(values[i]);
@@ -152,7 +152,7 @@ public static class PersistSupport
     public static void Int32List(IPersister persister, string name, Int32List list)
     {
         bool present = persister.Has(name);
-        var items = new List<int>(list.Count);
+        List<int> items = new(list.Count);
         for (int i = 0; i < list.Count; i++)
         {
             items.Add(list[i]);
@@ -180,7 +180,7 @@ public static class PersistSupport
     public static void ByteList(IPersister persister, string name, ByteList list)
     {
         bool present = persister.Has(name);
-        var items = new List<byte>(list.Count);
+        List<byte> items = new(list.Count);
         for (int i = 0; i < list.Count; i++)
         {
             items.Add(list[i]);
@@ -252,10 +252,10 @@ public static class PersistSupport
             return;
         }
 
-        var node = TreeWriter.Write(new MemberGroup(following), factory: persister.Factory);
-        var schema = FormatSchema.Current;
-        var data = OriginalBackend.WriteData(node, classValue: schema.Get(NameTable.Stored(owner.GetType())), schema: schema, engine: "game");
-        var bits = list.List.Span;
+        ObjectNode node = TreeWriter.Write(new MemberGroup(following), factory: persister.Factory);
+        FormatSchema schema = FormatSchema.Current;
+        byte[] data = OriginalBackend.WriteData(node, classValue: schema.Get(NameTable.Stored(owner.GetType())), schema: schema, engine: "game");
+        Span<byte> bits = list.List.Span;
         for (int i = 0; i < extra && i < data.Length; i++)
         {
             bits[stored.Bits.Length + i] = data[i];
@@ -294,7 +294,7 @@ public static class PersistSupport
             return;
         }
 
-        var entries = new List<IReadOnlyList<SequenceLayer>>();
+        List<IReadOnlyList<SequenceLayer>> entries = new();
         persister.ImageSequences(name, entries: entries);
         LoadPayload(() => list.LoadLayers(entries));
     }
@@ -311,7 +311,7 @@ public static class PersistSupport
             return;
         }
 
-        var pairs = new List<(sbyte First, sbyte Second)>();
+        List<(sbyte First, sbyte Second)> pairs = new();
         if (!persister.Loading)
         {
             list.Pack();
@@ -354,7 +354,7 @@ public static class PersistSupport
 
         if (!persister.Loading)
         {
-            using var output = new MemoryStream();
+            using MemoryStream output = new();
             library.SaveToStream(output);
             persister.Blob(name, data: output.ToArray());
             return;
@@ -364,7 +364,7 @@ public static class PersistSupport
             return;
         }
 
-        using var input = new MemoryStream(stored, writable: false);
+        using MemoryStream input = new(stored, writable: false);
         LoadPayload(() => library.LoadFromStream(input));
     }
 
@@ -413,7 +413,7 @@ public static class PersistSupport
             return;
         }
 
-        var copy = new List<string>(lines.Count);
+        List<string> copy = new(lines.Count);
         for (int i = 0; i < lines.Count; i++)
         {
             copy.Add(lines[i]);
@@ -429,7 +429,7 @@ public static class PersistSupport
         try
         {
             lines.Clear();
-            foreach (var line in copy)
+            foreach (string line in copy)
             {
                 lines.Add(line);
             }
@@ -448,8 +448,8 @@ public static class PersistSupport
             return;
         }
 
-        var copy = new List<string>(lines.Count);
-        var objects = new List<int>(lines.Count);
+        List<string> copy = new(lines.Count);
+        List<int> objects = new(lines.Count);
         for (int i = 0; i < lines.Count; i++)
         {
             copy.Add(lines[i]);

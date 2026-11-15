@@ -65,7 +65,7 @@ public partial class RealmWindow : ILayoutModule
         Window.WinHeight = 160;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label owTitle = new Label(this);
+        Label owTitle = new(this);
         session.BeginRead(owTitle);
         owTitle.Name = "OWTitle";
         owTitle.Priority = 0;
@@ -88,7 +88,7 @@ public partial class RealmWindow : ILayoutModule
         owTitle.Text = "Realm Overview";
         owTitle.TextColor = 0;
         session.EndRead(owTitle);
-        Image owTitleIc = new Image(this);
+        Image owTitleIc = new(this);
         session.BeginRead(owTitleIc);
         owTitleIc.Name = "OWTitleIc";
         owTitleIc.Priority = 0;
@@ -153,7 +153,7 @@ public partial class RealmWindow : ILayoutModule
         HeaderTabs.ImageLibraryIndexUp = 70;
         HeaderTabs.BorderHeightSelected = 7;
         session.EndRead(HeaderTabs);
-        Panel t1Pnl = new Panel(this);
+        Panel t1Pnl = new(this);
         session.BeginRead(t1Pnl);
         t1Pnl.Name = "T1Pnl";
         t1Pnl.Priority = 1;
@@ -235,7 +235,7 @@ public partial class RealmWindow : ILayoutModule
         CityListPanel.MinWidth = 0;
         CityListPanel.MinHeight = 0;
         session.EndRead(CityListPanel);
-        Panel t3Pnl = new Panel(this);
+        Panel t3Pnl = new(this);
         session.BeginRead(t3Pnl);
         t3Pnl.Name = "T3Pnl";
         t3Pnl.Visible = false;
@@ -263,7 +263,7 @@ public partial class RealmWindow : ILayoutModule
         t3Pnl.MinWidth = 0;
         t3Pnl.MinHeight = 0;
         session.EndRead(t3Pnl);
-        Panel t3LBPnl = new Panel(this);
+        Panel t3LBPnl = new(this);
         session.BeginRead(t3LBPnl);
         t3LBPnl.Name = "T3LBPnl";
         t3LBPnl.Priority = 0;
@@ -290,7 +290,7 @@ public partial class RealmWindow : ILayoutModule
         t3LBPnl.MinWidth = 0;
         t3LBPnl.MinHeight = 0;
         session.EndRead(t3LBPnl);
-        Button minimize = new Button(this);
+        Button minimize = new(this);
         session.BeginRead(minimize);
         minimize.Name = "Minimize";
         minimize.Priority = 0;
@@ -634,7 +634,7 @@ public partial class RealmWindow : ILayoutModule
         CityEnchantmentList.ItemHeight = 17;
         CityEnchantmentList.TextAlign = TextAlignment.Left;
         session.EndRead(CityEnchantmentList);
-        Button t2SName = new Button(this);
+        Button t2SName = new(this);
         session.BeginRead(t2SName);
         t2SName.Name = "T2SName";
         t2SName.Priority = 1000;
@@ -669,7 +669,7 @@ public partial class RealmWindow : ILayoutModule
         t2SName.WinWidth = 113;
         t2SName.OnClick += _ => T2SNameClick(default);
         session.EndRead(t2SName);
-        Button t2SRace = new Button(this);
+        Button t2SRace = new(this);
         session.BeginRead(t2SRace);
         t2SRace.Name = "T2SRace";
         t2SRace.Priority = 1000;
@@ -704,7 +704,7 @@ public partial class RealmWindow : ILayoutModule
         t2SRace.WinWidth = 88;
         t2SRace.OnClick += _ => T2SRaceClick(default);
         session.EndRead(t2SRace);
-        Button t2SIn = new Button(this);
+        Button t2SIn = new(this);
         session.BeginRead(t2SIn);
         t2SIn.Name = "T2SIn";
         t2SIn.Priority = 1000;
@@ -739,7 +739,7 @@ public partial class RealmWindow : ILayoutModule
         t2SIn.WinWidth = 26;
         t2SIn.OnClick += _ => T2SInClick(default);
         session.EndRead(t2SIn);
-        Button t2SWall = new Button(this);
+        Button t2SWall = new(this);
         session.BeginRead(t2SWall);
         t2SWall.Name = "T2SWall";
         t2SWall.Priority = 1000;
@@ -774,7 +774,7 @@ public partial class RealmWindow : ILayoutModule
         t2SWall.WinWidth = 26;
         t2SWall.OnClick += _ => T2SWallClick(default);
         session.EndRead(t2SWall);
-        Button t2SLvl = new Button(this);
+        Button t2SLvl = new(this);
         session.BeginRead(t2SLvl);
         t2SLvl.Name = "T2SLvl";
         t2SLvl.Priority = 1000;
@@ -809,7 +809,7 @@ public partial class RealmWindow : ILayoutModule
         t2SLvl.WinWidth = 26;
         t2SLvl.OnClick += _ => T2SLvlClick(default);
         session.EndRead(t2SLvl);
-        Button t2SSize = new Button(this);
+        Button t2SSize = new(this);
         session.BeginRead(t2SSize);
         t2SSize.Name = "T2SSize";
         t2SSize.Priority = 1000;
@@ -844,7 +844,7 @@ public partial class RealmWindow : ILayoutModule
         t2SSize.WinWidth = 26;
         t2SSize.OnClick += _ => T2SSizeClick(default);
         session.EndRead(t2SSize);
-        Button t2SEnc = new Button(this);
+        Button t2SEnc = new(this);
         session.BeginRead(t2SEnc);
         t2SEnc.Name = "T2SEnc";
         t2SEnc.Priority = 1000;
@@ -916,7 +916,7 @@ public partial class RealmWindow : ILayoutModule
         CityActionList.ItemHeight = 17;
         CityActionList.TextAlign = TextAlignment.Center;
         session.EndRead(CityActionList);
-        Button t2SAct = new Button(this);
+        Button t2SAct = new(this);
         session.BeginRead(t2SAct);
         t2SAct.Name = "T2SAct";
         t2SAct.Priority = 1000;
@@ -988,7 +988,7 @@ public partial class RealmWindow : ILayoutModule
         CityRelationList.ItemHeight = 17;
         CityRelationList.TextAlign = TextAlignment.Center;
         session.EndRead(CityRelationList);
-        Button t2SRel = new Button(this);
+        Button t2SRel = new(this);
         session.BeginRead(t2SRel);
         t2SRel.Name = "T2SRel";
         t2SRel.Priority = 1000;
@@ -1060,7 +1060,7 @@ public partial class RealmWindow : ILayoutModule
         CityMoraleList.ItemHeight = 17;
         CityMoraleList.TextAlign = TextAlignment.Center;
         session.EndRead(CityMoraleList);
-        Button t2SMor = new Button(this);
+        Button t2SMor = new(this);
         session.BeginRead(t2SMor);
         t2SMor.Name = "T2SMor";
         t2SMor.Priority = 1000;
@@ -1168,7 +1168,7 @@ public partial class RealmWindow : ILayoutModule
         PlaceNameList.ItemHeight = 17;
         PlaceNameList.TextAlign = TextAlignment.Left;
         session.EndRead(PlaceNameList);
-        Button t3SName = new Button(this);
+        Button t3SName = new(this);
         session.BeginRead(t3SName);
         t3SName.Name = "T3SName";
         t3SName.Priority = 1000;
@@ -1239,7 +1239,7 @@ public partial class RealmWindow : ILayoutModule
         PlaceActionList.ItemHeight = 17;
         PlaceActionList.TextAlign = TextAlignment.Left;
         session.EndRead(PlaceActionList);
-        Button t3Activity = new Button(this);
+        Button t3Activity = new(this);
         session.BeginRead(t3Activity);
         t3Activity.Name = "T3Activity";
         t3Activity.Priority = 1000;
@@ -1312,7 +1312,7 @@ public partial class RealmWindow : ILayoutModule
         PlaceScrollBar.ImageLibraryIndexBack = 101;
         PlaceScrollBar.ThumbImageIndex = 98;
         session.EndRead(PlaceScrollBar);
-        Frame unitFr = new Frame(this);
+        Frame unitFr = new(this);
         session.BeginRead(unitFr);
         unitFr.Name = "UnitFr";
         unitFr.Priority = 0;
@@ -1702,7 +1702,7 @@ public partial class RealmWindow : ILayoutModule
         PartyScrollBar.ImageLibraryIndexBack = 101;
         PartyScrollBar.ThumbImageIndex = 98;
         session.EndRead(PartyScrollBar);
-        Panel heroPnl = new Panel(this);
+        Panel heroPnl = new(this);
         session.BeginRead(heroPnl);
         heroPnl.Name = "HeroPnl";
         heroPnl.Visible = false;
@@ -1730,7 +1730,7 @@ public partial class RealmWindow : ILayoutModule
         heroPnl.MinWidth = 0;
         heroPnl.MinHeight = 0;
         session.EndRead(heroPnl);
-        Panel t5MainPnl = new Panel(this);
+        Panel t5MainPnl = new(this);
         session.BeginRead(t5MainPnl);
         t5MainPnl.Name = "T5MainPnl";
         t5MainPnl.Priority = 0;
@@ -1865,7 +1865,7 @@ public partial class RealmWindow : ILayoutModule
         HeroLevelList.ItemHeight = 17;
         HeroLevelList.TextAlign = TextAlignment.Center;
         session.EndRead(HeroLevelList);
-        Button t5SName = new Button(this);
+        Button t5SName = new(this);
         session.BeginRead(t5SName);
         t5SName.Name = "T5SName";
         t5SName.Priority = 1000;
@@ -1900,7 +1900,7 @@ public partial class RealmWindow : ILayoutModule
         t5SName.WinWidth = 230;
         t5SName.OnClick += _ => T5SNameClick(default);
         session.EndRead(t5SName);
-        Button t5SHealth = new Button(this);
+        Button t5SHealth = new(this);
         session.BeginRead(t5SHealth);
         t5SHealth.Name = "T5SHealth";
         t5SHealth.Priority = 1000;
@@ -1935,7 +1935,7 @@ public partial class RealmWindow : ILayoutModule
         t5SHealth.WinWidth = 72;
         t5SHealth.OnClick += _ => T5SHealthClick(default);
         session.EndRead(t5SHealth);
-        Button t5SLevel = new Button(this);
+        Button t5SLevel = new(this);
         session.BeginRead(t5SLevel);
         t5SLevel.Name = "T5SLevel";
         t5SLevel.Priority = 1000;
@@ -1998,7 +1998,7 @@ public partial class RealmWindow : ILayoutModule
         HeroHeroInfoPanel.MinWidth = 0;
         HeroHeroInfoPanel.MinHeight = 0;
         session.EndRead(HeroHeroInfoPanel);
-        Panel t5LBFr = new Panel(this);
+        Panel t5LBFr = new(this);
         session.BeginRead(t5LBFr);
         t5LBFr.Name = "T5LBFr";
         t5LBFr.Priority = 0;
@@ -2025,7 +2025,7 @@ public partial class RealmWindow : ILayoutModule
         t5LBFr.MinWidth = 0;
         t5LBFr.MinHeight = 0;
         session.EndRead(t5LBFr);
-        Button hInfoBtn = new Button(this);
+        Button hInfoBtn = new(this);
         session.BeginRead(hInfoBtn);
         hInfoBtn.Name = "HInfoBtn";
         hInfoBtn.Priority = 50;
@@ -2093,7 +2093,7 @@ public partial class RealmWindow : ILayoutModule
         HeroScrollBar.ImageLibraryIndexBack = 101;
         HeroScrollBar.ThumbImageIndex = 98;
         session.EndRead(HeroScrollBar);
-        Panel totalPnl = new Panel(this);
+        Panel totalPnl = new(this);
         session.BeginRead(totalPnl);
         totalPnl.Name = "TotalPnl";
         totalPnl.Priority = 3000;
@@ -2120,7 +2120,7 @@ public partial class RealmWindow : ILayoutModule
         totalPnl.MinWidth = 0;
         totalPnl.MinHeight = 0;
         session.EndRead(totalPnl);
-        Panel incomePnl = new Panel(this);
+        Panel incomePnl = new(this);
         session.BeginRead(incomePnl);
         incomePnl.Name = "IncomePnl";
         incomePnl.Priority = 3000;
@@ -2181,7 +2181,7 @@ public partial class RealmWindow : ILayoutModule
         IncomeMemo.ColorChangeChar = 0;
         IncomeMemo.TextAlign = TextAlignment.Left;
         session.EndRead(IncomeMemo);
-        Panel incomeBtm = new Panel(this);
+        Panel incomeBtm = new(this);
         session.BeginRead(incomeBtm);
         incomeBtm.Name = "IncomeBtm";
         incomeBtm.Priority = 3000;
@@ -2246,7 +2246,7 @@ public partial class RealmWindow : ILayoutModule
         IncomeScrollBar.ImageLibraryIndexBack = 101;
         IncomeScrollBar.ThumbImageIndex = 98;
         session.EndRead(IncomeScrollBar);
-        Label incomeLbl = new Label(this);
+        Label incomeLbl = new(this);
         session.BeginRead(incomeLbl);
         incomeLbl.Name = "IncomeLbl";
         incomeLbl.Priority = 0;
@@ -2291,7 +2291,7 @@ public partial class RealmWindow : ILayoutModule
         IncomeLabel.Masked = true;
         IncomeLabel.TextColor = 9415072;
         session.EndRead(IncomeLabel);
-        Panel upkeepPnl = new Panel(this);
+        Panel upkeepPnl = new(this);
         session.BeginRead(upkeepPnl);
         upkeepPnl.Name = "UpkeepPnl";
         upkeepPnl.Priority = 3000;
@@ -2318,7 +2318,7 @@ public partial class RealmWindow : ILayoutModule
         upkeepPnl.MinWidth = 0;
         upkeepPnl.MinHeight = 0;
         session.EndRead(upkeepPnl);
-        Memo upkeepMem = new Memo(this);
+        Memo upkeepMem = new(this);
         session.BeginRead(upkeepMem);
         upkeepMem.Name = "UpkeepMem";
         upkeepMem.Priority = 0;
@@ -2352,7 +2352,7 @@ public partial class RealmWindow : ILayoutModule
         upkeepMem.ColorChangeChar = 0;
         upkeepMem.TextAlign = TextAlignment.Left;
         session.EndRead(upkeepMem);
-        Panel upkeepBtm = new Panel(this);
+        Panel upkeepBtm = new(this);
         session.BeginRead(upkeepBtm);
         upkeepBtm.Name = "UpkeepBtm";
         upkeepBtm.Priority = 3000;
@@ -2417,7 +2417,7 @@ public partial class RealmWindow : ILayoutModule
         UpkeepScrollBar.ImageLibraryIndexBack = 101;
         UpkeepScrollBar.ThumbImageIndex = 98;
         session.EndRead(UpkeepScrollBar);
-        Label upkeepLbl = new Label(this);
+        Label upkeepLbl = new(this);
         session.BeginRead(upkeepLbl);
         upkeepLbl.Name = "UpkeepLbl";
         upkeepLbl.Priority = 0;
@@ -2462,7 +2462,7 @@ public partial class RealmWindow : ILayoutModule
         UpkeepLabel.Masked = true;
         UpkeepLabel.TextColor = 9415072;
         session.EndRead(UpkeepLabel);
-        Label totallbl = new Label(this);
+        Label totallbl = new(this);
         session.BeginRead(totallbl);
         totallbl.Name = "Totallbl";
         totallbl.Priority = 0;
@@ -2507,7 +2507,7 @@ public partial class RealmWindow : ILayoutModule
         NetIncomeLabel.Masked = true;
         NetIncomeLabel.TextColor = 9415072;
         session.EndRead(NetIncomeLabel);
-        Panel totalBtm = new Panel(this);
+        Panel totalBtm = new(this);
         session.BeginRead(totalBtm);
         totalBtm.Name = "TotalBtm";
         totalBtm.Priority = 3000;
@@ -2534,7 +2534,7 @@ public partial class RealmWindow : ILayoutModule
         totalBtm.MinWidth = 0;
         totalBtm.MinHeight = 0;
         session.EndRead(totalBtm);
-        Label treasuryLbl = new Label(this);
+        Label treasuryLbl = new(this);
         session.BeginRead(treasuryLbl);
         treasuryLbl.Name = "TreasuryLbl";
         treasuryLbl.Priority = 0;
@@ -2579,7 +2579,7 @@ public partial class RealmWindow : ILayoutModule
         TreasuryLabel.Masked = true;
         TreasuryLabel.TextColor = 9415072;
         session.EndRead(TreasuryLabel);
-        Panel treasuryPnl = new Panel(this);
+        Panel treasuryPnl = new(this);
         session.BeginRead(treasuryPnl);
         treasuryPnl.Name = "TreasuryPnl";
         treasuryPnl.Priority = 3000;
@@ -2674,7 +2674,7 @@ public partial class RealmWindow : ILayoutModule
         UpkeepValueMemo.ColorChangeChar = 0;
         UpkeepValueMemo.TextAlign = TextAlignment.Right;
         session.EndRead(UpkeepValueMemo);
-        Image goldAnim = new Image(this);
+        Image goldAnim = new(this);
         session.BeginRead(goldAnim);
         goldAnim.Name = "GoldAnim";
         goldAnim.Priority = 0;
@@ -2702,7 +2702,7 @@ public partial class RealmWindow : ILayoutModule
         goldAnim.Animate = true;
         goldAnim.AnimationFrameDelay = 2;
         session.EndRead(goldAnim);
-        Panel picPnl = new Panel(this);
+        Panel picPnl = new(this);
         session.BeginRead(picPnl);
         picPnl.Name = "PicPnl";
         picPnl.Priority = 3000;
@@ -2729,7 +2729,7 @@ public partial class RealmWindow : ILayoutModule
         picPnl.MinWidth = 0;
         picPnl.MinHeight = 0;
         session.EndRead(picPnl);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;
@@ -2763,7 +2763,7 @@ public partial class RealmWindow : ILayoutModule
         help.WinWidth = 15;
         help.OnClick += _ => HelpClick();
         session.EndRead(help);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

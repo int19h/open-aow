@@ -25,7 +25,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         Clear();
         for (int i = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
         {
-            var list = new DelphiList<MapObjectResource>();
+            DelphiList<MapObjectResource> list = new();
             _resources.Add(list);
         }
     }
@@ -87,7 +87,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         count = list.Count;
         if (count != 0)
         {
-            var random = Random(count);
+            int random = Random(count);
             r = list.List[random];
             result = (MapObject)r.CreateResourceUser();
         }
@@ -126,7 +126,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
 
             if (r == null)
             {
-                var random = Random(list.Count);
+                int random = Random(list.Count);
                 r = list.List[random];
                 if (r != null)
                 {
@@ -187,7 +187,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
             result = null;
             while (i != _tries && result == null)
             {
-                var random = Random(list.Count);
+                int random = Random(list.Count);
                 result = list.List[random];
                 if (result.EngineClass.ClassId != classId)
                 {

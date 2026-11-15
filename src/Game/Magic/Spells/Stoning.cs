@@ -18,7 +18,7 @@ public partial class Stoning : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_stoningText);
         SpellId = 122;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 2;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);

@@ -1,7 +1,7 @@
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -21,27 +21,27 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override string Name(ProductionControl control)
     {
-        var production = control.UnitProductions.GetItem(Index);
+        UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
             return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }
 
-        var format = control.UnitProductionGold(Index) != 0 ? GameText.ProduceFormat : GameText.SummonFormat;
-        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        string format = control.UnitProductionGold(Index) != 0 ? GameText.ProduceFormat : GameText.SummonFormat;
+        string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), format), [unitName]);
     }
 
     public override string NameProgressive(ProductionControl control)
     {
-        var production = control.UnitProductions.GetItem(Index);
+        UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
             return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }
 
-        var format = control.UnitProductionGold(Index) != 0 ? GameText.ProducingFormat : GameText.SummoningFormat;
-        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        string format = control.UnitProductionGold(Index) != 0 ? GameText.ProducingFormat : GameText.SummoningFormat;
+        string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), format), [unitName]);
     }
 
@@ -49,10 +49,10 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         bool result;
         Waiting(control, ref reason);
-        var players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         if (control.UnitProductionGold(Index) <= players.Gems)
         {
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
             if (control.UnitProductionMana(Index) <= fPlayersPlayers.MagicControl.Mana)
             {
                 result = true;
@@ -74,7 +74,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override void Execute(ProductionControl control)
     {
-        var settings = control.Settings;
+        ProductionSettings settings = control.Settings;
         settings.Clear();
         settings.UnitProductionIndex = Index;
         settings.Unit = control.CreateUnitProduction(Index);
@@ -114,7 +114,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override void ActivityLines(ProductionControl control, StringCollection lines)
     {
-        var unit = control.CreateUnitProduction(Index);
+        Unit unit = control.CreateUnitProduction(Index);
         lines.Clear();
         lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProducingText));
         lines.Add(unit.GetName());

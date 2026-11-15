@@ -32,7 +32,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         base.Deactivate(player);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
         StrategicMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
@@ -48,8 +48,8 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
-                var name = GetName();
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;
             }
@@ -62,7 +62,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         base.Activate(player);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
         StrategicMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }

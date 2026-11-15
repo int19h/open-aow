@@ -209,20 +209,20 @@ public struct LockedSurface
     public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
     {
         destination = source;
-        var clipRectangle = destination.ClipRectangle;
+        Rect clipRectangle = destination.ClipRectangle;
         IntersectRect(out clipRectangle, source.ClipRectangle, R);
         destination.ClipRectangle = clipRectangle;
         destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((int)(((uint)source.BitCount) >> 3) * R.Left);
-        var clipRectangle2 = destination.ClipRectangle;
+        Rect clipRectangle2 = destination.ClipRectangle;
         clipRectangle2.Left -= R.Left;
         destination.ClipRectangle = clipRectangle2;
-        var clipRectangle3 = destination.ClipRectangle;
+        Rect clipRectangle3 = destination.ClipRectangle;
         clipRectangle3.Right -= R.Left;
         destination.ClipRectangle = clipRectangle3;
-        var clipRectangle4 = destination.ClipRectangle;
+        Rect clipRectangle4 = destination.ClipRectangle;
         clipRectangle4.Top -= R.Top;
         destination.ClipRectangle = clipRectangle4;
-        var clipRectangle5 = destination.ClipRectangle;
+        Rect clipRectangle5 = destination.ClipRectangle;
         clipRectangle5.Bottom -= R.Top;
         destination.ClipRectangle = clipRectangle5;
     }

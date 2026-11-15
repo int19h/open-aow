@@ -31,7 +31,7 @@ public partial class DeformFaceDialog : UIModule
         u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (u != null)
         {
-            var name = u.GetName();
+            string name = u.GetName();
             UnitNameLabel.Text = name;
             Window.Visible = true;
         }
@@ -104,7 +104,7 @@ public partial class DeformFaceDialog : UIModule
     public void PrevFaceBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
+        int previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
         _caster.FaceIndex = previousFace;
         Window.Drawn = false;
     }
@@ -113,7 +113,7 @@ public partial class DeformFaceDialog : UIModule
     public void NextFaceBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
+        int nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
         _caster.FaceIndex = nextFace;
         Window.Drawn = false;
     }

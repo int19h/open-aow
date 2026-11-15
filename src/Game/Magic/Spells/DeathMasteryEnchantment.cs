@@ -52,7 +52,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         base.Deactivate(player);
         // { Original doubles Life. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
         EngineMessage.InitializeMessage(out message, 537002241, this);
         StrategicMap.Current.SendMessage(ref message, this);
@@ -67,8 +67,8 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
-                var name = GetName();
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;
             }
@@ -83,7 +83,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         base.Activate(player);
         // { Original doubles Life. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
         return true;
     }

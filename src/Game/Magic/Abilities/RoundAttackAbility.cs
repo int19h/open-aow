@@ -62,7 +62,7 @@ public partial class RoundAttackAbility : TouchAbility
 
         for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
         {
-            var side = target.GetSide();
+            CombatSideIndex side = target.GetSide();
             other = combat.Sides[(int)side].GetObjects(i);
             if (other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.GetRound() - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
             {
@@ -110,14 +110,14 @@ public partial class RoundAttackAbility : TouchAbility
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender))
         {
-            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(attacker, defender);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(attacker, defender);
             damageValues.SourceDamage = unitStrikeDamageValue * 2;
             damageValues.SourceCost = 0;
-            var unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, defender);
+            int unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, defender);
             damageValues.TargetDamage = unitStrikeDamageValueLocal;
             damageValues.TargetCost = 0;
-            var damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
-            var immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes - immunityTypes;
         }
         else
@@ -155,22 +155,22 @@ public partial class RoundAttackAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
             damageTypes = CombatObject.MeleeDamageTypes(attacker);
-            var strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
             damageValues.SourceDamage = strikeDamageValue;
-            var damage = attacker.GetDamage();
+            sbyte damage = attacker.GetDamage();
             damageValues.SourceCost = damage;
-            var strikeDamageValueLocal = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = strikeDamageValueLocal;
-            var defenderDamage = defender.GetDamage();
+            sbyte defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;
-            var immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes - immunityTypes;
             combat = attacker.Combat;
             count = 0;
             for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 // { Preserve the original saved registers. }
-                var side = defender.GetSide();
+                CombatSideIndex side = defender.GetSide();
                 target = combat.Sides[(int)side].GetObjects(i);
                 // { Original tests Defender's flying ability here, rather than Target's. }
                 if (target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.GetRoundDistance() && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
@@ -204,17 +204,17 @@ public partial class RoundAttackAbility : TouchAbility
     {
         if (CanTouch(attacker, defender))
         {
-            var strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
             damageValues.SourceDamage = strikeDamageValue * 2;
-            var damage = attacker.GetDamage();
+            sbyte damage = attacker.GetDamage();
             damageValues.SourceCost = damage * 2;
             // { Original repeats the forward strike instead of reversing the arguments. }
-            var strikeDamageValueLocal = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(attacker, defender);
             damageValues.TargetDamage = strikeDamageValueLocal;
-            var defenderDamage = defender.GetDamage();
+            sbyte defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;
-            var meleeDamageTypes = CombatObject.MeleeDamageTypes(attacker);
-            var immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> meleeDamageTypes = CombatObject.MeleeDamageTypes(attacker);
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = meleeDamageTypes - immunityTypes;
         }
         else
@@ -234,11 +234,11 @@ public partial class RoundAttackAbility : TouchAbility
         if (owner is Troop)
         {
             source = (Troop)owner;
-            var attack = source.GetAttack();
+            sbyte attack = source.GetAttack();
             info.Attack = attack;
-            var damage = source.GetDamage();
+            sbyte damage = source.GetDamage();
             info.Damage = damage;
-            var damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(source);
+            Set<DamageType> damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(source);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
             info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);

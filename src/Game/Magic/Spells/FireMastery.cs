@@ -40,13 +40,13 @@ public partial class FireMastery : GlobalEnchantmentSpell
         sbyte l = default;
         if (executeCount == 0)
         {
-            var coordinate66 = source.GetLocation();
+            MapCoordinate coordinate66 = source.GetLocation();
             x = coordinate66.X;
             y = coordinate66.Y;
             l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-            var animation = new Animation(null) { Holder = CreationHolder() };
+            Animation animation = new(null) { Holder = CreationHolder() };
             animation.AnimationLevel = 27;
             animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
@@ -76,8 +76,8 @@ public partial class FireMastery : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         int chance = GetEngine().AnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-        var map = StrategicMap.Current;
-        var level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
+        StrategicMap map = StrategicMap.Current;
+        MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
         {
@@ -87,7 +87,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
-                var field = level.GetField(x, y);
+                MapField field = level.GetField(x, y);
                 if (field.TerrainType is 7 or 8 or 15 || map.SeatedPlayer == -1 || (map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)))
                 {
                     continue;

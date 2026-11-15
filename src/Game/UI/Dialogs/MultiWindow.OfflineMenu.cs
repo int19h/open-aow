@@ -9,7 +9,7 @@ public partial class MultiWindow
 {
     public void Execute(string mapName)
     {
-        var songs = AudioHost.SongPlayer;
+        SongPlayer songs = AudioHost.SongPlayer;
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             songs.Songs.Clear();
@@ -18,7 +18,7 @@ public partial class MultiWindow
         }
         UI.VideoDialog.SetSceneSize(640, 480);
         _pendingMap = mapName;
-        var directPlay = UI.SetupEvents.DirectPlay;
+        GDPlay directPlay = UI.SetupEvents.DirectPlay;
         if (directPlay.Connected)
         {
             directPlay.DisConnect();

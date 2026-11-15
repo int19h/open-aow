@@ -33,9 +33,9 @@ public partial class Battle : EngineObject
     public Battle(CustomNode owner) : base(owner)
     {
         _executedEventsStore = new();
-        var combatSide = new CombatSide(null) { Holder = CreationHolder() };
+        CombatSide combatSide = new(null) { Holder = CreationHolder() };
         Sides[(int)CombatSideIndex.Attacker] = combatSide;
-        var combatSide2 = new CombatSide(null) { Holder = CreationHolder() };
+        CombatSide combatSide2 = new(null) { Holder = CreationHolder() };
         Sides[(int)CombatSideIndex.Defender] = combatSide2;
         Sides[(int)CombatSideIndex.Attacker].SideIndex = 0;
         Sides[(int)CombatSideIndex.Defender].SideIndex = 1;
@@ -207,7 +207,7 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6289
-    public virtual CombatPlayer CreateCombatPlayer() => new CombatPlayer(null) { Holder = CreationHolder() };
+    public virtual CombatPlayer CreateCombatPlayer() => new(null) { Holder = CreationHolder() };
 
     // Combat.pas:6143
     public virtual bool Setup(byte attackerPlayer, byte attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions)
@@ -228,9 +228,9 @@ public partial class Battle : EngineObject
         data.AttackerLocation = new MapCoordinate((sbyte)attackerX, (sbyte)attackerY, (sbyte)attackerL);
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, attackerRelation, CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, defenderRelation, CombatSideIndex.Defender);
-        var fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        MapField fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
-        var mapContainerField = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        MapField mapContainerField = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType;
         return true;
     }
@@ -272,7 +272,7 @@ public partial class Battle : EngineObject
 
         if (CombatData.Parties.GetParty(0) != null)
         {
-            var party = CombatData.Parties.GetParty(0);
+            CombatParty party = CombatData.Parties.GetParty(0);
             CombatData.WallType = party.Wall;
         }
 
@@ -320,8 +320,8 @@ public partial class Battle : EngineObject
         for (int i = 0, last = CombatData.DefeatedLeaders.Count - 1; i <= last; i++)
         {
             data = CombatData;
-            var item = data.DefeatedLeaders[i];
-            var players = data.Players.GetPlayers((sbyte)item);
+            byte item = data.DefeatedLeaders[i];
+            CombatPlayer players = data.Players.GetPlayers((sbyte)item);
             StrategicMap.Current.GameOver(players.Player, GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
         }
@@ -343,14 +343,14 @@ public partial class Battle : EngineObject
             }
         }
 
-        var combatResultText = GetCombatResultText();
+        string combatResultText = GetCombatResultText();
         Logbook.FinalData.Header = combatResultText;
         Logbook.FinalData.CombatResult = (byte)(int)CombatResult;
         playerIndex = CombatData.Players.Count;
         while (playerIndex != 0 && !Logbook.PlayerEliminated)
         {
             playerIndex -= 1;
-            var players = CombatData.Players.GetPlayers((sbyte)playerIndex);
+            CombatPlayer players = CombatData.Players.GetPlayers((sbyte)playerIndex);
             player = StrategicMap.Current.Players.GetPlayers(players.Player);
             armyIndex = player.Armies.Count;
             alive = false;
@@ -372,7 +372,7 @@ public partial class Battle : EngineObject
         if (finalData.Location.X != -1)
         {
             message.MessageId = 4368;
-            var param = message.Param;
+            MapFieldMessageParameters param = message.Param;
             param[0] = this;
             message.Param = param;
             message.Result = 0;
@@ -484,8 +484,8 @@ public partial class Battle : EngineObject
             target = (byte)(int)(((uint)target) >> 4);
             if (source < 7 && target < 7)
             {
-                var party = CombatData.Parties.GetParty(source);
-                var fPartiesParty = CombatData.Parties.GetParty(target);
+                CombatParty party = CombatData.Parties.GetParty(source);
+                CombatParty fPartiesParty = CombatData.Parties.GetParty(target);
                 result = (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
             }
             else
@@ -543,8 +543,8 @@ public partial class Battle : EngineObject
         {
             if (CombatData.Parties.GetParty((byte)i) != null)
             {
-                var party = CombatData.Parties.GetParty((byte)i);
-                var players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
+                CombatParty party = CombatData.Parties.GetParty((byte)i);
+                CombatPlayer players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
                 if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType))
                 {
                     result = true;
@@ -647,9 +647,9 @@ public partial class Battle : EngineObject
                 {
                     if (walk.HexNumber != 0)
                     {
-                        var players = data.Players.GetPlayers(data.DefenderPlayer);
-                        var fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
-                        var players2 = data.Players.GetPlayers(data.AttackerPlayer);
+                        CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
+                        CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
+                        CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
                         side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, (sbyte)players2.IndependentRelation, fPlayersPlayers.Player, (sbyte)players.IndependentRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
                     }
                     else
@@ -666,7 +666,7 @@ public partial class Battle : EngineObject
                 {
                     if (walk.HexNumber == 0)
                     {
-                        var players = data.Players.GetPlayers(data.DefenderPlayer);
+                        CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
                         AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, walk.X, walk.Y, data.Location.MapLevel);
                     }
                 }
@@ -754,8 +754,8 @@ public partial class Battle : EngineObject
             if (X != -1)
             {
                 message.MessageId = 4387;
-                var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-                var param = message.Param;
+                MapField fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+                MapFieldMessageParameters param = message.Param;
                 param[0] = fieldValue;
                 message.Param = param;
                 message.Result = 0;
@@ -811,9 +811,9 @@ public partial class Battle : EngineObject
         MapFieldMessage message = default;
         data = CombatData;
         position = GetPartyPosition(X, Y, L);
-        var players = data.Players.GetPlayers(data.DefenderPlayer);
-        var fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
-        var players2 = data.Players.GetPlayers(data.AttackerPlayer);
+        CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
+        CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
+        CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
         side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, (sbyte)players2.IndependentRelation, fPlayersPlayers.Player, (sbyte)players.IndependentRelation, (sbyte)player, (sbyte)independentRelation);
         playerLocal = (byte)CombatData.Players.IndexOf(player, independentRelation);
         if (playerLocal == 255)
@@ -823,8 +823,8 @@ public partial class Battle : EngineObject
 
         party = CombatData.Parties.CreateParty(this, position, playerLocal, X, Y, L, null);
         message.MessageId = 4387;
-        var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-        var param = message.Param;
+        MapField fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+        MapFieldMessageParameters param = message.Param;
         param[0] = fieldValue;
         message.Param = param;
         message.Result = 0;
@@ -853,7 +853,7 @@ public partial class Battle : EngineObject
             }
             else
             {
-                var players = data.Players.GetPlayers(data.DefenderPlayer);
+                CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
                 AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, data.Location.X, data.Location.Y, data.Location.MapLevel);
             }
         }
@@ -881,13 +881,13 @@ public partial class Battle : EngineObject
     // { }
     public string GetCombatResultText()
     {
-        var query = new CombatResultQuery();
-        var result = "";
+        CombatResultQuery query = new();
+        string result = "";
         query.Text = result;
         MapFieldMessage message = default;
         message.MessageId = 4361;
         message.Result = query;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = this;
         message.Param = param;
         // { direct combat data }

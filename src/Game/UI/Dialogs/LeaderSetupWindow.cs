@@ -123,17 +123,17 @@ public partial class LeaderSetupWindow : UIModule
             RaceComboBox.Items.Clear();
             for (int i = 0, last = Setup.Items.Count - 1; i <= last; i++)
             {
-                var item = Setup.Items[i];
-                var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
-                var item2 = Setup.Items[i];
+                int item = Setup.Items[i];
+                string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
+                int item2 = Setup.Items[i];
                 RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }
 
-            var indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
+            int indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
             RaceComboBox.Selected = indexOf;
         }
 
-        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
+        string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
         SideNameLabel.Text = raceNamesPlural;
         LeftShield.CurrentImage = Setup.OriginalLeader.Race + 13;
         RightShield.CurrentImage = Setup.OriginalLeader.Race + 13;
@@ -199,21 +199,21 @@ public partial class LeaderSetupWindow : UIModule
         Setup.OriginalLeader.Assign(Leader, UI.Engine);
         leader = Setup.OriginalLeader;
         LeaderNameLabel.Text = leader.HeroName;
-        var inherentAttack = leader.GetInherentAttack();
+        sbyte inherentAttack = leader.GetInherentAttack();
         UnitAttackLabel.Text = IntToStr(inherentAttack);
-        var inherentDefense = leader.GetInherentDefense();
+        sbyte inherentDefense = leader.GetInherentDefense();
         UnitDefenseLabel.Text = IntToStr(inherentDefense);
-        var inherentDamage = leader.GetInherentDamage();
+        sbyte inherentDamage = leader.GetInherentDamage();
         UnitDamageLabel.Text = IntToStr(inherentDamage);
-        var inherentResistance = leader.GetInherentResistance();
+        sbyte inherentResistance = leader.GetInherentResistance();
         UnitResistanceLabel.Text = IntToStr(inherentResistance);
-        var hits = leader.GetHits();
+        sbyte hits = leader.GetHits();
         UnitHitsLabel.Text = IntToStr(hits);
-        var moves = leader.GetMoves();
+        sbyte moves = leader.GetMoves();
         UnitMovesLabel.Text = IntToStr(moves);
         UnitAbilitiesList.Items.Clear();
         leader.ListAbilities(UnitAbilitiesList.Items);
-        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
+        string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
         SideNameLabel.Text = raceNamesPlural;
         LeftShield.CurrentImage = leader.Race + 13;
         RightShield.CurrentImage = leader.Race + 13;
@@ -222,9 +222,9 @@ public partial class LeaderSetupWindow : UIModule
     // AoWLeaderSetup.pas:775
     public void UpdateSkillPoints()
     {
-        var skillPoints = Leader.GetSkillPoints();
-        var skillPointsText = UI.Engine.TranslateResourceString(s_skillPointsText);
-        var skillPointsMax = Leader.GetSkillPointsMax();
+        int skillPoints = Leader.GetSkillPoints();
+        string skillPointsText = UI.Engine.TranslateResourceString(s_skillPointsText);
+        int skillPointsMax = Leader.GetSkillPointsMax();
         SkillPointsLabel.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
 
@@ -245,17 +245,17 @@ public partial class LeaderSetupWindow : UIModule
         ResistanceAddedLabel.Text = IntToStr(Leader.UnitResistance);
         HitsAddedLabel.Text = IntToStr(Leader.UnitHits);
         MovesAddedLabel.Text = IntToStr(Leader.UnitMoves);
-        var inherentAttack = Leader.GetInherentAttack();
+        sbyte inherentAttack = Leader.GetInherentAttack();
         AttackValueLabel.Text = IntToStr(inherentAttack);
-        var inherentDefense = Leader.GetInherentDefense();
+        sbyte inherentDefense = Leader.GetInherentDefense();
         DefenseValueLabel.Text = IntToStr(inherentDefense);
-        var inherentDamage = Leader.GetInherentDamage();
+        sbyte inherentDamage = Leader.GetInherentDamage();
         DamageValueLabel.Text = IntToStr(inherentDamage);
-        var inherentResistance = Leader.GetInherentResistance();
+        sbyte inherentResistance = Leader.GetInherentResistance();
         ResistanceValueLabel.Text = IntToStr(inherentResistance);
-        var hits = Leader.GetHits();
+        sbyte hits = Leader.GetHits();
         HitsValueLabel.Text = IntToStr(hits);
-        var moves = Leader.GetMoves();
+        sbyte moves = Leader.GetMoves();
         MovesValueLabel.Text = IntToStr(moves);
         UpdateSkillPoints();
     }
@@ -322,9 +322,9 @@ public partial class LeaderSetupWindow : UIModule
             {
                 if (GamePack.Current.AbilityControl.GetAbility(i).CanExpand(Leader))
                 {
-                    var expandName = GamePack.Current.AbilityControl.GetAbility(i).ExpandName(Leader);
+                    string expandName = GamePack.Current.AbilityControl.GetAbility(i).ExpandName(Leader);
                     AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
-                    var expandCost = GamePack.Current.AbilityControl.GetAbility(i).ExpandCost(Leader);
+                    int expandCost = GamePack.Current.AbilityControl.GetAbility(i).ExpandCost(Leader);
                     AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -353,9 +353,9 @@ public partial class LeaderSetupWindow : UIModule
             }
         }
 
-        var count = AvailableAbilitiesList.Items.Count;
+        int count = AvailableAbilitiesList.Items.Count;
         AvailableAbilitiesScrollBar.Max = count - 1;
-        var itemsCount = SelectedAbilitiesList.Items.Count;
+        int itemsCount = SelectedAbilitiesList.Items.Count;
         SelectedAbilitiesScrollBar.Max = itemsCount - 1;
         SortAvailableAbilities();
         SortSelectedAbilities();
@@ -399,12 +399,12 @@ public partial class LeaderSetupWindow : UIModule
         MainFace.Visible = MainFaceFrame.Visible;
         if (value == 3 || (value == 2 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (value == 1 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
         {
-            var finish = UI.Engine.TranslateResourceString(s_finishText);
+            string finish = UI.Engine.TranslateResourceString(s_finishText);
             NextButton.Text = finish;
         }
         else
         {
-            var next = UI.Engine.TranslateResourceString(s_nextText);
+            string next = UI.Engine.TranslateResourceString(s_nextText);
             NextButton.Text = next;
         }
 
@@ -436,11 +436,11 @@ public partial class LeaderSetupWindow : UIModule
         DefaultButton.Visible = true;
         PreviousButton.Visible = true;
         NextButton.Visible = true;
-        var step1CustomizeLeader = UI.Engine.TranslateResourceString(s_step1CustomizeLeaderText);
+        string step1CustomizeLeader = UI.Engine.TranslateResourceString(s_step1CustomizeLeaderText);
         Phase1Header.Text = step1CustomizeLeader;
-        var step2AssignSkillPoints = UI.Engine.TranslateResourceString(s_step2AssignSkillPointsText);
+        string step2AssignSkillPoints = UI.Engine.TranslateResourceString(s_step2AssignSkillPointsText);
         Phase2Header.Text = step2AssignSkillPoints;
-        var step3AssignSpheres = UI.Engine.TranslateResourceString(s_step3AssignSpheresText);
+        string step3AssignSpheres = UI.Engine.TranslateResourceString(s_step3AssignSpheresText);
         Phase3Header.Text = step3AssignSpheres;
         SetFixedSpheres(0);
     }
@@ -532,8 +532,8 @@ public partial class LeaderSetupWindow : UIModule
             }
         }
 
-        var sphereCount = Leader.GetSphereCount();
-        var selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
+        int sphereCount = Leader.GetSphereCount();
+        string selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
         SelectedSpheresLabel.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
@@ -672,7 +672,7 @@ public partial class LeaderSetupWindow : UIModule
             index = GamePack.Current.FaceResources.NextFace(index);
         }
 
-        var image = sender;
+        Frame image = sender;
         r = new Rect(Phase1Panel.WinLeft + image.WinLeft + 2, Phase1Panel.WinTop + image.WinTop, Phase1Panel.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (setup.OriginalLeader.GetFace() != null)
@@ -688,7 +688,7 @@ public partial class LeaderSetupWindow : UIModule
     public void FacePrevBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
+        int previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
         UI.TitleWindow.MainWindow.Drawn = false;
     }
@@ -697,7 +697,7 @@ public partial class LeaderSetupWindow : UIModule
     public void FaceNextBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        var nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
+        int nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
         UI.TitleWindow.MainWindow.Drawn = false;
     }
@@ -789,7 +789,7 @@ public partial class LeaderSetupWindow : UIModule
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
                     UI.MessageDialog.MessageMemo.Items.Add("");
-                    var pleaseAssignAllSpheres = UI.Engine.TranslateResourceString(s_pleaseAssignAllSpheresText);
+                    string pleaseAssignAllSpheres = UI.Engine.TranslateResourceString(s_pleaseAssignAllSpheresText);
                     UI.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
                     UI.MessageDialog.OKPanel.Visible = true;
                     UI.MessageDialog.Window.Visible = true;
@@ -807,7 +807,7 @@ public partial class LeaderSetupWindow : UIModule
         setup = Setup;
         if (_phase > 1)
         {
-            var frame = sender;
+            Frame frame = sender;
             r = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (setup.OriginalLeader.GetFace() != null)
@@ -950,7 +950,7 @@ public partial class LeaderSetupWindow : UIModule
         {
             case 1:
                 {
-                    var leader = Leader;
+                    Leader leader = Leader;
                     leader.SetNickname("");
                     leader.HeroName = "";
                     UpdateLeader();
@@ -959,7 +959,7 @@ public partial class LeaderSetupWindow : UIModule
                 break;
             case 2:
                 {
-                    var leader = Leader;
+                    Leader leader = Leader;
                     leader.AssignAbility(leader.HeroResource.Abilities);
                     leader.SetUnitAttack(0);
                     leader.SetUnitDefense(0);
@@ -987,7 +987,7 @@ public partial class LeaderSetupWindow : UIModule
         {
             case 1:
                 {
-                    var leader = Leader;
+                    Leader leader = Leader;
                     leader.SetNickname(Setup.Leader.GetNickname());
                     leader.HeroName = Setup.Leader.HeroName;
                     leader.SetFaceIndex(Setup.Leader.FaceIndex);
@@ -997,7 +997,7 @@ public partial class LeaderSetupWindow : UIModule
                 break;
             case 2:
                 {
-                    var leader = Leader;
+                    Leader leader = Leader;
                     leader.AssignAbility(Setup.Leader);
                     leader.SetUnitAttack(Setup.Leader.UnitAttack);
                     leader.SetUnitDefense(Setup.Leader.UnitDefense);
@@ -1011,7 +1011,7 @@ public partial class LeaderSetupWindow : UIModule
                 break;
             case 3:
                 {
-                    var leader = Leader;
+                    Leader leader = Leader;
                     leader.ClearSpheres();
                     for (int i = 0, last = Setup.Leader.GetSphereCount() - 1; i <= last; i++)
                     {
@@ -1096,7 +1096,7 @@ public partial class LeaderSetupWindow : UIModule
     public void DeleteSphereClick(int slot)
     {
         UI.General.PlayButtonSound(0);
-        var sphereCount = Leader.GetSphereCount();
+        int sphereCount = Leader.GetSphereCount();
         if (slot < sphereCount)
         {
             Leader.DeleteSphereIndex(slot);
@@ -1109,7 +1109,7 @@ public partial class LeaderSetupWindow : UIModule
     public void RaceCBChange()
     {
         UI.General.PlayButtonSound(0);
-        var objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
+        object objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
         Leader.SetRace((sbyte)ObjectToInt(objectValue));
     }
 
@@ -1192,7 +1192,7 @@ public partial class LeaderSetupWindow : UIModule
         Ability ability;
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
+            object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -1207,7 +1207,7 @@ public partial class LeaderSetupWindow : UIModule
         Ability ability;
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
+            object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {

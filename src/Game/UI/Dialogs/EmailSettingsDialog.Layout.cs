@@ -59,7 +59,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         Window.WinHeight = 250;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label titleLbl = new Label(this);
+        Label titleLbl = new(this);
         session.BeginRead(titleLbl);
         titleLbl.Name = "TitleLbl";
         titleLbl.Priority = 0;
@@ -82,7 +82,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         titleLbl.Text = "Email settings";
         titleLbl.TextColor = 0;
         session.EndRead(titleLbl);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -109,7 +109,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -136,7 +136,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -164,7 +164,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -192,7 +192,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -220,7 +220,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Panel okCancelPnl = new Panel(this);
+        Panel okCancelPnl = new(this);
         session.BeginRead(okCancelPnl);
         okCancelPnl.Name = "OKCancelPnl";
         okCancelPnl.Priority = 100;
@@ -247,7 +247,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         okCancelPnl.MinWidth = 0;
         okCancelPnl.MinHeight = 0;
         session.EndRead(okCancelPnl);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 1000;
@@ -278,7 +278,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         okBtn.WinWidth = 105;
         okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 1000;
@@ -309,7 +309,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         cancelBtn.WinWidth = 105;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Label localEmailAddressLbl = new Label(this);
+        Label localEmailAddressLbl = new(this);
         session.BeginRead(localEmailAddressLbl);
         localEmailAddressLbl.Name = "LocalEmailAddressLbl";
         localEmailAddressLbl.Priority = 0;
@@ -363,7 +363,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         LocalEmailAddressEdit.ImageLibraryIndex = 15;
         LocalEmailAddressEdit.PassWordChar = 0;
         session.EndRead(LocalEmailAddressEdit);
-        Label smtpServerLbl = new Label(this);
+        Label smtpServerLbl = new(this);
         session.BeginRead(smtpServerLbl);
         smtpServerLbl.Name = "SMTPServerLbl";
         smtpServerLbl.Priority = 0;
@@ -417,7 +417,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         SmtpServerEdit.ImageLibraryIndex = 15;
         SmtpServerEdit.PassWordChar = 0;
         session.EndRead(SmtpServerEdit);
-        Label attachmentDirectoryLbl = new Label(this);
+        Label attachmentDirectoryLbl = new(this);
         session.BeginRead(attachmentDirectoryLbl);
         attachmentDirectoryLbl.Name = "AttachmentDirectoryLbl";
         attachmentDirectoryLbl.Priority = 0;
@@ -471,7 +471,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         AttachmentDirectoryEdit.ImageLibraryIndex = 15;
         AttachmentDirectoryEdit.PassWordChar = 0;
         session.EndRead(AttachmentDirectoryEdit);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -505,7 +505,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -533,7 +533,7 @@ public partial class EmailSettingsDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

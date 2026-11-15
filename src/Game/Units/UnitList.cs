@@ -78,7 +78,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         int result;
         CheckChild(child);
-        var unit = child;
+        EngineObject unit = child;
         if (CanAddUnit((Troop)child))
         {
             unit.AddRef();
@@ -244,7 +244,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
             bool condition = relation == units[i].GetRace();
             if (!condition)
             {
-                var alignment = units[i].GetAlignment();
+                Alignment alignment = units[i].GetAlignment();
                 condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
             }
 

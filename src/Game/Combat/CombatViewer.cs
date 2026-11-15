@@ -167,7 +167,7 @@ public partial class CombatViewer : IDisposable
                 bool condition = Position > 0;
                 if (condition)
                 {
-                    var count = Logbook.Actions.Count;
+                    int count = Logbook.Actions.Count;
                     condition = Position <= count;
                 }
 
@@ -212,7 +212,7 @@ public partial class CombatViewer : IDisposable
         bool condition = Position > 0;
         if (condition)
         {
-            var count = Logbook.Actions.Count;
+            int count = Logbook.Actions.Count;
             condition = Position <= count;
         }
 
@@ -232,7 +232,7 @@ public partial class CombatViewer : IDisposable
         bool condition = Position > 0;
         if (condition)
         {
-            var count = Logbook.Actions.Count;
+            int count = Logbook.Actions.Count;
             condition = Position <= count;
         }
 

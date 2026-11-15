@@ -14,7 +14,7 @@ public partial class NewCombatRoundCombatAction : CombatAction
     // Combat2.pas:1012
     public override void Execute(Battle combat)
     {
-        var combatData = combat.CombatData;
+        CombatData combatData = combat.CombatData;
         combatData.Round += 1;
 
         for (int i = combat.CombatData.GetCount() - 1; i >= 0; i--)

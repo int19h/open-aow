@@ -10,7 +10,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.Session;
-
+using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -171,7 +171,7 @@ public partial class MapEvents : UIModule
             UI.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
-        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), [day]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), [day]);
         UI.PlayerInfoWindow.TurnLabel.Text = format;
         UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
         UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
@@ -209,7 +209,7 @@ public partial class MapEvents : UIModule
         }
 
         // None has no renderer: nothing shows and the event is not reported done.
-        if (EventRenderers.TryGet(eventValue.View(), out var render))
+        if (EventRenderers.TryGet(eventValue.View(), out Action<MapEvents, EventLog, bool, ExecuteDoneEvent> render))
         {
             render(this, eventValue, mode, done);
         }
@@ -263,7 +263,7 @@ public partial class MapEvents : UIModule
             }
             else
             {
-                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 UI.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
                 if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
@@ -321,7 +321,7 @@ public partial class MapEvents : UIModule
             }
             else
             {
-                var upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
+                int upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
                 netIncome = StrategicMap.Current.Players.GetPlayers(player).Income - upkeep;
                 if (netIncome >= 0)
                 {
@@ -412,7 +412,7 @@ public partial class MapEvents : UIModule
             }
             else
             {
-                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 UI.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
                 netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
@@ -481,7 +481,7 @@ public partial class MapEvents : UIModule
         else
         {
             UI.General.ShowWindows();
-            var turnButton = UI.TaskBar.WorldTurnButton;
+            TurnButton turnButton = UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
                 if (player > -1)
@@ -655,7 +655,7 @@ public partial class MapEvents : UIModule
     {
         if (structure == UI.General.Structure && structure != null)
         {
-            if (StructureScreens.TryGet(structure.DoubleClick(StrategicMap.Current.SeatedPlayer), out var open))
+            if (StructureScreens.TryGet(structure.DoubleClick(StrategicMap.Current.SeatedPlayer), out Action<MapEvents, Structure> open))
             {
                 open(this, structure);
             }

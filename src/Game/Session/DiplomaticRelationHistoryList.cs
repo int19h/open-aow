@@ -55,7 +55,7 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     // Player.PAS:69
     public void Add(DiplomaticRelation relation, int day)
     {
-        var diplomaticRelationHistoryItem = new DiplomaticRelationHistoryItem(this);
+        DiplomaticRelationHistoryItem diplomaticRelationHistoryItem = new(this);
         diplomaticRelationHistoryItem.Day = day;
         diplomaticRelationHistoryItem.Relation = relation;
     }

@@ -31,7 +31,7 @@ public partial class VideoDialog
 
     public void ChangeResolution(int width, int height)
     {
-        var form = GameHost.MainForm;
+        IGameHost form = GameHost.MainForm;
         if (form is null)
         {
             return;

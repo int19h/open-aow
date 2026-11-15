@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWWindow.pas.
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -30,21 +31,21 @@ public partial class Window : GenericWindow
             case Style.Hollow:
                 if (ImageLibraryFrame != null && (ImageLibraryTexture != null || WindowStyle == Style.Hollow))
                 {
-                    var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                    LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                     if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                     {
-                        var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                        var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                         SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                     }
 
-                    var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                    LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                     if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                     {
-                        var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                        var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                         SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                     }
 
@@ -144,10 +145,10 @@ public partial class Window : GenericWindow
                         else
                         {
                             FrameLeft = ImageLibraryFrame[ImageLibraryIndexFrame + 3].Width;
-                            var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                             FrameRight = WinWidth - imageLibraryFrame2.Width;
                             FrameTop = ImageLibraryFrame[ImageLibraryIndexFrame + 1].Height;
-                            var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
                             FrameBottom = WinHeight - imageLibraryFrame3.Height;
                         }
                     }
@@ -298,23 +299,23 @@ public partial class Window : GenericWindow
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
-                        var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-                        var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                        var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rectangle3 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle3 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rectangle4 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }

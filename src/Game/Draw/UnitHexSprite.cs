@@ -524,10 +524,10 @@ public partial class UnitHexSprite : HexSprite
         sbyte result;
         if (MoveStep >= 0)
         {
-            var moveSteps = GetMoveSteps();
+            int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
-                var moveSteps2 = GetMoveSteps();
+                int moveSteps2 = GetMoveSteps();
                 result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
@@ -549,7 +549,7 @@ public partial class UnitHexSprite : HexSprite
         if (value >= 0)
         {
             MoveStep = (sbyte)(((GetMoveSteps() * value) + 50) / 100);
-            var moveSteps = GetMoveSteps();
+            int moveSteps = GetMoveSteps();
             if (MoveStep > moveSteps)
             {
                 MoveStep = (sbyte)GetMoveSteps();
@@ -569,11 +569,11 @@ public partial class UnitHexSprite : HexSprite
         if (MoveStep >= 0)
         {
             Status = (byte)(Status & 247);
-            var moveSteps = GetMoveSteps();
+            int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
                 MoveStep = (sbyte)(MoveStep + 1);
-                var moveSteps2 = GetMoveSteps();
+                int moveSteps2 = GetMoveSteps();
                 result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else

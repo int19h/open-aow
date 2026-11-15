@@ -7,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
@@ -36,12 +37,12 @@ public partial class Arena : Structure
             {
                 for (int i = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; i <= last; i++)
                 {
-                    var unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[i];
+                    int unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[i];
                     troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop != null)
                     {
-                        var player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
-                        var unitTrainCost = UnitTrainCost(troop);
+                        Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+                        int unitTrainCost = UnitTrainCost(troop);
                         StrategicMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
                         ExecuteTrainUnit(troop);
                     }
@@ -49,15 +50,15 @@ public partial class Arena : Structure
 
                 if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
                 {
-                    var arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
+                    ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
-                        var oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
+                        string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
                         StrategicMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
-                        var format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -82,7 +83,7 @@ public partial class Arena : Structure
 
         if (troop is Unit)
         {
-            var unitLocal = (Unit)troop;
+            Unit unitLocal = (Unit)troop;
             if (unitLocal.GetRank() != Unit.Rank.Gold)
             {
                 result = (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5;
@@ -105,7 +106,7 @@ public partial class Arena : Structure
     {
         if (troop is Hero)
         {
-            var hero = troop;
+            Troop hero = troop;
             hero.SetExperience(hero.GetNextLevelExperience());
             hero.Changed();
 
@@ -114,7 +115,7 @@ public partial class Arena : Structure
 
         if (troop is Unit)
         {
-            var troopLocal = troop;
+            Troop troopLocal = troop;
             troopLocal.SetExperience(troopLocal.GetNextLevelExperience());
             troopLocal.Changed();
         }
@@ -136,7 +137,7 @@ public partial class Arena : Structure
             while (result && i != 0)
             {
                 i -= 1;
-                var unit = units[i];
+                int unit = units[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unit);
                 if (troop != null)
                 {
@@ -234,7 +235,7 @@ public partial class Arena : Structure
             army = Owner.GetArmyHexSprite();
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                var troop = army.Army.Units.GetUnit(i);
+                Troop troop = army.Army.Units.GetUnit(i);
                 log.UnitIds.Add(troop.UnitId);
                 if (UnitTrainCost(army.Army.Units.GetUnit(i)) != -1)
                 {

@@ -9,7 +9,7 @@ using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -69,15 +69,15 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 if (Unit.GetPlayer() != 0)
                 {
-                    var player = Unit.GetPlayer();
-                    var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
-                    var param = message.Param;
+                    sbyte player = Unit.GetPlayer();
+                    Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+                    MapFieldMessageParameters param = message.Param;
                     param[0] = param[0].Int | (playerPlayerRace.PlayerRace + 1);
                     message.Param = param;
                 }
                 else
                 {
-                    var param2 = message.Param;
+                    MapFieldMessageParameters param2 = message.Param;
                     param2[0] = param2[0].Int | 13;
                     message.Param = param2;
                 }
@@ -87,7 +87,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         {
             if (message.MessageId == 4352 && message.HexNumber == 0)
             {
-                var player = Unit.GetPlayer();
+                sbyte player = Unit.GetPlayer();
                 message.Result = player;
             }
             else
@@ -315,8 +315,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         {
             moveResult.Code = -1;
             moveResult.Done = true;
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             movement = (MovementHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228490);
             if (movement != null && movement.Enabled)
             {
@@ -387,7 +387,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         }
         else
         {
-            var hexY = GetHexY();
+            sbyte hexY = GetHexY();
             HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, info.HexNumber, ref x, ref y);
             if (moveResult.Code < 30)
             {
@@ -457,10 +457,10 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         CombatMap.Current.NewFrameEvents += NewFrame;
         if (CombatMap.Current.ExplorationEnabled)
         {
-            var player = Unit.GetPlayer();
-            var visibilityRange = Unit.GetVisibilityRange();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte player = Unit.GetPlayer();
+            int visibilityRange = Unit.GetVisibilityRange();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
         }
 
@@ -574,13 +574,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     {
         TacticalBattleMeleeMoveTokenEvent tokenEvent;
         bool result = false;
-        var player = Unit.GetPlayer();
+        sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
             tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
             if (tokenEvent != null)
             {
-                var fUnitPlayer = Unit.GetPlayer();
+                sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
                 result = true;
@@ -623,7 +623,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 }
                 else
                 {
-                    var combatMode = GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop);
+                    CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop);
                     if (Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode))
                     {
                         if (Unit.Troop.GetMoves() == Unit.MovePoints)
@@ -661,7 +661,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
         for (int i = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; i <= last; i++)
         {
-            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
+            MoveSettings moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
             moveSettings.Path.Clear();
         }
 
@@ -696,7 +696,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         int result = spellId;
         for (int i = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; i <= last; i++)
         {
-            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
+            MoveSettings moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
             moveSettings.Path.Clear();
         }
 
@@ -765,18 +765,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            var ability = Abilities[i];
+            CombatAbilityRef ability = Abilities[i];
             names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject(Abilities[i].Ability));
             if (types != null)
             {
-                var ability2 = Abilities[i];
-                var abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
+                CombatAbilityRef ability2 = Abilities[i];
+                AbilityType abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
                 types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
-                var ability2 = Abilities[i];
+                CombatAbilityRef ability2 = Abilities[i];
                 sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
             }
         }
@@ -814,7 +814,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         TokenEvent tokenEvent;
         AbilityCombatInfo buffer = default;
         bool result = false;
-        var player = Unit.GetPlayer();
+        sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
         {
             if (path.Count > 1)
@@ -822,7 +822,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, SelectedAbility);
                 if (tokenEvent != null)
                 {
-                    var fUnitPlayer = Unit.GetPlayer();
+                    sbyte fUnitPlayer = Unit.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                     tokenEvent.Release();
                     result = true;
@@ -833,7 +833,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 GamePack.Current.AbilityControl.GetAbility(SelectedAbility).GetCombatInfo(Unit.Troop, ref buffer);
                 if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
-                    var pathLocal = path[0];
+                    PathStep pathLocal = path[0];
                     AbilityRangedTacticalBattle((ushort)path[0].Location.X, (ushort)pathLocal.Location.Y);
                 }
             }
@@ -847,13 +847,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     {
         CombatAbilityRangedTokenEvent tokenEvent;
         bool result = false;
-        var player = Unit.GetPlayer();
+        sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player))
         {
             tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
             if (tokenEvent != null)
             {
-                var fUnitPlayer = Unit.GetPlayer();
+                sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
                 result = true;
@@ -869,14 +869,14 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
-        TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new TacticalBattleMeleeMoveTokenEvent(null) { Holder = unitObject };
+        TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new(null) { Holder = unitObject };
         tacticalBattleMeleeMoveTokenEvent?.Setup(unitObject, path);
         return tacticalBattleMeleeMoveTokenEvent;
     }
 
     private static CombatAbilityTouchMoveTokenEvent CreateTacticalBattleAbilityTouchMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path, int abilityId)
     {
-        CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new CombatAbilityTouchMoveTokenEvent(null) { Holder = unitObject };
+        CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new(null) { Holder = unitObject };
         if (tacticalBattleAbilityTouchMoveTokenEvent != null)
         {
             tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
@@ -887,7 +887,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     private static CombatAbilityRangedTokenEvent CreateTacticalBattleAbilityRangedTokenEvent(TacticalBattleUnit unitObject, ushort X, ushort Y, int abilityId, int spellId)
     {
-        CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new CombatAbilityRangedTokenEvent(null) { Holder = unitObject };
+        CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new(null) { Holder = unitObject };
         if (tacticalBattleAbilityRangedTokenEvent != null)
         {
             tacticalBattleAbilityRangedTokenEvent.SourceX = (ushort)unitObject.UnitHexSprite.HexX;

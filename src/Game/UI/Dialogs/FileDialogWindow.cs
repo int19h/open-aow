@@ -104,7 +104,7 @@ public partial class FileDialogWindow : UIModule
             if (!UI.Engine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                var previous = StrategicMap.Current;
+                StrategicMap previous = StrategicMap.Current;
                 LoadCampaign(UI.General, name);
                 if (StrategicMap.Current != null && StrategicMap.Current != previous)
                 {
@@ -134,7 +134,7 @@ public partial class FileDialogWindow : UIModule
                         UI.TitleScene.HideScene();
                         UI.General.HideWindows();
                         UI.TaskBar.TaskWindow.Visible = false;
-                        var relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, name);
+                        string relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, name);
                         UI.MultiWindow.Execute(relativePath);
                     }
                 }
@@ -208,7 +208,7 @@ public partial class FileDialogWindow : UIModule
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        foreach (var entry in RtlUnit.Files.FindEntries(directory + "\\**", attributes: 16))
+        foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(directory + "\\**", attributes: 16))
         {
             if (entry.Name != "." && entry.Name != "..")
             {
@@ -252,8 +252,8 @@ public partial class FileDialogWindow : UIModule
 
         for (int i = 0, last = Files.Count - 1; i <= last; i++)
         {
-            var dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
-            var objectValue = Files.Objects[i];
+            string dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
+            FileTime objectValue = Files.Objects[i];
             DateList.Items.AddObject(dateTimeToString, objectValue);
         }
 
@@ -292,7 +292,7 @@ public partial class FileDialogWindow : UIModule
         string path = "";
         string directory = "";
         UI.General.PlayButtonSound(0);
-        var count = Directories.Count;
+        int count = Directories.Count;
         if (FileList.Selected < count && FileList.Selected > -1)
         {
             directory = GetCurrentDir();
@@ -301,7 +301,7 @@ public partial class FileDialogWindow : UIModule
                 directory = Copy(directory, 1, directory.Length - 1);
             }
 
-            var item = FileList.Items[FileList.Selected];
+            string item = FileList.Items[FileList.Selected];
             if (SetCurrentDir(directory + "\\" + item))
             {
                 FindFiles();
@@ -428,7 +428,7 @@ public partial class FileDialogWindow : UIModule
     // AoWFileDialog.pas:400
     public void DriveCmbChange()
     {
-        var item = DriveComboBox.Items[DriveComboBox.Selected];
+        string item = DriveComboBox.Items[DriveComboBox.Selected];
         if (SetCurrentDir(Copy(DriveComboBox.Items[DriveComboBox.Selected], item.Length - 3, 3)))
         {
             FindFiles();
@@ -450,32 +450,32 @@ public partial class FileDialogWindow : UIModule
         DateList.Selected = list.Selected;
         if (Directories.Count - 1 < FileList.Selected)
         {
-            var item = FileList.Items[FileList.Selected];
+            string item = FileList.Items[FileList.Selected];
             SaveFileNameEdit.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
                 map = (StrategicMap)UI.Engine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
                 if (map != null)
                 {
-                    var count = map.Players.GetCount();
+                    int count = map.Players.GetCount();
                     SavedPlayersLabel.Text = IntToStr(count - 1);
                     switch (map.MapContainer.Width)
                     {
                         case 48:
-                            var translatedText = UI.Engine.TranslateResourceString("S");
+                            string translatedText = UI.Engine.TranslateResourceString("S");
                             SavedSizeLabel.Text = translatedText;
                             break;
                         case 64:
-                            var translateResourceString2 = UI.Engine.TranslateResourceString("M");
+                            string translateResourceString2 = UI.Engine.TranslateResourceString("M");
                             SavedSizeLabel.Text = translateResourceString2;
                             break;
                         case 96:
-                            var translateResourceString3 = UI.Engine.TranslateResourceString("L");
+                            string translateResourceString3 = UI.Engine.TranslateResourceString("L");
                             SavedSizeLabel.Text = translateResourceString3;
                             break;
                         case 127:
                         case 128:
-                            var extraLargeMapLetter = UI.Engine.TranslateResourceString(s_extraLargeMapLetter);
+                            string extraLargeMapLetter = UI.Engine.TranslateResourceString(s_extraLargeMapLetter);
                             SavedSizeLabel.Text = extraLargeMapLetter;
                             break;
                         default:
@@ -533,20 +533,20 @@ public partial class FileDialogWindow : UIModule
         {
             case 0:
                 SetCurrentDir(Directory);
-                var fileName = ExtractFileName(LastFileName);
+                string fileName = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName;
                 FileNameEdit.Text = SaveFileNameEdit.Text;
-                var selectAFileToLoad = UI.Engine.TranslateResourceString(s_selectFileToLoadText);
+                string selectAFileToLoad = UI.Engine.TranslateResourceString(s_selectFileToLoadText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAFileToLoad;
                 UI.FileDialogWindow.SaveFileNameEdit.Editable = false;
-                var open = UI.Engine.TranslateResourceString(s_openText);
+                string open = UI.Engine.TranslateResourceString(s_openText);
                 UI.FileDialogWindow.OpenButton.Text = open;
                 SavePanel.Visible = true;
                 NewPanel.Visible = false;
                 break;
             case 1:
                 SetCurrentDir(Directory);
-                var fileName2 = ExtractFileName(LastFileName);
+                string fileName2 = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName2;
                 if (Pos(".", SaveFileNameEdit.Text) != 0)
                 {
@@ -567,19 +567,19 @@ public partial class FileDialogWindow : UIModule
                 }
 
                 FileNameEdit.Text = SaveFileNameEdit.Text;
-                var saveGameAs = UI.Engine.TranslateResourceString(s_saveGameAsText);
+                string saveGameAs = UI.Engine.TranslateResourceString(s_saveGameAsText);
                 UI.FileDialogWindow.TitleLabel.Text = saveGameAs;
                 UI.FileDialogWindow.SaveFileNameEdit.Editable = true;
-                var save = UI.Engine.TranslateResourceString(GameText.SaveText);
+                string save = UI.Engine.TranslateResourceString(GameText.SaveText);
                 UI.FileDialogWindow.OpenButton.Text = save;
                 SavePanel.Visible = true;
                 NewPanel.Visible = false;
                 break;
             case 2:
-                var lastExtension = ExtractFileExt(LastFileName);
+                string lastExtension = ExtractFileExt(LastFileName);
                 if (lastExtension == DocumentKind.Map.OriginalExtension || lastExtension == DocumentKind.Map.OwnExtension)
                 {
-                    var fileName3 = ExtractFileName(LastFileName);
+                    string fileName3 = ExtractFileName(LastFileName);
                     FileNameEdit.Text = fileName3;
                 }
                 else
@@ -588,9 +588,9 @@ public partial class FileDialogWindow : UIModule
                 }
 
                 SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Custom\\");
-                var selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
+                string selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAMap;
-                var select = UI.Engine.TranslateResourceString(s_selectText);
+                string select = UI.Engine.TranslateResourceString(s_selectText);
                 UI.FileDialogWindow.OpenButton.Text = select;
                 SavePanel.Visible = false;
                 NewPanel.Visible = true;
@@ -657,14 +657,14 @@ public partial class FileDialogWindow : UIModule
 
         for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
-            var directory = Directories[i];
+            string directory = Directories[i];
             SaveList.Items.Insert(i, directory);
             DateList.Items.Insert(i, "");
         }
 
         if (!IsEmpty(selected))
         {
-            var indexOf = FileList.Items.IndexOf(selected);
+            int indexOf = FileList.Items.IndexOf(selected);
             FileList.Selected = indexOf;
         }
 
@@ -691,7 +691,7 @@ public partial class FileDialogWindow : UIModule
         {
             for (int i = 0, last = SaveList.Items.Count - 1; i <= last; i++)
             {
-                var objectValue = DateList.Items.Objects[i];
+                FileTime objectValue = DateList.Items.Objects[i];
                 SaveList.Items.Objects[i] = objectValue;
             }
 
@@ -703,7 +703,7 @@ public partial class FileDialogWindow : UIModule
             {
                 for (int i = 0, last = FileList.Items.Count - 1; i <= last; i++)
                 {
-                    var objectValue = DateList.Items.Objects[i];
+                    FileTime objectValue = DateList.Items.Objects[i];
                     FileList.Items.Objects[i] = objectValue;
                 }
 
@@ -713,7 +713,7 @@ public partial class FileDialogWindow : UIModule
 
         if (!IsEmpty(selected))
         {
-            var indexOf = FileList.Items.IndexOf(selected);
+            int indexOf = FileList.Items.IndexOf(selected);
             FileList.Selected = indexOf;
         }
 
@@ -810,7 +810,7 @@ public partial class FileDialogWindow : UIModule
 
     private static void LoadCampaign(General controller, string name)
     {
-        var tree = FileBoundary.Open(name, profile: GameProfile.Campaign);
+        GameFileTree tree = FileBoundary.Open(name, profile: GameProfile.Campaign);
         if (tree == null)
         {
             return;
@@ -826,8 +826,8 @@ public partial class FileDialogWindow : UIModule
         {
             if (controller.UI.Engine.Campaign.ScenarioStarted)
             {
-                var loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
-                var fileName = ExtractFileName(name);
+                string loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
+                string fileName = ExtractFileName(name);
                 controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
                 controller.UI.ProgressDialog.StatusLabel.Text = "";
                 controller.UI.ProgressDialog.ProgressBar.Position = 0;
@@ -861,7 +861,7 @@ public partial class FileDialogWindow : UIModule
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
-        var currentDirectory = GetCurrentDir();
+        string currentDirectory = GetCurrentDir();
         name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, currentDirectory + "\\" + name);
         dialog.UI.FileDialogWindow.Window.Visible = false;
         dialog.SetupControl.PickMap(name);

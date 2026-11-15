@@ -110,11 +110,11 @@ internal static class EffectPaths
                 a2 = (float)((double)angle + DegToRad(Random(40) + 40));
             }
 
-            var cos = Math.Cos(angle);
-            var mathCos = Math.Cos(a2);
+            double cos = Math.Cos(angle);
+            double mathCos = Math.Cos(a2);
             hexX = x1 - Round((double)cos * dist) - Round((double)mathCos * seg);
-            var sin = Math.Sin(angle);
-            var mathSin = Math.Sin(a2);
+            double sin = Math.Sin(angle);
+            double mathSin = Math.Sin(a2);
             hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
             MakeLinePath(cx, cy, hexX, hexY, seg, ref list);
             cx = hexX;
@@ -125,7 +125,7 @@ internal static class EffectPaths
         }
 
         MakeLinePath(cx, cy, x2, y2, length - dist, ref list);
-        var count = list.Count;
+        int count = list.Count;
         list[count - 1].Z = 1;
     }
 
@@ -179,7 +179,7 @@ internal static class EffectPaths
             list.Add(xYZ);
             xYZ.X = x1 + ((x2 - x1) * i / steps);
             xYZ.Y = y1 + ((y2 - y1) * i / steps);
-            var pi = Math.PI;
+            double pi = Math.PI;
             xYZ.Z = Round((double)Math.Sin((double)(i * pi) / steps) * height);
             i += 1;
         }

@@ -53,7 +53,7 @@ public partial class CombatRoad : AbstractRoad
     public override void Activate()
     {
         base.Activate();
-        var random = Random(12);
+        int random = Random(12);
         _images[0] = (byte)(random + 10);
     }
 
@@ -117,11 +117,11 @@ public partial class CombatRoad : AbstractRoad
                 switch (hexNumber)
                 {
                     case 1:
-                        var random = Random(2);
+                        int random = Random(2);
                         _images[hexNumber] = (byte)((random * 3) + 1);
                         break;
                     case 2:
-                        var random2 = Random(2);
+                        int random2 = Random(2);
                         _images[hexNumber] = (byte)((random2 * 3) + 2);
                         break;
                     case 3:
@@ -134,7 +134,7 @@ public partial class CombatRoad : AbstractRoad
                         _images[hexNumber] = 8;
                         break;
                     case 6:
-                        var random3 = Random(2);
+                        int random3 = Random(2);
                         _images[hexNumber] = (byte)(random3 * 3);
                         break;
                 }

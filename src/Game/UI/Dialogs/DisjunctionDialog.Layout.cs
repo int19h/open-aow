@@ -15,7 +15,7 @@ public partial class DisjunctionDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "DisjunctionDlg";
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -43,7 +43,7 @@ public partial class DisjunctionDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -66,7 +66,7 @@ public partial class DisjunctionDialog : ILayoutModule
         title.Text = "Disjunction";
         title.TextColor = 0;
         session.EndRead(title);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -93,7 +93,7 @@ public partial class DisjunctionDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 100;
@@ -128,7 +128,7 @@ public partial class DisjunctionDialog : ILayoutModule
         cancelBtn.WinWidth = 120;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Button castBtn = new Button(this);
+        Button castBtn = new(this);
         session.BeginRead(castBtn);
         castBtn.Name = "CastBtn";
         castBtn.Priority = 100;
@@ -231,7 +231,7 @@ public partial class DisjunctionDialog : ILayoutModule
         DisjunctionChanceLabel.Text = "40%";
         DisjunctionChanceLabel.TextColor = 12632256;
         session.EndRead(DisjunctionChanceLabel);
-        Label disjunctionChanceLbl = new Label(this);
+        Label disjunctionChanceLbl = new(this);
         session.BeginRead(disjunctionChanceLbl);
         disjunctionChanceLbl.Name = "DisjunctionChanceLbl";
         disjunctionChanceLbl.Priority = 0;
@@ -254,7 +254,7 @@ public partial class DisjunctionDialog : ILayoutModule
         disjunctionChanceLbl.Text = "Disjunction Chance";
         disjunctionChanceLbl.TextColor = 9402970;
         session.EndRead(disjunctionChanceLbl);
-        Panel disjunctionChancePnl = new Panel(this);
+        Panel disjunctionChancePnl = new(this);
         session.BeginRead(disjunctionChancePnl);
         disjunctionChancePnl.Name = "DisjunctionChancePnl";
         disjunctionChancePnl.Priority = 0;
@@ -304,7 +304,7 @@ public partial class DisjunctionDialog : ILayoutModule
         DisjunctionManaLabel.Text = "25";
         DisjunctionManaLabel.TextColor = 12632256;
         session.EndRead(DisjunctionManaLabel);
-        Label disjunctionManaLbl = new Label(this);
+        Label disjunctionManaLbl = new(this);
         session.BeginRead(disjunctionManaLbl);
         disjunctionManaLbl.Name = "DisjunctionManaLbl";
         disjunctionManaLbl.Priority = 0;
@@ -327,7 +327,7 @@ public partial class DisjunctionDialog : ILayoutModule
         disjunctionManaLbl.Text = "Disjunction Mana";
         disjunctionManaLbl.TextColor = 9402970;
         session.EndRead(disjunctionManaLbl);
-        Panel disjunctionManaPnl = new Panel(this);
+        Panel disjunctionManaPnl = new(this);
         session.BeginRead(disjunctionManaPnl);
         disjunctionManaPnl.Name = "DisjunctionManaPnl";
         disjunctionManaPnl.Priority = 0;
@@ -354,7 +354,7 @@ public partial class DisjunctionDialog : ILayoutModule
         disjunctionManaPnl.MinWidth = 0;
         disjunctionManaPnl.MinHeight = 0;
         session.EndRead(disjunctionManaPnl);
-        Panel t4LBPnl = new Panel(this);
+        Panel t4LBPnl = new(this);
         session.BeginRead(t4LBPnl);
         t4LBPnl.Name = "T4LBPnl";
         t4LBPnl.Priority = 0;
@@ -449,7 +449,7 @@ public partial class DisjunctionDialog : ILayoutModule
         EnchantmentList.ItemHeight = 17;
         EnchantmentList.TextAlign = TextAlignment.Left;
         session.EndRead(EnchantmentList);
-        Button sort = new Button(this);
+        Button sort = new(this);
         session.BeginRead(sort);
         sort.Name = "Sort";
         sort.Priority = 100;
@@ -480,7 +480,7 @@ public partial class DisjunctionDialog : ILayoutModule
         sort.WinWidth = 170;
         sort.OnClick += _ => SortClick();
         session.EndRead(sort);
-        Button sortEnchantment = new Button(this);
+        Button sortEnchantment = new(this);
         session.BeginRead(sortEnchantment);
         sortEnchantment.Name = "SortEnchantment";
         sortEnchantment.Priority = 100;
@@ -549,7 +549,7 @@ public partial class DisjunctionDialog : ILayoutModule
         EnchantmentsScrollBar.ImageLibraryIndexBack = 79;
         EnchantmentsScrollBar.ThumbImageIndex = 76;
         session.EndRead(EnchantmentsScrollBar);
-        Label spell = new Label(this);
+        Label spell = new(this);
         session.BeginRead(spell);
         spell.Name = "Spell";
         spell.Visible = false;
@@ -610,7 +610,7 @@ public partial class DisjunctionDialog : ILayoutModule
         ChanceSlider.ImageLibraryIndexBack = 80;
         ChanceSlider.ThumbImageIndex = 83;
         session.EndRead(ChanceSlider);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -644,7 +644,7 @@ public partial class DisjunctionDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -652,7 +652,7 @@ public partial class DisjunctionDialog : ILayoutModule
         translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(translator);
-        Panel mapViewPnl = new Panel(this);
+        Panel mapViewPnl = new(this);
         session.BeginRead(mapViewPnl);
         mapViewPnl.Name = "MapViewPnl";
         mapViewPnl.Priority = 1;

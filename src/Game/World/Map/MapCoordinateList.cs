@@ -116,8 +116,8 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
                 {
                     if (!reached[i])
                     {
-                        var item = locations[i];
-                        var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
+                        MapCoordinate item = locations[i];
+                        MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
                         if (item == packMapCoordinate)
                         {
                             reached[i] = true;
@@ -133,7 +133,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
         locations = new MapCoordinateList();
         for (int i = 0, last = list.Count - 1; i <= last; i++)
         {
-            var mapCoordinate = list[i];
+            MapCoordinate mapCoordinate = list[i];
             if (locations.IndexOf(mapCoordinate) == -1)
             {
                 locations.Add(mapCoordinate);

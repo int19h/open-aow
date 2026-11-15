@@ -65,7 +65,7 @@ public sealed class LayoutSession
 
     public void Defer<T>(string module, Action<T> apply) where T : Component
     {
-        if (_modules.TryGetValue(module, out var ready))
+        if (_modules.TryGetValue(module, out Component? ready))
         {
             apply((T)ready);
         }
@@ -84,8 +84,8 @@ public sealed class LayoutSession
 
         for (int i = 0; i < _pending.Count;)
         {
-            var fixup = _pending[i];
-            if (_modules.TryGetValue(fixup.Module, out var module)) { fixup.Apply(module); _pending.RemoveAt(i); }
+            Fixup fixup = _pending[i];
+            if (_modules.TryGetValue(fixup.Module, out Component? module)) { fixup.Apply(module); _pending.RemoveAt(i); }
             else
             {
                 i++;
@@ -100,7 +100,7 @@ public sealed class LayoutSession
             throw new InvalidOperationException($"{_pending.Count} unresolved references, first module {_pending[0].Module}");
         }
 
-        foreach (var module in _modules.Values)
+        foreach (Component module in _modules.Values)
         {
             for (int index = 0; index < module.ComponentCount; index++)
             {
@@ -114,7 +114,7 @@ public sealed class LayoutSession
 
     public static void ReadImageData(CustomImageLibrary library, byte[] data)
     {
-        using var stream = new MemoryStream();
+        using MemoryStream stream = new();
         stream.WriteBuffer(data); stream.Position = 0; library.LoadFromStream(stream);
     }
 }

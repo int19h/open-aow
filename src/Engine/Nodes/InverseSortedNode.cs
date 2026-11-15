@@ -34,20 +34,20 @@ public partial class InverseSortedNode : SortedNode
                 Array.Copy(Items, i, Items, i + 1, StoredCount - i);
             }
 
-            var items = Items;
+            SortItem[] items = Items;
             items[i].Child = child;
             Items = items;
-            var items2 = Items;
+            SortItem[] items2 = Items;
             items2[i].SortValue = sortValue;
             Items = items2;
             result = i;
         }
         else
         {
-            var items3 = Items;
+            SortItem[] items3 = Items;
             items3[StoredCount].Child = child;
             Items = items3;
-            var items4 = Items;
+            SortItem[] items4 = Items;
             items4[StoredCount].SortValue = sortValue;
             Items = items4;
             result = StoredCount;

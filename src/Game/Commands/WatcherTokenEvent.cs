@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -26,7 +26,7 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         watcher = new WatcherHexSprite(null) { Holder = CreationHolder() };
         watcher.Enchantment.PlayerIndex = source.Player;
-        var spell = GamePack.Current.SpellControl.GetSpell(57);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(57);
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
         StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
         if ((byte)StrategicMap.Current.SeatedPlayer == EventPlayerIndex)
@@ -34,7 +34,7 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
             watcher.StartAnimation(Location.X, Location.Y, Location.MapLevel);
         }
 
-        var fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }

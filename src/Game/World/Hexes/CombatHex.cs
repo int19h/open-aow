@@ -28,16 +28,16 @@ public partial class CombatHex : AbstractHexagon
         {
             if (message.TerrainType != 14)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
@@ -260,7 +260,7 @@ public partial class CombatHex : AbstractHexagon
             bool condition = message.MessageId != 65556;
             if (!condition)
             {
-                var terrain = TerrainList.GetTerrain(0);
+                sbyte terrain = TerrainList.GetTerrain(0);
                 condition = !Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain);
             }
 

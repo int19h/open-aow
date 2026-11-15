@@ -61,7 +61,7 @@ public partial class ScannerWindow : ILayoutModule
         MainWindow.WinHeight = 216;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Frame scannerFrame = new Frame(this);
+        Frame scannerFrame = new(this);
         session.BeginRead(scannerFrame);
         scannerFrame.Name = "ScannerFrame";
         scannerFrame.Priority = 50;
@@ -265,7 +265,7 @@ public partial class ScannerWindow : ILayoutModule
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
-        Image sTitleIcon = new Image(this);
+        Image sTitleIcon = new(this);
         session.BeginRead(sTitleIcon);
         sTitleIcon.Name = "STitleIcon";
         sTitleIcon.Priority = 0;
@@ -316,7 +316,7 @@ public partial class ScannerWindow : ILayoutModule
         TitleLabel.Text = "World Map";
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        Button sMinIcon = new Button(this);
+        Button sMinIcon = new(this);
         session.BeginRead(sMinIcon);
         sMinIcon.Name = "SMinIcon";
         sMinIcon.Priority = 1000;
@@ -350,7 +350,7 @@ public partial class ScannerWindow : ILayoutModule
         sMinIcon.WinWidth = 15;
         sMinIcon.OnClick += _ => SMinIconClick();
         session.EndRead(sMinIcon);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;
@@ -384,7 +384,7 @@ public partial class ScannerWindow : ILayoutModule
         help.WinWidth = 15;
         help.OnClick += _ => HelpClick();
         session.EndRead(help);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

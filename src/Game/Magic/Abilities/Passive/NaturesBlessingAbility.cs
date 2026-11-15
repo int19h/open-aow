@@ -34,7 +34,7 @@ public partial class NaturesBlessingAbility : DurationAbility
         bool result = base.Expand(owner);
         if (owner is Troop)
         {
-            var troop = (Troop)owner;
+            Troop troop = (Troop)owner;
             troop.SetHitPoints(troop.GetHits());
         }
 

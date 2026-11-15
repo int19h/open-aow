@@ -129,7 +129,7 @@ public partial class CityScreen : ILayoutModule
         UnitAbilitiesList.ItemHeight = 16;
         UnitAbilitiesList.TextAlign = TextAlignment.Left;
         session.EndRead(UnitAbilitiesList);
-        Image uAttackIcon = new Image(this);
+        Image uAttackIcon = new(this);
         session.BeginRead(uAttackIcon);
         uAttackIcon.Name = "UAttackIcon";
         uAttackIcon.Priority = 1000;
@@ -157,7 +157,7 @@ public partial class CityScreen : ILayoutModule
         uAttackIcon.Animate = false;
         uAttackIcon.AnimationFrameDelay = 0;
         session.EndRead(uAttackIcon);
-        Image uDefenseIcon = new Image(this);
+        Image uDefenseIcon = new(this);
         session.BeginRead(uDefenseIcon);
         uDefenseIcon.Name = "UDefenseIcon";
         uDefenseIcon.Priority = 1000;
@@ -213,7 +213,7 @@ public partial class CityScreen : ILayoutModule
         UnitMovesIcon.Animate = false;
         UnitMovesIcon.AnimationFrameDelay = 0;
         session.EndRead(UnitMovesIcon);
-        Image uDamageIcon = new Image(this);
+        Image uDamageIcon = new(this);
         session.BeginRead(uDamageIcon);
         uDamageIcon.Name = "UDamageIcon";
         uDamageIcon.Priority = 1000;
@@ -241,7 +241,7 @@ public partial class CityScreen : ILayoutModule
         uDamageIcon.Animate = false;
         uDamageIcon.AnimationFrameDelay = 0;
         session.EndRead(uDamageIcon);
-        Image uResistanceIcon = new Image(this);
+        Image uResistanceIcon = new(this);
         session.BeginRead(uResistanceIcon);
         uResistanceIcon.Name = "UResistanceIcon";
         uResistanceIcon.Priority = 1000;
@@ -269,7 +269,7 @@ public partial class CityScreen : ILayoutModule
         uResistanceIcon.Animate = false;
         uResistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(uResistanceIcon);
-        Image uHitsIcon = new Image(this);
+        Image uHitsIcon = new(this);
         session.BeginRead(uHitsIcon);
         uHitsIcon.Name = "UHitsIcon";
         uHitsIcon.Priority = 1000;
@@ -435,7 +435,7 @@ public partial class CityScreen : ILayoutModule
         UnitHitsLabel.Text = "50/50";
         UnitHitsLabel.TextColor = 9415072;
         session.EndRead(UnitHitsLabel);
-        Panel uStatPnl = new Panel(this);
+        Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
         uStatPnl.Name = "UStatPnl";
         uStatPnl.Priority = 20;
@@ -462,7 +462,7 @@ public partial class CityScreen : ILayoutModule
         uStatPnl.MinWidth = 0;
         uStatPnl.MinHeight = 0;
         session.EndRead(uStatPnl);
-        Panel uStatP1 = new Panel(this);
+        Panel uStatP1 = new(this);
         session.BeginRead(uStatP1);
         uStatP1.Name = "UStatP1";
         uStatP1.Priority = 1000;
@@ -489,7 +489,7 @@ public partial class CityScreen : ILayoutModule
         uStatP1.MinWidth = 0;
         uStatP1.MinHeight = 0;
         session.EndRead(uStatP1);
-        Panel uStatP2 = new Panel(this);
+        Panel uStatP2 = new(this);
         session.BeginRead(uStatP2);
         uStatP2.Name = "UStatP2";
         uStatP2.Priority = 1000;
@@ -562,7 +562,7 @@ public partial class CityScreen : ILayoutModule
         UnitLevelLabel.Text = "#####";
         UnitLevelLabel.TextColor = 9415072;
         session.EndRead(UnitLevelLabel);
-        Panel uPicturePnl = new Panel(this);
+        Panel uPicturePnl = new(this);
         session.BeginRead(uPicturePnl);
         uPicturePnl.Name = "UPicturePnl";
         uPicturePnl.Priority = 20;
@@ -589,7 +589,7 @@ public partial class CityScreen : ILayoutModule
         uPicturePnl.MinWidth = 0;
         uPicturePnl.MinHeight = 0;
         session.EndRead(uPicturePnl);
-        Panel uCostPnl = new Panel(this);
+        Panel uCostPnl = new(this);
         session.BeginRead(uCostPnl);
         uCostPnl.Name = "UCostPnl";
         uCostPnl.Priority = 20;
@@ -639,7 +639,7 @@ public partial class CityScreen : ILayoutModule
         StructureNameLabel.Text = "#####";
         StructureNameLabel.TextColor = 0;
         session.EndRead(StructureNameLabel);
-        Label costLbl = new Label(this);
+        Label costLbl = new(this);
         session.BeginRead(costLbl);
         costLbl.Name = "CostLbl";
         costLbl.Priority = 0;
@@ -708,7 +708,7 @@ public partial class CityScreen : ILayoutModule
         UnitLabel.Text = "######";
         UnitLabel.TextColor = 0;
         session.EndRead(UnitLabel);
-        Label turnsLbl = new Label(this);
+        Label turnsLbl = new(this);
         session.BeginRead(turnsLbl);
         turnsLbl.Name = "TurnsLbl";
         turnsLbl.Priority = 0;
@@ -1466,7 +1466,7 @@ public partial class CityScreen : ILayoutModule
         Action3CheckBox.RadioIndex = 1;
         Action3CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 2);
         session.EndRead(Action3CheckBox);
-        VerticalScrollBar t2SBar = new VerticalScrollBar(this);
+        VerticalScrollBar t2SBar = new(this);
         session.BeginRead(t2SBar);
         t2SBar.Name = "T2SBar";
         t2SBar.Visible = false;
@@ -1503,7 +1503,7 @@ public partial class CityScreen : ILayoutModule
         t2SBar.ImageLibraryIndexBack = 93;
         t2SBar.ThumbImageIndex = 90;
         session.EndRead(t2SBar);
-        Panel abilPnl = new Panel(this);
+        Panel abilPnl = new(this);
         session.BeginRead(abilPnl);
         abilPnl.Name = "AbilPnl";
         abilPnl.Priority = 10000;
@@ -1580,7 +1580,7 @@ public partial class CityScreen : ILayoutModule
         UpgradeLabel.Text = "Produce Merchandise";
         UpgradeLabel.TextColor = 9415072;
         session.EndRead(UpgradeLabel);
-        Panel upgradeMemoFr = new Panel(this);
+        Panel upgradeMemoFr = new(this);
         session.BeginRead(upgradeMemoFr);
         upgradeMemoFr.Name = "UpgradeMemoFr";
         upgradeMemoFr.Priority = 20;
@@ -1641,7 +1641,7 @@ public partial class CityScreen : ILayoutModule
         UpgradeMemo.ColorChangeChar = 0;
         UpgradeMemo.TextAlign = TextAlignment.Left;
         session.EndRead(UpgradeMemo);
-        Panel rightPnl = new Panel(this);
+        Panel rightPnl = new(this);
         session.BeginRead(rightPnl);
         rightPnl.Name = "RightPnl";
         rightPnl.Priority = 30003;
@@ -1668,7 +1668,7 @@ public partial class CityScreen : ILayoutModule
         rightPnl.MinWidth = 0;
         rightPnl.MinHeight = 0;
         session.EndRead(rightPnl);
-        Panel queuePnl = new Panel(this);
+        Panel queuePnl = new(this);
         session.BeginRead(queuePnl);
         queuePnl.Name = "QueuePnl";
         queuePnl.Priority = 3003;
@@ -1979,7 +1979,7 @@ public partial class CityScreen : ILayoutModule
         ActiveActionTurnsLabel.Text = "####";
         ActiveActionTurnsLabel.TextColor = 6783862;
         session.EndRead(ActiveActionTurnsLabel);
-        Image sepBar = new Image(this);
+        Image sepBar = new(this);
         session.BeginRead(sepBar);
         sepBar.Name = "SepBar";
         sepBar.Priority = 1500;
@@ -2151,7 +2151,7 @@ public partial class CityScreen : ILayoutModule
         PopulationPanel.MinWidth = 0;
         PopulationPanel.MinHeight = 0;
         session.EndRead(PopulationPanel);
-        Frame ipPicFr = new Frame(this);
+        Frame ipPicFr = new(this);
         session.BeginRead(ipPicFr);
         ipPicFr.Name = "IPPicFr";
         ipPicFr.Priority = 0;
@@ -2253,7 +2253,7 @@ public partial class CityScreen : ILayoutModule
         PopulationHeader.ColorChangeChar = 0;
         PopulationHeader.TextAlign = TextAlignment.Left;
         session.EndRead(PopulationHeader);
-        Panel iiPnl = new Panel(this);
+        Panel iiPnl = new(this);
         session.BeginRead(iiPnl);
         iiPnl.Name = "IIPnl";
         iiPnl.Priority = 3000;
@@ -2280,7 +2280,7 @@ public partial class CityScreen : ILayoutModule
         iiPnl.MinWidth = 0;
         iiPnl.MinHeight = 0;
         session.EndRead(iiPnl);
-        Frame iiPicFr = new Frame(this);
+        Frame iiPicFr = new(this);
         session.BeginRead(iiPicFr);
         iiPicFr.Name = "IIPicFr";
         iiPicFr.Priority = 0;
@@ -2375,7 +2375,7 @@ public partial class CityScreen : ILayoutModule
         IncomeHeader.ColorChangeChar = 0;
         IncomeHeader.TextAlign = TextAlignment.Left;
         session.EndRead(IncomeHeader);
-        Panel iePnl = new Panel(this);
+        Panel iePnl = new(this);
         session.BeginRead(iePnl);
         iePnl.Name = "IEPnl";
         iePnl.Priority = 3000;
@@ -2402,7 +2402,7 @@ public partial class CityScreen : ILayoutModule
         iePnl.MinWidth = 0;
         iePnl.MinHeight = 0;
         session.EndRead(iePnl);
-        Frame iePicFr = new Frame(this);
+        Frame iePicFr = new(this);
         session.BeginRead(iePicFr);
         iePicFr.Name = "IEPicFr";
         iePicFr.Priority = 0;
@@ -2497,7 +2497,7 @@ public partial class CityScreen : ILayoutModule
         EnhancementsHeader.ColorChangeChar = 0;
         EnhancementsHeader.TextAlign = TextAlignment.Left;
         session.EndRead(EnhancementsHeader);
-        Panel currentInfo = new Panel(this);
+        Panel currentInfo = new(this);
         session.BeginRead(currentInfo);
         currentInfo.Name = "CurrentInfo";
         currentInfo.Priority = 3000;
@@ -2578,7 +2578,7 @@ public partial class CityScreen : ILayoutModule
         LeftPillar.ImageLibraryIndexLine = 61;
         LeftPillar.ImageLibraryIndexTexture = 0;
         session.EndRead(LeftPillar);
-        Panel queueInfo = new Panel(this);
+        Panel queueInfo = new(this);
         session.BeginRead(queueInfo);
         queueInfo.Name = "QueueInfo";
         queueInfo.Priority = 3000;
@@ -2739,7 +2739,7 @@ public partial class CityScreen : ILayoutModule
         CurrentActionImage.Animate = false;
         CurrentActionImage.AnimationFrameDelay = 0;
         session.EndRead(CurrentActionImage);
-        Image racePortrait = new Image(this);
+        Image racePortrait = new(this);
         session.BeginRead(racePortrait);
         racePortrait.Name = "RacePortrait";
         racePortrait.OnDraw += RacePortraitDraw;
@@ -2768,7 +2768,7 @@ public partial class CityScreen : ILayoutModule
         racePortrait.Animate = false;
         racePortrait.AnimationFrameDelay = 0;
         session.EndRead(racePortrait);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -2795,7 +2795,7 @@ public partial class CityScreen : ILayoutModule
         frame1.ImageLibraryIndexLine = 0;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Image blackBg = new Image(this);
+        Image blackBg = new(this);
         session.BeginRead(blackBg);
         blackBg.Name = "BlackBg";
         blackBg.Priority = 10;
@@ -2823,7 +2823,7 @@ public partial class CityScreen : ILayoutModule
         blackBg.Animate = false;
         blackBg.AnimationFrameDelay = 0;
         session.EndRead(blackBg);
-        Image blackBg2 = new Image(this);
+        Image blackBg2 = new(this);
         session.BeginRead(blackBg2);
         blackBg2.Name = "BlackBg2";
         blackBg2.Priority = 10;
@@ -2878,7 +2878,7 @@ public partial class CityScreen : ILayoutModule
         UnitPictureFramePanel.MinWidth = 0;
         UnitPictureFramePanel.MinHeight = 0;
         session.EndRead(UnitPictureFramePanel);
-        Panel uStatFr1 = new Panel(this);
+        Panel uStatFr1 = new(this);
         session.BeginRead(uStatFr1);
         uStatFr1.Name = "UStatFr1";
         uStatFr1.Priority = 20;
@@ -2905,7 +2905,7 @@ public partial class CityScreen : ILayoutModule
         uStatFr1.MinWidth = 0;
         uStatFr1.MinHeight = 0;
         session.EndRead(uStatFr1);
-        Panel uStatFr2 = new Panel(this);
+        Panel uStatFr2 = new(this);
         session.BeginRead(uStatFr2);
         uStatFr2.Name = "UStatFr2";
         uStatFr2.Priority = 20;
@@ -2932,7 +2932,7 @@ public partial class CityScreen : ILayoutModule
         uStatFr2.MinWidth = 0;
         uStatFr2.MinHeight = 0;
         session.EndRead(uStatFr2);
-        Panel uInfoFr = new Panel(this);
+        Panel uInfoFr = new(this);
         session.BeginRead(uInfoFr);
         uInfoFr.Name = "UInfoFr";
         uInfoFr.Priority = 20;
@@ -2959,7 +2959,7 @@ public partial class CityScreen : ILayoutModule
         uInfoFr.MinWidth = 0;
         uInfoFr.MinHeight = 0;
         session.EndRead(uInfoFr);
-        Panel costFr = new Panel(this);
+        Panel costFr = new(this);
         session.BeginRead(costFr);
         costFr.Name = "CostFr";
         costFr.Priority = 20;
@@ -2986,7 +2986,7 @@ public partial class CityScreen : ILayoutModule
         costFr.MinWidth = 0;
         costFr.MinHeight = 0;
         session.EndRead(costFr);
-        Panel turnsFr = new Panel(this);
+        Panel turnsFr = new(this);
         session.BeginRead(turnsFr);
         turnsFr.Name = "TurnsFr";
         turnsFr.Priority = 20;
@@ -3013,7 +3013,7 @@ public partial class CityScreen : ILayoutModule
         turnsFr.MinWidth = 0;
         turnsFr.MinHeight = 0;
         session.EndRead(turnsFr);
-        Panel upgPicPnl = new Panel(this);
+        Panel upgPicPnl = new(this);
         session.BeginRead(upgPicPnl);
         upgPicPnl.Name = "UpgPicPnl";
         upgPicPnl.Priority = 20;
@@ -3068,7 +3068,7 @@ public partial class CityScreen : ILayoutModule
         UpgradePicture.Animate = false;
         UpgradePicture.AnimationFrameDelay = 0;
         session.EndRead(UpgradePicture);
-        Panel upgPicFr = new Panel(this);
+        Panel upgPicFr = new(this);
         session.BeginRead(upgPicFr);
         upgPicFr.Name = "UpgPicFr";
         upgPicFr.Priority = 20;
@@ -3095,7 +3095,7 @@ public partial class CityScreen : ILayoutModule
         upgPicFr.MinWidth = 0;
         upgPicFr.MinHeight = 0;
         session.EndRead(upgPicFr);
-        Panel upgCostPnl = new Panel(this);
+        Panel upgCostPnl = new(this);
         session.BeginRead(upgCostPnl);
         upgCostPnl.Name = "UpgCostPnl";
         upgCostPnl.Priority = 20;
@@ -3122,7 +3122,7 @@ public partial class CityScreen : ILayoutModule
         upgCostPnl.MinWidth = 0;
         upgCostPnl.MinHeight = 0;
         session.EndRead(upgCostPnl);
-        Label upgCostLbl = new Label(this);
+        Label upgCostLbl = new(this);
         session.BeginRead(upgCostLbl);
         upgCostLbl.Name = "UpgCostLbl";
         upgCostLbl.Priority = 0;
@@ -3168,7 +3168,7 @@ public partial class CityScreen : ILayoutModule
         UpgradeCostLabel.Text = "###";
         UpgradeCostLabel.TextColor = 9415072;
         session.EndRead(UpgradeCostLabel);
-        Label upgTurnsLbl = new Label(this);
+        Label upgTurnsLbl = new(this);
         session.BeginRead(upgTurnsLbl);
         upgTurnsLbl.Name = "UpgTurnsLbl";
         upgTurnsLbl.Priority = 0;
@@ -3214,7 +3214,7 @@ public partial class CityScreen : ILayoutModule
         UpgradeTurnsLabel.Text = "###";
         UpgradeTurnsLabel.TextColor = 9415072;
         session.EndRead(UpgradeTurnsLabel);
-        Panel upgCostFr = new Panel(this);
+        Panel upgCostFr = new(this);
         session.BeginRead(upgCostFr);
         upgCostFr.Name = "UpgCostFr";
         upgCostFr.Priority = 20;
@@ -3241,7 +3241,7 @@ public partial class CityScreen : ILayoutModule
         upgCostFr.MinWidth = 0;
         upgCostFr.MinHeight = 0;
         session.EndRead(upgCostFr);
-        Panel upgTurnsFr = new Panel(this);
+        Panel upgTurnsFr = new(this);
         session.BeginRead(upgTurnsFr);
         upgTurnsFr.Name = "UpgTurnsFr";
         upgTurnsFr.Priority = 20;
@@ -3296,7 +3296,7 @@ public partial class CityScreen : ILayoutModule
         MigratePanel.MinWidth = 0;
         MigratePanel.MinHeight = 0;
         session.EndRead(MigratePanel);
-        Label newRaceLbl = new Label(this);
+        Label newRaceLbl = new(this);
         session.BeginRead(newRaceLbl);
         newRaceLbl.Name = "NewRaceLbl";
         newRaceLbl.Visible = false;
@@ -3320,7 +3320,7 @@ public partial class CityScreen : ILayoutModule
         newRaceLbl.Text = "Select new race";
         newRaceLbl.TextColor = 0;
         session.EndRead(newRaceLbl);
-        Panel migrateMainFr = new Panel(this);
+        Panel migrateMainFr = new(this);
         session.BeginRead(migrateMainFr);
         migrateMainFr.Name = "MigrateMainFr";
         migrateMainFr.Priority = 20;
@@ -3347,7 +3347,7 @@ public partial class CityScreen : ILayoutModule
         migrateMainFr.MinWidth = 0;
         migrateMainFr.MinHeight = 0;
         session.EndRead(migrateMainFr);
-        Panel migPicPnl = new Panel(this);
+        Panel migPicPnl = new(this);
         session.BeginRead(migPicPnl);
         migPicPnl.Name = "MigPicPnl";
         migPicPnl.Priority = 20;
@@ -3374,7 +3374,7 @@ public partial class CityScreen : ILayoutModule
         migPicPnl.MinWidth = 0;
         migPicPnl.MinHeight = 0;
         session.EndRead(migPicPnl);
-        Image migratePic = new Image(this);
+        Image migratePic = new(this);
         session.BeginRead(migratePic);
         migratePic.Name = "MigratePic";
         migratePic.Priority = 10;
@@ -3402,7 +3402,7 @@ public partial class CityScreen : ILayoutModule
         migratePic.Animate = false;
         migratePic.AnimationFrameDelay = 0;
         session.EndRead(migratePic);
-        Panel migPicFr = new Panel(this);
+        Panel migPicFr = new(this);
         session.BeginRead(migPicFr);
         migPicFr.Name = "MigPicFr";
         migPicFr.Priority = 20;
@@ -3429,7 +3429,7 @@ public partial class CityScreen : ILayoutModule
         migPicFr.MinWidth = 0;
         migPicFr.MinHeight = 0;
         session.EndRead(migPicFr);
-        Panel migCostPnl = new Panel(this);
+        Panel migCostPnl = new(this);
         session.BeginRead(migCostPnl);
         migCostPnl.Name = "MigCostPnl";
         migCostPnl.Priority = 20;
@@ -3456,7 +3456,7 @@ public partial class CityScreen : ILayoutModule
         migCostPnl.MinWidth = 0;
         migCostPnl.MinHeight = 0;
         session.EndRead(migCostPnl);
-        Label migCostLbl = new Label(this);
+        Label migCostLbl = new(this);
         session.BeginRead(migCostLbl);
         migCostLbl.Name = "MigCostLbl";
         migCostLbl.Priority = 0;
@@ -3479,7 +3479,7 @@ public partial class CityScreen : ILayoutModule
         migCostLbl.Text = "Cost";
         migCostLbl.TextColor = 9415072;
         session.EndRead(migCostLbl);
-        Label migrateCost = new Label(this);
+        Label migrateCost = new(this);
         session.BeginRead(migrateCost);
         migrateCost.Name = "MigrateCost";
         migrateCost.Priority = 0;
@@ -3502,7 +3502,7 @@ public partial class CityScreen : ILayoutModule
         migrateCost.Text = "-";
         migrateCost.TextColor = 9415072;
         session.EndRead(migrateCost);
-        Label migTurnsLbl = new Label(this);
+        Label migTurnsLbl = new(this);
         session.BeginRead(migTurnsLbl);
         migTurnsLbl.Name = "MigTurnsLbl";
         migTurnsLbl.Priority = 0;
@@ -3548,7 +3548,7 @@ public partial class CityScreen : ILayoutModule
         MigrateTurnsLabel.Text = "###";
         MigrateTurnsLabel.TextColor = 9415072;
         session.EndRead(MigrateTurnsLabel);
-        Panel migCostFr = new Panel(this);
+        Panel migCostFr = new(this);
         session.BeginRead(migCostFr);
         migCostFr.Name = "MigCostFr";
         migCostFr.Priority = 20;
@@ -3575,7 +3575,7 @@ public partial class CityScreen : ILayoutModule
         migCostFr.MinWidth = 0;
         migCostFr.MinHeight = 0;
         session.EndRead(migCostFr);
-        Panel migTurnsFr = new Panel(this);
+        Panel migTurnsFr = new(this);
         session.BeginRead(migTurnsFr);
         migTurnsFr.Name = "MigTurnsFr";
         migTurnsFr.Priority = 20;
@@ -3704,7 +3704,7 @@ public partial class CityScreen : ILayoutModule
         MigrationTurnsList.ItemHeight = 15;
         MigrationTurnsList.TextAlign = TextAlignment.Center;
         session.EndRead(MigrationTurnsList);
-        Button sortMigrationRaces = new Button(this);
+        Button sortMigrationRaces = new(this);
         session.BeginRead(sortMigrationRaces);
         sortMigrationRaces.Name = "SortMigrationRaces";
         sortMigrationRaces.Priority = 5;
@@ -3735,7 +3735,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationRaces.WinWidth = 119;
         sortMigrationRaces.OnClick += _ => SortMigrationRacesClick();
         session.EndRead(sortMigrationRaces);
-        Button sortMigrationTurns = new Button(this);
+        Button sortMigrationTurns = new(this);
         session.BeginRead(sortMigrationTurns);
         sortMigrationTurns.Name = "SortMigrationTurns";
         sortMigrationTurns.Priority = 5;
@@ -3766,7 +3766,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationTurns.WinWidth = 43;
         sortMigrationTurns.OnClick += _ => SortMigrationTurnsClick();
         session.EndRead(sortMigrationTurns);
-        Button sortMigrationRelation = new Button(this);
+        Button sortMigrationRelation = new(this);
         session.BeginRead(sortMigrationRelation);
         sortMigrationRelation.Name = "SortMigrationRelation";
         sortMigrationRelation.Priority = 5;
@@ -3797,7 +3797,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationRelation.WinWidth = 103;
         sortMigrationRelation.OnClick += _ => SortMigrationRelationClick();
         session.EndRead(sortMigrationRelation);
-        Panel t3LBPnl = new Panel(this);
+        Panel t3LBPnl = new(this);
         session.BeginRead(t3LBPnl);
         t3LBPnl.Name = "T3LBPnl";
         t3LBPnl.Priority = 5;
@@ -3862,7 +3862,7 @@ public partial class CityScreen : ILayoutModule
         MigrationScrollBar.ImageLibraryIndexBack = 93;
         MigrationScrollBar.ThumbImageIndex = 90;
         session.EndRead(MigrationScrollBar);
-        Label t3RaceLbl = new Label(this);
+        Label t3RaceLbl = new(this);
         session.BeginRead(t3RaceLbl);
         t3RaceLbl.Name = "T3RaceLbl";
         t3RaceLbl.Priority = 10;
@@ -3908,7 +3908,7 @@ public partial class CityScreen : ILayoutModule
         CurrentRaceLabel.Text = "#######";
         CurrentRaceLabel.TextColor = 11783630;
         session.EndRead(CurrentRaceLabel);
-        Label t3RelLbl = new Label(this);
+        Label t3RelLbl = new(this);
         session.BeginRead(t3RelLbl);
         t3RelLbl.Name = "T3RelLbl";
         t3RelLbl.Priority = 10;
@@ -3954,7 +3954,7 @@ public partial class CityScreen : ILayoutModule
         CurrentRelationLabel.Text = "#####";
         CurrentRelationLabel.TextColor = 11783630;
         session.EndRead(CurrentRelationLabel);
-        Panel currentRacePnl = new Panel(this);
+        Panel currentRacePnl = new(this);
         session.BeginRead(currentRacePnl);
         currentRacePnl.Name = "CurrentRacePnl";
         currentRacePnl.Priority = 20;
@@ -3981,7 +3981,7 @@ public partial class CityScreen : ILayoutModule
         currentRacePnl.MinWidth = 0;
         currentRacePnl.MinHeight = 0;
         session.EndRead(currentRacePnl);
-        Panel currentRaceFr = new Panel(this);
+        Panel currentRaceFr = new(this);
         session.BeginRead(currentRaceFr);
         currentRaceFr.Name = "CurrentRaceFr";
         currentRaceFr.Priority = 20;
@@ -4008,7 +4008,7 @@ public partial class CityScreen : ILayoutModule
         currentRaceFr.MinWidth = 0;
         currentRaceFr.MinHeight = 0;
         session.EndRead(currentRaceFr);
-        Label currentRaceLbl = new Label(this);
+        Label currentRaceLbl = new(this);
         session.BeginRead(currentRaceLbl);
         currentRaceLbl.Name = "CurrentRaceLbl";
         currentRaceLbl.Visible = false;
@@ -4032,7 +4032,7 @@ public partial class CityScreen : ILayoutModule
         currentRaceLbl.Text = "Current";
         currentRaceLbl.TextColor = 0;
         session.EndRead(currentRaceLbl);
-        Panel upgBtm = new Panel(this);
+        Panel upgBtm = new(this);
         session.BeginRead(upgBtm);
         upgBtm.Name = "UpgBtm";
         upgBtm.Priority = 3000;
@@ -4082,7 +4082,7 @@ public partial class CityScreen : ILayoutModule
         UpgradeInfoLabel.Text = "#######";
         UpgradeInfoLabel.TextColor = 9415072;
         session.EndRead(UpgradeInfoLabel);
-        Image relIcn = new Image(this);
+        Image relIcn = new(this);
         session.BeginRead(relIcn);
         relIcn.Name = "RelIcn";
         relIcn.Visible = false;
@@ -4115,7 +4115,7 @@ public partial class CityScreen : ILayoutModule
         relIcn.Animate = false;
         relIcn.AnimationFrameDelay = 0;
         session.EndRead(relIcn);
-        VerticalScrollBar queueVSB = new VerticalScrollBar(this);
+        VerticalScrollBar queueVSB = new(this);
         session.BeginRead(queueVSB);
         queueVSB.Name = "QueueVSB";
         queueVSB.Visible = false;
@@ -4152,7 +4152,7 @@ public partial class CityScreen : ILayoutModule
         queueVSB.ImageLibraryIndexBack = 93;
         queueVSB.ThumbImageIndex = 90;
         session.EndRead(queueVSB);
-        VerticalScrollBar ipvsb = new VerticalScrollBar(this);
+        VerticalScrollBar ipvsb = new(this);
         session.BeginRead(ipvsb);
         ipvsb.Name = "IPVSB";
         ipvsb.Priority = 0;
@@ -4188,7 +4188,7 @@ public partial class CityScreen : ILayoutModule
         ipvsb.ImageLibraryIndexBack = 93;
         ipvsb.ThumbImageIndex = 90;
         session.EndRead(ipvsb);
-        VerticalScrollBar iivsb = new VerticalScrollBar(this);
+        VerticalScrollBar iivsb = new(this);
         session.BeginRead(iivsb);
         iivsb.Name = "IIVSB";
         iivsb.Priority = 0;
@@ -4224,7 +4224,7 @@ public partial class CityScreen : ILayoutModule
         iivsb.ImageLibraryIndexBack = 93;
         iivsb.ThumbImageIndex = 90;
         session.EndRead(iivsb);
-        VerticalScrollBar ievsb = new VerticalScrollBar(this);
+        VerticalScrollBar ievsb = new(this);
         session.BeginRead(ievsb);
         ievsb.Name = "IEVSB";
         ievsb.Priority = 0;
@@ -4294,7 +4294,7 @@ public partial class CityScreen : ILayoutModule
         IncomeGoldMemo.ColorChangeChar = 0;
         IncomeGoldMemo.TextAlign = TextAlignment.Center;
         session.EndRead(IncomeGoldMemo);
-        Label migrate = new Label(this);
+        Label migrate = new(this);
         session.BeginRead(migrate);
         migrate.Name = "Migrate";
         migrate.Priority = 0;
@@ -4317,7 +4317,7 @@ public partial class CityScreen : ILayoutModule
         migrate.Text = "Migrate";
         migrate.TextColor = 9415072;
         session.EndRead(migrate);
-        UserDrawBox uFace = new UserDrawBox(this);
+        UserDrawBox uFace = new(this);
         session.BeginRead(uFace);
         uFace.Name = "UFace";
         uFace.OnDraw += UFaceDraw;
@@ -4341,7 +4341,7 @@ public partial class CityScreen : ILayoutModule
         uFace.WinWidth = 89;
         uFace.WinHeight = 107;
         session.EndRead(uFace);
-        Panel migrateInfoPnl = new Panel(this);
+        Panel migrateInfoPnl = new(this);
         session.BeginRead(migrateInfoPnl);
         migrateInfoPnl.Name = "MigrateInfoPnl";
         migrateInfoPnl.Priority = 3000;
@@ -4416,7 +4416,7 @@ public partial class CityScreen : ILayoutModule
         MapView.WinWidth = 618;
         MapView.WinHeight = 151;
         session.EndRead(MapView);
-        Image infoSep = new Image(this);
+        Image infoSep = new(this);
         session.BeginRead(infoSep);
         infoSep.Name = "InfoSep";
         infoSep.Priority = 5000;
@@ -4514,7 +4514,7 @@ public partial class CityScreen : ILayoutModule
         PreviousCityButton.WinWidth = 77;
         PreviousCityButton.OnClick += _ => PPrevClick();
         session.EndRead(PreviousCityButton);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

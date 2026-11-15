@@ -127,7 +127,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitAbilitiesList.ItemHeight = 16;
         UnitAbilitiesList.TextAlign = TextAlignment.Left;
         session.EndRead(UnitAbilitiesList);
-        Image uAttackIcon = new Image(this);
+        Image uAttackIcon = new(this);
         session.BeginRead(uAttackIcon);
         uAttackIcon.Name = "UAttackIcon";
         uAttackIcon.Priority = 1000;
@@ -155,7 +155,7 @@ public partial class ProductionScreen : ILayoutModule
         uAttackIcon.Animate = false;
         uAttackIcon.AnimationFrameDelay = 0;
         session.EndRead(uAttackIcon);
-        Image uDefenseIcon = new Image(this);
+        Image uDefenseIcon = new(this);
         session.BeginRead(uDefenseIcon);
         uDefenseIcon.Name = "UDefenseIcon";
         uDefenseIcon.Priority = 1000;
@@ -211,7 +211,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitMovesIcon.Animate = false;
         UnitMovesIcon.AnimationFrameDelay = 0;
         session.EndRead(UnitMovesIcon);
-        Image uDamageIcon = new Image(this);
+        Image uDamageIcon = new(this);
         session.BeginRead(uDamageIcon);
         uDamageIcon.Name = "UDamageIcon";
         uDamageIcon.Priority = 1000;
@@ -239,7 +239,7 @@ public partial class ProductionScreen : ILayoutModule
         uDamageIcon.Animate = false;
         uDamageIcon.AnimationFrameDelay = 0;
         session.EndRead(uDamageIcon);
-        Image uResistanceIcon = new Image(this);
+        Image uResistanceIcon = new(this);
         session.BeginRead(uResistanceIcon);
         uResistanceIcon.Name = "UResistanceIcon";
         uResistanceIcon.Priority = 1000;
@@ -267,7 +267,7 @@ public partial class ProductionScreen : ILayoutModule
         uResistanceIcon.Animate = false;
         uResistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(uResistanceIcon);
-        Image uHitsIcon = new Image(this);
+        Image uHitsIcon = new(this);
         session.BeginRead(uHitsIcon);
         uHitsIcon.Name = "UHitsIcon";
         uHitsIcon.Priority = 1000;
@@ -433,7 +433,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitHitsLabel.Text = "50/50";
         UnitHitsLabel.TextColor = 9415072;
         session.EndRead(UnitHitsLabel);
-        Panel uStatPnl = new Panel(this);
+        Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
         uStatPnl.Name = "UStatPnl";
         uStatPnl.Priority = 20;
@@ -460,7 +460,7 @@ public partial class ProductionScreen : ILayoutModule
         uStatPnl.MinWidth = 0;
         uStatPnl.MinHeight = 0;
         session.EndRead(uStatPnl);
-        Panel uStatP1 = new Panel(this);
+        Panel uStatP1 = new(this);
         session.BeginRead(uStatP1);
         uStatP1.Name = "UStatP1";
         uStatP1.Priority = 1000;
@@ -487,7 +487,7 @@ public partial class ProductionScreen : ILayoutModule
         uStatP1.MinWidth = 0;
         uStatP1.MinHeight = 0;
         session.EndRead(uStatP1);
-        Panel uStatP2 = new Panel(this);
+        Panel uStatP2 = new(this);
         session.BeginRead(uStatP2);
         uStatP2.Name = "UStatP2";
         uStatP2.Priority = 1000;
@@ -560,7 +560,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitLevelLabel.Text = "#####";
         UnitLevelLabel.TextColor = 9415072;
         session.EndRead(UnitLevelLabel);
-        Panel uPicturePnl = new Panel(this);
+        Panel uPicturePnl = new(this);
         session.BeginRead(uPicturePnl);
         uPicturePnl.Name = "UPicturePnl";
         uPicturePnl.Priority = 20;
@@ -587,7 +587,7 @@ public partial class ProductionScreen : ILayoutModule
         uPicturePnl.MinWidth = 0;
         uPicturePnl.MinHeight = 0;
         session.EndRead(uPicturePnl);
-        Panel uCostPnl = new Panel(this);
+        Panel uCostPnl = new(this);
         session.BeginRead(uCostPnl);
         uCostPnl.Name = "UCostPnl";
         uCostPnl.Priority = 20;
@@ -637,7 +637,7 @@ public partial class ProductionScreen : ILayoutModule
         StructureNameLabel.Text = "####";
         StructureNameLabel.TextColor = 0;
         session.EndRead(StructureNameLabel);
-        Label costLbl = new Label(this);
+        Label costLbl = new(this);
         session.BeginRead(costLbl);
         costLbl.Name = "CostLbl";
         costLbl.Priority = 0;
@@ -706,7 +706,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitLabel.Text = "######";
         UnitLabel.TextColor = 0;
         session.EndRead(UnitLabel);
-        Label turnsLbl = new Label(this);
+        Label turnsLbl = new(this);
         session.BeginRead(turnsLbl);
         turnsLbl.Name = "TurnsLbl";
         turnsLbl.Priority = 0;
@@ -967,7 +967,7 @@ public partial class ProductionScreen : ILayoutModule
         Action3CheckBox.RadioIndex = 1;
         Action3CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 2);
         session.EndRead(Action3CheckBox);
-        VerticalScrollBar t2SBar = new VerticalScrollBar(this);
+        VerticalScrollBar t2SBar = new(this);
         session.BeginRead(t2SBar);
         t2SBar.Name = "T2SBar";
         t2SBar.Visible = false;
@@ -1004,7 +1004,7 @@ public partial class ProductionScreen : ILayoutModule
         t2SBar.ImageLibraryIndexBack = 93;
         t2SBar.ThumbImageIndex = 90;
         session.EndRead(t2SBar);
-        Panel abilPnl = new Panel(this);
+        Panel abilPnl = new(this);
         session.BeginRead(abilPnl);
         abilPnl.Name = "AbilPnl";
         abilPnl.Priority = 10000;
@@ -1082,7 +1082,7 @@ public partial class ProductionScreen : ILayoutModule
         UpgradeLabel.Text = "######";
         UpgradeLabel.TextColor = 9415072;
         session.EndRead(UpgradeLabel);
-        Panel upgradeMemoFr = new Panel(this);
+        Panel upgradeMemoFr = new(this);
         session.BeginRead(upgradeMemoFr);
         upgradeMemoFr.Name = "UpgradeMemoFr";
         upgradeMemoFr.Priority = 20;
@@ -1143,7 +1143,7 @@ public partial class ProductionScreen : ILayoutModule
         UpgradeMemo.ColorChangeChar = 0;
         UpgradeMemo.TextAlign = TextAlignment.Left;
         session.EndRead(UpgradeMemo);
-        Panel rightPnl = new Panel(this);
+        Panel rightPnl = new(this);
         session.BeginRead(rightPnl);
         rightPnl.Name = "RightPnl";
         rightPnl.Priority = 30000;
@@ -1170,7 +1170,7 @@ public partial class ProductionScreen : ILayoutModule
         rightPnl.MinWidth = 0;
         rightPnl.MinHeight = 0;
         session.EndRead(rightPnl);
-        Panel queuePnl = new Panel(this);
+        Panel queuePnl = new(this);
         session.BeginRead(queuePnl);
         queuePnl.Name = "QueuePnl";
         queuePnl.Priority = 5000;
@@ -1481,7 +1481,7 @@ public partial class ProductionScreen : ILayoutModule
         ActiveActionTurnsLabel.Text = "#####";
         ActiveActionTurnsLabel.TextColor = 6783862;
         session.EndRead(ActiveActionTurnsLabel);
-        Image sepBar = new Image(this);
+        Image sepBar = new(this);
         session.BeginRead(sepBar);
         sepBar.Name = "SepBar";
         sepBar.Priority = 1500;
@@ -1626,7 +1626,7 @@ public partial class ProductionScreen : ILayoutModule
         InfoPanel.MinWidth = 0;
         InfoPanel.MinHeight = 0;
         session.EndRead(InfoPanel);
-        Panel ipPnl = new Panel(this);
+        Panel ipPnl = new(this);
         session.BeginRead(ipPnl);
         ipPnl.Name = "IPPnl";
         ipPnl.Priority = 3000;
@@ -1714,7 +1714,7 @@ public partial class ProductionScreen : ILayoutModule
         PlaceInfoMemo.ColorChangeChar = 0;
         PlaceInfoMemo.TextAlign = TextAlignment.Left;
         session.EndRead(PlaceInfoMemo);
-        Panel iiPnl = new Panel(this);
+        Panel iiPnl = new(this);
         session.BeginRead(iiPnl);
         iiPnl.Name = "IIPnl";
         iiPnl.Priority = 3000;
@@ -1836,7 +1836,7 @@ public partial class ProductionScreen : ILayoutModule
         IncomeHeader.ColorChangeChar = 0;
         IncomeHeader.TextAlign = TextAlignment.Left;
         session.EndRead(IncomeHeader);
-        Panel currentInfo = new Panel(this);
+        Panel currentInfo = new(this);
         session.BeginRead(currentInfo);
         currentInfo.Name = "CurrentInfo";
         currentInfo.Priority = 3000;
@@ -1863,7 +1863,7 @@ public partial class ProductionScreen : ILayoutModule
         currentInfo.MinWidth = 0;
         currentInfo.MinHeight = 0;
         session.EndRead(currentInfo);
-        Frame rPillar = new Frame(this);
+        Frame rPillar = new(this);
         session.BeginRead(rPillar);
         rPillar.Name = "RPillar";
         rPillar.Priority = 5000;
@@ -1890,7 +1890,7 @@ public partial class ProductionScreen : ILayoutModule
         rPillar.ImageLibraryIndexLine = 64;
         rPillar.ImageLibraryIndexTexture = 0;
         session.EndRead(rPillar);
-        Frame lPillar = new Frame(this);
+        Frame lPillar = new(this);
         session.BeginRead(lPillar);
         lPillar.Name = "LPillar";
         lPillar.Priority = 5000;
@@ -1917,7 +1917,7 @@ public partial class ProductionScreen : ILayoutModule
         lPillar.ImageLibraryIndexLine = 61;
         lPillar.ImageLibraryIndexTexture = 0;
         session.EndRead(lPillar);
-        Panel queueInfo = new Panel(this);
+        Panel queueInfo = new(this);
         session.BeginRead(queueInfo);
         queueInfo.Name = "QueueInfo";
         queueInfo.Priority = 3000;
@@ -2078,7 +2078,7 @@ public partial class ProductionScreen : ILayoutModule
         CurrentActionImage.Animate = false;
         CurrentActionImage.AnimationFrameDelay = 0;
         session.EndRead(CurrentActionImage);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -2105,7 +2105,7 @@ public partial class ProductionScreen : ILayoutModule
         frame1.ImageLibraryIndexLine = 0;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Image blackBg2 = new Image(this);
+        Image blackBg2 = new(this);
         session.BeginRead(blackBg2);
         blackBg2.Name = "BlackBg2";
         blackBg2.Priority = 10;
@@ -2160,7 +2160,7 @@ public partial class ProductionScreen : ILayoutModule
         UnitPictureFramePanel.MinWidth = 0;
         UnitPictureFramePanel.MinHeight = 0;
         session.EndRead(UnitPictureFramePanel);
-        Panel uStatFr1 = new Panel(this);
+        Panel uStatFr1 = new(this);
         session.BeginRead(uStatFr1);
         uStatFr1.Name = "UStatFr1";
         uStatFr1.Priority = 20;
@@ -2187,7 +2187,7 @@ public partial class ProductionScreen : ILayoutModule
         uStatFr1.MinWidth = 0;
         uStatFr1.MinHeight = 0;
         session.EndRead(uStatFr1);
-        Panel uStatFr2 = new Panel(this);
+        Panel uStatFr2 = new(this);
         session.BeginRead(uStatFr2);
         uStatFr2.Name = "UStatFr2";
         uStatFr2.Priority = 20;
@@ -2214,7 +2214,7 @@ public partial class ProductionScreen : ILayoutModule
         uStatFr2.MinWidth = 0;
         uStatFr2.MinHeight = 0;
         session.EndRead(uStatFr2);
-        Panel uInfoFr = new Panel(this);
+        Panel uInfoFr = new(this);
         session.BeginRead(uInfoFr);
         uInfoFr.Name = "UInfoFr";
         uInfoFr.Priority = 20;
@@ -2241,7 +2241,7 @@ public partial class ProductionScreen : ILayoutModule
         uInfoFr.MinWidth = 0;
         uInfoFr.MinHeight = 0;
         session.EndRead(uInfoFr);
-        Panel costFr = new Panel(this);
+        Panel costFr = new(this);
         session.BeginRead(costFr);
         costFr.Name = "CostFr";
         costFr.Priority = 20;
@@ -2268,7 +2268,7 @@ public partial class ProductionScreen : ILayoutModule
         costFr.MinWidth = 0;
         costFr.MinHeight = 0;
         session.EndRead(costFr);
-        Panel turnsFr = new Panel(this);
+        Panel turnsFr = new(this);
         session.BeginRead(turnsFr);
         turnsFr.Name = "TurnsFr";
         turnsFr.Priority = 20;
@@ -2295,7 +2295,7 @@ public partial class ProductionScreen : ILayoutModule
         turnsFr.MinWidth = 0;
         turnsFr.MinHeight = 0;
         session.EndRead(turnsFr);
-        Panel upgPicPnl = new Panel(this);
+        Panel upgPicPnl = new(this);
         session.BeginRead(upgPicPnl);
         upgPicPnl.Name = "UpgPicPnl";
         upgPicPnl.Priority = 20;
@@ -2350,7 +2350,7 @@ public partial class ProductionScreen : ILayoutModule
         UpgradePicture.Animate = false;
         UpgradePicture.AnimationFrameDelay = 0;
         session.EndRead(UpgradePicture);
-        Panel upgPicFr = new Panel(this);
+        Panel upgPicFr = new(this);
         session.BeginRead(upgPicFr);
         upgPicFr.Name = "UpgPicFr";
         upgPicFr.Priority = 20;
@@ -2377,7 +2377,7 @@ public partial class ProductionScreen : ILayoutModule
         upgPicFr.MinWidth = 0;
         upgPicFr.MinHeight = 0;
         session.EndRead(upgPicFr);
-        Panel upgCostPnl = new Panel(this);
+        Panel upgCostPnl = new(this);
         session.BeginRead(upgCostPnl);
         upgCostPnl.Name = "UpgCostPnl";
         upgCostPnl.Priority = 20;
@@ -2404,7 +2404,7 @@ public partial class ProductionScreen : ILayoutModule
         upgCostPnl.MinWidth = 0;
         upgCostPnl.MinHeight = 0;
         session.EndRead(upgCostPnl);
-        Label upgCostLbl = new Label(this);
+        Label upgCostLbl = new(this);
         session.BeginRead(upgCostLbl);
         upgCostLbl.Name = "UpgCostLbl";
         upgCostLbl.Priority = 0;
@@ -2450,7 +2450,7 @@ public partial class ProductionScreen : ILayoutModule
         UpgradeCostLabel.Text = "###";
         UpgradeCostLabel.TextColor = 9415072;
         session.EndRead(UpgradeCostLabel);
-        Label upgTurnsLbl = new Label(this);
+        Label upgTurnsLbl = new(this);
         session.BeginRead(upgTurnsLbl);
         upgTurnsLbl.Name = "UpgTurnsLbl";
         upgTurnsLbl.Priority = 0;
@@ -2496,7 +2496,7 @@ public partial class ProductionScreen : ILayoutModule
         UpgradeTurnsLabel.Text = "###";
         UpgradeTurnsLabel.TextColor = 9415072;
         session.EndRead(UpgradeTurnsLabel);
-        Panel upgCostFr = new Panel(this);
+        Panel upgCostFr = new(this);
         session.BeginRead(upgCostFr);
         upgCostFr.Name = "UpgCostFr";
         upgCostFr.Priority = 20;
@@ -2523,7 +2523,7 @@ public partial class ProductionScreen : ILayoutModule
         upgCostFr.MinWidth = 0;
         upgCostFr.MinHeight = 0;
         session.EndRead(upgCostFr);
-        Panel upgTurnsFr = new Panel(this);
+        Panel upgTurnsFr = new(this);
         session.BeginRead(upgTurnsFr);
         upgTurnsFr.Name = "UpgTurnsFr";
         upgTurnsFr.Priority = 20;
@@ -2550,7 +2550,7 @@ public partial class ProductionScreen : ILayoutModule
         upgTurnsFr.MinWidth = 0;
         upgTurnsFr.MinHeight = 0;
         session.EndRead(upgTurnsFr);
-        Image relIcn = new Image(this);
+        Image relIcn = new(this);
         session.BeginRead(relIcn);
         relIcn.Name = "RelIcn";
         relIcn.Visible = false;
@@ -2583,7 +2583,7 @@ public partial class ProductionScreen : ILayoutModule
         relIcn.Animate = false;
         relIcn.AnimationFrameDelay = 0;
         session.EndRead(relIcn);
-        VerticalScrollBar queueVSB = new VerticalScrollBar(this);
+        VerticalScrollBar queueVSB = new(this);
         session.BeginRead(queueVSB);
         queueVSB.Name = "QueueVSB";
         queueVSB.Visible = false;
@@ -2620,7 +2620,7 @@ public partial class ProductionScreen : ILayoutModule
         queueVSB.ImageLibraryIndexBack = 93;
         queueVSB.ThumbImageIndex = 90;
         session.EndRead(queueVSB);
-        VerticalScrollBar ipvsb = new VerticalScrollBar(this);
+        VerticalScrollBar ipvsb = new(this);
         session.BeginRead(ipvsb);
         ipvsb.Name = "IPVSB";
         ipvsb.Visible = false;
@@ -2657,7 +2657,7 @@ public partial class ProductionScreen : ILayoutModule
         ipvsb.ImageLibraryIndexBack = 93;
         ipvsb.ThumbImageIndex = 90;
         session.EndRead(ipvsb);
-        VerticalScrollBar iivsb = new VerticalScrollBar(this);
+        VerticalScrollBar iivsb = new(this);
         session.BeginRead(iivsb);
         iivsb.Name = "IIVSB";
         iivsb.Visible = false;
@@ -2728,7 +2728,7 @@ public partial class ProductionScreen : ILayoutModule
         IncomeValuesMemo.ColorChangeChar = 0;
         IncomeValuesMemo.TextAlign = TextAlignment.Center;
         session.EndRead(IncomeValuesMemo);
-        UserDrawBox uFace = new UserDrawBox(this);
+        UserDrawBox uFace = new(this);
         session.BeginRead(uFace);
         uFace.Name = "UFace";
         uFace.OnDraw += UFaceDraw;
@@ -2752,7 +2752,7 @@ public partial class ProductionScreen : ILayoutModule
         uFace.WinWidth = 89;
         uFace.WinHeight = 107;
         session.EndRead(uFace);
-        Image infoSep = new Image(this);
+        Image infoSep = new(this);
         session.BeginRead(infoSep);
         infoSep.Name = "InfoSep";
         infoSep.Priority = 1500;
@@ -2904,7 +2904,7 @@ public partial class ProductionScreen : ILayoutModule
         PreviousButton.WinWidth = 77;
         PreviousButton.OnClick += _ => PPrevClick();
         session.EndRead(PreviousButton);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

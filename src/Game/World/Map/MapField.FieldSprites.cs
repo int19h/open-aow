@@ -276,7 +276,7 @@ public partial class MapField
             return;
         }
 
-        var (terrain, overlay) = ReadTerrain();
+        (sbyte terrain, sbyte overlay) = ReadTerrain();
         if (terrain == _terrainType && overlay == _overlayType)
         {
             return;
@@ -335,7 +335,7 @@ public partial class MapField
 
     public void TerrainChanged()
     {
-        var locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
+        Set<MapFieldStatusElement> locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
         if (_status.Contains(MapFieldStatusElement.TerrainLocked)) { _status += locked; return; }
         _status += locked;
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = _terrainType, OverlayType = _overlayType };

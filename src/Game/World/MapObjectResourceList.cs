@@ -54,6 +54,6 @@ public partial class MapObjectResourceList : ResourceCollection, IChildList<MapO
         public MapObjectResource this[int index] => target.GetMapObjectResource(index);
     }
 
-    public ResourcesAccessor Resources => new ResourcesAccessor(this);
+    public ResourcesAccessor Resources => new(this);
 
 }

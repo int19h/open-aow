@@ -22,7 +22,7 @@ public partial class MindDecay : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_mindDecayText);
         SpellId = 106;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -48,7 +48,7 @@ public partial class MindDecay : CombatSpell
 
         if (target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129) && !(targetUnit.Troop is Leader))
         {
-            var resistance = target.GetResistance();
+            sbyte resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 

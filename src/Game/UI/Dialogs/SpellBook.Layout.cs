@@ -1712,7 +1712,7 @@ public partial class SpellBook : ILayoutModule
         NextButton.WinWidth = 55;
         NextButton.OnClick += _ => NextBtnClick();
         session.EndRead(NextButton);
-        Button cancel = new Button(this);
+        Button cancel = new(this);
         session.BeginRead(cancel);
         cancel.Name = "Cancel";
         cancel.Priority = 0;
@@ -2118,7 +2118,7 @@ public partial class SpellBook : ILayoutModule
         CastingCostLabel.Text = "###########";
         CastingCostLabel.TextColor = 5908276;
         session.EndRead(CastingCostLabel);
-        Image castingIcn = new Image(this);
+        Image castingIcn = new(this);
         session.BeginRead(castingIcn);
         castingIcn.Name = "CastingIcn";
         castingIcn.OnDraw += CastingIcnDraw;
@@ -2280,7 +2280,7 @@ public partial class SpellBook : ILayoutModule
         Sphere4Button.WinWidth = 52;
         Sphere4Button.OnClick += _ => Sel1Click();
         session.EndRead(Sphere4Button);
-        Panel selPnl = new Panel(this);
+        Panel selPnl = new(this);
         session.BeginRead(selPnl);
         selPnl.Name = "SelPnl";
         selPnl.Priority = 10;
@@ -2487,7 +2487,7 @@ public partial class SpellBook : ILayoutModule
         Sphere7Button.WinWidth = 52;
         Sphere7Button.OnClick += _ => Sel1Click();
         session.EndRead(Sphere7Button);
-        Label selLbl = new Label(this);
+        Label selLbl = new(this);
         session.BeginRead(selLbl);
         selLbl.Name = "SelLbl";
         selLbl.Priority = 10;
@@ -2579,7 +2579,7 @@ public partial class SpellBook : ILayoutModule
         ManaPoolLabel.Text = "########";
         ManaPoolLabel.TextColor = 5908276;
         session.EndRead(ManaPoolLabel);
-        Label castingLbl = new Label(this);
+        Label castingLbl = new(this);
         session.BeginRead(castingLbl);
         castingLbl.Name = "CastingLbl";
         castingLbl.Priority = 0;
@@ -2602,7 +2602,7 @@ public partial class SpellBook : ILayoutModule
         castingLbl.Text = "Currently Casting";
         castingLbl.TextColor = 1254460;
         session.EndRead(castingLbl);
-        Image faceFrame = new Image(this);
+        Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
         faceFrame.Priority = 0;
@@ -2630,7 +2630,7 @@ public partial class SpellBook : ILayoutModule
         faceFrame.Animate = false;
         faceFrame.AnimationFrameDelay = 0;
         session.EndRead(faceFrame);
-        Image face = new Image(this);
+        Image face = new(this);
         session.BeginRead(face);
         face.Name = "Face";
         face.OnDraw += FaceDraw;
@@ -2858,7 +2858,7 @@ public partial class SpellBook : ILayoutModule
         ResearchCostLabel.Text = "##########";
         ResearchCostLabel.TextColor = 5908276;
         session.EndRead(ResearchCostLabel);
-        Image researchIcn = new Image(this);
+        Image researchIcn = new(this);
         session.BeginRead(researchIcn);
         researchIcn.Name = "ResearchIcn";
         researchIcn.OnDraw += ResearchIcnDraw;
@@ -3010,7 +3010,7 @@ public partial class SpellBook : ILayoutModule
         RightInfoPage.MinWidth = 0;
         RightInfoPage.MinHeight = 0;
         session.EndRead(RightInfoPage);
-        Label manaInfo = new Label(this);
+        Label manaInfo = new(this);
         session.BeginRead(manaInfo);
         manaInfo.Name = "ManaInfo";
         manaInfo.Priority = 10;
@@ -3033,7 +3033,7 @@ public partial class SpellBook : ILayoutModule
         manaInfo.Text = "Mana";
         manaInfo.TextColor = 1254460;
         session.EndRead(manaInfo);
-        Image sep = new Image(this);
+        Image sep = new(this);
         session.BeginRead(sep);
         sep.Name = "Sep";
         sep.Priority = 0;
@@ -3107,7 +3107,7 @@ public partial class SpellBook : ILayoutModule
         ResearchManaPoolLabel.Text = "###########";
         ResearchManaPoolLabel.TextColor = 5908276;
         session.EndRead(ResearchManaPoolLabel);
-        Label rManaInfo = new Label(this);
+        Label rManaInfo = new(this);
         session.BeginRead(rManaInfo);
         rManaInfo.Name = "RManaInfo";
         rManaInfo.Priority = 10;
@@ -3130,7 +3130,7 @@ public partial class SpellBook : ILayoutModule
         rManaInfo.Text = "Research";
         rManaInfo.TextColor = 1254460;
         session.EndRead(rManaInfo);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 0;
@@ -3217,7 +3217,7 @@ public partial class SpellBook : ILayoutModule
         CancelResearchButton.WinWidth = 140;
         CancelResearchButton.OnClick += _ => CancelResearchBtnClick();
         session.EndRead(CancelResearchButton);
-        Button cancelCastingBtn = new Button(this);
+        Button cancelCastingBtn = new(this);
         session.BeginRead(cancelCastingBtn);
         cancelCastingBtn.Name = "CancelCastingBtn";
         cancelCastingBtn.Priority = 100;
@@ -3252,7 +3252,7 @@ public partial class SpellBook : ILayoutModule
         cancelCastingBtn.WinWidth = 140;
         cancelCastingBtn.OnClick += _ => CancelCastingBtnClick();
         session.EndRead(cancelCastingBtn);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

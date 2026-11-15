@@ -83,7 +83,7 @@ public partial class PasswordDialog : ILayoutModule
         TitleLabel.Text = "##########";
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -110,7 +110,7 @@ public partial class PasswordDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -137,7 +137,7 @@ public partial class PasswordDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -165,7 +165,7 @@ public partial class PasswordDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Panel okCancelPnl = new Panel(this);
+        Panel okCancelPnl = new(this);
         session.BeginRead(okCancelPnl);
         okCancelPnl.Name = "OKCancelPnl";
         okCancelPnl.Priority = 100;
@@ -192,7 +192,7 @@ public partial class PasswordDialog : ILayoutModule
         okCancelPnl.MinWidth = 0;
         okCancelPnl.MinHeight = 0;
         session.EndRead(okCancelPnl);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 1000;
@@ -223,7 +223,7 @@ public partial class PasswordDialog : ILayoutModule
         okBtn.WinWidth = 105;
         okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 1000;
@@ -308,7 +308,7 @@ public partial class PasswordDialog : ILayoutModule
         PasswordEdit.ImageLibraryIndex = 15;
         PasswordEdit.PassWordChar = 42;
         session.EndRead(PasswordEdit);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

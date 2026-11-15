@@ -20,7 +20,7 @@ public sealed class LayoutStrings : IEnumerable<string>
         target.BeginUpdate();
         try
         {
-            target.Clear(); foreach (var value in _values)
+            target.Clear(); foreach (string value in _values)
             {
                 target.Add(value);
             }

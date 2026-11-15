@@ -110,7 +110,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         PickupPanel.MinWidth = 0;
         PickupPanel.MinHeight = 0;
         session.EndRead(PickupPanel);
-        Button pickupBtn = new Button(this);
+        Button pickupBtn = new(this);
         session.BeginRead(pickupBtn);
         pickupBtn.Name = "PickupBtn";
         pickupBtn.Priority = 1000;
@@ -141,7 +141,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         pickupBtn.WinWidth = 105;
         pickupBtn.OnClick += _ => PickupBtnClick();
         session.EndRead(pickupBtn);
-        Button closeBtn = new Button(this);
+        Button closeBtn = new(this);
         session.BeginRead(closeBtn);
         closeBtn.Name = "CloseBtn";
         closeBtn.Priority = 1000;
@@ -172,7 +172,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         closeBtn.WinWidth = 105;
         closeBtn.OnClick += _ => CloseBtn2Click();
         session.EndRead(closeBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -199,7 +199,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -226,7 +226,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -254,7 +254,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -282,7 +282,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -310,7 +310,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Button closeBtn2 = new Button(this);
+        Button closeBtn2 = new(this);
         session.BeginRead(closeBtn2);
         closeBtn2.Name = "CloseBtn2";
         closeBtn2.Priority = 1000;
@@ -409,7 +409,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         MessageMemo.ColorChangeChar = 0;
         MessageMemo.TextAlign = TextAlignment.Center;
         session.EndRead(MessageMemo);
-        VerticalScrollBar messageMemoSB = new VerticalScrollBar(this);
+        VerticalScrollBar messageMemoSB = new(this);
         session.BeginRead(messageMemoSB);
         messageMemoSB.Name = "MessageMemoSB";
         messageMemoSB.Visible = false;
@@ -446,7 +446,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         messageMemoSB.ImageLibraryIndexBack = 101;
         messageMemoSB.ThumbImageIndex = 98;
         session.EndRead(messageMemoSB);
-        Panel memoPnl = new Panel(this);
+        Panel memoPnl = new(this);
         session.BeginRead(memoPnl);
         memoPnl.Name = "MemoPnl";
         memoPnl.Priority = 90;
@@ -473,7 +473,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         memoPnl.MinWidth = 0;
         memoPnl.MinHeight = 0;
         session.EndRead(memoPnl);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -481,7 +481,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(translator);
-        CheckBox gnd3 = new CheckBox(this);
+        CheckBox gnd3 = new(this);
         session.BeginRead(gnd3);
         gnd3.Name = "Gnd3";
         gnd3.Tag = 2;
@@ -515,7 +515,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         gnd3.Checked = false;
         gnd3.RadioIndex = 1;
         session.EndRead(gnd3);
-        CheckBox gnd2 = new CheckBox(this);
+        CheckBox gnd2 = new(this);
         session.BeginRead(gnd2);
         gnd2.Name = "Gnd2";
         gnd2.Tag = 1;
@@ -549,7 +549,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         gnd2.Checked = false;
         gnd2.RadioIndex = 1;
         session.EndRead(gnd2);
-        CheckBox gnd1 = new CheckBox(this);
+        CheckBox gnd1 = new(this);
         session.BeginRead(gnd1);
         gnd1.Name = "Gnd1";
         gnd1.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 0);
@@ -582,7 +582,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         gnd1.Checked = false;
         gnd1.RadioIndex = 1;
         session.EndRead(gnd1);
-        CheckBox gnd4 = new CheckBox(this);
+        CheckBox gnd4 = new(this);
         session.BeginRead(gnd4);
         gnd4.Name = "Gnd4";
         gnd4.Tag = 3;
@@ -616,7 +616,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         gnd4.Checked = false;
         gnd4.RadioIndex = 1;
         session.EndRead(gnd4);
-        CheckBox gnd5 = new CheckBox(this);
+        CheckBox gnd5 = new(this);
         session.BeginRead(gnd5);
         gnd5.Name = "Gnd5";
         gnd5.Tag = 4;

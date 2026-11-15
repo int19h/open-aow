@@ -115,7 +115,7 @@ public partial class InfoBanner : ILayoutModule
         BannerMenu.SubMenuShowDelay = 0;
         BannerMenu.WinHeight = 155;
         session.EndRead(BannerMenu);
-        VerticalScrollBar infoMemoSB = new VerticalScrollBar(this);
+        VerticalScrollBar infoMemoSB = new(this);
         session.BeginRead(infoMemoSB);
         infoMemoSB.Name = "InfoMemoSB";
         infoMemoSB.Priority = 0;

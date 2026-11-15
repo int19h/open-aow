@@ -16,7 +16,7 @@ public partial class MapLevel
     public void CreateMapFieldList(int width, int height)
     {
         DestroyMapFieldList();
-        var type = MapFieldClass();
+        EngineClass type = MapFieldClass();
         _width = width;
         _height = height;
         _count = width * height;
@@ -25,7 +25,7 @@ public partial class MapLevel
         {
             for (int x = 0; x < width; x++)
             {
-                var field = (MapField)type.CreateInstance(this, holder: CreationHolder());
+                MapField field = (MapField)type.CreateInstance(this, holder: CreationHolder());
                 field.HexX = (sbyte)x;
                 field.HexY = (sbyte)y;
                 field.HexLevel = (sbyte)_hexLevel;
@@ -33,7 +33,7 @@ public partial class MapLevel
             }
         }
 
-        foreach (var offsets in HexNumberOffsets)
+        foreach (int[]? offsets in HexNumberOffsets)
         {
             Array.Clear(offsets);
         }
@@ -52,7 +52,7 @@ public partial class MapLevel
 
     public override void Dispose()
     {
-        foreach (var field in _fields)
+        foreach (MapField field in _fields)
         {
             field?.Dispose();
         }
@@ -121,7 +121,7 @@ public partial class MapLevel
         MapProgress progress = new() { Level = _hexLevel, Percent = 0, ProgressType = type };
         _map.NotifyProgress(progress);
         int step = _count / divisor;
-        foreach (var field in _fields)
+        foreach (MapField field in _fields)
         {
             action(field);
             if (--step == 0)

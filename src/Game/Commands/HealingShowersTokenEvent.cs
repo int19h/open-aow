@@ -92,8 +92,8 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                             bool healed = healed2;
                             if (healed)
                             {
-                                var hexY = army.HexY;
-                                var hexX = army.HexX;
+                                sbyte hexY = army.HexY;
+                                sbyte hexX = army.HexX;
                                 healed = StrategicMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, StrategicMap.Current.SeatedPlayer);
                             }
 
@@ -102,8 +102,8 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                                 bool condition = playSound || (byte)army.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
                                 if (!condition)
                                 {
-                                    var hexY = army.HexY;
-                                    var hexX = army.HexX;
+                                    sbyte hexY = army.HexY;
+                                    sbyte hexX = army.HexX;
                                     condition = StrategicMap.Current.Watching(hexX, hexY, army.HexLevel, 1);
                                 }
 
@@ -111,8 +111,8 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
-                                var armyHexY = army.HexY;
-                                var armyHexX = army.HexX;
+                                sbyte armyHexY = army.HexY;
+                                sbyte armyHexX = army.HexX;
                                 StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
                             }
                         }
@@ -183,7 +183,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 x = Random(100) - 50;
                 y = Random(100) - 50;
                 speed = Random(5) + 5;
-                var random = Random(30);
+                int random = Random(30);
                 frame = animation.FrameCounter - random;
                 if (frame >= 0 && frame < 50)
                 {

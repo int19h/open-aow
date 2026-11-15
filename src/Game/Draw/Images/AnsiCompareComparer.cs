@@ -16,7 +16,7 @@ internal sealed class AnsiCompareComparer : IEqualityComparer<string>
 
     public int GetHashCode(string value)
     {
-        var hash = new HashCode();
+        HashCode hash = new();
         if (value is null)
         {
             return hash.ToHashCode();

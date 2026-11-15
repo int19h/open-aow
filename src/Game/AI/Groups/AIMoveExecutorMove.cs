@@ -81,7 +81,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
             selection = 0;
             for (int i = Count - 1; i >= 0; i--)
             {
-                var units = GetUnits(i);
+                AIMoveExecutorUnit units = GetUnits(i);
                 index = army.Army.FindChildIndex(units.Troop);
                 if (index != -1)
                 {

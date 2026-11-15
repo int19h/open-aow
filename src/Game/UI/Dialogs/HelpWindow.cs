@@ -51,7 +51,7 @@ public partial class HelpWindow : UIModule
         HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
-            var message = eventValue.Message[0];
+            string message = eventValue.Message[0];
             HeaderMemo.Items.Add(message);
         }
 
@@ -111,7 +111,7 @@ public partial class HelpWindow : UIModule
         UI.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)
         {
-            var line = lines[0];
+            string line = lines[0];
             UI.HelpWindow.HeaderMemo.Items.Add(line);
         }
 

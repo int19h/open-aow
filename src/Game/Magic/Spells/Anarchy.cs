@@ -58,9 +58,9 @@ public partial class Anarchy : CityTargetSpell
                 a.OnShow += ShowAnimation;
                 a.Looped = true;
                 a.FrameCount = 120;
-                var targetCityHexLevel = targetCity.GetHexLevel();
-                var targetCityHexY = targetCity.GetHexY();
-                var hexX = targetCity.GetHexX();
+                sbyte targetCityHexLevel = targetCity.GetHexLevel();
+                sbyte targetCityHexY = targetCity.GetHexY();
+                sbyte hexX = targetCity.GetHexX();
                 StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 
@@ -103,10 +103,10 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:867
     public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        var imageSequenceAnimation = (ImageSequenceAnimation)animation;
+        ImageSequenceAnimation imageSequenceAnimation = (ImageSequenceAnimation)animation;
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
-            var random = Random(2);
+            int random = Random(2);
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }

@@ -166,16 +166,16 @@ public partial class ExplorationSite : Structure
     public virtual void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         combat.SetExecutedHandler(CombatExecuted);
-        var hexY = army.GetHexY();
-        var hexLevel = army.GetHexLevel();
-        var hexX = GetHexX();
-        var hexY2 = GetHexY();
-        var hexLevel2 = GetHexLevel();
-        var armyHexX = army.GetHexX();
+        sbyte hexY = army.GetHexY();
+        sbyte hexLevel = army.GetHexLevel();
+        sbyte hexX = GetHexX();
+        sbyte hexY2 = GetHexY();
+        sbyte hexLevel2 = GetHexLevel();
+        sbyte armyHexX = army.GetHexX();
         combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
-        var hexY3 = GetHexY();
-        var hexLevel3 = GetHexLevel();
-        var hexX2 = GetHexX();
+        sbyte hexY3 = GetHexY();
+        sbyte hexLevel3 = GetHexLevel();
+        sbyte hexX2 = GetHexX();
         combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
         combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
         combat.ExplorationSite = 1;
@@ -215,7 +215,7 @@ public partial class ExplorationSite : Structure
                     combat.Execute();
                     combat.Deactivate();
                     combat.Finalize();
-                    var name = GetName();
+                    string name = GetName();
                     combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
                     eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                     eventValue.SetCombatLogbook(combat.Logbook);
@@ -240,7 +240,7 @@ public partial class ExplorationSite : Structure
                     {
                         combat.Deactivate();
                         combat.Finalize();
-                        var name = GetName();
+                        string name = GetName();
                         combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
                         eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                         eventValue.SetCombatLogbook(combat.Logbook);
@@ -276,12 +276,12 @@ public partial class ExplorationSite : Structure
         armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
-            var playerList = StrategicMap.Current.Players;
+            PlayerCollection playerList = StrategicMap.Current.Players;
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
                 request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
@@ -349,7 +349,7 @@ public partial class ExplorationSite : Structure
     public void RequestCombatTypeCallback(EventLog log)
     {
         StructureTokenEvent tokenEvent;
-        var combatTypeRequestEventLog = (CombatTypeRequestEventLog)log;
+        CombatTypeRequestEventLog combatTypeRequestEventLog = (CombatTypeRequestEventLog)log;
         if (combatTypeRequestEventLog.CombatType != CombatType.None)
         {
             tokenEvent = CreateTokenEvent();

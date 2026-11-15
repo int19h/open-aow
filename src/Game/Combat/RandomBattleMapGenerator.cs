@@ -52,7 +52,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         Creator = creator;
         for (int i = 0; i <= 285; i++)
         {
-            var list = new List<MapObjectResource>();
+            List<MapObjectResource> list = new();
             _resources[i] = list;
         }
 
@@ -60,9 +60,9 @@ public partial class RandomBattleMapGenerator : IDisposable
         {
             if (GamePack.Current.CombatResources.Resources[j] is CombatTerrain.Resource)
             {
-                var mapObjectResource = GamePack.Current.CombatResources.Resources[j];
-                var mapObjectResource2 = GamePack.Current.CombatResources.Resources[j];
-                var mapObjectResource3 = GamePack.Current.CombatResources.Resources[j];
+                MapObjectResource mapObjectResource = GamePack.Current.CombatResources.Resources[j];
+                MapObjectResource mapObjectResource2 = GamePack.Current.CombatResources.Resources[j];
+                MapObjectResource mapObjectResource3 = GamePack.Current.CombatResources.Resources[j];
                 _resources[((sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19) + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
             }
         }
@@ -136,9 +136,9 @@ public partial class RandomBattleMapGenerator : IDisposable
         for (; i <= 6; i += 1)
         {
             HexGeometry.CenterHexNumberToHex(X, Y, i, ref j, ref k);
-            var mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
+            MapField mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
             _terrain[i] = mapField.TerrainType;
-            var combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].GetCombatTerrainTag();
+            int combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].GetCombatTerrainTag();
             _tags[i] = (sbyte)combatTerrainTag;
         }
 
@@ -173,7 +173,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         if (structure != null)
         {
             // The kind names the map (Structure.Views.cs) and reports what the map takes from the combat.
-            var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
+            CombatMapSite site = new(siteCombat, randomTerrain, (direction, kind) =>
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, direction, ref j, ref k);
                 return StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].FindNoneTransparentHexSprite(kind) != null;
@@ -455,7 +455,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                 for (; i <= 6; i += 1)
                 {
                     HexGeometry.CenterHexNumberToHex(X, Y, i, ref j, ref k);
-                    var item = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
+                    MapField item = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
                     weights[i] = item.OverlayType;
                 }
 
@@ -812,7 +812,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             {
                                 if (_resources[(_terrain[i - 1] * 19) + j].Count > 0)
                                 {
-                                    var random = Random(_resources[(_terrain[i - 1] * 19) + j].Count);
+                                    int random = Random(_resources[(_terrain[i - 1] * 19) + j].Count);
                                     _resources[(_terrain[i - 1] * 19) + j][random].PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
                                 }
                             }
@@ -895,7 +895,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 u.PositionGroup = 0;
                             }
 
-                            var side = u.GetSide();
+                            CombatSideIndex side = u.GetSide();
                             CombatMap.Current.PositionStatus[u.PositionGroup] = (byte)side;
                         }
                     }
@@ -1156,9 +1156,9 @@ public partial class RandomBattleMapGenerator : IDisposable
         CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
         if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
-            var xhx = unitHexSprite.GetHexX();
+            sbyte xhx = unitHexSprite.GetHexX();
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX = xhx;
-            var yhx = unitHexSprite.GetHexY();
+            sbyte yhx = unitHexSprite.GetHexY();
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastY = yhx;
         }
     }

@@ -48,7 +48,7 @@ public partial class UnitSelectionDialog : UIModule
         if (index < Event.Units.GetCount())
         {
             saveRectangle = lockedSurface.ClipRectangle;
-            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = Event.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
@@ -111,7 +111,7 @@ public partial class UnitSelectionDialog : UIModule
         if (u != null)
         {
             SourcePanel.Visible = true;
-            var name = u.GetName();
+            string name = u.GetName();
             SourceNameLabel.Text = name;
         }
         else

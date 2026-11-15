@@ -65,7 +65,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
                 for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
                     // { The loop index supplies the player. }
-                    var diplomaticRelation = GetDiplomaticRelation((sbyte)i);
+                    DiplomaticRelation diplomaticRelation = GetDiplomaticRelation((sbyte)i);
                     GetHistory((sbyte)i).Add(diplomaticRelation, 0);
                 }
             }
@@ -75,7 +75,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
                 {
                     for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        var diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
+                        DiplomaticRelation diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
                         GetHistory((sbyte)i).Add(diplomaticRelation, 0);
                     }
 
@@ -124,7 +124,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
 
         while (_history.Count + 1 > StrategicMap.Current.Players.Count)
         {
-            var count = _history.Count;
+            int count = _history.Count;
             _history.Children[count - 1]?.Dispose();
         }
     }

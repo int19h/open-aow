@@ -114,7 +114,7 @@ public partial class QuadItemList : Persistent
     {
         if (source is QuadItemList)
         {
-            var quadItemList = (QuadItemList)source;
+            QuadItemList quadItemList = (QuadItemList)source;
             _count = quadItemList._count;
             SetCapacity(quadItemList._count);
             Array.Copy(quadItemList._list, 0, _list, 0, _count);

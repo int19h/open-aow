@@ -58,7 +58,7 @@ public partial class ConstructAbility : AdjustableAbility
     public void RegisterConstructionControl(ConstructionControl control)
     {
         // { Pass the control ID directly without retaining a local. }
-        var id = control.Id();
+        int id = control.Id();
         if (ConstructionControls.FindId(id) != null)
         {
             throw new InvalidOperationException("Construction Control ID already used");

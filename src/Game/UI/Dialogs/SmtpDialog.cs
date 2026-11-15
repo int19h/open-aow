@@ -39,7 +39,7 @@ public partial class SmtpDialog : UIModule
     {
         _finished = false;
         ProgressBar.Position = 0;
-        var sendingEmailGame = UI.Engine.TranslateResourceString(s_sendingEmailGameText);
+        string sendingEmailGame = UI.Engine.TranslateResourceString(s_sendingEmailGameText);
         SendingGameLabel.Text = sendingEmailGame;
         FailedPanel.Visible = false;
         SendPanel.Visible = true;
@@ -93,13 +93,13 @@ public partial class SmtpDialog : UIModule
         {
             if (_event.Success)
             {
-                var gameSuccessfullySent = UI.Engine.TranslateResourceString(s_gameSuccessfullySentText);
+                string gameSuccessfullySent = UI.Engine.TranslateResourceString(s_gameSuccessfullySentText);
                 SendingGameLabel.Text = gameSuccessfullySent;
                 ExitButton.Visible = true;
             }
             else
             {
-                var panel = FailedPanel;
+                Panel panel = FailedPanel;
                 if (!panel.Visible)
                 {
                     panel.Visible = true;
@@ -123,15 +123,15 @@ public partial class SmtpDialog : UIModule
     {
         dialog.ResetProgress();
         dialog._event = eventValue;
-        var smtpEventLog = dialog._event;
+        SmtpEventLog smtpEventLog = dialog._event;
         smtpEventLog.AddRef();
 
-        var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
         dialog.RecipientLabel.Text = format;
         try
         {
             dialog.SmtpSender.Message = dialog.MailMessage;
-            var smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
+            string smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
             dialog.SmtpSender.Host = smtpServer;
             dialog.SmtpSender.WinsockLoaded = true;
             MailMessage tmsMessage = dialog.MailMessage;

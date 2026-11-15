@@ -1,4 +1,6 @@
 
+using Aow.Game.Draw;
+using Aow.Game.UI.Controls;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Windows;
@@ -7,7 +9,7 @@ public partial class Panel
 {
     public override bool ContainsPoint(int X, int Y)
     {
-        var absolute = AbsoluteArea();
+        SizedRectangle absolute = AbsoluteArea();
         return PointInside(X, Y, absolute.Left, absolute.Top, absolute.Width, absolute.Height);
     }
 
@@ -23,7 +25,7 @@ public partial class Panel
 
         int ownLeft = WinLeft;
         int ownTop = WinTop;
-        var absolute = AbsoluteArea();
+        SizedRectangle absolute = AbsoluteArea();
         try
         {
             if (_window != null)
@@ -32,7 +34,7 @@ public partial class Panel
                 SetWinTopWithoutInvalidate(absolute.Top);
             }
 
-            var child = TopWheelChild(X, Y);
+            UIComponent child = TopWheelChild(X, Y);
             if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
             {
                 return true;

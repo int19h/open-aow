@@ -84,14 +84,14 @@ public sealed class EngineClass
     internal static EngineClass Alias<T>(int classId, Func<CustomNode, T> create)
         where T : EngineObject
     {
-        var type = typeof(T);
+        Type type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
         if (type != typeof(EngineObject))
         {
             Of(type.BaseType);
         }
 
-        var alias = new EngineClass(type, classId, create);
+        EngineClass alias = new(type, classId, create);
         s_aliases.Add(alias);
         return alias;
     }

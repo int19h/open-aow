@@ -26,13 +26,13 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            var coordinate88 = troop.GetLocation();
+            MapCoordinate coordinate88 = troop.GetLocation();
             x = coordinate88.X;
             y = coordinate88.Y;
             l = coordinate88.MapLevel;
             if (x != -1)
             {
-                var mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
+                MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }

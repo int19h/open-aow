@@ -34,7 +34,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         enchantment = new CityEnchantment(null) { Holder = CreationHolder() };
         enchantment.CityEnchantmentId = EnchantmentId;
         enchantment.EnchantmentManaUpkeep = ManaUpkeep;
-        var mapCoordinate = targetCity.Owner.GetMapCoordinate();
+        MapCoordinate mapCoordinate = targetCity.Owner.GetMapCoordinate();
         enchantment.EnchantmentLocation = mapCoordinate;
         enchantment.DispelMana = EnchantmentSpellId;
         enchantment.PlayerIndex = source.Player;
@@ -56,7 +56,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         City targetCity;
         if (AIPriority != -1)
         {
-            var coordinate56 = source.GetLocation();
+            MapCoordinate coordinate56 = source.GetLocation();
             x = coordinate56.X;
             y = coordinate56.Y;
             l = coordinate56.MapLevel;
@@ -93,7 +93,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         sbyte y = default;
         sbyte l = default;
         City targetCity;
-        var coordinate57 = source.GetLocation();
+        MapCoordinate coordinate57 = source.GetLocation();
         x = coordinate57.X;
         y = coordinate57.Y;
         l = coordinate57.MapLevel;

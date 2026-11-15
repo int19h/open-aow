@@ -31,7 +31,7 @@ public partial class BuildRoadsControl : ConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate29 = troop.GetLocation();
+        MapCoordinate coordinate29 = troop.GetLocation();
         x = coordinate29.X;
         y = coordinate29.Y;
         l = coordinate29.MapLevel;
@@ -42,7 +42,7 @@ public partial class BuildRoadsControl : ConstructionControl
         else
         {
             result = false;
-            var roads = AbilityRules.TranslateResourceString(GetEngine(), s_roadsText);
+            string roads = AbilityRules.TranslateResourceString(GetEngine(), s_roadsText);
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildUndergroundFormat), [roads]);
         }
 

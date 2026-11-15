@@ -27,7 +27,7 @@ public partial class PlayerCommunicationControl : IDisposable
     }
 
     // NetworkE.pas:498
-    public virtual PlayerCommunicationSettings CreatePlayerCommunicationSettings() => new PlayerCommunicationSettings(null) { Holder = Creator.CreationHolder() };
+    public virtual PlayerCommunicationSettings CreatePlayerCommunicationSettings() => new(null) { Holder = Creator.CreationHolder() };
 
     // NetworkE.pas:493
     public virtual string Name() => "";
@@ -119,7 +119,7 @@ public partial class PlayerCommunicationControl : IDisposable
         public PlayerCommunicationSettings this[int index] => target.GetPlayers(index);
     }
 
-    public PlayersAccessor Players => new PlayersAccessor(this);
+    public PlayersAccessor Players => new(this);
     public PlayerCommunicator PlayerCommunicator => _playerCommunicator;
     public PlayerCommunicationSettingsList PlayerCommunicationSettingsList => _playerCommunicationSettingsList;
 

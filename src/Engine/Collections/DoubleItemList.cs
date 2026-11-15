@@ -114,7 +114,7 @@ public partial class DoubleItemList : Persistent
     {
         if (source is DoubleItemList)
         {
-            var doubleItemList = (DoubleItemList)source;
+            DoubleItemList doubleItemList = (DoubleItemList)source;
             _count = doubleItemList._count;
             SetCapacity(doubleItemList._count);
             Array.Copy(doubleItemList._list, 0, _list, 0, _count);

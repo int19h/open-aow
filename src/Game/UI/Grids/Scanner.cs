@@ -117,8 +117,8 @@ public partial class Scanner : Control
                 {
                     for (int y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; y <= lastY; y++)
                     {
-                        var fogImageLibraryHeight = _fogImageLibrary[0];
-                        var fogImageLibraryWidth = _fogImageLibrary[0];
+                        LibraryImage fogImageLibraryHeight = _fogImageLibrary[0];
+                        LibraryImage fogImageLibraryWidth = _fogImageLibrary[0];
                         _fogImageLibrary[0].ShowClipped(x * fogImageLibraryWidth.Width, y * fogImageLibraryHeight.Height, lockedSurface);
                     }
                 }
@@ -193,8 +193,8 @@ public partial class Scanner : Control
                     {
                         for (int y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; y <= lastY; y++)
                         {
-                            var fogImageLibraryHeight = _fogImageLibrary[0];
-                            var fogImageLibraryWidth = _fogImageLibrary[0];
+                            LibraryImage fogImageLibraryHeight = _fogImageLibrary[0];
+                            LibraryImage fogImageLibraryWidth = _fogImageLibrary[0];
                             _fogImageLibrary[0].ShowClipped(x * fogImageLibraryWidth.Width, y * fogImageLibraryHeight.Height, surfaceDescription);
                         }
                     }
@@ -218,7 +218,7 @@ public partial class Scanner : Control
 
                 r = new Rect(0, 0, WinWidth, WinHeight);
                 surfaceDescription = lockedSurface;
-                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, Window.WinLeft + WinLeft + WinWidth, Window.WinTop + WinTop + WinHeight);
+                Rect rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, Window.WinLeft + WinLeft + WinWidth, Window.WinTop + WinTop + WinHeight);
                 surfaceDescription.ClipRectangle = rectangle;
                 _mapSurface.Lock(ref lockedSurface);
                 LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop);
@@ -228,7 +228,7 @@ public partial class Scanner : Control
                 _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
-                    var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.WinTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
+                    SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.WinTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
                     _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
                 }
 
@@ -738,7 +738,7 @@ public partial class Scanner : Control
                     {
                         for (int mapY = Y; mapY <= Y + height - 1; mapY++)
                         {
-                            var rectangle = new Rect(WinWidth * mapX / _mapWidth, (_drawableHeight * mapY / _mapHeight) + yOffset, (mapX + 1) * WinWidth / _mapWidth, ((mapY + 1) * _drawableHeight / _mapHeight) + yOffset);
+                            Rect rectangle = new(WinWidth * mapX / _mapWidth, (_drawableHeight * mapY / _mapHeight) + yOffset, (mapX + 1) * WinWidth / _mapWidth, ((mapY + 1) * _drawableHeight / _mapHeight) + yOffset);
                             lockedSurface.ClipRectangle = rectangle;
                             explored = GetExplored(mapX, mapY);
                             if (explored == 0)
@@ -747,8 +747,8 @@ public partial class Scanner : Control
                                 {
                                     for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[0].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                     {
-                                        var fogImageLibraryHeight = _fogImageLibrary[0];
-                                        var fogImageLibraryWidth = _fogImageLibrary[0];
+                                        LibraryImage fogImageLibraryHeight = _fogImageLibrary[0];
+                                        LibraryImage fogImageLibraryWidth = _fogImageLibrary[0];
                                         _fogImageLibrary[0].ShowClipped(tileX * fogImageLibraryWidth.Width, tileY * fogImageLibraryHeight.Height, lockedSurface);
                                     }
                                 }
@@ -773,8 +773,8 @@ public partial class Scanner : Control
                                     {
                                         for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[0].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                         {
-                                            var fogImageLibraryHeight = _fogImageLibrary[0];
-                                            var fogImageLibraryWidth = _fogImageLibrary[0];
+                                            LibraryImage fogImageLibraryHeight = _fogImageLibrary[0];
+                                            LibraryImage fogImageLibraryWidth = _fogImageLibrary[0];
                                             _fogImageLibrary[0].ShowClipped(tileX * fogImageLibraryWidth.Width, tileY * fogImageLibraryHeight.Height, lockedSurface);
                                         }
                                     }
@@ -787,8 +787,8 @@ public partial class Scanner : Control
                                         {
                                             for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _tilesImageLibrary[imageIndex].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _tilesImageLibrary[imageIndex].Height; tileY <= lastTileY; tileY++)
                                             {
-                                                var tilesImageLibraryHeight = _tilesImageLibrary[imageIndex];
-                                                var tilesImageLibraryWidth = _tilesImageLibrary[imageIndex];
+                                                LibraryImage tilesImageLibraryHeight = _tilesImageLibrary[imageIndex];
+                                                LibraryImage tilesImageLibraryWidth = _tilesImageLibrary[imageIndex];
                                                 _tilesImageLibrary[imageIndex].ShowClipped(tileX * tilesImageLibraryWidth.Width, tileY * tilesImageLibraryHeight.Height, lockedSurface);
                                             }
                                         }
@@ -810,8 +810,8 @@ public partial class Scanner : Control
                                         {
                                             for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[1].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[1].Height; tileY <= lastTileY; tileY++)
                                             {
-                                                var fogImageLibraryHeight = _fogImageLibrary[1];
-                                                var fogImageLibraryWidth = _fogImageLibrary[1];
+                                                LibraryImage fogImageLibraryHeight = _fogImageLibrary[1];
+                                                LibraryImage fogImageLibraryWidth = _fogImageLibrary[1];
                                                 _fogImageLibrary[1].ShowClipped(tileX * fogImageLibraryWidth.Width, tileY * fogImageLibraryHeight.Height, lockedSurface);
                                             }
                                         }
@@ -875,8 +875,8 @@ public partial class Scanner : Control
                                     imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + ((((int)(((uint)building) >> 16)) & 63) * 6);
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
-                                        var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
-                                        var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                        LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                        LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
                                         _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                     }
                                 }
@@ -887,8 +887,8 @@ public partial class Scanner : Control
                                         imageIndex = ((int)(((uint)natural) >> 8) * 6) + 9;
                                         if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                         {
-                                            var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
-                                            var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                            LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                            LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
                                             _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                         }
                                     }
@@ -899,8 +899,8 @@ public partial class Scanner : Control
                                     imageIndex = (army * 6) + 8;
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
-                                        var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
-                                        var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                        LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                        LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
                                         _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                     }
                                 }

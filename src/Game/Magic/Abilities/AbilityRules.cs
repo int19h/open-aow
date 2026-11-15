@@ -131,13 +131,13 @@ public static class AbilityRules
         int result;
         if (target.GetTargetPriority() != 0)
         {
-            var targetPriority = target.GetTargetPriority();
-            var hitPoints = target.GetHitPoints();
+            int targetPriority = target.GetTargetPriority();
+            sbyte hitPoints = target.GetHitPoints();
             result = target.GetTargetPriority() + Round(targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
             if (targetDamageValue != 0)
             {
-                var sourceTargetPriority = source.GetTargetPriority();
-                var sourceHitPoints = source.GetHitPoints();
+                int sourceTargetPriority = source.GetTargetPriority();
+                sbyte sourceHitPoints = source.GetHitPoints();
                 result = result - (source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100))));
             }
         }
@@ -216,7 +216,7 @@ public static class AbilityRules
             points += path[i].MoveCost;
             if (points <= movePoints)
             {
-                var item = path[i];
+                PathStep item = path[i];
                 field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
                 if (CanConstructRoad(player, field))
                 {
@@ -626,10 +626,10 @@ public static class AbilityRules
             if (step > 0)
             {
                 units = new UnitUserList(null) { Holder = engine };
-                var item = movePath[movePath.Count - 1];
+                PathStep item = movePath[movePath.Count - 1];
                 level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
-                var movePathItem = movePath[movePath.Count - 1];
-                var item2 = movePath[movePath.Count - 1];
+                PathStep movePathItem = movePath[movePath.Count - 1];
+                PathStep item2 = movePath[movePath.Count - 1];
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.Location.X, movePathItem.Location.Y, 0);
                 while (walk.Radius <= step)
                 {
@@ -655,9 +655,9 @@ public static class AbilityRules
             while (i >= 0)
             {
                 info.Strength = 0;
-                var item = movePath[i];
-                var movePathItem = movePath[i];
-                var item2 = movePath[i];
+                PathStep item = movePath[i];
+                PathStep movePathItem = movePath[i];
+                PathStep item2 = movePath[i];
                 StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, range, ref info);
                 if (info.Strength > result)
                 {
@@ -670,8 +670,8 @@ public static class AbilityRules
                     bool condition = j >= 0;
                     if (condition)
                     {
-                        var item3 = movePath[j];
-                        var item4 = movePath[i];
+                        PathStep item3 = movePath[j];
+                        PathStep item4 = movePath[i];
                         condition = item3.Location.MapLevel == item4.Location.MapLevel;
                     }
 
@@ -686,8 +686,8 @@ public static class AbilityRules
                 bool test = j == 0;
                 if (!test)
                 {
-                    var item3 = movePath[i];
-                    var item4 = movePath[j];
+                    PathStep item3 = movePath[i];
+                    PathStep item4 = movePath[j];
                     test = item3.Location.MapLevel != item4.Location.MapLevel;
                 }
 
@@ -696,9 +696,9 @@ public static class AbilityRules
                     if (j - 1 != i)
                     {
                         info.Strength = 0;
-                        var item3 = movePath[j + 1];
-                        var item4 = movePath[j + 1];
-                        var item5 = movePath[j + 1];
+                        PathStep item3 = movePath[j + 1];
+                        PathStep item4 = movePath[j + 1];
+                        PathStep item5 = movePath[j + 1];
                         StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, range, ref info);
                         if (info.Strength > result)
                         {
@@ -791,7 +791,7 @@ public static class AbilityRules
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
                 sbyte level, sbyte innerRadius, sbyte outerRadius, out StormDamageInfo info)
     {
-        var query = new StormDamageQuery
+        StormDamageQuery query = new()
         {
             Info = new()
             {
@@ -800,12 +800,12 @@ public static class AbilityRules
                 EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3)
             }
         };
-        var mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
-        var message = new MapFieldMessage { MessageId = 0x1151 };
-        var param = message.Param;
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
+        MapFieldMessage message = new() { MessageId = 0x1151 };
+        MapFieldMessageParameters param = message.Param;
         param[0] = (int)storm;
         message.Param = param;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[2] = query;
         message.Param = param2;
         HexNumberWalkData walk = default;
@@ -816,7 +816,7 @@ public static class AbilityRules
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var param3 = message.Param;
+                    MapFieldMessageParameters param3 = message.Param;
                     param3[1] = walk.Radius;
                     message.Param = param3;
                     mapLevel.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
@@ -838,10 +838,10 @@ public static class AbilityRules
         MapLevel level;
         level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = (int)storm;
         message.Param = param;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[2] = player;
         message.Param = param2;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
@@ -849,7 +849,7 @@ public static class AbilityRules
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                var param3 = message.Param;
+                MapFieldMessageParameters param3 = message.Param;
                 param3[1] = walk.Radius;
                 message.Param = param3;
                 level.Field[walk.X, walk.Y].SendMapFieldMessage(ref message);

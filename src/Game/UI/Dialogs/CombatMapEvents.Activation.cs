@@ -3,6 +3,7 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.UI.Controls;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,34 +46,34 @@ public partial class CombatMapEvents
         UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
         UI.MapWindow.WorldAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
         UI.MapWindow.WorldAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
-        var worldRectangle = UI.MapWindow.WorldRectangle;
+        Rect worldRectangle = UI.MapWindow.WorldRectangle;
         worldRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
         UI.MapWindow.WorldRectangle = worldRectangle;
-        var worldRectangle2 = UI.MapWindow.WorldRectangle;
+        Rect worldRectangle2 = UI.MapWindow.WorldRectangle;
         worldRectangle2.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
         UI.MapWindow.WorldRectangle = worldRectangle2;
         if (UI.MapWindow.WorldAlignWidth == AlignWidth.Both)
         {
-            var worldRectangle3 = UI.MapWindow.WorldRectangle;
+            Rect worldRectangle3 = UI.MapWindow.WorldRectangle;
             worldRectangle3.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
             UI.MapWindow.WorldRectangle = worldRectangle3;
         }
         else
         {
-            var worldRectangle4 = UI.MapWindow.WorldRectangle;
+            Rect worldRectangle4 = UI.MapWindow.WorldRectangle;
             worldRectangle4.Right = UI.MapWindow.MainWindow.WinWidth;
             UI.MapWindow.WorldRectangle = worldRectangle4;
         }
 
         if (UI.MapWindow.WorldAlignHeight == AlignHeight.Both)
         {
-            var worldRectangle5 = UI.MapWindow.WorldRectangle;
+            Rect worldRectangle5 = UI.MapWindow.WorldRectangle;
             worldRectangle5.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
             UI.MapWindow.WorldRectangle = worldRectangle5;
         }
         else
         {
-            var worldRectangle6 = UI.MapWindow.WorldRectangle;
+            Rect worldRectangle6 = UI.MapWindow.WorldRectangle;
             worldRectangle6.Bottom = UI.MapWindow.MainWindow.WinHeight;
             UI.MapWindow.WorldRectangle = worldRectangle6;
         }

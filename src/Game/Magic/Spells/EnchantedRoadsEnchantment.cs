@@ -32,7 +32,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         base.Deactivate(player);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }
@@ -43,8 +43,8 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result && StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
-            var name = GetName();
+            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+            string name = GetName();
             reason = RtlUnit.Format(xIsAlreadyActive, [name]);
             result = false;
         }
@@ -56,7 +56,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         base.Activate(player);
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }

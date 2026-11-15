@@ -124,13 +124,13 @@ public partial class CommandAbility : TouchAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && defender.GetUnitType() != UnitType.Machine)
         {
             probability = TouchRoleProbability(attacker, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
-            var defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
-            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            var damage = defender.GetDamage();
+            sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }
         else
@@ -161,13 +161,13 @@ public partial class CommandAbility : TouchAbility
         if (CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && !(defenderUnit.Troop is Leader))
         {
             probability = CombatTouchRoleProbability(attackerUnit, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
-            var defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
-            var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
-            var damage = defender.GetDamage();
+            sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }
         else
@@ -242,7 +242,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5259
     public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
-        CommandCombatAction result = new CommandCombatAction(null) { Holder = CreationHolder() };
+        CommandCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: !(target.Troop is Leader) && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
         result.AbilityId = AbilityId;
         return result;

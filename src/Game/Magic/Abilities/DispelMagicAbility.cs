@@ -165,7 +165,7 @@ public partial class DispelMagicAbility : TouchAbility
         DispelMagicAbilityUnitSelector selector;
         if (CanActivate(owner, ref reason))
         {
-            var troop = owner as Troop;
+            Troop troop = owner as Troop;
             info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (troop != null)
@@ -178,13 +178,13 @@ public partial class DispelMagicAbility : TouchAbility
             }
 
             selector = new DispelMagicAbilityUnitSelector(this);
-            var dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
+            string dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [dispelMagic]);
             if (troop != null)
             {
                 if (troop.Owner is IHeroHolder)
                 {
-                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
+                    UnitUserList empty = new(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty.Units);
                     empty.Dispose();
                 }
@@ -309,8 +309,8 @@ public partial class DispelMagicAbility : TouchAbility
         // { Original evaluates dispelling with the healing hit-point formula. }
         if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            var hits = defender.GetHits();
-            var hitPoints = defender.GetHitPoints();
+            sbyte hits = defender.GetHits();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hits - hitPoints;
             if (damageValues.SourceCost > 5)
             {
@@ -420,7 +420,7 @@ public partial class DispelMagicAbility : TouchAbility
     public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)
     {
         bool successful;
-        DispelMagicAbilityCombatAction result = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
+        DispelMagicAbilityCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, GetDispelMana(source.Troop));
         if (source.GetSide() == target.GetSide())
         {

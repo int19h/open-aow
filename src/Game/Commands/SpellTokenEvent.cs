@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 
@@ -54,11 +55,11 @@ public partial class SpellTokenEvent : TokenEvent
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
         sbyte x = 0, y = 0, l = 0;
-        var coordinate10 = GetSource().GetLocation();
+        MapCoordinate coordinate10 = GetSource().GetLocation();
         x = coordinate10.X;
         y = coordinate10.Y;
         l = coordinate10.MapLevel;
-        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         spell.PlayDefaultCastEffects(GetSource().Player, x, y, l);
     }
 
@@ -66,7 +67,7 @@ public partial class SpellTokenEvent : TokenEvent
     {
         base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
-        var source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
         if (source == null)
         {
             return ExecuteResult.DoneHalt;

@@ -26,7 +26,7 @@ public partial class FloodControl : EngineObject
     {
         if (OriginalTerrain.Length != 0)
         {
-            var originalTerrain = OriginalTerrain;
+            sbyte[] originalTerrain = OriginalTerrain;
             Array.Resize(ref originalTerrain, 0);
             OriginalTerrain = originalTerrain;
         }
@@ -46,7 +46,7 @@ public partial class FloodControl : EngineObject
             // The translate stream's mode holds read, so the original ReadWrite sizes the array there too.
             if (persister.Loading || PersistSupport.Translating(persister))
             {
-                var originalTerrain = OriginalTerrain;
+                sbyte[] originalTerrain = OriginalTerrain;
                 Array.Resize(ref originalTerrain, count);
                 OriginalTerrain = originalTerrain;
             }
@@ -62,7 +62,7 @@ public partial class FloodControl : EngineObject
     {
         Width = StrategicMap.Current.MapContainer.Width;
         Height = StrategicMap.Current.MapContainer.Height;
-        var originalTerrain = OriginalTerrain;
+        sbyte[] originalTerrain = OriginalTerrain;
         Array.Resize(ref originalTerrain, Width * Height * 2);
         OriginalTerrain = originalTerrain;
         Array.Clear(OriginalTerrain);
@@ -95,10 +95,10 @@ public partial class FloodControl : EngineObject
                             index = ((Width * walk.Y) + walk.X) * 2;
                             if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
                             {
-                                var originalTerrain = OriginalTerrain;
+                                sbyte[] originalTerrain = OriginalTerrain;
                                 originalTerrain[index] = mapField.TerrainType;
                                 OriginalTerrain = originalTerrain;
-                                var originalTerrain2 = OriginalTerrain;
+                                sbyte[] originalTerrain2 = OriginalTerrain;
                                 originalTerrain2[index + 1] = mapField.OverlayType;
                                 OriginalTerrain = originalTerrain2;
                             }

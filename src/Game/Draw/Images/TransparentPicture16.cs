@@ -13,7 +13,7 @@ public partial class TransparentPicture16 : Picture16, ILibraryImageClass
     // ImageLib.pas:2845
     public TransparentPicture16(CustomImageLibrary owner) : base(owner)
     {
-        var showInfoValue = ShowInfoValue;
+        ShowInfo showInfoValue = ShowInfoValue;
         showInfoValue.ShowMode = ShowMode.Transparent;
         ShowInfoValue = showInfoValue;
     }

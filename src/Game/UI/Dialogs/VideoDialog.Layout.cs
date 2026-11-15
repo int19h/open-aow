@@ -62,7 +62,7 @@ public partial class VideoDialog : ILayoutModule
         Window.WinHeight = 280;
         Window.Dockable = false;
         session.EndRead(Window);
-        Button closeBut = new Button(this);
+        Button closeBut = new(this);
         session.BeginRead(closeBut);
         closeBut.Name = "CloseBut";
         closeBut.Priority = 250;
@@ -93,7 +93,7 @@ public partial class VideoDialog : ILayoutModule
         closeBut.WinWidth = 136;
         closeBut.OnClick += _ => CloseButClick();
         session.EndRead(closeBut);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -120,7 +120,7 @@ public partial class VideoDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -143,7 +143,7 @@ public partial class VideoDialog : ILayoutModule
         title.Text = "Video Settings";
         title.TextColor = 0;
         session.EndRead(title);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -177,7 +177,7 @@ public partial class VideoDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseButClick();
         session.EndRead(close);
-        Image tCeltLR = new Image(this);
+        Image tCeltLR = new(this);
         session.BeginRead(tCeltLR);
         tCeltLR.Name = "TCeltLR";
         tCeltLR.Priority = 100;
@@ -205,7 +205,7 @@ public partial class VideoDialog : ILayoutModule
         tCeltLR.Animate = false;
         tCeltLR.AnimationFrameDelay = 0;
         session.EndRead(tCeltLR);
-        Frame topLine = new Frame(this);
+        Frame topLine = new(this);
         session.BeginRead(topLine);
         topLine.Name = "TopLine";
         topLine.Priority = 0;
@@ -232,7 +232,7 @@ public partial class VideoDialog : ILayoutModule
         topLine.ImageLibraryIndexLine = 55;
         topLine.ImageLibraryIndexTexture = 0;
         session.EndRead(topLine);
-        Label videoLbl = new Label(this);
+        Label videoLbl = new(this);
         session.BeginRead(videoLbl);
         videoLbl.Name = "VideoLbl";
         videoLbl.Priority = 0;
@@ -255,7 +255,7 @@ public partial class VideoDialog : ILayoutModule
         videoLbl.Text = "Available Display Modes";
         videoLbl.TextColor = 16777215;
         session.EndRead(videoLbl);
-        Image tCeltPattern = new Image(this);
+        Image tCeltPattern = new(this);
         session.BeginRead(tCeltPattern);
         tCeltPattern.Name = "TCeltPattern";
         tCeltPattern.Priority = 1000;
@@ -283,7 +283,7 @@ public partial class VideoDialog : ILayoutModule
         tCeltPattern.Animate = false;
         tCeltPattern.AnimationFrameDelay = 0;
         session.EndRead(tCeltPattern);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -311,7 +311,7 @@ public partial class VideoDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Image tCeltLL = new Image(this);
+        Image tCeltLL = new(this);
         session.BeginRead(tCeltLL);
         tCeltLL.Name = "TCeltLL";
         tCeltLL.Priority = 100;
@@ -413,7 +413,7 @@ public partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.OnChange += ResCBChange;
         ResolutionCheckBox.RadioIndex = 0;
         session.EndRead(ResolutionCheckBox);
-        Label resSwLbl = new Label(this);
+        Label resSwLbl = new(this);
         session.BeginRead(resSwLbl);
         resSwLbl.Name = "ResSwLbl";
         resSwLbl.Priority = 0;
@@ -436,7 +436,7 @@ public partial class VideoDialog : ILayoutModule
         resSwLbl.Text = "Allow Resolution Switches";
         resSwLbl.TextColor = 16777215;
         session.EndRead(resSwLbl);
-        Button applyBtn = new Button(this);
+        Button applyBtn = new(this);
         session.BeginRead(applyBtn);
         applyBtn.Name = "ApplyBtn";
         applyBtn.Priority = 250;
@@ -467,7 +467,7 @@ public partial class VideoDialog : ILayoutModule
         applyBtn.WinWidth = 136;
         applyBtn.OnClick += _ => ApplyBtnClick();
         session.EndRead(applyBtn);
-        Panel t3LBPnl = new Panel(this);
+        Panel t3LBPnl = new(this);
         session.BeginRead(t3LBPnl);
         t3LBPnl.Name = "T3LBPnl";
         t3LBPnl.Priority = 0;
@@ -494,7 +494,7 @@ public partial class VideoDialog : ILayoutModule
         t3LBPnl.MinWidth = 0;
         t3LBPnl.MinHeight = 0;
         session.EndRead(t3LBPnl);
-        VerticalScrollBar videoSB = new VerticalScrollBar(this);
+        VerticalScrollBar videoSB = new(this);
         session.BeginRead(videoSB);
         videoSB.Name = "VideoSB";
         videoSB.Visible = false;
@@ -531,7 +531,7 @@ public partial class VideoDialog : ILayoutModule
         videoSB.ImageLibraryIndexBack = 101;
         videoSB.ThumbImageIndex = 98;
         session.EndRead(videoSB);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

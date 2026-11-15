@@ -56,14 +56,14 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
             if (!troop.GetAbilityEnabled(155))
             {
-                var coordinate5 = troop.GetLocation();
+                MapCoordinate coordinate5 = troop.GetLocation();
                 x = coordinate5.X;
                 y = coordinate5.Y;
                 l = coordinate5.MapLevel;
                 structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                 if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
-                    var coordinate6 = troop.GetLocation();
+                    MapCoordinate coordinate6 = troop.GetLocation();
                     x = coordinate6.X;
                     y = coordinate6.Y;
                     l = coordinate6.MapLevel;
@@ -98,13 +98,13 @@ public partial class DisbandUnitTokenEvent : TokenEvent
                     i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
                     if (i == -1)
                     {
-                        var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
+                        int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetBehavior((byte)(1 << indexOf), behavior);
                     }
                     else
                     {
-                        var unit = armyHexSprite.Army.Units.GetUnit(i);
-                        var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
+                        Troop unit = armyHexSprite.Army.Units.GetUnit(i);
+                        int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
                     }
                 }

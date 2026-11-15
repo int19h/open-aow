@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Session;
-
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
@@ -43,12 +43,12 @@ public partial class HeroUpgradeEventLog : EventLog
         {
             if (NewLevel - OldLevel == 1)
             {
-                var name = hero.GetName();
+                string name = hero.GetName();
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelFormat), [name]);
             }
             else
             {
-                var name = hero.GetName();
+                string name = hero.GetName();
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
             }
         }
@@ -62,7 +62,7 @@ public partial class HeroUpgradeEventLog : EventLog
         bool result = default;
         Hero hero;
         bool executeNow;
-        var unitControl = StrategicMap.Current.UnitControl;
+        UnitControl unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(UnitId);
         if (hero != null && StrategicMap.Current.SeatedPlayer == hero.Player)
         {
@@ -84,12 +84,12 @@ public partial class HeroUpgradeEventLog : EventLog
             {
                 if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == UpgradeDay)
                 {
-                    var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeHeroOnceText);
+                    string canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeHeroOnceText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
-                    var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeOnDayLevelIsMadeText);
+                    string canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeOnDayLevelIsMadeText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 
@@ -114,7 +114,7 @@ public partial class HeroUpgradeEventLog : EventLog
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u != null)
         {
-            var coordinate19 = u.GetLocation();
+            MapCoordinate coordinate19 = u.GetLocation();
             x = coordinate19.X;
             y = coordinate19.Y;
             l = coordinate19.MapLevel;

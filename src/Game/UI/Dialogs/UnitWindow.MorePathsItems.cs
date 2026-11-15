@@ -19,7 +19,7 @@ public partial class UnitWindow
         }
 
         _cursorImage = null;
-        var selected = s_selectedItem;
+        CheckBox selected = s_selectedItem;
         if (check != selected)
         {
             if (selected is not null)
@@ -55,7 +55,7 @@ public partial class UnitWindow
                 s_selectedItem = check;
                 _highlight = 50;
                 _highlightStep = 10;
-                var item = hero.Inventory.Items.FindItem(check.Tag) ?? hero.HeroItems.Items.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
+                Item item = hero.Inventory.Items.FindItem(check.Tag) ?? hero.HeroItems.Items.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
                 if (item is not null)
                 {
                     _cursorImage = item.GetImage();

@@ -18,7 +18,7 @@ public partial class DeathRay : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deathRayText);
         SpellId = 103;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);

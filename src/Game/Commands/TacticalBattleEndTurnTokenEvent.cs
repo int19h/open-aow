@@ -43,8 +43,8 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
                 bool condition = CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit;
                 if (condition)
                 {
-                    var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                    var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+                    CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
+                    byte turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
                     condition = combatObject.CombatPlayer == turnOrder;
                 }
 
@@ -55,7 +55,7 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
             }
         }
 
-        var turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+        byte turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
         CombatMap.Current.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }

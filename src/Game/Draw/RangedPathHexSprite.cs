@@ -61,7 +61,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                 last2 = first + count8;
                 for (int i = first; i <= last2 - 1; i++)
                 {
-                    var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                    sbyte yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                     HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, i, ref hexX, ref hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _targetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
@@ -84,28 +84,28 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
 
                 if (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility == 52)
                 {
-                    var tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
                     effectType = TacticalTables.SpellTypes[tacticalBattleUnitHexSprite.SelectedSpell];
                 }
                 else
                 {
-                    var tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
                     effectType = TacticalTables.AbilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
                 }
 
                 switch (effectType)
                 {
                     case BattleEffectType.Breath:
-                        var count = Selection.RangedPath.Count;
-                        var rangedPath = Selection.RangedPath[count - 1];
-                        var fRangedPathCount = Selection.RangedPath.Count;
+                        int count = Selection.RangedPath.Count;
+                        Point3D rangedPath = Selection.RangedPath[count - 1];
+                        int fRangedPathCount = Selection.RangedPath.Count;
                         HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, rangedPath.Y, out x, out y);
                         {
                             for (int i = 0; i <= 11; i++)
                             {
-                                var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                                var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, x, y);
-                                var hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                                sbyte yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                                int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, x, y);
+                                sbyte hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                                 HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
@@ -129,9 +129,9 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                         {
                                             for (int i = 0; i <= 18; i++)
                                             {
-                                                var count2 = Selection.RangedPath.Count;
-                                                var rangedPathY = Selection.RangedPath[count2 - 1];
-                                                var count3 = Selection.RangedPath.Count;
+                                                int count2 = Selection.RangedPath.Count;
+                                                Point3D rangedPathY = Selection.RangedPath[count2 - 1];
+                                                int count3 = Selection.RangedPath.Count;
                                                 HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out x, out y);
                                                 HexGeometry.CenterHexNumberToHex(x, y, i, ref hexX, ref hexY);
                                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
@@ -145,9 +145,9 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                         {
                                             for (int i = 0; i <= 6; i++)
                                             {
-                                                var count2 = Selection.RangedPath.Count;
-                                                var rangedPathY = Selection.RangedPath[count2 - 1];
-                                                var count3 = Selection.RangedPath.Count;
+                                                int count2 = Selection.RangedPath.Count;
+                                                Point3D rangedPathY = Selection.RangedPath[count2 - 1];
+                                                int count3 = Selection.RangedPath.Count;
                                                 HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out x, out y);
                                                 HexGeometry.CenterHexNumberToHex(x, y, i, ref hexX, ref hexY);
                                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
@@ -157,20 +157,20 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
 
                                         break;
                                     default:
-                                        var count4 = Selection.RangedPath.Count;
-                                        var rangedPath2 = Selection.RangedPath[count4 - 1];
-                                        var count5 = Selection.RangedPath.Count;
-                                        var rangedPathX = Selection.RangedPath[count5 - 1];
+                                        int count4 = Selection.RangedPath.Count;
+                                        Point3D rangedPath2 = Selection.RangedPath[count4 - 1];
+                                        int count5 = Selection.RangedPath.Count;
+                                        Point3D rangedPathX = Selection.RangedPath[count5 - 1];
                                         _miscellaneousImages[_frame + 3].ShowClipped(rangedPathX.X - 21 - pixelXSurface, rangedPath2.Y - 20 - pixelYSurface, lockedSurface);
                                         break;
                                 }
 
                                 break;
                             default:
-                                var count6 = Selection.RangedPath.Count;
-                                var rangedPath3 = Selection.RangedPath[count6 - 1];
-                                var count7 = Selection.RangedPath.Count;
-                                var rangedPath4 = Selection.RangedPath[count7 - 1];
+                                int count6 = Selection.RangedPath.Count;
+                                Point3D rangedPath3 = Selection.RangedPath[count6 - 1];
+                                int count7 = Selection.RangedPath.Count;
+                                Point3D rangedPath4 = Selection.RangedPath[count7 - 1];
                                 _miscellaneousImages[_frame + 3].ShowClipped(rangedPath4.X - 21 - pixelXSurface, rangedPath3.Y - 20 - pixelYSurface, lockedSurface);
                                 break;
                         }
@@ -180,29 +180,29 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
 
                 for (int i = 0, last = Selection.RangedPath.Count - 1; i <= last; i++)
                 {
-                    var rangedPathY = Selection.RangedPath[i];
-                    var rangedPathX = Selection.RangedPath[i];
+                    Point3D rangedPathY = Selection.RangedPath[i];
+                    Point3D rangedPathX = Selection.RangedPath[i];
                     _miscellaneousImages[2].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - pixelYSurface, lockedSurface);
                 }
 
                 for (int i = 0, last = Selection.RangedPath.Count - 1; i <= last; i++)
                 {
-                    var rangedPathY = Selection.RangedPath[i];
-                    var rangedPathZ = Selection.RangedPath[i];
-                    var rangedPathX = Selection.RangedPath[i];
+                    Point3D rangedPathY = Selection.RangedPath[i];
+                    Point3D rangedPathZ = Selection.RangedPath[i];
+                    Point3D rangedPathX = Selection.RangedPath[i];
                     _miscellaneousImages[0].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - rangedPathZ.Z - 8 - pixelYSurface, lockedSurface);
                 }
 
                 for (int i = 0, last = Selection.Obstacles.Count - 1; i <= last; i++)
                 {
-                    var obstacle = Selection.Obstacles[i];
-                    var rangedPath = Selection.RangedPath[obstacle.PathIndex];
-                    var obstacle2 = Selection.Obstacles[i];
+                    RangedObstacle obstacle = Selection.Obstacles[i];
+                    Point3D rangedPath = Selection.RangedPath[obstacle.PathIndex];
+                    RangedObstacle obstacle2 = Selection.Obstacles[i];
                     HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, out hexX, out hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GetEngine().CombatFont.Color = 0;
-                    var obstacle3 = Selection.Obstacles[i];
+                    RangedObstacle obstacle3 = Selection.Obstacles[i];
                     GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(obstacle3.Chance), lockedSurface);
                 }
             }

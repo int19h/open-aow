@@ -71,12 +71,12 @@ public partial class CombatUnitInfo : UIModule
             bool condition = UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0 && drawItem < UI.General.CombatUnit.CombatAbilityCount;
             if (condition)
             {
-                var ability = UI.General.CombatUnit.Abilities[drawItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatAbilityRef ability = UI.General.CombatUnit.Abilities[drawItem];
+                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
-                    var moves = UI.General.CombatUnit.Unit.Troop.GetMoves();
+                    sbyte moves = UI.General.CombatUnit.Unit.Troop.GetMoves();
                     test = UI.General.CombatUnit.Unit.MovePoints == moves;
                 }
 
@@ -120,15 +120,15 @@ public partial class CombatUnitInfo : UIModule
         {
             if (button == MouseButton.Left)
             {
-                var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                var selectAbility = UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
+                object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
+                int selectAbility = UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
                 UnitAbilityList.Selected = selectAbility;
             }
             else
             {
                 if (button == MouseButton.Right && UI.General.CombatUnit != null)
                 {
-                    var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
+                    object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                     ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability != null)
                     {
@@ -146,14 +146,14 @@ public partial class CombatUnitInfo : UIModule
         {
             if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {
-                var ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatAbilityRef ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
+                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
                 {
                     return;
                 }
 
-                var tacticalBattleUnit = UI.General.CombatUnit.Unit;
+                TacticalBattleUnit tacticalBattleUnit = UI.General.CombatUnit.Unit;
                 if (tacticalBattleUnit.Troop.GetMoves() <= tacticalBattleUnit.MovePoints)
                 {
                     return;
@@ -175,13 +175,13 @@ public partial class CombatUnitInfo : UIModule
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        var hexLevel = UI.General.CombatUnit.GetHexLevel();
-        var hexY = UI.General.CombatUnit.GetHexY();
-        var hexX = UI.General.CombatUnit.GetHexX();
+        sbyte hexLevel = UI.General.CombatUnit.GetHexLevel();
+        sbyte hexY = UI.General.CombatUnit.GetHexY();
+        sbyte hexX = UI.General.CombatUnit.GetHexX();
         CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-        var fCombatUnitHexLevel = UI.General.CombatUnit.GetHexLevel();
-        var fCombatUnitHexY = UI.General.CombatUnit.GetHexY();
-        var fCombatUnitHexX = UI.General.CombatUnit.GetHexX();
+        sbyte fCombatUnitHexLevel = UI.General.CombatUnit.GetHexLevel();
+        sbyte fCombatUnitHexY = UI.General.CombatUnit.GetHexY();
+        sbyte fCombatUnitHexX = UI.General.CombatUnit.GetHexX();
         CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, fCombatUnitHexLevel);
     }
 

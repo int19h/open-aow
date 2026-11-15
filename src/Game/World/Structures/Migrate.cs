@@ -24,13 +24,13 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         return city != null ? city.CanMigrate((sbyte)Race, ref reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
@@ -45,14 +45,14 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 
     public override void Completed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
         }
 
         control.BeginUpdate();
-        var raceNamesPlural = AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race]);
+        string raceNamesPlural = AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race]);
         Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityMigratedToFormat), [city.GetName(), raceNamesPlural]));
         city.SetRace((sbyte)Race);
         ChangeRelation(control, city, 10);
@@ -64,7 +64,7 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 
     public override void Cancel(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city != null)
         {
             ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 15 : 10);

@@ -63,7 +63,7 @@ public partial class IntroScene : ILayoutModule
         Window.Dockable = false;
         Window.OnCustomDrawSurface += WindowDrawSurfaceEx;
         session.EndRead(Window);
-        LayoutVideoPlayer videoPlayer = new LayoutVideoPlayer(this);
+        LayoutVideoPlayer videoPlayer = new(this);
         session.BeginRead(videoPlayer);
         videoPlayer.Name = "VideoPlayer";
         videoPlayer.OnStreamSound += VideoPlayerStreamSound;

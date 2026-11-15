@@ -89,7 +89,7 @@ public partial class Enchantment : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate22 = GetLocation();
+        MapCoordinate coordinate22 = GetLocation();
         x = coordinate22.X;
         y = coordinate22.Y;
         l = coordinate22.MapLevel;
@@ -102,8 +102,8 @@ public partial class Enchantment : EngineObject
             }
             else
             {
-                var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
+                string binding = GetBinding();
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
                 StrategicMap.Current.ShowMessage(format);
             }
 

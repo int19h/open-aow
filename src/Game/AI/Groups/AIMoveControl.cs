@@ -2,7 +2,7 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
-
+using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
@@ -96,7 +96,7 @@ public partial class AIMoveControl : EngineObject
                 break;
             case 1:
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                var canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                int canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 Settings.MovePoints = canMove;
                 Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
@@ -122,7 +122,7 @@ public partial class AIMoveControl : EngineObject
                     }
                 }
 
-                var movePointTable = _pathSettings.MovePointTable;
+                MovePointTable movePointTable = _pathSettings.MovePointTable;
                 movePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
                 _pathSettings.MovePointTable = movePointTable;
             }
@@ -147,9 +147,9 @@ public partial class AIMoveControl : EngineObject
         while (i > 1)
         {
             i -= 1;
-            var item = path[i];
-            var pathItem = path[i];
-            var item2 = path[i];
+            PathStep item = path[i];
+            PathStep pathItem = path[i];
+            PathStep item2 = path[i];
             mapField = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
             if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
@@ -181,13 +181,13 @@ public partial class AIMoveControl : EngineObject
 
         if (gaps != 0)
         {
-            var item = path[firstGap + 1];
+            PathStep item = path[firstGap + 1];
             Settings.BoardingPoint = item.Location;
-            var pathItem = path[firstGap];
+            PathStep pathItem = path[firstGap];
             Settings.TransportSource = pathItem.Location;
-            var item2 = path[lastGap - 1];
+            PathStep item2 = path[lastGap - 1];
             Settings.ArrivalPoint = item2.Location;
-            var item3 = path[lastGap];
+            PathStep item3 = path[lastGap];
             Settings.TransportDestination = item3.Location;
             result = true;
             _multipleTransportGaps = gaps > 1;
@@ -233,23 +233,23 @@ public partial class AIMoveControl : EngineObject
                 StrategicMap.Current.MoveControl.ProcessMove(_pathSettings);
                 if (_pathSettings.Path.Count != 0)
                 {
-                    var item = _pathSettings.Path[0];
-                    var fPathItem = _pathSettings.Path[0];
-                    var item2 = _pathSettings.Path[0];
-                    var movePoints = _pathSettings.GetMovePoints(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
+                    PathStep item = _pathSettings.Path[0];
+                    PathStep fPathItem = _pathSettings.Path[0];
+                    PathStep item2 = _pathSettings.Path[0];
+                    int movePoints = _pathSettings.GetMovePoints(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                     Settings.MovePoints = movePoints;
                     Settings.TransportPath.Assign(_pathSettings.Path);
                     if (CalculateTransportGaps(_pathSettings.Path, _movePointTable))
                     {
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
-                        var coordinate102 = Settings.Transporter.GetLocation();
+                        MapCoordinate coordinate102 = Settings.Transporter.GetLocation();
                         sbyte locationX = coordinate102.X;
                         sbyte locationY = coordinate102.Y;
                         sbyte locationMapLevel = coordinate102.MapLevel;
                         mapCoordinate = new MapCoordinate(locationX, locationY, locationMapLevel);
                         _pathSettings.SetSourcePosition(mapCoordinate);
-                        var location = Settings.TransportSource;
+                        MapCoordinate location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location);
 
                         if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
@@ -285,7 +285,7 @@ public partial class AIMoveControl : EngineObject
                     if (_multipleTransportGaps)
                     {
                         // { Original repeats the first gap source before continuing. }
-                        var location = Settings.TransportSource;
+                        MapCoordinate location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location);
 
                         _multipleTransportGaps = false;
@@ -315,7 +315,7 @@ public partial class AIMoveControl : EngineObject
                     Settings.MovePoints += points;
                     if (_multipleTransportGaps)
                     {
-                        var location = Settings.TransportDestination;
+                        MapCoordinate location = Settings.TransportDestination;
                         _pathSettings.SetDestinationPosition(location);
 
                         _multipleTransportGaps = false;
@@ -360,7 +360,7 @@ public partial class AIMoveControl : EngineObject
             transporter = Settings.Transporter;
             if (transporter != null)
             {
-                var moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
+                int moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
                 _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }
@@ -404,7 +404,7 @@ public partial class AIMoveControl : EngineObject
         else
         {
             _mode = AIMoveControlMode.TransporterCanMove;
-            var armyHexSprite = Settings.Transporter.ArmyOwner?.GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = Settings.Transporter.ArmyOwner?.GetArmyHexSprite();
             _pathSettings.TransporterArmy = armyHexSprite;
             if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {

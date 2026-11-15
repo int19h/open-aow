@@ -18,7 +18,7 @@ public partial class SolarFlare : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_solarFlareText);
         SpellId = 100;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);

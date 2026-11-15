@@ -129,7 +129,7 @@ public partial class AIMoveExecutor : EngineObject
             throw new InvalidOperationException("Unit already exists! (TAIMoveExecuter)");
         }
 
-        var coordinate103 = troop.GetLocation();
+        MapCoordinate coordinate103 = troop.GetLocation();
         sbyte locationX = coordinate103.X;
         sbyte locationY = coordinate103.Y;
         sbyte locationMapLevel = coordinate103.MapLevel;
@@ -179,7 +179,7 @@ public partial class AIMoveExecutor : EngineObject
             Units.GetUnits(index)?.Dispose();
         }
 
-        var coordinate104 = troop.GetLocation();
+        MapCoordinate coordinate104 = troop.GetLocation();
         sbyte locationX = coordinate104.X;
         sbyte locationY = coordinate104.Y;
         sbyte locationMapLevel = coordinate104.MapLevel;
@@ -289,7 +289,7 @@ public partial class AIMoveExecutor : EngineObject
         {
             if (Units.GetUnits(i).Status != AIMoveExecutorUnitStatus.Lost)
             {
-                var units = Units.GetUnits(i);
+                AIMoveExecutorUnit units = Units.GetUnits(i);
                 Units.GetUnits(i).Troop.UnitStatus = units.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
             }
         }
@@ -305,7 +305,7 @@ public partial class AIMoveExecutor : EngineObject
         while (!transporting && i != 0)
         {
             i -= 1;
-            var units = Units.GetUnits(i);
+            AIMoveExecutorUnit units = Units.GetUnits(i);
             transporting = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(units.TransportStatus);
         }
 
@@ -324,7 +324,7 @@ public partial class AIMoveExecutor : EngineObject
                 bool condition = i != Units.Count;
                 if (condition)
                 {
-                    var units = Units.GetUnits(i);
+                    AIMoveExecutorUnit units = Units.GetUnits(i);
                     condition = units.Location == Destination || Units.GetUnits(i).MoveResult == 2;
                 }
 
@@ -361,7 +361,7 @@ public partial class AIMoveExecutor : EngineObject
                     if (Moves.GetMoves(i).RetrieveArmy(out army, out selection))
                     {
                         move = new ArmyDefaultMoveTokenEvent(null) { Holder = CreationHolder() };
-                        var moves = Moves.GetMoves(i);
+                        AIMoveExecutorMove moves = Moves.GetMoves(i);
                         if (!move.Setup(army, selection, moves.Path, Set<ArmyMoveModeElement>.Of()))
                         {
                             throw new InvalidOperationException("FAILURE: TAIMoveExecuter.ExecuteMoves");
@@ -381,7 +381,7 @@ public partial class AIMoveExecutor : EngineObject
             {
                 if (Moves.GetMoves(0).RetrieveArmy(out army, out selection))
                 {
-                    var moves = Moves.GetMoves(0);
+                    AIMoveExecutorMove moves = Moves.GetMoves(0);
                     if (!ArmyHexSprite.MoveArmy(army, selection, moves.Path))
                     {
                         Moves.GetMoves(0).SetUnitStatus(AIMoveExecutorUnitStatus.Failed);
@@ -585,7 +585,7 @@ public partial class AIMoveExecutor : EngineObject
                 bool condition = aiMoveExecutorArmyList.Count != 1;
                 if (!condition)
                 {
-                    var armies = aiMoveExecutorArmyList.GetArmies(0);
+                    AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(0);
                     condition = armies.Location != Destination;
                 }
 

@@ -35,11 +35,11 @@ public partial class LightningStorm : Storm
         frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] != null)
         {
-            var hexY = GetHexY();
+            sbyte hexY = GetHexY();
             HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
-            var stormImageWidth = _stormImages[frame];
+            LibraryImage stormImageWidth = _stormImages[frame];
             x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
-            var stormImageHeight = _stormImages[frame];
+            LibraryImage stormImageHeight = _stormImages[frame];
             y = y - stormImageHeight.Height + 32 + 40;
             _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
         }

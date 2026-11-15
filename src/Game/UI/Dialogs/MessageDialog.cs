@@ -107,7 +107,7 @@ public partial class MessageDialog : UIModule
     {
         ResetMessageDialog(UI.MessageDialog);
         UI.MessageDialog.MessageMemo.Items.Add("");
-        var demoVersionMessage = UI.Engine.TranslateResourceString(GameText.DemoVersionMessageText);
+        string demoVersionMessage = UI.Engine.TranslateResourceString(GameText.DemoVersionMessageText);
         UI.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
         UI.MessageDialog.OKPanel.Visible = true;
         UI.MessageDialog.Window.Visible = true;
@@ -122,7 +122,7 @@ public partial class MessageDialog : UIModule
         dialog.MessageMemo.Items.Clear();
         dialog.MemoPanel.Visible = true;
         dialog.HeaderMemoPanel.Visible = false;
-        var message = dialog.UI.Engine.TranslateResourceString(GameText.MessageText);
+        string message = dialog.UI.Engine.TranslateResourceString(GameText.MessageText);
         dialog.TitleLabel.Text = message;
     }
 
@@ -138,7 +138,7 @@ public partial class MessageDialog : UIModule
         switch (log.Layout)
         {
             case MessageEventLogLayout.Normal:
-                var text = log.Message.Text;
+                string text = log.Message.Text;
                 dialog.MessageMemo.Items.Text = text;
                 if (dialog.MessageMemo.Items.Text.Length < 80)
                 {
@@ -150,7 +150,7 @@ public partial class MessageDialog : UIModule
                 dialog.MemoPanel.Visible = false;
                 dialog.HeaderMemoPanel.Visible = true;
                 dialog.HeaderLabel.Text = log.Header;
-                var fMessageText = log.Message.Text;
+                string fMessageText = log.Message.Text;
                 dialog.HeaderMemo.Items.Text = fMessageText;
                 break;
         }

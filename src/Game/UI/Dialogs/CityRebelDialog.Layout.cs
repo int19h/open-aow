@@ -60,7 +60,7 @@ public partial class CityRebelDialog : ILayoutModule
         RebelWindow.WinHeight = 325;
         RebelWindow.Dockable = false;
         session.EndRead(RebelWindow);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -83,7 +83,7 @@ public partial class CityRebelDialog : ILayoutModule
         title.Text = "Rebellion";
         title.TextColor = 0;
         session.EndRead(title);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -117,7 +117,7 @@ public partial class CityRebelDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -145,7 +145,7 @@ public partial class CityRebelDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -172,7 +172,7 @@ public partial class CityRebelDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button centerBut = new Button(this);
+        Button centerBut = new(this);
         session.BeginRead(centerBut);
         centerBut.Name = "CenterBut";
         centerBut.Priority = 250;
@@ -203,7 +203,7 @@ public partial class CityRebelDialog : ILayoutModule
         centerBut.WinWidth = 161;
         centerBut.OnClick += _ => CenterButClick();
         session.EndRead(centerBut);
-        Button closeBut = new Button(this);
+        Button closeBut = new(this);
         session.BeginRead(closeBut);
         closeBut.Name = "CloseBut";
         closeBut.Priority = 250;
@@ -234,7 +234,7 @@ public partial class CityRebelDialog : ILayoutModule
         closeBut.WinWidth = 98;
         closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
-        Image rebelBG = new Image(this);
+        Image rebelBG = new(this);
         session.BeginRead(rebelBG);
         rebelBG.Name = "RebelBG";
         rebelBG.Priority = 0;
@@ -285,7 +285,7 @@ public partial class CityRebelDialog : ILayoutModule
         CityNameLabel.Text = "####";
         CityNameLabel.TextColor = 13827061;
         session.EndRead(CityNameLabel);
-        Label label2 = new Label(this);
+        Label label2 = new(this);
         session.BeginRead(label2);
         label2.Name = "AOWLabel2";
         label2.Priority = 500;
@@ -308,7 +308,7 @@ public partial class CityRebelDialog : ILayoutModule
         label2.Text = "was seized by rebels!";
         label2.TextColor = 13827061;
         session.EndRead(label2);
-        Label label3 = new Label(this);
+        Label label3 = new(this);
         session.BeginRead(label3);
         label3.Name = "AOWLabel3";
         label3.Priority = 500;
@@ -331,7 +331,7 @@ public partial class CityRebelDialog : ILayoutModule
         label3.Text = "Occupy hostile cities with enough troops!";
         label3.TextColor = 13827061;
         session.EndRead(label3);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -358,7 +358,7 @@ public partial class CityRebelDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 0;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

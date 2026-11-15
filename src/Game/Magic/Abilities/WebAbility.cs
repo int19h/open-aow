@@ -71,13 +71,13 @@ public partial class WebAbility : TouchAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
             probability = TouchRoleProbability(attacker, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            var defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
-            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            var damage = defender.GetDamage();
+            sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
             damageValues.DamageTypes = Set<DamageType>.Of();
         }
@@ -108,13 +108,13 @@ public partial class WebAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
             probability = CombatTouchRoleProbability(attackerUnit, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            var defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
-            var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of();
         }
@@ -137,7 +137,7 @@ public partial class WebAbility : TouchAbility
     // AoWAb.PAS:2819
     public WebCombatAction CreateWebCombatAction(CombatObject source, CombatObject target)
     {
-        WebCombatAction result = new WebCombatAction(null) { Holder = CreationHolder() };
+        WebCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }

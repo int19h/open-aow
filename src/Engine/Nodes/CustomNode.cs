@@ -331,7 +331,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         public EngineObject this[int index] { get => target.GetChild(index); set => target.SetChild(index, value); }
     }
 
-    public ChildrenAccessor Children => new ChildrenAccessor(this);
+    public ChildrenAccessor Children => new(this);
 
     // The children in stored order, empty slots included, read through GetChild.
     IEnumerable IOwner.Children

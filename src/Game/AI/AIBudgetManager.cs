@@ -255,7 +255,7 @@ public partial class AIBudgetManager : EngineObject
                 m = 0;
             }
 
-            var aiBudget = Budgets.GetBudgets(i);
+            AIBudget aiBudget = Budgets.GetBudgets(i);
             aiBudget.Gold += g;
             aiBudget.Mana += m;
             aiBudget.DayGold -= g;
@@ -321,7 +321,7 @@ public partial class AIBudgetManager : EngineObject
                 m = 0;
             }
 
-            var aiBudget = Budgets.GetBudgets(i);
+            AIBudget aiBudget = Budgets.GetBudgets(i);
             aiBudget.Gold -= g;
             aiBudget.Mana -= m;
 
@@ -362,8 +362,8 @@ public partial class AIBudgetManager : EngineObject
             Budgets.GetBudgets(i).OutputDebugInfo();
         }
 
-        var groupsGoldBudget = GetGroupsGoldBudget();
-        var groupsManaBudget = GetGroupsManaBudget();
+        int groupsGoldBudget = GetGroupsGoldBudget();
+        int groupsManaBudget = GetGroupsManaBudget();
         GetEngine().OutputDebugMessage(DebugChannel.Temporary, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
         GetEngine().OutputDebugMessage(DebugChannel.Temporary, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
         GetEngine().OutputDebugMessage(DebugChannel.Temporary, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
@@ -392,17 +392,17 @@ public partial class AIBudgetManager : EngineObject
         ValidateReservations();
         UpdateProductionUpkeep();
         UpdateBudgetDayRequirements();
-        var reservedBudgetGold = GetReservedBudgetGold();
-        var groupsGoldBudget = GetGroupsGoldBudget();
+        int reservedBudgetGold = GetReservedBudgetGold();
+        int groupsGoldBudget = GetGroupsGoldBudget();
         gold = Player.Gems - reservedBudgetGold - groupsGoldBudget;
-        var reservedBudgetMana = GetReservedBudgetMana();
-        var groupsManaBudget = GetGroupsManaBudget();
+        int reservedBudgetMana = GetReservedBudgetMana();
+        int groupsManaBudget = GetGroupsManaBudget();
         mana = Player.MagicControl.Mana - reservedBudgetMana - groupsManaBudget;
-        var upkeep = Player.GetUpkeep();
-        var budgetGoldUpkeep = GetBudgetGoldUpkeep();
+        int upkeep = Player.GetUpkeep();
+        int budgetGoldUpkeep = GetBudgetGoldUpkeep();
         goldUpkeep = upkeep + ProductionGoldUpkeep + budgetGoldUpkeep;
-        var manaUpkeep = Player.MagicControl.GetManaUpkeep();
-        var budgetManaUpkeep = GetBudgetManaUpkeep();
+        int manaUpkeep = Player.MagicControl.GetManaUpkeep();
+        int budgetManaUpkeep = GetBudgetManaUpkeep();
         manaUpkeep2 = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
         GoldUpkeep = Round((double)Player.Income * _goldIncomeFactor) - goldUpkeep;
         ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - manaUpkeep2;

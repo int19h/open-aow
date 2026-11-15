@@ -95,7 +95,7 @@ public partial class ItemsFoundDialog : UIModule
         {
             if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
-                var itemId = _event.ItemIds[slot + _itemOffset];
+                int itemId = _event.ItemIds[slot + _itemOffset];
                 item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
@@ -122,7 +122,7 @@ public partial class ItemsFoundDialog : UIModule
                 eventValue.HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText);
                 if (StrategicMap.Current.TextControl.FindId(55) != null)
                 {
-                    var id = StrategicMap.Current.TextControl.FindId(55);
+                    TextControlItem id = StrategicMap.Current.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
                     StrategicMap.Current.TriggerExecuteEventLog(eventValue, true, null);
                 }
@@ -145,7 +145,7 @@ public partial class ItemsFoundDialog : UIModule
             box.PopupMenu = null;
             if (_itemOffset + slot < _event.ItemIds.Count)
             {
-                var itemId = _event.ItemIds[_itemOffset + slot];
+                int itemId = _event.ItemIds[_itemOffset + slot];
                 item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
@@ -194,7 +194,7 @@ public partial class ItemsFoundDialog : UIModule
         dialog._event.AddRef();
         log = dialog._event;
         dialog.TitleLabel.Text = log.Title;
-        var text = log.Messages.Text;
+        string text = log.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         dialog.LeftButton.Visible = log.ItemIds.Count > 5;
         dialog.RightButton.Visible = log.ItemIds.Count > 5;

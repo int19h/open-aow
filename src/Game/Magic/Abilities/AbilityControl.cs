@@ -21,7 +21,7 @@ public partial class AbilityControl : EngineObject
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
             kind = (AbilityType)kindOrdinal;
-            var abilityTypeList = new AbilityTypeList();
+            AbilityTypeList abilityTypeList = new();
             AbilitiesByType[(int)kind] = abilityTypeList;
         }
     }
@@ -82,7 +82,7 @@ public partial class AbilityControl : EngineObject
             }
 
             Abilities[id] = ability;
-            var abilityType = ability.GetAbilityType();
+            AbilityType abilityType = ability.GetAbilityType();
             AbilitiesByType[(int)abilityType].Add(ability);
             ability.ImageSequences.LinkToImageLibrary();
         }
@@ -106,7 +106,7 @@ public partial class AbilityControl : EngineObject
 
             if (Abilities[id] != null)
             {
-                var abilityType = ability.GetAbilityType();
+                AbilityType abilityType = ability.GetAbilityType();
                 AbilitiesByType[(int)abilityType].Remove(ability);
                 Abilities[id].ImageSequences.ReleaseImageLibrary();
                 (Abilities[id] as IDisposable)?.Dispose();

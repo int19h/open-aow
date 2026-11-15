@@ -16,10 +16,10 @@ internal sealed class GameContentValidator : IDocumentValidator
 
     public IEnumerable<FormatDiagnostic> Validate(ValidationContext context)
     {
-        var root = context.Root;
-        var scope = new ContentScope(context, root, DocumentNodePath.Root);
-        var findings = new List<FormatDiagnostic>();
-        var rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
+        JsonObject root = context.Root;
+        ContentScope scope = new(context, root, DocumentNodePath.Root);
+        List<FormatDiagnostic> findings = new();
+        SchemaClass? rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
         Visit(scope, root, rootClass, DocumentNodePath.Root, findings);
         return findings;
     }
@@ -41,18 +41,18 @@ internal sealed class GameContentValidator : IDocumentValidator
                     classValue = GameFiles.Schema.Find(name.Value);
                 }
 
-                for (var c = classValue; c is not null; c = c.Parent)
+                for (SchemaClass? c = classValue; c is not null; c = c.Parent)
                 {
-                    if (FormatMapping.All.TryGetValue(c.Name, out var rules))
+                    if (FormatMapping.All.TryGetValue(c.Name, out ContentRule[]? rules))
                     {
-                        foreach (var rule in rules)
+                        foreach (ContentRule rule in rules)
                         {
                             findings.AddRange(rule.Check(scope, objectValue, path));
                         }
                     }
                 }
 
-                foreach (var member in objectValue.Members)
+                foreach (JsonMember member in objectValue.Members)
                 {
                     if (member.Value is JsonObject or JsonArray && member.Name != "Fields")
                     {

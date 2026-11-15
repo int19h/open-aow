@@ -22,7 +22,7 @@ public partial class BitList
             throw new NullReferenceException();
         }
 
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)List, out var storage))
+        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)List, out ArraySegment<byte> storage))
         {
             throw new InvalidOperationException("Bit list storage has no backing array");
         }
