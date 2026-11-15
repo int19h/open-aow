@@ -105,9 +105,9 @@ public partial class EntangleAbility : TouchAbility
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         float probability;
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            probability = CombatTouchRoleProbability(attackerUnit, defender);
             var hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             var defenderHitPoints = defender.GetHitPoints();
@@ -138,7 +138,7 @@ public partial class EntangleAbility : TouchAbility
     public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
     {
         EntangleCombatAction result = new EntangleCombatAction(null) { Holder = CreationHolder() };
-        result.Initialize(successful: CombatTouchRole((CombatUnit)source, target), sourceId: source.Id, targetId: target.Id);
+        result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }
 }

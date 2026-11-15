@@ -40,7 +40,10 @@ public partial class DispelMagic : UnitSpell
         action.SpellId = SpellId;
         action.SourceId = source.Id;
         action.TargetId = target.Id;
-        action.Generate(source, target, GetDispelMana(((CombatUnit)source).Troop));
+        if (source is CombatUnit sourceUnit)
+        {
+            action.Generate(source, target, GetDispelMana(sourceUnit.Troop));
+        }
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

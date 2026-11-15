@@ -132,7 +132,7 @@ public partial class Ability : EngineObject
         }
 
         value = distance >= target.FastBattleRoundDistance();
-        if (value && source is CombatUnit && ((CombatUnit)source).Troop is Hero)
+        if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
             value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.GetRoundDistance() + 2);
         }

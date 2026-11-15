@@ -42,13 +42,13 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
         CombatUnit source;
         if (_succeeded)
         {
-            target = (CombatUnit)combat.CombatData.FindId(_targetId);
+            target = combat.CombatData.FindId<CombatUnit>(_targetId);
             GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            source = (CombatUnit)combat.CombatData.FindId(_sourceId);
+            source = combat.CombatData.FindId<CombatUnit>(_sourceId);
             GamePack.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
         }
     }
@@ -66,7 +66,7 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
         _succeeded = false;
         _sourceId = source.Id;
         _targetId = target.Id;
-        if (!target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine)
+        if (!target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
             _succeeded = HitChance.HitRole(6 - target.GetResistance());
         }

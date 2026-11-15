@@ -37,9 +37,9 @@ public partial class Terror : CombatSpell
         TacticalBattleTerrorCombatAction action;
         action = new TacticalBattleTerrorCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source, target);
-        if (chargeMana)
+        if (chargeMana && source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
         }
 
         return action;
@@ -112,7 +112,11 @@ public partial class Terror : CombatSpell
         FastBattleTerrorCombatAction action;
         action = new FastBattleTerrorCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source);
-        action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+        if (source is CombatUnit sourceUnit)
+        {
+            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
+        }
+
         source.Combat.ExecuteCombatAction(action);
         action.Release();
         return true;

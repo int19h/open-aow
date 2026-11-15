@@ -46,14 +46,7 @@ public partial class TurnUndead : CombatSpell
             action.ManaCost = BaseManaCost;
         }
 
-        bool condition = target is CombatUnit;
-        if (condition)
-        {
-            var unitType = ((CombatUnit)target).Troop.GetUnitType();
-            condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
-        }
-
-        if (condition && (((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129)))
+        if (target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
         {
             action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         }
@@ -64,14 +57,7 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:922
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        bool condition = target is CombatUnit;
-        if (condition)
-        {
-            var unitType = ((CombatUnit)target).Troop.GetUnitType();
-            condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
-        }
-
-        if (condition && (((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129)))
+        if (target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
         {
             base.FastBattleGetDamageValues(source, target, wallSituation, ref values);
         }

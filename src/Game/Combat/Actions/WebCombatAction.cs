@@ -31,7 +31,7 @@ public partial class WebCombatAction : SingleTargetCombatAction
         CombatUnit target;
         if (Successful)
         {
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
         }
     }

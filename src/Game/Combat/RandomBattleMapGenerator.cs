@@ -843,7 +843,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         int i;
         int j = default;
         int temporary = default;
-        DelphiList<CombatObject> units;
+        DelphiList<TacticalBattleUnit> units;
         TacticalBattleUnit u;
         TacticalBattleUnit other;
         int direction;
@@ -851,7 +851,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         TacticalBattleItemHexSprite itemHexSprite;
         direction = 32;
         _homePosition = -1;
-        units = new DelphiList<CombatObject>();
+        units = new DelphiList<TacticalBattleUnit>();
         position = 0;
         for (; position <= 7; position += 1)
         {
@@ -866,8 +866,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                     {
                         if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(i).Position) >> 4) == position)
                         {
-                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects(i));
-                            u = (TacticalBattleUnit)units[units.Count - 1];
+                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
+                            u = units[units.Count - 1];
                             u.PositionIndex = (byte)(u.Position & 15);
                             u.PositionGroup = (byte)(int)(((uint)u.Position) >> 4);
                             if (u.PositionGroup == 7)
@@ -906,12 +906,12 @@ public partial class RandomBattleMapGenerator : IDisposable
             int limit = units.Count - 1;
             for (; i <= limit; i += 1)
             {
-                u = (TacticalBattleUnit)units[i];
+                u = units[i];
                 j = i + 1;
                 int last2 = units.Count - 1;
                 for (; j <= last2; j += 1)
                 {
-                    other = (TacticalBattleUnit)units[j];
+                    other = units[j];
                     if (u.GetPositionValue() < other.GetPositionValue())
                     {
                         temporary = u.PositionIndex;
@@ -1027,7 +1027,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         int hexX = default;
         int hexY = default;
         unitHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = Creator.CreationHolder() };
-        unitHexSprite.Initialize((TacticalBattleUnit)CombatMap.Current.Combat.Sides[(int)side].GetObjects(index));
+        unitHexSprite.Initialize(CombatMap.Current.Combat.Sides[(int)side].GetObjects<TacticalBattleUnit>(index));
         if (unitHexSprite.Unit.PositionGroup == _homePosition)
         {
             unitHexSprite.Unit.PositionGroup = 0;

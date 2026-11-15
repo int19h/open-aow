@@ -273,9 +273,8 @@ public partial class Spell : EngineObject
     // Spells.PAS:198
     public void CombatCastingDone(CombatObject source, int mana)
     {
-        if (source is CombatUnit && ((CombatUnit)source).Troop is Hero)
+        if (source is CombatUnit combatUnit && combatUnit.Troop is Hero)
         {
-            var combatUnit = (CombatUnit)source;
             ((Hero)combatUnit.Troop).CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
             if (source.Combat is FastBattle)

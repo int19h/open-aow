@@ -16,13 +16,13 @@ public partial class TacticalBattleHighPrayerCombatAction : ExclusiveCombatSpell
     // CombatSpells.pas:982
     public override void Execute(Battle combat)
     {
-        CombatObject target;
+        CombatUnit target;
         base.Execute(combat);
         if (Succeeded)
         {
-            target = combat.CombatData.FindId(TargetId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            GamePack.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
     }
 

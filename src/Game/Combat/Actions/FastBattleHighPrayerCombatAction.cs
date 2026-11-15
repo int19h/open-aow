@@ -16,14 +16,14 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
     // CombatSpells.pas:943
     public override void Execute(Battle combat)
     {
-        CombatObject target;
+        CombatUnit target;
         base.Execute(combat);
         for (int i = TargetIds.Count - 1; i >= 0; i--)
         {
             var targetId = TargetIds[i];
-            target = combat.CombatData.FindId(targetId);
+            target = combat.CombatData.FindId<CombatUnit>(targetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            GamePack.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
     }
 

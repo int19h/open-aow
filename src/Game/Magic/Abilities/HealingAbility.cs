@@ -263,14 +263,7 @@ public partial class HealingAbility : TouchAbility
         bool result = base.CanTouch(source, target);
         if (result)
         {
-            bool condition = source is CombatUnit && target is CombatUnit;
-            if (condition)
-            {
-                var unitType = ((CombatUnit)target).Troop.GetUnitType();
-                condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
-            }
-
-            result = condition && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
+            result = source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
         }
 
         return result;

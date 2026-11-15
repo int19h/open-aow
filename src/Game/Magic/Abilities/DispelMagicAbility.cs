@@ -137,10 +137,14 @@ public partial class DispelMagicAbility : TouchAbility
         DispelMagicAbilityCombatAction action;
         target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
-        action.Generate(source, target, GetDispelMana(((CombatUnit)source).Troop));
-        source.Combat.ExecuteCombatAction(action);
-        action.Release();
+        if (source is CombatUnit sourceUnit)
+        {
+            action = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
+            action.Generate(source, target, GetDispelMana(sourceUnit.Troop));
+            source.Combat.ExecuteCombatAction(action);
+            action.Release();
+        }
+
         return true;
     }
 
@@ -363,14 +367,7 @@ public partial class DispelMagicAbility : TouchAbility
         bool result = base.CanTouch(source, target);
         if (result)
         {
-            bool condition = source is CombatUnit && target is CombatUnit;
-            if (condition)
-            {
-                var player = source.GetPlayer();
-                condition = ((CombatUnit)target).Troop.CanDispelEnchantment(player);
-            }
-
-            result = condition;
+            result = source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.CanDispelEnchantment(source.GetPlayer());
         }
 
         return result;

@@ -43,14 +43,14 @@ public partial class SpellCastingAbility : MultiLevelAbility
         Spell spell;
         combat = commands.Combat;
         source = commands.Source;
-        if (source is CombatUnit)
+        if (source is CombatUnit sourceUnit)
         {
             var players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
-            if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || ((Hero)((CombatUnit)source).Troop).CastingSpellId == 0)
+            if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || ((Hero)sourceUnit.Troop).CastingSpellId == 0)
             {
                 var side = source.GetSide();
                 var opponentSide = source.GetOpponentSide();
-                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(((CombatUnit)source).Troop))
+                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop))
                 {
                     var player = commands.Source.GetPlayer();
                     magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
@@ -62,9 +62,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
                             spell = GamePack.Current.SpellControl.GetSpell(item);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
-                                if (((CombatUnit)commands.Source).Troop is Hero)
+                                if (sourceUnit.Troop is Hero)
                                 {
-                                    if (((Hero)((CombatUnit)commands.Source).Troop).CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
+                                    if (((Hero)sourceUnit.Troop).CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
                                     {
                                         spell.FastBattlePrefetchCombatCommands(commands);
                                     }
@@ -145,11 +145,11 @@ public partial class SpellCastingAbility : MultiLevelAbility
         PlayerMagicControl magic;
         AbilityDamageValues values = default;
         damageValues = default;
-        if (attacker is CombatUnit)
+        if (attacker is CombatUnit attackerUnit)
         {
             var player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
-            source = ((CombatUnit)attacker).Troop;
+            source = attackerUnit.Troop;
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
                 var item = magic.Spells[i];
@@ -174,11 +174,11 @@ public partial class SpellCastingAbility : MultiLevelAbility
         PlayerMagicControl magic;
         AbilityDamageValues values = default;
         damageValues = default;
-        if (attacker is CombatUnit)
+        if (attacker is CombatUnit attackerUnit)
         {
             var player = attacker.GetPlayer();
             magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
-            source = ((CombatUnit)attacker).Troop;
+            source = attackerUnit.Troop;
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
                 var item = magic.Spells[i];

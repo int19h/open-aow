@@ -240,9 +240,9 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         float probability;
         int hitPoints;
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            probability = CombatTouchRoleProbability(attackerUnit, defender);
             hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
@@ -308,14 +308,7 @@ public partial class TurnUndeadAbility : TouchAbility
         bool result = base.CanTouch(source, target);
         if (result)
         {
-            bool condition = source is CombatUnit && target is CombatUnit;
-            if (condition)
-            {
-                var unitType = ((CombatUnit)target).Troop.GetUnitType();
-                condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
-            }
-
-            result = condition && ((ushort)((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129));
+            result = source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && ((ushort)targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129));
         }
 
         return result;

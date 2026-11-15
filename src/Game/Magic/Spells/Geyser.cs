@@ -46,9 +46,9 @@ public partial class Geyser : CombatSpell
             action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes);
         }
 
-        if (chargeMana)
+        if (chargeMana && source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
         }
 
         return action;

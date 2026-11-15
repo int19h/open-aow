@@ -46,7 +46,7 @@ public partial class MindDecay : CombatSpell
             action.ManaCost = BaseManaCost;
         }
 
-        if (target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && ((CombatUnit)target).Troop.GetRace() != 11 && !((CombatUnit)target).Troop.GetAbilityEnabled(129) && !(((CombatUnit)target).Troop is Leader))
+        if (target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129) && !(targetUnit.Troop is Leader))
         {
             var resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);

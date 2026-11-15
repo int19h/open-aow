@@ -43,8 +43,8 @@ public partial class PossessCombatAction : SingleTargetCombatAction
         int experience;
         if (Successful)
         {
-            source = (CombatUnit)combat.CombatData.FindId(SourceId);
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             for (int i = 0; i <= 2; i++)
             {
                 ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).ResetCommandedUnits(target);
