@@ -68,16 +68,10 @@ internal static class ImageTree
             var value = node.Find(prop.Name);
             if (value is null) continue;
             var memberPath = path.Member(prop.Name);
-            // The legacy packet profile refuses a member the original image does not carry.
-            // The own document keeps that member. A disk image uses the engine name.
+            // Every original image refuses a member whose stored id sits in the port range or the
+            // mod range. The own document keeps that member. Absence is not state.
             if (!TransportProfile.Carries(context.Profile, prop))
-                throw context.Fail(
-                    Codes.Unrepresentable,
-                    message: "The legacy packet cannot carry " + classValue.Name + "." + prop.Name + ".",
-                    at: null,
-                    path: memberPath,
-                    value: TransportProfile.ReservedId(prop)?.ToString(CultureInfo.InvariantCulture),
-                    constraint: "a stored id below 0x" + TransportProfile.PortMinimum.ToString("X8", provider: CultureInfo.InvariantCulture));
+                throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
             if (prop.IsDynamic)
             {
                 var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };

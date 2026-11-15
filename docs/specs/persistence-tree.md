@@ -1,4 +1,4 @@
-# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a, PE-4-b)
+# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a, PE-4-b, PE-5-a)
 
 State: PE-1 is implemented for the pilot classes. PE-2a adds version 2 of the own document,
 symbolic enums and sets, and fixed integer arrays as lists, 2026-11-07. PE-2b adds version 3,
@@ -49,7 +49,7 @@ class table, which is the legacy packet adapter of step 4. No own-document shape
 2026-11-14. PE-4-b names that packet write as the transport profile of the same schema classes
 (section 16). A value the legacy packet cannot carry is refused with its path, and the own
 document keeps it. The adapter stays that legacy image until `docs/specs/networking.md` replaces
-it. Step 5 is not implemented.
+it. PE-5-a stores the first port-only member and proves one extended array (section 17). The rest of step 5 is not implemented.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -458,7 +458,7 @@ PE-3 rewrites each `ReadWrite` into `Persist` and moves own load and save onto `
 
 PE-4 separates token-event transport from disk persistence. PE-4-a writes packets through the legacy image. PE-4-b keeps that image on the transport profile of the same schema classes (section 16). A port-range member, a list longer than a fixed array and any other value the original image does not hold are refused with their paths and are not truncated. The own document keeps the value. `docs/specs/networking.md` replaces the adapter. Packet widths stay on the legacy image until then.
 
-PE-5 proves extended arrays and richer cases, lossless own reload, strict refusal of unrepresentable exports, and the G1, G2 and G-own gate, and checks that no Delphi image remains on the own disk path or in the stable mod interface.
+PE-5-a stores port-only state and proves one extended array (section 17). The own reload of those cases is lossless and strict export refuses each with its path. The rest of PE-5 proves the richer cases and the G1, G2 and G-own gate, and checks that no Delphi image remains on the own disk path or in the stable mod interface.
 
 ## 9. Pilot census
 
@@ -563,10 +563,12 @@ campaigns and campaign saves, the scenario set, hero lists and item lists) onto 
 `ReadWrite` runs on these paths.
 
 - An own load reads the document, checks its profile and kind, and runs
-  `DocumentValidation.Check` with `FormatMapping.Validators` before any destructive step: the
-  strict image encoding of the export without compression, then the game validators. The first
-  finding refuses and leaves the current game and the file as they were (`own-formats.md` 2.7).
-  `DocumentBackend.Read` then reads the root, and `TreeReader` loads it into the engine.
+  `DocumentValidation.Check` with `FormatMapping.Validators` before any destructive step: a
+  `DocumentBackend` read of the root, then the game validators. The first finding refuses and
+  leaves the current game and the file as they were (`own-formats.md` 2.7). A document the
+  original image can carry is then exported, and `DocumentBackend.Read` reads the root.
+  `TreeReader` loads it into the engine. A document the image cannot carry stays valid and has
+  no image (section 17).
 - An original load imports the file, validates the document the same way and keeps the
   converter's G1 check. `OriginalBackend.Read` then reads the root object of the image the G1
   check passed, and `TreeReader` loads it.
@@ -576,26 +578,39 @@ campaigns and campaign saves, the scenario set, hero lists and item lists) onto 
   level 2, a scenario set with its header name), validates the document as a load does,
   serializes it and replaces the file atomically (`own-formats.md` 4.2).
 - A preview loads with the preview flag (`CreatePreviewHsm`). A preview of the session cache
-  (`own-formats.md` 4.3) holds the validated image, and the original backend reads its tree.
+  (`own-formats.md` 4.3) holds the validated image, and the original backend reads its tree. A
+  document with no image is not cached.
 - A map the game holds as bytes (a campaign's map, a map a network host sent) loads through
-  `LoadHsmFromStream`: the inflated image's root object goes through `OriginalBackend.Read`, and
-  `SaveHsmToStream` compresses the image `OriginalBackend.Write` writes for the map's tree.
+  `LoadHsmFromStream`. An original image inflates and its root goes through `OriginalBackend.Read`.
+  `SaveHsmToStream` compresses the image `OriginalBackend.Write` writes when that image can carry
+  the map. A map the image cannot carry is written as the map's own document, with no compression
+  wrapper. The campaign file nests that document as `Map` (`$container` and `root`), the same
+  nested document a representable map already uses, and the root keeps the port-only members.
+  `LoadHsmFromStream` reads either form. A network host sends an image only, because a map with
+  no image is refused before anything is sent.
 
 `GameBoundary` (`src/Formats/GameBoundary.cs`) does the conversion: `PrepareLoad` returns the
-validated document and its image, `ReadTree` and `ReadImageTree` the tree, `WriteImage` the image
-of a tree in the profile's container and `PrepareSave` the document bytes of a tree.
-`FileBoundary.Open` (`src/Game/Saves/FileBoundary.cs`) returns the tree of a file, and
-`FileBoundary.Load` keeps returning the validated image, which the CRC forms, the header listings
-and the network map transfer read. `FileBoundary.Save` takes the object. The engine routines
+validated document and, when the original image can carry it, that image. A document the image
+cannot carry leaves the image bytes null and records the export finding. `ReadTree` and
+`ReadImageTree` return the tree, `WriteImage` the image of a tree in the profile's container and
+`PrepareSave` the document bytes of a tree. `FileBoundary.Open`
+(`src/Game/Saves/FileBoundary.cs`) returns the tree of a file. `FileBoundary.Load` returns the
+engine image, or null when the document has none, and it never returns the file bytes in that
+image's place. A header listing reads the image header or, when there is no image, the header
+fields of the validated document. The save and load dialogs read the preview tree. The CRC of an
+image is `Engine.GetCRC32` of that image. The CRC of a document with no image is
+`Engine.GetCRC32` of the canonical document bytes. A network transfer of a document with no image
+refuses through the packet profile and sends nothing. `FileBoundary.Save` takes the object. The engine routines
 (`LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `LoadPreviewHsm`, `SaveHsm`, `LoadHss`, `SaveHss`,
 `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` with a profile) create the
 root by the class id of the tree and load it with `GameEngine.ReadTree` or
 `GameEngine.RetrieveFromTree`.
 
-An own campaign save written by the tree holds the campaign map as a nested document without the
+An own campaign save of a representable map holds that map as a nested document without the
 engine's compressed bytes, so after a reload the campaign's map stream holds the converter's CFS
-bytes, not the game's. Only `LoadHsmFromStream` reads that stream, and it inflates it. No CRC and
-no byte comparison reads it.
+bytes, not the game's. A map the image cannot carry reloads as the map's own document bytes.
+Only `LoadHsmFromStream` reads that stream. No CRC and no byte comparison reads it. Strict
+export of the campaign still refuses the port-only member and names its path.
 
 The gate's save shadow of PE-3-f compared every save of the oracle, frames and scenarios layers
 through the tree with the document of the engine image and found no difference. PE-3-g removed
@@ -933,24 +948,24 @@ uses the engine name. `GameBoundary.WritePacket` writes the object under the pro
 transport profile. It is the packet use of the disk schema. `FileProfile.All` holds the disk
 containers, and a packet has no file container.
 
-`TransportProfile.Carries` is the rule of the legacy packet image. A present member whose stored
+`TransportProfile.Carries` is the rule of every original image. A present member whose stored
 id, data id or dynamic minimum is `0x40000000` or higher is port state or mod state
-(own-formats.md 6.2). The own document stores it through `DocumentBackend`. The legacy packet
-refuses it with `E_UNREPRESENTABLE` and the member's document path, and `WritePacket` returns no
-bytes. An absent member holds no state. The packet omits it, which is the absence the original
-image already uses. A list longer than a fixed array's count is refused by that array's codec
-with the path. The message says that export does not truncate. A member the class does not
-declare, a value outside its stored range and a codec the image does not store are refused with
-the path by the same image write. The disk image path uses the engine name, so this rule
-stays on the packet. PE-5 teaches the original export to refuse the same reserved ids.
+(own-formats.md 6.2). The own document stores it through `DocumentBackend`. The original image
+refuses it with `E_UNREPRESENTABLE` and the member's document path. `WritePacket` returns no
+bytes, and `GameFiles.Export` writes no file. An absent member holds no state. The image omits
+it. A list longer than a fixed array's count is refused by that array's codec with the path.
+The message says that export does not truncate. A member the class does not declare, a value
+outside its stored range and a codec the image does not store are refused with the path by the
+same image write.
 
-No product class has a port-range member yet. PE-5 adds the first one. The product test builds a
-`TokenEvent` through a schema, with a port-range integer, a nested port-range integer, a mod-range
-integer and a fixed array of two, the way the converter's refusal tests build a schema. The packet
-refuses the port member and names `root.PortState`. It refuses the nested member and names
-`root.Detail.Note`. It refuses the mod member and names `root.ModState`. The own document keeps
-each integer. The same packet write refuses three scores and names `root.Scores`. A token event
-that holds only `TokenCounter` writes the same object bytes under the profile as it writes on the
+PE-5-a adds the first port-range member on a product class (section 17). The packet tests still
+build a `TokenEvent` through a schema, with a port-range integer, a nested port-range integer,
+a mod-range integer and a fixed array of two. The packet refuses the port member and names
+`root.PortState`. It refuses the nested member and names `root.Detail.Note`. It refuses the mod
+member and names `root.ModState`. The own document keeps each integer. The same packet write
+refuses three scores and names `root.Scores`. The disk image refuses that port member and those
+three scores the same way, and the own document reads the three scores back. A token event that
+holds only `TokenCounter` writes the same object bytes under the profile as it writes on the
 disk image path, and the schema of that event still declares the port member.
 
 The wire bytes of every packet the adapter carries today stay the bytes section 15 pinned. The
@@ -958,3 +973,38 @@ profile changes no codec and no class table.
 
 This is the legacy packet adapter of own-formats.md 6.3 step 4. `docs/specs/networking.md`
 replaces it. This specification does not define that file.
+
+## 17. Port-only state (PE-5-a)
+
+Property ids from `0x40000000` through `0x4FFFFFFF` are port features. The own document stores
+a present member in that range. `DocumentValidation.Run` reads the document through
+`DocumentBackend` after the profile checks the root class, so a document that holds the member
+is valid. `GameFiles.Export`, the disk image and the packet image refuse the member when it
+holds state, with `E_UNREPRESENTABLE` and the member's path. A load accepts the member's
+absence. An own save written before this step has no port-only member and still loads.
+
+The first member is `PrisonersArmy.Items` (Delphi `TPrisonersArmy`), id `1073741824`
+(`0x40000000`), an `ItemList`. A dungeon combat leaves leftover items there. No stored property
+held them, and a save and a load lost them. `PrisonersArmy.PersistFields` stores the list when
+it loads or when the list holds an item. An empty list is absent. A dungeon combat that leaves
+an item writes the list, and that save is reachable in unmodded play. The load keeps the
+document and has no engine image. A campaign save nests the current map, so the same list comes
+back from the campaign. Strict export of the campaign refuses the list and names the path. A
+campaign whose map the image can carry is unchanged. The save and load dialogs read the preview tree. A header
+listing reads the document's header. The CRC form over an image is 0 only for a refused file. For
+this document the input is the canonical document bytes. A network transfer refuses through the
+packet profile and sends no bytes. A list that holds an item comes back from the own document.
+Strict export and the packet refuse that list and name the path.
+
+No fixed array in the game grows past its original count. The five schema integer arrays stay
+the original length (`ArmyView.UnitConcealment`, `ArmyView.MoraleValues`,
+`GlobalMagicControl.DoubleSphereManaCount` and two on `SpellData`). Growing one changes the
+bytes unmodded play writes. The extended-array proof builds a fixed array of count 2 through
+`FormatSchema.Load`, stores three values, reads those three back from the own document and sees
+the disk image refuse the list with `E_RANGE` at `root.Scores`. The message says that export
+does not truncate.
+
+Own formats are not stable yet. This step adds no migration and no earlier schema. The schema
+hash pin in `versions.json` is the hash of the schema that holds `PrisonersArmy.Items`. A save
+written after this step with an empty prisoners list has no new member. A save that stores the
+list is an unknown member on the schema from before this step.

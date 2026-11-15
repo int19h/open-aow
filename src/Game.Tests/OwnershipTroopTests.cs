@@ -219,13 +219,13 @@ public sealed class OwnershipTroopTests
     }
 
     // A dungeon combat hands the items left on the battlefield to the prisoners. They lie in the
-    // prisoners' own item list, the unit list keeps troops only, and the stored prisoners are the
-    // same bytes with or without those items.
+    // prisoners' own item list and the unit list keeps troops only. An empty list still writes
+    // an original image. A list that holds an item is stored, and that image refuses it.
     [Fact]
-    public void PrisonersKeepTheirItemsOffTheUnitListAndOutOfTheStoredBytes()
+    public void PrisonersKeepTheirItemsOffTheUnitList()
     {
         var prisoners = new PrisonersArmy(null!) { Holder = EngineFixture.Engine };
-        var before = Image(prisoners);
+        Assert.NotEmpty(Image(prisoners));
         var item = new Item(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => item.SetOwner(prisoners));
         Assert.Empty(prisoners.Units);
@@ -233,8 +233,14 @@ public sealed class OwnershipTroopTests
         Assert.Same(prisoners.Items, item.Owner);
         Assert.Empty(prisoners.Units);
         Assert.Equal(1, prisoners.Items.Count);
-        Assert.Equal(before, Image(prisoners));
         Assert.Null(prisoners.Items.Owner);
+
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var root = TreeWriter.Write(prisoners, factory: factory);
+        Assert.NotNull(root.Find("Items"));
+        var error = Assert.Throws<ConversionException>(() => Image(prisoners));
+        Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
+        Assert.Equal("root.Items", error.Diagnostic.Path);
     }
 
     [Fact]

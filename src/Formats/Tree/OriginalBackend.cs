@@ -13,7 +13,8 @@ public static class OriginalBackend
     /// <summary>
     /// Writes the original image. <paramref name="profile"/> names the use. Null uses
     /// <paramref name="engine"/>, the disk image. <see cref="TransportProfile.Name"/> is the
-    /// legacy packet, and it refuses a member that image cannot carry.
+    /// legacy packet. Every original image refuses a member whose stored id sits in the port
+    /// range or the mod range.
     /// </summary>
     public static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, string? profile = null) =>
         ImageTree.Write(node, classValue: classValue, schema: schema, engine: engine, profile: profile);

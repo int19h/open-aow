@@ -1,6 +1,7 @@
 using System.Globalization;
 using Aow.Formats.Json;
 using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 
 namespace Aow.Formats.Original;
 
@@ -242,6 +243,8 @@ internal static class ObjectImage
             var member = objectValue.Find(prop.Name);
             if (member is null) continue;
             var memberPath = path.Member(prop.Name);
+            if (!TransportProfile.Carries(context.Profile, prop))
+                throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
             if (prop.IsDynamic)
             {
                 if (member.Value is not JsonArray array) throw context.Fail(Codes.Type, $"{prop.Name} is an array.", member.Value, memberPath);

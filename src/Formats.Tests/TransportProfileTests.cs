@@ -6,9 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// PE-4-b. No product class has port-only state yet (PE-5 adds it). These tests build a token
-/// event through a schema, the way the converter's refusal tests build one. The legacy packet
-/// refuses a value the original image cannot carry and names the path. The own document keeps it.
+/// PE-4-b and PE-5-a. The product schema's first port-only member is PrisonersArmy.Items. These
+/// tests build a token event through a schema, the way the converter's refusal tests build one.
+/// An original image refuses a value it cannot carry and names the path. The own document keeps it.
 /// </summary>
 public sealed class TransportProfileTests : FormatsTest
 {
@@ -106,6 +106,52 @@ public sealed class TransportProfileTests : FormatsTest
         Assert.Equal(3, ((JsonArray)document["Scores"]!).Items.Count);
 
         var error = Assert.Throws<ConversionException>(() => Packet(node, schema));
+        Assert.Equal(Codes.Range, error.Diagnostic.Code);
+        Assert.Equal("root.Scores", error.Diagnostic.Path);
+        Assert.Contains("holds at most 2", error.Diagnostic.Message);
+        Assert.Contains("does not truncate", error.Diagnostic.Message);
+    }
+
+    [Fact]
+    public void ATokenEventWithPortStateIsRefusedOnTheDiskImage()
+    {
+        var schema = Sample;
+        var classValue = schema.Get("TokenEvent");
+        var node = Event(counter: 4);
+        node.Add("PortState", new IntegerNode(4, signed: true, value: 9));
+
+        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        var read = DocumentBackend.Read(document, classValue: classValue, schema: schema, engine: "game");
+        Assert.Equal(9L, ((IntegerNode)read.Find("PortState")!).Value);
+
+        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
+        Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
+        Assert.Equal("root.PortState", error.Diagnostic.Path);
+        Assert.Equal(PortId.ToString(System.Globalization.CultureInfo.InvariantCulture), error.Diagnostic.Value);
+        Assert.Contains("cannot carry", error.Diagnostic.Message);
+    }
+
+    [Fact]
+    public void AWiderArrayReloadsFromTheOwnDocumentAndTheDiskImageRefusesIt()
+    {
+        var schema = Sample;
+        var classValue = schema.Get("TokenEvent");
+        var scores = new ListNode();
+        scores.Items.Add(new IntegerNode(4, signed: true, value: 1));
+        scores.Items.Add(new IntegerNode(4, signed: true, value: 2));
+        scores.Items.Add(new IntegerNode(4, signed: true, value: 3));
+        var node = Event(counter: 1);
+        node.Add("Scores", scores);
+
+        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        var read = DocumentBackend.Read(document, classValue: classValue, schema: schema, engine: "game");
+        var stored = (ListNode)read.Find("Scores")!;
+        Assert.Equal(3, stored.Items.Count);
+        Assert.Equal(1L, ((IntegerNode)stored.Items[0]).Value);
+        Assert.Equal(2L, ((IntegerNode)stored.Items[1]).Value);
+        Assert.Equal(3L, ((IntegerNode)stored.Items[2]).Value);
+
+        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
         Assert.Equal("root.Scores", error.Diagnostic.Path);
         Assert.Contains("holds at most 2", error.Diagnostic.Message);
