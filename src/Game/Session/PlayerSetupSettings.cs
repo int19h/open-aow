@@ -51,7 +51,7 @@ public partial class PlayerSetupSettings : EngineObject
     }
 
     // AoWSetup.pas:296
-    public PlayerSetupSettings(ECustomNode owner) : base(owner)
+    public PlayerSetupSettings(CustomNode owner) : base(owner)
     {
         Status = Set<PlayerSetupStatusElement>.Of();
         Behavior = s_defaultBehavior;

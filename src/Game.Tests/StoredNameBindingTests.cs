@@ -8,6 +8,7 @@ using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 using Aow.Rtl;
 using Xunit.Abstractions;
 
@@ -163,6 +164,39 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         }
         output.WriteLine(records.Count + " records and " + enums.Count + " enums checked");
         Assert.True(failures.Count == 0, string.Join("\n", failures));
+    }
+
+    // Issue 158 part 9. A renamed node keeps the stored name the schema already uses.
+    [Fact]
+    public void ARenamedNodeKeepsItsStoredName()
+    {
+        (Type Type, string Stored)[] pinned =
+        [
+            (typeof(CustomNode), "ECustomNode"),
+            (typeof(OwningNode), "ENode"),
+            (typeof(global::Aow.Engine.Nodes.ReferenceNode), "EReferenceNode"),
+            (typeof(ObservableNode), "EChangeNotifyNode"),
+            (typeof(ObservableEventList), "EChangeNotifyEventList"),
+            (typeof(SortedNode), "ESortNode"),
+            (typeof(InverseSortedNode), "EInverseSortNode"),
+            (typeof(EngineNode), "ECustomOwner"),
+            (typeof(ControlStyleNode), "EControlStyleNode"),
+            (typeof(ControlStyleInverseSortedNode), "EControlStyleInverseSortNode"),
+            (typeof(ResourceCollection), "EResourceList"),
+            (typeof(PlayerCollection), "PlayerList"),
+        ];
+        foreach (var (type, stored) in pinned)
+        {
+            Assert.Equal(stored, NameTable.Stored(type));
+            Assert.NotEqual(type.Name, stored);
+            Assert.Equal(stored, NameTable.ResolveStored(NameTable.Delphi(type)));
+            Assert.Equal(stored, NameTable.ResolveStored(stored));
+            Assert.NotNull(FormatSchema.Current.Find(stored));
+        }
+        Assert.Equal("ECustomNode.ChildrenAccessor", NameTable.Stored(typeof(CustomNode.ChildrenAccessor)));
+        Assert.Equal("ESortNode.SortItem", NameTable.Stored(typeof(SortedNode.SortItem)));
+        Assert.Equal("ReferenceNode", NameTable.Stored(typeof(global::Aow.Formats.Tree.ReferenceNode)));
+        Assert.Equal(typeof(global::Aow.Engine.Nodes.ReferenceNode), NameTable.Find("EReferenceNode"));
     }
 
     private static Type? TypeOf(string className)

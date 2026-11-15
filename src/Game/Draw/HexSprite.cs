@@ -12,13 +12,13 @@ namespace Aow.Game.Draw;
 // the multi-hex sprites the field of the base hexagon)
 public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapField>
 {
-    public HexSprite(ECustomNode owner) : base(owner)
+    public HexSprite(CustomNode owner) : base(owner)
     { }
 
     // The field the sprite stands on. AcceptsOwner admits only a field, so the cast never fails.
     public new MapField Owner { get => (MapField)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MapField;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapField;
 
     void IOwnedSink<MapField>.SetOwner(MapField owner) => SetOwner(owner);
 

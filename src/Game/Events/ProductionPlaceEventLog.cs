@@ -8,7 +8,7 @@ namespace Aow.Game.Events;
 
 public partial class ProductionPlaceEventLog : ProductionEventLog
 {
-    public ProductionPlaceEventLog(ECustomNode owner) : base(owner)
+    public ProductionPlaceEventLog(CustomNode owner) : base(owner)
     { }
 
     // PrdPlace.pas:736

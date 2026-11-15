@@ -18,7 +18,7 @@ namespace Aow.Game.Units;
 public partial class HeroControl : EngineObject
 {
     // Hero.PAS:2413
-    public HeroControl(ECustomNode owner) : base(owner)
+    public HeroControl(CustomNode owner) : base(owner)
     {
         _onChangedStore = new();
         _onHeroChangedStore = new();

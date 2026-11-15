@@ -10,7 +10,7 @@ namespace Aow.Game.Units;
 public partial class AdjacentArmy : EngineObject
 {
     // AIGroup.pas:5045
-    public AdjacentArmy(ECustomNode owner) : base(owner)
+    public AdjacentArmy(CustomNode owner) : base(owner)
     {
         Path = new MovePath();
     }

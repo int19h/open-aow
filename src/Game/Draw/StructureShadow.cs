@@ -12,7 +12,7 @@ namespace Aow.Game.Draw;
 // connected/visible flags, structure
 public partial class StructureShadow : HexSprite
 {
-    public StructureShadow(ECustomNode owner) : base(owner)
+    public StructureShadow(CustomNode owner) : base(owner)
     { }
 
     public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }

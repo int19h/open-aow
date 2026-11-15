@@ -17,7 +17,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135967;
 
     // GlobalEnchantmentSpells.pas:1387
-    public LifeMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public LifeMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);

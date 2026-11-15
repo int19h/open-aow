@@ -138,7 +138,7 @@ public sealed partial class RuleConstructionTests
         if (value is LeadershipAbility leadership) Assert.Equal(10, leadership.LevelCosts[1]);
     }
 
-    private static object Create(Type type, ECustomNode owner, int route, Fixture fixture)
+    private static object Create(Type type, CustomNode owner, int route, Fixture fixture)
     {
         if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 2)
@@ -154,13 +154,13 @@ public sealed partial class RuleConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         var constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
-        object?[] arguments = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
+        object?[] arguments = parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
             : p.ParameterType == typeof(GameMap) ? fixture.Map
             : p.ParameterType == typeof(EngineObject) ? EngineFixture.Engine
@@ -250,7 +250,7 @@ public sealed partial class RuleConstructionTests
         }
     }
 
-    private sealed class ObservedAISettings(ECustomNode owner) : AIMoveControlSettings(owner)
+    private sealed class ObservedAISettings(CustomNode owner) : AIMoveControlSettings(owner)
     {
         internal bool SawInitializedFields { get; private set; }
 

@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Bless : UnitSpell
 {
     // UnitSpells.pas:790
-    public Bless(ECustomNode owner, EngineObject holder) : base(owner)
+    public Bless(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_blessText);

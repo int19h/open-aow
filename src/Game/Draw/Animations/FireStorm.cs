@@ -18,7 +18,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class FireStorm : Storm
 {
-    public FireStorm(ECustomNode owner) : base(owner)
+    public FireStorm(CustomNode owner) : base(owner)
     { }
 
     // Storms.pas:517

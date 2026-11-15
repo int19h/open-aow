@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 
 // { Interface declaration run owned by P5. }
 // children
-public partial class AIGroupProductionList : ENode, IChildList<AIGroupProduction>
+public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProduction, so the cast never fails.
@@ -23,7 +23,7 @@ public partial class AIGroupProductionList : ENode, IChildList<AIGroupProduction
 
     int IChildSink<AIGroupProduction>.AddChild(AIGroupProduction child) => AddChild(child);
 
-    public AIGroupProductionList(ECustomNode owner) : base(owner)
+    public AIGroupProductionList(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:1

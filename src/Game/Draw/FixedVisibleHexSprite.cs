@@ -10,7 +10,7 @@ namespace Aow.Game.Draw;
 // a sprite that is always in the visibility list (not on a field). FStatus: bit 1 visible
 public partial class FixedVisibleHexSprite : HexSprite
 {
-    public FixedVisibleHexSprite(ECustomNode owner) : base(owner)
+    public FixedVisibleHexSprite(CustomNode owner) : base(owner)
     { }
 
     private byte _status;

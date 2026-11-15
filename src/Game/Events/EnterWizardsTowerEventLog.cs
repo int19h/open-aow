@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 public partial class EnterWizardsTowerEventLog : EventLog
 {
     // WizardsTower.pas:70
-    public EnterWizardsTowerEventLog(ECustomNode owner) : base(owner)
+    public EnterWizardsTowerEventLog(CustomNode owner) : base(owner)
     { }
 
     public WizardsTower Tower { get; set; }

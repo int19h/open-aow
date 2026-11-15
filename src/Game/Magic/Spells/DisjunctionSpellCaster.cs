@@ -18,7 +18,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     public int DispelChance { get; private set; }
 
     // GlobalSpells.pas:806
-    public DisjunctionSpellCaster(ECustomNode owner) : base(owner)
+    public DisjunctionSpellCaster(CustomNode owner) : base(owner)
     {
         DispelChance = 50;
     }

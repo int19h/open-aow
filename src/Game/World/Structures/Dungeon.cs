@@ -23,7 +23,7 @@ namespace Aow.Game.World.Structures;
 // Prisoners, PrisonersMode
 public partial class Dungeon : ExplorationSite
 {
-    public Dungeon(ECustomNode owner) : base(owner)
+    public Dungeon(CustomNode owner) : base(owner)
     {
         _prisonersMode = DungeonPrisonersMode.Normal;
         Prisoners = new PrisonersArmy(null) { Holder = CreationHolder() };
@@ -229,12 +229,13 @@ public partial class Dungeon : ExplorationSite
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: armyLog, player: -1, x: GetHexX(), execute: false);
         armyLog.Release();
         army = new ArmyHexSprite(null) { Holder = CreationHolder() };
-        army.Army.BeginUpdate();
-        army.Army.SetPlayer(player);
-        army.Army.AddUnits(Prisoners.Units);
-        army.Place(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
-        army.Activate();
-        army.Army.EndUpdate();
+        using (army.Army.BeginUpdate())
+        {
+            army.Army.SetPlayer(player);
+            army.Army.AddUnits(Prisoners.Units);
+            army.Place(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+            army.Activate();
+        }
     }
 
     private static readonly string s_afterLiberationOneUnitJoinedForcesFormat = "After liberation 1 unit joined the forces of %s";
@@ -253,7 +254,7 @@ public partial class Dungeon : ExplorationSite
     // PrisonerCollections
     public new partial class Resource : ExplorationSiteResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             PrisonerCollections = new UnitIndexListCollection();
         }

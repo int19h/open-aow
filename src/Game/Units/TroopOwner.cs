@@ -15,7 +15,7 @@ public union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUserList)
     /// The owner a troop stores, read from the untyped owner. A troop admits only these kinds, so
     /// another kind is an error in the troop and throws.
     /// </summary>
-    internal static TroopOwner Of(ECustomNode owner) => owner switch
+    internal static TroopOwner Of(CustomNode owner) => owner switch
     {
         null => default,
         Army army => army,
@@ -27,5 +27,5 @@ public union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUserList)
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>
-    public ECustomNode Node => (ECustomNode)Value;
+    public CustomNode Node => (CustomNode)Value;
 }

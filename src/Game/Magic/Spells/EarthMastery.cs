@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class EarthMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1877
-    public EarthMastery(ECustomNode owner, EngineObject holder) : base(owner)
+    public EarthMastery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);

@@ -23,7 +23,7 @@ namespace Aow.Game.World.Terrain;
 // Mode, Player, Duration, OriginalOverlay
 public partial class UnholyGround : ImageLibraryTerrainMapObject
 {
-    public UnholyGround(ECustomNode owner) : base(owner)
+    public UnholyGround(CustomNode owner) : base(owner)
     { }
 
     // UnHolyG.pas:93
@@ -328,7 +328,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // UnHolyG.pas:278

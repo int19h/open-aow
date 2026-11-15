@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SpellCastingAbility : MultiLevelAbility
 {
     // AoWAb.PAS:4439
-    public SpellCastingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public SpellCastingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 52;

@@ -23,7 +23,7 @@ namespace Aow.Game.AI.Groups;
 // references in its node children (it routes messages to them and notifies their changes) and
 // reads them through Units. It does not own the troops. Their owner stays the army or the unit
 // list that holds them. The members below that carry a Unit.PAS line are TUnitList's part.
-public partial class AIGroup : EChangeNotifyNode, IChildList<Troop>, IUnitHolder, IAIGroupClass
+public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, IAIGroupClass
 {
     // AIGroup.pas:101
     public new const int ClassId = 136272;
@@ -42,7 +42,7 @@ public partial class AIGroup : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
     public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
 
     // AIGroup.pas:57
-    public AIGroup(ECustomNode owner) : base(owner)
+    public AIGroup(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         Status = Set<AIGroupStatusElement>.Of();

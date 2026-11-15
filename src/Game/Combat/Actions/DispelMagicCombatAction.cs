@@ -17,7 +17,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
 {
 
     // AoWAb.PAS:3936
-    public DispelMagicCombatAction(ECustomNode owner) : base(owner)
+    public DispelMagicCombatAction(CustomNode owner) : base(owner)
     {
         EnchantmentIds = new Int32List();
     }

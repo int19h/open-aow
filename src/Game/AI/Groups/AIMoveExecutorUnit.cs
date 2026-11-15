@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 // status, move result
 public partial class AIMoveExecutorUnit : EngineObject
 {
-    public AIMoveExecutorUnit(ECustomNode owner) : base(owner)
+    public AIMoveExecutorUnit(CustomNode owner) : base(owner)
     { }
 
     public Troop Troop { get; private set; }

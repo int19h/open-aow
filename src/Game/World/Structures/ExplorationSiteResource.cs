@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 // FDefenderCollections, the available defender army compositions
 public partial class ExplorationSiteResource : StructureResource
 {
-    public ExplorationSiteResource(ECustomNode owner) : base(owner)
+    public ExplorationSiteResource(CustomNode owner) : base(owner)
     {
         DefenderCollections = new UnitIndexListCollection();
         TerrainBound = false;

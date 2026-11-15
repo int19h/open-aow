@@ -28,7 +28,7 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:241
-    public SummonSpell(ECustomNode owner) : base(owner)
+    public SummonSpell(CustomNode owner) : base(owner)
     {
         UnitIndices = new UnitIndexList();
         SpellType = SpellType.Global;

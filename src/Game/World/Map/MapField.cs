@@ -16,12 +16,12 @@ namespace Aow.Game.World.Map;
 // one block and freed it with the level. The port allocates each field through the base
 // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
 // shr 26 <= 15) are the static ones
-public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLevel>
+public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLevel>
 {
     // AoWHSMap.PAS (TAoWMapField). HSEngine.pas:1933 gives the engine field 65793.
     public new const int ClassId = 131090;
 
-    public MapField(ECustomNode owner) : base(owner)
+    public MapField(CustomNode owner) : base(owner)
     {
         _terrainType = -1;
         _overlayType = -1;
@@ -51,7 +51,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // HSEngine.pas:1923
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         SetOwnerWithoutNotify(owner);
     }
@@ -59,7 +59,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
     public new MapLevel Owner { get => (MapLevel)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MapLevel;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapLevel;
 
     void IOwnedSink<MapLevel>.SetOwner(MapLevel owner) => SetOwner(owner);
 

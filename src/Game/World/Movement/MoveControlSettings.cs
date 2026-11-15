@@ -22,7 +22,7 @@ public partial class MoveControlSettings : EngineObject
 {
 
     // MoveT.PAS:73
-    public MoveControlSettings(ECustomNode owner) : base(owner)
+    public MoveControlSettings(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         ProcessedMapFields = new DelphiList<MapField>();

@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 // status, path, move index
 public partial class MoveTokenEvent : TokenEvent
 {
-    public MoveTokenEvent(ECustomNode owner) : base(owner)
+    public MoveTokenEvent(CustomNode owner) : base(owner)
     {
         Path = new MovePath();
         MoveIndex = 0;

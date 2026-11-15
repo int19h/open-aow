@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class NormalAIGroupControl : BehaviorAIGroupControl
 {
-    public NormalAIGroupControl(ECustomNode owner) : base(owner)
+    public NormalAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // BehaviorAG.pas:172

@@ -11,7 +11,7 @@ namespace Aow.Game.World.Hexes;
 // TransitionLibrary (HexTrans.ILB)
 public partial class HexagonResource : AbstractHexagonResource
 {
-    public HexagonResource(ECustomNode owner) : base(owner)
+    public HexagonResource(CustomNode owner) : base(owner)
     {
         SetLevel(0);
     }

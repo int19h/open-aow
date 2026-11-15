@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class BuildersGuild : ProductionPlace
 {
-    public BuildersGuild(ECustomNode owner) : base(owner)
+    public BuildersGuild(CustomNode owner) : base(owner)
     { }
 
     // BldGuild.pas:37
@@ -15,7 +15,7 @@ public partial class BuildersGuild : ProductionPlace
 
     public new partial class Resource : ProductionPlaceResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = true;
             Claimed = false;

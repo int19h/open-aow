@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class FrostBeams : CombatSpell
 {
     // CombatSpells.pas:1553
-    public FrostBeams(ECustomNode owner, EngineObject holder) : base(owner)
+    public FrostBeams(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_frostBeamsText);

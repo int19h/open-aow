@@ -16,7 +16,7 @@ public partial class UnitSpellCombatAction : CombatAction
 {
     public new const int ClassId = 131779;
 
-    public UnitSpellCombatAction(ECustomNode owner) : base(owner)
+    public UnitSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     public int SpellId { get; set; }

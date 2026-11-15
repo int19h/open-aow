@@ -20,7 +20,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CommandAbility : TouchAbility
 {
     // AoWAb.PAS:5088
-    public CommandAbility(ECustomNode owner) : base(owner)
+    public CommandAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }

@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Stoning : CombatSpell
 {
     // CombatSpells.pas:1587
-    public Stoning(ECustomNode owner, EngineObject holder) : base(owner)
+    public Stoning(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_stoningText);

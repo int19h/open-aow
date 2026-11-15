@@ -8,7 +8,7 @@ public partial class AICityFortifyBudget : AIBudget
     // City.pas:2785
     public new const int ClassId = 131351;
 
-    public AICityFortifyBudget(ECustomNode owner) : base(owner)
+    public AICityFortifyBudget(CustomNode owner) : base(owner)
     { }
 
 }

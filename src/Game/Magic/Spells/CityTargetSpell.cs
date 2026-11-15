@@ -24,7 +24,7 @@ public partial class CityTargetSpell : Spell
     public Set<CityTargetModeElement> CityTargetMode { get; protected set; }
 
     // CitySpells.pas:209
-    public CityTargetSpell(ECustomNode owner) : base(owner)
+    public CityTargetSpell(CustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
     }

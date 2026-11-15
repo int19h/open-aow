@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class Shipyard : ProductionPlace
 {
-    public Shipyard(ECustomNode owner) : base(owner)
+    public Shipyard(CustomNode owner) : base(owner)
     { }
 
     // Shipyard.pas:49
@@ -24,7 +24,7 @@ public partial class Shipyard : ProductionPlace
 
     public new partial class Resource : ProductionPlaceResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
             RazeDefenderBudget = 150;

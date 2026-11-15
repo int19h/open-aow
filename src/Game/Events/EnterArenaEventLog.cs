@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 public partial class EnterArenaEventLog : EventLog
 {
     // Arena.pas:259
-    public EnterArenaEventLog(ECustomNode owner) : base(owner)
+    public EnterArenaEventLog(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();
     }

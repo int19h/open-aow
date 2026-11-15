@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class StructureTokenEvent : TokenEvent
 {
-    public StructureTokenEvent(ECustomNode owner) : base(owner)
+    public StructureTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135440;

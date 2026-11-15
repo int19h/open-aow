@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class BoltsAbility : RangedAttackAbility
 {
     // AoWAb.PAS:4844
-    public BoltsAbility(ECustomNode owner) : base(owner)
+    public BoltsAbility(CustomNode owner) : base(owner)
     {
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
         AbilityType = AbilityType.Combat;

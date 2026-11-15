@@ -20,7 +20,7 @@ public partial class TacticalBattle : Battle
     // AoWTC.pas:5081
     public new const int ClassId = 2228496;
 
-    public TacticalBattle(ECustomNode owner) : base(owner)
+    public TacticalBattle(CustomNode owner) : base(owner)
     { }
 
     public sbyte HostPlayer { get; private set; }

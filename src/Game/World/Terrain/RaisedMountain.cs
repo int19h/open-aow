@@ -17,7 +17,7 @@ namespace Aow.Game.World.Terrain;
 // Mode, Player, Duration, OriginalOverlay
 public partial class RaisedMountain : ImageLibraryTerrainMapObject
 {
-    public RaisedMountain(ECustomNode owner) : base(owner)
+    public RaisedMountain(CustomNode owner) : base(owner)
     { }
 
     // Mountain.pas:178
@@ -139,7 +139,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Mountain.pas:249

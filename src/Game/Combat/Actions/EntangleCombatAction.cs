@@ -15,7 +15,7 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131774;
 
-    public EntangleCombatAction(ECustomNode owner) : base(owner)
+    public EntangleCombatAction(CustomNode owner) : base(owner)
     { }
 
     public bool Successful { get; private set; }

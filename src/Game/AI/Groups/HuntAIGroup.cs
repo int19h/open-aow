@@ -18,7 +18,7 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136288;
 
     // AIGroup.pas:1430
-    public HuntAIGroup(ECustomNode owner) : base(owner)
+    public HuntAIGroup(CustomNode owner) : base(owner)
     {
         TargetUnitIds = new Int32List();
     }

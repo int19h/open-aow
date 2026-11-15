@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class ColdBreath : CombatSpell
 {
     // CombatSpells.pas:1241
-    public ColdBreath(ECustomNode owner, EngineObject holder) : base(owner)
+    public ColdBreath(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_coldBreathText);

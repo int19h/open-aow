@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class IncomeSource : EngineObject
 {
-    public IncomeSource(ECustomNode owner) : base(owner)
+    public IncomeSource(CustomNode owner) : base(owner)
     { }
 
     // Player.PAS:202

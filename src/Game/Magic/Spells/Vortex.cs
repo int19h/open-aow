@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Vortex : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2069
-    public Vortex(ECustomNode owner, EngineObject holder) : base(owner)
+    public Vortex(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);

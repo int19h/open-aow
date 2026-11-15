@@ -6,7 +6,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SeducedAbility : CommandedAbility
 {
     // AoWAb.PAS:5366
-    public SeducedAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public SeducedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 48;

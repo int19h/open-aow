@@ -12,7 +12,7 @@ namespace Aow.Game.World.Structures;
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
 public partial class ProductionSettings : EngineObject
 {
-    public ProductionSettings(ECustomNode owner) : base(owner)
+    public ProductionSettings(CustomNode owner) : base(owner)
     { }
 
     public int Gold { get; set; }

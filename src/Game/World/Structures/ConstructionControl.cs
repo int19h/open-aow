@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 public partial class ConstructionControl : EngineObject
 {
 
-    public ConstructionControl(ECustomNode owner) : base(owner)
+    public ConstructionControl(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:5494

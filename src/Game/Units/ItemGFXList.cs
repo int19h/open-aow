@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, engine, control style
-public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
+public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
 {
     // The item graphics in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a ItemGraphics, so the cast never fails.
@@ -17,7 +17,7 @@ public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
     int IChildSink<ItemGraphics>.AddChild(ItemGraphics child) => AddChild(child);
 
     // Army.PAS:5176
-    public ItemGFXList(ECustomNode owner) : base(owner)
+    public ItemGFXList(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }

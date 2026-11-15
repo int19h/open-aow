@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Watcher : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1498
-    public Watcher(ECustomNode owner, EngineObject holder) : base(owner)
+    public Watcher(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_watcherText);

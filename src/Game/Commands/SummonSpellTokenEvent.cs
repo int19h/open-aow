@@ -39,7 +39,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     }
 
     // SummonSpells.pas:159
-    public SummonSpellTokenEvent(ECustomNode owner) : base(owner)
+    public SummonSpellTokenEvent(CustomNode owner) : base(owner)
     {
         UnitIndices = new UnitIndexList();
     }

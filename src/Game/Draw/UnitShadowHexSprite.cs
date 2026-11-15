@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 // UnitHexSprite
 public partial class UnitShadowHexSprite : HexSprite
 {
-    public UnitShadowHexSprite(ECustomNode owner) : base(owner)
+    public UnitShadowHexSprite(CustomNode owner) : base(owner)
     { }
 
     public UnitHexSprite UnitHexSprite { get; set; }

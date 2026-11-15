@@ -13,7 +13,7 @@ namespace Aow.Game.AI;
 public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // AI.pas:1119
-    public GroupControlLoopAIPlayerAction(ECustomNode owner) : base(owner)
+    public GroupControlLoopAIPlayerAction(CustomNode owner) : base(owner)
     {
     }
 

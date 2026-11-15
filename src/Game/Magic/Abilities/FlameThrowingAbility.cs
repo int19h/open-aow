@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class FlameThrowingAbility : BreathAbility
 {
     // AoWAb.PAS:4934
-    public FlameThrowingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public FlameThrowingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 30;

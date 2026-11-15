@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class InvokeDeathAbility : TouchAbility
 {
     // AoWAb.PAS:3437
-    public InvokeDeathAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public InvokeDeathAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 35;

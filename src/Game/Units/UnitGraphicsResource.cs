@@ -25,7 +25,7 @@ public partial class UnitGraphicsResource : EngineResource
     public new const int ClassId = 131600;
 
     // UnitHS.PAS:1
-    public UnitGraphicsResource(ECustomNode owner) : base(owner)
+    public UnitGraphicsResource(CustomNode owner) : base(owner)
     {
         Sequences = new ImageSequenceList(null, null);
         _refCount = 0;

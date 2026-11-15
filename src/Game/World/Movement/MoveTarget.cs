@@ -12,12 +12,12 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new MoveTargetList Owner { get => (MoveTargetList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MoveTargetList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MoveTargetList;
 
     void IOwnedSink<MoveTargetList>.SetOwner(MoveTargetList owner) => SetOwner(owner);
 
     // AIGroup.pas:4215
-    public MoveTarget(ECustomNode owner) : base(owner)
+    public MoveTarget(CustomNode owner) : base(owner)
     {
         _refCount = 1;
     }

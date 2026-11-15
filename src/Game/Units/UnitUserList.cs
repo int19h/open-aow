@@ -16,7 +16,7 @@ namespace Aow.Game.Units;
 // reads them through Units. AddUnit does not set the owner. A troop's owner stays where the
 // caller left it, including this list when the caller sets that owner. The members below that
 // carry a Unit.PAS line are TUnitList's part, with the reference writes TUnitUserList overrides.
-public partial class UnitUserList : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
+public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -26,7 +26,7 @@ public partial class UnitUserList : EChangeNotifyNode, IChildList<Troop>, IUnitH
 
     int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
 
-    public UnitUserList(ECustomNode owner) : base(owner)
+    public UnitUserList(CustomNode owner) : base(owner)
     { }
 
     /// <summary>The troops of this list.</summary>

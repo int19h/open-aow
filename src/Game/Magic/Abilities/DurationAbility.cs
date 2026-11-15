@@ -16,7 +16,7 @@ public partial class DurationAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:25
-    public DurationAbility(ECustomNode owner) : base(owner)
+    public DurationAbility(CustomNode owner) : base(owner)
     {
 
     }

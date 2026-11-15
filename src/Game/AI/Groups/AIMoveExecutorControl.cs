@@ -19,7 +19,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorControl : EngineObject
 {
     // AIGroup.pas:4726
-    public AIMoveExecutorControl(ECustomNode owner) : base(owner)
+    public AIMoveExecutorControl(CustomNode owner) : base(owner)
     {
         MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
     }

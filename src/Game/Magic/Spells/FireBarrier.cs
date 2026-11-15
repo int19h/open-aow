@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class FireBarrier : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:882
-    public FireBarrier(ECustomNode owner, EngineObject holder) : base(owner)
+    public FireBarrier(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_fireBarrierText);

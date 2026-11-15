@@ -10,7 +10,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class DivineStorm : BlastStorm
 {
-    public DivineStorm(ECustomNode owner) : base(owner)
+    public DivineStorm(CustomNode owner) : base(owner)
     { }
 
     // Storms.pas:608

@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 // player, settings string
 public partial class ChangePlayerSettingsTokenEvent : TokenEvent
 {
-    public ChangePlayerSettingsTokenEvent(ECustomNode owner) : base(owner)
+    public ChangePlayerSettingsTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135974;

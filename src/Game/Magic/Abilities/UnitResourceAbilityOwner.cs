@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // { Interface declaration run owned by P2. }
 public partial class UnitResourceAbilityOwner : AbilityOwner
 {
-    public UnitResourceAbilityOwner(ECustomNode owner) : base(owner)
+    public UnitResourceAbilityOwner(CustomNode owner) : base(owner)
     { }
 
     // Army.PAS:6125

@@ -59,7 +59,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:2648
-    public ArmyHexSprite(ECustomNode owner) : base(owner)
+    public ArmyHexSprite(CustomNode owner) : base(owner)
     {
         Army = new Army(null) { Holder = CreationHolder() };
     }
@@ -111,9 +111,10 @@ public partial class ArmyHexSprite : UnitHexSprite
         base.TerrainChanged(info);
         if (info.HexNumber == 0 && Army.Status.Contains(ArmyStatusElement.Activated))
         {
-            Army.BeginUpdate();
-            Army.ValidateTerrain(info.TerrainType, info.OverlayType);
-            Army.EndUpdate();
+            using (Army.BeginUpdate())
+            {
+                Army.ValidateTerrain(info.TerrainType, info.OverlayType);
+            }
         }
     }
 
@@ -124,16 +125,17 @@ public partial class ArmyHexSprite : UnitHexSprite
         bool result = base.PlaceOnMap();
         if (result)
         {
-            Army.BeginUpdate();
-            var mapField = Owner;
-            Army.SetMapCoordinate(mapField.HexX, mapField.HexY, mapField.HexLevel);
+            using (Army.BeginUpdate())
+            {
+                var mapField = Owner;
+                Army.SetMapCoordinate(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
-            Army.UpdateUnfog();
-            Army.UpdateExploration();
-            message.MessageId = 4354;
-            message.Param[0] = this;
-            Owner.SendMapFieldMessage(ref message);
-            Army.EndUpdate();
+                Army.UpdateUnfog();
+                Army.UpdateExploration();
+                message.MessageId = 4354;
+                message.Param[0] = this;
+                Owner.SendMapFieldMessage(ref message);
+            }
         }
 
         return result;
@@ -539,64 +541,65 @@ public partial class ArmyHexSprite : UnitHexSprite
         bool result;
         MapField oldField;
         MapFieldMessage message = default;
-        Army.BeginUpdate();
-        oldField = Owner;
-        if (oldField != null)
+        using (Army.BeginUpdate())
         {
-            message.MessageId = 4416;
-            message.Param[0] = this;
-            message.Param[1] = field;
-            message.Result = 0;
-            oldField.SendMapFieldMessage(ref message);
-        }
-
-        if (oldField == null || message.Result.Int == 0)
-        {
-            message.MessageId = 4417;
-            message.Param[0] = this;
-            message.Param[1] = oldField;
-            message.Result = 0;
-            field.SendMapFieldMessage(ref message);
-            if (message.Result.Int == 0)
+            oldField = Owner;
+            if (oldField != null)
             {
-                base.MoveTo(field, moveCost);
-                if (oldField != null && (field.HexLevel != oldField.HexLevel || !ConnectingHex(oldField.HexX, oldField.HexY, field.HexX, field.HexY)))
-                {
-                    StrategicMap.Current.NotifyPlayerChanged(oldField.HexX, oldField.HexY, oldField.HexLevel);
-                    StrategicMap.Current.NotifyPlayerChanged(field.HexX, field.HexY, field.HexLevel);
-                }
-                else
-                {
-                    StrategicMap.Current.NotifyPlayerChanged(field.HexX, field.HexY, field.HexLevel, 13);
-                }
+                message.MessageId = 4416;
+                message.Param[0] = this;
+                message.Param[1] = field;
+                message.Result = 0;
+                oldField.SendMapFieldMessage(ref message);
+            }
 
-                Army.Validate();
-                Army.MovedTo(oldField, field, moveCost);
-                message.MessageId = 4418;
+            if (oldField == null || message.Result.Int == 0)
+            {
+                message.MessageId = 4417;
                 message.Param[0] = this;
                 message.Param[1] = oldField;
                 message.Result = 0;
                 field.SendMapFieldMessage(ref message);
-                if (Army.Player > 0)
+                if (message.Result.Int == 0)
                 {
-                    var visibilityRange = Army.VisibilityRange();
-                    var trueVisionRange = Army.TrueVisionRange();
-                    StrategicMap.Current.UpdatePlayerSeen(Army.Player, field.HexX, field.HexY, field.HexLevel, visibilityRange, trueVisionRange);
-                }
+                    base.MoveTo(field, moveCost);
+                    if (oldField != null && (field.HexLevel != oldField.HexLevel || !ConnectingHex(oldField.HexX, oldField.HexY, field.HexX, field.HexY)))
+                    {
+                        StrategicMap.Current.NotifyPlayerChanged(oldField.HexX, oldField.HexY, oldField.HexLevel);
+                        StrategicMap.Current.NotifyPlayerChanged(field.HexX, field.HexY, field.HexLevel);
+                    }
+                    else
+                    {
+                        StrategicMap.Current.NotifyPlayerChanged(field.HexX, field.HexY, field.HexLevel, 13);
+                    }
 
-                result = true;
+                    Army.Validate();
+                    Army.MovedTo(oldField, field, moveCost);
+                    message.MessageId = 4418;
+                    message.Param[0] = this;
+                    message.Param[1] = oldField;
+                    message.Result = 0;
+                    field.SendMapFieldMessage(ref message);
+                    if (Army.Player > 0)
+                    {
+                        var visibilityRange = Army.VisibilityRange();
+                        var trueVisionRange = Army.TrueVisionRange();
+                        StrategicMap.Current.UpdatePlayerSeen(Army.Player, field.HexX, field.HexY, field.HexLevel, visibilityRange, trueVisionRange);
+                    }
+
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
             }
             else
             {
                 result = false;
             }
-        }
-        else
-        {
-            result = false;
-        }
 
-        Army.EndUpdate();
+        }
         return result;
     }
 

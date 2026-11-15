@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class AltarOfFire : Altar
 {
-    public AltarOfFire(ECustomNode owner) : base(owner)
+    public AltarOfFire(CustomNode owner) : base(owner)
     {
     }
 
@@ -21,7 +21,7 @@ public partial class AltarOfFire : Altar
 
     public new partial class Resource : AltarResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
         }
 

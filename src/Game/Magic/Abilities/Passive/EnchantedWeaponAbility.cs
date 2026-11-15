@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class EnchantedWeaponAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1073
-    public EnchantedWeaponAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public EnchantedWeaponAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_enchantedWeaponText);

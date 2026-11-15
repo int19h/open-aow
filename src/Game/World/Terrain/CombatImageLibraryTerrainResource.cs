@@ -7,7 +7,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CombatImageLibraryTerrainResource : ImageLibraryTerrainMapObjectResource
 {
-    public CombatImageLibraryTerrainResource(ECustomNode owner) : base(owner)
+    public CombatImageLibraryTerrainResource(CustomNode owner) : base(owner)
     { }
 
     // CombatILTer.pas:175

@@ -17,7 +17,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     public new const int ClassId = 135955;
 
     // GlobalEnchantmentSpells.pas:527
-    public EnchantedRoadsEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public EnchantedRoadsEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.EnchantedRoadsText);

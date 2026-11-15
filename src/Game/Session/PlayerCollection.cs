@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // active, local, human, local human lists
-public partial class PlayerList : EControlStyleNode, IChildList<Player>
+public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Player, so the cast never fails.
@@ -20,7 +20,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     int IChildSink<Player>.AddChild(Player child) => AddChild(child);
 
     // Player.PAS:1414
-    public PlayerList(ECustomNode owner) : base(owner)
+    public PlayerCollection(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
         SetNumberOfPlayers(2);
@@ -40,10 +40,10 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     // Player.PAS:1543
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        SetNumberOfPlayers(((PlayerList)source).GetNumberOfPlayers());
+        SetNumberOfPlayers(((PlayerCollection)source).GetNumberOfPlayers());
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            var players = ((PlayerList)source).GetPlayers(I);
+            var players = ((PlayerCollection)source).GetPlayers(I);
             this[I].Assign(players, engine);
         }
     }

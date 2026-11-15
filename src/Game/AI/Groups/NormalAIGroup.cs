@@ -10,7 +10,7 @@ public partial class NormalAIGroup : BehaviorAIGroup, IAIGroupClass
     public new const int ClassId = 136292;
 
     // BehaviorAG.pas:156
-    public NormalAIGroup(ECustomNode owner) : base(owner)
+    public NormalAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 10;
         RecruitmentPriority = 10;

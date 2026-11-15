@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class UnitResourceList : EResourceList, IChildList<UnitResource>
+public partial class UnitResourceList : ResourceCollection, IChildList<UnitResource>
 {
     // The unit resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a UnitResource, so the cast never fails.
@@ -16,7 +16,7 @@ public partial class UnitResourceList : EResourceList, IChildList<UnitResource>
     int IChildSink<UnitResource>.AddChild(UnitResource child) => AddChild(child);
 
     // UnitRes.PAS:206
-    public UnitResourceList(ECustomNode owner) : base(owner)
+    public UnitResourceList(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }

@@ -35,7 +35,7 @@ public partial class PlayerCommunicator : EngineObject
     }
 
     // NetworkE.pas:605
-    public PlayerCommunicator(ECustomNode owner) : base(owner)
+    public PlayerCommunicator(CustomNode owner) : base(owner)
     {
         _receivedPackage = null;
         OnReceiveStore = new();

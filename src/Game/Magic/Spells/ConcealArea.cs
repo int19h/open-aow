@@ -20,7 +20,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class ConcealArea : Spell
 {
     // GlobalSpells.pas:286
-    public ConcealArea(ECustomNode owner, EngineObject holder) : base(owner)
+    public ConcealArea(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);

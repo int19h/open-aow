@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public partial class GlobalEnchantmentList : ENode, IChildList<GlobalEnchantment>
+public partial class GlobalEnchantmentList : OwningNode, IChildList<GlobalEnchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a GlobalEnchantment, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class GlobalEnchantmentList : ENode, IChildList<GlobalEnchantment
 
     int IChildSink<GlobalEnchantment>.AddChild(GlobalEnchantment child) => AddChild(child);
 
-    public GlobalEnchantmentList(ECustomNode owner) : base(owner)
+    public GlobalEnchantmentList(CustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:2671

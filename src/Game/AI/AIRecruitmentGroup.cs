@@ -12,12 +12,12 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new AIRecruitmentGroupList Owner { get => (AIRecruitmentGroupList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is AIRecruitmentGroupList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIRecruitmentGroupList;
 
     void IOwnedSink<AIRecruitmentGroupList>.SetOwner(AIRecruitmentGroupList owner) => SetOwner(owner);
 
     // AIGroup.pas:750
-    public AIRecruitmentGroup(ECustomNode owner) : base(owner)
+    public AIRecruitmentGroup(CustomNode owner) : base(owner)
     {
         _refCount = 1;
     }

@@ -75,7 +75,7 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
-            var players = new PlayerList(null!) { Holder = startup.Engine };
+            var players = new PlayerCollection(null!) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
             players.ClearChildren();
             players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });

@@ -32,9 +32,9 @@ public sealed class WallCrushingFastBattleTests
         }
     }
 
-    private sealed class Attacker(ECustomNode owner) : CombatObject(owner);
+    private sealed class Attacker(CustomNode owner) : CombatObject(owner);
 
-    private sealed class RecordingWall(ECustomNode owner) : CombatWall(owner)
+    private sealed class RecordingWall(CustomNode owner) : CombatWall(owner)
     {
         internal List<(int Attack, int Damage, Set<DamageType> Types)> Rolls { get; } = [];
 

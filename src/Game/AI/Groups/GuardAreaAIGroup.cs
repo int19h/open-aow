@@ -30,7 +30,7 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
     }
 
     // IndependentAG.pas:153
-    public GuardAreaAIGroup(ECustomNode owner) : base(owner)
+    public GuardAreaAIGroup(CustomNode owner) : base(owner)
     {
         GuardLocation = MapCoordinate.None;
         ProcessPriority = 1;

@@ -5,7 +5,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class ItemExplorationSiteResource : ExplorationSiteResource
 {
-    public ItemExplorationSiteResource(ECustomNode owner) : base(owner)
+    public ItemExplorationSiteResource(CustomNode owner) : base(owner)
     { }
 
     // ItemExpS.pas:212

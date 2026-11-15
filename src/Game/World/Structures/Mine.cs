@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 // State (bit 0 razed), IncomeSource
 public partial class Mine : PlayerStructure
 {
-    public Mine(ECustomNode owner) : base(owner)
+    public Mine(CustomNode owner) : base(owner)
     {
         _incomeSource = new PlayerStructureIncomeSource(null) { Holder = CreationHolder() };
         _incomeSource.Setup(this);
@@ -206,7 +206,7 @@ public partial class Mine : PlayerStructure
 
     public new partial class Resource : PlayerStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
             Claimed = false;

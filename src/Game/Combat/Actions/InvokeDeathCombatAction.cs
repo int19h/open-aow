@@ -13,7 +13,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131780;
 
-    public InvokeDeathCombatAction(ECustomNode owner) : base(owner)
+    public InvokeDeathCombatAction(CustomNode owner) : base(owner)
     { }
 
     public bool Successful { get; private set; }

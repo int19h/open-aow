@@ -10,7 +10,7 @@ public partial class PossessedAbilityData : AbilityData
 {
     public new const int ClassId = 131797;
 
-    public PossessedAbilityData(ECustomNode owner) : base(owner)
+    public PossessedAbilityData(CustomNode owner) : base(owner)
     { }
 
     public int SourceExperience { get; set; }

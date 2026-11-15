@@ -18,7 +18,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135968;
 
     // GlobalEnchantmentSpells.pas:1475
-    public DeathMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public DeathMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText);

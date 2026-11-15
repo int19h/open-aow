@@ -10,7 +10,7 @@ public partial class FortifyAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136281;
 
     // MainAG.pas:240
-    public FortifyAIGroup(ECustomNode owner) : base(owner)
+    public FortifyAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 15;
         RecruitmentPriority = 0;

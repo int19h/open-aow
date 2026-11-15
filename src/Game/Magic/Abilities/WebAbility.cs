@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WebAbility : TouchAbility
 {
     // AoWAb.PAS:2806
-    public WebAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public WebAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 27;

@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
-    public Rejuvenate(ECustomNode owner, EngineObject holder) : base(owner)
+    public Rejuvenate(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_rejuvenateText);

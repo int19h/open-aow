@@ -15,7 +15,7 @@ namespace Aow.Game.AI;
 // CityCount, ProductionLevelCounts, MaxProductionLevel, ProductionRatio
 public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    public CityAIPlayerAction(ECustomNode owner) : base(owner)
+    public CityAIPlayerAction(CustomNode owner) : base(owner)
     { }
 
     private int _cityCount;

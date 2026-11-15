@@ -14,7 +14,7 @@ namespace Aow.Game.World;
 // it holds the resource id, persisted as id 1), FStatus
 public partial class MapObject : HexSprite
 {
-    public MapObject(ECustomNode owner) : base(owner)
+    public MapObject(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 65878;

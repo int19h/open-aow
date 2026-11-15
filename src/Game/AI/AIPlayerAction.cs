@@ -12,7 +12,7 @@ namespace Aow.Game.AI;
 public partial class AIPlayerAction : EngineObject, IAIPlayerActionClass
 {
 
-    public AIPlayerAction(ECustomNode owner) : base(owner)
+    public AIPlayerAction(CustomNode owner) : base(owner)
     { }
 
     private int _processCycles;

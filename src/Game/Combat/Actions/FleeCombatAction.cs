@@ -11,7 +11,7 @@ public partial class FleeCombatAction : CombatAction
     // Combat2.pas:1099
     public new const int ClassId = 131776;
 
-    public FleeCombatAction(ECustomNode owner) : base(owner)
+    public FleeCombatAction(CustomNode owner) : base(owner)
     { }
 
     public byte ObjectId { get; set; }

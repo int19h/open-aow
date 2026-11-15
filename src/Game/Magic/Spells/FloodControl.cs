@@ -47,7 +47,7 @@ public partial class FloodControl : EngineObject
     }
 
     // GlobalEnchantmentSpells.pas:1066
-    public FloodControl(ECustomNode owner) : base(owner)
+    public FloodControl(CustomNode owner) : base(owner)
     {
         OriginalTerrain = [];
     }

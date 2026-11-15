@@ -11,7 +11,7 @@ public partial class ScoutAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136277;
 
     // IndependentAG.pas:643
-    public ScoutAIGroup(ECustomNode owner) : base(owner)
+    public ScoutAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 10;
         RecruitmentPriority = 10;

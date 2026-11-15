@@ -8,7 +8,7 @@ public partial class AICityResearchBudget : AIBudget
     // City.pas:2780
     public new const int ClassId = 131350;
 
-    public AICityResearchBudget(ECustomNode owner) : base(owner)
+    public AICityResearchBudget(CustomNode owner) : base(owner)
     { }
 
 }

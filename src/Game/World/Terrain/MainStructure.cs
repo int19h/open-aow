@@ -5,7 +5,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class MainStructure : CombatStructure
 {
-    public MainStructure(ECustomNode owner) : base(owner)
+    public MainStructure(CustomNode owner) : base(owner)
     { }
 
     // MainStructure.pas:37
@@ -16,7 +16,7 @@ public partial class MainStructure : CombatStructure
 
     public new partial class Resource : CombatStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // MainStructure.pas:43

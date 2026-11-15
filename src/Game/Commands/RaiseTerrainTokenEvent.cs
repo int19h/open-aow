@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 
 public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public RaiseTerrainTokenEvent(ECustomNode owner) : base(owner)
+    public RaiseTerrainTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // Mountain.pas:258

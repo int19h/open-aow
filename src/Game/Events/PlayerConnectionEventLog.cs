@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 // reason, disconnected player
 public partial class PlayerConnectionEventLog : MessageEventLog
 {
-    public PlayerConnectionEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
+    public PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     private byte _reason;

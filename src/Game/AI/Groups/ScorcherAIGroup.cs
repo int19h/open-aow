@@ -10,7 +10,7 @@ public partial class ScorcherAIGroup : BehaviorAIGroup, IAIGroupClass
     public new const int ClassId = 136291;
 
     // BehaviorAG.pas:609
-    public ScorcherAIGroup(ECustomNode owner) : base(owner)
+    public ScorcherAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 10;
         RecruitmentPriority = 10;

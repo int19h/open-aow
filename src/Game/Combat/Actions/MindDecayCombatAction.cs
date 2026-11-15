@@ -12,7 +12,7 @@ public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
     // CombatSpells.pas:1162
     public new const int ClassId = 131787;
 
-    public MindDecayCombatAction(ECustomNode owner) : base(owner)
+    public MindDecayCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1168

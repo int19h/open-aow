@@ -15,14 +15,14 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new TokenEventReferenceList Owner { get => (TokenEventReferenceList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is TokenEventReferenceList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is TokenEventReferenceList;
 
     void IOwnedSink<TokenEventReferenceList>.SetOwner(TokenEventReferenceList owner) => SetOwner(owner);
 
     // NetworkE.pas:950
     public new const int ClassId = ClassIdTokenEvent;
 
-    public TokenEvent(ECustomNode owner) : base(owner)
+    public TokenEvent(CustomNode owner) : base(owner)
     {
         RefCount = 1;
         _tokenCounter = -1;

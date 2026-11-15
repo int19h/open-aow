@@ -20,7 +20,7 @@ public partial class AIExecutor : EngineObject
 {
 
     // AI.pas:559
-    public AIExecutor(ECustomNode owner) : base(owner)
+    public AIExecutor(CustomNode owner) : base(owner)
     {
         _players = new ByteList();
         Player = -1;

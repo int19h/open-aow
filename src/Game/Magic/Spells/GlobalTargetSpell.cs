@@ -27,7 +27,7 @@ public partial class GlobalTargetSpell : Spell
     public bool AboveGroundOnly { get; protected set; }
 
     // GlobalTargetSpells.pas:439
-    public GlobalTargetSpell(ECustomNode owner) : base(owner)
+    public GlobalTargetSpell(CustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
     }

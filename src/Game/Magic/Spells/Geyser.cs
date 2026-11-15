@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Geyser : CombatSpell
 {
     // CombatSpells.pas:1505
-    public Geyser(ECustomNode owner, EngineObject holder) : base(owner)
+    public Geyser(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_geyserText);

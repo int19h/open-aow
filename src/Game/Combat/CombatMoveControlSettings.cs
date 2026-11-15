@@ -10,7 +10,7 @@ namespace Aow.Game.Combat;
 // MoveFlags
 public partial class CombatMoveControlSettings : MoveControlSettings
 {
-    public CombatMoveControlSettings(ECustomNode owner) : base(owner)
+    public CombatMoveControlSettings(CustomNode owner) : base(owner)
     { }
 
     public Set<CombatMoveModeElement> MoveFlags { get; set; }

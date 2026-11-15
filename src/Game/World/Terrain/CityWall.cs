@@ -19,7 +19,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CityWall : CombatImageLibraryTerrain
 {
-    public CityWall(ECustomNode owner) : base(owner)
+    public CityWall(CustomNode owner) : base(owner)
     { }
 
     // CityWall.pas:78
@@ -486,7 +486,7 @@ public partial class CityWall : CombatImageLibraryTerrain
 
     public new partial class Resource : CombatImageLibraryTerrainResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CityWall.pas:366

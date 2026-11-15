@@ -16,7 +16,7 @@ namespace Aow.Game.Draw;
 // Position. Index. ImageIndex. Images. Direction
 public partial class UnitPositionHexSprite : SingleHexSprite
 {
-    public UnitPositionHexSprite(ECustomNode owner) : base(owner)
+    public UnitPositionHexSprite(CustomNode owner) : base(owner)
     {
         _position = 0;
         _index = 0;

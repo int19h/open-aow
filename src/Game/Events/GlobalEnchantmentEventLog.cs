@@ -10,7 +10,7 @@ namespace Aow.Game.Events;
 // (enchantment player)
 public partial class GlobalEnchantmentEventLog : LocationTextEventLog
 {
-    public GlobalEnchantmentEventLog(ECustomNode owner) : base(owner)
+    public GlobalEnchantmentEventLog(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131819;

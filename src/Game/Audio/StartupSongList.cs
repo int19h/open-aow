@@ -9,7 +9,7 @@ namespace Aow.Game.Audio;
 public partial class StartupSongList : SongList
 {
     // AoWHSMap.PAS:1215
-    public StartupSongList(ECustomNode owner) : base(owner)
+    public StartupSongList(CustomNode owner) : base(owner)
     {
         Songs.OnChange = OriginalSongsChanged;
     }

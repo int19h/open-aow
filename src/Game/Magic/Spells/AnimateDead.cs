@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class AnimateDead : CombatSpell
 {
     // CombatSpells.pas:2046
-    public AnimateDead(ECustomNode owner, EngineObject holder) : base(owner)
+    public AnimateDead(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateDeadText);

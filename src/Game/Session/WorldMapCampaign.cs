@@ -30,7 +30,7 @@ public partial class WorldMapCampaign : Campaign
     }
 
     // AoWVideoDlg.pas:324
-    public WorldMapCampaign(ECustomNode owner) : base(owner)
+    public WorldMapCampaign(CustomNode owner) : base(owner)
     {
     }
 

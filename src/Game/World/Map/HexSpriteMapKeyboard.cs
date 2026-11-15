@@ -24,7 +24,7 @@ namespace Aow.Game.World.Map;
 // cheat text, mode, lock count
 public partial class HexSpriteMapKeyboard : EngineObject
 {
-    public HexSpriteMapKeyboard(ECustomNode owner) : base(owner)
+    public HexSpriteMapKeyboard(CustomNode owner) : base(owner)
     { }
 
     private string _cheatText = "";

@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // queued moves
-public partial class AIMoveExecutorMoveQueue : ENode, IChildList<AIMoveExecutorMove>
+public partial class AIMoveExecutorMoveQueue : OwningNode, IChildList<AIMoveExecutorMove>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorMove, so the cast never fails.
@@ -14,7 +14,7 @@ public partial class AIMoveExecutorMoveQueue : ENode, IChildList<AIMoveExecutorM
 
     int IChildSink<AIMoveExecutorMove>.AddChild(AIMoveExecutorMove child) => AddChild(child);
 
-    public AIMoveExecutorMoveQueue(ECustomNode owner) : base(owner)
+    public AIMoveExecutorMoveQueue(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:4522

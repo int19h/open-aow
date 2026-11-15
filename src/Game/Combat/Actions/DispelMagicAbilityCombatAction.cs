@@ -11,7 +11,7 @@ public partial class DispelMagicAbilityCombatAction : DispelMagicCombatAction
 {
     public new const int ClassId = 131775;
 
-    public DispelMagicAbilityCombatAction(ECustomNode owner) : base(owner)
+    public DispelMagicAbilityCombatAction(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:4018

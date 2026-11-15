@@ -22,7 +22,7 @@ public partial class Unit : Troop
 {
     public new const int ClassId = 131603;
 
-    public Unit(ECustomNode owner) : base(owner)
+    public Unit(CustomNode owner) : base(owner)
     { }
 
     private byte _experience;

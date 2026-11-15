@@ -12,7 +12,7 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
     // UnitSpells.pas:975
     public new const int ClassId = 131793;
 
-    public DispelMagicSpellCombatAction(ECustomNode owner) : base(owner)
+    public DispelMagicSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     public int SpellId { get; set; }

@@ -15,7 +15,7 @@ namespace Aow.Game.World.Hexes;
 // AnimationFrame, AnimationIndex, ShoreTerrain[1.6]
 public partial class WaterHex : LowerIsometricHex
 {
-    public WaterHex(ECustomNode owner) : base(owner)
+    public WaterHex(CustomNode owner) : base(owner)
     {
         _animationFrame = (sbyte)(-1 - Random(20));
         var random = Random(4);
@@ -56,7 +56,7 @@ public partial class WaterHex : LowerIsometricHex
 
     public new partial class Resource : LowerIsometricHex.Resource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             this.DynamicLevel = 23;
         }

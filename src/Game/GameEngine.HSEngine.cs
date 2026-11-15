@@ -21,7 +21,7 @@ namespace Aow.Game;
 // FOnHSSLoaded, FOnHSSClose. The engine of the hex map: it owns the set (.hss: a 52-byte
 // header, the stored set and a CRC32) and the map (.hsm: a 16-byte header and the stored map,
 // compressed). the event lists are told when a map or a set is loaded or closed
-public partial class GameEngine : ENode
+public partial class GameEngine : OwningNode
 {
     private Set<HexSpriteEngineStatusElement> _status;
     private GamePack _hexSpriteSet;

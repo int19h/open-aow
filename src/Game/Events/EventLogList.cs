@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // update count, changed callback
-public partial class EventLogList : ENode, IChildList<EventLog>
+public partial class EventLogList : OwningNode, IChildList<EventLog>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EventLog, so the cast never fails.
@@ -18,7 +18,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
 
     int IChildSink<EventLog>.AddChild(EventLog child) => AddChild(child);
 
-    public EventLogList(ECustomNode owner) : base(owner)
+    public EventLogList(CustomNode owner) : base(owner)
     { }
 
     /// <summary>The logs of this list, in their stored order.</summary>

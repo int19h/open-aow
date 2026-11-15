@@ -7,7 +7,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class BloodShrineAnimation : Animation
 {
-    public BloodShrineAnimation(ECustomNode owner) : base(owner)
+    public BloodShrineAnimation(CustomNode owner) : base(owner)
     { }
 
     // BloodShrine.pas:56

@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 
 public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public WatcherTokenEvent(ECustomNode owner) : base(owner)
+    public WatcherTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:1476

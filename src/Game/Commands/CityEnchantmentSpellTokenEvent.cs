@@ -5,7 +5,7 @@ namespace Aow.Game.Commands;
 
 public partial class CityEnchantmentSpellTokenEvent : CityTargetSpellTokenEvent
 {
-    public CityEnchantmentSpellTokenEvent(ECustomNode owner) : base(owner)
+    public CityEnchantmentSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CitySpells.pas:551

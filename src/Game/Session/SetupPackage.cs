@@ -38,7 +38,7 @@ public partial class SetupPackage : EngineObject
     }
 
     // AoWSetup.pas:242
-    public SetupPackage(ECustomNode owner) : base(owner)
+    public SetupPackage(CustomNode owner) : base(owner)
     {
     }
 

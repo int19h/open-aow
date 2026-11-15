@@ -12,7 +12,7 @@ namespace Aow.Game.Draw;
 // signed days remaining, caster player
 public partial class FrozenWaterHexSprite : SingleHexSprite
 {
-    public FrozenWaterHexSprite(ECustomNode owner) : base(owner)
+    public FrozenWaterHexSprite(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131436;

@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 // WallType. HitPoints. Hits
 public partial class WallCombatant : Troop
 {
-    public WallCombatant(ECustomNode owner) : base(owner)
+    public WallCombatant(CustomNode owner) : base(owner)
     { }
 
     private WallType _wallType;

@@ -16,7 +16,7 @@ public partial class SpellControl : EngineObject
 {
 
     // Spells.PAS:577
-    public SpellControl(ECustomNode owner) : base(owner)
+    public SpellControl(CustomNode owner) : base(owner)
     {
         RegisteredSpells = new List<Spell>();
     }

@@ -49,7 +49,7 @@ public sealed class MapNetSoundConstructionTests
     {
         GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
-        ECustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
+        CustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
         var meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
             engine.UnregisterEngineClasses([previous]);
@@ -167,7 +167,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.NotNull(songs.Songs.OnChange);
                 Assert.Equal(0, songs.SongNames.Count);
                 break;
-            case ECustomNode node:
+            case CustomNode node:
                 Assert.Equal(0, node.Count);
                 break;
         }

@@ -9,7 +9,7 @@ namespace Aow.Game.Draw;
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
 public partial class SingleHexSprite : HexSprite
 {
-    public SingleHexSprite(ECustomNode owner) : base(owner)
+    public SingleHexSprite(CustomNode owner) : base(owner)
     { }
 
     private byte _status;

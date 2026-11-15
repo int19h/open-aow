@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 // army ID. destination coordinates
 public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
 {
-    public TownGateTokenEvent(ECustomNode owner) : base(owner)
+    public TownGateTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CitySpells.pas:397

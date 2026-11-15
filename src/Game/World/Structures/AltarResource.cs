@@ -5,7 +5,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class AltarResource : PlayerStructureResource
 {
-    public AltarResource(ECustomNode owner) : base(owner)
+    public AltarResource(CustomNode owner) : base(owner)
     {
         Claimed = false;
         Razeable = true;

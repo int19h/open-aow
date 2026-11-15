@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class DispelMagicAbility : TouchAbility
 {
     // AoWAb.PAS:4040
-    public DispelMagicAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public DispelMagicAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 60;

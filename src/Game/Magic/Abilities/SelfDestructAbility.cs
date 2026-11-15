@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SelfDestructAbility : TouchAbility
 {
     // AoWAb.PAS:2136
-    public SelfDestructAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public SelfDestructAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 65;

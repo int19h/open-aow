@@ -16,7 +16,7 @@ namespace Aow.Game.World.Terrain;
 public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
 {
 
-    public ImageLibraryTerrainMapObject(ECustomNode owner) : base(owner)
+    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner)
     {
         _terrainType = -1;
     }

@@ -22,7 +22,7 @@ public partial class UnitSpell : Spell
 {
 
     // Spells.PAS:1210
-    public UnitSpell(ECustomNode owner) : base(owner)
+    public UnitSpell(CustomNode owner) : base(owner)
     {
         AIValue = -1;
         SpellType = SpellType.Unit;

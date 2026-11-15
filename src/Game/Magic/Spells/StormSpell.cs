@@ -21,7 +21,7 @@ public partial class StormSpell : Spell
     private Troop _source;
 
     // Storms.pas:762
-    public StormSpell(ECustomNode owner) : base(owner)
+    public StormSpell(CustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
     }

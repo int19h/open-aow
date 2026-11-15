@@ -9,7 +9,7 @@ public partial class TurnInfoItem : EngineObject
 {
     public new const int ClassId = 131739;
 
-    public TurnInfoItem(ECustomNode owner) : base(owner)
+    public TurnInfoItem(CustomNode owner) : base(owner)
     { }
 
     public int Gold { get; set; }

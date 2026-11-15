@@ -23,12 +23,12 @@ internal static class OrderingRecording
         foreach (var pair in actual) ConstructionSnapshot.Check(name, pair.Key, pair.Value);
     }
 
-    internal static EngineObject Direct(Type type, ECustomNode? owner)
+    internal static EngineObject Direct(Type type, CustomNode? owner)
     {
         try
         {
             if (EngineClassCreation.OwnerConstructor(type) is { } ctor) return (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner));
-            if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]) is { } factory)
+            if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]) is { } factory)
                 return (EngineObject)factory.Invoke(null, [owner])!;
             throw new InvalidOperationException(type.FullName + " has no public construction entry.");
         }
@@ -39,7 +39,7 @@ internal static class OrderingRecording
         }
     }
 
-    internal static EngineObject Create(Type type, ECustomNode? owner, int route, GameEngine engine) => route switch
+    internal static EngineObject Create(Type type, CustomNode? owner, int route, GameEngine engine) => route switch
     {
         0 => Direct(type, owner),
         1 => EngineClass.Of(type).CreateInstance(owner!, holder: EngineFixture.Engine),

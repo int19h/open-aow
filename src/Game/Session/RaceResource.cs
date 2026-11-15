@@ -25,7 +25,7 @@ public partial class RaceResource : EngineResource
     public new const int ClassId = 131585;
 
     // PlayerC.PAS:1732
-    public RaceResource(ECustomNode owner) : base(owner)
+    public RaceResource(CustomNode owner) : base(owner)
     {
         UnitIndexes = new UnitIndexList();
         SpecialUnitIndexes = new UnitIndexList();

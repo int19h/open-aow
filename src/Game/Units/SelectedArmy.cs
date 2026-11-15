@@ -813,7 +813,7 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:4120
     public void SelectBuildRoad(Troop troop)
     {
-        ECustomNode army;
+        CustomNode army;
         ArmyHexSprite armyHexSprite;
         army = troop.Owner;
         if (army is Army)

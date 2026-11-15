@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 
 public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public RejuvenateTokenEvent(ECustomNode owner) : base(owner)
+    public RejuvenateTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:1036

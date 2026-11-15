@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 // animation
 public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public HealingShowersTokenEvent(ECustomNode owner) : base(owner)
+    public HealingShowersTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:2138

@@ -8,7 +8,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class LifeNode : ProductionPlace
 {
-    public LifeNode(ECustomNode owner) : base(owner)
+    public LifeNode(CustomNode owner) : base(owner)
     { }
 
     // LifeNode.pas:37
@@ -19,7 +19,7 @@ public partial class LifeNode : ProductionPlace
 
     public new partial class Resource : ProductionPlaceResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             RazeDefenderBudget = 200;
             TerrainBound = false;

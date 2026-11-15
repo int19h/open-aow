@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class TownGate : CityTargetSpell
 {
     // CitySpells.pas:421
-    public TownGate(ECustomNode owner, EngineObject holder) : base(owner)
+    public TownGate(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townGateText);

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public partial class EnchantmentList : ENode, IChildList<Enchantment>
+public partial class EnchantmentList : OwningNode, IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Enchantment, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class EnchantmentList : ENode, IChildList<Enchantment>
 
     int IChildSink<Enchantment>.AddChild(Enchantment child) => AddChild(child);
 
-    public EnchantmentList(ECustomNode owner) : base(owner)
+    public EnchantmentList(CustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1762

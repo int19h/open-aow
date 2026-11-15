@@ -17,7 +17,7 @@ public partial class StrikeCombatAction : DamageCombatAction
 {
     public new const int ClassId = 131754;
 
-    public StrikeCombatAction(ECustomNode owner) : base(owner)
+    public StrikeCombatAction(CustomNode owner) : base(owner)
     { }
 
     public Set<StrikeModeElement> StrikeMode { get; set; }

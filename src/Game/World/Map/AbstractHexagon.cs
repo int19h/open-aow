@@ -10,7 +10,7 @@ public partial class AbstractHexagon : MapObject
 {
     public new const int ClassId = 65904;
 
-    public AbstractHexagon(ECustomNode owner) : base(owner)
+    public AbstractHexagon(CustomNode owner) : base(owner)
     { }
 
     // MAPOBJ.PAS:682

@@ -8,7 +8,7 @@ namespace Aow.Game.Units;
 public partial class UnitSelectionActivation : AbilityActivation
 {
     // Ability.PAS:690
-    public UnitSelectionActivation(ECustomNode owner) : base(owner)
+    public UnitSelectionActivation(CustomNode owner) : base(owner)
     {
         UnitSelector = null;
     }

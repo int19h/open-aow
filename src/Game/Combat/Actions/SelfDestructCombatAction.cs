@@ -13,7 +13,7 @@ public partial class SelfDestructCombatAction : DamageCombatAction
 {
     public new const int ClassId = 131764;
 
-    public SelfDestructCombatAction(ECustomNode owner) : base(owner)
+    public SelfDestructCombatAction(CustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:2116

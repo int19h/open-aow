@@ -14,7 +14,7 @@ public partial class AIBudget : EngineObject
     // AI.pas:1653
     public new const int ClassId = 131740;
 
-    public AIBudget(ECustomNode owner) : base(owner)
+    public AIBudget(CustomNode owner) : base(owner)
     { }
 
     public int Priority { get; set; }

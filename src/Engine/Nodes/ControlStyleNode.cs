@@ -5,12 +5,12 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _controlStyle
-public partial class EControlStyleNode : ENode
+public partial class ControlStyleNode : OwningNode
 {
     // Engine.pas:8199
     public new const int ClassId = 257;
 
-    public EControlStyleNode(ECustomNode owner) : base(owner)
+    public ControlStyleNode(CustomNode owner) : base(owner)
     {
         _controlStyle = base.GetControlStyle();
     }

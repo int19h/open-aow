@@ -5,7 +5,7 @@ namespace Aow.Game.World;
 
 public partial class FlagEventResource : MapObjectResource
 {
-    public FlagEventResource(ECustomNode owner) : base(owner)
+    public FlagEventResource(CustomNode owner) : base(owner)
     {
         Level = 27;
     }

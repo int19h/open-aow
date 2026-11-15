@@ -1,5 +1,5 @@
-# Names the port stores. kind is type or member. delphi is the original name. current is the namespace-qualified C# name.
-kind,delphi,current
+# Names the port stores. kind is type or member. delphi is the original name. current is the namespace-qualified C# name. stored, when set, is the name in our own documents and stays while the C# name changes.
+kind,delphi,current,stored
 type,AIGroupClass,Aow.Game.AI.Groups.AIGroupClass
 type,AIPlayerActionClass,Aow.Game.AI.AIPlayerActionClass
 type,AITargetQuery,Aow.Game.AI.AITargetQuery
@@ -46,7 +46,7 @@ type,CensusRow,Aow.Convert.CensusRow
 type,Cfs,Aow.Formats.Original.Cfs
 type,Checker,Aow.Convert.Checker
 type,ChildListNode,Aow.Formats.Tree.ChildListNode
-type,ChildrenAccessor,Aow.Engine.Nodes.ECustomNode.ChildrenAccessor
+type,ChildrenAccessor,Aow.Engine.Nodes.CustomNode.ChildrenAccessor
 type,ChildrenCodec,Aow.Formats.Original.ChildrenCodec
 type,ClassRegistry,Aow.Game.ClassRegistry
 type,Classification,Aow.Formats.Classification
@@ -965,28 +965,28 @@ type,TDurationAbilityData,Aow.Game.Magic.Abilities.DurationAbilityData
 type,TDurationMode,Aow.Game.Magic.Abilities.DurationMode
 type,TDynamicIsometricHexagon,Aow.Game.Draw.DynamicIsometricHex
 type,TEBufferStream,Aow.Engine.Storage.BufferStream
-type,TEChangeNotifyEventList,Aow.Engine.Nodes.EChangeNotifyEventList
-type,TEChangeNotifyNode,Aow.Engine.Nodes.EChangeNotifyNode
+type,TEChangeNotifyEventList,Aow.Engine.Nodes.ObservableEventList,EChangeNotifyEventList
+type,TEChangeNotifyNode,Aow.Engine.Nodes.ObservableNode,EChangeNotifyNode
 type,TEControlStyleElement,Aow.Engine.Nodes.ControlStyleElement
-type,TEControlStyleInverseSortNode,Aow.Engine.Nodes.EControlStyleInverseSortNode
-type,TEControlStyleNode,Aow.Engine.Nodes.EControlStyleNode
+type,TEControlStyleInverseSortNode,Aow.Engine.Nodes.ControlStyleInverseSortedNode,EControlStyleInverseSortNode
+type,TEControlStyleNode,Aow.Engine.Nodes.ControlStyleNode,EControlStyleNode
 type,TEControlStyleObject,Aow.Engine.Nodes.ControlStyleObject
-type,TECustomNode,Aow.Engine.Nodes.ECustomNode
-type,TECustomOwner,Aow.Engine.Nodes.ECustomOwner
-type,TEInverseSortNode,Aow.Engine.Nodes.EInverseSortNode
+type,TECustomNode,Aow.Engine.Nodes.CustomNode,ECustomNode
+type,TECustomOwner,Aow.Engine.Nodes.EngineNode,ECustomOwner
+type,TEInverseSortNode,Aow.Engine.Nodes.InverseSortedNode,EInverseSortNode
 type,TEMsg,Aow.Engine.Nodes.EngineMessage
 type,TEMsgParams,Aow.Engine.Nodes.EngineMessageParameters
-type,TENode,Aow.Engine.Nodes.ENode
+type,TENode,Aow.Engine.Nodes.OwningNode,ENode
 type,TEObject,Aow.Engine.Nodes.EngineObject
 type,TEObjectClassList,Aow.Engine.EngineObjectClassList
 type,TEObjectEditor,Aow.Engine.Nodes.EngineObjectEditor
 type,TEObjectEditorList,Aow.Engine.Nodes.EngineObjectEditorList
 type,TEObjectList,Aow.Engine.Nodes.EngineObjectList
-type,TEReferenceNode,Aow.Engine.Nodes.EReferenceNode
+type,TEReferenceNode,Aow.Engine.Nodes.ReferenceNode,EReferenceNode
 type,TEResource,Aow.Engine.Nodes.EngineResource
 type,TEResourceEditSettings,Aow.Engine.Nodes.ResourceEditSettings
-type,TEResourceList,Aow.Engine.Nodes.EResourceList
-type,TESortNode,Aow.Engine.Nodes.ESortNode
+type,TEResourceList,Aow.Engine.Nodes.ResourceCollection,EResourceList
+type,TESortNode,Aow.Engine.Nodes.SortedNode,ESortNode
 type,TEarthMastery,Aow.Game.Magic.Spells.EarthMastery
 type,TEarthMasteryEnchantment,Aow.Game.Magic.Spells.EarthMasteryEnchantment
 type,TEarthNode,Aow.Game.World.Structures.EarthNode
@@ -1513,7 +1513,7 @@ type,TPlayerCropStructure,Aow.Game.World.Structures.PlayerCropStructure
 type,TPlayerCropStructureResource,Aow.Game.World.Structures.PlayerCropStructureResource
 type,TPlayerDiplomaticRelations,Aow.Game.Session.PlayerDiplomaticRelations
 type,TPlayerEnchantmentType,Aow.Game.Session.PlayerEnchantmentType
-type,TPlayerList,Aow.Game.Session.PlayerList
+type,TPlayerList,Aow.Game.Session.PlayerCollection,PlayerList
 type,TPlayerMagicControl,Aow.Game.Session.PlayerMagicControl
 type,TPlayerMagicEventLog,Aow.Game.Events.PlayerMagicEventLog
 type,TPlayerMagicEventMode,Aow.Game.Events.PlayerMagicEventLog.EventMode
@@ -1734,7 +1734,7 @@ type,TSongPlayer,Aow.Game.Audio.SongPlayer
 type,TSongPlayerStatusElement,Aow.Game.Audio.SongPlayer.StatusElement
 type,TSongStatus,Aow.Game.Audio.SongStatus
 type,TSonglist,Aow.Game.Audio.SongList
-type,TSortItem,Aow.Engine.Nodes.ESortNode.SortItem
+type,TSortItem,Aow.Engine.Nodes.SortedNode.SortItem
 type,TSortStringsContext,Aow.Engine.Collections.SortStringsContext
 type,TSoundDlg,Aow.Game.UI.Dialogs.SoundDialog
 type,TSoundOutputModeElement,Aow.Game.Audio.SoundOutputModeElement

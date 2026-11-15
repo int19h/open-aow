@@ -17,7 +17,7 @@ namespace Aow.Game.Draw;
 // Unit. UnitGraphics. Frame. OffsetX. OffsetY. SequenceIndex. SequenceFrame
 public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
 {
-    public TacticalBattleCorpseHexSprite(ECustomNode owner) : base(owner)
+    public TacticalBattleCorpseHexSprite(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 2228488;

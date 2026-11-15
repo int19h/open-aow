@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Audio;
 
 // the sound effects (TSFXSequence children) by ID
-public partial class SfxLibrary : ENode, IChildList<SfxSequence>
+public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
 {
     // The sequence in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a SfxSequence, so the cast never fails.
@@ -16,7 +16,7 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
 
     public new const int ClassId = 2162691;
 
-    public SfxLibrary(ECustomNode owner) : base(owner)
+    public SfxLibrary(CustomNode owner) : base(owner)
     { }
 
     // Sound.pas:1088

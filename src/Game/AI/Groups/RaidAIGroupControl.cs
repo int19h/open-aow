@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class RaidAIGroupControl : AIGroupControl
 {
-    public RaidAIGroupControl(ECustomNode owner) : base(owner)
+    public RaidAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // IndependentAG.pas:589

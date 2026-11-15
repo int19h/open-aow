@@ -8,7 +8,7 @@ public partial class NewCombatRoundCombatAction : CombatAction
     // Combat2.pas:1009
     public new const int ClassId = 131771;
 
-    public NewCombatRoundCombatAction(ECustomNode owner) : base(owner)
+    public NewCombatRoundCombatAction(CustomNode owner) : base(owner)
     { }
 
     // Combat2.pas:1012

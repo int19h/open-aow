@@ -19,7 +19,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135969;
 
     // GlobalEnchantmentSpells.pas:1639
-    public FireMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public FireMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText);

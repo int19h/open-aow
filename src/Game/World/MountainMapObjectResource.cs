@@ -9,7 +9,7 @@ namespace Aow.Game.World;
 
 public partial class MountainMapObjectResource : Hexes.Terrain.Resource
 {
-    public MountainMapObjectResource(ECustomNode owner) : base(owner)
+    public MountainMapObjectResource(CustomNode owner) : base(owner)
     { }
 
     // Mountain.pas:169

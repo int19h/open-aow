@@ -31,7 +31,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 {
     // A troop stands in an army or a unit list, or a hero stands in a hero list or a hero library
     // while no army holds it. TroopOwner reads that owner without a cast.
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or UnitUserList or IHeroHolder;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is Army or UnitList or UnitUserList or IHeroHolder;
 
     TroopOwner IOwned<TroopOwner>.Owner => TroopOwner.Of(Owner);
 
@@ -77,7 +77,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:518
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         if (owner != Owner)
         {
@@ -136,7 +136,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:95
-    public Troop(ECustomNode owner) : base(owner)
+    public Troop(CustomNode owner) : base(owner)
     {
         GroupId = 0;
         UnitId = -1;
@@ -1262,7 +1262,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:481
-    public void ListEnchantments(ECustomNode list)
+    public void ListEnchantments(CustomNode list)
     {
         AbilityTypeList abilities;
         UnitEnchantment enchantment;

@@ -27,7 +27,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -131,7 +131,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -249,7 +249,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -381,7 +381,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -499,7 +499,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -617,7 +617,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -749,7 +749,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -867,7 +867,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -971,7 +971,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1089,7 +1089,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1225,7 +1225,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1391,7 +1391,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1531,7 +1531,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1671,7 +1671,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -1811,7 +1811,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2039,7 +2039,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2179,7 +2179,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2319,7 +2319,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2549,7 +2549,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2689,7 +2689,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2829,7 +2829,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -2969,7 +2969,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3109,7 +3109,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3249,7 +3249,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3389,7 +3389,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3529,7 +3529,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3669,7 +3669,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -3867,7 +3867,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4007,7 +4007,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4173,7 +4173,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4313,7 +4313,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4453,7 +4453,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4593,7 +4593,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4759,7 +4759,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -4899,7 +4899,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5039,7 +5039,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5229,7 +5229,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5369,7 +5369,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5509,7 +5509,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5737,7 +5737,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5877,7 +5877,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -5989,7 +5989,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6141,7 +6141,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6293,7 +6293,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6445,7 +6445,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6597,7 +6597,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6749,7 +6749,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -6937,7 +6937,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7021,7 +7021,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7175,7 +7175,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7329,7 +7329,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7481,7 +7481,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7633,7 +7633,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7785,7 +7785,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -7936,7 +7936,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8018,7 +8018,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8100,7 +8100,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8182,7 +8182,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8264,7 +8264,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8346,7 +8346,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8452,7 +8452,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8534,7 +8534,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8619,7 +8619,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8707,7 +8707,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8795,7 +8795,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8883,7 +8883,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -8971,7 +8971,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9059,7 +9059,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9147,7 +9147,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9235,7 +9235,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9323,7 +9323,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9411,7 +9411,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9575,7 +9575,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9647,7 +9647,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9719,7 +9719,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9793,7 +9793,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9867,7 +9867,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -9939,7 +9939,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10011,7 +10011,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10085,7 +10085,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10159,7 +10159,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10231,7 +10231,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10305,7 +10305,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10377,7 +10377,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10449,7 +10449,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10521,7 +10521,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10593,7 +10593,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10665,7 +10665,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10737,7 +10737,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10809,7 +10809,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10881,7 +10881,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -10955,7 +10955,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11027,7 +11027,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11099,7 +11099,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11173,7 +11173,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11265,7 +11265,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11337,7 +11337,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11425,7 +11425,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11517,7 +11517,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11591,7 +11591,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11665,7 +11665,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11737,7 +11737,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11811,7 +11811,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11903,7 +11903,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -11975,7 +11975,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12047,7 +12047,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12119,7 +12119,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12193,7 +12193,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12265,7 +12265,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12337,7 +12337,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12409,7 +12409,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12481,7 +12481,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12555,7 +12555,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12643,7 +12643,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12715,7 +12715,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12787,7 +12787,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12861,7 +12861,7 @@
         },
         "Ability.SfxLibrary": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -12924,7 +12924,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13021,7 +13021,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13118,7 +13118,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13215,7 +13215,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13312,7 +13312,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13409,7 +13409,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13506,7 +13506,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13603,7 +13603,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13700,7 +13700,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13797,7 +13797,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13894,7 +13894,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -13991,7 +13991,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14083,7 +14083,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14180,7 +14180,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14277,7 +14277,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14367,7 +14367,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14457,7 +14457,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14571,7 +14571,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14661,7 +14661,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14803,7 +14803,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14893,7 +14893,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -14983,7 +14983,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15073,7 +15073,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15163,7 +15163,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15253,7 +15253,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15343,7 +15343,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15433,7 +15433,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15523,7 +15523,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15613,7 +15613,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15703,7 +15703,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15793,7 +15793,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
@@ -15883,7 +15883,7 @@
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
-          "ENode._children": {
+          "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []

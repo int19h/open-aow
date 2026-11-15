@@ -13,7 +13,7 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     public new const int ClassId = 135959;
 
     // GlobalEnchantmentSpells.pas:993
-    public PowerLeakEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public PowerLeakEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.PowerLeakText);

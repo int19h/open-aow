@@ -19,7 +19,7 @@ public partial class ItemGraphics : EngineResource
 {
     public new const int ClassId = 131689;
 
-    public ItemGraphics(ECustomNode owner) : base(owner)
+    public ItemGraphics(CustomNode owner) : base(owner)
     { }
 
     public string ImageLibraryName { get; set; } = "";

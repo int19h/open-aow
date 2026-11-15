@@ -11,7 +11,7 @@ namespace Aow.Game.Units;
 // UnitGraphicsResourceIndex
 public partial class TroopResource : EngineResource
 {
-    public TroopResource(ECustomNode owner) : base(owner)
+    public TroopResource(CustomNode owner) : base(owner)
     { }
 
     public int UnitGraphicsResourceIndex { get; private set; }

@@ -49,7 +49,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1203
-    public WatcherHexSprite(ECustomNode owner) : base(owner)
+    public WatcherHexSprite(CustomNode owner) : base(owner)
     {
         Enchantment = new WatcherEnchantment(null) { Holder = CreationHolder() };
         Enchantment.Watcher = this;

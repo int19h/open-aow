@@ -8,7 +8,7 @@ namespace Aow.Game.Events;
 // Cave
 public partial class EnterCaveEventLog : MessageEventLog
 {
-    public EnterCaveEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
+    public EnterCaveEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     public Cave Cave { get; set; }

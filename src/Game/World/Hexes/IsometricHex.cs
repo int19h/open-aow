@@ -13,7 +13,7 @@ namespace Aow.Game.World.Hexes;
 // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
 public partial class IsometricHex : AbstractHexagon
 {
-    public IsometricHex(ECustomNode owner) : base(owner)
+    public IsometricHex(CustomNode owner) : base(owner)
     {
         Sides = (byte)(Random(4) << 6);
     }

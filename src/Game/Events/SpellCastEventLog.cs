@@ -13,7 +13,7 @@ namespace Aow.Game.Events;
 // (unit ID, spell ID)
 public partial class SpellCastEventLog : EventLog
 {
-    public SpellCastEventLog(ECustomNode owner) : base(owner)
+    public SpellCastEventLog(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131823;

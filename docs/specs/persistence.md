@@ -99,7 +99,7 @@ A property id written twice in one object raises `DoublePriorityIdException` (De
 object's data in a `BufferStream` (Delphi `TEBufferStream`) and writes the table and the buffer to the outer stream when the
 object ends, so nested tables appear before their data in the file.
 
-`ECustomNode.MainReadWrite` (Delphi `TECustomNode`) calls `Clear` first in read mode, then `ReadWrite`, then
+`CustomNode.MainReadWrite` (Delphi `TECustomNode`) calls `Clear` first in read mode, then `ReadWrite`, then
 `ReadWriteChildren`, which is `rwChildren(Self, 1)`: every node keeps its stored children under
 id 1. A child is stored when its `Owner` is the node and its control style has `csStored` and not
 `csShared`.

@@ -19,7 +19,7 @@ namespace Aow.Game.Net;
 public partial class EmailGameControl : EngineObject
 {
     // Diplomacy.pas:2489
-    public EmailGameControl(ECustomNode owner) : base(owner)
+    public EmailGameControl(CustomNode owner) : base(owner)
     {
         _games = new EmailGameList(null) { Holder = CreationHolder() };
     }

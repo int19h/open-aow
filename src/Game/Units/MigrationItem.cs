@@ -8,7 +8,7 @@ namespace Aow.Game.Units;
 // Race, Time, Relation
 public partial class MigrationItem : EngineObject
 {
-    public MigrationItem(ECustomNode owner) : base(owner)
+    public MigrationItem(CustomNode owner) : base(owner)
     { }
 
     public sbyte Race { get; set; }

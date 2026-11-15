@@ -16,7 +16,7 @@ namespace Aow.Game.AI;
 public partial class AIRecruitmentGroupFinder : AIGroupTask
 {
     // AIGroup.pas:1981
-    public AIRecruitmentGroupFinder(ECustomNode owner) : base(owner)
+    public AIRecruitmentGroupFinder(CustomNode owner) : base(owner)
     {
         _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
     }

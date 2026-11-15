@@ -10,7 +10,7 @@ public partial class TacticalBattleHighPrayerCombatAction : ExclusiveCombatSpell
     // CombatSpells.pas:976
     public new const int ClassId = 131786;
 
-    public TacticalBattleHighPrayerCombatAction(ECustomNode owner) : base(owner)
+    public TacticalBattleHighPrayerCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:982

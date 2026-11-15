@@ -6,7 +6,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CharmedAbility : CommandedAbility
 {
     // AoWAb.PAS:5333
-    public CharmedAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public CharmedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 149;

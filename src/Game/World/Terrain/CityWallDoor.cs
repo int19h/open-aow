@@ -12,7 +12,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CityWallDoor : CityWall
 {
-    public CityWallDoor(ECustomNode owner) : base(owner)
+    public CityWallDoor(CustomNode owner) : base(owner)
     { }
 
     // CityWall.pas:381
@@ -142,7 +142,7 @@ public partial class CityWallDoor : CityWall
 
     public new partial class Resource : CityWall.Resource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CityWall.pas:451

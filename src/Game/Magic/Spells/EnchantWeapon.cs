@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class EnchantWeapon : UnitSpell
 {
     // UnitSpells.pas:296
-    public EnchantWeapon(ECustomNode owner, EngineObject holder) : base(owner)
+    public EnchantWeapon(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_enchantWeaponText);

@@ -10,7 +10,7 @@ public partial class HealingAbilityData : AbilityData
 {
     public new const int ClassId = 131758;
 
-    public HealingAbilityData(ECustomNode owner) : base(owner)
+    public HealingAbilityData(CustomNode owner) : base(owner)
     { }
 
     public bool Enabled { get; set; }

@@ -17,7 +17,7 @@ namespace Aow.Game.Draw.Animations;
 // poison cloud resource
 public partial class PestilenceStorm : Storm
 {
-    public PestilenceStorm(ECustomNode owner) : base(owner)
+    public PestilenceStorm(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135745;

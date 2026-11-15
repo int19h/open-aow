@@ -17,7 +17,7 @@ namespace Aow.Game.Commands;
 // dispel chance, enchantment ID
 public partial class DisjunctionTokenEvent : SpellTokenEvent
 {
-    public DisjunctionTokenEvent(ECustomNode owner) : base(owner)
+    public DisjunctionTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalSpells.pas:745

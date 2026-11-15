@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class PossessedAbility : PossessAbility
 {
     // AoWAb.PAS:2562
-    public PossessedAbility(ECustomNode owner, EngineObject holder) : base(owner, holder)
+    public PossessedAbility(CustomNode owner, EngineObject holder) : base(owner, holder)
     {
         AbilityId = 107;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_possessedText);

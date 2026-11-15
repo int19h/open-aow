@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class RoundAttackAbility : TouchAbility
 {
     // AoWAb.PAS:2262
-    public RoundAttackAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public RoundAttackAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 114;

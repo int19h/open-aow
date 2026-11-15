@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Terror : CombatSpell
 {
     // CombatSpells.pas:1759
-    public Terror(ECustomNode owner, EngineObject holder) : base(owner)
+    public Terror(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_terrorText);

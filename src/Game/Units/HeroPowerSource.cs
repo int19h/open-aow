@@ -14,7 +14,7 @@ namespace Aow.Game.Units;
 // Hero
 public partial class HeroPowerSource : PowerSource
 {
-    public HeroPowerSource(ECustomNode owner) : base(owner)
+    public HeroPowerSource(CustomNode owner) : base(owner)
     { }
 
     public Hero Hero { get; set; }

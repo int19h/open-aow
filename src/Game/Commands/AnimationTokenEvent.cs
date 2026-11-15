@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 // state, animation
 public partial class AnimationTokenEvent : TokenEvent
 {
-    public AnimationTokenEvent(ECustomNode owner) : base(owner)
+    public AnimationTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // Animation.pas:388

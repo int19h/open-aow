@@ -10,13 +10,13 @@ namespace Aow.Engine.Nodes;
 
 // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
 // per Seq, $20000000 owned children only, $40000000 do not forward to children
-public partial class ECustomNode : EngineObject, IOwner
+public abstract partial class CustomNode : EngineObject, IOwner
 {
 
     // Engine.pas:2430
-    public ECustomNode(ECustomNode owner) : this(null, owner) { }
+    public CustomNode(CustomNode owner) : this(null, owner) { }
 
-    private protected ECustomNode(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected CustomNode(ConstructionContext context, CustomNode owner) : base(context, owner)
     { }
 
     // Engine.pas:2666
@@ -85,22 +85,13 @@ public partial class ECustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:593
-    public virtual EngineObject GetChild(int index)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public abstract EngineObject GetChild(int index);
 
     // Engine.pas:594
-    public virtual void SetChild(int index, EngineObject child)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public abstract void SetChild(int index, EngineObject child);
 
     // Engine.pas:595
-    public virtual int GetCount()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public abstract int GetCount();
 
     // Engine.pas:2661
     public virtual void PersistChildren(IPersister persister)
@@ -205,16 +196,10 @@ public partial class ECustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:601
-    public virtual int RemoveChild(EngineObject child)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public abstract int RemoveChild(EngineObject child);
 
     // Engine.pas:602
-    public virtual int AddChild(EngineObject child)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public abstract int AddChild(EngineObject child);
 
     // Engine.pas:2786
     // { The original tests Result before the child-count call. }
@@ -246,9 +231,9 @@ public partial class ECustomNode : EngineObject, IOwner
             I = 0;
             while (result == null && I < Count)
             {
-                if (Children[I] is ECustomNode)
+                if (Children[I] is CustomNode)
                 {
-                    result = ((ECustomNode)Children[I]).FindChildInTree(classId);
+                    result = ((CustomNode)Children[I]).FindChildInTree(classId);
                 }
 
                 I += 1;
@@ -337,7 +322,7 @@ public partial class ECustomNode : EngineObject, IOwner
 
     public int Count { get => GetCount(); }
 
-    public sealed class ChildrenAccessor(ECustomNode target)
+    public sealed class ChildrenAccessor(CustomNode target)
     {
         public EngineObject this[int index] { get => target.GetChild(index); set => target.SetChild(index, value); }
     }

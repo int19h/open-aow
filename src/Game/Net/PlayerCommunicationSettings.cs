@@ -21,7 +21,7 @@ public partial class PlayerCommunicationSettings : EngineObject
     }
 
     // NetworkE.pas:446
-    public PlayerCommunicationSettings(ECustomNode owner) : base(owner)
+    public PlayerCommunicationSettings(CustomNode owner) : base(owner)
     {
         _connectionMode = ConnectionMode.Local;
     }

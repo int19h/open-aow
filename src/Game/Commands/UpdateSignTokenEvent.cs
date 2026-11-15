@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 // Text, HexX, HexY, HexLevel
 public partial class UpdateSignTokenEvent : TokenEvent
 {
-    public UpdateSignTokenEvent(ECustomNode owner) : base(owner)
+    public UpdateSignTokenEvent(CustomNode owner) : base(owner)
     {
         Text = new StringList();
     }

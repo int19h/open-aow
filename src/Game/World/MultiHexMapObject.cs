@@ -17,7 +17,7 @@ namespace Aow.Game.World;
 public partial class MultiHexMapObject : MapObject
 {
 
-    public MultiHexMapObject(ECustomNode owner) : base(owner)
+    public MultiHexMapObject(CustomNode owner) : base(owner)
     { }
 
     protected internal sbyte _hexX;

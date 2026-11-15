@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 
 public partial class MovementHexSprite : SingleHexSprite
 {
-    public MovementHexSprite(ECustomNode owner) : base(owner)
+    public MovementHexSprite(CustomNode owner) : base(owner)
     { }
 
     // FleeLoc.pas:172

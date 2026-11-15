@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class BlessedEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1211
-    public BlessedEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public BlessedEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_blessedText);

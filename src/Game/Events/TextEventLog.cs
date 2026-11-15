@@ -7,7 +7,7 @@ namespace Aow.Game.Events;
 // text
 public partial class TextEventLog : EventLog
 {
-    public TextEventLog(ECustomNode owner) : base(owner)
+    public TextEventLog(CustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:713

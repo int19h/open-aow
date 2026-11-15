@@ -11,7 +11,7 @@ namespace Aow.Game.Events;
 public partial class HelpMessageEventLog : EventLog
 {
     // EventLog.pas:860
-    public HelpMessageEventLog(ECustomNode owner, EngineObject holder) : base(owner)
+    public HelpMessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Message = new StringList();

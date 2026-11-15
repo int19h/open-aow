@@ -22,7 +22,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     // Combat2.pas:774
     public new const int ClassId = 131761;
 
-    public DamageCombatAction(ECustomNode owner) : base(owner)
+    public DamageCombatAction(CustomNode owner) : base(owner)
     {
     }
 

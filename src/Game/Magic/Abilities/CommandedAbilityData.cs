@@ -10,7 +10,7 @@ public partial class CommandedAbilityData : AbilityData
 {
     public new const int ClassId = 131757;
 
-    public CommandedAbilityData(ECustomNode owner) : base(owner)
+    public CommandedAbilityData(CustomNode owner) : base(owner)
     { }
 
     public int AbilityId { get; set; }

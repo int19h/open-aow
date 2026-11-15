@@ -16,7 +16,7 @@ namespace Aow.Game.World.Structures;
 public partial class PlayerCropStructure : PlayerStructure
 {
 
-    public PlayerCropStructure(ECustomNode owner) : base(owner)
+    public PlayerCropStructure(CustomNode owner) : base(owner)
     {
         _changingCrops = false;
         _incomeSource = new PlayerStructureIncomeSource(null) { Holder = CreationHolder() };

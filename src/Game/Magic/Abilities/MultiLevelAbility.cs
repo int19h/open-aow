@@ -15,7 +15,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:248
-    public MultiLevelAbility(ECustomNode owner) : base(owner)
+    public MultiLevelAbility(CustomNode owner) : base(owner)
     {
         LevelCosts = new Int32List();
         MaxLevel = 4;

@@ -395,12 +395,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -421,12 +421,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null
@@ -514,12 +514,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -540,12 +540,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null
@@ -633,12 +633,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -659,12 +659,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null
@@ -756,12 +756,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -782,12 +782,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null
@@ -883,12 +883,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -909,12 +909,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null
@@ -1010,12 +1010,12 @@
           "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null
@@ -1036,12 +1036,12 @@
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
-              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null

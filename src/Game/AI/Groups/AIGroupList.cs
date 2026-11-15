@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupList : ENode, IChildList<AIGroup>
+public partial class AIGroupList : OwningNode, IChildList<AIGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroup, so the cast never fails.
@@ -14,7 +14,7 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
 
     int IChildSink<AIGroup>.AddChild(AIGroup child) => AddChild(child);
 
-    public AIGroupList(ECustomNode owner) : base(owner)
+    public AIGroupList(CustomNode owner) : base(owner)
     { }
 
     /// <summary>The groups of this list, in their stored order.</summary>

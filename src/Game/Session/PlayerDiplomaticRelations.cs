@@ -13,16 +13,16 @@ namespace Aow.Game.Session;
 public partial class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
-    public PlayerDiplomaticRelations(ECustomNode owner) : base(owner)
+    public PlayerDiplomaticRelations(CustomNode owner) : base(owner)
     {
         _relations = new ByteList();
-        _history = new ENode(null) { Holder = CreationHolder() };
+        _history = new OwningNode(null) { Holder = CreationHolder() };
     }
 
     public Player Player { get; set; }
 
     private readonly ByteList _relations;
-    private readonly ENode _history;
+    private readonly OwningNode _history;
 
     // Player.PAS:85
     public override void Dispose()

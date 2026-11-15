@@ -7,9 +7,9 @@ namespace Aow.Game.World.Map;
 
 // the sorted list of the visible sprites of a scene (THSMap). a sprite removed from it is made
 // invisible
-public partial class VisibilityList : EControlStyleInverseSortNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
-    public VisibilityList(ECustomNode owner) : base(owner)
+    public VisibilityList(CustomNode owner) : base(owner)
     { }
 
     // The sprite in slot index, read from the sorted items as the original reads them.
@@ -23,7 +23,7 @@ public partial class VisibilityList : EControlStyleInverseSortNode, IChildList<H
     // The map the list belongs to. AcceptsOwner admits only a map, so the cast never fails.
     public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is GameMap;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 

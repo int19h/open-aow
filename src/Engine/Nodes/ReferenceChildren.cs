@@ -7,9 +7,9 @@ namespace Aow.Engine.Nodes;
 /// no owner or with the list as its owner is stored, the set the stream write stores after it makes
 /// the list the owner of every child without one. The tree write leaves every owner as it is. The
 /// load attaches and places a child as a node's children are placed, so the list takes its
-/// reference through <see cref="EReferenceNode.AddChild"/>.
+/// reference through <see cref="ReferenceNode.AddChild"/>.
 /// </summary>
-public sealed class ReferenceChildren(EReferenceNode list) : IChildCollection
+public sealed class ReferenceChildren(ReferenceNode list) : IChildCollection
 {
     private readonly NodeChildren _placement = new(list);
 

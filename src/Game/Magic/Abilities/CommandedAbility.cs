@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CommandedAbility : AdjustableAbility
 {
     // AoWAb.PAS:5013
-    public CommandedAbility(ECustomNode owner) : base(owner)
+    public CommandedAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();

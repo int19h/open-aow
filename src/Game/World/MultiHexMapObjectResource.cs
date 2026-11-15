@@ -10,7 +10,7 @@ public partial class MultiHexMapObjectResource : MapObjectResource
 {
     public new const int ClassId = 65877;
 
-    public MultiHexMapObjectResource(ECustomNode owner) : base(owner)
+    public MultiHexMapObjectResource(CustomNode owner) : base(owner)
     {
         SetMainPointOffsetX(16);
         SetMainPointOffsetY(32);

@@ -9,7 +9,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class UpperIsometricHex : IsometricHex
 {
-    public UpperIsometricHex(ECustomNode owner) : base(owner)
+    public UpperIsometricHex(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131440;
@@ -48,7 +48,7 @@ public partial class UpperIsometricHex : IsometricHex
 
     public new partial class Resource : IsometricHexResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public new const int ClassId = 131441;

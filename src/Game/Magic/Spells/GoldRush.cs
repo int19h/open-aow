@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class GoldRush : CityEnchantmentSpell
 {
     // CitySpells.pas:710
-    public GoldRush(ECustomNode owner, EngineObject holder) : base(owner)
+    public GoldRush(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText);

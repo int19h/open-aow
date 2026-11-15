@@ -16,7 +16,7 @@ namespace Aow.Game.World.Structures;
 // production place
 public partial class ProductionPlaceControl : ProductionControl
 {
-    public ProductionPlaceControl(ECustomNode owner) : base(owner)
+    public ProductionPlaceControl(CustomNode owner) : base(owner)
     { }
 
     public ProductionPlace ProductionPlace { get; set; }

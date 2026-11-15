@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Structures;
 
 // production control
-public partial class ProductionQueue : ENode, IChildList<ProductionItem>
+public partial class ProductionQueue : OwningNode, IChildList<ProductionItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ProductionItem, so the cast never fails.
@@ -14,7 +14,7 @@ public partial class ProductionQueue : ENode, IChildList<ProductionItem>
 
     int IChildSink<ProductionItem>.AddChild(ProductionItem child) => AddChild(child);
 
-    public ProductionQueue(ECustomNode owner) : base(owner)
+    public ProductionQueue(CustomNode owner) : base(owner)
     { }
 
     public ProductionControl ProductionControl { get; set; }

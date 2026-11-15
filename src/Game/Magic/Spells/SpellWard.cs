@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SpellWard : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1949
-    public SpellWard(ECustomNode owner, EngineObject holder) : base(owner)
+    public SpellWard(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellWardText);

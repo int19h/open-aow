@@ -6,7 +6,7 @@ namespace Aow.Game.Combat;
 // Auto. EndTurn. Index. LastX. LastY. LastUnit
 public partial class TacticalBattlePlayer : CombatPlayer
 {
-    public TacticalBattlePlayer(ECustomNode owner) : base(owner)
+    public TacticalBattlePlayer(CustomNode owner) : base(owner)
     { }
 
     public bool Auto { get; private set; }

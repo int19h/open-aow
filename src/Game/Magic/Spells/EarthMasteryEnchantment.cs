@@ -17,7 +17,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135970;
 
     // GlobalEnchantmentSpells.pas:1820
-    public EarthMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public EarthMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);

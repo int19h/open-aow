@@ -10,7 +10,7 @@ namespace Aow.Game.AI.Groups;
 // inherited move control, executer and state
 public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
 {
-    public DefaultMoveExecutorControl(ECustomNode owner) : base(owner)
+    public DefaultMoveExecutorControl(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:4978

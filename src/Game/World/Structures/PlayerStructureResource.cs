@@ -9,7 +9,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class PlayerStructureResource : StructureResource
 {
-    public PlayerStructureResource(ECustomNode owner) : base(owner)
+    public PlayerStructureResource(CustomNode owner) : base(owner)
     {
         Claimed = true;
         FlagX = 20;

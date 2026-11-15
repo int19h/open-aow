@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class HealingAbility : TouchAbility
 {
     // AoWAb.PAS:3616
-    public HealingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public HealingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 47;

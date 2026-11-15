@@ -15,7 +15,7 @@ namespace Aow.Game.Draw;
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
 public partial class RangedPathHexSprite : FixedVisibleHexSprite
 {
-    public RangedPathHexSprite(ECustomNode owner) : base(owner)
+    public RangedPathHexSprite(CustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:4846

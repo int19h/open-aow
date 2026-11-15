@@ -7,7 +7,7 @@ namespace Aow.Game.Combat;
 public partial class CombatSpellCaster : EngineObject
 {
     // Spells.PAS:793
-    public CombatSpellCaster(ECustomNode owner) : base(owner)
+    public CombatSpellCaster(CustomNode owner) : base(owner)
     {
         _combatCasterRefCount = 1;
     }

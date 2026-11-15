@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class WallClimbingAbility : AdjustableAbility
 {
     // PassiveAb.pas:922
-    public WallClimbingAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public WallClimbingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_wallClimbingText);

@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 public partial class SmtpEventLog : EventLog
 {
     // Diplomacy.pas:2441
-    public SmtpEventLog(ECustomNode owner) : base(owner)
+    public SmtpEventLog(CustomNode owner) : base(owner)
     {
         Message = new StringList();
     }

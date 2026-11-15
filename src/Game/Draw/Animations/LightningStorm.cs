@@ -18,7 +18,7 @@ namespace Aow.Game.Draw.Animations;
 // storm image library
 public partial class LightningStorm : Storm
 {
-    public LightningStorm(ECustomNode owner) : base(owner)
+    public LightningStorm(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135739;

@@ -17,7 +17,7 @@ namespace Aow.Game.Commands;
 // flow mode, player
 public partial class CombatFlowControlTokenEvent : TokenEvent
 {
-    public CombatFlowControlTokenEvent(ECustomNode owner) : base(owner)
+    public CombatFlowControlTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135448;

@@ -40,7 +40,7 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     }
 
     // IndependentAG.pas:285
-    public PatrolAIGroup(ECustomNode owner) : base(owner)
+    public PatrolAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 1;
         RecruitmentPriority = 2;

@@ -15,12 +15,12 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new CombatActionList Owner { get => (CombatActionList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is CombatActionList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is CombatActionList;
 
     void IOwnedSink<CombatActionList>.SetOwner(CombatActionList owner) => SetOwner(owner);
 
     // Combat2.pas:698
-    public CombatAction(ECustomNode owner) : base(owner)
+    public CombatAction(CustomNode owner) : base(owner)
     {
         RefCount = 1;
     }

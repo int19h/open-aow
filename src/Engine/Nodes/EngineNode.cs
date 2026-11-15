@@ -8,15 +8,15 @@ namespace Aow.Engine.Nodes;
 
 // FEngine, FControlStyle. A node that knows its engine: message $20000008
 // (TEngine.ActivateEObject) carries the engine in the message
-public partial class ECustomOwner : ENode
+public partial class EngineNode : OwningNode
 {
     // Engine.pas:8257
     public new const int ClassId = 259;
 
     // Engine.pas:8250
-    public ECustomOwner(ECustomNode owner) : this(null, owner) { }
+    public EngineNode(CustomNode owner) : this(null, owner) { }
 
-    private protected ECustomOwner(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected EngineNode(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         SetOwnerWithoutNotify(owner);
         _controlStyle = base.GetControlStyle();

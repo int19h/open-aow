@@ -6,10 +6,10 @@ namespace Aow.Engine.Nodes;
 
 // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
 // removal)
-public partial class EReferenceNode : ENode
+public partial class ReferenceNode : OwningNode
 {
 
-    public EReferenceNode(ECustomNode owner) : base(owner)
+    public ReferenceNode(CustomNode owner) : base(owner)
     { }
 
     // Engine.pas:8144

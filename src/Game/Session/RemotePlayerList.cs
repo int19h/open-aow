@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class RemotePlayerList : ENode, IChildList<RemotePlayer>
+public partial class RemotePlayerList : OwningNode, IChildList<RemotePlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a RemotePlayer, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class RemotePlayerList : ENode, IChildList<RemotePlayer>
 
     int IChildSink<RemotePlayer>.AddChild(RemotePlayer child) => AddChild(child);
 
-    public RemotePlayerList(ECustomNode owner) : base(owner)
+    public RemotePlayerList(CustomNode owner) : base(owner)
     { }
 
     // AoWSetup.pas:279

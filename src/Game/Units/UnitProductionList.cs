@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class UnitProductionList : ENode, IChildList<UnitProduction>
+public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
@@ -15,7 +15,7 @@ public partial class UnitProductionList : ENode, IChildList<UnitProduction>
 
     int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
 
-    public UnitProductionList(ECustomNode owner) : base(owner)
+    public UnitProductionList(CustomNode owner) : base(owner)
     { }
 
     // Structur.PAS:14

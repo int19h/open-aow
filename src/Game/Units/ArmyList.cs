@@ -5,9 +5,9 @@ using Aow.Game.Session;
 
 namespace Aow.Game.Units;
 
-public partial class ArmyList : EChangeNotifyEventList
+public partial class ArmyList : ObservableEventList
 {
-    public ArmyList(ECustomNode owner) : base(owner)
+    public ArmyList(CustomNode owner) : base(owner)
     { }
 
     public Player Player { get; set; }

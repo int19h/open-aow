@@ -10,13 +10,13 @@ public partial class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)
-    public StructureControl(ECustomNode owner) : base(owner)
+    public StructureControl(CustomNode owner) : base(owner)
     {
-        _structures = new ENode(null) { Holder = CreationHolder() };
+        _structures = new OwningNode(null) { Holder = CreationHolder() };
         _nextId = 0;
     }
 
-    private readonly ENode _structures;
+    private readonly OwningNode _structures;
     private int _nextId;
 
     public int CityCount { get; private set; }

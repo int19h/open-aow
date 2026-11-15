@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Animations;
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
 public partial class Animation : HexSprite
 {
-    public Animation(ECustomNode owner) : base(owner)
+    public Animation(CustomNode owner) : base(owner)
     {
         AnimationLevel = 26;
     }

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AIBudgetList : ENode, IChildList<AIBudget>
+public partial class AIBudgetList : OwningNode, IChildList<AIBudget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIBudget, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class AIBudgetList : ENode, IChildList<AIBudget>
 
     int IChildSink<AIBudget>.AddChild(AIBudget child) => AddChild(child);
 
-    public AIBudgetList(ECustomNode owner) : base(owner)
+    public AIBudgetList(CustomNode owner) : base(owner)
     { }
 
     // AI.pas:1707

@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class SuicidalAIGroupControl : AIGroupControl
 {
-    public SuicidalAIGroupControl(ECustomNode owner) : base(owner)
+    public SuicidalAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // MainAG.pas:750

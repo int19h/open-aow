@@ -65,11 +65,11 @@ public sealed class EngineClass
     public int InstanceSize { get; }
     public EngineClass? Parent { get; }                 // the base class's descriptor, null at EngineObject
     public string StorageKey => TObject.ClassNameOf(Type);
-    public EngineObject CreateInstance(ECustomNode? owner) => create(owner);
+    public EngineObject CreateInstance(CustomNode? owner) => create(owner);
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public static EngineClass Of(Type type);            // one instance per type, throws when unregistered
     public static EngineClass Of<T>() where T : EngineObject => Of(typeof(T));
-    public static EngineClass Register<T>(int classId, Func<ECustomNode?, T> create, int instanceSize) where T : EngineObject;
+    public static EngineClass Register<T>(int classId, Func<CustomNode?, T> create, int instanceSize) where T : EngineObject;
 }
 ```
 

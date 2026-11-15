@@ -17,7 +17,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class CombatTerrain : TerrainMapObject
 {
-    public CombatTerrain(ECustomNode owner) : base(owner)
+    public CombatTerrain(CustomNode owner) : base(owner)
     { }
 
     // CombatTerrain.pas:82
@@ -289,7 +289,7 @@ public partial class CombatTerrain : TerrainMapObject
 
     public new partial class Resource : TerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CombatTerrain.pas:301

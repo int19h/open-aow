@@ -38,7 +38,7 @@ public partial class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2716
-    public CityEnchantment(ECustomNode owner) : base(owner)
+    public CityEnchantment(CustomNode owner) : base(owner)
     {
         EnchantmentMode = EnchantmentMode - Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }

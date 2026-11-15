@@ -14,7 +14,7 @@ namespace Aow.Game.World;
 // HelpFileName, Message
 public partial class FlagMessageEvent : FlagEvent
 {
-    public FlagMessageEvent(ECustomNode owner) : base(owner)
+    public FlagMessageEvent(CustomNode owner) : base(owner)
     {
         _message = new StringList();
     }
@@ -61,7 +61,7 @@ public partial class FlagMessageEvent : FlagEvent
 
     public new partial class Resource : FlagEventResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // FlagEvents.pas:218

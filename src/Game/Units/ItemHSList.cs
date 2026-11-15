@@ -6,11 +6,11 @@ namespace Aow.Game.Units;
 // inherited children, update lock, change event
 public partial class ItemHSList : ItemList
 {
-    public ItemHSList(ECustomNode owner) : base(owner)
+    public ItemHSList(CustomNode owner) : base(owner)
     { }
 
     // Army.PAS:5202
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         SetOwnerWithoutNotify(owner);
     }

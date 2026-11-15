@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class LevelTerrain : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:978
-    public LevelTerrain(ECustomNode owner, EngineObject holder) : base(owner)
+    public LevelTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_levelTerrainText);

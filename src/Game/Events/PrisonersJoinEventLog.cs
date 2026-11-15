@@ -16,7 +16,7 @@ namespace Aow.Game.Events;
 // FX, FY, FL
 public partial class PrisonersJoinEventLog : JoinEventLog
 {
-    public PrisonersJoinEventLog(ECustomNode owner) : base(owner)
+    public PrisonersJoinEventLog(CustomNode owner) : base(owner)
     { }
 
     public sbyte X { get; set; }

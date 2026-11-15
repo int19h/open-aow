@@ -10,7 +10,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class DeathStorm : BlastStorm
 {
-    public DeathStorm(ECustomNode owner) : base(owner)
+    public DeathStorm(CustomNode owner) : base(owner)
     { }
 
     // Storms.pas:492

@@ -23,7 +23,7 @@ namespace Aow.Game.World.Structures;
 public partial class PlayerStructure : Structure
 {
 
-    public PlayerStructure(ECustomNode owner) : base(owner)
+    public PlayerStructure(CustomNode owner) : base(owner)
     {
         _victoryLocations = new BitList();
         UnfogRange = 0;

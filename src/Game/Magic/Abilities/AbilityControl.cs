@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
-    public AbilityControl(ECustomNode owner) : base(owner)
+    public AbilityControl(CustomNode owner) : base(owner)
     {
         AbilityType kind;
 

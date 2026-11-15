@@ -22,7 +22,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
 
     // CitySpells.pas:554
-    public CityEnchantmentSpell(ECustomNode owner) : base(owner)
+    public CityEnchantmentSpell(CustomNode owner) : base(owner)
     {
         AIPriority = -1;
     }

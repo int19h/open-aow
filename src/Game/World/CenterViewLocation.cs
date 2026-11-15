@@ -9,7 +9,7 @@ namespace Aow.Game.World;
 
 public partial class CenterViewLocation : MapObject
 {
-    public CenterViewLocation(ECustomNode owner) : base(owner)
+    public CenterViewLocation(CustomNode owner) : base(owner)
     { }
 
     // CenterViewLoc.pas:46
@@ -66,7 +66,7 @@ public partial class CenterViewLocation : MapObject
 
     public new partial class Resource : MapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             SetLevel(27);
         }

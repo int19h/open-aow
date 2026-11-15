@@ -985,7 +985,7 @@
         "Type": "Aow.Game.Units.HeroLibraryManager"
       },
       "Engine.GameSet.HeroLibraries._libraries": {
-        "Type": "Aow.Engine.Nodes.ENode"
+        "Type": "Aow.Engine.Nodes.OwningNode"
       },
       "Engine.GameSet.HeroLibraries._libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -1015,7 +1015,7 @@
         "Type": "Aow.Game.Units.ItemLibraryManager"
       },
       "Engine.GameSet.ItemLibraries.Libraries": {
-        "Type": "Aow.Engine.Nodes.ENode"
+        "Type": "Aow.Engine.Nodes.OwningNode"
       },
       "Engine.GameSet.ItemLibraries.Libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -1114,7 +1114,7 @@
         "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._controlNode": {
-        "Type": "Aow.Engine.Nodes.EControlStyleNode"
+        "Type": "Aow.Engine.Nodes.ControlStyleNode"
       },
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -1282,7 +1282,7 @@
         131779
       ],
       "Children": [
-        "Aow.Engine.Nodes.EControlStyleNode",
+        "Aow.Engine.Nodes.ControlStyleNode",
         "Aow.Game.World.Map.GamePack"
       ],
       "Globals": {
@@ -76727,7 +76727,7 @@
         "Type": "Aow.Game.Units.HeroLibraryManager"
       },
       "Engine.GameSet.HeroLibraries._libraries": {
-        "Type": "Aow.Engine.Nodes.ENode"
+        "Type": "Aow.Engine.Nodes.OwningNode"
       },
       "Engine.GameSet.HeroLibraries._libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -76757,7 +76757,7 @@
         "Type": "Aow.Game.Units.ItemLibraryManager"
       },
       "Engine.GameSet.ItemLibraries.Libraries": {
-        "Type": "Aow.Engine.Nodes.ENode"
+        "Type": "Aow.Engine.Nodes.OwningNode"
       },
       "Engine.GameSet.ItemLibraries.Libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -76856,7 +76856,7 @@
         "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._controlNode": {
-        "Type": "Aow.Engine.Nodes.EControlStyleNode"
+        "Type": "Aow.Engine.Nodes.ControlStyleNode"
       },
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
@@ -77096,7 +77096,7 @@
         "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._controlNode": {
-        "Type": "Aow.Engine.Nodes.EControlStyleNode"
+        "Type": "Aow.Engine.Nodes.ControlStyleNode"
       },
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"

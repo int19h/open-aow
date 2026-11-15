@@ -27,7 +27,7 @@ public sealed class ControlStyleConstructionTests
     {
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
-        ECustomNode argument = owned ? owner : null!;
+        CustomNode argument = owned ? owner : null!;
         Type type = kind switch { 0 => typeof(ControlStyleObject), 1 => typeof(ResourceEditSettings), _ => typeof(PadControl) };
         var meta = EngineClass.Of(type);
         if (kind == 2)
@@ -87,9 +87,9 @@ public sealed class ControlStyleConstructionTests
     {
         private int _calls;
 
-        internal Converted(ECustomNode owner) : base(owner) { }
+        internal Converted(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner)
+        public override void SetOwner(CustomNode owner)
         {
             _calls++;
             GetControlStyle();
@@ -249,7 +249,7 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-    private static FlagControl CreateFlag(ECustomNode owner, bool throughMeta) => throughMeta
+    private static FlagControl CreateFlag(CustomNode owner, bool throughMeta) => throughMeta
         ? (FlagControl)EngineClass.Of<FlagControl>().CreateInstance(owner, holder: EngineFixture.Engine)
         : FlagControl.Create(owner);
 

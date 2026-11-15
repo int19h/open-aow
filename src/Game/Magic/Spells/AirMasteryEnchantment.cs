@@ -17,7 +17,7 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135966;
 
     // GlobalEnchantmentSpells.pas:641
-    public AirMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public AirMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.AirMasteryText);

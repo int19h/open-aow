@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 // ItemCount, Items
 public partial class ItemExplorationSite : ExplorationSite
 {
-    public ItemExplorationSite(ECustomNode owner) : base(owner)
+    public ItemExplorationSite(CustomNode owner) : base(owner)
     {
         _items = new ExplorationSiteItemList(null) { Holder = CreationHolder() };
         _itemCount = 2;

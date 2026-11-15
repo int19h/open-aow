@@ -23,7 +23,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class AnimateRuins : CityTargetSpell
 {
     // CitySpells.pas:915
-    public AnimateRuins(ECustomNode owner, EngineObject holder) : base(owner)
+    public AnimateRuins(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
