@@ -96,7 +96,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     public override string GetLevelName(int level) => AbilityRules.TranslateResourceString(GetEngine(), s_leadershipText);
 
     // AoWAb.PAS:1024
-    public void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
+    public override void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
     {
         LeadershipAbilityData data;
         data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
@@ -123,7 +123,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1047
-    public void ResetExternalSource(AbilityOwner owner)
+    public override void ResetExternalSource(AbilityOwner owner)
     {
         LeadershipAbilityData data;
         data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);

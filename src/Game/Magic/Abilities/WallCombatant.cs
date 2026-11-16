@@ -56,7 +56,7 @@ public partial class WallCombatant : Troop
     public override UnitType GetUnitType() => UnitType.Machine;
 
     // Unit.PAS:2494
-    public void SetWallType(WallType value)
+    public override void SetWallType(WallType value)
     {
         _wallType = value;
         Hits = _wallType == WallType.Stone ? (sbyte)10 : (sbyte)5;

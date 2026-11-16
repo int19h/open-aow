@@ -196,7 +196,7 @@ public partial class MeleeRound : IDisposable
         Reset();
         _attackerUnit = attacker;
         _defenderUnit = defender;
-        AttackerDamageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+        AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(attacker);
         _defenderDamageTypes = Set<DamageType>.Of();
         if (AttackerDamageTypes != Set<DamageType>.Of())
         {
@@ -212,7 +212,7 @@ public partial class MeleeRound : IDisposable
         Reset();
         _attackerUnit = attacker;
         _defenderUnit = defender;
-        AttackerDamageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+        AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(attacker);
         if (AttackerDamageTypes != Set<DamageType>.Of())
         {
             _attackerStrikes = 2;
@@ -226,7 +226,7 @@ public partial class MeleeRound : IDisposable
             _attackerStrikes = 0;
         }
 
-        _defenderDamageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
+        _defenderDamageTypes = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(defender);
         _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() ? 2 : 0;
 
         side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0

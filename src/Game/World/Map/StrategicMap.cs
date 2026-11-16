@@ -852,7 +852,6 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2290
     public override void InitializeNewMap()
     {
-        EngineObject objectValue;
         Races.Update();
         Players.SetNumberOfPlayers(2);
         Players.ValidateRaces(Races);
@@ -863,9 +862,9 @@ public partial class StrategicMap : GameMap
 
         for (int i = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; i <= last; i++)
         {
-            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(i).Copy(GetEngine());
-            ItemControl.RegisterItem((Item)objectValue);
-            objectValue.Release();
+            Item copiedItem = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(i).Copy<Item>(GetEngine());
+            ItemControl.RegisterItem(copiedItem);
+            copiedItem.Release();
         }
 
         for (int i = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.Count - 1; i <= last; i++)

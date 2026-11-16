@@ -162,7 +162,7 @@ public partial class SelfDestructAbility : TouchAbility
     public override bool CanTouchUnit(Troop source, Troop target) => true;
 
     // AoWAb.PAS:2216
-    public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
+    public override SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
     {
         SelfDestructCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, 8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));

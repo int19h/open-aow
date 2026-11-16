@@ -28,8 +28,8 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     public int Count => _holder.GetCount();
 
     // The hero in slot index, read as the original reads the list, without a range check. The
-    // holder admits only heroes, so the cast never fails.
-    public Hero this[int index] => (Hero)_holder.GetChild(index);
+    // holder admits only heroes. Another class throws, as the cast did. Null stays null.
+    public Hero this[int index] => _holder.GetChild<Hero>(index);
 
     public IEnumerator<Hero> GetEnumerator()
     {

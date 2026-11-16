@@ -251,8 +251,12 @@ public partial class StrikeAbility : AdjustableAbility
         return result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
     }
 
+    public override void CalculateFreeUnitSwing(Troop source, Troop target) => MeleeRound.CalculateFreeUnitSwing(source, target);
+
+    public override int GetAttackerDamageValue() => MeleeRound.GetAttackerDamageValue();
+
     // AoWAb.PAS:1354
-    public Set<DamageType> GetDamageTypes(AbilityOwner owner)
+    public override Set<DamageType> GetDamageTypes(AbilityOwner owner)
     {
         Set<DamageType> result;
         if (owner is Troop troop && troop.GetAbilityEnabled(21))

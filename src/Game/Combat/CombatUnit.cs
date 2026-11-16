@@ -696,7 +696,7 @@ public partial class CombatUnit : CombatObject
         if (u != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
-            if (Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop))
+            if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility(52).CanCastBreachWallSpell(Troop))
             {
                 WallCombatFeaturesValue = WallCombatFeaturesValue + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
             }

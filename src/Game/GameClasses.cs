@@ -56,7 +56,7 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Mine>(), EngineClass.Of<Mine.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Tower>(), EngineClass.Of<Tower.Resource>()]);
         TowerConstructionControl towerConstructionControl = new(null) { Holder = engine };
-        ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(towerConstructionControl);
+        GamePack.Current.AbilityControl.GetAbility(125).RegisterConstructionControl(towerConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
         PoisonPlantSpell poisonPlantSpell = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(poisonPlantSpell);
@@ -76,7 +76,7 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Pyramid>(), EngineClass.Of<Pyramid.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Shipyard>(), EngineClass.Of<Shipyard.Resource>()]);
         ShipyardConstructionControl shipyardConstructionControl = new(null) { Holder = engine };
-        ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
+        GamePack.Current.AbilityControl.GetAbility(125).RegisterConstructionControl(shipyardConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
         HolyGroundSpell holyGroundSpell = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(holyGroundSpell);

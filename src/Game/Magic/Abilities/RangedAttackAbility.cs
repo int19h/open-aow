@@ -291,13 +291,13 @@ public partial class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4686
-    public virtual sbyte GetAttackRepeatRangedAttack(AbilityOwner owner) => AttackRepeatRangedAttack;
+    public override sbyte GetAttackRepeatRangedAttack(AbilityOwner owner) => AttackRepeatRangedAttack;
 
     // AoWAb.PAS:4690
     public virtual Set<DamageType> GetDamageTypesRangedAttack(AbilityOwner owner) => DamageTypesRangedAttack;
 
     // AoWAb.PAS:4777
-    public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
+    public override RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
     {
         RangedAttackCombatAction action;
         action = new RangedAttackCombatAction(null) { Holder = CreationHolder() };

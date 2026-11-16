@@ -47,12 +47,12 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
             for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).ResetCommandedUnits(target);
+                GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
             }
 
             for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).Uncommand(target);
+                GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
             newUnit = target.Troop;

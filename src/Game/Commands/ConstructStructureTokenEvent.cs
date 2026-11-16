@@ -53,7 +53,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
         ExecuteResult result = ExecuteResult.DoneHalt;
         base.Execute(tokenEvent);
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        control = (StructureConstructionControl)((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).ConstructionControls.FindId(ControlId);
+        control = (StructureConstructionControl)GamePack.Current.AbilityControl.GetAbility(125).GetConstructionControls().FindId(ControlId);
         if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
             resource = control.StructureResource(troop);

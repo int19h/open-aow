@@ -28,6 +28,8 @@ public partial class ConstructAbility : AdjustableAbility
 
     public ConstructionControlList ConstructionControls { get; }
 
+    public override ConstructionControlList GetConstructionControls() => ConstructionControls;
+
     // AoWAb.PAS:5548
     public override void Dispose()
     {
@@ -46,7 +48,7 @@ public partial class ConstructAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5560
-    public void RegisterConstructionControl(ConstructionControl control)
+    public override void RegisterConstructionControl(ConstructionControl control)
     {
         // { Pass the control ID directly without retaining a local. }
         int id = control.Id();

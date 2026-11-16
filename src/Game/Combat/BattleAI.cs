@@ -1469,7 +1469,7 @@ public partial class BattleAI : IDisposable
                         switch (TacticalTables.AbilityTypes[ability])
                         {
                             case BattleEffectType.Touch:
-                                if (target is CombatWall || (target is CombatUnit && ((TouchAbility)GamePack.Current.AbilityControl.GetAbility(ability)).CanTouch(unit, target)))
+                                if (target is CombatWall || (target is CombatUnit && GamePack.Current.AbilityControl.GetAbility(ability).CanTouch(unit, target)))
                                 {
                                     try
                                     {

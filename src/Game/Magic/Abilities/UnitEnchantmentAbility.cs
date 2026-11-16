@@ -237,7 +237,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:608
-    public virtual int GetAIUpkeepPriority(AbilityOwner owner) => 0;
+    public override int GetAIUpkeepPriority(AbilityOwner owner) => 0;
 
     // AoWAb.PAS:730
     public virtual sbyte GetTotalDuration() => -1;

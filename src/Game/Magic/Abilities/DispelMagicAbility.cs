@@ -348,7 +348,7 @@ public partial class DispelMagicAbility : TouchAbility
     public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.CanDispelEnchantment(source.Player);
 
     // AoWAb.PAS:4052
-    public void SetEnabled(AbilityOwner owner, bool enabled)
+    public override void SetEnabled(AbilityOwner owner, bool enabled)
     {
         DispelMagicAbilityData data;
         data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
@@ -362,7 +362,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4083
-    public int GetDispelMana(AbilityOwner owner) => (GetLevel(owner) * 10) + 20;
+    public override int GetDispelMana(AbilityOwner owner) => (GetLevel(owner) * 10) + 20;
 
     // AoWAb.PAS:4116
     public string GetLevelName(int level)
@@ -386,6 +386,8 @@ public partial class DispelMagicAbility : TouchAbility
 
         return result;
     }
+
+    public override DispelMagicAbilityCombatAction CreateDispelMagicCombatAction(CombatUnit source, CombatObject target) => CreateCombatAction(source, target);
 
     // AoWAb.PAS:4301
     public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)

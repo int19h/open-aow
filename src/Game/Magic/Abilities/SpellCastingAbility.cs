@@ -213,7 +213,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4488
-    public bool CanCastBreachWallSpell(Troop troop)
+    public override bool CanCastBreachWallSpell(Troop troop)
     {
         bool result;
         int i;

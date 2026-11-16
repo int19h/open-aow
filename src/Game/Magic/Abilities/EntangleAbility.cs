@@ -135,7 +135,7 @@ public partial class EntangleAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(94);
 
     // AoWAb.PAS:2979
-    public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
+    public override EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
     {
         EntangleCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);

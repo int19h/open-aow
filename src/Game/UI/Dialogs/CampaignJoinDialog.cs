@@ -74,7 +74,7 @@ public partial class CampaignJoinDialog : UIModule
         LeaderSetupControl leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
+            leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
             UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
             leader.Release();
             FinishSelection();

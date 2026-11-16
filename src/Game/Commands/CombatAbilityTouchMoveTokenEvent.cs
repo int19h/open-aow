@@ -301,14 +301,14 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         case 40:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _entangleAction = ((EntangleAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
+                                            _entangleAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateEntangleCombatAction(Unit, PreviousUnit);
                                             _successful = _entangleAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_entangleAction);
                                             _entangleAction.Release();
                                             break;
                                         case 27:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _webAction = ((WebAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
+                                            _webAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateWebCombatAction(Unit, PreviousUnit);
                                             _successful = _webAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_webAction);
                                             _webAction.Release();
@@ -317,35 +317,35 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         case 29:
                                         case 148:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _commandAction = ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
+                                            _commandAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateCommandCombatAction(Unit, PreviousUnit);
                                             _successful = _commandAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_commandAction);
                                             _commandAction.Release();
                                             break;
                                         case 38:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _turnUndeadAction = ((TurnUndeadAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
+                                            _turnUndeadAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
                                             _successful = _turnUndeadAction.GetSuccessful();
                                             CombatMap.Current.Combat.ExecuteCombatAction(_turnUndeadAction);
                                             _turnUndeadAction.Release();
                                             break;
                                         case 35:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _deathAction = ((InvokeDeathAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            _deathAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateInvokeDeathCombatAction(Unit, PreviousUnit);
                                             _successful = _deathAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_deathAction);
                                             _deathAction.Release();
                                             break;
                                         case 47:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _healingAction = ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
+                                            _healingAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateHealingCombatAction(Unit, PreviousUnit);
                                             _successful = true;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_healingAction);
                                             _healingAction.Release();
                                             break;
                                         case 60:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _dispelAction = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            _dispelAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateDispelMagicCombatAction(Unit, PreviousUnit);
                                             _successful = _dispelAction.EnchantmentIds.Count > 0;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_dispelAction);
                                             _dispelAction.Release();
@@ -353,7 +353,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         case 106:
                                         case 107:
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            _possessAction = ((PossessAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
+                                            _possessAction = GamePack.Current.AbilityControl.GetAbility(AbilityId).CreatePossessCombatAction(Unit, PreviousUnit);
                                             _successful = _possessAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_possessAction);
                                             _possessAction.Release();

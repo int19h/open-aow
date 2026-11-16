@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
@@ -23,8 +21,8 @@ public partial class HealingCombatAction : SingleTargetCombatAction
         CombatUnit target;
         source = combat.CombatData.FindId<CombatUnit>(SourceId);
         target = combat.CombatData.FindId<CombatUnit>(TargetId);
-        ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(47)).SetEnabled(source.Troop, false);
-        ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(47)).HealUnit(target.Troop);
+        GamePack.Current.AbilityControl.GetAbility(47).SetEnabled(source.Troop, false);
+        GamePack.Current.AbilityControl.GetAbility(47).HealUnit(target.Troop);
     }
 
     // AoWAb.PAS:3595

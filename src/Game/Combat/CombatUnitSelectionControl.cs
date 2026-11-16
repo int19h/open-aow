@@ -468,7 +468,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             {
                 if (GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility).GetCombatMode(unitHexSprite.Unit.Troop) == CombatMode.Touch)
                 {
-                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())) && ((TouchAbility)GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility)).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
+                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())) && GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
                     {
                         if (_cursorImage < 105 || _cursorImage > 107)
                         {

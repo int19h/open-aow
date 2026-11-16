@@ -79,7 +79,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1147
-    public int UnitIndexToAIUpkeepPriority(int unitIndex)
+    public override int UnitIndexToAIUpkeepPriority(int unitIndex)
     {
         int result;
         switch (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level)

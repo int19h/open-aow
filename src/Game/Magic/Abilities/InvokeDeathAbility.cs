@@ -81,7 +81,7 @@ public partial class InvokeDeathAbility : TouchAbility
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         }
@@ -170,6 +170,8 @@ public partial class InvokeDeathAbility : TouchAbility
 
         return result;
     }
+
+    public override InvokeDeathCombatAction CreateInvokeDeathCombatAction(CombatObject source, CombatObject target) => CreateCombatAction(source, target);
 
     // AoWAb.PAS:3527
     public InvokeDeathCombatAction CreateCombatAction(CombatObject source, CombatObject target)

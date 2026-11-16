@@ -204,7 +204,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5110
-    public virtual void Command(CombatUnit source, CombatUnit target)
+    public override void Command(CombatUnit source, CombatUnit target)
     {
         CommandedAbilityData targetData;
         CommandAbilityData sourceData;
@@ -231,7 +231,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5259
-    public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
+    public override CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
         CommandCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: !(target.Troop is Leader) && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
@@ -240,7 +240,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5157
-    public virtual void ResetCommandedUnits(CombatUnit source)
+    public override void ResetCommandedUnits(CombatUnit source)
     {
         Troop troopOwner;
         CommandAbilityData data;
@@ -264,7 +264,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5135
-    public virtual void Uncommand(CombatUnit target)
+    public override void Uncommand(CombatUnit target)
     {
         Troop troopOwner;
         CommandedAbilityData data;

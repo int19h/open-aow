@@ -107,7 +107,7 @@ public partial class TouchAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1916
-    public virtual bool CanTouch(CombatObject source, CombatObject target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = source.GetSide() == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)

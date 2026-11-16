@@ -420,7 +420,7 @@ public partial class CombatPredictor : IDisposable
         }
         else
         {
-            ((WallCombatant)unitObject.Troop).SetWallType(wallType);
+            unitObject.Troop.SetWallType(wallType);
         }
     }
 

@@ -158,7 +158,7 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2640
-    public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
+    public override PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
         PossessCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);

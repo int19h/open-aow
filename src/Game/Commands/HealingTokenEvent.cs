@@ -38,7 +38,7 @@ public partial class HealingTokenEvent : TokenEvent
         ExecuteResult result;
         Troop source;
         Troop target;
-        HealingAbility ability;
+        Ability ability;
         ImageSequenceAnimation animation;
         sbyte x = default;
         sbyte y = default;
@@ -48,7 +48,7 @@ public partial class HealingTokenEvent : TokenEvent
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
         {
-            ability = (HealingAbility)GamePack.Current.AbilityControl.GetAbility(47);
+            ability = GamePack.Current.AbilityControl.GetAbility(47);
             if (ability.GetEnabled(source))
             {
                 ability.SetEnabled(source, false);

@@ -637,7 +637,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         {
             i -= 1;
             troop = Group.Units.GetUnit(i);
-            result = troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(troop);
+            result = troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility(52).CanCastBreachWallSpell(troop);
         }
 
         return result;

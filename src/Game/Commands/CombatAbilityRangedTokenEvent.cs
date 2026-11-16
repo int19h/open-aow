@@ -6,7 +6,6 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Draw;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
@@ -152,7 +151,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     }
                                     else
                                     {
-                                        _strikeCount = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(_unit.Troop);
+                                        _strikeCount = GamePack.Current.AbilityControl.GetAbility(AbilityId).GetAttackRepeatRangedAttack(_unit.Troop);
                                     }
 
                                     break;
@@ -553,10 +552,10 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         effect.CombatAction = AbilityId == 52
                                                                             ? GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false)
                                                                             : AbilityId == 47
-                                                                                ? ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target)
+                                                                                ? GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateHealingCombatAction(_unit, effect.Target)
                                                                                 : AbilityId == 60
-                                                                                    ? ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target)
-                                                                                    : ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
+                                                                                    ? GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateDispelMagicCombatAction(_unit, effect.Target)
+                                                                                    : GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
 
                                                                         if (effect.CombatAction is DamageCombatAction damage)
                                                                         {
