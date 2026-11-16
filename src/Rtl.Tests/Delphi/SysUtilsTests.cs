@@ -15,7 +15,7 @@ public sealed class SysUtilsTests
             Assert.Equal(91, StrToIntDef(invalid, 91));
             Assert.Equal($"'{invalid}' is not a valid integer value", Assert.Throws<FormatException>(() => StrToInt(invalid)).Message);
         }
-        foreach (var (text, value) in new[] { ("  +42", 42), ("-0", 0), ("$80000000", int.MinValue), ("$abcdef", 0xabcdef), ("00000000", 0), ("0002147483647", int.MaxValue), ("12\0junk", 12), ("$fF\0junk", 255), ("-2147483647", -int.MaxValue) })
+        foreach ((string? text, int value) in new[] { ("  +42", 42), ("-0", 0), ("$80000000", int.MinValue), ("$abcdef", 0xabcdef), ("00000000", 0), ("0002147483647", int.MaxValue), ("12\0junk", 12), ("$fF\0junk", 255), ("-2147483647", -int.MaxValue) })
         {
             Assert.Equal(value, StrToInt(text)); Assert.Equal(value, StrToIntDef(text, 91));
         }
@@ -41,7 +41,7 @@ public sealed class SysUtilsTests
     public void CaseTablesCoverEveryByteAndComparisonsKeepByteDifferences()
     {
         // SYSUTILS.PAS:2171 and :2180 use CP1252 CharUpperBuff and CharLowerBuff.
-        var pairs = Enumerable.Range(65, 26).Select(c => (Upper: c, Lower: c + 32))
+        (int Upper, int Lower)[] pairs = Enumerable.Range(65, 26).Select(c => (Upper: c, Lower: c + 32))
             .Concat(Enumerable.Range(192, 23).Select(c => (Upper: c, Lower: c + 32)))
             .Concat(Enumerable.Range(216, 7).Select(c => (Upper: c, Lower: c + 32)))
             .Concat(new[] { (Upper: 138, Lower: 154), (Upper: 140, Lower: 156), (Upper: 142, Lower: 158), (Upper: 159, Lower: 255) }).ToArray();
@@ -49,7 +49,7 @@ public sealed class SysUtilsTests
         {
             int lower = pairs.Where(p => p.Upper == c).Select(p => p.Lower).DefaultIfEmpty(c).Single();
             int upper = pairs.Where(p => p.Lower == c).Select(p => p.Upper).DefaultIfEmpty(c).Single();
-            var value = Cp1252.Text((byte)c);
+            string value = Cp1252.Text((byte)c);
             Assert.Equal(Cp1252.Text((byte)lower), AnsiLowerCase(value));
             Assert.Equal(Cp1252.Text((byte)upper), AnsiUpperCase(value));
         }
@@ -154,13 +154,13 @@ public sealed class SysUtilsTests
             Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
             Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
-            foreach (var (h, m, s, milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) })
+            foreach ((int h, int m, int s, int milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) })
             {
                 Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
             }
         }
         finally { Clock = saved; }
-        var system = new SystemClock();
+        SystemClock system = new();
         Assert.InRange((DateTime.Now - system.Now).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));
         Assert.InRange((DateTime.UtcNow - system.UtcNow).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));
         uint systemTick = system.TickCount;

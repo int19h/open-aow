@@ -15,7 +15,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
 
     private string Write(string censusSha)
     {
-        var census = Encoding.UTF8.GetBytes("{\"corpus\": [], \"summary\": {\"unexplainedSites\": 0}}");
+        byte[] census = Encoding.UTF8.GetBytes("{\"corpus\": [], \"summary\": {\"unexplainedSites\": 0}}");
         File.WriteAllBytes(Path.Combine(_directory, "census.json"), census);
         string sha = censusSha == "actual" ? System.Convert.ToHexStringLower(SHA256.HashData(census)) : censusSha;
         string path = Path.Combine(_directory, "expect.json");
@@ -38,8 +38,8 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     [Fact]
     public void MatchingCountsHaveNoDrift()
     {
-        var (_, expectation) = Expectation.Load(Write("actual"));
-        var problems = expectation!.Compare(3, 2,
+        (CensusFacts _, Expectation? expectation) = Expectation.Load(Write("actual"));
+        List<string> problems = expectation!.Compare(3, 2,
             new(StringComparer.Ordinal) { ["gaps"] = 1, ["table-form-order"] = 2 },
             new(StringComparer.Ordinal) { ["world-hsm"] = (3, 2) },
             Rules("install:Scenario/Campaign/Valley01.CSM"), 0);
@@ -49,8 +49,8 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     [Fact]
     public void EveryDifferenceIsDrift()
     {
-        var (_, expectation) = Expectation.Load(Write("actual"));
-        var problems = expectation!.Compare(4, 2,
+        (CensusFacts _, Expectation? expectation) = Expectation.Load(Write("actual"));
+        List<string> problems = expectation!.Compare(4, 2,
             new(StringComparer.Ordinal) { ["gaps"] = 2, ["table-form-order"] = 2 },
             new(StringComparer.Ordinal) { ["world-hsm"] = (4, 2), ["tactical-hsm"] = (0, 0) },
             Rules("install:Scenario/Campaign/Valley01.CSM", "install:Scenario/Campaign/Other.csm"), 1);
@@ -65,7 +65,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     [Fact]
     public void AChangedCensusIsRefused()
     {
-        var error = Assert.Throws<ExpectationException>(() => Expectation.Load(Write(new string('0', 64))));
+        ExpectationException error = Assert.Throws<ExpectationException>(() => Expectation.Load(Write(new string('0', 64))));
         Assert.Contains("pinned SHA-256", error.Message);
     }
 
@@ -73,7 +73,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     public void ACensusAloneHasNoLayoutPin()
     {
         Write("actual");
-        var (census, expectation) = Expectation.Load(Path.Combine(_directory, "census.json"));
+        (CensusFacts? census, Expectation? expectation) = Expectation.Load(Path.Combine(_directory, "census.json"));
         Assert.Null(expectation);
         Assert.Empty(census.Rows);
     }

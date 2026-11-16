@@ -59,10 +59,10 @@ public sealed class DelphiListGenericTests
     [Fact]
     public void QuickSortFollowsTheOriginalAndStableSortKeepsOrder()
     {
-        var first = new object();
-        var second = new object();
-        var third = new object();
-        var list = new DelphiList<object>();
+        object first = new();
+        object second = new();
+        object third = new();
+        DelphiList<object> list = new();
         list.Add(first);
         list.Add(second);
         list.Add(third);
@@ -83,19 +83,19 @@ public sealed class DelphiListGenericTests
             foreach (int n in new[] { 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32 })
             {
                 Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new Keyed(i, pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }))];
-                var sorted = new DelphiList<Keyed>();
-                foreach (var key in keys)
+                DelphiList<Keyed> sorted = new();
+                foreach (Keyed key in keys)
                 {
                     sorted.Add(key);
                 }
 
                 sorted.Sort((a, b) => a!.Key - b!.Key);
-                var expected = keys.ToArray();
+                Keyed[] expected = keys.ToArray();
                 ReferenceQuickSort(expected, left: 0, right: n - 1, (a, b) => a.Key - b.Key);
                 Assert.Equal(expected, sorted.List.Take(n));
 
-                var stable = new DelphiList<Keyed>();
-                foreach (var key in keys)
+                DelphiList<Keyed> stable = new();
+                foreach (Keyed key in keys)
                 {
                     stable.Add(key);
                 }
@@ -112,9 +112,9 @@ public sealed class DelphiListGenericTests
         foreach (int n in new[] { 1, 2, 5, 9, 17, 32 })
         {
             Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new DerivedKeyed(i, (n - i) % 5))];
-            var plain = new DelphiList<Keyed>();
-            var narrowed = new DelphiList<Keyed>();
-            foreach (var key in keys)
+            DelphiList<Keyed> plain = new();
+            DelphiList<Keyed> narrowed = new();
+            foreach (Keyed key in keys)
             {
                 plain.Add(key);
                 narrowed.Add(key);
@@ -133,7 +133,7 @@ public sealed class DelphiListGenericTests
         try
         {
             ListSortCompare<DerivedKeyed> compare = (a, b) => a!.Id - b!.Id;
-            var list = new DelphiList<Keyed>();
+            DelphiList<Keyed> list = new();
             list.Add(new DerivedKeyed(id: 1, key: 0));
             list.Sort(compare);
             Assert.Same(compare, traced);
@@ -147,10 +147,10 @@ public sealed class DelphiListGenericTests
     [Fact]
     public void RemoveReturnsTheIndexAndLeavesTheSpareSlot()
     {
-        var a = new object();
-        var b = new object();
-        var c = new object();
-        var list = new DelphiList<object>();
+        object a = new();
+        object b = new();
+        object c = new();
+        DelphiList<object> list = new();
         list.Add(a);
         list.Add(b);
         list.Add(c);
@@ -176,26 +176,26 @@ public sealed class DelphiListGenericTests
         list.Expand();
         Assert.Equal(6, list.Capacity);
 
-        var present = new Identical();
-        var equal = new Identical();
-        var identities = new DelphiList<Identical>();
+        Identical present = new();
+        Identical equal = new();
+        DelphiList<Identical> identities = new();
         identities.Add(present);
         Assert.Equal(-1, identities.IndexOf(equal));
         Assert.Equal(0, identities.IndexOf(present));
         Assert.Equal(0, identities.Remove(present));
 
-        var records = Ptr<int>.Alloc(2);
-        var alias = new PtrBox<int>(records + 1);
-        var sameAlias = new PtrBox<int>(records + 1);
-        var other = new PtrBox<int>(records);
-        var boxes = new DelphiList<PtrBox<int>>();
+        Ptr<int> records = Ptr<int>.Alloc(2);
+        PtrBox<int> alias = new(records + 1);
+        PtrBox<int> sameAlias = new(records + 1);
+        PtrBox<int> other = new(records);
+        DelphiList<PtrBox<int>> boxes = new();
         boxes.Add(alias);
         Assert.Equal(0, boxes.IndexOf(sameAlias));
         Assert.Equal(-1, boxes.IndexOf(other));
         Assert.Equal(0, boxes.Remove(sameAlias));
         Assert.Same(alias, boxes.List[0]);
 
-        var empty = new DelphiList<object>();
+        DelphiList<object> empty = new();
         Assert.Equal("List index out of bounds (0)", Assert.Throws<ArgumentOutOfRangeException>(() => empty.Delete(0)).Message);
         empty.Add(a);
         empty.Count = 3;

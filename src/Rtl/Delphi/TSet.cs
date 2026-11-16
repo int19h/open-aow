@@ -56,7 +56,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
             throw new InvalidOperationException("Set elements require an enum or byte");
         }
 
-        var values = Enum.GetValues(typeof(E)).Cast<E>().Select(Ordinal).ToArray();
+        int[] values = Enum.GetValues(typeof(E)).Cast<E>().Select(Ordinal).ToArray();
         return values.Length == 0 ? (0, 63) : (values.Min(), values.Max());
     }
 
@@ -109,7 +109,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
             throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
         }
 
-        var result = this;
+        Set<E> result = this;
         for (int i = first; i <= last; i++)
         {
             result = result.SetBit(i, true);

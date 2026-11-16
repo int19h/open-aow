@@ -13,10 +13,10 @@ public static class Cfs
     /// <summary>Inflates a zlib stream, refusing more than the limit before allocating it.</summary>
     public static byte[] Inflate(ReadOnlySpan<byte> zlib, long limit, Func<string, Exception> fail)
     {
-        using var input = new MemoryStream(zlib.ToArray(), false);
-        using var z = new ZLibStream(input, CompressionMode.Decompress);
-        using var output = new MemoryStream();
-        var buffer = new byte[81920];
+        using MemoryStream input = new(zlib.ToArray(), false);
+        using ZLibStream z = new(input, CompressionMode.Decompress);
+        using MemoryStream output = new();
+        byte[] buffer = new byte[81920];
         try
         {
             int read;
@@ -40,9 +40,9 @@ public static class Cfs
     /// <summary>Inflates at most count leading bytes.</summary>
     public static byte[] InflatePrefix(ReadOnlySpan<byte> zlib, int count)
     {
-        using var input = new MemoryStream(zlib.ToArray(), false);
-        using var z = new ZLibStream(input, CompressionMode.Decompress);
-        var buffer = new byte[count];
+        using MemoryStream input = new(zlib.ToArray(), false);
+        using ZLibStream z = new(input, CompressionMode.Decompress);
+        byte[] buffer = new byte[count];
         int total = 0, read;
         while (total < count && (read = z.Read(buffer, total, count - total)) > 0)
         {
@@ -54,8 +54,8 @@ public static class Cfs
 
     public static byte[] Deflate(ReadOnlySpan<byte> payload, int level)
     {
-        using var output = new MemoryStream();
-        using (var z = new ZLibStream(output, level switch
+        using MemoryStream output = new();
+        using (ZLibStream z = new(output, level switch
         {
             1 => CompressionLevel.Fastest,
             3 => CompressionLevel.SmallestSize,
@@ -71,8 +71,8 @@ public static class Cfs
     /// <summary>The five-byte prefix and the payload, compressed for levels 1 to 3.</summary>
     public static byte[] Wrap(ReadOnlySpan<byte> payload, int level)
     {
-        var body = level == 0 ? payload.ToArray() : Deflate(payload, level);
-        var result = new byte[5 + body.Length];
+        byte[] body = level == 0 ? payload.ToArray() : Deflate(payload, level);
+        byte[] result = new byte[5 + body.Length];
         Magic.CopyTo(result);
         result[4] = (byte)level;
         body.CopyTo(result, 5);
@@ -87,7 +87,7 @@ public static class Crc32
 
     private static uint[] Make()
     {
-        var table = new uint[256];
+        uint[] table = new uint[256];
         for (uint i = 0; i < 256; i++)
         {
             uint c = i;

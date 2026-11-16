@@ -66,7 +66,7 @@ internal sealed class DocumentSite
 
     public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null)
     {
-        var error = TreeErrors.Fail(code, message, Path, at, value, constraint);
+        ConversionException error = TreeErrors.Fail(code, message, Path, at, value, constraint);
         if (Context.File is null || error.Diagnostic.File is not null)
         {
             return error;

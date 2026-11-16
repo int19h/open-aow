@@ -11,20 +11,20 @@ internal static class PilotImage
 {
     public static JsonObject Decode(byte[] image, string className, string engine = "game")
     {
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(className);
-        var context = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
-        var objectValue = new JsonObject();
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(className);
+        DecodeContext context = new(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
+        JsonObject objectValue = new();
         ObjectImage.Decode(context, 0, image.Length, classValue, DocumentNodePath.Root, objectValue);
         return objectValue;
     }
 
     public static byte[] Encode(JsonObject objectValue, string className, string engine = "game")
     {
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(className);
-        var context = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
-        var output = new ByteBuffer();
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(className);
+        EncodeContext context = new(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
+        ByteBuffer output = new();
         ObjectImage.Encode(context, objectValue, classValue, output, DocumentNodePath.Root, "$class", "$slot");
         return output.ToArray();
     }

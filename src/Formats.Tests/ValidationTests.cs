@@ -19,8 +19,8 @@ public sealed class ValidationTests : FormatsTest
                 yield break;
             }
 
-            var players = (JsonArray)((JsonObject)context.Root["Players"]!)["Children"]!;
-            var slots = players.Items.Select(p => ((JsonInteger)((JsonObject)p)["$slot"]!).Value).ToHashSet();
+            JsonArray players = (JsonArray)((JsonObject)context.Root["Players"]!)["Children"]!;
+            HashSet<long> slots = players.Items.Select(p => ((JsonInteger)((JsonObject)p)["$slot"]!).Value).ToHashSet();
             if (!slots.Contains(current.Value))
             {
                 yield return context.At(Codes.Reference,
@@ -32,7 +32,7 @@ public sealed class ValidationTests : FormatsTest
 
     private static JsonObject Map()
     {
-        var bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, "Scenario", "Custom", "Mountain Clash.hsm"));
+        byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, "Scenario", "Custom", "Mountain Clash.hsm"));
         return GameFiles.Read(GameFiles.Write(GameFiles.Import(bytes, FileProfile.Find("world-hsm")!, "map").Document)).Document;
     }
 
@@ -42,9 +42,9 @@ public sealed class ValidationTests : FormatsTest
     [GameFact]
     public void ADanglingReferenceIsLocatedAndNamesItsDomain()
     {
-        var text = GameFiles.Write(Map()).AsSpan().ToArray();
-        var edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
-        var finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
+        byte[] text = GameFiles.Write(Map()).AsSpan().ToArray();
+        string edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
         Assert.Equal(Codes.Reference, finding.Code);
         Assert.Equal("root.CurrentPlayer", finding.Path);
         Assert.Equal(12, finding.Span.Line);
@@ -56,21 +56,21 @@ public sealed class ValidationTests : FormatsTest
     [GameFact]
     public void RemovingAReferencedChildIsRefusedAtTheReference()
     {
-        var document = Map();
-        var root = (JsonObject)document["root"]!;
+        JsonObject document = Map();
+        JsonObject root = (JsonObject)document["root"]!;
         root.Members.Insert(1, new JsonMember("CurrentPlayer", new JsonInteger(1)));
-        var players = (JsonArray)((JsonObject)root["Players"]!)["Children"]!;
+        JsonArray players = (JsonArray)((JsonObject)root["Players"]!)["Children"]!;
         players.Items.RemoveAt(1);
-        var finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
         Assert.Equal("root.CurrentPlayer", finding.Path);
     }
 
     [GameFact]
     public void StructuralErrorsComeBeforeContentValidators()
     {
-        var document = Map();
+        JsonObject document = Map();
         ((JsonObject)document["root"]!).Add("NoSuchMember", new JsonInteger(1));
-        var finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
         Assert.Equal(Codes.UnknownMember, finding.Code);
     }
 
@@ -79,10 +79,10 @@ public sealed class ValidationTests : FormatsTest
     [GameFact]
     public void PortOnlyItemsAreValidAndTheOriginalExportRefusesThem()
     {
-        var document = Map();
-        var children = (JsonArray)((JsonObject)document["root"]!)["Children"]!;
+        JsonObject document = Map();
+        JsonArray children = (JsonArray)((JsonObject)document["root"]!)["Children"]!;
         long slot = 0;
-        foreach (var item in children.Items)
+        foreach (JsonValue item in children.Items)
         {
             if (item is JsonObject child && child["$slot"] is JsonInteger number && number.Value >= slot)
             {
@@ -90,18 +90,18 @@ public sealed class ValidationTests : FormatsTest
             }
         }
 
-        var blade = new JsonObject()
+        JsonObject blade = new JsonObject()
             .Add("$class", new JsonString("Item"))
             .Add("$slot", new JsonInteger(0))
             .Add("Name", new JsonString("Blade"))
             .Add("ItemId", new JsonInteger(7));
-        var prisoners = new JsonObject().Add("Items", new JsonObject().Add("Children", new JsonArray().Add(blade)));
+        JsonObject prisoners = new JsonObject().Add("Items", new JsonObject().Add("Children", new JsonArray().Add(blade)));
         children.Items.Add(new JsonObject()
             .Add("$class", new JsonString("Dungeon"))
             .Add("$slot", new JsonInteger(slot))
             .Add("Prisoners", prisoners));
         Assert.Empty(DocumentValidation.Run(document, []));
-        var error = Assert.Throws<ConversionException>(() => GameFiles.Export(document));
+        ConversionException error = Assert.Throws<ConversionException>(() => GameFiles.Export(document));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.EndsWith(".Items", error.Diagnostic.Path);
         Assert.Contains("PrisonersArmy.Items", error.Diagnostic.Message);

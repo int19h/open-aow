@@ -3,6 +3,7 @@ using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Platform;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 
 namespace Aow;
 
@@ -10,12 +11,12 @@ internal static class FrameVerification
 {
     public static void Run(string directory)
     {
-        var clock = new FixtureClock(new(2000, 1, 1));
-        var savedClock = RtlUnit.Clock;
+        FixtureClock clock = new(new(2000, 1, 1));
+        IClock savedClock = RtlUnit.Clock;
         RtlUnit.Clock = clock;
-        var host = new TestHost();
-        var display = new TestDisplay();
-        var controller = new SdlDisplayController(host);
+        TestHost host = new();
+        TestDisplay display = new();
+        SdlDisplayController controller = new(host);
         int checks = 0;
         void Check(bool success, string label)
         {
@@ -31,8 +32,8 @@ internal static class FrameVerification
             display.EventSink = host;
             Check(display.ActivateDisplayController(controller) == 0, "activation");
             Check(controller.GetStatus().Contains(DisplayControllerStatusElement.Activated) && controller.GetStatus().Contains(DisplayControllerStatusElement.Windowed), "controller status");
-            var screen = controller.GetSurface(0);
-            var back = controller.GetSurface(1);
+            Surface screen = controller.GetSurface(0);
+            Surface back = controller.GetSurface(1);
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
             LockedSurface lockedSurface = default;
@@ -66,12 +67,12 @@ internal static class FrameVerification
             Check(!display.Status.Contains(DisplayStatusElement.FrameLoopPaused), "balanced resume");
             Check(display.SwapDisplayController() == 0 && host.Fullscreen && ReferenceEquals(back, controller.GetSurface(1)), "fullscreen keeps surface pixels");
 
-            var recorder = new HeadlessDisplayHost(directory);
+            HeadlessDisplayHost recorder = new(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
             lockedSurface = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = pixels, DataIndex = 6 };
             recorder.Present(lockedSurface);
             Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
-            using var metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));
+            using JsonDocument metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));
             Check(metadata.RootElement.GetProperty("frame").GetInt32() == 1 && metadata.RootElement.GetProperty("pitch").GetInt32() == 4, "frame metadata");
         }
         finally

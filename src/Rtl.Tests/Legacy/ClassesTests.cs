@@ -15,8 +15,8 @@ public sealed class ClassesTests
     public void ListPropertiesAndErrorsFollowSource()
     {
         // CLASSES.PAS:1435..1619, including pointer identity and Count's zero fill.
-        var first = new Identical(); var equal = new Identical();
-        var l = new DelphiList<Identical>();
+        Identical first = new(); Identical equal = new();
+        DelphiList<Identical> l = new();
         Assert.Throws<ArgumentOutOfRangeException>(() => l.First()); Assert.Throws<ArgumentOutOfRangeException>(() => l.Last());
         Assert.Throws<ArgumentOutOfRangeException>(() => l[-1]); Assert.Throws<ArgumentOutOfRangeException>(() => l[0] = first);
         Assert.Throws<ArgumentOutOfRangeException>(() => l.Count = -1); Assert.Throws<ArgumentOutOfRangeException>(() => l.Capacity = -1);
@@ -50,7 +50,7 @@ public sealed class ClassesTests
     public void PersistentAssignDispatchAndNamePaths()
     {
         using         // CLASSES.PAS:1817..1857.
-                var target = new Persistent(); var source = new Assigned();
+                Persistent target = new(); Assigned source = new();
         target.Assign(source); Assert.Same(target, source.Target);
         Assert.Equal("Cannot assign a nil to a Persistent", Assert.Throws<FormatException>(() => target.Assign(null)).Message);
         Assert.Equal("Cannot assign a Persistent to a Persistent", Assert.Throws<FormatException>(() => target.Assign(new Persistent())).Message);
@@ -81,9 +81,9 @@ public sealed class ClassesTests
     public void ComponentsValidateNamesAndExposeSourceParentHooks()
     {
         // CLASSES.PAS:6170..6329. Parent and child hooks are empty in TComponent itself.
-        var owner = new Component(null!) { Name = "Root", Tag = 42 };
-        var first = new Component(owner) { Name = "A_1" };
-        var second = new Component(owner) { Name = "B" };
+        Component owner = new(null!) { Name = "Root", Tag = 42 };
+        Component first = new(owner) { Name = "A_1" };
+        Component second = new(owner) { Name = "B" };
         Assert.Same(owner, first.Owner); Assert.Same(owner, first.GetOwner());
         Assert.Equal(2, owner.ComponentCount); Assert.Same(first, owner.Components[0]);
         Assert.Equal(42, owner.Tag); Assert.Equal("A_1", first.GetNamePath());
@@ -104,7 +104,7 @@ public sealed class ClassesTests
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        using var duplicate = new Component(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        using Component duplicate = new(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
         owner.Dispose();
     }
@@ -113,26 +113,26 @@ public sealed class ClassesTests
     public void ComponentDestructionNotifiesThenMarksThenDestroysLastChildFirst()
     {
         // CLASSES.PAS:6024..6052 and :6112..6154.
-        var log = new List<string>();
-        var root = new Watched(log) { Name = "root" }; var a = new Watched(log) { Name = "a" }; var b = new Watched(log) { Name = "b" }; var observer = new Watched(log) { Name = "observer" };
+        List<string> log = new();
+        Watched root = new(log) { Name = "root" }; Watched a = new(log) { Name = "a" }; Watched b = new(log) { Name = "b" }; Watched observer = new(log) { Name = "observer" };
         root.InsertComponent(a); root.InsertComponent(b); root.FreeNotification(observer); root.FreeNotification(observer); log.Clear();
         root.Dispose();
         Assert.Equal(new[] { "destroy root owner= state=False", "notify observer root Remove destroying=False", "destroy b owner= state=True", "destroy a owner= state=True" }, log);
         Assert.True(root.ComponentState.Contains(ComponentState.Destroying)); Assert.True(a.ComponentState.Contains(ComponentState.Destroying));
         Assert.False(root.ComponentState.Contains(ComponentState.Designing));
         log.Clear(); observer.Dispose(); Assert.Single(log);
-        var loading = new Watched(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(ComponentState.Loading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(ComponentState.Loading));
-        var owner = new Component(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
+        Watched loading = new(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(ComponentState.Loading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(ComponentState.Loading));
+        Component owner = new(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
         a.Dispose(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a Remove", StringComparison.Ordinal)); owner.Dispose();
-        using var tree = new Component(null!); var leaf = new Component(new Component(tree)); tree.Destroying(); tree.Destroying();
+        using Component tree = new(null!); Component leaf = new(new Component(tree)); tree.Destroying(); tree.Destroying();
         Assert.True(leaf.ComponentState.Contains(ComponentState.Destroying));
     }
 
     [Fact]
     public void ComponentConstructorInsertsAndDestroyRemovesOwnerMembership()
     {
-        using var owner = new Component(null!);
-        var instance = new Component(owner);
+        using Component owner = new(null!);
+        Component instance = new(owner);
         Assert.Same(owner, instance.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(instance, owner.Components[0]);

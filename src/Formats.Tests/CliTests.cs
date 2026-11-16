@@ -15,8 +15,8 @@ public sealed class CliTests : FormatsTest, IDisposable
 
     private (int Code, string Output, string Errors) Run(params string[] arguments)
     {
-        var output = new StringWriter();
-        var errors = new StringWriter();
+        StringWriter output = new();
+        StringWriter errors = new();
         int code = Program.Run(arguments, output, errors);
         return (code, output.ToString(), errors.ToString());
     }
@@ -36,7 +36,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void AnExistingDestinationNeedsOverwrite()
     {
         File.WriteAllText(In("a.ahl"), "keep");
-        var refused = Run("to-own", HeroList, In("a.ahl"));
+        (int Code, string Output, string Errors) refused = Run("to-own", HeroList, In("a.ahl"));
         Assert.Equal(Program.Error, refused.Code);
         Assert.Contains("--overwrite", refused.Errors);
         Assert.Equal("keep", File.ReadAllText(In("a.ahl")));
@@ -61,7 +61,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void AFailedConversionWritesNothing()
     {
         File.WriteAllBytes(In("bad.ahl"), [1, 0, 0, 1, 99, 0, 5, 0, 0, 0]);
-        var result = Run("to-own", In("bad.ahl"), In("out.ahl"));
+        (int Code, string Output, string Errors) result = Run("to-own", In("bad.ahl"), In("out.ahl"));
         Assert.Equal(Program.Error, result.Code);
         Assert.Contains("E_UNKNOWN_PROPERTY", result.Errors);
         Assert.False(File.Exists(In("out.ahl")));
@@ -72,7 +72,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void NormalizeWritesASeparateOutput()
     {
         Run("to-own", HeroList, In("a.ahl"));
-        var before = File.ReadAllBytes(In("a.ahl"));
+        byte[] before = File.ReadAllBytes(In("a.ahl"));
         Assert.Equal(Program.Success, Run("normalize", In("a.ahl"), In("n.ahl")).Code);
         Assert.Equal(before, File.ReadAllBytes(In("a.ahl")));
         Assert.Equal(before, File.ReadAllBytes(In("n.ahl")));
@@ -82,7 +82,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [Fact]
     public void ExactLayoutConflictsWithLossyExport()
     {
-        var result = Run("to-original", "a", "b", "--exact-layout", "--allow-lossy");
+        (int Code, string Output, string Errors) result = Run("to-original", "a", "b", "--exact-layout", "--allow-lossy");
         Assert.Equal(Program.Error, result.Code);
         Assert.Contains("conflicts", result.Errors);
     }
@@ -93,13 +93,13 @@ public sealed class CliTests : FormatsTest, IDisposable
         Directory.CreateDirectory(In("in"));
         File.Copy(HeroList, Path.Combine(In("in"), "h.ahl"));
         Assert.Equal(Program.Error, Run("to-own", "--dir", In("in"), "--out", Path.Combine(In("in"), "out")).Code);
-        var result = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        (int Code, string Output, string Errors) result = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("1 converted, 0 failed, 0 skipped", result.Output);
         // A derived output name takes the own extension on import and the original one on export.
         Assert.True(File.Exists(Path.Combine(In("out"), "h.oahl")));
         Assert.False(File.Exists(Path.Combine(In("out"), "h.ahl")));
-        var back = Run("to-original", "--dir", In("out"), "--out", In("back"));
+        (int Code, string Output, string Errors) back = Run("to-original", "--dir", In("out"), "--out", In("back"));
         Assert.Equal(Program.Success, back.Code);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
         Assert.Single(Directory.GetFiles(In("back")));
@@ -121,10 +121,10 @@ public sealed class CliTests : FormatsTest, IDisposable
     {
         Directory.CreateDirectory(In("in"));
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.oahl")).Code);
-        var import = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        (int Code, string Output, string Errors) import = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Contains("0 converted, 0 failed, 1 skipped", import.Output);
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
-        var export = Run("to-original", "--dir", In("in"), "--out", In("back"));
+        (int Code, string Output, string Errors) export = Run("to-original", "--dir", In("in"), "--out", In("back"));
         Assert.NotEqual(Program.Success, export.Code);
         Assert.Contains("exports to the same name as", export.Errors);
         Assert.Single(Directory.GetFiles(In("back")));
@@ -144,7 +144,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void CheckReportsOwnDocuments()
     {
         Run("to-own", HeroList, In("a.ahl"));
-        var result = Run("check", In("a.ahl"));
+        (int Code, string Output, string Errors) result = Run("check", In("a.ahl"));
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("Corpus: 0 original files", result.Output);
         Assert.Contains("Own: all eligible documents G-own equal", result.Output);
@@ -153,7 +153,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void InfoReportsProfileKindAndResidue()
     {
-        var result = Run("info", HeroList);
+        (int Code, string Output, string Errors) result = Run("info", HeroList);
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("Profile: hero-list, kind hero-list, version " + OwnFormat.CurrentVersion, result.Output);
         Assert.Contains("Residue: 0 layout parts", result.Output);

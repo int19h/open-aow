@@ -22,12 +22,12 @@ public sealed class LayoutCounts
     {
         Parts += other.Parts;
         Objects += other.Objects;
-        foreach (var (k, v) in other.Categories)
+        foreach ((string? k, int v) in other.Categories)
         {
             Categories[k] = Categories.GetValueOrDefault(k) + v;
         }
 
-        foreach (var (k, v) in other.LegacyRules)
+        foreach ((string? k, int v) in other.LegacyRules)
         {
             LegacyRules[k] = LegacyRules.GetValueOrDefault(k) + v;
         }
@@ -179,7 +179,7 @@ public sealed class PropertyTable
 
     public static PropertyTable Read(DecodeContext context, int start, int end, DocumentNodePath path)
     {
-        var data = context.Data;
+        byte[] data = context.Data;
         context.Need(start, 1, end, path, "property table");
         int at = start;
         int shortCount = data[at++];
@@ -204,7 +204,7 @@ public sealed class PropertyTable
             throw context.Fail(Codes.Truncated, "A property table runs past the end of its object.", start, path);
         }
 
-        var entries = new List<TableEntry>(shortCount + longCount);
+        List<TableEntry> entries = new(shortCount + longCount);
         for (int i = 0; i < shortCount; i++, at += 2)
         {
             entries.Add(new TableEntry(data[at], data[at + 1], false, i));
@@ -216,7 +216,7 @@ public sealed class PropertyTable
         }
 
         int length = end - at;
-        foreach (var e in entries)
+        foreach (TableEntry e in entries)
         {
             if (e.Offset < 0 || e.Offset > length)
             {
@@ -233,7 +233,7 @@ public sealed class PropertyTable
     public static void WriteCanonical(ByteBuffer output, IReadOnlyList<(int Id, int Offset)> entries, DocumentNodePath path, EncodeContext context)
     {
         int shortCount = 0, longCount = 0;
-        foreach (var (id, offset) in entries)
+        foreach ((int id, int offset) in entries)
         {
             if (IsShort(id, offset))
             {
@@ -260,7 +260,7 @@ public sealed class PropertyTable
             output.Byte((byte)shortCount);
         }
 
-        foreach (var (id, offset) in entries)
+        foreach ((int id, int offset) in entries)
         {
             if (IsShort(id, offset))
             {
@@ -269,7 +269,7 @@ public sealed class PropertyTable
             }
         }
 
-        foreach (var (id, offset) in entries)
+        foreach ((int id, int offset) in entries)
         {
             if (!IsShort(id, offset))
             {

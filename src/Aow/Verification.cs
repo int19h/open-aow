@@ -50,7 +50,7 @@ internal static class Verification
 
     public static unsafe void QueueClose()
     {
-        var ev = new SDL_Event { type = (uint)SDL_EventType.SDL_EVENT_QUIT };
+        SDL_Event ev = new() { type = (uint)SDL_EventType.SDL_EVENT_QUIT };
         if (!SDL3.SDL_PushEvent(&ev))
         {
             throw new InvalidOperationException(SDL3.SDL_GetError());
@@ -80,7 +80,7 @@ internal static class Verification
             (224,17),(225,16),(226,18),(227,91),(228,17),(229,16),(230,18),(231,92),
             (155,3),(156,12),(158,13),(163,247),(164,248),(258,95),(267,176),(268,177),(269,178),(271,179),(272,181),
             (280,170),(281,172),(282,166),(283,167),(284,169),(285,168),(286,171)];
-        foreach (var (scan, key) in keys)
+        foreach ((int scan, ushort key) in keys)
         {
             Equal(key, InputMapper.VirtualKey(0, scan), "scancode " + scan);
         }
@@ -101,8 +101,8 @@ internal static class Verification
         }
 
         Equal((ushort)0, InputMapper.VirtualKey(0, 0), "unknown key");
-        var sink = new Events();
-        var mapper = new InputMapper();
+        Events sink = new();
+        InputMapper mapper = new();
         foreach (int scan in new[] { 40, 42, 41, 43 })
         {
             mapper.Key(0, scan, 3 | 192 | 768, true, sink);
@@ -118,7 +118,7 @@ internal static class Verification
         sink.Characters.Clear();
         InputMapper.Text("Aé€Ÿ😀中\r\n", sink);
         Check(sink.Characters.SequenceEqual(new byte[] { 65, 233, 128, 159 }), "CP1252 text and dropped characters");
-        var viewport = DisplayViewport.Fit(640, 480, 1400, 1000);
+        DisplayViewport viewport = DisplayViewport.Fit(640, 480, 1400, 1000);
         Equal((0, 0, true), viewport.Map(60, 20), "letterbox origin");
         Equal((639, 479, true), viewport.Map(1339, 979), "last scaled pixel");
         Equal((639, 479, true), viewport.Map(1340, 980), "bottom right margin maps to the last pixel");
@@ -128,19 +128,19 @@ internal static class Verification
         Equal((-1, -1, false), viewport.Map(1400, 500), "right of the output is outside");
         Equal((-1, -1, false), viewport.Map(-1, 500), "left of the output is outside");
         Equal((-1, -1, false), viewport.Map(500, 1000), "below the output is outside");
-        var sizes = PixelFormats.IntegerScaleSizes(3840, 2160);
+        IReadOnlyList<(int Width, int Height)> sizes = PixelFormats.IntegerScaleSizes(3840, 2160);
         Check(sizes.SequenceEqual(new[] { (960, 540), (1280, 720), (1920, 1080), (3840, 2160) }), "integer scale sizes of 3840x2160");
         Check(PixelFormats.IntegerScaleSizes(1920, 1200).SequenceEqual(new[] { (960, 600), (1920, 1200) }), "integer scale sizes of 1920x1200");
         Check(PixelFormats.IntegerScaleSizes(2560, 1440).SequenceEqual(new[] { (853, 480), (1280, 720), (2560, 1440) }), "uneven division rounds down");
         Check(PixelFormats.IntegerScaleSizes(640, 480).SequenceEqual(new[] { (640, 480) }), "smallest desktop");
-        var fullscreen = DisplayViewport.Fit(1280, 720, 2560, 1440);
+        DisplayViewport fullscreen = DisplayViewport.Fit(1280, 720, 2560, 1440);
         Equal((2, 0, 0), (fullscreen.Scale, fullscreen.Left, fullscreen.Top), "a listed size fills the desktop at its scale");
         mapper.Motion(60, 20, 1, viewport, sink);
         mapper.Motion(-5, -5, 0, viewport, sink);
         mapper.Motion(-5, -5, 0, viewport, sink);
         Equal(2, sink.Moves.Count, "one leave notification");
         Equal((-1, -1), sink.Moves[^1], "leave coordinates");
-        var one = DisplayViewport.Fit(640, 480, 640, 480);
+        DisplayViewport one = DisplayViewport.Fit(640, 480, 640, 480);
         mapper.Reset(); sink.ConstructionTrace.Clear();
         mapper.SetModifiers(3 | 192 | 768);
         mapper.Button(1, true, 100, 10, 10, one, sink);
@@ -173,11 +173,11 @@ internal static class Verification
     private static void SettingsTests()
     {
         string directory = Path.Combine(s_scratch, "settings");
-        var oldSettings = RtlUnit.Settings;
+        ISettingsStore? oldSettings = RtlUnit.Settings;
         try
         {
             RtlUnit.Settings = new JsonSettingsStore(directory);
-            var registry = new GameSettings();
+            GameSettings registry = new();
             Equal(0xffUL, registry.GetClassicWindowPopupEvents().Mask, "classic popup default");
             Equal(0xefUL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup default");
             registry.SetClassicWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x81));
@@ -194,7 +194,7 @@ internal static class Verification
             Equal(480, registry.GetDisplayHeight(), "missing height default");
             Equal(50, registry.GetMusicVolume(), "missing volume default");
             Equal(false, registry.GetSkipIntro(), "missing bool default");
-            var schemas = new (string Section, string Kind, string[] Names)[]
+            (string Section, string Kind, string[] Names)[] schemas = new (string Section, string Kind, string[] Names)[]
             {
                 ("General","boolean",["Debug Mode","Skip Intro","Auto Save","Auto Debug Save","Fast Movement Enabled","Log Token Events"]),
                 ("General","integer",["Language"]),
@@ -211,7 +211,7 @@ internal static class Verification
                 ("General/rectangles","rectangle",["1"]),("General/booleans","boolean",["1"]),("General/strings","string",["1"]),("General/integers","integer",["1"])
             };
             int count = 0;
-            foreach (var (section, kind, names) in schemas)
+            foreach ((string? section, string? kind, string[]? names) in schemas)
             {
                 foreach (string name in names)
                 {
@@ -226,7 +226,7 @@ internal static class Verification
                 }
             }
 
-            foreach (var (section, kind, names) in schemas)
+            foreach ((string? section, string? kind, string[]? names) in schemas)
             {
                 foreach (string name in names)
                 {
@@ -246,7 +246,7 @@ internal static class Verification
 
             RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
-            foreach (var (section, kind, names) in schemas)
+            foreach ((string? section, string? kind, string[]? names) in schemas)
             {
                 foreach (string name in names)
                 {
@@ -269,7 +269,7 @@ internal static class Verification
             Equal(true, registry.GetMusicEnabled(), "transpiled boolean getter");
             Equal("é test €", registry.GetLocalEmailAddress(), "transpiled string getter");
             Equal((byte)0xA5, (byte)registry.GetMovementSpeed(), "transpiled binary getter");
-            var store = (JsonSettingsStore)RtlUnit.Settings;
+            JsonSettingsStore store = (JsonSettingsStore)RtlUnit.Settings;
             store.Write("Software/Classes/AgeOfWondersMap", "ignored");
             Check(store.Read("Software/Classes/AgeOfWondersMap") is null, "association ignored");
             byte[] original = [1, 2]; store.Write("General/copy", original); original[0] = 9;
@@ -284,15 +284,15 @@ internal static class Verification
 
     private static void Write(IFileSystem files, string name, string value, int mode = RtlUnit.fmCreate)
     {
-        using var stream = files.Open(name, mode);
-        using var writer = new StreamWriter(stream);
+        using Stream stream = files.Open(name, mode);
+        using StreamWriter writer = new(stream);
         writer.Write(value);
     }
 
     private static string Read(IFileSystem files, string name)
     {
-        using var stream = files.Open(name, RtlUnit.fmOpenRead);
-        using var reader = new StreamReader(stream);
+        using Stream stream = files.Open(name, RtlUnit.fmOpenRead);
+        using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
 
@@ -308,7 +308,7 @@ internal static class Verification
         File.WriteAllText(Path.Combine(root, "Images", "B.ilb"), "B");
         File.WriteAllText(Path.Combine(root, "Images", "a.ilb"), "a");
         File.WriteAllText(Path.Combine(root, "Images", "Copy.dat"), "12345");
-        var files = new LayeredFileSystem(root, user);
+        LayeredFileSystem files = new(root, user);
         Equal("root", Read(files, @"IMAGES\scenes/INTRO.AVI"), "mixed case separators");
         Write(files, @"images\SCENES\intro.avi", "overlay");
         Equal("overlay", Read(files, @"Images/Scenes/Intro.avi"), "overlay wins");
@@ -346,7 +346,7 @@ internal static class Verification
         Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", RtlUnit.fmCreate), "unknown drive refused");
         Write(files, "../../escape.txt", "contained");
         Check(File.Exists(Path.Combine(user, "escape.txt")), "parent traversal contained");
-        var old = RtlUnit.Files;
+        IFileSystem old = RtlUnit.Files;
         RtlUnit.Files = files;
         try
         {
@@ -361,7 +361,7 @@ internal static class Verification
                 @"Scenario\Custom\base.hsm", @"Scenario\Campaign\x.hsm"), "shim relative path");
             Equal(Path.Combine(root, "Images", "x.ilb"), RtlUnit.ExtractRelativePath(
                 "", Path.Combine(root, "Images", "x.ilb")), "empty base keeps the destination");
-            var libraries = RtlUnit.Files.FindEntries(@"Images\*.ilb", attributes: 0);
+            IReadOnlyList<RtlFileEntry> libraries = RtlUnit.Files.FindEntries(@"Images\*.ilb", attributes: 0);
             Check(libraries.Count != 0, "file search finds the libraries");
             Equal("a.ilb", libraries[0].Name, "file search order");
             int missingDirectoryExceptions = 0;
@@ -385,7 +385,7 @@ internal static class Verification
             Equal(Path.Combine(root, "Scenario", "Campaign", "x.hsm"), RtlUnit.ExpandFileName(@"..\Campaign\x.hsm").ToString(), "shim expansion");
         }
         finally { RtlUnit.Files = old; }
-        var single = new LayeredFileSystem(root, root);
+        LayeredFileSystem single = new(root, root);
         Write(single, "temp.txt", "same");
         Check(single.DeleteFile("TEMP.TXT"), "single directory delete");
         Check(!single.Enumerate("").Any(e => e.Name == "temp.txt"), "single directory listing refreshed");
@@ -394,12 +394,12 @@ internal static class Verification
 
     private static void ClockTests()
     {
-        var clock = new FakeClock();
-        var pacer = new FramePacer(clock);
+        FakeClock clock = new();
+        FramePacer pacer = new(clock);
         clock.Elapsed = 10; pacer.Wait(); Equal(33d, clock.Elapsed, "30 fps deadline");
         clock.Elapsed = 100; pacer.Wait(); Equal(100d, clock.Elapsed, "slow frame no extra wait");
         clock.Elapsed = 105; pacer.Wait(); Equal(133d, clock.Elapsed, "no catch up burst");
-        var real = new SdlClock();
+        SdlClock real = new();
         double start = real.ElapsedMilliseconds;
         real.WaitMilliseconds(3);
         Check(real.ElapsedMilliseconds - start >= 3, "precise monotonic wait");
@@ -412,7 +412,7 @@ internal static class Verification
 
     private static void InstallTests(string gameRoot, string? sourceRoot)
     {
-        var files = new LayeredFileSystem(gameRoot, Path.Combine(s_scratch, "gog-user"));
+        LayeredFileSystem files = new(gameRoot, Path.Combine(s_scratch, "gog-user"));
         string[] all = Directory.GetFileSystemEntries(gameRoot, "*", SearchOption.AllDirectories);
         foreach (string path in all)
         {
@@ -421,15 +421,15 @@ internal static class Verification
             Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), "install lookup " + relative);
             if (!Directory.Exists(path))
             {
-                using var stream = files.Open(alternate, RtlUnit.fmOpenRead);
+                using Stream stream = files.Open(alternate, RtlUnit.fmOpenRead);
                 Equal(new FileInfo(path).Length, stream.Length, "install open " + relative);
             }
         }
         int literals = 0;
         if (sourceRoot is not null)
         {
-            var candidates = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var sourceFiles = new[] { "AoW", "AoWEPACK", "AoWTCPCK", "AOWTools", "HSEPack", "aowInt" }
+            HashSet<string> candidates = new(StringComparer.OrdinalIgnoreCase);
+            IEnumerable<string> sourceFiles = new[] { "AoW", "AoWEPACK", "AoWTCPCK", "AOWTools", "HSEPack", "aowInt" }
                 .SelectMany(package => Directory.EnumerateFiles(Path.Combine(sourceRoot, package), "*", SearchOption.AllDirectories))
                 .Where(path => Path.GetExtension(path).ToLowerInvariant() is ".pas" or ".inc")
                 .Append(Path.Combine(sourceRoot, "Engine.pas"));
@@ -449,7 +449,7 @@ internal static class Verification
                     continue;
                 }
 
-                var matches = all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase)).ToArray();
+                string[] matches = all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase)).ToArray();
                 if (matches.Length == 0)
                 {
                     Console.WriteLine("P4 absent or contextual literal: " + literal);

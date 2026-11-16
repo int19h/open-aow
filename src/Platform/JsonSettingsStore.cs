@@ -22,8 +22,8 @@ public sealed class JsonSettingsStore : ISettingsStore
             return;
         }
 
-        using var json = JsonDocument.Parse(File.ReadAllText(_path));
-        foreach (var property in json.RootElement.EnumerateObject())
+        using JsonDocument json = JsonDocument.Parse(File.ReadAllText(_path));
+        foreach (JsonProperty property in json.RootElement.EnumerateObject())
         {
             string key = Normalize(property.Name);
             if (Allowed(key))
@@ -56,7 +56,7 @@ public sealed class JsonSettingsStore : ISettingsStore
 
         object stored = Clone(value);
         _ = Encode(key, stored);
-        var next = new Dictionary<string, object>(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
+        Dictionary<string, object> next = new(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
         Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
         string temporary = _path + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
@@ -114,7 +114,7 @@ public sealed class JsonSettingsStore : ISettingsStore
             };
         }
 
-        var value = item.GetProperty("value");
+        JsonElement value = item.GetProperty("value");
         return item.GetProperty("kind").GetString() switch
         {
             "integer" => value.GetInt32(),

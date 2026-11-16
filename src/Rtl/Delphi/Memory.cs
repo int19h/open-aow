@@ -30,7 +30,7 @@ public static partial class RtlUnit
             return null;
         }
 
-        var result = new T[count];
+        T[] result = new T[count];
         if (array is not null)
         {
             array.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);

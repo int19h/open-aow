@@ -18,7 +18,7 @@ public sealed class GameProfile
         Name = name;
         Profile = FileProfile.Find(profile) ?? throw new InvalidOperationException("Unknown file profile " + profile + ".");
         Kinds = kinds;
-        foreach (var kind in kinds)
+        foreach (string kind in kinds)
         {
             if (!Profile.Kinds.Contains(kind))
             {
@@ -133,7 +133,7 @@ public static class GameBoundary
 {
     public static GameFileResult PrepareLoad(byte[] bytes, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, string operation = "open")
     {
-        var report = new GameFileReport { Operation = operation, Profile = use };
+        GameFileReport report = new() { Operation = operation, Profile = use };
         try
         {
             return GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes)
@@ -151,9 +151,9 @@ public static class GameBoundary
     {
         report.Format = (GameFiles.IsGzip(bytes) ? DetectedFormat.GzipOwnJson : DetectedFormat.OwnJson).ToString();
         report.OriginalRoundTrip = "not applicable: own document";
-        var read = GameFiles.Read(bytes, fileName);
+        ReadResult read = GameFiles.Read(bytes, fileName);
         report.Version = read.DeclaredVersion;
-        var (profile, kind, _, _) = GameFiles.Envelope(read.Document, fileName);
+        (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = GameFiles.Envelope(read.Document, fileName);
         report.Kind = kind;
         if (profile != use.Profile)
         {
@@ -191,7 +191,7 @@ public static class GameBoundary
         string? suggested = GameFiles.KindForExtension(fileName is null ? null : Path.GetExtension(fileName));
         string kind = suggested is not null && use.Kinds.Contains(suggested) ? suggested : use.Kinds[0];
         report.Kind = kind;
-        var imported = GameFiles.Import(bytes, use.Profile, kind, fileName);
+        ImportResult imported = GameFiles.Import(bytes, use.Profile, kind, fileName);
         Validate(imported.Document, fileName: fileName, validators: validators, report: report);
         byte[] image;
         try
@@ -203,7 +203,7 @@ public static class GameBoundary
             report.Validation = "refused";
             throw;
         }
-        var container = (JsonObject)imported.Document["$container"]!;
+        JsonObject container = (JsonObject)imported.Document["$container"]!;
         if (GameFiles.FirstG1Difference(bytes, use.Profile, container, image) is long offset)
         {
             report.OriginalRoundTrip = "different at 0x" + offset.ToString("x", CultureInfo.InvariantCulture);
@@ -222,7 +222,7 @@ public static class GameBoundary
     private static void Validate(JsonObject document, string? fileName, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
     {
         report.Validation = "refused";
-        var check = DocumentValidation.Check(document, validators: validators, file: fileName);
+        DocumentCheck check = DocumentValidation.Check(document, validators: validators, file: fileName);
         if (check.Findings.Count != 0)
         {
             throw new ConversionException(check.Findings[0]);
@@ -254,17 +254,17 @@ public static class GameBoundary
         // Bytes of that load is null and is not an image.
         if (result.Own && result.Document is not null)
         {
-            var schema = FormatSchema.Current;
-            var profile = use.Profile;
-            var root = (JsonObject)result.Document["root"]!;
+            FormatSchema schema = FormatSchema.Current;
+            FileProfile profile = use.Profile;
+            JsonObject root = (JsonObject)result.Document["root"]!;
             SchemaClass classValue;
             if (profile.RootHasClass)
             {
                 // The validation resolved the class. The root's $class names the stored class and is
                 // no member of it.
                 classValue = schema.Get(((JsonString)root["$class"]!).Value);
-                var members = new JsonObject();
-                foreach (var member in root.Members)
+                JsonObject members = new();
+                foreach (JsonMember member in root.Members)
                 {
                     if (member.Name != "$class")
                     {
@@ -296,10 +296,10 @@ public static class GameBoundary
     /// </summary>
     public static GameFileTree ReadImageTree(byte[] image, GameProfile use)
     {
-        var schema = FormatSchema.Current;
-        var profile = use.Profile;
-        var context = new DecodeContext(image, schema: schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
-        var (classValue, start, end) = profile.RootImage(context);
+        FormatSchema schema = FormatSchema.Current;
+        FileProfile profile = use.Profile;
+        DecodeContext context = new(image, schema: schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        (SchemaClass? classValue, int start, int end) = profile.RootImage(context);
         return new GameFileTree(Root: ImageTree.Read(context, start: start, end: end, classValue: classValue), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
     }
 
@@ -309,9 +309,9 @@ public static class GameBoundary
     /// </summary>
     public static byte[] WriteImage(ObjectNode root, string className, GameProfile use)
     {
-        var schema = FormatSchema.Current;
-        var profile = use.Profile;
-        var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
+        FormatSchema schema = FormatSchema.Current;
+        FileProfile profile = use.Profile;
+        SchemaClass classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
         return profile.WrapRootImage(context: new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine), classValue: classValue);
     }
 
@@ -325,10 +325,10 @@ public static class GameBoundary
     /// </summary>
     public static ObjectNode ReadWrittenObject(byte[] image, string className, string classTable)
     {
-        var schema = FormatSchema.Current;
-        var profile = WrittenObject(className, classTable: classTable);
-        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
-        var (classValue, start, end) = profile.RootImage(context);
+        FormatSchema schema = FormatSchema.Current;
+        WrittenObjectProfile profile = WrittenObject(className, classTable: classTable);
+        DecodeContext context = new(image, schema: schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        (SchemaClass? classValue, int start, int end) = profile.RootImage(context);
         return ImageTree.Read(context, start: start, end: end, classValue: classValue);
     }
 
@@ -338,9 +338,9 @@ public static class GameBoundary
     /// </summary>
     public static byte[] WriteWrittenObject(ObjectNode root, string className, string classTable)
     {
-        var schema = FormatSchema.Current;
-        var profile = WrittenObject(className, classTable: classTable);
-        var classValue = schema.Get(className);
+        FormatSchema schema = FormatSchema.Current;
+        WrittenObjectProfile profile = WrittenObject(className, classTable: classTable);
+        SchemaClass classValue = schema.Get(className);
         return profile.WrapRootImage(context: new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable), classValue: classValue);
     }
 
@@ -365,7 +365,7 @@ public static class GameBoundary
     internal static byte[] WritePacket(ObjectNode? root, int classId, string? className, FormatSchema schema)
     {
         string classTable = "game";
-        var body = new ByteBuffer();
+        ByteBuffer body = new();
         body.Int32(classId);
         if (classId != 0)
         {
@@ -374,12 +374,12 @@ public static class GameBoundary
                 throw new ArgumentException("A packet with a class id stores its object.");
             }
 
-            var classValue = schema.Get(className);
+            SchemaClass classValue = schema.Get(className);
             classTable = PacketClassTable(classValue);
             body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable, profile: TransportProfile.Name));
         }
-        var context = new EncodeContext(schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
-        var output = new ByteBuffer(body.Length + 16);
+        EncodeContext context = new(schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        ByteBuffer output = new(body.Length + 16);
         FileProfile.WriteTop(context, root: body.ToArray(), layout: null, at: new JsonObject(), output: output);
         return output.ToArray();
     }
@@ -390,8 +390,8 @@ public static class GameBoundary
     /// </summary>
     public static int ReadPacketClassId(byte[] image)
     {
-        var context = new DecodeContext(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
-        var table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
+        DecodeContext context = new(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        PropertyTable table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
         if (table.Entries.Count == 0)
         {
             return 0;
@@ -408,9 +408,9 @@ public static class GameBoundary
     /// </summary>
     public static ObjectNode ReadPacket(byte[] image, string className)
     {
-        var schema = FormatSchema.Current;
-        var classValue = schema.Get(className);
-        var context = new DecodeContext(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get(className);
+        DecodeContext context = new(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         if (context.Int32(start) == 0)
@@ -442,7 +442,7 @@ public static class GameBoundary
     /// </summary>
     public static GameFileResult PrepareSave(ObjectNode root, string className, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, string? headerName = null)
     {
-        var report = new GameFileReport
+        GameFileReport report = new()
         {
             Operation = "write",
             Profile = use,
@@ -453,16 +453,16 @@ public static class GameBoundary
         };
         try
         {
-            var schema = FormatSchema.Current;
-            var profile = use.Profile;
-            var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
-            var rootDocument = DocumentBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
+            FormatSchema schema = FormatSchema.Current;
+            FileProfile profile = use.Profile;
+            SchemaClass classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
+            JsonObject rootDocument = DocumentBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
             if (profile.RootHasClass)
             {
                 rootDocument.Members.Insert(0, new JsonMember("$class", value: new JsonString(classValue.Name)));
             }
 
-            var document = GameFiles.NewDocument(use.WriteKind, container: profile.SaveContainer(headerName), root: rootDocument);
+            JsonObject document = GameFiles.NewDocument(use.WriteKind, container: profile.SaveContainer(headerName), root: rootDocument);
             Validate(document, fileName: fileName, validators: validators, report: report);
             return new GameFileResult { Bytes = GameFiles.Write(document), Document = document, Report = report };
         }

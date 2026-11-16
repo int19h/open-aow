@@ -36,16 +36,16 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void ATokenEventWithPortStateIsRefusedOnTheLegacyPacketAndKeptOnTheDocument()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var node = Event(counter: 4);
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ObjectNode node = Event(counter: 4);
         node.Add("PortState", new IntegerNode(4, signed: true, value: 9));
 
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        JsonObject document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(4L, ((JsonInteger)document["TokenCounter"]!).Value);
         Assert.Equal(9L, ((JsonInteger)document["PortState"]!).Value);
 
-        var error = Assert.Throws<ConversionException>(() => Packet(node, schema));
+        ConversionException error = Assert.Throws<ConversionException>(() => Packet(node, schema));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.Equal("root.PortState", error.Diagnostic.Path);
         Assert.Equal(PortId.ToString(System.Globalization.CultureInfo.InvariantCulture), error.Diagnostic.Value);
@@ -56,18 +56,18 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void ANestedPortMemberIsRefusedWithItsPath()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var detail = new ObjectNode(null, slot: null);
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ObjectNode detail = new(null, slot: null);
         detail.Add("Note", new IntegerNode(4, signed: true, value: 9));
-        var node = Event(counter: 1);
+        ObjectNode node = Event(counter: 1);
         node.Add("Detail", detail);
 
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
-        var stored = (JsonObject)document["Detail"]!;
+        JsonObject document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        JsonObject stored = (JsonObject)document["Detail"]!;
         Assert.Equal(9L, ((JsonInteger)stored["Note"]!).Value);
 
-        var error = Assert.Throws<ConversionException>(() => Packet(node, schema));
+        ConversionException error = Assert.Throws<ConversionException>(() => Packet(node, schema));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.Equal("root.Detail.Note", error.Diagnostic.Path);
         Assert.Contains("Detail.Note", error.Diagnostic.Message);
@@ -76,15 +76,15 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void AModRangeMemberIsRefusedWithItsPath()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var node = Event(counter: 1);
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ObjectNode node = Event(counter: 1);
         node.Add("ModState", new IntegerNode(4, signed: true, value: 3));
 
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        JsonObject document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(3L, ((JsonInteger)document["ModState"]!).Value);
 
-        var error = Assert.Throws<ConversionException>(() => Packet(node, schema));
+        ConversionException error = Assert.Throws<ConversionException>(() => Packet(node, schema));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.Equal("root.ModState", error.Diagnostic.Path);
         Assert.Equal(ModId.ToString(System.Globalization.CultureInfo.InvariantCulture), error.Diagnostic.Value);
@@ -93,19 +93,19 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void AWiderArrayIsRefusedOnThePacketAndKeptOnTheDocument()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var scores = new ListNode();
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ListNode scores = new();
         scores.Items.Add(new IntegerNode(4, signed: true, value: 1));
         scores.Items.Add(new IntegerNode(4, signed: true, value: 2));
         scores.Items.Add(new IntegerNode(4, signed: true, value: 3));
-        var node = Event(counter: 1);
+        ObjectNode node = Event(counter: 1);
         node.Add("Scores", scores);
 
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+        JsonObject document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(3, ((JsonArray)document["Scores"]!).Items.Count);
 
-        var error = Assert.Throws<ConversionException>(() => Packet(node, schema));
+        ConversionException error = Assert.Throws<ConversionException>(() => Packet(node, schema));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
         Assert.Equal("root.Scores", error.Diagnostic.Path);
         Assert.Contains("holds at most 2", error.Diagnostic.Message);
@@ -115,14 +115,14 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void ATokenEventWithPortStateIsRefusedOnTheDiskImage()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var node = Event(counter: 4);
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ObjectNode node = Event(counter: 4);
         node.Add("PortState", new IntegerNode(4, signed: true, value: 9));
-        var read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
+        ObjectNode read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(9L, ((IntegerNode)read.Find("PortState")!).Value);
 
-        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.Equal("root.PortState", error.Diagnostic.Path);
         Assert.Equal(PortId.ToString(System.Globalization.CultureInfo.InvariantCulture), error.Diagnostic.Value);
@@ -132,22 +132,22 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void AWiderArrayReloadsFromTheOwnDocumentAndTheDiskImageRefusesIt()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var scores = new ListNode();
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ListNode scores = new();
         scores.Items.Add(new IntegerNode(4, signed: true, value: 1));
         scores.Items.Add(new IntegerNode(4, signed: true, value: 2));
         scores.Items.Add(new IntegerNode(4, signed: true, value: 3));
-        var node = Event(counter: 1);
+        ObjectNode node = Event(counter: 1);
         node.Add("Scores", scores);
-        var read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
-        var stored = (ListNode)read.Find("Scores")!;
+        ObjectNode read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
+        ListNode stored = (ListNode)read.Find("Scores")!;
         Assert.Equal(3, stored.Items.Count);
         Assert.Equal(1L, ((IntegerNode)stored.Items[0]).Value);
         Assert.Equal(2L, ((IntegerNode)stored.Items[1]).Value);
         Assert.Equal(3L, ((IntegerNode)stored.Items[2]).Value);
 
-        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
         Assert.Equal("root.Scores", error.Diagnostic.Path);
         Assert.Contains("holds at most 2", error.Diagnostic.Message);
@@ -157,9 +157,9 @@ public sealed class TransportProfileTests : FormatsTest
     [Fact]
     public void ACarriedTokenEventKeepsTheDiskImageBytes()
     {
-        var schema = Sample;
-        var classValue = schema.Get("TokenEvent");
-        var node = Event(counter: 4);
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("TokenEvent");
+        ObjectNode node = Event(counter: 4);
         byte[] disk = OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(actual: OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game", profile: TransportProfile.Name), expected: disk);
 
@@ -170,7 +170,7 @@ public sealed class TransportProfileTests : FormatsTest
 
     private static ObjectNode Event(int counter)
     {
-        var node = new ObjectNode(null, slot: null);
+        ObjectNode node = new(null, slot: null);
         node.Add("TokenCounter", new IntegerNode(4, signed: true, value: counter));
         return node;
     }

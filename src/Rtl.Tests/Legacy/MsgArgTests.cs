@@ -21,7 +21,7 @@ public sealed class MsgArgTests
 
     private static string[] Cases(params ReadOnlySpan<MsgArg> arguments)
     {
-        var result = new string[arguments.Length];
+        string[] result = new string[arguments.Length];
         for (int i = 0; i < arguments.Length; i++)
         {
             result[i] = CaseOf(arguments[i]);
@@ -47,7 +47,7 @@ public sealed class MsgArgTests
         Assert.Equal("null", CaseOf((object?)null));
         Assert.Equal("null", CaseOf(default));
         // The same conversions in a collection expression and in a params span.
-        var objectValue = new SampleObject();
+        SampleObject objectValue = new();
         MsgArg[] list = [7, objectValue, (object?)null, 1];
         Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null", "Integer 1" }, list.Select(CaseOf));
         Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null" }, Cases(7, objectValue, (object?)null));
@@ -56,7 +56,7 @@ public sealed class MsgArgTests
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var objectValue = new object();
+        object objectValue = new();
         Assert.Equal(7, ((MsgArg)7).Value);
         Assert.Same(objectValue, new MsgArg(objectValue).Value);
         Assert.Null(new MsgArg(null).Value);
@@ -81,14 +81,14 @@ public sealed class MsgArgTests
         Assert.Equal(0, default(MsgArg).Int);
         Assert.Equal(0, new MsgArg(null).Int);
         // A reference no longer offers its address as an integer.
-        var objectValue = new SampleObject();
+        SampleObject objectValue = new();
         Assert.Throws<InvalidCastException>(() => ((MsgArg)objectValue).Int);
     }
 
     [Fact]
     public void AsReadsTheReferenceAndIsNullOtherwise()
     {
-        var objectValue = new SampleObject();
+        SampleObject objectValue = new();
         Assert.Same(objectValue, ((MsgArg)objectValue).As<SampleObject>());
         Assert.Same(objectValue, ((MsgArg)objectValue).As<object>());
         Assert.Null(((MsgArg)objectValue).As<OtherObject>());
@@ -101,8 +101,8 @@ public sealed class MsgArgTests
     [Fact]
     public void EqualityIsTheEqualityOfTheOriginalWord()
     {
-        var objectValue = new SampleObject();
-        var other = new SampleObject();
+        SampleObject objectValue = new();
+        SampleObject other = new();
         MsgArg empty = default, zero = 0, nil = (object?)null, one = 1, reference = objectValue;
         // Empty, the integer 0 and nil are all the word 0.
         Assert.True(empty == zero);
@@ -129,7 +129,7 @@ public sealed class MsgArgTests
     [Fact]
     public void TheConversionsAreTheCases()
     {
-        var type = typeof(MsgArg);
+        Type type = typeof(MsgArg);
         Assert.True(type.IsValueType);
         Assert.True(typeof(IUnion).IsAssignableFrom(type));
         Assert.True(type.IsDefined(typeof(UnionAttribute)));

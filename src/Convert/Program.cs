@@ -30,7 +30,7 @@ public static class Program
     {
         try
         {
-            var options = Options.Parse(arguments);
+            Options options = Options.Parse(arguments);
             return options.Command switch
             {
                 "to-own" => Commands.ToOwn(options, output, errors),
@@ -93,7 +93,7 @@ public sealed class Options
             throw new UsageException("No command.");
         }
 
-        var o = new Options { Command = arguments[0] };
+        Options o = new() { Command = arguments[0] };
         for (int i = 1; i < arguments.Length; i++)
         {
             string a = arguments[i];

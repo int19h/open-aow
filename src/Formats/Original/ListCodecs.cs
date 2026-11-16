@@ -44,7 +44,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("default"), Text(node.Default), Min + " to " + Max);
         }
 
-        var items = new List<long>(node.Items.Count);
+        List<long> items = new(node.Items.Count);
         for (int i = 0; i < node.Items.Count; i++)
         {
             long item = node.Items[i];
@@ -60,7 +60,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
     internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        var items = Parse(context, start, end, frame.Value(context), out long defense);
+        List<long> items = Parse(context, start, end, frame.Value(context), out long defense);
         return new Tree.DefaultListNode(width, defense, items);
     }
 
@@ -81,8 +81,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw site.At(site.Path.Member("default"), element: false).Fail(Codes.Range, "A list value is outside its storage range.", value: Text(node.Default), constraint: $"{Min} to {Max}");
         }
 
-        var decoding = Element is null ? null : ListElement.Decoding(site.Context);
-        var array = new JsonArray();
+        DecodeContext? decoding = Element is null ? null : ListElement.Decoding(site.Context);
+        JsonArray array = new();
         for (int i = 0; i < node.Items.Count; i++)
         {
             long item = node.Items[i];
@@ -103,7 +103,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw site.Mismatch($"{site.Property?.Name ?? "The value"} is {{ \"default\": ..., \"items\": [...] }}.", value);
         }
 
-        foreach (var member in objectValue.Members)
+        foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name is not ("default" or "items"))
             {
@@ -122,13 +122,13 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
                 : throw at.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", item ?? objectValue, null, $"{Min} to {Max}");
         }
         long defense = Item(objectValue["default"], site.At(site.Path.Member("default"), element: false));
-        var array = objectValue["items"] as JsonArray ?? throw site.Fail(Codes.MissingMember, "items is an array.", objectValue);
+        JsonArray array = objectValue["items"] as JsonArray ?? throw site.Fail(Codes.MissingMember, "items is an array.", objectValue);
         if (array.Items.Count > site.Context.Limits.CollectionItems)
         {
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var items = new long[array.Items.Count];
+        long[] items = new long[array.Items.Count];
         for (int i = 0; i < items.Length; i++)
         {
             items[i] = Item(array.Items[i], site.At(site.Path.Member("items").Item(i), element: true));
@@ -144,8 +144,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var items = DecodeRuns(context, start, end, site, out long defense);
-        var array = new JsonArray();
+        List<long> items = DecodeRuns(context, start, end, site, out long defense);
+        JsonArray array = new();
         for (int i = 0; i < items.Count; i++)
         {
             array.Add(Value(items[i], context, site.Path.Member("items").Item(i)));
@@ -157,8 +157,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     /// <summary>The default and the items of a stored list. A run split the writer does not make becomes a value-encoding part.</summary>
     internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense)
     {
-        var items = Parse(context, start, end, site, out defense);
-        var bytes = Canonical(defense, items);
+        List<long> items = Parse(context, start, end, site, out defense);
+        byte[] bytes = Canonical(defense, items);
         if (!bytes.AsSpan().SequenceEqual(context.Data.AsSpan(start, end - start)))
         {
             site.Builder?.ValueEncoding(site.Id, context.Data.AsSpan(start, end - start));
@@ -178,7 +178,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         }
 
         context.CheckItems(count, start, site.Path);
-        var items = new List<long>(count);
+        List<long> items = new(count);
         int at = start + width + 4;
         while (items.Count < count)
         {
@@ -227,7 +227,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
     private byte[] Canonical(long defense, List<long> items)
     {
-        var b = new ByteBuffer((items.Count * width) + 8);
+        ByteBuffer b = new((items.Count * width) + 8);
         Put(b, defense);
         b.Int32(items.Count);
         int i = 0;
@@ -267,7 +267,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw context.Fail(Codes.Type, $"{site.Property.Name} is {{ \"default\": ..., \"items\": [...] }}.", value, site.Path, value.KindName);
         }
 
-        foreach (var m in objectValue.Members)
+        foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name is not ("default" or "items"))
             {
@@ -287,13 +287,13 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
                 : throw context.Fail(v is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", v ?? objectValue, p, null, $"{Min} to {Max}");
         }
         long defense = Item(objectValue["default"], site.Path.Member("default"));
-        var array = objectValue["items"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "items is an array.", objectValue, site.Path);
+        JsonArray array = objectValue["items"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "items is an array.", objectValue, site.Path);
         if (array.Items.Count > context.Limits.CollectionItems)
         {
             throw context.Fail(Codes.Limit, "A collection has too many items.", array, site.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
-        var items = new List<long>(array.Items.Count);
+        List<long> items = new(array.Items.Count);
         for (int i = 0; i < array.Items.Count; i++)
         {
             items.Add(Item(array.Items[i], site.Path.Member("items").Item(i)));
@@ -305,8 +305,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     /// <summary>Writes the canonical runs, or the retained encoding when it decodes to the same list.</summary>
     internal void EncodeRuns(EncodeContext context, long defense, List<long> items, ByteBuffer data, ValueSite site)
     {
-        var bytes = Canonical(defense, items);
-        if (site.Reader?.Encodings.TryGetValue(site.Id, out var retained) == true)
+        byte[] bytes = Canonical(defense, items);
+        if (site.Reader?.Encodings.TryGetValue(site.Id, out (byte[] Bytes, JsonValue At) retained) == true)
         {
             // The retained encoding is used only if it decodes to the visible list.
             if (!SameList(retained.Bytes, defense, items))
@@ -323,9 +323,9 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     {
         try
         {
-            var probe = new DecodeContext(bytes, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts());
-            var site = new ValueSite { Property = null!, Id = 0, Path = DocumentNodePath.Root, Owner = new JsonObject() };
-            var parsed = Parse(probe, 0, bytes.Length, site, out long d);
+            DecodeContext probe = new(bytes, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts());
+            ValueSite site = new() { Property = null!, Id = 0, Path = DocumentNodePath.Root, Owner = new JsonObject() };
+            List<long> parsed = Parse(probe, 0, bytes.Length, site, out long d);
             return d == defense && parsed.SequenceEqual(items);
         }
         catch (ConversionException)
@@ -392,26 +392,26 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
 
     internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
     {
-        var (defense, items) = Flat(site.Context, value, site.Path, site.Property?.Name ?? "The value");
+        (long defense, List<long>? items) = Flat(site.Context, value, site.Path, site.Property?.Name ?? "The value");
         return new Tree.DefaultListNode(4, defense, items);
     }
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        var items = _flat.DecodeRuns(context, start, end, site, out long defense);
+        List<long> items = _flat.DecodeRuns(context, start, end, site, out long defense);
         return Document(defense, items);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        var (defense, items) = Flat(context, value, site.Path, site.Property?.Name ?? "The value");
+        (long defense, List<long>? items) = Flat(context, value, site.Path, site.Property?.Name ?? "The value");
         _flat.EncodeRuns(context, defense, items, data, site);
     }
 
     private JsonObject Document(long defense, IReadOnlyList<long> items)
     {
         int groups = (items.Count + Size - 1) / Size;
-        var array = new JsonArray();
+        JsonArray array = new();
         for (int g = 0; g < groups; g++)
         {
             int from = g * Size;
@@ -421,7 +421,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
                 last--;
             }
 
-            var group = new JsonArray();
+            JsonArray group = new();
             for (int k = from; k < last; k++)
             {
                 group.Add(new JsonInteger(items[k]));
@@ -429,7 +429,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
 
             array.Add(group);
         }
-        var document = new JsonObject();
+        JsonObject document = new();
         if (defense != Empty)
         {
             document.Add("default", new JsonInteger(defense));
@@ -451,7 +451,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             throw context.Fail(Codes.Type, name + " is { \"groups\": [[...]] }.", value, path, value.KindName);
         }
 
-        foreach (var m in objectValue.Members)
+        foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name is not ("default" or "groups" or "count"))
             {
@@ -463,7 +463,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
         long Integer(JsonValue item, DocumentNodePath at) => item is JsonInteger n && n.Value >= int.MinValue && n.Value <= int.MaxValue ? n.Value
             : throw context.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is a signed 32-bit integer.", item, at, null, $"{int.MinValue} to {int.MaxValue}");
         long defense = objectValue["default"] is { } stored ? Integer(stored, path.Member("default")) : Empty;
-        var groups = objectValue["groups"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "groups is an array of groups.", objectValue, path);
+        JsonArray groups = objectValue["groups"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "groups is an array of groups.", objectValue, path);
         long full = (long)groups.Items.Count * Size;
         long count = full;
         if (objectValue["count"] is { } countValue)
@@ -485,10 +485,10 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             throw context.Fail(Codes.Limit, "A collection has too many items.", groups, path, Text(count), $"at most {context.Limits.CollectionItems} items");
         }
 
-        var items = new List<long>((int)count);
+        List<long> items = new((int)count);
         for (int g = 0; g < groups.Items.Count; g++)
         {
-            var at = path.Member("groups").Item(g);
+            DocumentNodePath at = path.Member("groups").Item(g);
             if (groups.Items[g] is not JsonArray group)
             {
                 throw context.Fail(Codes.Type, "A group is an array of values.", groups.Items[g], at, groups.Items[g].KindName);
@@ -549,7 +549,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             throw context.Fail(Codes.Corrupt, $"A bit list of {count} bits does not fill its {end - start} stored bytes.", start, frame.Path);
         }
 
-        var (set, residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, frame.Path.Member("bits"));
+        (int[]? set, byte residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, frame.Path.Member("bits"));
         return new Tree.BitListNode(context.Data[start], count, set, residue);
     }
 
@@ -566,13 +566,13 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
                 .Add("bits", new JsonString(LayoutResidue.Hex(Bits(node))));
         }
 
-        var bits = new JsonArray();
+        JsonArray bits = new();
         foreach (int index in node.Indices)
         {
             bits.Add(new JsonInteger(index));
         }
 
-        var document = new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
+        JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
         if (node.Residue != 0)
         {
             document.Add("$reserved", new JsonString(LayoutResidue.Hex([node.Residue])));
@@ -584,12 +584,12 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
     internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
     {
         // The converter's rules check the document. The bytes they write are the node.
-        var data = new ByteBuffer();
+        ByteBuffer data = new();
         Encode(site.Context, value, data, new ValueSite { Property = site.Property!, Id = site.Property!.Id ?? 0, Path = site.Path, Owner = site.Owner ?? new JsonObject() });
-        var bytes = data.ToArray();
+        byte[] bytes = data.ToArray();
         int count = BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
         int used = count & 7;
-        var set = new List<int>();
+        List<int> set = new();
         for (int i = 0; i < count; i++)
         {
             if ((bytes[5 + (i >> 3)] & (1 << (i & 7))) != 0)
@@ -603,7 +603,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
 
     private static byte[] Bits(Tree.BitListNode node)
     {
-        var bits = new byte[(node.Count + 7) >> 3];
+        byte[] bits = new byte[(node.Count + 7) >> 3];
         foreach (int index in node.Indices)
         {
             bits[index >> 3] |= (byte)(1 << (index & 7));
@@ -632,14 +632,14 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
                 .Add("bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start + 5, end - start - 5))));
         }
 
-        var (set, residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, site.Path.Member("bits"));
-        var bits = new JsonArray();
+        (int[]? set, byte residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, site.Path.Member("bits"));
+        JsonArray bits = new();
         foreach (int index in set)
         {
             bits.Add(new JsonInteger(index));
         }
 
-        var document = new JsonObject().Add("default", RawBooleanCodec.Value(context.Data[start])).Add("count", new JsonInteger(count)).Add("bits", bits);
+        JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(context.Data[start])).Add("count", new JsonInteger(count)).Add("bits", bits);
         if (residue != 0)
         {
             document.Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
@@ -655,7 +655,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             throw context.Fail(Codes.Type, $"{site.Property.Name} is {{ \"default\", \"count\", \"bits\" }}.", value, site.Path, value.KindName);
         }
 
-        foreach (var m in objectValue.Members)
+        foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name is not ("default" or "count" or "bits") && !(Indices && m.Name == "$reserved"))
             {
@@ -686,7 +686,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         byte[] bits;
         if (Indices)
         {
-            var array = objectValue["bits"] as JsonArray
+            JsonArray array = objectValue["bits"] as JsonArray
                 ?? throw context.Fail(Codes.Type, "bits is an array of set bit indices.", objectValue["bits"] ?? objectValue, site.Path.Member("bits"), (objectValue["bits"] ?? objectValue).KindName);
             int length = (int)((count.Value + 7) >> 3);
             bits = new byte[length];

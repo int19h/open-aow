@@ -17,9 +17,9 @@ internal sealed class DictionaryEnumCatalog : IEnumCatalog
 
     public DictionaryEnumCatalog(params Type[] enums)
     {
-        foreach (var type in enums)
+        foreach (Type type in enums)
         {
-            var info = EnumTypeInfo.Describe(type);
+            EnumTypeInfo info = EnumTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
             {
                 throw new InvalidOperationException("The enum " + info.Name + " is registered twice.");
@@ -68,13 +68,13 @@ public static class EnumCatalog
     {
         lock (s_gate)
         {
-            var found = Lookup(typeName);
+            EnumTypeInfo? found = Lookup(typeName);
             if (found is not null)
             {
                 return found;
             }
 
-            var resolved = NameTable.ResolveStored(typeName);
+            string? resolved = NameTable.ResolveStored(typeName);
             if (resolved is null || resolved == typeName)
             {
                 return null;
@@ -87,9 +87,9 @@ public static class EnumCatalog
     private static EnumTypeInfo? Lookup(string typeName)
     {
         EnumTypeInfo? found = null;
-        foreach (var catalog in s_catalogs)
+        foreach (IEnumCatalog catalog in s_catalogs)
         {
-            if (!catalog.TryGet(typeName, out var type))
+            if (!catalog.TryGet(typeName, out EnumTypeInfo? type))
             {
                 continue;
             }
@@ -124,7 +124,7 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
         {
             found = error.Types.Where(type => type is not null).Cast<Type>().ToArray();
         }
-        foreach (var type in found)
+        foreach (Type? type in found)
         {
             if (type is null || !type.IsEnum || type.IsGenericType)
             {
@@ -132,7 +132,7 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
             }
 
             string stored = NameTable.Stored(type);
-            if (!_types.TryGetValue(stored, out var list))
+            if (!_types.TryGetValue(stored, out List<EnumTypeInfo>? list))
             {
                 list = [];
                 _types.Add(stored, list);
@@ -143,7 +143,7 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
 
     public bool TryGet(string typeName, out EnumTypeInfo type)
     {
-        if (!_types.TryGetValue(typeName, out var list))
+        if (!_types.TryGetValue(typeName, out List<EnumTypeInfo>? list))
         {
             type = null!;
             return false;

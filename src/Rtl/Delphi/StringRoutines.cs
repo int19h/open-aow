@@ -11,7 +11,7 @@ public static partial class RtlUnit
 
     public static string[] Strings(int length)
     {
-        var result = new string[length];
+        string[] result = new string[length];
         Array.Fill(result, "");
         return result;
     }

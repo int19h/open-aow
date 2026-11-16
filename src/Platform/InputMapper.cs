@@ -59,7 +59,7 @@ public sealed class InputMapper
     public void Motion(float x, float y, uint state, DisplayViewport viewport, IDisplayEvents sink)
     {
         _buttons = state & 5;
-        var point = viewport.Map(x, y);
+        (int X, int Y, bool Inside) point = viewport.Map(x, y);
         if (point.Inside)
         {
             sink.MouseMove(Shift(), point.X, point.Y);
@@ -93,7 +93,7 @@ public sealed class InputMapper
             y = -y;
         }
 
-        var point = viewport.Map(x, yPosition);
+        (int X, int Y, bool Inside) point = viewport.Map(x, yPosition);
         if (!point.Inside)
         {
             return;
@@ -122,8 +122,8 @@ public sealed class InputMapper
 
         uint mask = 1u << (button - 1);
         _buttons = down ? _buttons | mask : _buttons & ~mask;
-        var point = viewport.Map(x, y);
-        var mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
+        (int X, int Y, bool Inside) point = viewport.Map(x, y);
+        MouseButton mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
         if (!down)
         {
             sink.MouseUp(mapped, Shift(_doubleButton == button), point.X, point.Y);

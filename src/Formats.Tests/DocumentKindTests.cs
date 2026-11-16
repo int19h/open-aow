@@ -25,7 +25,7 @@ public sealed class DocumentKindTests : FormatsTest
     [MemberData(nameof(Extensions))]
     public void EachKindNamesItsOriginalAndOwnExtension(string name, string original, string own)
     {
-        var kind = DocumentKind.Find(name)!;
+        DocumentKind kind = DocumentKind.Find(name)!;
         Assert.Equal(original, kind.OriginalExtension);
         Assert.Equal(own, kind.OwnExtension);
         Assert.Same(kind, DocumentKind.ForExtension(original));
@@ -42,9 +42,9 @@ public sealed class DocumentKindTests : FormatsTest
     public void TheKindsAreTheProfileKinds()
     {
         Assert.Equal(DocumentKind.All.Select(k => k.Name), FileProfile.AllKinds);
-        foreach (var profile in FileProfile.All)
+        foreach (FileProfile profile in FileProfile.All)
         {
-            foreach (var kind in profile.Kinds)
+            foreach (string kind in profile.Kinds)
             {
                 Assert.NotNull(DocumentKind.Find(kind));
             }
@@ -69,10 +69,10 @@ public sealed class DocumentKindTests : FormatsTest
     [Fact]
     public void ClassificationIgnoresTheFormOfTheExtension()
     {
-        var own = Encoding.UTF8.GetBytes("{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {}}");
+        byte[] own = Encoding.UTF8.GetBytes("{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {}}");
         Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".ahl").Format);
         Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".oahl").Format);
-        var original = GameFiles.Export(GameFiles.Read(own).Document).Bytes;
+        byte[] original = GameFiles.Export(GameFiles.Read(own).Document).Bytes;
         Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, ".ahl").Format);
         Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, ".oahl").Format);
     }

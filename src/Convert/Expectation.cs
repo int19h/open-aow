@@ -17,9 +17,9 @@ public sealed class CensusFacts
 
     public static CensusFacts Read(byte[] bytes)
     {
-        using var census = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
-        var rows = new List<CensusRow>();
-        foreach (var row in census.RootElement.GetProperty("corpus").EnumerateArray())
+        using JsonDocument census = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
+        List<CensusRow> rows = new();
+        foreach (JsonElement row in census.RootElement.GetProperty("corpus").EnumerateArray())
         {
             if (row.GetProperty("scope").GetString() != "convert")
             {
@@ -60,47 +60,47 @@ public sealed class Expectation
     /// </summary>
     public static (CensusFacts Census, Expectation? Expectation) Load(string path)
     {
-        var bytes = File.ReadAllBytes(path);
-        using var doc = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
-        var root = doc.RootElement;
+        byte[] bytes = File.ReadAllBytes(path);
+        using JsonDocument doc = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
+        JsonElement root = doc.RootElement;
         if (root.TryGetProperty("corpus", out _))
         {
             return (CensusFacts.Read(bytes), null);
         }
 
-        if (!root.TryGetProperty("format", out var format) || format.GetString() != "aowconv-check-expectation")
+        if (!root.TryGetProperty("format", out JsonElement format) || format.GetString() != "aowconv-check-expectation")
         {
             throw new ExpectationException("The file is neither a census manifest nor an aowconv check expectation.");
         }
 
-        var reference = root.GetProperty("census");
+        JsonElement reference = root.GetProperty("census");
         string censusPath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, reference.GetProperty("path").GetString()!);
         if (!File.Exists(censusPath))
         {
             throw new ExpectationException($"The census {censusPath} is missing.");
         }
 
-        var census = CensusFacts.Read(File.ReadAllBytes(censusPath));
+        CensusFacts census = CensusFacts.Read(File.ReadAllBytes(censusPath));
         if (census.Sha256 != reference.GetProperty("sha256").GetString())
         {
             throw new ExpectationException($"The census {censusPath} differs from its pinned SHA-256.");
         }
 
-        var layout = root.GetProperty("layout");
-        var categories = new SortedDictionary<string, int>(StringComparer.Ordinal);
-        foreach (var c in layout.GetProperty("categories").EnumerateObject())
+        JsonElement layout = root.GetProperty("layout");
+        SortedDictionary<string, int> categories = new(StringComparer.Ordinal);
+        foreach (JsonProperty c in layout.GetProperty("categories").EnumerateObject())
         {
             categories[c.Name] = c.Value.GetInt32();
         }
 
-        var profiles = new SortedDictionary<string, (int, int)>(StringComparer.Ordinal);
-        foreach (var p in layout.GetProperty("profiles").EnumerateObject())
+        SortedDictionary<string, (int, int)> profiles = new(StringComparer.Ordinal);
+        foreach (JsonProperty p in layout.GetProperty("profiles").EnumerateObject())
         {
             profiles[p.Name] = (p.Value.GetProperty("parts").GetInt32(), p.Value.GetProperty("files").GetInt32());
         }
 
-        var rules = new SortedDictionary<string, (int, List<string>)>(StringComparer.Ordinal);
-        foreach (var r in root.GetProperty("legacyRules").EnumerateObject())
+        SortedDictionary<string, (int, List<string>)> rules = new(StringComparer.Ordinal);
+        foreach (JsonProperty r in root.GetProperty("legacyRules").EnumerateObject())
         {
             rules[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
                 r.Value.GetProperty("files").EnumerateArray().Select(f => f.GetString()!).ToList());
@@ -123,7 +123,7 @@ public sealed class Expectation
         SortedDictionary<string, (int Parts, int Files)> profiles,
         SortedDictionary<string, (int Occurrences, List<string> Files)> rules, int caseResidues)
     {
-        var problems = new List<string>();
+        List<string> problems = new();
         void Check(string what, object pinned, object measured)
         {
             if (!Equals(pinned, measured))
@@ -134,20 +134,20 @@ public sealed class Expectation
         Check("layout parts", Parts, parts);
         Check("files with residue", Files, files);
         Check("case residues", CaseResidues, caseResidues);
-        foreach (var key in Categories.Keys.Union(categories.Keys).Order(StringComparer.Ordinal))
+        foreach (string? key in Categories.Keys.Union(categories.Keys).Order(StringComparer.Ordinal))
         {
             Check("category " + key, Categories.GetValueOrDefault(key), categories.GetValueOrDefault(key));
         }
 
-        foreach (var key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
+        foreach (string? key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
         {
             Check("profile " + key, Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
         }
 
-        foreach (var key in LegacyRules.Keys.Union(rules.Keys).Order(StringComparer.Ordinal))
+        foreach (string? key in LegacyRules.Keys.Union(rules.Keys).Order(StringComparer.Ordinal))
         {
-            var pinned = LegacyRules.GetValueOrDefault(key, (0, []));
-            var measured = rules.GetValueOrDefault(key, (0, []));
+            (int Occurrences, List<string> Files) pinned = LegacyRules.GetValueOrDefault(key, (0, []));
+            (int Occurrences, List<string> Files) measured = rules.GetValueOrDefault(key, (0, []));
             Check($"legacy rule {key} occurrences", pinned.Occurrences, measured.Occurrences);
             Check($"legacy rule {key} files", string.Join(", ", pinned.Files.Order(StringComparer.Ordinal)), string.Join(", ", measured.Files.Order(StringComparer.Ordinal)));
         }

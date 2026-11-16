@@ -15,9 +15,9 @@ public static class SafeOutput
     public static string Resolve(string path)
     {
         string full = Path.GetFullPath(path);
-        var root = Path.GetPathRoot(full) ?? "";
+        string root = Path.GetPathRoot(full) ?? "";
         string current = root;
-        foreach (var part in full[root.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        foreach (string part in full[root.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             current = Path.Combine(current, part);
             FileSystemInfo info = Directory.Exists(current) ? new DirectoryInfo(current) : new FileInfo(current);
@@ -67,7 +67,7 @@ public static class SafeOutput
         string temporary = Path.Combine(directory, "." + Path.GetFileName(full) + "." + Guid.NewGuid().ToString("N") + ".tmp");
         try
         {
-            using (var stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
             {
                 stream.Write(bytes);
                 stream.Flush(true);

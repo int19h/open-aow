@@ -33,7 +33,7 @@ public static class CaseMappings
     {
         lock (s_units)
         {
-            if (s_units.TryGetValue(persistedClass, out var found))
+            if (s_units.TryGetValue(persistedClass, out ICaseUnit? found))
             {
                 return found;
             }

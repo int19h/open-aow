@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
+using Aow.Formats.Schema;
 using Aow.Game.Saves;
 
 namespace Aow.Convert;
@@ -57,7 +58,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 errors.WriteLine($"{o.Expect}: {error.Message}");
                 return Program.Error;
             }
-            foreach (var row in census.Rows)
+            foreach (CensusRow row in census.Rows)
             {
                 expected++;
                 string root = row.SourceRoot == "install" ? GameRoot : OracleRoot;
@@ -67,7 +68,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                     Failure(row.Identity, $"pinned file {path} is missing");
                     continue;
                 }
-                var bytes = File.ReadAllBytes(path);
+                byte[] bytes = File.ReadAllBytes(path);
                 if (System.Convert.ToHexStringLower(SHA256.HashData(bytes)) != row.Sha256)
                 {
                     Failure(row.Identity, "the file differs from its pinned SHA-256");
@@ -77,17 +78,17 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 CheckOriginal(row.Identity, bytes, FileProfile.Find(row.Profile), row.Kind, true);
             }
         }
-        foreach (var target in o.Positional)
+        foreach (string target in o.Positional)
         {
-            var files = Directory.Exists(target) ? Commands.Enumerate(target).Select(r => Path.Combine(target, r)).ToList() : [target];
-            foreach (var file in files)
+            List<string> files = Directory.Exists(target) ? Commands.Enumerate(target).Select(r => Path.Combine(target, r)).ToList() : [target];
+            foreach (string file in files)
             {
                 CheckFile(file, o.Kind, o.Profile);
             }
         }
-        var fixtures = Fixtures.Run(errors);
+        Fixtures.Summary fixtures = Fixtures.Run(errors);
 
-        var schema = GameFiles.Schema;
+        FormatSchema schema = GameFiles.Schema;
         output.WriteLine($"Corpus: {_originals} original files, {_originalRoundTrips} G1 equal, {_documentRoundTrips} imported documents G2 equal, {_unknownProperties} unknown properties");
         output.WriteLine(fixtures.Failed == 0
             ? $"Fixtures: {fixtures.Cases} cases, all expected results matched"
@@ -102,7 +103,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             ? "Schema: unclassified sites not checked without a census, "
             : $"Schema: {census.UnexplainedSites} unclassified sites (census {census.Sha256[..12]}), ") +
             $"{schema.RegistrationAmbiguities.Count} registration ambiguities in {schema.Engines.Count} engine tables (measured at schema load, {schema.Classes.Count} classes, schema {schema.Hash[..12]})");
-        foreach (var a in schema.RegistrationAmbiguities)
+        foreach (string a in schema.RegistrationAmbiguities)
         {
             errors.WriteLine("registration ambiguity: " + a);
         }
@@ -112,7 +113,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             output.WriteLine($"Pinned: {pinned} of {expected} census files present with their pinned SHA-256");
         }
 
-        foreach (var (profile, t) in _tallies)
+        foreach ((string? profile, ProfileTally? t) in _tallies)
         {
             output.WriteLine($"Profile {profile}: {t.Files} files, {t.OriginalRoundTrips} G1, {t.DocumentRoundTrips} G2, {t.StableNormalizations} G-own, {t.Parts} layout parts in {t.Residue} files");
         }
@@ -125,7 +126,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine(_legacy.Count == 0 ? "Legacy rules: none fired" :
             "Legacy rules: " + string.Join(", ", _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})")));
         output.WriteLine("G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.");
-        foreach (var t in _timings.OrderByDescending(t => t.Inflated).Take(3))
+        foreach ((string Name, string Profile, long Size, long Inflated, double ImportMs, double ExportMs, long Json) t in _timings.OrderByDescending(t => t.Inflated).Take(3))
         {
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Measure: {t.Name} ({t.Profile}), {t.Size} bytes, {t.Inflated} payload bytes, own JSON {t.Json} bytes, import {t.ImportMs:F0} ms, export {t.ExportMs:F0} ms"));
@@ -134,8 +135,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         bool drift = false;
         if (expectation is not null)
         {
-            var problems = expectation.Compare(_corpusParts, _corpusResidueFiles, _corpusCategories, _corpusProfiles, _corpusLegacy, _corpusCaseResidues);
-            foreach (var p in problems)
+            List<string> problems = expectation.Compare(_corpusParts, _corpusResidueFiles, _corpusCategories, _corpusProfiles, _corpusLegacy, _corpusCaseResidues);
+            foreach (string p in problems)
             {
                 errors.WriteLine("expectation drift: " + p);
             }
@@ -166,7 +167,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
     private ProfileTally Tally(string profile)
     {
-        if (!_tallies.TryGetValue(profile, out var t))
+        if (!_tallies.TryGetValue(profile, out ProfileTally? t))
         {
             _tallies[profile] = t = new ProfileTally();
         }
@@ -176,8 +177,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
     private void CheckFile(string path, string? kind, string? profile)
     {
-        var bytes = File.ReadAllBytes(path);
-        var c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
+        byte[] bytes = File.ReadAllBytes(path);
+        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
         switch (c.Format)
         {
             case DetectedFormat.Original:
@@ -198,8 +199,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         _ownDocuments++;
         try
         {
-            var n1 = GameFiles.Normalize(bytes, name).Bytes;
-            var n2 = GameFiles.Normalize(n1, name).Bytes;
+            byte[] n1 = GameFiles.Normalize(bytes, name).Bytes;
+            byte[] n2 = GameFiles.Normalize(n1, name).Bytes;
             if (n1.AsSpan().SequenceEqual(n2))
             {
                 _stableNormalizations++;
@@ -230,26 +231,26 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             Failure(name, "no profile");
             return;
         }
-        var tally = Tally(profile.Name);
+        ProfileTally tally = Tally(profile.Name);
         tally.Files++;
         try
         {
-            var watch = Stopwatch.StartNew();
-            var imported = GameFiles.Import(bytes, profile, kind, name);
+            Stopwatch watch = Stopwatch.StartNew();
+            ImportResult imported = GameFiles.Import(bytes, profile, kind, name);
             double importMilliseconds = watch.Elapsed.TotalMilliseconds;
-            var text = GameFiles.Write(imported.Document);
-            var read = GameFiles.Read(text, name);
+            byte[] text = GameFiles.Write(imported.Document);
+            ReadResult read = GameFiles.Read(text, name);
             watch.Restart();
-            var exported = GameFiles.Export(read.Document, null, name);
+            ExportResult exported = GameFiles.Export(read.Document, null, name);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
-            var original = profile.Comparable(bytes, FormatLimits.Default);
-            var roundTrip = profile.Comparable(exported.Bytes, FormatLimits.Default);
+            byte[] original = profile.Comparable(bytes, FormatLimits.Default);
+            byte[] roundTrip = profile.Comparable(exported.Bytes, FormatLimits.Default);
             _timings.Add((name, profile.Name, bytes.Length, original.Length, importMilliseconds, exportMilliseconds, text.Length));
             int residues = CountCaseResidues(imported.Document);
             // The unit validators the game runs before it loads (own-formats.md 2.7). A refusal of
             // an original the game loads is a failure of the validators.
-            var context = new ValidationContext(imported.Document, profile, kind, name);
-            var findings = FormatMapping.Validators.SelectMany(v => v.Validate(context)).ToList();
+            ValidationContext context = new(imported.Document, profile, kind, name);
+            List<FormatDiagnostic> findings = FormatMapping.Validators.SelectMany(v => v.Validate(context)).ToList();
             if (findings.Count == 0)
             {
                 _validated++;
@@ -257,7 +258,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             else
             {
                 _refused++;
-                foreach (var finding in findings)
+                foreach (FormatDiagnostic finding in findings)
                 {
                     Failure(name, "unit validation: " + finding);
                 }
@@ -270,12 +271,12 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 tally.Residue++;
                 tally.Parts += imported.Counts.Parts;
             }
-            foreach (var (category, count) in imported.Counts.Categories)
+            foreach ((string? category, int count) in imported.Counts.Categories)
             {
                 _categories[category] = _categories.GetValueOrDefault(category) + count;
             }
 
-            foreach (var (rule, count) in imported.Counts.LegacyRules)
+            foreach ((string? rule, int count) in imported.Counts.LegacyRules)
             {
                 Add(_legacy, rule, count, name);
             }
@@ -287,15 +288,15 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 {
                     _corpusResidueFiles++;
                     _corpusParts += imported.Counts.Parts;
-                    var (parts, files) = _corpusProfiles.GetValueOrDefault(profile.Name);
+                    (int parts, int files) = _corpusProfiles.GetValueOrDefault(profile.Name);
                     _corpusProfiles[profile.Name] = (parts + imported.Counts.Parts, files + 1);
                 }
-                foreach (var (category, count) in imported.Counts.Categories)
+                foreach ((string? category, int count) in imported.Counts.Categories)
                 {
                     _corpusCategories[category] = _corpusCategories.GetValueOrDefault(category) + count;
                 }
 
-                foreach (var (rule, count) in imported.Counts.LegacyRules)
+                foreach ((string? rule, int count) in imported.Counts.LegacyRules)
                 {
                     Add(_corpusLegacy, rule, count, name);
                 }
@@ -309,8 +310,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             }
             _originalRoundTrips++;
             tally.OriginalRoundTrips++;
-            var again = GameFiles.Import(exported.Bytes, profile, kind, name);
-            var text2 = GameFiles.Write(again.Document);
+            ImportResult again = GameFiles.Import(exported.Bytes, profile, kind, name);
+            byte[] text2 = GameFiles.Write(again.Document);
             if (!text.AsSpan().SequenceEqual(text2))
             {
                 _differences++;
@@ -337,7 +338,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
     private static void Add(SortedDictionary<string, (int Occurrences, List<string> Files)> map, string rule, int count, string file)
     {
-        if (!map.TryGetValue(rule, out var entry))
+        if (!map.TryGetValue(rule, out (int Occurrences, List<string> Files) entry))
         {
             entry = (0, []);
         }
@@ -350,14 +351,14 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     internal static int CountCaseResidues(JsonValue value)
     {
         int count = 0;
-        var pending = new Stack<JsonValue>();
+        Stack<JsonValue> pending = new();
         pending.Push(value);
         while (pending.Count > 0)
         {
             switch (pending.Pop())
             {
                 case JsonObject objectValue:
-                    foreach (var m in objectValue.Members)
+                    foreach (JsonMember m in objectValue.Members)
                     {
                         if (m.Name == "$residue")
                         {
@@ -370,7 +371,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                     }
                     break;
                 case JsonArray array:
-                    foreach (var item in array.Items)
+                    foreach (JsonValue item in array.Items)
                     {
                         pending.Push(item);
                     }

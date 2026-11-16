@@ -25,10 +25,10 @@ internal static class PersistenceMeasurement
     public static int Run(string root, string kind, string file, string? map, string output)
     {
         Directory.CreateDirectory(output);
-        var host = new HeadlessHost(root, output, settings: null, input: Path.GetFullPath(file));
+        HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file));
         Shim.InstallHost(host);
         Startup.InitializeAll();
-        var engine = Startup.CreateEngine();
+        GameEngine engine = Startup.CreateEngine();
         NullSoundSystem.Install();
         CombatClasses.Register(engine);
         // The world map screen registers the campaign classes when it starts (WorldMap.RegisterWorldMapCampaign).
@@ -49,7 +49,7 @@ internal static class PersistenceMeasurement
         string saved = kind == "set"
             ? Path.Combine(host.GameRoot, "Release", "Release" + extension)
             : Path.Combine(host.GameRoot, "Save", "measure" + extension);
-        var watch = Stopwatch.StartNew();
+        Stopwatch watch = Stopwatch.StartNew();
         switch (kind)
         {
             case "map":
@@ -98,7 +98,7 @@ internal static class PersistenceMeasurement
                 break;
         }
         double ownLoad = watch.Elapsed.TotalMilliseconds;
-        using var process = Process.GetCurrentProcess();
+        using Process process = Process.GetCurrentProcess();
         process.Refresh();
         double peak = process.PeakWorkingSet64 / 1048576.0;
         long original = new FileInfo(Path.GetFullPath(file)).Length;
@@ -121,7 +121,7 @@ internal static class PersistenceMeasurement
 
     private static long ReadLength(HeadlessHost host, string path)
     {
-        using var stream = host.Files.Open(path, mode: Shim.fmOpenRead | Shim.fmShareDenyWrite);
+        using Stream stream = host.Files.Open(path, mode: Shim.fmOpenRead | Shim.fmShareDenyWrite);
         return stream.Length;
     }
 

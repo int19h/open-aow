@@ -56,7 +56,7 @@ internal sealed partial class IntegerCodec
             throw Mismatch(context, start, frame.Value(context), "An integer of " + width + " bytes is stored in " + (end - start) + " bytes.");
         }
 
-        var bytes = context.Data.AsSpan(start, width);
+        Span<byte> bytes = context.Data.AsSpan(start, width);
         long number = width switch
         {
             1 => signed ? (sbyte)bytes[0] : bytes[0],
@@ -101,7 +101,7 @@ internal sealed partial class StringCodec
             throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is a string.", null, frame.Path);
         }
 
-        var bytes = TextCodec.Bytes(context, node.Value, frame.Path);
+        byte[] bytes = TextCodec.Bytes(context, node.Value, frame.Path);
         if (bytes.Length >= 255)
         {
             data.Byte(255);
@@ -117,7 +117,7 @@ internal sealed partial class StringCodec
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        var site = frame.Value(context);
+        ValueSite site = frame.Value(context);
         context.Need(start, 1, end, site.Path, "string length");
         int at = start + 1;
         int length = context.Data[start];
@@ -151,15 +151,15 @@ internal partial class StringsCodec
             throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is lines.", null, frame.Path);
         }
 
-        var bytes = TextCodec.Bytes(text: node.RawText ?? Join(node.Lines ?? []), context: context, path: frame.Path);
+        byte[] bytes = TextCodec.Bytes(text: node.RawText ?? Join(node.Lines ?? []), context: context, path: frame.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
     }
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        var site = frame.Value(context);
-        var (text, after) = Block(context, start, end, site);
+        ValueSite site = frame.Value(context);
+        (string? text, int after) = Block(context, start, end, site);
         if (after != end)
         {
             throw Mismatch(context, start, site, "Bytes follow the text block.");
@@ -185,10 +185,10 @@ internal sealed partial class StringsWithValuesCodec
             throw context.Fail(Codes.Corrupt, "The text has " + lines + " lines and " + node.Objects.Count + " object values.", null, frame.Path);
         }
 
-        var bytes = TextCodec.Bytes(context, text, frame.Path);
+        byte[] bytes = TextCodec.Bytes(context, text, frame.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
-        foreach (var id in node.Objects)
+        foreach (int id in node.Objects)
         {
             data.Int32(id);
         }
@@ -196,8 +196,8 @@ internal sealed partial class StringsWithValuesCodec
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        var site = frame.Value(context);
-        var (text, after) = Block(context, start, end, site);
+        ValueSite site = frame.Value(context);
+        (string? text, int after) = Block(context, start, end, site);
         if ((end - after) % 4 != 0)
         {
             throw Mismatch(context, start, site, "The object values are not whole 32-bit integers.");
@@ -209,7 +209,7 @@ internal sealed partial class StringsWithValuesCodec
             throw Mismatch(context, start, site, "The text has " + LineCount(text) + " lines and " + count + " object values.");
         }
 
-        var ids = new int[count];
+        int[] ids = new int[count];
         for (int i = 0; i < count; i++)
         {
             ids[i] = context.Int32(after + (4 * i));
@@ -254,7 +254,7 @@ internal sealed partial class DataCodec
             throw context.Fail(Codes.Limit, "A payload is too large.", start, frame.Path);
         }
 
-        var bytes = new byte[length];
+        byte[] bytes = new byte[length];
         context.Data.AsSpan(start, length).CopyTo(bytes);
         return new BytesNode(bytes);
     }
@@ -351,7 +351,7 @@ internal sealed partial class FixedArrayCodec
             throw Mismatch(context, start, frame.Value(context), "An array of " + Count + " integers is stored in " + (end - start) + " bytes.");
         }
 
-        var node = new ListNode();
+        ListNode node = new();
         for (int i = 0; i < Count; i++)
         {
             node.Items.Add(new IntegerNode(Width, Signed, IntegerBytes.Read(context.Data.AsSpan(start + (i * Width), Width), Width, Signed)));
@@ -547,7 +547,7 @@ internal sealed partial class CatalogRecordCodec
             throw context.Fail(Codes.Type, "Version " + context.Schema.Version + " does not store a record.", null, frame.Path);
         }
 
-        var info = Info(context.File, frame.Path.ToString());
+        RecordTypeInfo info = Info(context.File, frame.Path.ToString());
         if (info.BareSet)
         {
             FieldCodec(info.Fields[0]).WriteImage(value, context, data, frame);
@@ -558,11 +558,11 @@ internal sealed partial class CatalogRecordCodec
             throw context.Fail(Codes.Type, (frame.Property?.Name ?? TypeName) + " is a record.", null, frame.Path);
         }
 
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        var bytes = new byte[info.Size];
+        HashSet<string> seen = new(StringComparer.Ordinal);
+        byte[] bytes = new byte[info.Size];
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
-        foreach (var field in info.Fields)
+        foreach (RecordFieldInfo field in info.Fields)
         {
             if (!residue && residueAt >= 0 && residueAt < field.Offset)
             {
@@ -570,14 +570,14 @@ internal sealed partial class CatalogRecordCodec
                 residue = true;
             }
             seen.Add(field.Name);
-            var found = node.Find(field.Name);
+            TreeValue? found = node.Find(field.Name);
             if (found is null || field.OmitsImage(found))
             {
                 continue;
             }
 
-            var fieldFrame = FieldFrame(frame, field.Name);
-            var buffer = new ByteBuffer(field.Size);
+            ImageFrame fieldFrame = FieldFrame(frame, field.Name);
+            ByteBuffer buffer = new(field.Size);
             FieldCodec(field).WriteImage(found, context, buffer, fieldFrame);
             if (buffer.Length != field.Size)
             {
@@ -592,7 +592,7 @@ internal sealed partial class CatalogRecordCodec
         }
 
         seen.Add("$reserved");
-        foreach (var (memberName, _) in node.Members)
+        foreach ((string? memberName, TreeValue _) in node.Members)
         {
             if (!seen.Contains(memberName))
             {
@@ -610,7 +610,7 @@ internal sealed partial class CatalogRecordCodec
             throw context.Fail(Codes.Type, "Version " + context.Schema.Version + " does not store a record.", start, frame.Path);
         }
 
-        var info = Info(context.File, frame.Path.ToString());
+        RecordTypeInfo info = Info(context.File, frame.Path.ToString());
         if (end - start != info.Size)
         {
             throw Mismatch(context, start, frame.Value(context), "A record of " + info.Size + " bytes is stored in " + (end - start) + " bytes.");
@@ -621,18 +621,18 @@ internal sealed partial class CatalogRecordCodec
             return FieldCodec(info.Fields[0]).ReadImage(context, start, end, frame);
         }
 
-        var node = new RecordNode();
+        RecordNode node = new();
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
-        var image = context.Data.AsSpan(start, info.Size);
-        foreach (var field in info.Fields)
+        Span<byte> image = context.Data.AsSpan(start, info.Size);
+        foreach (RecordFieldInfo field in info.Fields)
         {
             if (!residue && residueAt >= 0 && residueAt < field.Offset)
             {
                 AddImageResidue(image, info, node);
                 residue = true;
             }
-            var read = FieldCodec(field).ReadImage(context, start + field.Offset, start + field.Offset + field.Size, FieldFrame(frame, field.Name));
+            TreeValue read = FieldCodec(field).ReadImage(context, start + field.Offset, start + field.Offset + field.Size, FieldFrame(frame, field.Name));
             if (!field.OmitsImage(read))
             {
                 node.Add(field.Name, read);
@@ -648,7 +648,7 @@ internal sealed partial class CatalogRecordCodec
 
     private static void WriteResidue(RecordNode node, byte[] image, RecordTypeInfo info, EncodeContext context, ImageFrame frame)
     {
-        var found = node.Find("$reserved");
+        TreeValue? found = node.Find("$reserved");
         if (found is null)
         {
             return;
@@ -674,7 +674,7 @@ internal sealed partial class CatalogRecordCodec
             return;
         }
 
-        var residue = Gather(image, info);
+        byte[] residue = Gather(image, info);
         if (AllZero(residue))
         {
             return;

@@ -25,7 +25,7 @@ internal sealed partial class MapFieldsCodec
 
         int width = NodeDimension(frame.Parent, "Width"), height = NodeDimension(frame.Parent, "Height");
         CheckGrid(grid, width, height, (code, message, stated, constraint) => context.Fail(code, message, null, frame.Path, stated, constraint));
-        var fieldClass = TreeFieldClass(context.Schema, frame.OwnerClass, frame.Property);
+        SchemaClass fieldClass = TreeFieldClass(context.Schema, frame.OwnerClass, frame.Property);
         for (int i = 0; i < grid.Fields.Count; i++)
         {
             int at = data.Length;
@@ -44,8 +44,8 @@ internal sealed partial class MapFieldsCodec
             throw context.Fail(Codes.Limit, "The map has too many fields.", start, frame.Path, Text(count));
         }
 
-        var fieldClass = TreeFieldClass(context.Schema, frame.OwnerClass, frame.Property);
-        var fields = new ObjectNode[count];
+        SchemaClass fieldClass = TreeFieldClass(context.Schema, frame.OwnerClass, frame.Property);
+        ObjectNode[] fields = new ObjectNode[count];
         int position = start;
         for (int i = 0; i < fields.Length; i++)
         {
@@ -81,11 +81,11 @@ internal sealed partial class MapFieldsCodec
 
         int width = NodeDimension(site.Parent, "Width"), height = NodeDimension(site.Parent, "Height");
         CheckGrid(grid, width, height, (code, message, stated, constraint) => site.Fail(code, message, null, stated, constraint));
-        var fieldClass = TreeFieldClass(site.Schema, site.OwnerClass, site.Property!);
-        var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
+        SchemaClass fieldClass = TreeFieldClass(site.Schema, site.OwnerClass, site.Property!);
+        JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
         for (int y = 0; y < height; y++)
         {
-            var row = new JsonArray();
+            JsonArray row = new();
             for (int x = 0; x < width; x++)
             {
                 row.Add(DocumentBackend.WriteObject(grid.Fields[(y * width) + x], fieldClass, site.At(site.Path.Item(y).Item(x), element: false), created: false, slotted: false));
@@ -115,11 +115,11 @@ internal sealed partial class MapFieldsCodec
             throw site.Fail(Codes.Limit, "The map has too many fields.", rows, Text((long)width * height));
         }
 
-        var fieldClass = TreeFieldClass(site.Schema, site.OwnerClass, site.Property!);
-        var fields = new ObjectNode[width * height];
+        SchemaClass fieldClass = TreeFieldClass(site.Schema, site.OwnerClass, site.Property!);
+        ObjectNode[] fields = new ObjectNode[width * height];
         for (int y = 0; y < height; y++)
         {
-            var rowSite = site.At(site.Path.Item(y), element: false);
+            DocumentSite rowSite = site.At(site.Path.Item(y), element: false);
             if (rows.Items[y] is not JsonArray row)
             {
                 throw rowSite.Mismatch("A row is an array of fields.", rows.Items[y]);
@@ -132,7 +132,7 @@ internal sealed partial class MapFieldsCodec
 
             for (int x = 0; x < width; x++)
             {
-                var fieldSite = site.At(site.Path.Item(y).Item(x), element: false);
+                DocumentSite fieldSite = site.At(site.Path.Item(y).Item(x), element: false);
                 if (row.Items[x] is not JsonObject field)
                 {
                     throw fieldSite.Mismatch("A field is an object.", row.Items[x]);
@@ -180,7 +180,7 @@ internal sealed partial class CampaignMapCodec
 {
     internal override void WriteMemberImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
     {
-        var image = Image(value, (code, message) => context.Fail(code, message, null, frame.Path));
+        byte[] image = Image(value, (code, message) => context.Fail(code, message, null, frame.Path));
         // An own document is not an image. Exporting it refuses port-only state with the path
         // and writes an image only when the map is representable.
         if (IsOwnDocument(image))
@@ -219,13 +219,13 @@ internal sealed partial class CampaignMapCodec
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        var image = Image(value, (code, message) => site.Fail(code, message));
+        byte[] image = Image(value, (code, message) => site.Fail(code, message));
         if (IsOwnDocument(image))
         {
             return NestedOwnDocument(image, site);
         }
 
-        var session = new ImportSession
+        ImportSession session = new()
         {
             Schema = site.Schema,
             Limits = site.Context.Limits,
@@ -233,7 +233,7 @@ internal sealed partial class CampaignMapCodec
             File = site.Context.File,
             Nested = site.Path.ToString(),
         };
-        var (container, root) = Nested.Import(image, session);
+        (JsonObject? container, JsonObject? root) = Nested.Import(image, session);
         return new JsonObject().Add("$container", container).Add("root", root);
     }
 
@@ -244,7 +244,7 @@ internal sealed partial class CampaignMapCodec
             throw site.Mismatch("Map is a nested document.", value);
         }
 
-        foreach (var m in map.Members)
+        foreach (JsonMember m in map.Members)
         {
             if (m.Name is not ("$container" or "root" or "$layout"))
             {
@@ -252,17 +252,17 @@ internal sealed partial class CampaignMapCodec
             }
         }
 
-        var container = map["$container"] as JsonObject ?? throw site.Fail(Codes.MissingMember, "Map needs $container.", map);
-        var root = map["root"] ?? throw site.Fail(Codes.MissingMember, "Map needs root.", map);
+        JsonObject container = map["$container"] as JsonObject ?? throw site.Fail(Codes.MissingMember, "Map needs $container.", map);
+        JsonValue root = map["root"] ?? throw site.Fail(Codes.MissingMember, "Map needs root.", map);
         if (container["profile"] is not JsonString { Value: "world-hsm" })
         {
             throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
         }
 
-        var nested = new EncodeContext(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
+        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
         try
         {
-            var payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
+            byte[] payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
             return new NestedDocumentNode(Nested.Name, compression == "cfs" ? Cfs.Wrap(payload, level) : payload);
         }
         catch (ConversionException error) when (GameBoundary.LacksImage(error))
@@ -319,8 +319,8 @@ internal sealed partial class CampaignMapCodec
 
     private static JsonObject NestedOwnDocument(byte[] image, DocumentSite site)
     {
-        var read = GameFiles.Read(image, fileName: site.Context.File);
-        var (profile, _, container, root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
+        ReadResult read = GameFiles.Read(image, fileName: site.Context.File);
+        (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
         if (profile.Name != Nested.Name)
         {
             throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
@@ -331,7 +331,7 @@ internal sealed partial class CampaignMapCodec
             throw site.At(site.Path.Member("root"), element: false).Fail(Codes.Type, "Map root is an object.", root);
         }
 
-        var map = new JsonObject().Add("$container", container).Add("root", rootObject);
+        JsonObject map = new JsonObject().Add("$container", container).Add("root", rootObject);
         if (read.Document.Find("$layout") is { } layout)
         {
             map.Add("$layout", layout.Value);
@@ -342,10 +342,10 @@ internal sealed partial class CampaignMapCodec
 
     private static void AcceptNestedMap(JsonObject root, DocumentSite site)
     {
-        var nested = new EncodeContext(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
-        var classValue = Nested.RootClass(nested, root);
-        var body = new JsonObject { Span = root.Span };
-        foreach (var member in root.Members)
+        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
+        SchemaClass classValue = Nested.RootClass(nested, root);
+        JsonObject body = new() { Span = root.Span };
+        foreach (JsonMember member in root.Members)
         {
             if (member.Name != "$class")
             {
@@ -361,8 +361,8 @@ internal sealed partial class CampaignMapCodec
 
     private static byte[] ExportOwnDocument(byte[] image, EncodeContext context, DocumentNodePath path)
     {
-        var read = GameFiles.Read(image, fileName: context.File);
-        var (profile, _, container, root) = GameFiles.Envelope(read.Document, fileName: context.File);
+        ReadResult read = GameFiles.Read(image, fileName: context.File);
+        (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = GameFiles.Envelope(read.Document, fileName: context.File);
         if (profile.Name != Nested.Name)
         {
             throw context.Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container, path);
@@ -373,8 +373,8 @@ internal sealed partial class CampaignMapCodec
             throw context.Fail(Codes.Type, "root is an object.", root, path);
         }
 
-        var nested = new EncodeContext(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
-        var payload = Nested.ExportPayload(container, rootObject, nested, out string compression, out int level);
+        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
+        byte[] payload = Nested.ExportPayload(container, rootObject, nested, out string compression, out int level);
         context.Invalidated.AddRange(nested.Invalidated);
         return compression == "cfs" ? Cfs.Wrap(payload, level) : payload;
     }

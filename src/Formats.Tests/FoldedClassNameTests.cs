@@ -44,13 +44,13 @@ public sealed class FoldedClassNameTests : FormatsTest
     [Fact]
     public void AnOldStoredNameFindsTheFoldedClass()
     {
-        var schema = FormatSchema.Current;
-        foreach (var (old, current) in s_storedNames)
+        FormatSchema schema = FormatSchema.Current;
+        foreach ((string? old, string? current) in s_storedNames)
         {
             Assert.True(schema.Find(old)?.Name == current, $"{old} finds {schema.Find(old)?.Name ?? "nothing"}, not {current}");
         }
         // The first row of a current name gives the Delphi name, and that is the game class's.
-        foreach (var (current, delphi) in s_delphiNames)
+        foreach ((string? current, string? delphi) in s_delphiNames)
         {
             Assert.Equal(delphi, NameTable.Rows.First(row => row.Kind == "type" && row.Current == current).Delphi);
         }

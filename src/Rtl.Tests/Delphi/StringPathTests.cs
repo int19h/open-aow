@@ -13,7 +13,7 @@ public sealed class StringPathTests
             "C:\\", "\\", "\\\\server\\share\\file.ext", "\\\\server\\share", "\\\\", "\\\\s",
             "C:\\a\\\u20ac.ext" })
         {
-            var ansi = Cp1252.Decode(Cp1252.Encode(path));
+            string ansi = Cp1252.Decode(Cp1252.Encode(path));
             Assert.Equal(RtlUnit.ExtractFileName(ansi), RtlUnit.ExtractFileName(path));
             Assert.Equal(RtlUnit.ExtractFilePath(ansi), RtlUnit.ExtractFilePath(path));
             Assert.Equal(RtlUnit.ExtractFileDir(ansi), RtlUnit.ExtractFileDir(path));
@@ -29,7 +29,7 @@ public sealed class StringPathTests
     [Fact]
     public void ExpandFileNameMatchesFilesProbeInputs()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         foreach (string path in new[] { "", ".", "..", "probe-files\\alpha.TXT", ".\\probe-files\\d00\\..\\Beta.txt",
             "probe-files\\..", "probe-files\\missing\\..\\new.txt", "probe-files/alpha.TXT" })
         {
@@ -40,7 +40,7 @@ public sealed class StringPathTests
     [Fact]
     public void PathsAcceptNullAndPreserveHostCharacters()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
             RtlUnit.ExtractFileName, RtlUnit.ExtractFilePath, RtlUnit.ExtractFileDir, RtlUnit.ExtractFileExt,
             RtlUnit.ExtractFileDrive, RtlUnit.ExpandFileName })

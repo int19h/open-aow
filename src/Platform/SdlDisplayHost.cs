@@ -110,7 +110,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     private (int X, int Y, bool Inside) Map(float x, float y)
     {
-        var point = ToOutput(x, y);
+        (float X, float Y) point = ToOutput(x, y);
         return Viewport.Map(point.X, point.Y);
     }
 
@@ -124,7 +124,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         get
         {
             OnThread();
-            var mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(_window));
+            SDL_DisplayMode* mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(_window));
             if (mode is null)
             {
                 throw Error();
@@ -136,7 +136,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { var desktop = DesktopSize; return PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
+        get { (int Width, int Height) desktop = DesktopSize; return PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
 
     public void ResizeImage(int newWidth, int newHeight)
@@ -242,7 +242,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             5 => [(4, "Retry"), (2, "Cancel")],
             _ => [(1, "OK")]
         };
-        var kind = (request.Flags & 0xF0) switch
+        SDL_MessageBoxFlags kind = (request.Flags & 0xF0) switch
         {
             0x10 => SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR,
             0x30 => SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING,
@@ -254,12 +254,12 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             Fullscreen = false;
         }
 
-        var labels = buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label)).ToArray();
+        nint[] labels = buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label)).ToArray();
         nint title = Marshal.StringToCoTaskMemUTF8(request.Caption.Length > 0 ? request.Caption : "Age of Wonders");
         nint text = Marshal.StringToCoTaskMemUTF8(request.Text);
         try
         {
-            var data = stackalloc SDL_MessageBoxButtonData[buttons.Length];
+            SDL_MessageBoxButtonData* data = stackalloc SDL_MessageBoxButtonData[buttons.Length];
             for (int i = 0; i < buttons.Length; i++)
             {
                 data[i] = new SDL_MessageBoxButtonData
@@ -271,7 +271,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 };
             }
 
-            var box = new SDL_MessageBoxData
+            SDL_MessageBoxData box = new()
             {
                 flags = kind | SDL_MessageBoxFlags.SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT,
                 window = _window,
@@ -285,7 +285,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
         finally
         {
-            foreach (var label in labels)
+            foreach (nint label in labels)
             {
                 Marshal.FreeCoTaskMem(label);
             }
@@ -346,8 +346,8 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
 
         Check(SDL_RenderClear(_renderer));
-        var viewport = Viewport;
-        var destination = new SDL_FRect { x = viewport.Left, y = viewport.Top, w = _width * viewport.Scale, h = _height * viewport.Scale };
+        DisplayViewport viewport = Viewport;
+        SDL_FRect destination = new() { x = viewport.Left, y = viewport.Top, w = _width * viewport.Scale, h = _height * viewport.Scale };
         Check(SDL_RenderTexture(_renderer, _texture, null, &destination));
         Check(SDL_RenderPresent(_renderer));
     }
@@ -358,7 +358,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         SDL_Event ev;
         while (SDL_PollEvent(&ev))
         {
-            var type = (SDL_EventType)ev.type;
+            SDL_EventType type = (SDL_EventType)ev.type;
             if (type == SDL_EVENT_QUIT) { if (sink.CloseRequested()) { IsClosed = true; } continue; }
             if (type is >= SDL_EVENT_WINDOW_FIRST and <= SDL_EVENT_WINDOW_LAST && ev.window.windowID != SDL_GetWindowID(_window))
             {
@@ -424,24 +424,24 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                             Check(SDL_SetWindowSize(_window, _width * scale, _height * scale));
                         }
                     }
-                    var size = ClientSize;
+                    (int Width, int Height) size = ClientSize;
                     sink.Resize(size.Width, size.Height);
                     break;
                 case SDL_EVENT_MOUSE_MOTION:
                     _input.SetModifiers((int)SDL_GetModState());
-                    var motion = ToOutput(ev.motion.x, ev.motion.y);
+                    (float X, float Y) motion = ToOutput(ev.motion.x, ev.motion.y);
                     _input.Motion(motion.X, motion.Y, (uint)ev.motion.state, Viewport, sink);
                     ShowSystemCursor(!Viewport.Map(motion.X, motion.Y).Inside);
                     break;
                 case SDL_EVENT_MOUSE_BUTTON_DOWN:
                 case SDL_EVENT_MOUSE_BUTTON_UP:
                     _input.SetModifiers((int)SDL_GetModState());
-                    var press = ToOutput(ev.button.x, ev.button.y);
+                    (float X, float Y) press = ToOutput(ev.button.x, ev.button.y);
                     _input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, press.X, press.Y, Viewport, sink);
                     break;
                 case SDL_EVENT_MOUSE_WHEEL:
                     _input.SetModifiers((int)SDL_GetModState());
-                    var rolled = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
+                    (float X, float Y) rolled = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
                     _input.Wheel(ev.wheel.y, (int)ev.wheel.direction, rolled.X, rolled.Y, Viewport, sink);
                     break;
                 case SDL_EVENT_KEY_DOWN:

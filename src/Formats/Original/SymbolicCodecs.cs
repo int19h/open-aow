@@ -30,7 +30,7 @@ internal static class IntegerBytes
 
     public static byte[] Bytes(long value, int width)
     {
-        var data = new ByteBuffer(width);
+        ByteBuffer data = new(width);
         Write(data, value, width);
         return data.ToArray();
     }
@@ -83,7 +83,7 @@ internal sealed partial class EnumCodec : PropertyCodec
 
     internal long Parse(EncodeContext context, JsonValue value, DocumentNodePath path, string name)
     {
-        var type = Catalog(context.File, path.ToString());
+        EnumTypeInfo type = Catalog(context.File, path.ToString());
         long number;
         if (value is JsonString text)
         {
@@ -111,8 +111,8 @@ internal sealed partial class EnumCodec : PropertyCodec
 
     internal JsonValue MemberText(long number, string? file, string path)
     {
-        var type = Catalog(file, path);
-        return type.ByValue.TryGetValue(number, out var name) ? new JsonString(name) : new JsonInteger(number);
+        EnumTypeInfo type = Catalog(file, path);
+        return type.ByValue.TryGetValue(number, out string? name) ? new JsonString(name) : new JsonInteger(number);
     }
 
     internal byte[] Raw(long number) => IntegerBytes.Bytes(number, Width);
@@ -126,7 +126,7 @@ internal sealed partial class EnumCodec : PropertyCodec
             return _known;
         }
 
-        var type = EnumCatalog.Require(TypeName, file, path);
+        EnumTypeInfo type = EnumCatalog.Require(TypeName, file, path);
         if (type.Width != Width || type.Signed != Signed)
         {
             throw new InvalidOperationException("Enum " + TypeName + " is " + type.Width + " bytes in the catalog and " + Width + " bytes in the schema.");
@@ -186,8 +186,8 @@ internal sealed partial class SetCodec : PropertyCodec
 
     internal JsonArray Members(ulong mask, string? file, string path)
     {
-        var type = Catalog(file, path);
-        var array = new JsonArray();
+        EnumTypeInfo type = Catalog(file, path);
+        JsonArray array = new();
         int bits = Width * 8;
         for (int bit = 0; bit < bits; bit++)
         {
@@ -196,7 +196,7 @@ internal sealed partial class SetCodec : PropertyCodec
                 continue;
             }
 
-            array.Add(type.ByValue.TryGetValue(bit, out var name) ? new JsonString(name) : new JsonInteger(bit));
+            array.Add(type.ByValue.TryGetValue(bit, out string? name) ? new JsonString(name) : new JsonInteger(bit));
         }
         return array;
     }
@@ -208,14 +208,14 @@ internal sealed partial class SetCodec : PropertyCodec
             throw context.Fail(Codes.Type, name + " is an array of " + TypeName + " names.", value, path, value.KindName);
         }
 
-        var type = Catalog(context.File, path.ToString());
+        EnumTypeInfo type = Catalog(context.File, path.ToString());
         ulong mask = 0;
         int bits = Width * 8;
-        var seen = new HashSet<int>();
+        HashSet<int> seen = new();
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var item = array.Items[i];
-            var at = path.Item(i);
+            JsonValue item = array.Items[i];
+            DocumentNodePath at = path.Item(i);
             long ordinal;
             if (item is JsonString text)
             {
@@ -298,7 +298,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
             throw Mismatch(context, start, site, "An array of " + Count + " integers is stored in " + (end - start) + " bytes.");
         }
 
-        var array = new JsonArray();
+        JsonArray array = new();
         for (int i = 0; i < Count; i++)
         {
             array.Add(new JsonInteger(IntegerBytes.Read(context.Data.AsSpan(start + (i * Width), Width), Width, Signed)));
@@ -309,7 +309,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        var numbers = Values(context, value, site.Path, site.Property.Name, refuseLong: true);
+        List<long> numbers = Values(context, value, site.Path, site.Property.Name, refuseLong: true);
         for (int i = 0; i < Count; i++)
         {
             IntegerBytes.Write(data, i < numbers.Count ? numbers[i] : 0, Width);
@@ -328,10 +328,10 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
             throw site.Mismatch((site.Property?.Name ?? "The value") + " is a list of integers.");
         }
 
-        var array = new JsonArray();
+        JsonArray array = new();
         for (int i = 0; i < node.Items.Count; i++)
         {
-            var item = site.At(site.Path.Item(i), true);
+            DocumentSite item = site.At(site.Path.Item(i), true);
             if (node.Items[i] is not IntegerNode integer || integer.Width != Width || integer.Signed != Signed)
             {
                 throw item.Mismatch((site.Property?.Name ?? "The value") + " is an integer.");
@@ -350,9 +350,9 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
             throw site.Fail(Codes.Type, "Version " + site.Schema.Version + " does not store a list.", value);
         }
 
-        var numbers = Values(site.Context, value, site.Path, site.Property?.Name ?? "The value", refuseLong: false);
-        var node = new ListNode();
-        foreach (var number in numbers)
+        List<long> numbers = Values(site.Context, value, site.Path, site.Property?.Name ?? "The value", refuseLong: false);
+        ListNode node = new();
+        foreach (long number in numbers)
         {
             node.Items.Add(new IntegerNode(Width, Signed, number));
         }
@@ -378,7 +378,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
                 array.Items.Count.ToString(System.Globalization.CultureInfo.InvariantCulture), Count + " values");
         }
 
-        var numbers = new List<long>(array.Items.Count);
+        List<long> numbers = new(array.Items.Count);
         for (int i = 0; i < array.Items.Count; i++)
         {
             if (array.Items[i] is not JsonInteger integer)

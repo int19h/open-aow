@@ -15,7 +15,7 @@ internal static class HexText
             return false;
         }
 
-        foreach (var c in text)
+        foreach (char c in text)
         {
             if (c is not ((>= '0' and <= '9') or (>= 'a' and <= 'f')))
             {
@@ -178,8 +178,8 @@ internal partial class StringsCodec
 
     internal static string Join(IReadOnlyList<string> lines)
     {
-        var builder = new StringBuilder();
-        foreach (var line in lines)
+        StringBuilder builder = new();
+        foreach (string line in lines)
         {
             builder.Append(line).Append("\r\n");
         }
@@ -205,21 +205,21 @@ internal sealed partial class StringsWithValuesCodec
         }
 
         site.RequireText(text);
-        var objects = new JsonArray();
-        foreach (var item in node.Objects)
+        JsonArray objects = new();
+        foreach (int item in node.Objects)
         {
             objects.Add(new JsonInteger(item));
         }
         // The converter stores an array only when the block rule reproduces the bytes. A line that
         // holds CR, LF or NUL stays $text, the same choice Decode makes for the engine image.
-        var canonical = node.RawText is null ? Lines(text) : null;
+        List<string>? canonical = node.RawText is null ? Lines(text) : null;
         if (canonical is null)
         {
             return new JsonObject().Add("$text", new JsonString(text)).Add("objects", objects);
         }
 
-        var array = new JsonArray();
-        foreach (var line in canonical)
+        JsonArray array = new();
+        foreach (string line in canonical)
         {
             array.Add(new JsonString(line));
         }
@@ -234,7 +234,7 @@ internal sealed partial class StringsWithValuesCodec
             throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object with lines or $text, and objects.", value);
         }
 
-        var (text, ids) = ReadMembers(site.Context, objectValue, site.Path);
+        (string? text, List<int>? ids) = ReadMembers(site.Context, objectValue, site.Path);
         site.RequireText(text, value);
         return LinesWithValuesNode.FromText(text, ids);
     }
@@ -274,7 +274,7 @@ internal sealed partial class DataCodec
             throw site.Fail(Codes.Limit, "A payload is too large.", text);
         }
 
-        var bytes = HexText.Decode(text.Value);
+        byte[] bytes = HexText.Decode(text.Value);
         if (Size is int n && bytes.Length != n)
         {
             throw site.Fail(Codes.Range, $"{site.Property?.Name ?? "The value"} holds exactly {n} bytes.", text, Text(bytes.Length), $"{n} bytes");
@@ -339,12 +339,12 @@ internal sealed partial class FixedObjectCodec
             throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
         }
 
-        var classValue = context.Schema.Get(ClassName);
-        var used = new HashSet<int>();
+        SchemaClass classValue = context.Schema.Get(ClassName);
+        HashSet<int> used = new();
         for (int i = 0; i < node.Entries.Count; i++)
         {
-            var (slot, item) = node.Entries[i];
-            var itemPath = frame.Path.Item(i);
+            (int slot, TreeValue? item) = node.Entries[i];
+            DocumentNodePath itemPath = frame.Path.Item(i);
             long id = (long)slot + slotBase;
             if (slot < 0 || id < frame.Property.DynamicMinimum!.Value || id > int.MaxValue)
             {
@@ -375,11 +375,11 @@ internal sealed partial class FixedObjectCodec
         }
 
         context.CheckItems(entries.Count, entries[0].Start, frame.Path);
-        var classValue = context.Schema.Get(ClassName);
-        var node = new SlotListNode();
+        SchemaClass classValue = context.Schema.Get(ClassName);
+        SlotListNode node = new();
         for (int i = 0; i < entries.Count; i++)
         {
-            var (id, start, end) = entries[i];
+            (int id, int start, int end) = entries[i];
             node.Add(id - slotBase, ImageTree.ReadBody(context, start, end, classValue, frame.Path.Item(i), className: null, slot: id - slotBase));
         }
         return node;
@@ -403,13 +403,13 @@ internal sealed partial class FixedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items");
         }
 
-        var classValue = site.Schema.Get(ClassName);
-        var array = new JsonArray();
-        var used = new HashSet<int>();
+        SchemaClass classValue = site.Schema.Get(ClassName);
+        JsonArray array = new();
+        HashSet<int> used = new();
         for (int i = 0; i < node.Entries.Count; i++)
         {
-            var (slot, item) = node.Entries[i];
-            var at = site.At(site.Path.Item(i), element: false);
+            (int slot, TreeValue? item) = node.Entries[i];
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             long id = (long)slot + slotBase;
             if (slot < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
             {
@@ -449,12 +449,12 @@ internal sealed partial class FixedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, value: null, constraint: "at most " + site.Context.Limits.CollectionItems + " items");
         }
 
-        var classValue = site.Schema.Get(ClassName);
-        var node = new SlotListNode();
-        var used = new HashSet<long>();
+        SchemaClass classValue = site.Schema.Get(ClassName);
+        SlotListNode node = new();
+        HashSet<long> used = new();
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var at = site.At(site.Path.Item(i), element: false);
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             if (array.Items[i] is not JsonObject item)
             {
                 throw at.Mismatch("An item of " + name + " is an object.", array.Items[i]);
@@ -496,8 +496,8 @@ internal sealed partial class CreatedObjectCodec
             throw context.Fail(Codes.Type, frame.Property.Name + " is an object or null.", null, frame.Path);
         }
 
-        var classValue = Resolve(context, name, frame);
-        var shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+        SchemaClass classValue = Resolve(context, name, frame);
+        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
         data.Int32(classValue.Id!.Value);
         ImageTree.WriteBody(node, shape?.Shape ?? classValue, context, data, frame.Path, true);
     }
@@ -524,11 +524,11 @@ internal sealed partial class CreatedObjectCodec
             throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
         }
 
-        var used = new HashSet<int>();
+        HashSet<int> used = new();
         for (int i = 0; i < node.Entries.Count; i++)
         {
-            var (slot, item) = node.Entries[i];
-            var itemPath = frame.Path.Item(i);
+            (int slot, TreeValue? item) = node.Entries[i];
+            DocumentNodePath itemPath = frame.Path.Item(i);
             long id = (long)slot + slotBase;
             if (slot < 0 || id < frame.Property.DynamicMinimum!.Value || id > int.MaxValue)
             {
@@ -559,10 +559,10 @@ internal sealed partial class CreatedObjectCodec
         }
 
         context.CheckItems(entries.Count, entries[0].Start, frame.Path);
-        var node = new SlotListNode();
+        SlotListNode node = new();
         for (int i = 0; i < entries.Count; i++)
         {
-            var (id, start, end) = entries[i];
+            (int id, int start, int end) = entries[i];
             node.Add(id - slotBase, ReadCreated(frame: new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent }, context: context, start: start, end: end, slot: id - slotBase));
         }
         return node;
@@ -586,12 +586,12 @@ internal sealed partial class CreatedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var array = new JsonArray();
-        var used = new HashSet<int>();
+        JsonArray array = new();
+        HashSet<int> used = new();
         for (int i = 0; i < node.Entries.Count; i++)
         {
-            var (slot, item) = node.Entries[i];
-            var at = site.At(site.Path.Item(i), element: false);
+            (int slot, TreeValue? item) = node.Entries[i];
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             long id = (long)slot + slotBase;
             if (slot < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
             {
@@ -637,11 +637,11 @@ internal sealed partial class CreatedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var node = new SlotListNode();
-        var used = new HashSet<long>();
+        SlotListNode node = new();
+        HashSet<long> used = new();
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var at = site.At(site.Path.Item(i), element: false);
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             if (array.Items[i] is not JsonObject item)
             {
                 throw at.Mismatch($"An item of {name} is an object.", array.Items[i]);
@@ -665,7 +665,7 @@ internal sealed partial class CreatedObjectCodec
 
             if (item["$class"] is JsonNull)
             {
-                foreach (var member in item.Members)
+                foreach (JsonMember member in item.Members)
                 {
                     if (member.Name is not ("$class" or "$slot"))
                     {
@@ -681,7 +681,7 @@ internal sealed partial class CreatedObjectCodec
                 throw at.Fail(Codes.MissingMember, "A created object needs $class.", item);
             }
 
-            var classValue = DocumentBackend.RequireClass(at, className.Value, Family, className);
+            SchemaClass classValue = DocumentBackend.RequireClass(at, className.Value, Family, className);
             node.Add((int)slot.Value, DocumentBackend.ReadObject(item, classValue, at, created: true, slotted: true));
         }
         return node;
@@ -710,7 +710,7 @@ internal sealed partial class CreatedObjectCodec
 
         for (int i = 0; i < node.Items.Count; i++)
         {
-            var item = node.Items[i];
+            TreeValue item = node.Items[i];
             if (item is ObjectNode { Slot: not null })
             {
                 throw context.Fail(Codes.ReservedMember, "Items of " + name + " have no $slot.", null, frame.Path.Item(i).Member("$slot"), "$slot");
@@ -727,10 +727,10 @@ internal sealed partial class CreatedObjectCodec
     private TreeValue ReadSequenceImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
     {
         context.CheckItems(entries.Count, entries[0].Start, frame.Path);
-        var items = new TreeValue[entries.Count];
+        TreeValue[] items = new TreeValue[entries.Count];
         for (int i = 0; i < entries.Count; i++)
         {
-            var (id, start, end) = entries[i];
+            (int id, int start, int end) = entries[i];
             items[i] = ReadCreated(context, start, end, new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent }, null);
         }
         return new SequenceNode(items);
@@ -749,10 +749,10 @@ internal sealed partial class CreatedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var array = new JsonArray();
+        JsonArray array = new();
         for (int i = 0; i < node.Items.Count; i++)
         {
-            var at = site.At(site.Path.Item(i), element: false);
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             if (node.Items[i] is NullNode)
             {
                 array.Add(new JsonObject().Add("$class", new JsonNull()));
@@ -782,10 +782,10 @@ internal sealed partial class CreatedObjectCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var items = new TreeValue[array.Items.Count];
+        TreeValue[] items = new TreeValue[array.Items.Count];
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var at = site.At(site.Path.Item(i), element: false);
+            DocumentSite at = site.At(site.Path.Item(i), element: false);
             if (array.Items[i] is not JsonObject item)
             {
                 throw at.Mismatch($"An item of {name} is an object.", array.Items[i]);
@@ -798,7 +798,7 @@ internal sealed partial class CreatedObjectCodec
 
             if (item["$class"] is JsonNull)
             {
-                foreach (var member in item.Members)
+                foreach (JsonMember member in item.Members)
                 {
                     if (member.Name != "$class")
                     {
@@ -841,9 +841,9 @@ internal sealed partial class CreatedObjectCodec
 
             return NullNode.Instance;
         }
-        var classValue = context.Schema.Resolve(context.Engine, classId)
+        SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
             ?? throw context.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + context.Engine + " engine table.", start, frame.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        var shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
         if (shape is null && Family is not null && !classValue.InheritsFrom(Family))
         {
             throw context.Fail(Codes.ClassFamily, "Class " + classValue.Name + " is not a " + Family + ".", start, frame.Path, classValue.Name, Family);
@@ -859,7 +859,7 @@ internal sealed partial class CreatedObjectCodec
 
     private SchemaClass Resolve(EncodeContext context, string name, ImageFrame frame)
     {
-        var classValue = context.Schema.Find(name)
+        SchemaClass classValue = context.Schema.Find(name)
             ?? throw context.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, frame.Path, name);
         if (classValue.Id is not int id || context.Schema.Resolve(context.Engine, id) != classValue)
         {
@@ -924,12 +924,12 @@ internal sealed partial class ChildrenCodec
             throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
         }
 
-        var writer = new ObjectWriter();
-        var slots = new HashSet<int>();
+        ObjectWriter writer = new();
+        HashSet<int> slots = new();
         for (int i = 0; i < node.Children.Count; i++)
         {
-            var child = node.Children[i];
-            var itemPath = frame.Path.Item(i);
+            ObjectNode child = node.Children[i];
+            DocumentNodePath itemPath = frame.Path.Item(i);
             if (child.Slot is not int slot || slot < 0)
             {
                 throw context.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", null, itemPath);
@@ -945,14 +945,14 @@ internal sealed partial class ChildrenCodec
                 throw context.Fail(Codes.MissingMember, "A child needs a class.", null, itemPath);
             }
 
-            var classValue = context.Schema.Find(name)
+            SchemaClass classValue = context.Schema.Find(name)
                 ?? throw context.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, itemPath, name);
             if (classValue.Id is not int id || context.Schema.Resolve(context.Engine, id) != classValue)
             {
                 throw context.Fail(Codes.UnknownClass, "Class " + classValue.Name + " is not in the " + context.Engine + " engine table.", null, itemPath, classValue.Name);
             }
 
-            var shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
             writer.Begin(slot, frame.Property, i);
             writer.Data.Int32(id);
             ImageTree.WriteBody(child, shape?.Shape ?? classValue, context, writer.Data, itemPath, true);
@@ -963,15 +963,15 @@ internal sealed partial class ChildrenCodec
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        var table = PropertyTable.Read(context, start, end, frame.Path);
+        PropertyTable table = PropertyTable.Read(context, start, end, frame.Path);
         int db = table.DataBase;
-        var boundaries = table.Entries.Select(entry => entry.Offset).Append(end - db).Distinct().Order().ToArray();
-        var order = table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index).ToList();
-        var slots = new HashSet<int>();
-        var children = new List<ObjectNode>();
+        int[] boundaries = table.Entries.Select(entry => entry.Offset).Append(end - db).Distinct().Order().ToArray();
+        List<TableEntry> order = table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index).ToList();
+        HashSet<int> slots = new();
+        List<ObjectNode> children = new();
         for (int i = 0; i < order.Count; i++)
         {
-            var entry = order[i];
+            TableEntry entry = order[i];
             if (i + 1 < order.Count && order[i + 1].Offset == entry.Offset)
             {
                 throw context.Fail(Codes.Layout, "Two children share one offset.", db + entry.Offset, frame.Path);
@@ -992,9 +992,9 @@ internal sealed partial class ChildrenCodec
                 throw context.Fail(Codes.Type, "A stored child is never nil.", childStart, frame.Path.Item(children.Count));
             }
 
-            var classValue = context.Schema.Resolve(context.Engine, classId)
+            SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
                 ?? throw context.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + context.Engine + " engine table.", childStart, frame.Path.Item(children.Count), classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-            var shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
             if (shape is { } legacy)
             {
                 context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
@@ -1022,12 +1022,12 @@ internal sealed partial class ChildrenCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var array = new JsonArray();
-        var slots = new HashSet<int>();
+        JsonArray array = new();
+        HashSet<int> slots = new();
         for (int i = 0; i < node.Children.Count; i++)
         {
-            var child = node.Children[i];
-            var item = site.At(site.Path.Item(i), false);
+            ObjectNode child = node.Children[i];
+            DocumentSite item = site.At(site.Path.Item(i), false);
             if (child.Slot is not int slot || !slots.Add(slot))
             {
                 throw item.Fail(Codes.Slot, child.Slot is int used ? $"Child slot {used} is declared twice." : "A child needs a non-negative integer $slot.");
@@ -1055,11 +1055,11 @@ internal sealed partial class ChildrenCodec
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var children = new List<ObjectNode>(array.Items.Count);
-        var slots = new HashSet<int>();
+        List<ObjectNode> children = new(array.Items.Count);
+        HashSet<int> slots = new();
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var item = site.At(site.Path.Item(i), false);
+            DocumentSite item = site.At(site.Path.Item(i), false);
             if (array.Items[i] is not JsonObject child)
             {
                 throw item.Mismatch("A child is an object.", array.Items[i]);
@@ -1121,10 +1121,10 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
             throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var array = new JsonArray();
+        JsonArray array = new();
         for (int i = 0; i < node.Items.Count; i++)
         {
-            var item = site.At(site.Path.Item(i), true);
+            DocumentSite item = site.At(site.Path.Item(i), true);
             array.Add(element.WriteTree(node.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value."));
         }
         return array;
@@ -1147,10 +1147,10 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
             throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
         }
 
-        var node = new ListNode();
+        ListNode node = new();
         for (int i = 0; i < array.Items.Count; i++)
         {
-            var item = site.At(site.Path.Item(i), true);
+            DocumentSite item = site.At(site.Path.Item(i), true);
             node.Items.Add(element.ReadTree(array.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value.", array.Items[i]));
         }
         return node;
@@ -1191,17 +1191,17 @@ internal sealed class RecordCodec : PropertyCodec
             throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a record.");
         }
 
-        var json = new JsonObject();
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var (name, codec) in _fields)
+        JsonObject json = new();
+        HashSet<string> seen = new(StringComparer.Ordinal);
+        foreach ((string? name, PropertyCodec? codec) in _fields)
         {
-            var field = node.Find(name);
+            TreeValue? field = node.Find(name);
             if (field is null)
             {
                 continue;
             }
 
-            var written = codec.WriteTree(site: site.At(site.Path.Member(name), false), value: field);
+            JsonValue? written = codec.WriteTree(site: site.At(site.Path.Member(name), false), value: field);
             if (written is not null)
             {
                 json.Add(name, written);
@@ -1209,7 +1209,7 @@ internal sealed class RecordCodec : PropertyCodec
 
             seen.Add(name);
         }
-        foreach (var (name, _) in node.Members)
+        foreach ((string? name, TreeValue _) in node.Members)
         {
             if (!seen.Contains(name))
             {
@@ -1232,8 +1232,8 @@ internal sealed class RecordCodec : PropertyCodec
             throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a record.", value);
         }
 
-        var known = _fields.Select(f => f.Name).ToHashSet(StringComparer.Ordinal);
-        foreach (var member in objectValue.Members)
+        HashSet<string> known = _fields.Select(f => f.Name).ToHashSet(StringComparer.Ordinal);
+        foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name.StartsWith('$') && member.Name != "$text")
             {
@@ -1247,16 +1247,16 @@ internal sealed class RecordCodec : PropertyCodec
                 throw site.At(site.Path.Member(member.Name), false).Fail(Codes.UnknownMember, $"The record has no member \"{member.Name}\".", member.Value, member.Name);
             }
         }
-        var node = new RecordNode();
-        foreach (var (name, codec) in _fields)
+        RecordNode node = new();
+        foreach ((string? name, PropertyCodec? codec) in _fields)
         {
-            var member = objectValue.Find(name);
+            JsonMember? member = objectValue.Find(name);
             if (member is null)
             {
                 continue;
             }
 
-            var read = codec.ReadTree(member.Value, site.At(site.Path.Member(name), false));
+            TreeValue? read = codec.ReadTree(member.Value, site.At(site.Path.Member(name), false));
             if (read is not null)
             {
                 node.Add(name, read);

@@ -11,8 +11,8 @@ public sealed class BinaryDictionaryTests
         string path = Path.Combine(Path.GetTempPath(), "aow-dictionary-" + Guid.NewGuid().ToString("N"));
         try
         {
-            using (var stream = File.Create(path))
-            using (var writer = new BinaryWriter(stream))
+            using (FileStream stream = File.Create(path))
+            using (BinaryWriter writer = new(stream))
             {
                 WriteHeader(writer, 4);
                 void Text(byte[] bytes) { writer.Write((ushort)bytes.Length); writer.Write(bytes); }
@@ -26,7 +26,7 @@ public sealed class BinaryDictionaryTests
                 Entry("unchanged", "", "", "");
                 Text([0x63, 0x61, 0x66, 0xe9]); Text([]); Text([]); Text([0x74, 0x65, 0x61]); Text([]);
             }
-            var dictionary = new IvBinaryDictionary { FileName = path };
+            IvBinaryDictionary dictionary = new() { FileName = path };
             dictionary.SetLanguage(1);
             dictionary.Open();
             Assert.Equal("items", dictionary.Translate("item(plural)"));
@@ -50,13 +50,13 @@ public sealed class BinaryDictionaryTests
         string path = Path.Combine(Path.GetTempPath(), "aow-dictionary-" + Guid.NewGuid().ToString("N"));
         try
         {
-            using (var stream = File.Create(path))
-            using (var writer = new BinaryWriter(stream))
+            using (FileStream stream = File.Create(path))
+            using (BinaryWriter writer = new(stream))
             {
                 WriteHeader(writer, 1);
                 writer.Write((ushort)5);
             }
-            var dictionary = new IvBinaryDictionary { FileName = path };
+            IvBinaryDictionary dictionary = new() { FileName = path };
             Assert.Throws<InvalidDataException>(dictionary.Open);
         }
         finally { File.Delete(path); }
@@ -64,7 +64,7 @@ public sealed class BinaryDictionaryTests
 
     private static void WriteHeader(BinaryWriter writer, ushort count)
     {
-        var header = new byte[42];
+        byte[] header = new byte[42];
         "MLD\x03"u8.CopyTo(header);
         header[4] = header[5] = header[6] = 1;
         System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);

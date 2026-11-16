@@ -48,16 +48,16 @@ public sealed class FormatSchema
 
     private static FormatSchema LoadEmbedded()
     {
-        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.schema.json")
+        using Stream stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.schema.json")
             ?? throw new InvalidOperationException("The embedded schema is missing.");
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
         return Load(memory.ToArray(), "schema.json");
     }
 
     public static FormatSchema Load(byte[] utf8, string file)
     {
-        var root = JsonReader.Parse(utf8, file) as JsonObject
+        JsonObject root = JsonReader.Parse(utf8, file) as JsonObject
             ?? throw new InvalidOperationException("The schema is not an object.");
         return new FormatSchema(root, Convert.ToHexStringLower(SHA256.HashData(JsonWriter.ToUtf8(root))));
     }
@@ -67,47 +67,47 @@ public sealed class FormatSchema
         Hash = hash;
         Version = (int)((JsonInteger)root["version"]!).Value;
         StoresLists = root["lists"] is JsonBoolean { Value: true };
-        var list = (JsonArray)root["classes"]!;
-        foreach (var item in list.Items)
+        JsonArray list = (JsonArray)root["classes"]!;
+        foreach (JsonValue item in list.Items)
         {
-            var c = new SchemaClass((JsonObject)item, this);
+            SchemaClass c = new((JsonObject)item, this);
             _classes.Add(c.Name, c);
         }
         if (root["legacyShapes"] is JsonArray shapes)
         {
-            foreach (var item in shapes.Items)
+            foreach (JsonValue item in shapes.Items)
             {
-                var shape = (JsonObject)item;
-                var c = new SchemaClass(shape, this, ((JsonString)shape["class"]!).Value);
+                JsonObject shape = (JsonObject)item;
+                SchemaClass c = new(shape, this, ((JsonString)shape["class"]!).Value);
                 _legacyShapes.Add((((JsonString)shape["context"]!).Value, c.Name), (((JsonString)shape["name"]!).Value, c));
             }
         }
 
-        foreach (var c in _classes.Values)
+        foreach (SchemaClass c in _classes.Values)
         {
             c.Link(this);
         }
 
-        foreach (var (_, c) in _legacyShapes.Values)
+        foreach ((string _, SchemaClass? c) in _legacyShapes.Values)
         {
             c.Complete();
         }
 
-        foreach (var c in _classes.Values)
+        foreach (SchemaClass c in _classes.Values)
         {
             c.Complete();
         }
 
-        foreach (var c in _classes.Values)
+        foreach (SchemaClass c in _classes.Values)
         {
-            foreach (var engine in c.Engines)
+            foreach (string engine in c.Engines)
             {
                 if (c.Id is not int id)
                 {
                     throw new InvalidOperationException($"Class {c.Name} is enlisted without an id.");
                 }
 
-                if (!_engines.TryGetValue(engine, out var table))
+                if (!_engines.TryGetValue(engine, out Dictionary<int, SchemaClass>? table))
                 {
                     _engines[engine] = table = [];
                 }
@@ -120,7 +120,7 @@ public sealed class FormatSchema
             }
         }
         // An _ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
-        foreach (var (engine, id) in _ambiguous)
+        foreach ((string? engine, int id) in _ambiguous)
         {
             _engines[engine].Remove(id);
         }
@@ -131,9 +131,9 @@ public sealed class FormatSchema
     /// <summary>A named legacy shape of a class in one context, such as LEGACY_VALLEY01_SPRITE.</summary>
     public (string Rule, SchemaClass Shape)? LegacyShape(string context, string className)
     {
-        foreach (var candidate in Contexts(context))
+        foreach (string candidate in Contexts(context))
         {
-            var found = Lookup(candidate, className);
+            (string Rule, SchemaClass Shape)? found = Lookup(candidate, className);
             if (found is not null)
             {
                 return found;
@@ -144,7 +144,7 @@ public sealed class FormatSchema
 
     private (string Rule, SchemaClass Shape)? Lookup(string context, string className)
     {
-        if (_legacyShapes.TryGetValue((context, className), out var shape))
+        if (_legacyShapes.TryGetValue((context, className), out (string Rule, SchemaClass Shape) shape))
         {
             return shape;
         }
@@ -185,7 +185,7 @@ public sealed class FormatSchema
 
     public SchemaClass? Find(string name)
     {
-        if (_classes.TryGetValue(name, out var found))
+        if (_classes.TryGetValue(name, out SchemaClass? found))
         {
             return found;
         }
@@ -210,7 +210,7 @@ public sealed class FormatSchema
 
     /// <summary>Resolves a stored class id through one engine table only (own-formats.md 2.2).</summary>
     public SchemaClass? Resolve(string engine, int classId) =>
-        _engines.TryGetValue(engine, out var table) ? table.GetValueOrDefault(classId) : null;
+        _engines.TryGetValue(engine, out Dictionary<int, SchemaClass>? table) ? table.GetValueOrDefault(classId) : null;
 
     public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => _engines[engine];
 }
@@ -224,11 +224,11 @@ public static class FormatVersions
 {
     private static readonly Lazy<JsonObject> s_current = new(() =>
     {
-        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")
+        using Stream stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")
             ?? throw new InvalidOperationException("The embedded versions.json is missing.");
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         stream.CopyTo(memory);
-        var current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
+        JsonObject current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
         if (current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion })
         {
             throw new InvalidOperationException("versions.json does not pin the current version.");
@@ -265,7 +265,7 @@ public sealed class SchemaClass
             Inherits = false;
             KeepsChildren = false;
             Engines = [];
-            foreach (var p in ((JsonArray)source["properties"]!).Items)
+            foreach (JsonValue p in ((JsonArray)source["properties"]!).Items)
             {
                 _own.Add(new SchemaProperty((JsonObject)p, this, schema));
             }
@@ -281,7 +281,7 @@ public sealed class SchemaClass
         Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)
         {
-            foreach (var p in props.Items)
+            foreach (JsonValue p in props.Items)
             {
                 _own.Add(new SchemaProperty((JsonObject)p, this, schema));
             }
@@ -318,7 +318,7 @@ public sealed class SchemaClass
 
     public bool InheritsFrom(SchemaClass ancestor)
     {
-        for (var c = this; c is not null; c = c.Parent)
+        for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
             if (c == ancestor)
             {
@@ -333,7 +333,7 @@ public sealed class SchemaClass
     {
         ArgumentNullException.ThrowIfNull(ancestor);
         string? resolved = StoredName(ancestor);
-        for (var c = this; c is not null; c = c.Parent)
+        for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
             if (c.Name == ancestor || (resolved is not null && c.Name == resolved))
             {
@@ -365,10 +365,10 @@ public sealed class SchemaClass
 
         _completed = true;
         Parent?.Complete();
-        var readWrite = new List<SchemaProperty>();
-        var children = new List<SchemaProperty>();
+        List<SchemaProperty> readWrite = new();
+        List<SchemaProperty> children = new();
         bool keepChildren = true;
-        for (var c = this; c is not null; c = c.Parent)
+        for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
             if (!c.KeepsChildren)
             {
@@ -376,8 +376,8 @@ public sealed class SchemaClass
             }
         }
         // Walk the chain base first, stopping at the first class whose ReadWrite skips its base.
-        var chain = new List<SchemaClass>();
-        for (var c = this; c is not null; c = c.Parent)
+        List<SchemaClass> chain = new();
+        for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
             chain.Add(c);
             if (!c.Inherits)
@@ -386,9 +386,9 @@ public sealed class SchemaClass
             }
         }
         chain.Reverse();
-        foreach (var c in chain)
+        foreach (SchemaClass c in chain)
         {
-            foreach (var p in c._own)
+            foreach (SchemaProperty p in c._own)
             {
                 // A subclass property with an inherited id shadows the inherited one: the base
                 // never writes it for this class (THuntAG id 30, TAoWTerrainResource id 20).
@@ -402,9 +402,9 @@ public sealed class SchemaClass
         if (keepChildren && children.Count == 0)
         {
             // Children come from the custom node's main visit even when the field visit skips the base.
-            for (var c = Parent; c is not null; c = c.Parent)
+            for (SchemaClass? c = Parent; c is not null; c = c.Parent)
             {
-                foreach (var p in c._own)
+                foreach (SchemaProperty p in c._own)
                 {
                     if (p.IsChildrenPhase && !children.Contains(p))
                     {
@@ -418,15 +418,15 @@ public sealed class SchemaClass
             children.Clear();
         }
 
-        var all = readWrite.Concat(children).ToList();
+        List<SchemaProperty> all = readWrite.Concat(children).ToList();
         if (_source["order"] is JsonArray order)
         {
-            var named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
-            var ordered = new List<SchemaProperty>();
-            foreach (var item in order.Items)
+            Dictionary<string, SchemaProperty> named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
+            List<SchemaProperty> ordered = new();
+            foreach (JsonValue item in order.Items)
             {
                 string n = ((JsonString)item).Value;
-                if (!named.Remove(n, out var p))
+                if (!named.Remove(n, out SchemaProperty? p))
                 {
                     throw new InvalidOperationException($"Class {Name} orders an unknown member {n}.");
                 }
@@ -441,7 +441,7 @@ public sealed class SchemaClass
             all = ordered;
         }
         _effective = all;
-        foreach (var p in _effective)
+        foreach (SchemaProperty p in _effective)
         {
             if (!_byName.TryAdd(p.Name, p))
             {
@@ -480,12 +480,12 @@ public sealed class SchemaClass
 
     public SchemaProperty? PropertyById(int id)
     {
-        if (_byId.TryGetValue(id, out var p))
+        if (_byId.TryGetValue(id, out SchemaProperty? p))
         {
             return p;
         }
 
-        foreach (var d in _dynamic)
+        foreach (SchemaProperty d in _dynamic)
         {
             if (id >= d.DynamicMinimum)
             {
@@ -521,7 +521,7 @@ public sealed class SchemaProperty
 
     private static int[] ImageIdList(int? id, int? dataId, PropertyCodec codec)
     {
-        var ids = new List<int>();
+        List<int> ids = new();
         if (id is int own)
         {
             ids.Add(own);
@@ -580,7 +580,7 @@ public sealed class SchemaMapping
         Discriminator = ((JsonString)source["discriminator"]!).Value;
         Cases = ((JsonArray)source["cases"]!).Items.Cast<JsonObject>()
             .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, ((JsonString)c["case"]!).Value, Fields(c))).ToArray();
-        var unknown = (JsonObject)source["unknown"]!;
+        JsonObject unknown = (JsonObject)source["unknown"]!;
         Unknown = new SchemaCase(null, ((JsonString)unknown["case"]!).Value, Fields(unknown));
         StoredMembers = [.. Cases.Append(Unknown).SelectMany(c => c.Fields.Select(f => f.Member)).Append(Discriminator).Distinct()];
     }

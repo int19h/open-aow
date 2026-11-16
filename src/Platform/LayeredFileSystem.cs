@@ -127,7 +127,7 @@ public sealed class LayeredFileSystem : IFileSystem
             path = Path.Combine(_current, path);
         }
 
-        var parts = new List<string>();
+        List<string> parts = new();
         foreach (string part in path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             if (part == ".")
@@ -167,7 +167,7 @@ public sealed class LayeredFileSystem : IFileSystem
             common++;
         }
 
-        var parts = Enumerable.Repeat("..", baseCount - common).Concat(second.Skip(common).Take(destinationCount - common));
+        IEnumerable<string> parts = Enumerable.Repeat("..", baseCount - common).Concat(second.Skip(common).Take(destinationCount - common));
         if (!DirectoryPath(destination) && second.Length > 0)
         {
             parts = parts.Append(second[^1]);
@@ -200,7 +200,7 @@ public sealed class LayeredFileSystem : IFileSystem
                 return null;
             }
 
-            if (!_userListings.TryGetValue(location, out var entries))
+            if (!_userListings.TryGetValue(location, out string[]? entries))
             {
                 _userListings[location] = entries = Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal).ToArray();
             }
@@ -351,8 +351,8 @@ public sealed class LayeredFileSystem : IFileSystem
             return [];
         }
 
-        var merged = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var pair in Same(_root, _user) ? [] : _rootTree)
+        Dictionary<string, string> merged = new(StringComparer.OrdinalIgnoreCase);
+        foreach (KeyValuePair<string, string> pair in Same(_root, _user) ? [] : _rootTree)
         {
             if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative))
             {

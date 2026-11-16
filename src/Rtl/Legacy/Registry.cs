@@ -21,7 +21,7 @@ public class Registry
 
     public int ReadBinaryData(string name, Span<byte> buffer, int size)
     {
-        var bytes = (byte[])values.Read(key + "\\" + name)!;
+        byte[] bytes = (byte[])values.Read(key + "\\" + name)!;
         int count = Math.Min(size, bytes.Length);
         bytes.AsSpan(0, count).CopyTo(buffer);
         return count;

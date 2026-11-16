@@ -10,7 +10,7 @@ public sealed class StringFormatTests
     private static void Same(string format, params FormatArg[] arguments)
     {
         string ansi = format;
-        var error = Record.Exception(() => RtlUnit.Format(ansi, arguments));
+        Exception? error = Record.Exception(() => RtlUnit.Format(ansi, arguments));
         if (error is null)
         {
             Assert.Equal(RtlUnit.Format(ansi, arguments), RtlUnit.Format(format, arguments));
@@ -85,7 +85,7 @@ public sealed class StringFormatTests
     [Fact]
     public void EveryConversionSelectsItsCase()
     {
-        using var mode = new StringMode(false);
+        using StringMode mode = new(false);
         // Integers. A constant that fits a byte stays an Integer, a narrower integer widens to one.
         Assert.Equal("Integer 7", CaseOf(7));
         Assert.Equal("Integer 1", CaseOf(1));
@@ -125,7 +125,7 @@ public sealed class StringFormatTests
         Assert.Equal("null", CaseOf(default));
         Assert.Equal("Pointer FFFFFFFF", CaseOf(new PointerArg(uint.MaxValue)));
         // The same conversions in a collection expression and in a params span.
-        var objectValue = new SampleObject();
+        SampleObject objectValue = new();
         FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", objectValue, (object?)null, new PointerArg(1)];
         Assert.Equal(new[] { "Integer 7", "Char U+20AC", "Char U+0080", "Boolean True", "Extended 1.25", "String s",
             "Object SampleObject", "null", "Pointer 00000001" }, list.Select(CaseOf));
@@ -136,7 +136,7 @@ public sealed class StringFormatTests
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var objectValue = new object();
+        object objectValue = new();
         Assert.Equal(7, ((FormatArg)7).Value);
         Assert.Equal('€', ((FormatArg)(byte)0x80).Value);
         Assert.Equal('\u0080', ((FormatArg)'\u0080').Value);
@@ -162,7 +162,7 @@ public sealed class StringFormatTests
     [Fact]
     public void TheConversionsAreTheCasesAndTheDelphiChar()
     {
-        var type = typeof(FormatArg);
+        Type type = typeof(FormatArg);
         Assert.True(type.IsValueType);
         Assert.True(typeof(IUnion).IsAssignableFrom(type));
         Assert.True(type.IsDefined(typeof(UnionAttribute)));
@@ -179,7 +179,7 @@ public sealed class StringFormatTests
         // Each row: an argument, a conversion and the result or the error message.
         const string integer = "Integer format argument required", text = "String format argument required";
         const string pointer = "Pointer format argument required", unsupported = "Unsupported format at 1";
-        var data = new TheoryData<string, string, string>();
+        TheoryData<string, string, string> data = new();
         string[][] table =
         [
             ["int", "-7", "4294967289", "FFFFFFF9", text, pointer],
@@ -195,7 +195,7 @@ public sealed class StringFormatTests
             ["pointer", integer, integer, integer, text, "0000BEEF"],
         ];
         string[] letters = ["d", "u", "x", "s", "p"];
-        foreach (var row in table)
+        foreach (string[] row in table)
         {
             for (int i = 0; i < letters.Length; i++)
             {

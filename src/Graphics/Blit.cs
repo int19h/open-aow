@@ -116,8 +116,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 int pixel = source[x];
@@ -145,8 +145,8 @@ public static partial class Blit
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = (ushort)Half(source[x], destination[x], rgb565, x < paired && (x & 1) != 0);
@@ -228,11 +228,11 @@ public static partial class Blit
     public static void RemapSurface16To16(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
     {
         CheckShortRows(s, d, w, h);
-        var map = MemoryMarshal.Cast<byte, ushort>(table);
+        ReadOnlySpan<ushort> map = MemoryMarshal.Cast<byte, ushort>(table);
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = map[source[x]];
@@ -245,8 +245,8 @@ public static partial class Blit
         CheckShortRows(s, d, w, h);
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = d.Row(y, w);
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<byte> destination = d.Row(y, w);
             for (int x = 0; x < w; x++)
             {
                 destination[x] = table[source[x]];
@@ -257,11 +257,11 @@ public static partial class Blit
     public static void RemapSurface16To32(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
     {
         CheckShortRows(s, d, w, h);
-        var map = MemoryMarshal.Cast<byte, uint>(table);
+        ReadOnlySpan<uint> map = MemoryMarshal.Cast<byte, uint>(table);
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<uint> destination = Dwords(d.Row(y, w * 4));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = map[source[x]];
@@ -279,8 +279,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = (ushort)To565(source[x]);
@@ -292,8 +292,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = (ushort)To555(source[x]);
@@ -307,8 +307,8 @@ public static partial class Blit
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<uint> destination = Dwords(d.Row(y, w * 4));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
@@ -323,8 +323,8 @@ public static partial class Blit
         bool paired = ((s.Start | d.Start) & 3) == 0;
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<uint> destination = Dwords(d.Row(y, w * 4));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
@@ -343,8 +343,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var source = Words(s.Row(y, w * 2));
-            var destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, w * 2));
+            Span<ushort> destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
@@ -378,7 +378,7 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var row = Words(destination.Row(y, w * 2));
+            Span<ushort> row = Words(destination.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
                 int p = source.UInt16(rows[y] + (cols[x] * 2));

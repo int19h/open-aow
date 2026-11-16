@@ -8,8 +8,8 @@ public sealed class PointerViewTests
     [Fact]
     public void StringPointerConversionKeepsBytesAndTerminatesAtNul()
     {
-        var text = "A\u00E9\0B";
-        var pointer = Ptr<byte>.Unbox(text);
+        string text = "A\u00E9\0B";
+        Ptr<byte> pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
         Assert.Equal("A\u00E9", RtlUnit.StrPas(pointer));
         Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
@@ -26,12 +26,12 @@ public sealed class PointerViewTests
     [Fact]
     public void ExplicitBoxViewsKeepTheOriginalStorageAndOffset()
     {
-        var pair = Ptr<Pair>.Alloc(1);
+        Ptr<Pair> pair = Ptr<Pair>.Alloc(1);
         object payload = new PtrBox<Pair>(pair);
-        var words = ((IPointerBox)payload).As<int>();
+        Ptr<int> words = ((IPointerBox)payload).As<int>();
         words[1] = 73;
         Assert.Equal(73, pair.Value.Second);
-        var bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();
+        Ptr<byte> bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();
         Assert.Equal(4, bytes.ByteIndex);
         Assert.Equal(pair.StorageIdentity, bytes.StorageIdentity);
         Assert.Throws<InvalidCastException>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
@@ -40,8 +40,8 @@ public sealed class PointerViewTests
     [Fact]
     public void ViewsAliasFieldsKeepOffsetsAndCopyOverlappingRanges()
     {
-        var records = Ptr<Pair>.Alloc(2);
-        var words = records.Reinterpret<int>();
+        Ptr<Pair> records = Ptr<Pair>.Alloc(2);
+        Ptr<int> words = records.Reinterpret<int>();
         words.Value = 17;
         (words + 1).Value = 23;
         Assert.Equal(17, records.Value.First);
@@ -50,7 +50,7 @@ public sealed class PointerViewTests
         Assert.Equal(records.Reinterpret<int>(4), words + 1);
         Ptr<int>.Copy(words, words + 1, 2);
         Assert.Equal(new[] { 17, 17, 23, 0 }, words.AsSpan(4).ToArray());
-        var list = new DelphiList<PtrBox<int>>();
+        DelphiList<PtrBox<int>> list = new();
         list.Add(new PtrBox<int>(words + 1));
         Assert.Equal(0, list.IndexOf(new PtrBox<int>(records.Reinterpret<int>(4))));
         Assert.Equal(-1, list.IndexOf(new PtrBox<int>(words)));
@@ -71,7 +71,7 @@ public sealed class PointerViewTests
     [Fact]
     public void BoxUnboxAndOffsetChainsReadTheRightByteWithoutViews()
     {
-        var bytes = Ptr<byte>.Alloc(2048);
+        Ptr<byte> bytes = Ptr<byte>.Alloc(2048);
         for (int i = 0; i < 2048; i++)
         {
             bytes[i] = (byte)(i * 7);
@@ -83,7 +83,7 @@ public sealed class PointerViewTests
             boxed = new PtrBox<byte>(Ptr<byte>.Unbox(boxed) + 1);
         }
 
-        var end = Ptr<byte>.Unbox(boxed);
+        Ptr<byte> end = Ptr<byte>.Unbox(boxed);
         Assert.Equal(1000, end.ByteIndex);
         Assert.Equal(unchecked((byte)(1000 * 7)), end.Value);
         Assert.Same(bytes.Array, end.Array);
@@ -93,16 +93,16 @@ public sealed class PointerViewTests
     [Fact]
     public void ViewsOfViewsAddressTheOriginalStorage()
     {
-        var bytes = Ptr<byte>.Alloc(2048);
+        Ptr<byte> bytes = Ptr<byte>.Alloc(2048);
         for (int i = 0; i < 2048; i++)
         {
             bytes[i] = (byte)(i * 7);
         }
 
-        var words = bytes.Reinterpret<ushort>();
+        Ptr<ushort> words = bytes.Reinterpret<ushort>();
         for (int i = 0; i < 1000; i++)
         {
-            var step = ((IPointerBox)new PtrBox<ushort>(words)).As<byte>() + 1;
+            Ptr<byte> step = ((IPointerBox)new PtrBox<ushort>(words)).As<byte>() + 1;
             AssertFlat(step.ViewState);
             words = ((IPointerBox)new PtrBox<byte>(step)).As<ushort>();
             AssertFlat(words.ViewState);
@@ -116,7 +116,7 @@ public sealed class PointerViewTests
     private static void AssertFlat(object? state)
     {
         Assert.NotNull(state);
-        foreach (var field in state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+        foreach (FieldInfo field in state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             object? value = field.GetValue(state);
             Assert.False(value is Delegate or IPointerBox, field.Name);

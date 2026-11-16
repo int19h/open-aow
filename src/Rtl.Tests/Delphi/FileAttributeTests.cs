@@ -5,7 +5,7 @@ public sealed class FileAttributeTests
     [Fact]
     public void AttributesAndEmptyDirectoryRemovalFollowTheHostFileSystem()
     {
-        using var directory = new ProbeDirectory();
+        using ProbeDirectory directory = new();
         File.WriteAllText("attribute-file", "bytes");
         Assert.Equal(0, RtlUnit.FileSetAttr("attribute-file", RtlUnit.faReadOnly));
         Assert.Equal(RtlUnit.faReadOnly, RtlUnit.FileGetAttr("attribute-file") & RtlUnit.faReadOnly);

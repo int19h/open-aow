@@ -164,7 +164,7 @@ public class Component : Persistent
         }
 
         ComponentState = ComponentState.With(Rtl.ComponentState.Destroying);
-        foreach (var child in children)
+        foreach (Component child in children)
         {
             child.Destroying();
         }
@@ -175,7 +175,7 @@ public class Component : Persistent
     {
         while (children.Count != 0)
         {
-            var child = children[^1]; child.Owner = null; children.RemoveAt(children.Count - 1); child.Dispose();
+            Component child = children[^1]; child.Owner = null; children.RemoveAt(children.Count - 1); child.Dispose();
         }
     }
 

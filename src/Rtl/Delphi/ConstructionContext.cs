@@ -10,7 +10,7 @@ public sealed class ConstructionContext
 
     public static T Create<T>(Func<ConstructionContext, T> construct) where T : class
     {
-        var context = new ConstructionContext();
+        ConstructionContext context = new();
         try
         {
             T result = construct(context);
@@ -26,7 +26,7 @@ public sealed class ConstructionContext
 
     public static T Create<TArgument, T>(TArgument argument, Func<ConstructionContext, TArgument, T> construct) where T : class
     {
-        var context = new ConstructionContext();
+        ConstructionContext context = new();
         try
         {
             T result = construct(context, argument);

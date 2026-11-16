@@ -29,10 +29,10 @@ internal static class CaseCodec
 
     private static JsonValue Stored(SchemaClass classValue, string member, long key)
     {
-        var codec = classValue.PropertyByName(member)!.Codec;
+        PropertyCodec codec = classValue.PropertyByName(member)!.Codec;
         if (codec is DataCodec { Size: int size })
         {
-            var bytes = new byte[8];
+            byte[] bytes = new byte[8];
             BinaryPrimitives.WriteInt64LittleEndian(bytes, key);
             return new JsonString(LayoutResidue.Hex(bytes.AsSpan(0, size)));
         }
@@ -75,11 +75,11 @@ internal static class CaseCodec
 
     private static void Choose(SchemaMapping mapping, JsonObject target)
     {
-        var stored = new Dictionary<string, JsonValue>(StringComparer.Ordinal);
+        Dictionary<string, JsonValue> stored = new(StringComparer.Ordinal);
         int first = -1;
         for (int i = 0; i < target.Members.Count;)
         {
-            var m = target.Members[i];
+            JsonMember m = target.Members[i];
             if (mapping.StoredMembers.Contains(m.Name))
             {
                 if (first < 0)
@@ -101,30 +101,30 @@ internal static class CaseCodec
         }
 
         SchemaCase chosen = mapping.Unknown;
-        if (stored.TryGetValue(mapping.Discriminator, out var discriminator))
+        if (stored.TryGetValue(mapping.Discriminator, out JsonValue? discriminator))
         {
             long key = Number(discriminator);
             chosen = mapping.Cases.FirstOrDefault(c => c.Key == key) ?? mapping.Unknown;
         }
-        var fields = new List<JsonMember>();
-        var used = new HashSet<string>(StringComparer.Ordinal);
+        List<JsonMember> fields = new();
+        HashSet<string> used = new(StringComparer.Ordinal);
         if (chosen.Key is not null)
         {
             used.Add(mapping.Discriminator);
         }
 
-        foreach (var (field, member) in chosen.Fields)
+        foreach ((string? field, string? member) in chosen.Fields)
         {
             used.Add(member);
-            if (stored.TryGetValue(member, out var value))
+            if (stored.TryGetValue(member, out JsonValue? value))
             {
                 fields.Add(new JsonMember(field, value));
             }
         }
-        var residue = new JsonObject();
-        foreach (var member in mapping.StoredMembers)
+        JsonObject residue = new();
+        foreach (string member in mapping.StoredMembers)
         {
-            if (!used.Contains(member) && stored.TryGetValue(member, out var value))
+            if (!used.Contains(member) && stored.TryGetValue(member, out JsonValue? value))
             {
                 residue.Add(member, value);
             }
@@ -149,14 +149,14 @@ internal static class CaseCodec
     /// </summary>
     public static JsonObject FromDocument(EncodeContext context, SchemaClass classValue, SchemaMapping mapping, JsonObject objectValue, DocumentNodePath path)
     {
-        var unit = CaseMappings.Find(classValue.Name)
+        ICaseUnit unit = CaseMappings.Find(classValue.Name)
             ?? throw context.Fail(Codes.Mapping, $"Class {classValue.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.", objectValue, path);
         if (objectValue["$case"] is not JsonString caseName)
         {
             throw context.Fail(objectValue["$case"] is null ? Codes.MissingMember : Codes.Type, $"A {classValue.Name} names its {mapping.Name} case in $case.", objectValue["$case"] ?? objectValue, path.Member("$case"));
         }
 
-        var chosen = mapping.Cases.FirstOrDefault(c => c.Name == caseName.Value) ?? (mapping.Unknown.Name == caseName.Value ? mapping.Unknown : null)
+        SchemaCase chosen = mapping.Cases.FirstOrDefault(c => c.Name == caseName.Value) ?? (mapping.Unknown.Name == caseName.Value ? mapping.Unknown : null)
             ?? throw context.Fail(Codes.Case, $"{mapping.Name} has no case {caseName.Value}.", caseName, path.Member("$case"), caseName.Value,
                 string.Join(", ", mapping.Cases.Select(c => c.Name).Append(mapping.Unknown.Name)));
         // The unknown case keeps only keys no case registers, so its export reads back the same.
@@ -167,10 +167,10 @@ internal static class CaseCodec
                 kind, path.Member(keyField), Number(kind).ToString(CultureInfo.InvariantCulture), known.Name);
         }
 
-        var flat = new JsonObject { Span = objectValue.Span };
-        var fieldMembers = chosen.Fields.ToDictionary(f => f.Field, f => f.Member, StringComparer.Ordinal);
-        var numbers = new Dictionary<string, long>(StringComparer.Ordinal);
-        foreach (var m in objectValue.Members)
+        JsonObject flat = new() { Span = objectValue.Span };
+        Dictionary<string, string> fieldMembers = chosen.Fields.ToDictionary(f => f.Field, f => f.Member, StringComparer.Ordinal);
+        Dictionary<string, long> numbers = new(StringComparer.Ordinal);
+        foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name == "$case")
             {
@@ -184,7 +184,7 @@ internal static class CaseCodec
                     throw context.Fail(Codes.Type, "$residue is an object.", m.Value, path.Member("$residue"));
                 }
 
-                foreach (var r in residue.Members)
+                foreach (JsonMember r in residue.Members)
                 {
                     if (!mapping.StoredMembers.Contains(r.Name) || (r.Name == mapping.Discriminator && chosen.Key is not null) || chosen.Fields.Any(f => f.Member == r.Name))
                     {
@@ -196,7 +196,7 @@ internal static class CaseCodec
                 }
                 continue;
             }
-            if (fieldMembers.TryGetValue(m.Name, out var member))
+            if (fieldMembers.TryGetValue(m.Name, out string? member))
             {
                 flat.Members.Add(new JsonMember(member, m.Value) { NameSpan = m.NameSpan });
                 numbers[member] = Number(m.Value);
@@ -213,8 +213,8 @@ internal static class CaseCodec
         {
             flat.Members.Add(new JsonMember(mapping.Discriminator, Stored(classValue, mapping.Discriminator, key)) { NameSpan = caseName.Span });
             numbers[mapping.Discriminator] = key;
-            var written = unit.Written(key, numbers);
-            foreach (var (field, member) in chosen.Fields)
+            IReadOnlyDictionary<string, long> written = unit.Written(key, numbers);
+            foreach ((string? field, string? member) in chosen.Fields)
             {
                 if (written.GetValueOrDefault(member) != numbers.GetValueOrDefault(member))
                 {

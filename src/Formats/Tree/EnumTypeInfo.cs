@@ -18,7 +18,7 @@ public sealed class EnumTypeInfo
 
     internal static (int Width, bool Signed) Layout(Type type)
     {
-        var under = Enum.GetUnderlyingType(type);
+        Type under = Enum.GetUnderlyingType(type);
         if (under == typeof(byte))
         {
             return (1, false);
@@ -69,10 +69,10 @@ public sealed class EnumTypeInfo
             throw new InvalidOperationException(type.Name + " is not an enum.");
         }
 
-        var (width, signed) = Layout(type);
-        var byName = new Dictionary<string, long>();
-        var byValue = new Dictionary<long, string>();
-        foreach (var name in Enum.GetNames(type))
+        (int width, bool signed) = Layout(type);
+        Dictionary<string, long> byName = new();
+        Dictionary<long, string> byValue = new();
+        foreach (string name in Enum.GetNames(type))
         {
             long value = ToInt64(Enum.Parse(type, name));
             byName.Add(name, value);
@@ -96,7 +96,7 @@ public sealed class EnumTypeInfo
             return true;
         }
 
-        if (!NameTable.TryMember(Color, text, out var member))
+        if (!NameTable.TryMember(Color, text, out string? member))
         {
             return false;
         }

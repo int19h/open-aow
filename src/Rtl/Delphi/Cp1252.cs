@@ -10,7 +10,7 @@ public static class Cp1252
     private static char[] MakeCharacters()
     {
         const string controls = "\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178";
-        var result = new char[256];
+        char[] result = new char[256];
         for (int i = 0; i < result.Length; i++)
         {
             result[i] = i is >= 128 and < 160 ? controls[i - 128] : (char)i;
@@ -21,7 +21,7 @@ public static class Cp1252
 
     private static byte[] MakeBytes()
     {
-        var result = new byte[char.MaxValue + 1];
+        byte[] result = new byte[char.MaxValue + 1];
         Array.Fill(result, (byte)'?');
         for (int i = 0; i < s_characters.Length; i++)
         {
@@ -54,7 +54,7 @@ public static class Cp1252
 
     public static string Decode(ReadOnlySpan<byte> value)
     {
-        var chars = new char[value.Length];
+        char[] chars = new char[value.Length];
         for (int i = 0; i < chars.Length; i++)
         {
             chars[i] = Char(value[i]);
@@ -66,7 +66,7 @@ public static class Cp1252
     public static byte[] Encode(string? value)
     {
         value = RtlUnit.RequireString(value);
-        var result = new byte[value.Length];
+        byte[] result = new byte[value.Length];
         for (int i = 0; i < result.Length; i++)
         {
             result[i] = Byte(value[i]);

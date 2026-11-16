@@ -28,7 +28,7 @@ internal static class Commands
             throw new ConversionException(new FormatDiagnostic(Codes.Format, "The input is an own document, not an original file. Use normalize.") { File = path });
         }
 
-        var c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
+        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
         if (c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
@@ -59,7 +59,7 @@ internal static class Commands
 
         try
         {
-            var result = ImportOriginal(File.ReadAllBytes(input), input, o.Kind, o.Profile);
+            ImportResult result = ImportOriginal(File.ReadAllBytes(input), input, o.Kind, o.Profile);
             SafeOutput.Replace(target, GameFiles.Write(result.Document));
             output.WriteLine($"{input}: {Describe(result.Document)}, {result.Counts.Parts} layout parts -> {target}");
             return Program.Success;
@@ -90,9 +90,9 @@ internal static class Commands
 
         try
         {
-            var read = GameFiles.Read(File.ReadAllBytes(input), input);
-            var exported = GameFiles.Export(read.Document, new ExportOptions { ExactLayout = o.ExactLayout }, input);
-            foreach (var d in exported.Invalidated)
+            ReadResult read = GameFiles.Read(File.ReadAllBytes(input), input);
+            ExportResult exported = GameFiles.Export(read.Document, new ExportOptions { ExactLayout = o.ExactLayout }, input);
+            foreach (FormatDiagnostic d in exported.Invalidated)
             {
                 errors.WriteLine(d.ToString());
             }
@@ -122,8 +122,8 @@ internal static class Commands
 
         try
         {
-            var (bytes, invalidated) = GameFiles.Normalize(File.ReadAllBytes(input), input);
-            foreach (var d in invalidated)
+            (byte[]? bytes, IReadOnlyList<FormatDiagnostic>? invalidated) = GameFiles.Normalize(File.ReadAllBytes(input), input);
+            foreach (FormatDiagnostic d in invalidated)
             {
                 errors.WriteLine(d.ToString());
             }
@@ -140,7 +140,7 @@ internal static class Commands
 
     private static string Describe(Formats.Json.JsonObject document)
     {
-        var (profile, kind, container, _) = GameFiles.Envelope(document, null);
+        (FileProfile? profile, string? kind, Formats.Json.JsonObject? container, Formats.Json.JsonValue _) = GameFiles.Envelope(document, null);
         string compression = ((Formats.Json.JsonString)container["compression"]!).Value;
         string level = container["level"] is Formats.Json.JsonInteger l ? " level " + l.Value : "";
         return $"profile {profile.Name}, kind {kind}, {compression}{level}";
@@ -155,18 +155,18 @@ internal static class Commands
 
     private static Dictionary<string, (string? Kind, string? Profile)> Manifest(string? path)
     {
-        var result = new Dictionary<string, (string?, string?)>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, (string?, string?)> result = new(StringComparer.OrdinalIgnoreCase);
         if (path is null)
         {
             return result;
         }
 
-        using var doc = JsonDocument.Parse(File.ReadAllBytes(path));
-        foreach (var p in doc.RootElement.EnumerateObject())
+        using JsonDocument doc = JsonDocument.Parse(File.ReadAllBytes(path));
+        foreach (JsonProperty p in doc.RootElement.EnumerateObject())
         {
             result[p.Name.Replace('/', Path.DirectorySeparatorChar)] = (
-                p.Value.TryGetProperty("kind", out var k) ? k.GetString() : null,
-                p.Value.TryGetProperty("profile", out var f) ? f.GetString() : null);
+                p.Value.TryGetProperty("kind", out JsonElement k) ? k.GetString() : null,
+                p.Value.TryGetProperty("profile", out JsonElement f) ? f.GetString() : null);
         }
 
         return result;
@@ -184,12 +184,12 @@ internal static class Commands
             return Fail(errors, "The input and output directory trees overlap.");
         }
 
-        var manifest = Manifest(o.Profiles);
+        Dictionary<string, (string? Kind, string? Profile)> manifest = Manifest(o.Profiles);
         int done = 0, failed = 0, skipped = 0;
-        foreach (var relative in Enumerate(o.Directory!))
+        foreach (string relative in Enumerate(o.Directory!))
         {
             string input = Path.Combine(o.Directory!, relative);
-            manifest.TryGetValue(relative, out var entry);
+            manifest.TryGetValue(relative, out (string? Kind, string? Profile) entry);
             string extension = Path.GetExtension(relative);
             if (entry.Kind is null && (DocumentKind.ForExtension(extension) is not { } byName || byName.IsOwnExtension(extension)))
             {
@@ -199,7 +199,7 @@ internal static class Commands
             }
             try
             {
-                var result = ImportOriginal(File.ReadAllBytes(input), input, entry.Kind, entry.Profile);
+                ImportResult result = ImportOriginal(File.ReadAllBytes(input), input, entry.Kind, entry.Profile);
                 // A derived output name takes the kind's own extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, result.Document, own: true));
                 if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
@@ -235,11 +235,11 @@ internal static class Commands
         }
 
         int done = 0, failed = 0, skipped = 0;
-        var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var relative in Enumerate(o.Directory!))
+        Dictionary<string, string> sources = new(StringComparer.OrdinalIgnoreCase);
+        foreach (string relative in Enumerate(o.Directory!))
         {
             string input = Path.Combine(o.Directory!, relative);
-            var bytes = File.ReadAllBytes(input);
+            byte[] bytes = File.ReadAllBytes(input);
             if (!GameFiles.IsGzip(bytes) && !GameFiles.IsJsonCandidate(bytes))
             {
                 output.WriteLine($"{relative}: skipped, not an own document");
@@ -248,12 +248,12 @@ internal static class Commands
             }
             try
             {
-                var read = GameFiles.Read(bytes, input);
-                var exported = GameFiles.Export(read.Document, null, input);
+                ReadResult read = GameFiles.Read(bytes, input);
+                ExportResult exported = GameFiles.Export(read.Document, null, input);
                 // A derived output name takes the kind's original extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, read.Document, own: false));
                 // Foo.asg and Foo.oasg both export to Foo.asg: the second is refused by name.
-                if (sources.TryGetValue(target, out var first))
+                if (sources.TryGetValue(target, out string? first))
                 {
                     errors.WriteLine($"{relative}: exports to the same name as {first}");
                     failed++;
@@ -266,7 +266,7 @@ internal static class Commands
                     failed++;
                     continue;
                 }
-                foreach (var d in exported.Invalidated)
+                foreach (FormatDiagnostic d in exported.Invalidated)
                 {
                     errors.WriteLine(d.ToString());
                 }
@@ -291,8 +291,8 @@ internal static class Commands
     /// </summary>
     internal static string DerivedName(string relative, Formats.Json.JsonObject document, bool own)
     {
-        var (_, kindName, _, _) = GameFiles.Envelope(document, relative);
-        var kind = DocumentKind.Find(kindName)!;
+        (FileProfile _, string? kindName, Formats.Json.JsonObject _, Formats.Json.JsonValue _) = GameFiles.Envelope(document, relative);
+        DocumentKind kind = DocumentKind.Find(kindName)!;
         return own ? kind.OwnName(relative) : kind.OriginalName(relative);
     }
 
@@ -307,8 +307,8 @@ internal static class Commands
         string input = o.Positional[0];
         try
         {
-            var bytes = File.ReadAllBytes(input);
-            var watch = Stopwatch.StartNew();
+            byte[] bytes = File.ReadAllBytes(input);
+            Stopwatch watch = Stopwatch.StartNew();
             Formats.Json.JsonObject document;
             string format;
             LayoutCounts counts;
@@ -316,7 +316,7 @@ internal static class Commands
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
             {
-                var read = GameFiles.Read(bytes, input);
+                ReadResult read = GameFiles.Read(bytes, input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
                 format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}";
@@ -328,7 +328,7 @@ internal static class Commands
             }
             else
             {
-                var result = ImportOriginal(bytes, input, o.Kind, o.Profile);
+                ImportResult result = ImportOriginal(bytes, input, o.Kind, o.Profile);
                 importMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = result.Document;
                 counts = result.Counts;
@@ -341,9 +341,9 @@ internal static class Commands
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             watch.Restart();
-            var exported = GameFiles.Export(document, null, input);
+            ExportResult exported = GameFiles.Export(document, null, input);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
-            var (profile, kind, _, _) = GameFiles.Envelope(document, input);
+            (FileProfile? profile, string? kind, Formats.Json.JsonObject _, Formats.Json.JsonValue _) = GameFiles.Envelope(document, input);
             output.WriteLine($"File: {input}");
             output.WriteLine($"Format: {format}");
             output.WriteLine($"Profile: {profile.Name}, kind {kind}, version {OwnFormat.CurrentVersion}");
@@ -356,7 +356,7 @@ internal static class Commands
                 $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Latency: import {importMilliseconds:F1} ms, write {writeMilliseconds:F1} ms, parse {parseMilliseconds:F1} ms, export {exportMilliseconds:F1} ms"));
-            using var process = Process.GetCurrentProcess();
+            using Process process = Process.GetCurrentProcess();
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Memory: peak working set {process.PeakWorkingSet64 / (1024.0 * 1024.0):F1} MiB, managed heap {GC.GetTotalMemory(false) / (1024.0 * 1024.0):F1} MiB"));
             return Program.Success;

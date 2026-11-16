@@ -6,8 +6,11 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Aow.Formats;
 using Aow.Game.Combat;
+using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -34,7 +37,7 @@ internal sealed class FrameFixture
     {
         gameRoot = Path.GetFullPath(gameRoot);
         output = Path.GetFullPath(output);
-        var fixture = Load(path, name);
+        FrameFixture fixture = Load(path, name);
         string scene = fixture.Get("scene");
         bool presentationClock = fixture._defaults.GetValueOrDefault("frame_clock") == "presentation" || fixture._values.GetValueOrDefault("frame_clock") == "presentation";
         bool worldCapture = fixture._values.GetValueOrDefault("capture_clock") == "world";
@@ -43,7 +46,7 @@ internal sealed class FrameFixture
         bool combatCapture = fixture._values.GetValueOrDefault("capture_clock") == "combat";
         bool afterCombatCapture = fixture._values.GetValueOrDefault("capture_clock") == "after-combat";
         bool tactical = fixture._values.GetValueOrDefault("action") == "tactical";
-        var clicks = fixture.Clicks();
+        List<Click> clicks = fixture.Clicks();
         int frame = frameLimit ?? int.Parse(fixture.Get("frame"), CultureInfo.InvariantCulture);
         if (frame < 1)
         {
@@ -57,7 +60,7 @@ internal sealed class FrameFixture
             throw new InvalidDataException("Checkpoints require sorted earlier frames on the after-combat clock");
         }
 
-        var capturedCheckpoints = new HashSet<int>();
+        HashSet<int> capturedCheckpoints = new();
         Snapshot[] snapshots = fixture._values.TryGetValue("snapshots", out string? snapshotText)
             ? JsonSerializer.Deserialize<Snapshot[]>(Regex.Replace(snapshotText, @"(\w+)\s*=", "\"$1\":"), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })! : [];
         if (snapshots.Length > 8 || snapshots.Any(s => !Regex.IsMatch(s.Name, "^[a-z0-9-]+$") || s.Day < 1 || s.Frame < 1 ||
@@ -67,17 +70,17 @@ internal sealed class FrameFixture
             throw new InvalidDataException("Snapshots require distinct safe names and matching day-clock inputs");
         }
 
-        var capturedSnapshots = new HashSet<string>();
+        HashSet<string> capturedSnapshots = new();
         Snapshot? pendingSnapshot = null;
-        var size = fixture.Pair("size");
-        var mouse = fixture.Pair("mouse");
-        var now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
+        (int X, int Y) size = fixture.Pair("size");
+        (int X, int Y) mouse = fixture.Pair("mouse");
+        DateTime now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
         DateTime? fileStampUtc = fixture._fileLocalTime is null ? null :
             FileStampUtc(DateTime.Parse(fixture._fileLocalTime, CultureInfo.InvariantCulture), DateTimeOffset.Now.Offset);
-        var display = new HeadlessDisplayHost(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
+        HeadlessDisplayHost display = new(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
         Directory.CreateDirectory(output);
-        using var diagnostics = FrameDiagnostics.Start(output);
-        using var trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
+        using FrameDiagnostics? diagnostics = FrameDiagnostics.Start(output);
+        using StreamWriter trace = new(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
         void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new StackTrace(1, true));
         AppDomain.CurrentDomain.FirstChanceException += Record;
         string? saveDirectory = fixture._values.GetValueOrDefault("save_directory");
@@ -97,7 +100,7 @@ internal sealed class FrameFixture
                 }
             }
         }
-        var host = new FixtureHost(gameRoot, Path.Combine(output, "user"), fixture._settings, new FixtureClock(now), saveDirectory);
+        FixtureHost host = new(gameRoot, Path.Combine(output, "user"), fixture._settings, new FixtureClock(now), saveDirectory);
         RtlUnit.InstallHost(host);
         RtlUnit.SuppressRandomize = true;
         // Native startup resource sequences load with seed zero, before the fixed Randomize seed.
@@ -108,7 +111,7 @@ internal sealed class FrameFixture
         FrameFixtureInputs.Tactical = tactical;
         // The native capture uses positive FPS below 15 at its six strategic moves.
         // Reproduce that movement tier without making animation depend on host speed.
-        FrameFixtureInputs.MeasuredFrameRate = fixture._defaults.TryGetValue("measured_frame_rate", out var measuredRate) ? int.Parse(measuredRate, CultureInfo.InvariantCulture) : tactical ? 9 : null;
+        FrameFixtureInputs.MeasuredFrameRate = fixture._defaults.TryGetValue("measured_frame_rate", out string? measuredRate) ? int.Parse(measuredRate, CultureInfo.InvariantCulture) : tactical ? 9 : null;
         string argument = "";
         string? input = null;
         if (scene != "title")
@@ -152,7 +155,7 @@ internal sealed class FrameFixture
         long ScriptFrame(Click click)
         {
             string clock = click.Clock ?? fixture._defaults.GetValueOrDefault("frame_clock", "world");
-            var map = StrategicMap.Current;
+            StrategicMap? map = StrategicMap.Current;
             return clock switch
             {
                 "presentation" => display.Frame,
@@ -163,7 +166,7 @@ internal sealed class FrameFixture
                     ? clock == "day" ? DayFrame() : map.Frame : -1
             };
         }
-        using var script = new StreamWriter(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
+        using StreamWriter script = new(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
         try
         {
             using MainForm form = MainForm.Create(display, argument);
@@ -250,7 +253,7 @@ internal sealed class FrameFixture
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
                 {
-                    var click = clicks[applied];
+                    Click click = clicks[applied];
                     long scriptFrame = ScriptFrame(click);
                     if (scriptFrame > click.At)
                     {
@@ -274,11 +277,11 @@ internal sealed class FrameFixture
                             }
                         }
 
-                        var manager = form.UI.General.Manager;
+                        WindowManager manager = form.UI.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hex is int hex && click.Hy is int hy)
                         {
-                            var mapWindow = form.UI.MapWindow;
+                            MapWindow mapWindow = form.UI.MapWindow;
                             HexGeometry.HexToPixel(hex, hy, out inputX, out inputY);
                             inputX += 28 + mapWindow.MainWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MainWindow.WinTop - mapWindow.MapViewer.SceneY;
@@ -361,17 +364,17 @@ internal sealed class FrameFixture
             }
 
             TaskBar taskbar = form.UI.TaskBar;
-            var controls = form.UI.ControlWindow;
+            ControlWindow controls = form.UI.ControlWindow;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
-            var selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
+            ArmyHexSprite? selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
             if (StrategicMap.Current is { } world)
             {
-                var heroes = new List<object>();
+                List<object> heroes = new();
                 for (int i = 0; i < world.HeroControl.GetCount(); i++)
                 {
-                    var hero = world.HeroControl.GetHero(i);
+                    Hero hero = world.HeroControl.GetHero(i);
                     sbyte x = -1, y = -1, level = -1;
-                    var coordinate1 = hero.GetLocation();
+                    MapCoordinate coordinate1 = hero.GetLocation();
                     x = coordinate1.X;
                     y = coordinate1.Y;
                     level = coordinate1.MapLevel;
@@ -397,11 +400,11 @@ internal sealed class FrameFixture
                     new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 if (name.StartsWith("paths-", StringComparison.Ordinal))
                 {
-                    var players = new List<object>();
-                    var cities = new List<object>();
+                    List<object> players = new();
+                    List<object> cities = new();
                     for (int playerIndex = 0; playerIndex < world.Players.GetCount(); playerIndex++)
                     {
-                        var player = world.Players.GetPlayers(playerIndex);
+                        Player player = world.Players.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.Gems });
                         for (int index = 0; index < player.Structures.GetCount(); index++)
                         {
@@ -423,9 +426,9 @@ internal sealed class FrameFixture
             }
             if (StrategicMap.Current?.CombatMap is CombatMap combatMap)
             {
-                var viewer = form.UI.MapWindow.MapViewer;
-                var units = new List<object>();
-                var data = combatMap.Combat.CombatData;
+                HexSpriteMapViewer viewer = form.UI.MapWindow.MapViewer;
+                List<object> units = new();
+                CombatData data = combatMap.Combat.CombatData;
                 for (int i = 0; i < data.GetCount(); i++)
                 {
                     if (data.GetObjects(i) is TacticalBattleUnit unit && unit.UnitHexSprite is { } sprite)
@@ -466,7 +469,7 @@ internal sealed class FrameFixture
             }) + "\n");
             if (fixture._values.GetValueOrDefault("save_state") == "true")
             {
-                var map = StrategicMap.Current ?? throw new InvalidOperationException("State capture requires a map");
+                StrategicMap map = StrategicMap.Current ?? throw new InvalidOperationException("State capture requires a map");
                 string saveName = "autosave.asg";
                 if (fixture._values.GetValueOrDefault("save_world") == "true")
                 {
@@ -547,16 +550,16 @@ internal sealed class FrameFixture
 
     private (int X, int Y) Pair(string key)
     {
-        using var json = JsonDocument.Parse(Get(key));
+        using JsonDocument json = JsonDocument.Parse(Get(key));
         return (json.RootElement[0].GetInt32(), json.RootElement[1].GetInt32());
     }
 
     private static FrameFixture Load(string path, string name)
     {
-        var result = new FrameFixture();
+        FrameFixture result = new();
         string section = "";
         Dictionary<string, string>? current = null;
-        var fixtures = new List<Dictionary<string, string>>();
+        List<Dictionary<string, string>> fixtures = new();
         foreach (string raw in File.ReadLines(path))
         {
             string line = raw.Trim();
@@ -602,8 +605,8 @@ internal sealed class FrameFixture
                 throw new InvalidDataException("Unknown fixture section " + section);
             }
         }
-        var match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException("Unknown fixture " + name);
-        foreach (var item in match)
+        Dictionary<string, string> match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException("Unknown fixture " + name);
+        foreach (KeyValuePair<string, string> item in match)
         {
             result._values.Add(item.Key, item.Value);
         }
@@ -620,20 +623,20 @@ internal sealed class FrameFixture
             return [];
         }
 
-        using var document = JsonDocument.Parse(Regex.Replace(text, @"(\w+)\s*=", "\"$1\":"));
+        using JsonDocument document = JsonDocument.Parse(Regex.Replace(text, @"(\w+)\s*=", "\"$1\":"));
         return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
-            c.TryGetProperty("x", out var x) ? x.GetInt32() : 0, c.TryGetProperty("y", out var y) ? y.GetInt32() : 0,
-            c.TryGetProperty("button", out var button) ? button.GetInt32() : 0,
-            c.TryGetProperty("double", out var twice) && twice.GetBoolean(),
-            c.TryGetProperty("key", out var key) ? key.GetInt32() : null,
-            c.TryGetProperty("clock", out var clock) ? clock.GetString() : null,
-            c.TryGetProperty("day", out var day) ? day.GetInt32() : null,
-            c.TryGetProperty("key_down", out var keyDown) ? keyDown.GetInt32() : null,
-            c.TryGetProperty("repeat", out var repeat) ? repeat.GetInt32() : 1,
-            c.TryGetProperty("hx", out var hex) ? hex.GetInt32() : null,
-            c.TryGetProperty("hy", out var hy) ? hy.GetInt32() : null,
-            c.TryGetProperty("double_ui", out var doubleUI) && doubleUI.GetBoolean(),
-            c.TryGetProperty("move_only", out var moveOnly) && moveOnly.GetBoolean())).ToList();
+            c.TryGetProperty("x", out JsonElement x) ? x.GetInt32() : 0, c.TryGetProperty("y", out JsonElement y) ? y.GetInt32() : 0,
+            c.TryGetProperty("button", out JsonElement button) ? button.GetInt32() : 0,
+            c.TryGetProperty("double", out JsonElement twice) && twice.GetBoolean(),
+            c.TryGetProperty("key", out JsonElement key) ? key.GetInt32() : null,
+            c.TryGetProperty("clock", out JsonElement clock) ? clock.GetString() : null,
+            c.TryGetProperty("day", out JsonElement day) ? day.GetInt32() : null,
+            c.TryGetProperty("key_down", out JsonElement keyDown) ? keyDown.GetInt32() : null,
+            c.TryGetProperty("repeat", out JsonElement repeat) ? repeat.GetInt32() : 1,
+            c.TryGetProperty("hx", out JsonElement hex) ? hex.GetInt32() : null,
+            c.TryGetProperty("hy", out JsonElement hy) ? hy.GetInt32() : null,
+            c.TryGetProperty("double_ui", out JsonElement doubleUI) && doubleUI.GetBoolean(),
+            c.TryGetProperty("move_only", out JsonElement moveOnly) && moveOnly.GetBoolean())).ToList();
     }
 
     internal sealed class FixtureHost : IRtlHost, IDialogService
@@ -648,7 +651,7 @@ internal sealed class FrameFixture
 
             Files = new LayeredFileSystem(GameRoot, user, saveDirectory is null ? [] : [saveDirectory]);
             Clock = clock;
-            foreach (var item in settings)
+            foreach (KeyValuePair<string, object> item in settings)
             {
                 Settings.Write(item.Key, item.Value);
             }

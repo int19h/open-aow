@@ -7,9 +7,9 @@ public sealed class StringListGenericTests
     [Fact]
     public void ObjectsAreTypedAndOtherClassesAreRefused()
     {
-        var first = new Tagged(1);
-        var second = new Tagged(2);
-        var list = new StringList<Tagged>();
+        Tagged first = new(1);
+        Tagged second = new(2);
+        StringList<Tagged> list = new();
         Assert.Equal(0, list.AddObject("b", first));
         list.InsertObject(0, "a", second);
         list.Add("c");
@@ -33,10 +33,10 @@ public sealed class StringListGenericTests
         Assert.Equal(["c", "b", "a"], Enumerable.Range(0, list.Count).Select(i => list[i]));
         Assert.Equal([first, first, second], Enumerable.Range(0, list.Count).Select(i => list.Objects[i]));
 
-        var copy = new StringList<Tagged>();
+        StringList<Tagged> copy = new();
         copy.AddStrings(list);
         Assert.Same(second, copy.Objects[2]);
-        var mixed = new StringList();
+        StringList mixed = new();
         mixed.AddObject("x", new object());
         Assert.Throws<ArgumentException>(() => copy.AddStrings(mixed));
     }

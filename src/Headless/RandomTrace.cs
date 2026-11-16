@@ -45,7 +45,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             compare = compare.Method.Name,
             targets = Enumerable.Range(0, list.Count).Select(i =>
             {
-                var target = (AIGroupControlTarget)list[i]!;
+                AIGroupControlTarget target = (AIGroupControlTarget)list[i]!;
                 return new
                 {
                     location = StoredCoordinateImage.From(target.Location, unknownBytes: 0).ToInt32(),
@@ -61,7 +61,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Rounding(double value, int result, int singleResult)
     {
-        var caller = new StackTrace(1, true).GetFrames()
+        StackFrame? caller = new StackTrace(1, true).GetFrames()
             .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game");
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
@@ -77,11 +77,11 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Record(RandomTraceEvent entry)
     {
-        var stack = new StackTrace(1, true).GetFrames()
+        StackFrame[] stack = new StackTrace(1, true).GetFrames()
             .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
             .ToArray();
         bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) };
-        var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
+        StackFrame? caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             frame = frame(),
@@ -107,17 +107,17 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             return null;
         }
 
-        if (_sources.TryGetValue(method, out var source))
+        if (_sources.TryGetValue(method, out string? source))
         {
             return source;
         }
 
         if (frame.GetFileName() is { } file && File.Exists(file))
         {
-            var lines = File.ReadAllLines(file);
+            string[] lines = File.ReadAllLines(file);
             for (int i = Math.Min(frame.GetFileLineNumber() - 1, lines.Length - 1); i >= 0; i--)
             {
-                var match = Regex.Match(lines[i], @"// (\S+\.pas:\d+)", RegexOptions.IgnoreCase);
+                Match match = Regex.Match(lines[i], @"// (\S+\.pas:\d+)", RegexOptions.IgnoreCase);
                 if (match.Success) { source = match.Groups[1].Value; break; }
             }
         }

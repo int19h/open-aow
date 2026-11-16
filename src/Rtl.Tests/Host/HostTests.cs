@@ -8,8 +8,8 @@ public sealed class HostTests
     public void RandomTracingRecordsSeedWritesAndBothDrawsWithoutChangingTheStream()
     {
         int seed = RtlUnit.RandSeed;
-        var previous = RtlUnit.RandomTrace;
-        var events = new List<RandomTraceEvent>();
+        Action<RandomTraceEvent>? previous = RtlUnit.RandomTrace;
+        List<RandomTraceEvent> events = new();
         try
         {
             RtlUnit.RandomTrace = events.Add;
@@ -59,7 +59,7 @@ public sealed class HostTests
     [InlineData(0x102, 4)]
     public void DialogDefaultButtonUsesWindowsResultCodes(int flags, int expected)
     {
-        var previous = RtlUnit.Dialogs;
+        IDialogService? previous = RtlUnit.Dialogs;
         try
         {
             RtlUnit.Dialogs = new Defaults();

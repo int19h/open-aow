@@ -13,9 +13,9 @@ public sealed class MemoryProbeTests
     [ProbeFact("integer-list-slots")]
     public void IntegerListSlots()
     {
-        var probe = new ProbeLines("integer-list-slots");
-        var list = new DelphiList<object>();
-        var stored = new object();
+        ProbeLines probe = new("integer-list-slots");
+        DelphiList<object> list = new();
+        object stored = new();
         list.Count = 3;
         for (int i = 0; i < 3; i++)
         {
@@ -56,8 +56,8 @@ public sealed class MemoryProbeTests
     [ProbeFact("record-move")]
     public void RecordMove()
     {
-        var probe = new ProbeLines("record-move");
-        var items = Ptr<Item>.Alloc(5);
+        ProbeLines probe = new("record-move");
+        Ptr<Item> items = Ptr<Item>.Alloc(5);
         for (int i = 0; i < 5; i++)
         {
             items[i].First = i + 1;
@@ -85,9 +85,9 @@ public sealed class MemoryProbeTests
     [ProbeFact("reference-fill")]
     public void ReferenceFill()
     {
-        var probe = new ProbeLines("reference-fill");
-        var items = Ptr<object?>.Alloc(3);
-        var item = new object();
+        ProbeLines probe = new("reference-fill");
+        Ptr<object?> items = Ptr<object?>.Alloc(3);
+        object item = new();
         items[0] = item;
         items[1] = item;
         items[2] = item;

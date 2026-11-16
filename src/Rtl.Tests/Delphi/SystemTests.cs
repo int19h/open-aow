@@ -128,7 +128,7 @@ public sealed class SystemTests
             Assert.Equal(i is >= 97 and <= 122 ? i - 32 : i, UpCase((byte)i));
         }
 
-        var pointer = Ptr<byte>.Unbox("ab\0cd");
+        Ptr<byte> pointer = Ptr<byte>.Unbox("ab\0cd");
         Assert.Equal(2, StrLen(pointer));
         Assert.Equal("ab", StrPas(pointer));
         Assert.Equal("b", StrPas(pointer + 1));
@@ -141,7 +141,7 @@ public sealed class SystemTests
         Assert.Equal("b\0c", value);
         Assert.Equal("\0\0\0", SetString(default, 3));
         Assert.Equal("", SetString(default, -1));
-        var destination = Ptr<byte>.Alloc(10);
+        Ptr<byte> destination = Ptr<byte>.Alloc(10);
         Ptr<byte>.Fill(destination, 10, 255);
         Assert.Equal(destination, StrCopy(destination + 0, pointer));
         Assert.Equal(0, destination[2]);
@@ -169,8 +169,8 @@ public sealed class SystemTests
     [Fact]
     public void TypedMemoryAndByteViews()
     {
-        GetMem<int>(out var pointer, 3);
-        GetMem<int>(out var zero, 0);
+        GetMem(out Ptr<int> pointer, 3);
+        GetMem(out Ptr<int> zero, 0);
         Assert.True(zero.IsNull);
         FillChar(pointer, 3, 7);
         Assert.Equal(new[] { 7, 7, 7 }, pointer.Array);
@@ -181,22 +181,22 @@ public sealed class SystemTests
         Assert.Equal(new[] { 1, 1, 7, 0, 0 }, pointer.Array);
         ReallocMem(ref pointer, 1);
         Assert.Equal(new[] { 1 }, pointer.Array);
-        var alias = pointer;
+        Ptr<int> alias = pointer;
         FreeMem(out pointer);
         Assert.True(pointer.IsNull);
         Assert.Equal(1, alias.Value);
-        New<PackedRecord>(out var record);
+        New(out Ptr<PackedRecord> record);
         Assert.Equal(0, record.Value.Value);
         record.Value.Value = 0x04030201;
         record.Value.Byte = 5;
-        var bytes = Bytes.Of(ref record.Value);
+        Span<byte> bytes = Bytes.Of(ref record.Value);
         Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 0, 0, 0 }, bytes.ToArray());
         Assert.Equal(4, Bytes.Of(ref record.Value, 4).Length);
         Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, 9).ToArray());
         Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, -1).ToArray());
         FillChar(bytes, 2, 0x80);
         Assert.Equal(0x04038080, record.Value.Value);
-        var other = new PackedRecord();
+        PackedRecord other = new();
         Move(bytes, Bytes.Of(ref other), 8);
         Assert.True(CompareMem(bytes, Bytes.Of(ref other), 8));
         other.Byte = 6;
@@ -221,7 +221,7 @@ public sealed class SystemTests
     public void ClassCastAbortHaltAndAssertKeepTheirReports()
     {
         Assert.Null(As<object>(null));
-        var objectValue = new object();
+        object objectValue = new();
         Assert.Same(objectValue, As<object>(objectValue));
         Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(objectValue)).Message);
         Assert.Throws<AbortException>(Abort);

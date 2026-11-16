@@ -13,16 +13,16 @@ public sealed class CorpusTests : FormatsTest
 
     public static TheoryData<string> Files()
     {
-        var data = new TheoryData<string>();
-        foreach (var pattern in s_patterns)
+        TheoryData<string> data = new();
+        foreach (string pattern in s_patterns)
         {
-            var directory = Path.Combine(Checker.GameRoot, Path.GetDirectoryName(pattern)!);
+            string directory = Path.Combine(Checker.GameRoot, Path.GetDirectoryName(pattern)!);
             if (!Directory.Exists(directory))
             {
                 continue;
             }
 
-            foreach (var file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive })
+            foreach (string? file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive })
                 .Order(StringComparer.Ordinal))
             {
                 data.Add(Path.GetRelativePath(Checker.GameRoot, file).Replace('\\', '/'));
@@ -42,15 +42,15 @@ public sealed class CorpusTests : FormatsTest
     [MemberData(nameof(Files))]
     public void OriginalRoundTrips(string relative)
     {
-        var path = Path.Combine(Checker.GameRoot, relative);
-        var bytes = File.ReadAllBytes(path);
-        var c = GameFiles.Classify(bytes, Path.GetExtension(path));
+        string path = Path.Combine(Checker.GameRoot, relative);
+        byte[] bytes = File.ReadAllBytes(path);
+        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path));
         Assert.Equal(DetectedFormat.Original, c.Format);
-        var imported = GameFiles.Import(bytes, c.Profile!, c.Kind!, relative);
-        var text = GameFiles.Write(imported.Document);
-        var exported = GameFiles.Export(GameFiles.Read(text, relative).Document, null, relative);
+        ImportResult imported = GameFiles.Import(bytes, c.Profile!, c.Kind!, relative);
+        byte[] text = GameFiles.Write(imported.Document);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(text, relative).Document, null, relative);
         Assert.True(c.Profile!.Comparable(bytes, FormatLimits.Default).AsSpan().SequenceEqual(c.Profile.Comparable(exported.Bytes, FormatLimits.Default)), "G1");
-        var again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile, c.Kind!, relative).Document);
+        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile, c.Kind!, relative).Document);
         Assert.True(again.AsSpan().SequenceEqual(text), "G2");
         Assert.Empty(exported.Invalidated);
     }

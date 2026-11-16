@@ -9,7 +9,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
 
     public static WaveData Read(Stream stream)
     {
-        using var copy = new MemoryStream();
+        using MemoryStream copy = new();
         stream.CopyTo(copy);
         ReadOnlySpan<byte> bytes = copy.ToArray();
         if (bytes.Length < 12 || !bytes[..4].SequenceEqual("RIFF"u8) || !bytes.Slice(8, 4).SequenceEqual("WAVE"u8))
@@ -36,7 +36,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
                 throw new InvalidDataException("Truncated WAVE chunk.");
             }
 
-            var chunk = bytes.Slice(at + 8, checked((int)length));
+            ReadOnlySpan<byte> chunk = bytes.Slice(at + 8, checked((int)length));
             if (bytes.Slice(at, 4).SequenceEqual("fmt "u8))
             {
                 if (chunk.Length < 16)
@@ -73,7 +73,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             throw new InvalidDataException("Unsupported or invalid WAVE format.");
         }
 
-        var samples = new float[data.Length / (bits / 8)];
+        float[] samples = new float[data.Length / (bits / 8)];
         for (int i = 0; i < samples.Length; i++)
         {
             samples[i] = format.FormatTag == 7 ? MuLaw(data[i]) / 32768f :

@@ -17,7 +17,7 @@ public static partial class Blit
 
     private static void Rle16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key, bool blend, bool rgb565)
     {
-        var clip = destination.Clip;
+        Rect clip = destination.Clip;
         int pitch = destination.Pitch;
         if (w <= 0 || h <= 0 || x >= clip.Right || x + w <= clip.Left || y >= clip.Bottom || y + h <= clip.Top)
         {
@@ -163,7 +163,7 @@ public static partial class Blit
 
     private static void Rle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<uint> palette, bool paletteMode)
     {
-        var clip = destination.Clip;
+        Rect clip = destination.Clip;
         int pitch = destination.Pitch;
         int p = 0;
         for (int ry = 0; ry < h; ry++)
@@ -200,7 +200,7 @@ public static partial class Blit
 
     private static void Mask(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, bool shadow, bool rgb565)
     {
-        var clip = destination.Clip;
+        Rect clip = destination.Clip;
         int pitch = destination.Pitch;
         int clipLeft = clip.Left, clipRight = clip.Right, clipTop = clip.Top, clipBottom = clip.Bottom;
         if (x + w < clipLeft || x >= clipRight || clipRight <= clipLeft || y + h < clipTop || y >= clipBottom || clipBottom <= clipTop)

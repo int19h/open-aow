@@ -27,15 +27,15 @@ public sealed class DocumentNodePath
 
     public override string ToString()
     {
-        var parts = new List<DocumentNodePath>();
-        for (var p = this; p is not null; p = p._parent)
+        List<DocumentNodePath> parts = new();
+        for (DocumentNodePath? p = this; p is not null; p = p._parent)
         {
             parts.Add(p);
         }
 
         parts.Reverse();
-        var builder = new StringBuilder();
-        foreach (var p in parts)
+        StringBuilder builder = new();
+        foreach (DocumentNodePath p in parts)
         {
             if (p._name is not null)
             {

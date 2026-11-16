@@ -62,12 +62,12 @@ public sealed class AudioMixer : IDisposable
             return null;
         }
 
-        var voice = new Voice(data);
+        Voice voice = new(data);
         _voices.Add(voice);
         return voice;
     }
 
-    public void StopVoices() { foreach (var voice in _voices) { voice.Playing = false; } _voices.Clear(); }
+    public void StopVoices() { foreach (Voice voice in _voices) { voice.Playing = false; } _voices.Clear(); }
 
     // One ramp _step per 50 ms mixer block, independent of SDL callback size.
     private int _blockRemaining;
@@ -87,7 +87,7 @@ public sealed class AudioMixer : IDisposable
             {
                 if (_blockRemaining == 0) { MusicGain.Tick(); SfxGain.Tick(); _blockRemaining = Math.Max(1, Rate / 20); }
                 int frames = Math.Min(_blockRemaining, output.Length / 2);
-                var block = output[..(frames * 2)];
+                Span<float> block = output[..(frames * 2)];
                 if (Song is not null && !SongEnded)
                 {
                     int read = Song.Render(Rate, block);
@@ -99,14 +99,14 @@ public sealed class AudioMixer : IDisposable
                     block[i] *= music;
                 }
 
-                foreach (var voice in _voices)
+                foreach (Voice voice in _voices)
                 {
                     if (!voice.Playing)
                     {
                         continue;
                     }
 
-                    var wave = voice.Wave;
+                    WaveData wave = voice.Wave;
                     double step = (double)wave.SampleRate / Rate;
                     float gain = SfxEnabled ? voice.Volume * SfxGain.Value / 127 : 0;
                     float left = gain * (voice.Pan > 0 ? 1 - voice.Pan : 1);

@@ -15,7 +15,7 @@ public static class LocalizationRuntime
     {
         string path = Path.Combine(StartupDirectory.Length == 0 ? RtlUnit.Files.CurrentDirectory : StartupDirectory, path2: "Dict", path3: name + ".mld");
         string key = RtlUnit.Files.ExpandPath(path);
-        if (!s_dictionaries.TryGetValue(key, out var dictionary))
+        if (!s_dictionaries.TryGetValue(key, out MldDictionary? dictionary))
         {
             dictionary = new();
             dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
@@ -32,7 +32,7 @@ public static class LocalizationRuntime
 
     public static void ClearDictionaries()
     {
-        foreach (var dictionary in s_dictionaries.Values)
+        foreach (MldDictionary dictionary in s_dictionaries.Values)
         {
             dictionary.Close();
         }
