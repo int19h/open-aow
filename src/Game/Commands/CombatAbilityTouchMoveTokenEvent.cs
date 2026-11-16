@@ -121,7 +121,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         PathStep path3 = Path[0];
                                         PathStep path4 = Path[0];
-                                        _wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild(2229508);
+                                        _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(2229508);
                                         if (_wall == null)
                                         {
                                             PathStep path5 = Path[0];

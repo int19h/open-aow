@@ -84,6 +84,16 @@ public partial class InfoWindow : UIModule
     public static Catalog<StructureView, Action<InfoWindow, Structure>> StructurePanels { get; } = new("structure info panel");
     public static Catalog<StructureView, Action<InfoWindow, Structure>> StructureButtons { get; } = new("structure info button");
 
+    // The view key names the kind. Another kind throws, and null stays null.
+    internal static void AddPanel<TStructure>(StructureView view, Action<InfoWindow, TStructure> fill)
+        where TStructure : Structure
+        => StructurePanels.Add(view, value: (dialog, structure) => fill(dialog, (TStructure)structure));
+
+    // The view key names the kind. Another kind throws, and null stays null.
+    internal static void AddButton<TStructure>(StructureView view, Action<InfoWindow, TStructure> open)
+        where TStructure : Structure
+        => StructureButtons.Add(view, value: (dialog, structure) => open(dialog, (TStructure)structure));
+
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
@@ -507,6 +517,8 @@ public partial class InfoWindow : UIModule
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
         dialog.MainButton.Visible = true;
+        // The selected structure is stored as Structure because any kind can be selected. This panel
+        // narrows it to the production place the view key names. Another kind throws, and null stays null.
         dialog.UI.General.ProductionPlace = (ProductionPlace)dialog.UI.General.Structure;
         dialog.ProductionPlacePanel.Visible = true;
         dialog.UI.General.ProductionControl = dialog.UI.General.ProductionPlace.ProductionControl;
@@ -634,10 +646,10 @@ public partial class InfoWindow : UIModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.NotYoursPanel.Visible = true;
-        if (structure is City && structure.Player == 0)
+        if (structure is City city && city.Player == 0)
         {
             dialog.PopulationRaceLabel.Visible = true;
-            string raceNamesPlural = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[((City)structure).Race]);
+            string raceNamesPlural = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[city.Race]);
             dialog.PopulationRaceLabel.Text = raceNamesPlural;
             dialog.PopulationLabel.Visible = true;
             dialog.NotYoursMemo.Items.Clear();

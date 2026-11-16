@@ -1070,10 +1070,10 @@ public partial class ProductionScreen : UIModule
         while (index != start)
         {
             s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
-            if (s is ProductionPlace && ((ProductionPlace)s).GetMagicSphere() == MagicSphere.None)
+            if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start + 1;
-                ShowPlace((ProductionPlace)s);
+                ShowPlace(place);
             }
 
             index += -1;
@@ -1100,10 +1100,10 @@ public partial class ProductionScreen : UIModule
         while (index != start)
         {
             s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
-            if (s is ProductionPlace && ((ProductionPlace)s).GetMagicSphere() == MagicSphere.None)
+            if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start - 1;
-                ShowPlace((ProductionPlace)s);
+                ShowPlace(place);
             }
 
             index += 1;

@@ -29,6 +29,12 @@ public partial class MapEvents : UIModule
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
     // the original renderers.
     public static Catalog<StructureView, Action<MapEvents, Structure>> StructureScreens { get; } = new("map structure screen");
+
+    // The view key names the kind. Another kind throws, and null stays null.
+    internal static void AddScreen<TStructure>(StructureView view, Action<MapEvents, TStructure> open)
+        where TStructure : Structure
+        => StructureScreens.Add(view, value: (events, structure) => open(events, (TStructure)structure));
+
     // Renderers of the event log views (EventLog.Views.cs), called with the screen, the event, the
     // immediate mode and the done callback. The original renderers ignore the mode (the three that
     // take it name it Unused), it is there for a renderer that wants it. ClassRegistry adds the

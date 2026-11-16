@@ -251,7 +251,7 @@ internal static class TacticalTables
                             ? null
                             : (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
 
-                        wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229508);
+                        wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
                         if (wall == null && side == CombatSideIndex.Attacker)
                         {
                             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
@@ -300,7 +300,7 @@ internal static class TacticalTables
                                             while (wall == null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
-                                                wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
+                                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 b += 1;
                                             }
 

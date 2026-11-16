@@ -33,6 +33,6 @@ public partial class CityProductionEventLog : ProductionEventLog
     }
 
     // City.pas:3200
-    public City GetCity() => (City)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(City));
+    public City GetCity() => StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite<City>();
 
 }

@@ -40,7 +40,7 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3233
     public Structure GetStructure(int index)
     {
-        Structure result = index >= 0 && index < GetCount() ? (Structure)_structures.GetChild(index) : null;
+        Structure result = index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
         return result;
     }
 
@@ -76,7 +76,7 @@ public partial class StructureControl : EngineObject
             do
             {
                 result -= 1;
-                if (id == ((Structure)_structures.GetChild(result)).StructureId)
+                if (id == _structures.GetChild<Structure>(result).StructureId)
                 {
                     return result;
                 }
@@ -93,7 +93,7 @@ public partial class StructureControl : EngineObject
         Structure result;
         int index;
         index = IndexOfId(id);
-        result = index != -1 ? (Structure)_structures.GetChild(index) : null;
+        result = index != -1 ? _structures.GetChild<Structure>(index) : null;
 
         return result;
     }
