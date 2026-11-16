@@ -286,9 +286,6 @@ public abstract partial class CustomNode : EngineObject, IOwner
     }
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
-    public T FindChild<T>(int classId) where T : EngineObject => (T)FindChild(classId);
-
-    // The class id selects the child. A child of another class throws, the same way the call site did.
     public T FindOwnedChild<T>(int classId) where T : EngineObject => (T)FindOwnedChild(classId);
 
     // The index selects the child. A child of another class throws, the same way the call site did.
