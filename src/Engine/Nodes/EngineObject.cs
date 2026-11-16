@@ -217,10 +217,6 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // class, so the typed copy keeps the single cast.
     public T Copy<T>(GameEngine engine) where T : EngineObject => (T)Copy(engine);
 
-    // The owner, typed by the caller. AcceptsOwner admits only that owner class for a typed
-    // owner, so the cast never fails there. A wrong owner throws the same way the call site did.
-    protected T GetOwner<T>() where T : CustomNode => (T)Owner;
-
     public CustomNode Owner { get => _owner; set => SetOwner(value); }
 
     // AcceptsOwner admits only T, so the cast never fails.
