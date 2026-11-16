@@ -81,10 +81,7 @@ public sealed class ThrowingCastTests
         Leader leader = new(null!) { Holder = EngineFixture.Engine };
         leader.SetOwnerWithoutNotify(player.Heroes);
         player.Leader = leader;
-        sbyte x = 0;
-        sbyte y = 0;
-        sbyte level = 0;
-        player.GetLeaderLocation(out x, out y, out level);
+        player.GetLeaderLocation(out sbyte x, out sbyte y, out sbyte level);
         Assert.Equal((sbyte)-1, x);
         Assert.Equal((sbyte)-1, y);
         Assert.Equal((sbyte)-1, level);

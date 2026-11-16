@@ -44,12 +44,9 @@ public readonly ref struct SurfaceView
         }
 
         int index = Start + (y * Pitch);
-        if (index < 0)
-        {
-            throw new IndexOutOfRangeException();
-        }
-
-        return index >= Memory.Length ? Span<byte>.Empty : Memory.Slice(index, Math.Min(count, Memory.Length - index));
+        return index < 0
+            ? throw new IndexOutOfRangeException()
+            : index >= Memory.Length ? Span<byte>.Empty : Memory.Slice(index, Math.Min(count, Memory.Length - index));
     }
 
     // The `count` bytes at a byte offset from the first pixel of row 0. Bytes past either end of

@@ -40,12 +40,9 @@ public static partial class RtlUnit
 
     public static double EncodeTime(int hour, int minute, int second, int millisecond)
     {
-        if (hour is < 0 or >= 24 || minute is < 0 or >= 60 || second is < 0 or >= 60 || millisecond is < 0 or >= 1000)
-        {
-            throw new FormatException("Invalid argument to time encode");
-        }
-
-        return ((hour * 3600000) + (minute * 60000) + (second * 1000) + millisecond) / 86400000.0;
+        return hour is < 0 or >= 24 || minute is < 0 or >= 60 || second is < 0 or >= 60 || millisecond is < 0 or >= 1000
+            ? throw new FormatException("Invalid argument to time encode")
+            : ((hour * 3600000) + (minute * 60000) + (second * 1000) + millisecond) / 86400000.0;
     }
 
     // SYSUTILS.PAS DateTimeToTimeStamp rounds to milliseconds and uses the absolute fraction.

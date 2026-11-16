@@ -16,7 +16,7 @@ public interface ICaseUnit
 /// <summary>The registered unit sides of the mapped classes, by persisted class name.</summary>
 public static class CaseMappings
 {
-    private static readonly Dictionary<string, ICaseUnit> s_units = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, ICaseUnit> s_units = [with(StringComparer.Ordinal)];
 
     public static void Register(string persistedClass, ICaseUnit unit)
     {
@@ -45,12 +45,7 @@ public static class CaseMappings
             }
 
             string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-            if (delphi is not null && delphi != persistedClass && s_units.TryGetValue(delphi, out found))
-            {
-                return found;
-            }
-
-            return null;
+            return delphi is not null && delphi != persistedClass && s_units.TryGetValue(delphi, out found) ? found : null;
         }
     }
 

@@ -9,8 +9,8 @@ public sealed class LayoutCounts
 {
     public int Parts { get; set; }
     public int Objects { get; set; }
-    public Dictionary<string, int> Categories { get; } = new(StringComparer.Ordinal);
-    public Dictionary<string, int> LegacyRules { get; } = new(StringComparer.Ordinal);
+    public Dictionary<string, int> Categories { get; } = [with(StringComparer.Ordinal)];
+    public Dictionary<string, int> LegacyRules { get; } = [with(StringComparer.Ordinal)];
 
     public void Add(string category)
     {
@@ -204,7 +204,7 @@ public sealed class PropertyTable
             throw context.Fail(Codes.Truncated, "A property table runs past the end of its object.", start, path);
         }
 
-        List<TableEntry> entries = new(shortCount + longCount);
+        List<TableEntry> entries = [with(shortCount + longCount)];
         for (int i = 0; i < shortCount; i++, at += 2)
         {
             entries.Add(new TableEntry(data[at], data[at + 1], false, i));

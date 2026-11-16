@@ -17,7 +17,7 @@ public sealed class PersistRefusalTests
     [Fact]
     public void EveryEngineClassPersistsThroughTheTree()
     {
-        List<string> found = new();
+        List<string> found = [];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)

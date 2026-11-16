@@ -115,7 +115,7 @@ public sealed class EventLogConstructionTests
     [Fact]
     public void StateInsertionAndOffsetsMatchBaseCommit()
     {
-        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = [with(StringComparer.Ordinal)];
         foreach (string name in s_names)
         {
             for (int mapped = 0; mapped < 2; mapped++)

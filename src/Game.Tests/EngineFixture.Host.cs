@@ -129,23 +129,17 @@ public sealed partial class EngineFixture
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             Record("Enumerate", directory);
-            if (_fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(_root, "IMAGES"), StringComparison.OrdinalIgnoreCase))
-            {
-                throw new InvalidDataException("injected IMAGES search failure");
-            }
-
-            return _files.Enumerate(Checked(directory)).ToArray();
+            return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(_root, "IMAGES"), StringComparison.OrdinalIgnoreCase)
+                ? throw new InvalidDataException("injected IMAGES search failure")
+                : (IEnumerable<RtlFileEntry>)_files.Enumerate(Checked(directory)).ToArray();
         }
 
         public object? Read(string key)
         {
             Record("Settings.Read", key);
-            if (_fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal))
-            {
-                throw new InvalidDataException("injected debug-mode settings failure");
-            }
-
-            return null;
+            return _fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal)
+                ? throw new InvalidDataException("injected debug-mode settings failure")
+                : null;
         }
 
         public void Write(string key, object value) => Record("Settings.Write", key + "=" + value);

@@ -182,7 +182,7 @@ public sealed class SurfaceRectangleTests
         DataSurface source = MakeSource();
         try
         {
-            LockedSurface full = default, part = default, sub = default;
+            LockedSurface full = default, part = default;
             Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref full));
             source.Unlock();
             Assert.Equal(0, full.DataIndex);
@@ -193,7 +193,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().UInt16(0));
             Assert.Equal(Source(3, 2), part.View().UInt16(part.Pitch + 4));
-            LockedSurface.CreateFrom(full, new Rect(2, 1, 4, 3), out sub);
+            LockedSurface.CreateFrom(full, new Rect(2, 1, 4, 3), out LockedSurface sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);

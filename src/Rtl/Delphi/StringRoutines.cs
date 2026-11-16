@@ -19,12 +19,9 @@ public static partial class RtlUnit
     public static string WithChar(string? value, int index, char character)
     {
         value = RequireString(value);
-        if (index < 1 || index > value.Length)
-        {
-            throw new IndexOutOfRangeException("String index out of bounds");
-        }
-
-        return string.Create(value.Length, (value, index, character), (chars, state) =>
+        return index < 1 || index > value.Length
+            ? throw new IndexOutOfRangeException("String index out of bounds")
+            : string.Create(value.Length, (value, index, character), (chars, state) =>
         {
             state.value.AsSpan().CopyTo(chars);
             chars[state.index - 1] = state.character;

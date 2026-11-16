@@ -12,7 +12,7 @@ public sealed class JsonSettingsStore : ISettingsStore
     // setting is game text and enters through the code page 1252 table (strings.md 2.5).
     private static readonly string[] s_pathKeys = ["General/Root Directory", "General/Startup Directory", "Email/Attachment Directory"];
     private readonly string _path;
-    private readonly Dictionary<string, object> _values = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, object> _values = [with(StringComparer.OrdinalIgnoreCase)];
 
     public JsonSettingsStore(string userDirectory)
     {
@@ -81,12 +81,9 @@ public sealed class JsonSettingsStore : ISettingsStore
         if (value is string rectangleText && (key.StartsWith("General/rectangles/", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", StringComparison.OrdinalIgnoreCase)))
         {
             int[] coordinates = rectangleText.Split(',').Select(int.Parse).ToArray();
-            if (coordinates.Length != 4)
-            {
-                throw new ArgumentException("A rectangle has four coordinates.");
-            }
-
-            return new { kind = "rectangle", value = coordinates };
+            return coordinates.Length != 4
+                ? throw new ArgumentException("A rectangle has four coordinates.")
+                : (object)(new { kind = "rectangle", value = coordinates });
         }
         return value switch
         {

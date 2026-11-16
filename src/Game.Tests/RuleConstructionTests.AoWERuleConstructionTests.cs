@@ -35,12 +35,7 @@ public sealed partial class RuleConstructionTests
         {
             base.AddChild(child);
             _observations.Add(Snapshot(child));
-            if (_reject)
-            {
-                throw new InvalidOperationException("owner rejects after insertion");
-            }
-
-            return Members.Count - 1;
+            return _reject ? throw new InvalidOperationException("owner rejects after insertion") : Members.Count - 1;
         }
 
         public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
@@ -79,7 +74,7 @@ public sealed partial class RuleConstructionTests
 
     private static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)
@@ -289,12 +284,9 @@ public sealed partial class RuleConstructionTests
         }
 
         Type[] top = matches.Where(type => type.DeclaringType is null).ToArray();
-        if (top.Length == 1)
-        {
-            return top[0];
-        }
-
-        throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");
+        return top.Length == 1
+            ? top[0]
+            : throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");
     }
 
     public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "Ability", "AdjustableAbility", "ArmyHexSprite", "BoltsAbility", "BreathAbility", "CharmAbility", "CharmedAbility", "CommandAbility", "CommandedAbility", "ConstructAbility", "CosmeticSurgeryAbility", "DispelMagicAbility", "DominateAbility", "DominatedAbility", "DurationAbility", "EnhancementAbility", "EntangleAbility", "FlameThrowingAbility", "HealingAbility", "InvokeDeathAbility", "LeadershipAbility", "MultiLevelAbility", "PossessAbility", "PossessedAbility", "RangedAttackAbility", "RoundAttackAbility", "SeduceAbility", "SeducedAbility", "SelfDestructAbility", "Spell", "SpellCastingAbility", "StrikeAbility", "StrikeEnhancementAbility", "TouchAbility", "TransportAbility", "TurnUndeadAbility", "UnitEnchantmentAbility", "UnitSpell", "WallCrushingAbility", "WebAbility" }.Select(name => new object[] { name });
@@ -311,7 +303,7 @@ public sealed partial class RuleConstructionTests
             RuleOwner owner = new();
             object? value = null;
             string state;
-            List<string> states = new();
+            List<string> states = [];
             try
             {
                 value = Create(type, EngineFixture.OwnerFor(type, owner), route, fixture);

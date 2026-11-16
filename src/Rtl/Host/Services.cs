@@ -57,7 +57,7 @@ public interface ISettingsStore
 
 public sealed class MemorySettingsStore : ISettingsStore
 {
-    private readonly Dictionary<string, object> _values = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, object> _values = [with(StringComparer.OrdinalIgnoreCase)];
 
     public object? Read(string key) => _values.GetValueOrDefault(key);
     public void Write(string key, object value) => _values[key] = value;

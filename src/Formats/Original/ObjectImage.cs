@@ -70,8 +70,8 @@ internal static class ObjectImage
         PropertyTable table = PropertyTable.Read(context, start, end, path);
         int db = table.DataBase;
         int length = end - db;
-        List<Slot> slots = new(table.Entries.Count);
-        Dictionary<int, TableEntry> seen = new();
+        List<Slot> slots = [with(table.Entries.Count)];
+        Dictionary<int, TableEntry> seen = [];
         foreach (TableEntry e in table.Entries)
         {
             SchemaProperty prop = classValue.PropertyById(e.Id)
@@ -86,7 +86,7 @@ internal static class ObjectImage
 
         // Each value runs to the next stored offset. Booleans have no bytes.
         int[] boundaries = slots.Select(s => s.Entry.Offset).Append(length).Distinct().Order().ToArray();
-        Dictionary<int, int> nonZeroAt = new();
+        Dictionary<int, int> nonZeroAt = [];
         foreach (Slot s in slots)
         {
             s.Start = db + s.Entry.Offset;
@@ -108,7 +108,7 @@ internal static class ObjectImage
 
         LayoutBuilder builder = new();
         // Bytes that belong to no value are gaps.
-        List<(int Offset, int Length)> gaps = new();
+        List<(int Offset, int Length)> gaps = [];
         int cursor = 0;
         foreach (Slot? s in slots.Where(s => s.End > s.Start).OrderBy(s => s.Start))
         {
@@ -126,7 +126,7 @@ internal static class ObjectImage
         }
 
         List<Slot> order = slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index).ToList();
-        Dictionary<SchemaProperty, List<Slot>> byProperty = new();
+        Dictionary<SchemaProperty, List<Slot>> byProperty = [];
         foreach (Slot s in order)
         {
             if (!byProperty.TryGetValue(s.Property, out List<Slot>? list))
@@ -343,7 +343,7 @@ internal static class ObjectImage
                     throw context.Fail(Codes.Limit, "A collection has too many items.", array, memberPath, null, $"at most {context.Limits.CollectionItems} items");
                 }
 
-                HashSet<int> slots = new();
+                HashSet<int> slots = [];
                 for (int k = 0; k < array.Items.Count; k++)
                 {
                     DocumentNodePath itemPath = memberPath.Item(k);
@@ -385,7 +385,7 @@ internal static class ObjectImage
                 throw context.Fail(Codes.Layout, "A gap part needs the table part of its object.", at, path);
             }
 
-            List<(int, int)> entries = new(writer.Items.Count);
+            List<(int, int)> entries = [with(writer.Items.Count)];
             foreach (EncodedItem item in writer.Items)
             {
                 entries.Add((item.Id, item.Start));
@@ -399,7 +399,7 @@ internal static class ObjectImage
         ConversionException Bad(string message) => context.Fail(Codes.Layout, "The retained table does not fit the values: " + message, tableAt, path);
 
         // Match entries to items: static by id, dynamic members by position in data order.
-        Dictionary<int, EncodedItem> itemsById = new();
+        Dictionary<int, EncodedItem> itemsById = [];
         foreach (EncodedItem item in writer.Items)
         {
             if (!item.IsSequential)
@@ -411,7 +411,7 @@ internal static class ObjectImage
         Dictionary<SchemaProperty, Queue<EncodedItem>> dynamicQueues = writer.Items.Where(i => i.IsSequential)
             .GroupBy(i => i.Property!).ToDictionary(g => g.Key, g => new Queue<EncodedItem>(g));
         List<TableEntry> dataOrder = stored.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
-        List<(TableEntry Entry, EncodedItem Item)> placed = new();
+        List<(TableEntry Entry, EncodedItem Item)> placed = [];
         foreach (TableEntry e in dataOrder)
         {
             if (itemsById.Remove(e.Id, out EncodedItem item))

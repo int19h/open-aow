@@ -31,10 +31,7 @@ public static partial class RtlUnit
         }
 
         T[] result = new T[count];
-        if (array is not null)
-        {
-            array.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);
-        }
+        array?.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);
 
         return result;
     }
@@ -78,11 +75,8 @@ public static partial class RtlUnit
 
     public static bool CompareMem(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b, int count)
     {
-        if (count > a.Length || count > b.Length)
-        {
-            throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer");
-        }
-
-        return count <= 0 || a[..count].SequenceEqual(b[..count]);
+        return count > a.Length || count > b.Length
+            ? throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer")
+            : count <= 0 || a[..count].SequenceEqual(b[..count]);
     }
 }

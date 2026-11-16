@@ -152,7 +152,7 @@ public sealed class ObservableNodeTests
     public void EventListRaisesItsMulticastBeforeTheCollectionEvent()
     {
         ObservableEventList list = new(null!) { Holder = EngineFixture.Engine };
-        List<string> trace = new();
+        List<string> trace = [];
         list.Events += _ => trace.Add("events");
         list.CollectionChanged += (_, change) => trace.Add(change.Kind.ToString());
         list.AddChild(new Leaf(1));
@@ -164,7 +164,7 @@ public sealed class ObservableNodeTests
     public void ItemListOnChangedRunsBeforeTheCollectionEvent()
     {
         ItemList items = new(null!) { Holder = EngineFixture.Engine };
-        List<string> trace = new();
+        List<string> trace = [];
         items.OnChanged += _ => trace.Add("on");
         items.CollectionChanged += (_, _) => trace.Add("collection");
         items.AddChild(new Item(null!) { Holder = EngineFixture.Engine });
@@ -178,7 +178,7 @@ public sealed class ObservableNodeTests
 
     private static string[] Calls(params string[] events)
     {
-        List<string> lines = new(events.Length * 2);
+        List<string> lines = [with(events.Length * 2)];
         foreach (string line in events)
         {
             lines.Add("changed");

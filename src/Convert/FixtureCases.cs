@@ -210,12 +210,9 @@ public static partial class Fixtures
                         JsonNumber decimalText => decimalText.Text,
                         _ => null,
                     };
-                    if (number is null)
-                    {
-                        return stored is JsonObject objectValue && objectValue["$bits"] is JsonString { } s && s.Value == bits ? null : "the bits changed";
-                    }
-
-                    return text == number ? null : "the number is " + (text ?? stored?.KindName) + ", not " + number;
+                    return number is null
+                        ? stored is JsonObject objectValue && objectValue["$bits"] is JsonString { } s && s.Value == bits ? null : "the bits changed"
+                        : text == number ? null : "the number is " + (text ?? stored?.KindName) + ", not " + number;
                 });
             });
         }
@@ -494,12 +491,7 @@ public static partial class Fixtures
         }
 
         JsonValue? day = Object(Object(Root(Import(exported.Bytes, "campaign", "campaign-save"))["Map"])["root"])["Day"];
-        if (day is not JsonInteger { Value: 42 })
-        {
-            return Fail("the edit was lost");
-        }
-
-        return RoundTrip(exported.Bytes, "campaign", "campaign-save");
+        return day is not JsonInteger { Value: 42 } ? Fail("the edit was lost") : RoundTrip(exported.Bytes, "campaign", "campaign-save");
     }
 
     /// <summary>
@@ -534,12 +526,9 @@ public static partial class Fixtures
 
         Dictionary<int, (int Start, int End)> players = Walk(payload, props[21].Start);
         Dictionary<int, (int Start, int End)> children = Walk(payload, players[1].Start);
-        if (!children.ContainsKey(0) || !children.ContainsKey(1))
-        {
-            return Fail("player slots 0 and 1 are not child ids 0 and 1");
-        }
-
-        return Pass("ids 28, 19, 7 and the child slots hold the edited values");
+        return !children.ContainsKey(0) || !children.ContainsKey(1)
+            ? Fail("player slots 0 and 1 are not child ids 0 and 1")
+            : Pass("ids 28, 19, 7 and the child slots hold the edited values");
     }
 
     /// <summary>An independent table walk: id to the byte range of its value.</summary>
@@ -552,7 +541,7 @@ public static partial class Fixtures
             longs = BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at));
             at += 4;
         }
-        List<(int Id, int Offset)> entries = new();
+        List<(int Id, int Offset)> entries = [];
         for (int i = 0; i < shorts; i++, at += 2)
         {
             entries.Add((data[at], data[at + 1]));
@@ -564,7 +553,7 @@ public static partial class Fixtures
         }
 
         List<int> offsets = entries.Select(e => e.Offset).Distinct().Order().ToList();
-        Dictionary<int, (int, int)> result = new();
+        Dictionary<int, (int, int)> result = [];
         foreach ((int id, int offset) in entries)
         {
             int k = offsets.IndexOf(offset);

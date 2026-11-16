@@ -221,7 +221,7 @@ public sealed class ConstructionContextTests
             catch (Construct e) { trace.Fact("chain_exception", e.Message); }
             trace.Number("chain_result_nil", objectValue is null ? 1 : 0);
         }
-        List<object> owner = new();
+        List<object> owner = [];
         Owned? owned = null;
         try { owned = Owned.New(trace, owner); }
         catch (Construct e) { trace.Fact("owner_exception", e.Message); }

@@ -63,24 +63,16 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     private static int Ordinal(E value)
     {
         long number = Convert.ToInt64(value);
-        if (number is < 0 or > 255)
-        {
-            throw new ArgumentOutOfRangeException(paramName: null, "Set ordinal outside 0..255");
-        }
-
-        return (int)number;
+        return number is < 0 or > 255 ? throw new ArgumentOutOfRangeException(paramName: null, "Set ordinal outside 0..255") : (int)number;
     }
 
     private ulong Word(int index) => index switch { 0 => a, 1 => b, 2 => c, 3 => d, _ => 0 };
 
     public static Set<E> WithBounds(int low, int high)
     {
-        if (low < 0 || high > 255 || low > high)
-        {
-            throw new ArgumentOutOfRangeException(paramName: null, "Invalid set bounds");
-        }
-
-        return new(0, 0, 0, 0, low, high);
+        return low < 0 || high > 255 || low > high
+            ? throw new ArgumentOutOfRangeException(paramName: null, "Invalid set bounds")
+            : new(0, 0, 0, 0, low, high);
     }
 
     public static Set<E> Of(params E[] values)
@@ -140,12 +132,9 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     public Set<E> With(E value)
     {
         int ordinal = Ordinal(value);
-        if (!bounded && ordinal > 63)
-        {
-            throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
-        }
-
-        return SetBit(ordinal, true);
+        return !bounded && ordinal > 63
+            ? throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63")
+            : SetBit(ordinal, true);
     }
 
     public Set<E> Without(E value) => SetBit(Ordinal(value), false);

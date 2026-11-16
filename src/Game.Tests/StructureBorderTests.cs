@@ -61,7 +61,7 @@ public sealed class StructureBorderTests
         ImageLibrary library = new(null!);
         Dib16Surface target = new(Width, height, PixelFormats.pfRGB565);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {

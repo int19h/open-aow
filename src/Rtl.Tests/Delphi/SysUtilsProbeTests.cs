@@ -52,7 +52,7 @@ public sealed class SysUtilsProbeTests
             list.Text = roundtrip; Bytes("text_" + label + "_text_again", list.Text);
         }
         StringBuilder differences = new();
-        Dictionary<string, int> kinds = new();
+        Dictionary<string, int> kinds = [];
         for (int a = 0; a < 256; a++)
         {
             for (int b = 0; b < 256; b++)

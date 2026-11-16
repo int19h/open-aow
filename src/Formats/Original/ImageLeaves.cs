@@ -63,17 +63,9 @@ internal sealed partial class IntegerCodec
             2 => signed ? BinaryPrimitives.ReadInt16LittleEndian(bytes) : BinaryPrimitives.ReadUInt16LittleEndian(bytes),
             _ => signed ? BinaryPrimitives.ReadInt32LittleEndian(bytes) : BinaryPrimitives.ReadUInt32LittleEndian(bytes),
         };
-        if (number < Min || number > Max)
-        {
-            throw context.Fail(Codes.Range, ImageName(frame) + " is outside its storage range.", start, frame.Path, Text(number), Min + " to " + Max);
-        }
-
-        if (domain is not null)
-        {
-            return new ReferenceNode(domain, (int)number);
-        }
-
-        return new IntegerNode(width, signed, number);
+        return number < Min || number > Max
+            ? throw context.Fail(Codes.Range, ImageName(frame) + " is outside its storage range.", start, frame.Path, Text(number), Min + " to " + Max)
+            : domain is not null ? new ReferenceNode(domain, (int)number) : new IntegerNode(width, signed, number);
     }
 
     private static string ImageName(ImageFrame frame) => frame.Property?.Name ?? "The value";
@@ -128,17 +120,11 @@ internal sealed partial class StringCodec
             length = context.Int32(at);
             at += 4;
         }
-        if (length < 0 || at + (long)length != end)
-        {
-            throw Mismatch(context, start, site, "A string of " + length + " bytes does not fill its " + (end - start) + " stored bytes.");
-        }
-
-        if (length > context.Limits.StringBytes)
-        {
-            throw context.Fail(Codes.Limit, "A string is too long.", start, site.Path, Text(length), "at most " + context.Limits.StringBytes + " bytes");
-        }
-
-        return new StringNode(TextCodec.Decode(context.Data.AsSpan(at, length)));
+        return length < 0 || at + (long)length != end
+            ? throw Mismatch(context, start, site, "A string of " + length + " bytes does not fill its " + (end - start) + " stored bytes.")
+            : length > context.Limits.StringBytes
+            ? throw context.Fail(Codes.Limit, "A string is too long.", start, site.Path, Text(length), "at most " + context.Limits.StringBytes + " bytes")
+            : (TreeValue)new StringNode(TextCodec.Decode(context.Data.AsSpan(at, length)));
     }
 }
 
@@ -160,12 +146,7 @@ internal partial class StringsCodec
     {
         ValueSite site = frame.Value(context);
         (string? text, int after) = Block(context, start, end, site);
-        if (after != end)
-        {
-            throw Mismatch(context, start, site, "Bytes follow the text block.");
-        }
-
-        return LinesNode.FromText(text);
+        return after != end ? throw Mismatch(context, start, site, "Bytes follow the text block.") : (TreeValue)LinesNode.FromText(text);
     }
 }
 
@@ -279,12 +260,9 @@ internal sealed partial class EnumCodec
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        if (end - start != Width)
-        {
-            throw Mismatch(context, start, frame.Value(context), "An enum of " + Width + " bytes is stored in " + (end - start) + " bytes.");
-        }
-
-        return new EnumNode(TypeName, Width, Signed, Read(context.Data.AsSpan(start, Width)));
+        return end - start != Width
+            ? throw Mismatch(context, start, frame.Value(context), "An enum of " + Width + " bytes is stored in " + (end - start) + " bytes.")
+            : (TreeValue)new EnumNode(TypeName, Width, Signed, Read(context.Data.AsSpan(start, Width)));
     }
 }
 
@@ -302,12 +280,9 @@ internal sealed partial class SetCodec
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        if (end - start != Width)
-        {
-            throw Mismatch(context, start, frame.Value(context), "A set of " + Width + " bytes is stored in " + (end - start) + " bytes.");
-        }
-
-        return new SetNode(TypeName, Width, Mask(context.Data.AsSpan(start, Width)));
+        return end - start != Width
+            ? throw Mismatch(context, start, frame.Value(context), "A set of " + Width + " bytes is stored in " + (end - start) + " bytes.")
+            : (TreeValue)new SetNode(TypeName, Width, Mask(context.Data.AsSpan(start, Width)));
     }
 }
 
@@ -373,12 +348,7 @@ internal sealed partial class RawBooleanCodec
         }
 
         byte stored = context.Data[start];
-        if (stored is 0 or 1)
-        {
-            return new BooleanNode(stored != 0);
-        }
-
-        return new IntegerNode(1, false, stored);
+        return stored is 0 or 1 ? new BooleanNode(stored != 0) : new IntegerNode(1, false, stored);
     }
 
     private static byte ImageByte(EncodeContext context, TreeValue value, ImageFrame frame)
@@ -417,84 +387,44 @@ internal sealed class RecordBooleanCodec(string name) : PropertyCodec
         }
 
         byte stored = context.Data[start];
-        if (stored == 0)
-        {
-            return new JsonBoolean(false);
-        }
-
-        if (stored == 1)
-        {
-            return new JsonBoolean(true);
-        }
-
-        return new JsonInteger(stored);
+        return stored == 0 ? new JsonBoolean(false) : stored == 1 ? new JsonBoolean(true) : new JsonInteger(stored);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Byte(Stored(context, value, site.Path));
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is BooleanNode bit)
-        {
-            return bit.Value ? new JsonBoolean(true) : null;
-        }
-
-        if (value is IntegerNode { Width: 1, Signed: false } number)
-        {
-            if (number.Value == 0)
-            {
-                return null;
-            }
-
-            if (number.Value == 1)
-            {
-                return new JsonBoolean(true);
-            }
-
-            if (number.Value is < 0 or > 255)
-            {
-                throw site.Fail(Codes.Range, (site.Property?.Name ?? name) + " is outside its storage range.", value: Text(number.Value), constraint: "0 to 255");
-            }
-
-            return new JsonInteger(number.Value);
-        }
-        throw site.Mismatch((site.Property?.Name ?? name) + " is a boolean.");
+        return value is BooleanNode bit
+            ? bit.Value ? new JsonBoolean(true) : null
+            : value is IntegerNode { Width: 1, Signed: false } number
+            ? number.Value == 0
+                ? null
+                : number.Value == 1
+                ? new JsonBoolean(true)
+                : number.Value is < 0 or > 255
+                ? throw site.Fail(Codes.Range, (site.Property?.Name ?? name) + " is outside its storage range.", value: Text(number.Value), constraint: "0 to 255")
+                : (JsonValue)new JsonInteger(number.Value)
+            : throw site.Mismatch((site.Property?.Name ?? name) + " is a boolean.");
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        if (value is JsonBoolean bit)
-        {
-            return bit.Value ? new IntegerNode(1, false, 1) : null;
-        }
-
-        if (value is JsonInteger number)
-        {
-            if (number.Value is < 0 or > 255)
-            {
-                throw site.Fail(Codes.Range, (site.Property?.Name ?? name) + " is outside its storage range.", value, Text(number.Value), "0 to 255");
-            }
-
-            if (number.Value == 0)
-            {
-                return null;
-            }
-
-            return new IntegerNode(1, false, number.Value);
-        }
-        throw site.Mismatch((site.Property?.Name ?? name) + " is a boolean.", value);
+        return value is JsonBoolean bit
+            ? bit.Value ? new IntegerNode(1, false, 1) : null
+            : value is JsonInteger number
+            ? number.Value is < 0 or > 255
+                ? throw site.Fail(Codes.Range, (site.Property?.Name ?? name) + " is outside its storage range.", value, Text(number.Value), "0 to 255")
+                : number.Value == 0 ? null : (TreeValue)new IntegerNode(1, false, number.Value)
+            : throw site.Mismatch((site.Property?.Name ?? name) + " is a boolean.", value);
     }
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame) => data.Byte(ImageByte(context, value, frame));
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        if (end - start != 1)
-        {
-            throw Mismatch(context, start, frame.Value(context), name + " is one byte.");
-        }
-
-        return new IntegerNode(1, false, context.Data[start]);
+        return end - start != 1
+            ? throw Mismatch(context, start, frame.Value(context), name + " is one byte.")
+            : (TreeValue)new IntegerNode(1, false, context.Data[start]);
     }
 
     private byte Stored(EncodeContext context, JsonValue value, DocumentNodePath path)
@@ -558,7 +488,7 @@ internal sealed partial class CatalogRecordCodec
             throw context.Fail(Codes.Type, (frame.Property?.Name ?? TypeName) + " is a record.", null, frame.Path);
         }
 
-        HashSet<string> seen = new(StringComparer.Ordinal);
+        HashSet<string> seen = [with(StringComparer.Ordinal)];
         byte[] bytes = new byte[info.Size];
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;

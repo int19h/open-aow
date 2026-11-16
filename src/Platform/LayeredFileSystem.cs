@@ -7,8 +7,8 @@ namespace Aow.Platform;
 public sealed class LayeredFileSystem : IFileSystem
 {
     private readonly string _root, _user;
-    private readonly Dictionary<string, string> _rootTree = new(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<string, string[]> _userListings = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string> _rootTree = [with(StringComparer.OrdinalIgnoreCase)];
+    private readonly Dictionary<string, string[]> _userListings = [with(StringComparer.OrdinalIgnoreCase)];
     private string _current = "";
     private readonly string[] _userOnly;
 
@@ -118,16 +118,12 @@ public sealed class LayeredFileSystem : IFileSystem
 
             path = path[2..].TrimStart(Path.DirectorySeparatorChar);
         }
-        else if (Path.IsPathRooted(path))
-        {
-            path = path.TrimStart(Path.DirectorySeparatorChar);
-        }
         else
         {
-            path = Path.Combine(_current, path);
+            path = Path.IsPathRooted(path) ? path.TrimStart(Path.DirectorySeparatorChar) : Path.Combine(_current, path);
         }
 
-        List<string> parts = new();
+        List<string> parts = [];
         foreach (string part in path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             if (part == ".")
@@ -318,12 +314,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public string Layer(string path)
     {
         string? found = ReadLocation(Relative(path));
-        if (found is null)
-        {
-            return "none";
-        }
-
-        return Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
+        return found is null ? "none" : Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
     }
 
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Mutate(() => EnsureDirectory(WriteLocation(Relative(path))));
@@ -351,7 +342,7 @@ public sealed class LayeredFileSystem : IFileSystem
             return [];
         }
 
-        Dictionary<string, string> merged = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string> merged = [with(StringComparer.OrdinalIgnoreCase)];
         foreach (KeyValuePair<string, string> pair in Same(_root, _user) ? [] : _rootTree)
         {
             if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative))

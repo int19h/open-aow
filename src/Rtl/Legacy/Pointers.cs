@@ -52,22 +52,13 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public readonly Span<T> AsSpan(int count)
     {
-        if (count == 0)
-        {
-            return Span<T>.Empty;
-        }
-
-        if (Array is not null)
-        {
-            return Array.AsSpan(Index, count);
-        }
-
-        if (count < 0 || ByteIndex < 0 || ByteIndex + ((long)count * Unsafe.SizeOf<T>()) > StorageBytes)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count));
-        }
-
-        return MemoryMarshal.CreateSpan(ref Value, count);
+        return count == 0
+            ? Span<T>.Empty
+            : Array is not null
+            ? Array.AsSpan(Index, count)
+            : count < 0 || ByteIndex < 0 || ByteIndex + ((long)count * Unsafe.SizeOf<T>()) > StorageBytes
+            ? throw new ArgumentOutOfRangeException(nameof(count))
+            : MemoryMarshal.CreateSpan(ref Value, count);
     }
 
     public readonly Span<T> AsSpan() => AsSpan((StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
@@ -129,12 +120,9 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public static int operator -(Ptr<T> a, Ptr<T> b)
     {
-        if (!ReferenceEquals(a.Storage, b.Storage))
-        {
-            throw new InvalidOperationException("Pointers have different backing arrays");
-        }
-
-        return (a.ByteIndex - b.ByteIndex) / Unsafe.SizeOf<T>();
+        return !ReferenceEquals(a.Storage, b.Storage)
+            ? throw new InvalidOperationException("Pointers have different backing arrays")
+            : (a.ByteIndex - b.ByteIndex) / Unsafe.SizeOf<T>();
     }
 
     public readonly bool Equals(Ptr<T> other) => ReferenceEquals(Storage, other.Storage) && ByteIndex == other.ByteIndex;
@@ -199,11 +187,8 @@ public static class Bytes
     public static Span<byte> Of<T>(ref T value, int count) where T : unmanaged
     {
         Span<byte> bytes = Of(ref value);
-        if (count < 0 || count > bytes.Length)
-        {
-            throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record");
-        }
-
-        return bytes[..count];
+        return count < 0 || count > bytes.Length
+            ? throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record")
+            : bytes[..count];
     }
 }

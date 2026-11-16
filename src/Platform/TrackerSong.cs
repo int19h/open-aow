@@ -96,12 +96,7 @@ public sealed unsafe class TrackerSong : IDisposable
             count = checked((int)Read(_module, rate, (nuint)(stereo.Length / 2), data));
         }
 
-        if (GetError(_module) != 0)
-        {
-            throw new InvalidDataException("libopenmpt failed while rendering the song.");
-        }
-
-        return count;
+        return GetError(_module) != 0 ? throw new InvalidDataException("libopenmpt failed while rendering the song.") : count;
     }
 
     private void Check() => ObjectDisposedException.ThrowIf(_module == 0, this);

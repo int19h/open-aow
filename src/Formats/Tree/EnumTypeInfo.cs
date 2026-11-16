@@ -54,12 +54,9 @@ public sealed class EnumTypeInfo
             return (8, false);
         }
 
-        if (under == typeof(long))
-        {
-            return (8, true);
-        }
-
-        throw new InvalidOperationException("Enum " + type.Name + " has an unsupported underlying type.");
+        return under == typeof(long)
+            ? ((int Width, bool Signed))(8, true)
+            : throw new InvalidOperationException("Enum " + type.Name + " has an unsupported underlying type.");
     }
 
     internal static EnumTypeInfo Describe(Type type)
@@ -70,8 +67,8 @@ public sealed class EnumTypeInfo
         }
 
         (int width, bool signed) = Layout(type);
-        Dictionary<string, long> byName = new();
-        Dictionary<long, string> byValue = new();
+        Dictionary<string, long> byName = [];
+        Dictionary<long, string> byValue = [];
         foreach (string name in Enum.GetNames(type))
         {
             long value = ToInt64(Enum.Parse(type, name));
@@ -89,20 +86,7 @@ public sealed class EnumTypeInfo
         };
     }
 
-    internal bool TryNumber(string text, out long number)
-    {
-        if (ByName.TryGetValue(text, out number))
-        {
-            return true;
-        }
-
-        if (!NameTable.TryMember(Color, text, out string? member))
-        {
-            return false;
-        }
-
-        return ByName.TryGetValue(member, out number);
-    }
+    internal bool TryNumber(string text, out long number) => ByName.TryGetValue(text, out number) || (NameTable.TryMember(Color, text, out string? member) && ByName.TryGetValue(member, out number));
 
     internal static long ToInt64(object value) => Convert.ToInt64(value);
 }

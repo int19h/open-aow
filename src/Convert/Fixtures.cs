@@ -23,8 +23,9 @@ public static partial class Fixtures
         public bool UsesGame => !s_gameFree.Contains(Group + "/" + Name);
     }
 
-    private static readonly HashSet<string> s_gameFree = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> s_gameFree =
+    [
+        with(StringComparer.Ordinal),
         "lists/empty hero list", "lists/empty item list", "unknown/unknown stored class id", "unknown/unknown property id",
         "strings/long prefix for a short string", "strings/all 256 code page bytes",
         "layout/long table entries and a gap after a Boolean", "layout/a noncanonical table order",
@@ -33,7 +34,7 @@ public static partial class Fixtures
         "gzip/a damaged own document never falls back to binary", "diagnostics/duplicate JSON member with both locations",
         "diagnostics/a binary error gives the offset and the profile", "diagnostics/trailing commas and comments fail",
         "diagnostics/a newer version fails with both numbers", "diagnostics/an older version fails and asks for a new conversion",
-    };
+    ];
 
     /// <summary>A case result. OwnDocuments counts the own documents the case checked for G-own.</summary>
     public sealed record Outcome(bool Matched, string Detail, int OwnDocuments = 0);
@@ -77,12 +78,9 @@ public static partial class Fixtures
     private static byte[] Game(string relative)
     {
         string path = Path.Combine(Checker.GameRoot, relative.Replace('/', Path.DirectorySeparatorChar));
-        if (!File.Exists(path))
-        {
-            throw new IOException($"Game file {relative} is unavailable under {Checker.GameRoot}.");
-        }
-
-        return File.ReadAllBytes(path);
+        return !File.Exists(path)
+            ? throw new IOException($"Game file {relative} is unavailable under {Checker.GameRoot}.")
+            : File.ReadAllBytes(path);
     }
 
     private const string Map = "Scenario/Custom/Mountain Clash.hsm";
@@ -156,17 +154,11 @@ public static partial class Fixtures
         }
 
         byte[] n1 = GameFiles.Normalize(text).Bytes;
-        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1))
-        {
-            return Fail("G-own differs");
-        }
-
-        if (inspect?.Invoke(imported.Document) is string problem)
-        {
-            return Fail(problem);
-        }
-
-        return Pass($"G1, G2 and G-own hold, {imported.Counts.Parts} layout parts", 1);
+        return !GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)
+            ? Fail("G-own differs")
+            : inspect?.Invoke(imported.Document) is string problem
+            ? Fail(problem)
+            : Pass($"G1, G2 and G-own hold, {imported.Counts.Parts} layout parts", 1);
     }
 
     /// <summary>G2 and G-own for an own document: the import of its export is its normal form.</summary>
@@ -188,22 +180,11 @@ public static partial class Fixtures
         }
 
         byte[] n1 = GameFiles.Normalize(GameFiles.Write(document)).Bytes;
-        if (!n1.AsSpan().SequenceEqual(text))
-        {
-            return Fail("N(D) differs from the import of the export");
-        }
-
-        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1))
-        {
-            return Fail("G-own differs");
-        }
-
-        if (inspect?.Invoke(normal, exported.Bytes) is string problem)
-        {
-            return Fail(problem);
-        }
-
-        return Pass("G2 and G-own hold", 1);
+        return !n1.AsSpan().SequenceEqual(text)
+            ? Fail("N(D) differs from the import of the export")
+            : !GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)
+            ? Fail("G-own differs")
+            : inspect?.Invoke(normal, exported.Bytes) is string problem ? Fail(problem) : Pass("G2 and G-own hold", 1);
     }
 
     private static Outcome Expect(string code, Action action, Func<FormatDiagnostic, string?>? inspect = null)
@@ -214,17 +195,11 @@ public static partial class Fixtures
         }
         catch (ConversionException error)
         {
-            if (error.Diagnostic.Code != code)
-            {
-                return Fail($"expected {code}, got {error.Diagnostic}");
-            }
-
-            if (inspect?.Invoke(error.Diagnostic) is string problem)
-            {
-                return Fail(problem + ": " + error.Diagnostic);
-            }
-
-            return Pass(error.Diagnostic.ToString());
+            return error.Diagnostic.Code != code
+                ? Fail($"expected {code}, got {error.Diagnostic}")
+                : inspect?.Invoke(error.Diagnostic) is string problem
+                ? Fail(problem + ": " + error.Diagnostic)
+                : Pass(error.Diagnostic.ToString());
         }
         return Fail($"expected {code}, the conversion succeeded");
     }

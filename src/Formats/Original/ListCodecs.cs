@@ -44,7 +44,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("default"), Text(node.Default), Min + " to " + Max);
         }
 
-        List<long> items = new(node.Items.Count);
+        List<long> items = [with(node.Items.Count)];
         for (int i = 0; i < node.Items.Count; i++)
         {
             long item = node.Items[i];
@@ -113,12 +113,9 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
         long Item(JsonValue? item, Tree.DocumentSite at)
         {
-            if (Element is not null && item is not null)
-            {
-                return Element.Read(item, site.Context, at.Path);
-            }
-
-            return item is JsonInteger n && n.Value >= Min && n.Value <= Max ? n.Value
+            return Element is not null && item is not null
+                ? Element.Read(item, site.Context, at.Path)
+                : item is JsonInteger n && n.Value >= Min && n.Value <= Max ? n.Value
                 : throw at.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", item ?? objectValue, null, $"{Min} to {Max}");
         }
         long defense = Item(objectValue["default"], site.At(site.Path.Member("default"), element: false));
@@ -178,7 +175,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         }
 
         context.CheckItems(count, start, site.Path);
-        List<long> items = new(count);
+        List<long> items = [with(count)];
         int at = start + width + 4;
         while (items.Count < count)
         {
@@ -205,12 +202,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
                 items.Add(v);
             }
         }
-        if (at != end)
-        {
-            throw Mismatch(context, at, site, "Bytes follow the list items.");
-        }
-
-        return items;
+        return at != end ? throw Mismatch(context, at, site, "Bytes follow the list items.") : items;
     }
 
     private void Put(ByteBuffer b, long v)
@@ -278,12 +270,9 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
         long Item(JsonValue? v, DocumentNodePath p)
         {
-            if (Element is not null && v is not null)
-            {
-                return Element.Read(v, context, p);
-            }
-
-            return v is JsonInteger n && n.Value >= Min && n.Value <= Max ? n.Value
+            return Element is not null && v is not null
+                ? Element.Read(v, context, p)
+                : v is JsonInteger n && n.Value >= Min && n.Value <= Max ? n.Value
                 : throw context.Fail(v is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", v ?? objectValue, p, null, $"{Min} to {Max}");
         }
         long defense = Item(objectValue["default"], site.Path.Member("default"));
@@ -293,7 +282,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             throw context.Fail(Codes.Limit, "A collection has too many items.", array, site.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
-        List<long> items = new(array.Items.Count);
+        List<long> items = [with(array.Items.Count)];
         for (int i = 0; i < array.Items.Count; i++)
         {
             items.Add(Item(array.Items[i], site.Path.Member("items").Item(i)));
@@ -485,7 +474,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             throw context.Fail(Codes.Limit, "A collection has too many items.", groups, path, Text(count), $"at most {context.Limits.CollectionItems} items");
         }
 
-        List<long> items = new((int)count);
+        List<long> items = [with((int)count)];
         for (int g = 0; g < groups.Items.Count; g++)
         {
             DocumentNodePath at = path.Member("groups").Item(g);
@@ -589,7 +578,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         byte[] bytes = data.ToArray();
         int count = BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
         int used = count & 7;
-        List<int> set = new();
+        List<int> set = [];
         for (int i = 0; i < count; i++)
         {
             if ((bytes[5 + (i >> 3)] & (1 << (i & 7))) != 0)
@@ -664,20 +653,11 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             }
         }
 
-        byte defense;
-        if (Indices)
-        {
-            defense = RawBooleanCodec.ByteOf(context, objectValue["default"] ?? objectValue, site.Path.Member("default"), "default");
-        }
-        else if (objectValue["default"] is JsonInteger { Value: >= 0 and <= 255 } stored)
-        {
-            defense = (byte)stored.Value;
-        }
-        else
-        {
-            throw context.Fail(Codes.Range, "default is a byte.", objectValue["default"] ?? objectValue, site.Path.Member("default"));
-        }
-
+        byte defense = Indices
+            ? RawBooleanCodec.ByteOf(context, objectValue["default"] ?? objectValue, site.Path.Member("default"), "default")
+            : objectValue["default"] is JsonInteger { Value: >= 0 and <= 255 } stored
+                ? (byte)stored.Value
+                : throw context.Fail(Codes.Range, "default is a byte.", objectValue["default"] ?? objectValue, site.Path.Member("default"));
         if (objectValue["count"] is not JsonInteger { Value: >= 0 and <= int.MaxValue } count)
         {
             throw context.Fail(Codes.Range, "count is a non-negative 32-bit integer.", objectValue["count"] ?? objectValue, site.Path.Member("count"));

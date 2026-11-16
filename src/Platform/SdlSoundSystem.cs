@@ -320,7 +320,7 @@ internal class SdlSample : Sample
 
     public override void Play() { lock (_mixer.Sync) { if (_voice?.Playing != true) { _voice = _mixer.Play(((SdlSampleData)SampleData).Wave); Apply(); } } }
 
-    public override void Stop() { lock (_mixer.Sync) { if (_voice is not null) { _voice.Playing = false; } _voice = null; } }
+    public override void Stop() { lock (_mixer.Sync) { _voice?.Playing = false; _voice = null; } }
 
     public override void Dispose() { Stop(); base.Dispose(); }
 }

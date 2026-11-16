@@ -60,7 +60,7 @@ public sealed class RemainingConstructionTests
 
     private static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)
@@ -279,17 +279,13 @@ public sealed class RemainingConstructionTests
         bool node = typeof(EngineObject).IsAssignableFrom(type);
         // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
         ConstructorInfo? constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
-        if (factory is not null)
-        {
-            return Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
-        }
-
-        if (constructor is not null)
-        {
-            return Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
-        }
-
-        throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
+        return factory is not null
+            ? Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!
+            : constructor is not null
+            ? Invoke(() => constructor.Invoke(node
+                ? EngineClassCreation.OwnerArguments(constructor, owner)
+                : new object?[constructor.GetParameters().Length]))!
+            : throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
 
     private static void Check(string name, string key, string actual) => ConstructionSnapshot.Check("RemainingConstruction", name + "." + key, actual);
@@ -308,7 +304,7 @@ public sealed class RemainingConstructionTests
                 RemainingOwner? owner = ownerMode == 0 ? null : new RemainingOwner();
                 object? value = null;
                 string state;
-                List<string> states = new();
+                List<string> states = [];
                 try
                 {
                     value = Create(type, owner!, route);

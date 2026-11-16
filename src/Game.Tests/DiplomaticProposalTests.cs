@@ -102,7 +102,7 @@ public sealed class DiplomaticProposalTests
             "01000013010200020A00140405000000520202000219001A010000"),
     ];
 
-    public static TheoryData<int> CaseIndexes { get; } = new(Enumerable.Range(0, s_cases.Length));
+    public static TheoryData<int> CaseIndexes { get; } = [.. Enumerable.Range(0, s_cases.Length)];
 
     // The proposal each case reads as, built by hand.
     private static DiplomaticProposal Expected(byte kind, int gold, int mana) => kind switch

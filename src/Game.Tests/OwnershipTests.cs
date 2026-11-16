@@ -33,7 +33,7 @@ public sealed class OwnershipTests
             Assert.Null(((IOwned)shared).Owner);
             Assert.Equal(new IOwned[] { first }, owner.Children.OfType<IOwned>().Where(child => child.Owner == owner));
             Assert.Equal("OwningNodeOwningNodeOwningNode", second.EngineObjectPath);
-            List<IOwner> owners = new();
+            List<IOwner> owners = [];
             for (IOwner? current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner)
             {
                 owners.Add(current);
@@ -128,7 +128,7 @@ public sealed class OwnershipTests
     public void ClearListDisposesEachItemAndSkipsEmptySlots()
     {
         EngineObjectList list = new();
-        Disposable?[] items = new[] { new Disposable(), null, new Disposable(), new Disposable() };
+        Disposable?[] items = [new Disposable(), null, new Disposable(), new Disposable()];
         foreach (Disposable? item in items)
         {
             list.Add(item);
