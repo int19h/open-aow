@@ -34,8 +34,8 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     public int Count => _holder.GetCount();
 
     // The item in slot index, read as the original reads the list, without a range check. The
-    // holder admits only items, so the cast never fails.
-    public Item this[int index] => (Item)_holder.GetChild(index);
+    // holder admits only items. Another class throws, as the cast did. Null stays null.
+    public Item this[int index] => _holder.GetChild<Item>(index);
 
     public IEnumerator<Item> GetEnumerator()
     {

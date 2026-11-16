@@ -180,7 +180,7 @@ public partial class CampaignTransferSettings : EngineObject
         {
             units = new UnitUserList(null) { Holder = CreationHolder() };
             player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
-            Leader = (Leader)StrategicMap.Current.Players.GetPlayers(player).Leader.Copy(GetEngine());
+            Leader = StrategicMap.Current.Players.GetPlayers(player).Leader.Copy<Leader>(GetEngine());
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             Leader.ExecuteCancelCasting();
@@ -189,7 +189,7 @@ public partial class CampaignTransferSettings : EngineObject
                 item = Leader.Inventory.Items.GetItem(j);
                 if (item != null)
                 {
-                    copyItem = (Item)item.Copy(GetEngine());
+                    copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
                     copyItem.ItemId = Leader.UnitId;
                     copyItem.Release();
@@ -202,7 +202,7 @@ public partial class CampaignTransferSettings : EngineObject
                 item = Leader.HeroItems.Items.GetItem(j);
                 if (item != null)
                 {
-                    copyItem = (Item)item.Copy(GetEngine());
+                    copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
                     copyItem.ItemId = Leader.UnitId;
                     copyItem.Release();
@@ -227,7 +227,7 @@ public partial class CampaignTransferSettings : EngineObject
                             item = hero.Inventory.Items.GetItem(j);
                             if (item != null)
                             {
-                                copyItem = (Item)item.Copy(GetEngine());
+                                copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
                                 copyItem.ItemId = hero.UnitId;
                                 copyItem.Release();
@@ -240,7 +240,7 @@ public partial class CampaignTransferSettings : EngineObject
                             item = hero.HeroItems.Items.GetItem(j);
                             if (item != null)
                             {
-                                copyItem = (Item)item.Copy(GetEngine());
+                                copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
                                 copyItem.ItemId = hero.UnitId;
                                 copyItem.Release();
@@ -586,7 +586,7 @@ public partial class CampaignTransferSettings : EngineObject
                     if (leader.UnitId == itemItem.ItemId)
                     {
                         int fSelectedItemsItem = SelectedItems[j];
-                        itemItem = (Item)Items.GetItem(fSelectedItemsItem).Copy(GetEngine());
+                        itemItem = Items.GetItem(fSelectedItemsItem).Copy<Item>(GetEngine());
                         if (leader.AutoPlaceItem(itemItem))
                         {
                             SelectedItems.Delete(j);
@@ -621,7 +621,7 @@ public partial class CampaignTransferSettings : EngineObject
                     if (hero.UnitId == itemItem.ItemId)
                     {
                         int item2 = SelectedItems[j];
-                        itemItem = (Item)Items.GetItem(item2).Copy(GetEngine());
+                        itemItem = Items.GetItem(item2).Copy<Item>(GetEngine());
                         if (hero.AutoPlaceItem(itemItem))
                         {
                             SelectedItems.Delete(j);
@@ -641,7 +641,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = SelectedItems.Count - 1; i >= 0; i--)
             {
                 int item = SelectedItems[i];
-                itemItem = (Item)Items.GetItem(item).Copy(GetEngine());
+                itemItem = Items.GetItem(item).Copy<Item>(GetEngine());
                 StrategicMap.Current.ItemControl.RegisterItem(itemItem);
                 itemItem.PlaceOnMap(StrategicMap.Current, x, y, l);
                 itemItem.Release();

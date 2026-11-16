@@ -39,7 +39,7 @@ public partial class TurnUndeadAbility : TouchAbility
         MultiLevelAbilityData data;
         if (owner != null)
         {
-            data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+            data = GetData(owner);
             if (data != null)
             {
                 result = data.Level;
@@ -108,7 +108,7 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         MultiLevelAbilityData data;
         bool result = false;
-        data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new MultiLevelAbilityData(null) { Holder = CreationHolder() };
@@ -135,7 +135,7 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         MultiLevelAbilityData data;
         bool result = true;
-        data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data != null)
         {
             if (data.Level == 1)
@@ -188,7 +188,7 @@ public partial class TurnUndeadAbility : TouchAbility
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         }
@@ -387,5 +387,7 @@ public partial class TurnUndeadAbility : TouchAbility
 
     // AoWAb.PAS:3164
     public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
+
+    public MultiLevelAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
 
 }

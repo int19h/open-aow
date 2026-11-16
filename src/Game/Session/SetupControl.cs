@@ -413,6 +413,7 @@ public partial class SetupControl : Component
             case 8:
                 if (GetHost())
                 {
+                    // Message 8 carries the customized leader in Data. Another class throws.
                     LeaderCustomized(package.Param2, (Leader)package.Data);
                 }
 

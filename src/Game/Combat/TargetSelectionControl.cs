@@ -309,6 +309,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3974
     public void UnitChanged(object unit)
     {
+        // UnitChanged receives the move payload as object. Typing that payload is issue 150.
         if (Status.Contains(TargetSelectionStatusElement.Activated) && Source != null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatusElement.Killed))
         {
             Deactivate();

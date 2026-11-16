@@ -1778,7 +1778,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (ExpandAbility(53))
             {
-                data = (DurationAbilityData)GetAbilityData(53);
+                data = GetAbilityData<DurationAbilityData>(53);
                 data.Source = 1;
                 data.Duration = 0;
             }
@@ -1819,7 +1819,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (ExpandAbility(93))
             {
-                data = (DurationAbilityData)GetAbilityData(93);
+                data = GetAbilityData<DurationAbilityData>(93);
                 data.Source = 1;
             }
         }
@@ -1836,7 +1836,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 if (GetAbilityEnabled(93))
                 {
-                    if (((DurationAbilityData)GetAbilityData(93)).Source == 1)
+                    if (GetAbilityData<DurationAbilityData>(93).Source == 1)
                     {
                         RemoveAbility(93);
                     }
@@ -1948,7 +1948,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void ValidateCrusader()
     {
         DurationAbilityData data;
-        data = (DurationAbilityData)GetAbilityData(101);
+        data = GetAbilityData<DurationAbilityData>(101);
         if (data != null)
         {
             if (data.Duration <= 0)
@@ -2187,7 +2187,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // The producer ExecuteLifeMasteryFearRole writes the source marker on duration data.
     public void ResetLifeMasteryFear()
     {
-        if (GetAbilityEnabled(53) && ((DurationAbilityData)GetAbilityData(53)).Source == 1)
+        if (GetAbilityEnabled(53) && GetAbilityData<DurationAbilityData>(53).Source == 1)
         {
             RemoveAbility(53);
         }
@@ -2254,7 +2254,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
         if (active.Contains(DamageType.Lightning) && ExpandAbility(92))
         {
-            DurationAbilityData data = (DurationAbilityData)GetAbilityData(92);
+            DurationAbilityData data = GetAbilityData<DurationAbilityData>(92);
             data?.PlayerIndex = combat.CombatData.CurrentPlayer;
 
             result += Set<DamageType>.Of(DamageType.Lightning);
@@ -2325,8 +2325,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     internal static int UnitStrikeDamageValue(Troop source, Troop target)
     {
-        ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).MeleeRound.CalculateFreeUnitSwing(source, target);
-        return ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).MeleeRound.GetAttackerDamageValue();
+        GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).MeleeRound.CalculateFreeUnitSwing(source, target);
+        return GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).MeleeRound.GetAttackerDamageValue();
     }
 
     public enum Morale : byte

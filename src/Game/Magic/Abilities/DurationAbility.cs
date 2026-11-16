@@ -80,7 +80,7 @@ public partial class DurationAbility : AdjustableAbility
         DurationAbilityData data;
         if (DurationMode == DurationMode.Day)
         {
-            data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+            data = GetData(owner);
             if (data != null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
@@ -104,7 +104,7 @@ public partial class DurationAbility : AdjustableAbility
     {
         DurationAbilityData data;
         bool result = false;
-        data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new DurationAbilityData(null) { Holder = CreationHolder() };
@@ -132,7 +132,7 @@ public partial class DurationAbility : AdjustableAbility
         DurationAbilityData data;
         if (DurationMode == DurationMode.CombatTurn)
         {
-            data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+            data = GetData(combatObject.GetAbilityOwner());
             if (data != null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
@@ -168,7 +168,7 @@ public partial class DurationAbility : AdjustableAbility
     {
         byte result;
         DurationAbilityData data;
-        data = (DurationAbilityData)abilityOwner.GetAbilityData(AbilityId);
+        data = GetData(abilityOwner);
         result = data != null ? data.Duration : (byte)0;
 
         return result;
@@ -179,6 +179,8 @@ public partial class DurationAbility : AdjustableAbility
 
     // AoWAb.PAS:30
     public override EngineClass AbilityDataClass() => EngineClass.Of<DurationAbilityData>();
+
+    public DurationAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<DurationAbilityData>(AbilityId);
 
     public override bool Remove(AbilityOwner owner)
     {

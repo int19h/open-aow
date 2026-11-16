@@ -580,7 +580,7 @@ public partial class WorldMap : UIModule
         LeaderSetupControl leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
+            leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
             for (int i = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; i <= last; i++)
             {
                 MagicSphere sphere = leader.GetSpheres(i);

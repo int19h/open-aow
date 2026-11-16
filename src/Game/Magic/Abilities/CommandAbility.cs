@@ -211,7 +211,7 @@ public partial class CommandAbility : TouchAbility
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        targetData = (CommandedAbilityData)GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null, holder: CreationHolder());
+        targetData = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -219,7 +219,7 @@ public partial class CommandAbility : TouchAbility
         SetAbility(target.Troop, CommandedAbilityId, 1);
         target.Troop.AddAbilityData(targetData);
         target.SetCombatPlayer((byte)source.CombatPlayer);
-        sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+        sourceData = GetData(source.Troop);
         if (sourceData == null)
         {
             sourceData = new CommandAbilityData(null) { Holder = CreationHolder() };
@@ -248,7 +248,7 @@ public partial class CommandAbility : TouchAbility
         troopOwner = source.Troop;
         if (troopOwner.GetAbilityEnabled(AbilityId))
         {
-            data = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+            data = GetData(source.Troop);
             if (data != null)
             {
                 for (int i = data.CommandedUnits.Count - 1; i >= 0; i--)
@@ -273,7 +273,7 @@ public partial class CommandAbility : TouchAbility
         troopOwner = target.Troop;
         if (troopOwner.GetAbilityEnabled(CommandedAbilityId))
         {
-            data = (CommandedAbilityData)troopOwner.GetAbilityData(CommandedAbilityId);
+            data = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
             // { Original reads Data before checking it for nil. }
             source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
             if (data != null)
@@ -284,7 +284,7 @@ public partial class CommandAbility : TouchAbility
             GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
             if (source != null)
             {
-                sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+                sourceData = GetData(source.Troop);
                 sourceData?.CommandedUnits.Remove(target.Id);
             }
         }
@@ -292,6 +292,8 @@ public partial class CommandAbility : TouchAbility
 
     // AoWAb.PAS:5093
     public override EngineClass AbilityDataClass() => CommandDataClass;
+
+    public CommandAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<CommandAbilityData>(AbilityId);
 
     internal static EngineClass CommandDataClass { get; } = EngineClass.Of<CommandAbilityData>();
 

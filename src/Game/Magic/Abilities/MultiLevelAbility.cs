@@ -35,8 +35,12 @@ public partial class MultiLevelAbility : AdjustableAbility
     // { branch past the missing-data exit and nil-owner zero result }
     public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
 
-    public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;
-    public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;
+    public virtual MultiLevelAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
+
+    protected virtual MultiLevelAbilityData CreateData() => AbilityDataClass().Create<MultiLevelAbilityData>(null, holder: CreationHolder());
+
+    public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : GetData(owner)?.Level ?? 0;
+    public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : GetData(owner)?.Level ?? 0;
     public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
     public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
 
@@ -62,10 +66,10 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     public override bool Expand(AbilityOwner owner)
     {
-        MultiLevelAbilityData data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        MultiLevelAbilityData data = GetData(owner);
         if (data == null)
         {
-            data = (MultiLevelAbilityData)AbilityDataClass().CreateInstance(null, holder: CreationHolder());
+            data = CreateData();
             data.LevelAbilityId = (ushort)AbilityId;
             data.Level = 1;
             SetAbility(owner, AbilityId, 1);
@@ -83,7 +87,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     public override bool Remove(AbilityOwner owner)
     {
-        MultiLevelAbilityData data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        MultiLevelAbilityData data = GetData(owner);
         if (data == null) { SetAbility(owner, AbilityId, 0); return false; }
         if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
         else

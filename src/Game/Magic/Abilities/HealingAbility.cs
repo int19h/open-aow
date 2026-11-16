@@ -53,7 +53,7 @@ public partial class HealingAbility : TouchAbility
         bool result = owner.GetAbilitySetAt(AbilityId);
         if (result)
         {
-            data = (HealingAbilityData)owner.GetAbilityData(AbilityId);
+            data = GetData(owner);
             result = data == null || data.Enabled;
         }
 
@@ -272,7 +272,7 @@ public partial class HealingAbility : TouchAbility
     public void SetEnabled(AbilityOwner owner, bool enabled)
     {
         HealingAbilityData data;
-        data = (HealingAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new HealingAbilityData(null) { Holder = CreationHolder() };
@@ -343,6 +343,8 @@ public partial class HealingAbility : TouchAbility
 
     // AoWAb.PAS:3659
     public override EngineClass AbilityDataClass() => s_healingDataClass;
+
+    public HealingAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<HealingAbilityData>(AbilityId);
 
     private static readonly EngineClass s_healingDataClass = EngineClass.Of<HealingAbilityData>();
     private static readonly string s_healingText = "Healing";
