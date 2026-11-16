@@ -86,17 +86,17 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     }
 
     // PlayerC.PAS:1703
-    public void ExitSaveGameCallback(EventLog log)
+    public void ExitSaveGameCallback(SaveGameEventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             if (GetEngine().Campaign != null)
             {
-                GetEngine().SaveCampaign(((SaveGameEventLog)log).FileName);
+                GetEngine().SaveCampaign(log.FileName);
             }
             else
             {
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
             }
         }
         else

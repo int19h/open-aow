@@ -1607,9 +1607,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             i -= 1;
             if (logbook.GetLogs(i).Day == StrategicMap.Current.Day)
             {
-                if (logbook.GetLogs(i) is DiplomaticActionEventLog)
+                if (logbook.GetLogs(i) is DiplomaticActionEventLog diplomatic)
                 {
-                    item = ((DiplomaticActionEventLog)logbook.GetLogs(i)).Action;
+                    item = diplomatic.Action;
                     result = item.Proposal.ToFields().Kind == kind && item.Source == PlayerIndex && item.Target == target && (other == -1 || item.OtherPlayer == other);
                 }
             }

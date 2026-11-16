@@ -122,7 +122,7 @@ public partial class ArmyCombatMoveTokenEvent
                 {
                     log = new UserEventLog(null) { Holder = CreationHolder() };
                     log.Data = this;
-                    StrategicMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)RestoreHotSeatModeCallback);
                     log.Release();
                     StrategicMap.Current.AIExecutor.Lock();
                     StrategicMap.Current.LockGameOverEvent();

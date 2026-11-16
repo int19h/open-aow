@@ -15,8 +15,8 @@ namespace Aow.Game.Events;
 // day, unique ID, player, reference count
 public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
-    // The list that holds the log. AcceptsOwner admits only that list, so the cast never fails.
-    public new EventLogList Owner { get => (EventLogList)base.Owner; set => SetOwner(value); }
+    // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.
+    public new EventLogList Owner { get => GetOwner<EventLogList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is EventLogList;
 
@@ -189,7 +189,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing)
             {
-                copyLog = (EventLog)log.Copy(log.GetEngine());
+                copyLog = log.Copy<EventLog>(log.GetEngine());
                 player.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && execute)
                 {
@@ -210,7 +210,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
             if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)i)))
             {
-                copyLog = (EventLog)log.Copy(log.GetEngine());
+                copyLog = log.Copy<EventLog>(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {

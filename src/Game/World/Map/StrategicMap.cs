@@ -1110,6 +1110,21 @@ public partial class StrategicMap : GameMap
         }
     }
 
+    // A callback that takes EventLog stays on the untyped method. Those call sites cast the
+    // callback to ExecuteDoneEvent, so this overload does not wrap it.
+    public void TriggerExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
+    {
+        ExecuteDoneEvent callback = null;
+        if (done != null)
+        {
+            // ClearExecuteEventLogBuffer passes the next queued log to the first callback
+            // (AoWHSMap.PAS:1931). A log of another kind throws on this cast, the same way the old cast did.
+            callback = stored => done((TLog)stored);
+        }
+
+        TriggerExecuteEventLog(log, immediate: immediate, done: callback);
+    }
+
     // AoWHSMap.PAS:1476
     public void SynchronizeBegin() => _synchronizeCount += 1;
 
@@ -1696,7 +1711,7 @@ public partial class StrategicMap : GameMap
             player = Current.Players.GetPlayers(i);
             if (i == eventValue.Player || player.GameOverStatus == GameOverStatus.None)
             {
-                log = (GameOverEventLog)eventValue.Copy(GetEngine());
+                log = eventValue.Copy<GameOverEventLog>(GetEngine());
                 if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
@@ -1721,13 +1736,16 @@ public partial class StrategicMap : GameMap
     {
         sbyte player;
         EventLog log;
+        GameOverEventLog stored;
         _gameOverLockCount -= 1;
         if (_gameOverLockCount == 0)
         {
             while (_executeEventLogBuffer.Count != 0)
             {
-                player = ((GameOverEventLog)_executeEventLogBuffer.GetEvents(0)).TargetPlayer;
-                log = (EventLog)_executeEventLogBuffer.GetEvents(0).Copy(GetEngine());
+                // ExecuteGameOverEvent stores only game over logs in this buffer.
+                stored = _executeEventLogBuffer.GetChild<GameOverEventLog>(0);
+                player = stored.TargetPlayer;
+                log = stored.Copy<EventLog>(GetEngine());
                 Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                 if (player == Current.SeatedPlayer)
                 {
@@ -2423,7 +2441,7 @@ public partial class StrategicMap : GameMap
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
-                TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
+                TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)ShowSeatedPlayerCallback);
                 log.Release();
                 UnlockGameOverEvent();
                 SetSeatedPlayer(-1);

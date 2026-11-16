@@ -2057,9 +2057,9 @@ public partial class Hero : Troop
         logbook = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook;
         for (int i = logbook.GetCount() - 1; i >= 0; i--)
         {
-            if (logbook.GetLogs(i) is SpellCastEventLog && ((SpellCastEventLog)logbook.GetLogs(i)).UnitId == UnitId)
+            if (logbook.GetLogs(i) is SpellCastEventLog spellCast && spellCast.UnitId == UnitId)
             {
-                logbook.GetLogs(i).SetOwner(null);
+                spellCast.SetOwner(null);
             }
         }
     }

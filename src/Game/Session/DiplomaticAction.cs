@@ -178,7 +178,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
-        log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
+        log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId<DiplomaticActionEventLog>(EventLogId);
         log.SetDiplomaticAction(this);
         StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
     }

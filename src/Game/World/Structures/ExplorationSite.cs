@@ -325,16 +325,15 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:230
-    public void RequestCombatTypeCallback(EventLog log)
+    public void RequestCombatTypeCallback(CombatTypeRequestEventLog log)
     {
         StructureTokenEvent tokenEvent;
-        CombatTypeRequestEventLog combatTypeRequestEventLog = (CombatTypeRequestEventLog)log;
-        if (combatTypeRequestEventLog.CombatType != CombatType.None)
+        if (log.CombatType != CombatType.None)
         {
             tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 0;
-            tokenEvent.Param = (int)combatTypeRequestEventLog.CombatType;
+            tokenEvent.Param = (int)log.CombatType;
             StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
             tokenEvent.Release();
         }

@@ -91,6 +91,11 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:572
     public EventLog FindId(int id) => _events.FindId(id);
 
+    // The kind is fixed by the call flow, not by the logbook. NotifyLogged writes the id when the
+    // logbook adds the log, and the original asserts a DiplomaticActionEventLog (Diplomacy.pas:697).
+    // A missing id stays null, and a log of another kind throws.
+    public T FindId<T>(int id) where T : EventLog => (T)FindId(id);
+
     // EventLog.pas:575
     public int FindFirstLog(int player, int day)
     {

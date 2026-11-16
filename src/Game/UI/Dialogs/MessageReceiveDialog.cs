@@ -47,14 +47,14 @@ public partial class MessageReceiveDialog : UIModule
     // AoWMsgReceiveDlg.pas:47
     public void MsgReceiveWinHide() => FinishDialog();
 
-    internal static void ShowReceivedMessage(MessageReceiveDialog dialog, EventLog eventValue, ExecuteDoneEvent done)
+    internal static void ShowReceivedMessage(MessageReceiveDialog dialog, GameOverEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog._event = eventValue;
         dialog._event.AddRef();
         dialog.Done = done;
         string text = eventValue.GetText();
         dialog.HeaderMemo.Items.Text = text;
-        string fMessageText = ((GameOverEventLog)eventValue).Message.Text;
+        string fMessageText = eventValue.Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
         Player player = StrategicMap.Current.Players.GetPlayers(eventValue.Player);
         dialog.LeftShield.CurrentImage = player.PlayerRace + 13;

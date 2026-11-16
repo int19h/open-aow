@@ -46,14 +46,14 @@ public partial class GamePlayDialog : UIModule
     private string _newPassword = "";
 
     // AoWGamePlayDlg.pas:200
-    public void PasswordEntered(EventLog log)
+    public void PasswordEntered(PasswordEventLog log)
     {
         PasswordEventLog password = default;
-        if (((PasswordEventLog)log).PressedButton == PressedEventLogButton.Ok)
+        if (log.PressedButton == PressedEventLogButton.Ok)
         {
-            if (!IsEmpty(((PasswordEventLog)log).Password))
+            if (!IsEmpty(log.Password))
             {
-                _newPassword = ((PasswordEventLog)log).Password;
+                _newPassword = log.Password;
                 password = new PasswordEventLog(null, holder: UI.Engine);
                 password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
@@ -68,9 +68,9 @@ public partial class GamePlayDialog : UIModule
     }
 
     // AoWGamePlayDlg.pas:217
-    public void PasswordConfirmed(EventLog log)
+    public void PasswordConfirmed(PasswordEventLog log)
     {
-        if (((PasswordEventLog)log).Password == _newPassword)
+        if (log.Password == _newPassword)
         {
             string encode = AbilityRules.Encode(_newPassword, 0);
             PasswordEdit.Text = encode;

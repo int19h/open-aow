@@ -21,8 +21,8 @@ public readonly struct EventLogCollection : IReadOnlyList<EventLog>
     public int Count => _list.GetCount();
 
     // The log in slot index, read as the original reads the list, without a range check. The
-    // list admits only event logs, so the cast never fails.
-    public EventLog this[int index] => (EventLog)_list.GetChild(index);
+    // list admits only event logs. A child of another class throws, the same way the cast did.
+    public EventLog this[int index] => _list.GetChild<EventLog>(index);
 
     public IEnumerator<EventLog> GetEnumerator()
     {
