@@ -20,8 +20,8 @@ public readonly struct TokenEventCollection : IReadOnlyList<TokenEvent>
     public int Count => _list.GetCount();
 
     // The event in slot index, read as the original reads the list, without a range check. The
-    // list admits only token events, so the cast never fails.
-    public TokenEvent this[int index] => (TokenEvent)_list.GetChild(index);
+    // list admits only token events.
+    public TokenEvent this[int index] => _list.GetChild<TokenEvent>(index);
 
     public IEnumerator<TokenEvent> GetEnumerator()
     {

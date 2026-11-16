@@ -378,7 +378,7 @@ public partial class ProductionPlace : PlayerStructure
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         ProductionPlaceEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
             log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
@@ -417,11 +417,11 @@ public partial class ProductionPlace : PlayerStructure
             if (budget > 0)
             {
                 RandSeed = StrategicMap.Current.Random(1048575);
-                collection = ((StructureResource)Resource).Defenders.GetRandomCollection();
+                collection = Resource.Defenders.GetRandomCollection();
                 if (collection != -1)
                 {
                     units = new UnitIndexList();
-                    UnitIndexListCollection unitIndexListCollection = ((StructureResource)Resource).Defenders;
+                    UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
                     for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {
                         units.Add(unitIndexListCollection.GetU(collection, i));

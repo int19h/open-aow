@@ -32,6 +32,6 @@ public partial class ProductionPlaceEventLog : ProductionEventLog
     }
 
     // PrdPlace.pas:739
-    public ProductionPlace GetProductionPlace() => (ProductionPlace)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(ProductionPlace));
+    public ProductionPlace GetProductionPlace() => StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite<ProductionPlace>();
 
 }

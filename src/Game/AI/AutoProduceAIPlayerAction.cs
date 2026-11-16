@@ -52,7 +52,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     {
                         if (FindAvailableTransporter() == null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
-                            budget = (AIBudget)player.AIBudget.Budgets.FindChild(131742);
+                            budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
                             if (budget == null)
                             {
                                 budget = new AITransporterBudget(null) { Holder = CreationHolder() };
@@ -310,7 +310,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     x = coordinate2.X;
                                     y = coordinate2.Y;
                                     l = coordinate2.MapLevel;
-                                    structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                    structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                     priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
                                     {
@@ -401,7 +401,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                         x = coordinate3.X;
                                         y = coordinate3.Y;
                                         l = coordinate3.MapLevel;
-                                        structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                        structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                         priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
                                         {

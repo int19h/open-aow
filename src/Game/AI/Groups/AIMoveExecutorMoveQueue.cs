@@ -7,8 +7,8 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorMoveQueue : OwningNode, IChildList<AIMoveExecutorMove>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AIMoveExecutorMove, so the cast never fails.
-    public AIMoveExecutorMove this[int index] => (AIMoveExecutorMove)GetChild(index);
+    // AcceptsChild admits only an AIMoveExecutorMove.
+    public AIMoveExecutorMove this[int index] => GetChild<AIMoveExecutorMove>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorMove;
 

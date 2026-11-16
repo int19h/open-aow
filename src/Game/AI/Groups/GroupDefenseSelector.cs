@@ -139,7 +139,7 @@ public partial class GroupDefenseSelector : IDisposable
                     GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
-                    candidates.SortChildren(CompareDefenseUnits);
+                    candidates.SortChildren<Troop>(CompareDefenseUnits);
                     i = 0;
                     while (candidates.Count != i && candidates.GetUnit(i).GroupId != group.GroupId)
                     {
@@ -230,13 +230,13 @@ public partial class GroupDefenseSelector : IDisposable
     private static int s_defenseSortGroupId;
     private static UnitUserList s_defenseSortUnits;
 
-    private static int CompareDefenseUnits(EngineObject item1, EngineObject item2)
+    private static int CompareDefenseUnits(Troop item1, Troop item2)
     {
-        int number = ((Troop)item1).Group.RecruitmentPriority - ((Troop)item2).Group.RecruitmentPriority;
+        int number = item1.Group.RecruitmentPriority - item2.Group.RecruitmentPriority;
         if (number == 0)
         {
-            number = ((Troop)item1).GroupId - ((Troop)item2).GroupId;
-            if (number == 0 && ((Troop)item1).GroupId == s_defenseSortGroupId)
+            number = item1.GroupId - item2.GroupId;
+            if (number == 0 && item1.GroupId == s_defenseSortGroupId)
             {
                 if (s_defenseSortUnits != null)
                 {
@@ -253,7 +253,7 @@ public partial class GroupDefenseSelector : IDisposable
                 }
                 if (number == 0)
                 {
-                    number = ((Troop)item1).GetStrengthMax(AbilityRules.AllDamageTypes) - ((Troop)item2).GetStrengthMax(AbilityRules.AllDamageTypes);
+                    number = item1.GetStrengthMax(AbilityRules.AllDamageTypes) - item2.GetStrengthMax(AbilityRules.AllDamageTypes);
                 }
             }
         }

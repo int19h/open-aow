@@ -752,7 +752,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 result = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
 
-            if (result && Group != null && Group.GroupClass.Behavior == GroupBehavior.Hunt && ((HuntAIGroup)Group).HuntingPlayer(player))
+            if (result && Group != null && Group.HuntingPlayer(player))
             {
                 result = false;
             }

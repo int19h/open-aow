@@ -21,8 +21,8 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     public int Count => _list.GetCount();
 
     // The target in slot index, read as the original reads the list, without a range check. The
-    // list admits only control targets, so the cast never fails.
-    public AIGroupControlTarget this[int index] => (AIGroupControlTarget)_list.GetChild(index);
+    // list admits only control targets.
+    public AIGroupControlTarget this[int index] => _list.GetChild<AIGroupControlTarget>(index);
 
     public IEnumerator<AIGroupControlTarget> GetEnumerator()
     {

@@ -1210,7 +1210,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
-                                    unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild(2228484);
+                                    unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                     effect.Target = unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide()
                                         ? unitHexSprite.Unit
                                         : null;

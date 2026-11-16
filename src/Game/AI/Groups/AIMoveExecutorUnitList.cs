@@ -10,8 +10,8 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecutorUnit>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AIMoveExecutorUnit, so the cast never fails.
-    public AIMoveExecutorUnit this[int index] => (AIMoveExecutorUnit)GetChild(index);
+    // AcceptsChild admits only an AIMoveExecutorUnit.
+    public AIMoveExecutorUnit this[int index] => GetChild<AIMoveExecutorUnit>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorUnit;
 

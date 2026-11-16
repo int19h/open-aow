@@ -211,7 +211,7 @@ public partial class CityTargetSpell : Spell
             x = coordinate59.X;
             y = coordinate59.Y;
             l = coordinate59.MapLevel;
-            found = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
+            found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             result = targetCity != found;
         }
 
@@ -220,6 +220,12 @@ public partial class CityTargetSpell : Spell
 
     // CitySpells.pas:346
     public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
+
+    // CityTargetSpell.CreateTokenEvent constructs CityTargetSpellTokenEvent.
+    public sealed override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) =>
+        ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
+
+    protected virtual bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount) => false;
 
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
@@ -245,7 +251,7 @@ public partial class CityTargetSpell : Spell
             valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
-                targetCity = (City)field.FindNoneTransparentHexSprite(typeof(City));
+                targetCity = field.FindNoneTransparentHexSprite<City>();
                 valid = targetCity != null && ValidTargetCity(source, targetCity);
             }
         }

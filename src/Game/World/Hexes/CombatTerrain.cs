@@ -67,7 +67,7 @@ public partial class CombatTerrain : TerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
-            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType))
+            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType))
             {
                 switch (message.MessageId)
                 {
@@ -165,10 +165,10 @@ public partial class CombatTerrain : TerrainMapObject
             switch (message.MessageId)
             {
                 case 135169:
-                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < ((Resource)base.Resource).Defense)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < GetResource<Resource>().Defense)
                     {
                         MapFieldMessageParameters param2 = message.Param;
-                        param2[0] = ((Resource)base.Resource).Defense;
+                        param2[0] = GetResource<Resource>().Defense;
                         message.Param = param2;
                     }
 
@@ -194,7 +194,7 @@ public partial class CombatTerrain : TerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        _hitPoints = Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType) ? 3 : 0;
+        _hitPoints = Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType) ? 3 : 0;
 
         _defense = -2;
         CreateShadow();

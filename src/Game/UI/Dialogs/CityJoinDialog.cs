@@ -117,7 +117,7 @@ public partial class CityJoinDialog : UIModule
         string text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
         dialog.ApproachLabel.Text = log.Text;
-        town = (City)StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite(typeof(City));
+        town = StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
         dialog._race = town.Race;
         LibraryImage topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPictureLine.ImageTop = topCityActionImage;

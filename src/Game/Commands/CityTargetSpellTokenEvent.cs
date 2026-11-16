@@ -57,7 +57,7 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
         SetLocation(new MapCoordinate(x, y, level));
 
     // CitySpells.pas:204
-    public City GetSelectedCity() => (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite(typeof(City));
+    public City GetSelectedCity() => StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite<City>();
 
     // NetworkE.pas:230
 

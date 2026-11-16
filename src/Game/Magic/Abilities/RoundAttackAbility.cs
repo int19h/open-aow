@@ -221,10 +221,8 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2294
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        Troop source;
-        if (owner is Troop)
+        if (owner is Troop source)
         {
-            source = (Troop)owner;
             sbyte attack = source.GetAttack();
             info.Attack = attack;
             sbyte damage = source.GetDamage();

@@ -19,8 +19,8 @@ public readonly struct AIGroupUnitProductionCollection : IReadOnlyList<AIGroupUn
     public int Count => _list.GetCount();
 
     // The production in slot index, read as the original reads the list, without a range check.
-    // The list admits only unit productions, so the cast never fails.
-    public AIGroupUnitProduction this[int index] => (AIGroupUnitProduction)_list.GetChild(index);
+    // The list admits only unit productions.
+    public AIGroupUnitProduction this[int index] => _list.GetChild<AIGroupUnitProduction>(index);
 
     public IEnumerator<AIGroupUnitProduction> GetEnumerator()
     {
@@ -33,5 +33,5 @@ public readonly struct AIGroupUnitProductionCollection : IReadOnlyList<AIGroupUn
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // AIGroup.pas:2435. The original reads through the range-checked child.
-    public AIGroupUnitProduction GetUnitProductions(int index) => (AIGroupUnitProduction)_list.GetChildInRange(index);
+    public AIGroupUnitProduction GetUnitProductions(int index) => _list.GetChildInRange<AIGroupUnitProduction>(index);
 }

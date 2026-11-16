@@ -236,7 +236,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                         Path.List[1] = Path.List[1] with { MoveCost = 0 };
                     }
 
-                    move = (ArmyCombatMoveTokenEvent)ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                    move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: Set<ArmyMoveModeElement>.Of());
                     if (move != null)
                     {
                         // { created combat move }
@@ -724,11 +724,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                         }
                         else
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
-                            if (move != null)
-                            {
-                                ((ArmyCombatMoveTokenEvent)move)._ignoreDefenders = true;
-                            }
+                            ArmyCombatMoveTokenEvent combatMove = CreateCombatMoveMapCoordinateTokenEvent(armyHexSprite, selection: selection, x: combat.CombatData.Location.X, y: combat.CombatData.Location.Y, l: combat.CombatData.Location.MapLevel);
+                            combatMove?._ignoreDefenders = true;
+
+                            move = combatMove;
                         }
 
                         if (move != null)
@@ -812,6 +811,22 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
     private static MoveArmyTokenEvent CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, Set<ArmyMoveModeElement> mode)
     {
+        MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: X, y: Y, l: L);
+        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>()));
+        moveControlSettings.Release();
+        return result;
+    }
+
+    private static ArmyCombatMoveTokenEvent CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
+    {
+        MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: x, y: y, l: l);
+        ArmyCombatMoveTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>()));
+        moveControlSettings.Release();
+        return result;
+    }
+
+    private static MoveControlSettings CreateMoveControlSettings(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
+    {
         MoveControlSettings moveControlSettings = new(null) { Holder = army };
         sbyte hexLevel = army.GetHexLevel();
         sbyte hexY = army.GetHexY();
@@ -819,14 +834,12 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         moveControlSettings.Player = army.Army.Player;
         moveControlSettings.ArmyHexSprite = army;
         moveControlSettings.Selection = selection;
-        moveControlSettings.SetDestinationPosition(X, Y, L);
+        moveControlSettings.SetDestinationPosition(x, y, l);
         MovePointTable movePointTable = moveControlSettings.MovePointTable;
         army.Army.CreateMovePointTable(selection, out movePointTable);
         moveControlSettings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
-        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, moveControlSettings.Path, action, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>()));
-        moveControlSettings.Release();
-        return result;
+        return moveControlSettings;
     }
 
     // intf_P5_07.inc:816

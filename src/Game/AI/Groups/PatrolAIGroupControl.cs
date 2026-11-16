@@ -19,6 +19,8 @@ public partial class PatrolAIGroupControl : AIGroupControl
     public PatrolAIGroupControl(CustomNode owner) : base(owner)
     { }
 
+    public new PatrolAIGroup Group => GetGroup<PatrolAIGroup>();
+
     // IndependentAG.pas:415
     public override void MoveExecutorDone(object sender)
     {
@@ -30,7 +32,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             case AIMoveExecutorStatus.Failed:
                 if (State == 7)
                 {
-                    ((PatrolAIGroup)Group).PatrolTo = MapCoordinate.None;
+                    Group.PatrolTo = MapCoordinate.None;
                 }
                 else
                 {
@@ -78,9 +80,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                if (((PatrolAIGroup)Group).PatrolStrength == 0)
+                if (Group.PatrolStrength == 0)
                 {
-                    ((PatrolAIGroup)Group).PatrolStrength = StrengthMax;
+                    Group.PatrolStrength = StrengthMax;
                 }
 
                 defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
@@ -90,7 +92,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 State = 1;
                 break;
             case 1:
-                if (((PatrolAIGroup)Group).PatrolTo.X == -1 || (((PatrolAIGroup)Group).PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, Location.X, Location.Y) <= 2))
+                if (Group.PatrolTo.X == -1 || (Group.PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(Group.PatrolTo.X, Group.PatrolTo.Y, Location.X, Location.Y) <= 2))
                 {
                     ResetPatrolToLocation();
                 }
@@ -98,7 +100,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 2:
-                if (StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
+                if (StrengthMax < Group.PatrolStrength)
                 {
                     State += 1;
                     recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
@@ -113,11 +115,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 3:
-                if (RecruitmentGroups.Count != 0 && StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
+                if (RecruitmentGroups.Count != 0 && StrengthMax < Group.PatrolStrength)
                 {
                     recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Reset();
-                    recruit.RecruitStrength = ((PatrolAIGroup)Group).PatrolStrength - StrengthMax;
+                    recruit.RecruitStrength = Group.PatrolStrength - StrengthMax;
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
                     ActivatePlugin(recruit);
                     recruit.Release();
@@ -151,11 +153,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 6:
-                if (StrategicMap.Current.Random(3) != 0 && ((PatrolAIGroup)Group).PatrolTo.X != -1)
+                if (StrategicMap.Current.Random(3) != 0 && Group.PatrolTo.X != -1)
                 {
                     State += 1;
                     SetupME();
-                    ExecuteME(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, ((PatrolAIGroup)Group).PatrolTo.MapLevel);
+                    ExecuteME(Group.PatrolTo.X, Group.PatrolTo.Y, Group.PatrolTo.MapLevel);
                 }
                 else
                 {
@@ -168,7 +170,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 settings.Player = Group.Player;
                 settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
                 settings.SetSourcePosition(Location);
-                settings.SetDestinationPosition(((PatrolAIGroup)Group).PatrolFrom);
+                settings.SetDestinationPosition(Group.PatrolFrom);
                 settings.MovePointsMax = 48;
                 settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
                 settings.ArmyHexSprite = ArmyHexSprite;
@@ -177,7 +179,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count == 0)
                 {
-                    ((PatrolAIGroup)Group).PatrolFrom = MapCoordinate.None;
+                    Group.PatrolFrom = MapCoordinate.None;
                 }
 
                 settings.Release();
@@ -205,7 +207,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         MapField mapField = default;
         ByteList choices = default;
         DoubleItemList<MapField> selectedList = default;
-        group = (PatrolAIGroup)Group;
+        group = Group;
         if (group.PatrolFrom.X == -1)
         {
             group.PatrolFrom = Location;

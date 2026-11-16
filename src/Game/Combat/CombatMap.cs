@@ -400,7 +400,7 @@ public partial class CombatMap : GameMap
             Mouse.CursorMode = 0;
             int hexY = Mouse.HexY;
             int hexX = Mouse.HexX;
-            hexSprite = (TacticalBattleUnitHexSprite)MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
+            hexSprite = MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             if (hexSprite != null)
             {
                 Mouse.CursorMode = 257;
@@ -771,7 +771,7 @@ public partial class CombatMap : GameMap
         {
             HexGeometry.CenterHexNumberToHex(x0, y0, i, ref x, ref y);
             overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType;
-            occupant = (TacticalBattleUnitHexSprite)Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
+            occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             i += 1;
         }
         while (!(overlay != 8 && occupant == null));

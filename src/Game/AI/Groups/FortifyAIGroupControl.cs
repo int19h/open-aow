@@ -286,7 +286,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 13:
-                city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite(typeof(City));
+                city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                 if (city != null && city.GetActiveAction() == CityAction.Migrate)
                 {
                     defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
@@ -352,7 +352,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 17:
                 if (StrengthMax >= _enemyStrength)
                 {
-                    city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite(typeof(City));
+                    city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                     if (city != null && city.GetActiveAction() == CityAction.Migrate)
                     {
                         defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
@@ -485,7 +485,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public City FortifyCity()
     {
         City result = _fortifyLocation != MapCoordinate.None
-            ? (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite(typeof(City))
+            ? StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite<City>()
             : null;
         return result;
     }

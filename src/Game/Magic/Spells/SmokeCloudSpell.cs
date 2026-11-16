@@ -30,11 +30,13 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     {
         EngineResource resource;
         SmokeCloud cloud;
-        Troop sourceLocal = eventValue.GetSource();
-        StrategicMap.Current.ValidateObservation(sourceLocal.Player, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2);
-        if (eventValue.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2))
+        // SmokeCloudSpell.CreateTokenEvent constructs GlobalTargetSpellTokenEvent.
+        GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
+        Troop sourceLocal = targetEvent.GetSource();
+        StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2);
+        if (targetEvent.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2))
         {
-            GamePack.Current.SpellControl.GetSpell(eventValue.EventSpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
         }
 
         resource = (EngineResource)((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild(135747);
@@ -46,7 +48,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             cloud.Enchantment.PlayerIndex = source.Player;
             cloud.Enchantment.EnchantmentManaUpkeep = ManaUpkeep;
             cloud.Drifting = false;
-            if (!StrategicMap.Current.PlaceHex(cloud, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel))
+            if (!StrategicMap.Current.PlaceHex(cloud, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel))
             {
                 cloud?.Dispose();
             }

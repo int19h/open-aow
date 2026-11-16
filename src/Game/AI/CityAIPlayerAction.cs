@@ -36,7 +36,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         if (player.PlayerIndex != 0)
         {
             manager = player.AIBudget;
-            upgradeBudget = (AIBudget)manager.Budgets.FindChild(131349);
+            upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
             if (upgradeBudget == null)
             {
                 upgradeBudget = new AICityUpgradeBudget(null) { Holder = CreationHolder() };
@@ -45,7 +45,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 upgradeBudget.Days = 7;
             }
 
-            researchBudget = (AIBudget)manager.Budgets.FindChild(131350);
+            researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
             if (researchBudget != null)
             {
                 if (researchBudget.Gold + upgradeBudget.Gold > 125)
@@ -76,7 +76,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             }
 
             ValidateUpgradeBudget(upgradeBudget);
-            fortifyBudget = (AIBudget)manager.Budgets.FindChild(131351);
+            fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
             if (fortifyBudget != null)
             {
                 if (fortifyBudget.GetReady())
@@ -146,10 +146,10 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             structure = player.Structures.GetStructure(i);
-            if (structure is City)
+            if (structure is City city)
             {
                 total += 1;
-                if (ValidResearchBudgetCity((City)structure))
+                if (ValidResearchBudgetCity(city))
                 {
                     count += 1;
                 }
@@ -200,9 +200,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             structure = player.Structures.GetStructure(i);
-            if (structure is City && ValidResearchCity((City)structure))
+            if (structure is City found && ValidResearchCity(found))
             {
-                city = (City)structure;
+                city = found;
                 valid = false;
                 for (int j = city.Production.UnitProductions.Count - 1; j >= 0; j--)
                 {
@@ -314,9 +314,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         {
             // { Preserve the original runtime class check. }
             structure = player.Structures.GetStructure(i);
-            if (structure is City && ValidUpgradeCity((City)structure))
+            if (structure is City found && ValidUpgradeCity(found))
             {
-                city = (City)structure;
+                city = found;
                 priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
                 cities.AddAbility(city, priority);
             }
@@ -356,9 +356,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             structure = player.Structures.GetStructure(i);
-            if (structure is City)
+            if (structure is City city)
             {
-                if (ValidUpgradeBudgetCity((City)structure))
+                if (ValidUpgradeBudgetCity(city))
                 {
                     count += 1;
                 }
@@ -432,9 +432,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         {
             // { Preserve the original runtime class check. }
             structure = player.Structures.GetStructure(i);
-            if (structure is City && ValidFortifyCity((City)structure))
+            if (structure is City found && ValidFortifyCity(found))
             {
-                city = (City)structure;
+                city = found;
                 priority = (city.GetSize() * 2) + city.ProductionPriority;
                 if (city.WallType == 0)
                 {
@@ -480,9 +480,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             structure = player.Structures.GetStructure(i);
-            if (structure is City)
+            if (structure is City city)
             {
-                if (ValidFortifyBudgetCity((City)structure))
+                if (ValidFortifyBudgetCity(city))
                 {
                     count += 1;
                 }
@@ -523,10 +523,8 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
         {
             structure = Control.Player.Structures.GetStructure(i);
-            if (structure is City)
+            if (structure is City city)
             {
-                _ = (City)structure;
-                City city = (City)structure;
                 if (city.GetSize() > city.UpgradeLevel)
                 {
                     count += 1;
@@ -551,10 +549,10 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         Array.Clear(_productionLevelCounts);
         for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
         {
-            if (Control.Player.Structures.GetStructure(i) is City)
+            if (Control.Player.Structures.GetStructure(i) is City found)
             {
                 _cityCount += 1;
-                city = (City)Control.Player.Structures.GetStructure(i);
+                city = found;
                 if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.GetActiveAction()))
                 {
                     available += (city.GetSize() + 1) / 2;

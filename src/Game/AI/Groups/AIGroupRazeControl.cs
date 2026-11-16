@@ -46,12 +46,12 @@ public partial class AIGroupRazeControl : AIGroupTask
         BattleFieldInfo info = default;
         if (State == 0)
         {
-            structure = (Structure)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
             if (structure != null && structure.GetRazeable())
             {
                 BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
                 StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
-                result = structure is City ? ValidateRazeCity((City)structure, info) : ValidateRazeStructure(structure, info);
+                result = structure is City city ? ValidateRazeCity(city, info) : ValidateRazeStructure(structure, info);
 
                 if (result)
                 {

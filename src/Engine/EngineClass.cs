@@ -38,6 +38,10 @@ public sealed class EngineClass
         _ => throw new InvalidOperationException("Unknown creation delegate of " + Type.Name),
     };
 
+    // The caller supplies the class's base type, so the cast preserves the single runtime check.
+    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject =>
+        (T)CreateInstance(owner, holder: holder);
+
     public override string ToString() => StorageKey;
 
     // Every registered descriptor in registration order. Aliases are the folded engine ids.

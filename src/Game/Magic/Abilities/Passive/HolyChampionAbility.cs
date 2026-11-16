@@ -21,9 +21,9 @@ public partial class HolyChampionAbility : EnhancementAbility
     public override bool CanExpand(AbilityOwner owner)
     {
         bool result = base.CanExpand(owner);
-        if (result && owner is Troop)
+        if (result && owner is Troop troop)
         {
-            result = AlignmentTables.PureGoodAlignments.Contains(((Troop)owner).GetAlignment());
+            result = AlignmentTables.PureGoodAlignments.Contains(troop.GetAlignment());
         }
 
         return result;

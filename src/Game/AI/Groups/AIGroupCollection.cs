@@ -26,8 +26,8 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     public int Count => _holder.GetCount();
 
     // The group in slot index, read as the original reads the list, without a range check. The
-    // holder admits only groups, so the cast never fails.
-    public AIGroup this[int index] => (AIGroup)_holder.GetChild(index);
+    // holder admits only groups.
+    public AIGroup this[int index] => _holder.GetChild<AIGroup>(index);
 
     public IEnumerator<AIGroup> GetEnumerator()
     {
