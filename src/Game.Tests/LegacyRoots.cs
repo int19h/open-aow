@@ -24,8 +24,8 @@ namespace Aow.Game.Tests;
 // Former direct subclasses of the removed root. The startup recording walks these classes and their descendants.
 internal static class LegacyRoots
 {
-    private static readonly HashSet<Type> s_roots = new()
-    {
+    private static readonly HashSet<Type> s_roots =
+    [
         typeof(AITargetQuery),
         typeof(AIGroupTargetSelector.PrioritySettings),
         typeof(BehaviorRegistrar),
@@ -122,7 +122,7 @@ internal static class LegacyRoots
         typeof(PtrBox<>),
         typeof(Registry),
         typeof(Runtime.IntegerObject),
-    };
+    ];
 
     internal static bool Contains(Type type)
     {

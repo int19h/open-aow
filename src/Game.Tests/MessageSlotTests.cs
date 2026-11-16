@@ -70,7 +70,7 @@ public sealed class MessageSlotTests
         (MapField? field, Handler[]? handlers) = Field(None, None, None);
         MapFieldMessage message = default;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
+        Assert.Equal([1, 1, 1], Calls(handlers));
         Assert.Same(field, message.MapField);
         // An int answer (0x1100, the field's player) and a reference answer (0x1201, the
         // production control) stop the delivery at the same handler.
@@ -79,20 +79,20 @@ public sealed class MessageSlotTests
         message.MessageId = 0x1100;
         message.Result = -1;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 1, 0 }, Calls(handlers));
+        Assert.Equal([1, 1, 0], Calls(handlers));
         Assert.Equal(3, message.Result.Int);
         (field, handlers) = Field(None, (ref m) => m.Result = control, None);
         message = default;
         message.MessageId = 0x1201;
         message.Result = 0;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 1, 0 }, Calls(handlers));
+        Assert.Equal([1, 1, 0], Calls(handlers));
         Assert.Same(control, message.Result.As<object>());
         // A handler writing 0 or nil into a slot that holds 0 has not answered, as in the original.
         (field, handlers) = Field((ref m) => m.Result = 0, (ref m) => m.Result = (object?)null, None);
         message = default;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
+        Assert.Equal([1, 1, 1], Calls(handlers));
         // A reference the caller set before the delivery (0x1109, the combat result query) stays,
         // so every handler runs and fills the object.
         (field, handlers) = Field(None, None, None);
@@ -100,13 +100,13 @@ public sealed class MessageSlotTests
         message.MessageId = 0x1109;
         message.Result = control;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
+        Assert.Equal([1, 1, 1], Calls(handlers));
         // Replacing one reference with another is an answer.
         (field, handlers) = Field((ref m) => m.Result = new object(), None);
         message = default;
         message.Result = control;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(new[] { 1, 0 }, Calls(handlers));
+        Assert.Equal([1, 0], Calls(handlers));
     }
 
     // TEMsg.Payload: 0x20000008 carries the engine, 0x20020002 the player of the new turn.
@@ -114,8 +114,7 @@ public sealed class MessageSlotTests
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
         using GameEngine engine = new(null!);
-        EngineMessage message = default;
-        EngineMessage.InitializeMessage(out message, 0x20000008, engine);
+        EngineMessage.InitializeMessage(out EngineMessage message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
@@ -262,14 +261,14 @@ public sealed class MessageSlotTests
         field.SendMapFieldMessage(ref message);
         Assert.Same(control, message.Result.As<ProductionControl>());
         Assert.Throws<InvalidCastException>(() => message.Result.Int);
-        Assert.Equal(new[] { 1, 0 }, Calls(handlers));
+        Assert.Equal([1, 0], Calls(handlers));
         message = default;
         message.MessageId = 0x1100;
         message.Result = -1;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(2, (sbyte)message.Result.Int);
         Assert.Null(message.Result.As<ProductionControl>());
-        Assert.Equal(new[] { 2, 0 }, Calls(handlers));
+        Assert.Equal([2, 0], Calls(handlers));
     }
 
     // Spec section 4: the message records never reach a stream. No storage method of the product
@@ -278,7 +277,7 @@ public sealed class MessageSlotTests
     public void NoStorageMethodTakesAMessageRecord()
     {
         Type[] message = [typeof(EngineMessage), typeof(MapFieldMessage), typeof(EngineMessageParameters), typeof(MapFieldMessageParameters), typeof(MsgArg)];
-        List<string> found = new();
+        List<string> found = [];
         foreach (Type? type in typeof(EngineMessage).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
         {
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))

@@ -163,12 +163,12 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     {
         BlendTable5Bit table = new();
         {
-            (BlendMode Mode, LookupBlendTableCollection100 Tables)[] collections = new (BlendMode Mode, LookupBlendTableCollection100 Tables)[]
-            {
+            (BlendMode Mode, LookupBlendTableCollection100 Tables)[] collections =
+            [
                 (BlendMode.Alpha, GraphicsState.AlphaBlendTable), (BlendMode.Brighten, GraphicsState.BrightenBlendTable),
                 (BlendMode.Intensity, GraphicsState.IntensityBlendTable), (BlendMode.Shadow, GraphicsState.ShadowBlendTable),
                 (BlendMode.LinearAlpha, GraphicsState.LinearAlphaBlendTable),
-            };
+            ];
             LockedSurface lockedSurface = default;
             foreach ((BlendMode mode, LookupBlendTableCollection100? tables) in collections)
             {
@@ -177,7 +177,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                 {
                     image.Show(0, 0, lockedSurface);
                     image.ShowStretched(s_square, lockedSurface);
-                    List<BlendTable> expected = new() { tables.Lookup[30], tables.Lookup[30] };
+                    List<BlendTable> expected = [tables.Lookup[30], tables.Lookup[30]];
                     // ShowEx has no bmLinearAlpha arm in the original.
                     image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = 70 });
                     if (mode != BlendMode.LinearAlpha)
@@ -251,7 +251,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         public int WithoutShowInfo { get; set; }
         public int User { get; set; }
         public int Blended { get; set; }
-        public SortedDictionary<string, int> Modes { get; } = new(StringComparer.Ordinal);
+        public SortedDictionary<string, int> Modes { get; } = [with(StringComparer.Ordinal)];
     }
 
     // unions-and-kinds.md section 7 risk 5: every image of every installed library writes its
@@ -264,7 +264,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         Tally tally = new();
         try
         {

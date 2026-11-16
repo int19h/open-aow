@@ -75,20 +75,13 @@ public sealed class MapViewerCenteringTests
                 {
                     int sx = x - SceneLeft;
                     int sy = y - SceneTop;
-                    int expected;
-                    if (sx < 0 || sy < 0 || sx >= Viewer.SceneWidth || sy >= Viewer.SceneHeight)
-                    {
-                        expected = Stale;
-                    }
-                    else if (sx < shown.Left || sx >= shown.Right || sy < shown.Top || sy >= shown.Bottom)
-                    {
-                        expected = 0;
-                    }
-                    else
-                    {
-                        expected = sx == edgeX || sy == edgeY ? Red : White;
-                    }
-
+                    int expected = sx < 0 || sy < 0 || sx >= Viewer.SceneWidth || sy >= Viewer.SceneHeight
+                        ? Stale
+                        : sx < shown.Left || sx >= shown.Right || sy < shown.Top || sy >= shown.Bottom
+                        ? 0
+                        : sx == edgeX || sy == edgeY
+                        ? Red
+                        : White;
                     if (Pixel(x, y) != expected)
                     {
                         Assert.Fail($"pixel {x},{y} is {Pixel(x, y):X4}, expected {expected:X4}");

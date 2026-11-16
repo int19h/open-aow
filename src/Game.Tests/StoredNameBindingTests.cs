@@ -60,8 +60,8 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     public void EverySchemaMemberNamesItsCSharpMember()
     {
         FormatSchema schema = FormatSchema.Current;
-        List<string> failures = new();
-        HashSet<(string, string)> used = new();
+        List<string> failures = [];
+        HashSet<(string, string)> used = [];
         int checkedNames = 0;
         foreach (SchemaClass classValue in schema.Classes)
         {
@@ -116,8 +116,8 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     public void EveryStoredIntegerComesFromTheMemberOfItsName()
     {
         FormatSchema schema = FormatSchema.Current;
-        List<string> failures = new();
-        List<string> skipped = new();
+        List<string> failures = [];
+        List<string> skipped = [];
         int objects = 0, values = 0;
         CombatMap combatMap = CombatMap.Current;
         foreach (EngineClass? engineClass in EngineClass.All)
@@ -177,12 +177,12 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     [Fact]
     public void RecordFieldsAndEnumMembersStoreTheirCSharpNames()
     {
-        SortedSet<string> records = new(StringComparer.Ordinal);
-        SortedSet<string> enums = new(StringComparer.Ordinal);
+        SortedSet<string> records = [with(StringComparer.Ordinal)];
+        SortedSet<string> enums = [with(StringComparer.Ordinal)];
         Collect(SchemaSource(), records, enums);
         Assert.NotEmpty(records);
         Assert.NotEmpty(enums);
-        List<string> failures = new();
+        List<string> failures = [];
         foreach (string name in records)
         {
             // A record is the image its [StoredRecord] binding names.
@@ -283,7 +283,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     // and returns the values by stored name. The members of skip keep their values.
     internal static List<(string Name, long Value)> Fill(EngineObject objectValue, SchemaClass classValue, int first = 11, IReadOnlySet<string>? skip = null)
     {
-        List<(string, long)> filled = new();
+        List<(string, long)> filled = [];
         int next = first;
         foreach (SchemaProperty property in classValue.Properties)
         {

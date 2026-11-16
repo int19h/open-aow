@@ -64,7 +64,7 @@ public sealed class LeftoverConstructionTests
 
     private static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)
@@ -282,12 +282,9 @@ public sealed class LeftoverConstructionTests
         }
 
         MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
-        if (factory is not null)
-        {
-            return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
-        }
-
-        return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        return factory is not null
+            ? (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!
+            : EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
     }
 
     [Theory]
@@ -304,7 +301,7 @@ public sealed class LeftoverConstructionTests
                 LeftoverOwner? owner = owned == 0 ? null : new LeftoverOwner();
                 CustomNode given = EngineFixture.OwnerFor(type, owner!);
                 EngineObject? value = null;
-                List<string> states = new();
+                List<string> states = [];
                 try
                 {
                     value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)

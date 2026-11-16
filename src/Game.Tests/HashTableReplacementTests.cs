@@ -89,7 +89,7 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void AnsiCompareKeysKeepTheOriginalCollation()
     {
-        Dictionary<string, string> table = new(AnsiCompareComparer.Instance);
+        Dictionary<string, string> table = [with(AnsiCompareComparer.Instance)];
         HashTables.Add(table, key: "A", value: "upper");
         HashTables.Add(table, key: "a", value: "lower");
         Assert.Equal("upper", table["A"]);

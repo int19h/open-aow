@@ -15,7 +15,7 @@ public sealed class EventListTests
     public void RaiseRunsFromTheLastSubscriberToTheFirst()
     {
         EventStore<string> store = new();
-        List<string> log = new();
+        List<string> log = [];
         void HandlerA(string sender) => log.Add("A" + sender);
         void HandlerB(string sender) => log.Add("B" + sender);
         void HandlerC(string sender) => log.Add("C" + sender);
@@ -32,7 +32,7 @@ public sealed class EventListTests
     public void HandlerThatRemovesItselfStillRunsTheSubscribersBelowIt()
     {
         EventStore<string> store = new();
-        List<string> log = new();
+        List<string> log = [];
         void HandlerA(string sender) => log.Add("A");
         void HandlerB(string sender) => log.Add("B");
         void HandlerC(string sender)
@@ -54,7 +54,7 @@ public sealed class EventListTests
     public void RemovingALowerSubscriberRecallsTheCurrentHandler()
     {
         EventStore<string> store = new();
-        List<string> log = new();
+        List<string> log = [];
         void HandlerA(string sender) => log.Add("A");
         void HandlerB(string sender) => log.Add("B");
         void HandlerC(string sender)
@@ -76,7 +76,7 @@ public sealed class EventListTests
     public void SubscriberAddedDuringTheRaiseWaitsForTheNextRaise()
     {
         EventStore<string> store = new();
-        List<string> log = new();
+        List<string> log = [];
         void Added(string sender) => log.Add("added");
         void First(string sender) => log.Add("first");
         void Last(string sender)

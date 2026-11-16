@@ -136,93 +136,39 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             Troop troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
             return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
-        if (eventValue is EnterWizardsTowerEventLog)
-        {
-            return "WizardsTower";
-        }
-
-        if (eventValue is EnterArenaEventLog)
-        {
-            return "Arena";
-        }
-
-        if (eventValue is MessageEventLog)
-        {
-            return "Message";
-        }
-
-        if (eventValue is TutorialMessageEventLog)
-        {
-            return "Tutorial";
-        }
-
-        if (eventValue is FlagMessageEventLog)
-        {
-            return "FlagMessage";
-        }
-
-        if (eventValue is HelpMessageEventLog)
-        {
-            return "Help";
-        }
-
-        if (eventValue is SaveGameEventLog)
-        {
-            return "SaveGame";
-        }
-
-        if (eventValue is SendEmailGameEventLog)
-        {
-            return "SendEmailGame";
-        }
-
-        if (eventValue is SmtpEventLog)
-        {
-            return "SMTP";
-        }
-
-        if (eventValue is PasswordEventLog)
-        {
-            return "Password";
-        }
-
-        if (eventValue is ItemExplorationSiteEventLog)
-        {
-            return "ItemsFound";
-        }
-
-        if (eventValue is CityProductionEventLog)
-        {
-            return "CityProduction";
-        }
-
-        if (eventValue is ProductionPlaceEventLog)
-        {
-            return "ProductionPlace";
-        }
-
-        if (eventValue is UserEventLog)
-        {
-            return "Acknowledge";
-        }
-
-        return "None";
+        return eventValue is EnterWizardsTowerEventLog
+            ? "WizardsTower"
+            : eventValue is EnterArenaEventLog
+            ? "Arena"
+            : eventValue is MessageEventLog
+            ? "Message"
+            : eventValue is TutorialMessageEventLog
+            ? "Tutorial"
+            : eventValue is FlagMessageEventLog
+            ? "FlagMessage"
+            : eventValue is HelpMessageEventLog
+            ? "Help"
+            : eventValue is SaveGameEventLog
+            ? "SaveGame"
+            : eventValue is SendEmailGameEventLog
+            ? "SendEmailGame"
+            : eventValue is SmtpEventLog
+            ? "SMTP"
+            : eventValue is PasswordEventLog
+            ? "Password"
+            : eventValue is ItemExplorationSiteEventLog
+            ? "ItemsFound"
+            : eventValue is CityProductionEventLog
+            ? "CityProduction"
+            : eventValue is ProductionPlaceEventLog ? "ProductionPlace" : eventValue is UserEventLog ? "Acknowledge" : "None";
     }
 
     // AI.pas:1626 TProcessEventlogAIPA.Process, the call for one log.
     private static string OldExecuteAI(EventLog log)
     {
-        if (log is HeroEmergeEventLog)
-        {
-            return nameof(HeroEmergeEventLog);
-        }
-
-        if (log is DiplomaticActionEventLog)
-        {
-            return nameof(DiplomaticActionEventLog);
-        }
-
-        return "None";
+        return log is HeroEmergeEventLog
+            ? nameof(HeroEmergeEventLog)
+            : log is DiplomaticActionEventLog ? nameof(DiplomaticActionEventLog) : "None";
     }
 
     // What the old cascade showed, class by class, in every state it consulted (the states of
@@ -374,7 +320,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             _map = new StrategicMap(null!, holder: EngineFixture.Engine);
             _map.SeatedPlayer = Seated;
             _map.UnitControl = new UnitControl(null!) { Holder = EngineFixture.Engine };
-            _units = new Dictionary<int, Troop>(UnitFinds);
+            _units = [with(UnitFinds)];
             _units.Add(key: -1, value: new Unit(null!) { Holder = EngineFixture.Engine });
             _map.UnitControl.UnitTable = _units;
             MapContainer container = new(null!) { Holder = EngineFixture.Engine };
@@ -456,13 +402,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void ViewMatchesTheOldCascade()
     {
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         StringBuilder table = new();
         using Scene scene = new();
         foreach (Type type in EventLogTypes())
         {
             EventLog log = scene.Create(type);
-            List<string> row = new();
+            List<string> row = [];
             foreach (State state in States(type))
             {
                 state.Apply(log, scene);
@@ -529,7 +475,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     public void ExecuteAIReachesTheTwoOverridesOnly()
     {
         using Scene scene = new();
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         foreach (Type type in EventLogTypes())
         {
             Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!;
@@ -571,7 +517,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         using Scene scene = new();
         MapEvents screen = new(null!);
-        List<EventLog> done = new();
+        List<EventLog> done = [];
         EventLog user = scene.Create(typeof(UserEventLog));
         screen.TheMapExecuteEventLog(user, true, done.Add);
         Assert.Equal(new[] { user }, done);

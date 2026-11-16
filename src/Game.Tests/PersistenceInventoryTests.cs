@@ -32,7 +32,7 @@ public sealed class PersistenceInventoryTests
     public void AllowedSitesNameAReason()
     {
         Assert.NotEmpty(PersistenceInventory.AllowedSites);
-        HashSet<string> names = new(StringComparer.Ordinal);
+        HashSet<string> names = [with(StringComparer.Ordinal)];
         foreach (AllowedSite site in PersistenceInventory.AllowedSites)
         {
             Assert.False(string.IsNullOrWhiteSpace(site.TypeName));

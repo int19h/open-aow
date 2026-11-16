@@ -74,7 +74,7 @@ public sealed partial class RuleConstructionTests
         StrategicMap.Current = null!;
         try
         {
-            List<string> states = new();
+            List<string> states = [];
             for (int ownerMode = 0; ownerMode < 3; ownerMode++)
             {
                 string? expected = null;
@@ -196,7 +196,7 @@ public sealed partial class RuleConstructionTests
         {
             Troop value = hero ? new ObservedHero(owner) : new ObservedUnit(owner);
             Assert.Equal(hero ? new[] { "add:2", "add:3", "insert:3:0:0", "release:2", "release:1" }
-                : new[] { "add:2", "insert:2:0:0", "release:1" }, owner.Events);
+                : ["add:2", "insert:2:0:0", "release:1"], owner.Events);
             Assert.Equal(1, value.RefCount);
             Assert.Same(reject ? null : owner, value.Owner);
             value.Dispose();

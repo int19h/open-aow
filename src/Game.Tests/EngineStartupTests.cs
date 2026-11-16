@@ -12,8 +12,9 @@ namespace Aow.Game.Tests;
 public sealed class EngineStartupTests
 {
     // These fields were untyped DelphiList. The startup walk still enters them so the recorded element paths stay.
-    private static readonly HashSet<string> ConvertedListFields = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> ConvertedListFields =
+    [
+        with(StringComparer.Ordinal),
         "Aow.Game.AI.Groups.AIGroupManager.RegisteredClasses",
         "Aow.Game.Combat.CombatMap.Effects",
         "Aow.Game.Combat.CombatMap.FleeLocations",
@@ -53,7 +54,7 @@ public sealed class EngineStartupTests
         "Aow.Game.World.Map.MapObjectResourceTerrainControl._resources",
         "Aow.Game.World.PadControl.PadResources",
         "Aow.Game.World.Terrain.FireControl._resources",
-    };
+    ];
 
     private static bool IsGenericList(object value)
     {
@@ -65,12 +66,13 @@ public sealed class EngineStartupTests
         ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
 
     // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
-    private static readonly HashSet<string> ConvertedDictionaryFields = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> ConvertedDictionaryFields =
+    [
+        with(StringComparer.Ordinal),
         "Aow.Game.Draw.Images.ImageLibraryManagerList.HashTable",
         "Aow.Game.GameEngine._classTable",
         "Aow.Game.Units.UnitControl.UnitTable",
-    };
+    ];
 
     private static bool IsDictionary(object value)
     {
@@ -101,7 +103,7 @@ public sealed class EngineStartupTests
             Assert.True(process.ExitCode == 0, await stdout + await stderr);
             return;
         }
-        JsonObject actual = new();
+        JsonObject actual = [];
         foreach (string route in new[] { "AoW", "HS", "Engine", "debug", "dictionary", "images" })
         {
             using EngineFixture.RecordingHost fixture = new(route);
@@ -193,8 +195,8 @@ public sealed class EngineStartupTests
 
     private static JsonObject Objects(object root)
     {
-        JsonObject result = new();
-        HashSet<object> seen = new(ReferenceEqualityComparer.Instance);
+        JsonObject result = [];
+        HashSet<object> seen = [with(ReferenceEqualityComparer.Instance)];
         void Visit(object value, string path)
         {
             if (!seen.Add(value))
@@ -279,13 +281,13 @@ public sealed class EngineStartupTests
 
     private static JsonObject MovePoints()
     {
-        JsonObject result = new();
+        JsonObject result = [];
         for (int mask = 0; mask < 256; mask++)
         {
-            JsonObject terrain = new();
+            JsonObject terrain = [];
             for (int t = 0; t < 16; t++)
             {
-                JsonObject overlay = new();
+                JsonObject overlay = [];
                 for (int o = -1; o < 15; o++)
                 {
                     overlay[$"Overlay[{o}]"] = (int)MovementTables.MovePointTables[mask][t][o + 1];

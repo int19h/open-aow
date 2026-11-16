@@ -41,7 +41,7 @@ public sealed class ProductionControlOrderTests
             Assert.False(action.ProducingTransporter());
             Assert.False(action.ResearchingTransporter());
 
-            List<ProductionControl> seen = new();
+            List<ProductionControl> seen = [];
             for (int i = player.ProductionControls.Count - 1; i >= 0; i--)
             {
                 seen.Add(player.ProductionControls.GetPC(i));

@@ -87,7 +87,7 @@ internal static class PersistenceInventory
 
     internal static IReadOnlyList<ExposedMember> ExposedMembers(params Assembly[] assemblies)
     {
-        List<ExposedMember> found = new();
+        List<ExposedMember> found = [];
         foreach (Assembly assembly in assemblies)
         {
             if (assembly.GetName().Name is "Aow.Formats")
@@ -119,8 +119,8 @@ internal static class PersistenceInventory
 
     private static Collected Collect(Assembly[] assemblies, Type? only)
     {
-        List<BackendReach> reaches = new();
-        List<ExposedMember> uses = new();
+        List<BackendReach> reaches = [];
+        List<ExposedMember> uses = [];
         foreach (Assembly assembly in assemblies)
         {
             bool usesCount = assembly.GetName().Name is "Aow.Game" or "Aow.Engine";
@@ -194,7 +194,7 @@ internal static class PersistenceInventory
     private static List<ExposedMember> Declared(Type type)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        List<ExposedMember> found = new();
+        List<ExposedMember> found = [];
         string owner = type.FullName ?? type.Name;
         foreach (PropertyInfo property in type.GetProperties(flags))
         {
@@ -232,70 +232,32 @@ internal static class PersistenceInventory
 
     private static ExposedMember? Exposure(MemberInfo member, Type declaring)
     {
-        if (member is MethodInfo method && TryProperty(method, out string name, out Type? type))
-        {
-            if (Kind(name, type, declaring) is not { } kind)
-            {
-                return null;
-            }
-
-            return new ExposedMember(declaring.FullName ?? declaring.Name, name, kind, UsedBy: null);
-        }
-        if (member is FieldInfo field)
-        {
-            if (Kind(field.Name, field.FieldType, declaring) is not { } kind)
-            {
-                return null;
-            }
-
-            return new ExposedMember(declaring.FullName ?? declaring.Name, field.Name, kind, UsedBy: null);
-        }
-        if (member is not MethodBase plain || plain.IsSpecialName)
-        {
-            return null;
-        }
-
-        if (!IsStoredId(plain.Name))
-        {
-            return null;
-        }
-
-        if (plain is not MethodInfo info || !IsIntegral(info.ReturnType))
-        {
-            return null;
-        }
-
-        return new ExposedMember(declaring.FullName ?? declaring.Name, plain.Name, "stored id", UsedBy: null);
+        return member is MethodInfo method && TryProperty(method, out string name, out Type? type)
+            ? Kind(name, type, declaring) is not { } propertyKind
+                ? null
+                : new ExposedMember(declaring.FullName ?? declaring.Name, name, propertyKind, UsedBy: null)
+            : member is FieldInfo field
+            ? Kind(field.Name, field.FieldType, declaring) is not { } fieldKind
+                ? null
+                : new ExposedMember(declaring.FullName ?? declaring.Name, field.Name, fieldKind, UsedBy: null)
+            : member is not MethodBase plain || plain.IsSpecialName
+            ? null
+            : !IsStoredId(plain.Name)
+            ? null
+            : plain is not MethodInfo info || !IsIntegral(info.ReturnType)
+            ? null
+            : new ExposedMember(declaring.FullName ?? declaring.Name, plain.Name, "stored id", UsedBy: null);
     }
 
     private static string? Kind(string name, Type memberType, Type declaring)
     {
-        if (IsStoredId(name) && IsIntegral(memberType))
-        {
-            return "stored id";
-        }
-
-        if (name == "Width" && IsIntegral(memberType) && !HasPublicHeight(declaring))
-        {
-            return "storage width";
-        }
-
-        if (name is "Image" or "Data" && IsRawBytes(memberType))
-        {
-            return "raw image";
-        }
-
-        if (name == "Mask" && IsIntegral(memberType))
-        {
-            return "raw image";
-        }
-
-        if (name is "Residue" or "Reserved")
-        {
-            return "residue";
-        }
-
-        return null;
+        return IsStoredId(name) && IsIntegral(memberType)
+            ? "stored id"
+            : name == "Width" && IsIntegral(memberType) && !HasPublicHeight(declaring)
+            ? "storage width"
+            : name is "Image" or "Data" && IsRawBytes(memberType)
+            ? "raw image"
+            : name == "Mask" && IsIntegral(memberType) ? "raw image" : name is "Residue" or "Reserved" ? "residue" : null;
     }
 
     private static bool IsStoredId(string name) => name is "Id" or "PropertyId" or "ClassId" or "ReservedId";
@@ -394,15 +356,7 @@ internal static class PersistenceInventory
         return (type.FullName ?? type.Name, name);
     }
 
-    private static Type? Definition(Type? type)
-    {
-        if (type is null)
-        {
-            return null;
-        }
-
-        return type.IsGenericType ? type.GetGenericTypeDefinition() : type;
-    }
+    private static Type? Definition(Type? type) => type is null ? null : type.IsGenericType ? type.GetGenericTypeDefinition() : type;
 
     private static IEnumerable<MethodBase> Methods(Type type)
     {

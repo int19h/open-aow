@@ -36,7 +36,7 @@ public sealed class ArmySpriteConstructionTests
     [Fact]
     public void StateOwnerEventsAndOffsetsMatchBaseCommit()
     {
-        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = [with(StringComparer.Ordinal)];
         for (int owned = 0; owned < 2; owned++)
         {
             for (int route = 0; route < 4; route++)

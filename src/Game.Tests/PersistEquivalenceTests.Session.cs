@@ -280,7 +280,7 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> SessionClasses()
     {
-        SortedSet<string> names = new(StringComparer.Ordinal);
+        SortedSet<string> names = [with(StringComparer.Ordinal)];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             Type type = engineClass.Type;
@@ -316,11 +316,7 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        TheoryData<string> data = new();
-        foreach (string name in names)
-        {
-            data.Add(name);
-        }
+        TheoryData<string> data = [.. names];
 
         return data;
     }
@@ -331,7 +327,7 @@ public sealed partial class PersistEquivalenceTests
     private static EngineClass[] EnlistSessionClasses()
     {
         Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
-        Dictionary<int, EngineClass> added = new();
+        Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space)

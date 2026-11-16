@@ -19,7 +19,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void EveryTokenEventAndPacketIsOnTheTree()
     {
-        List<string> missing = new();
+        List<string> missing = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             Type type = engineClass.Type;
@@ -193,7 +193,7 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> PacketClasses()
     {
-        SortedSet<string> names = new(StringComparer.Ordinal);
+        SortedSet<string> names = [with(StringComparer.Ordinal)];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             Type type = engineClass.Type;
@@ -214,11 +214,7 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        TheoryData<string> data = new();
-        foreach (string name in names)
-        {
-            data.Add(name);
-        }
+        TheoryData<string> data = [.. names];
 
         return data;
     }

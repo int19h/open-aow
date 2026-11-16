@@ -64,7 +64,7 @@ public sealed class SweepConstructionTests
 
     private static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)
@@ -412,12 +412,9 @@ public sealed class SweepConstructionTests
         }
 
         MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
-        if (factory is not null)
-        {
-            return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
-        }
-
-        return (EngineObject)Invoke(() => Activator.CreateInstance(type, [owner]))!;
+        return factory is not null
+            ? (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!
+            : (EngineObject)Invoke(() => Activator.CreateInstance(type, [owner]))!;
     }
 
     [Theory]
@@ -434,7 +431,7 @@ public sealed class SweepConstructionTests
                 SweepOwner? owner = owned == 0 ? null : new SweepOwner();
                 CustomNode given = EngineFixture.OwnerFor(type, owner!);
                 EngineObject? value = null;
-                List<string> states = new();
+                List<string> states = [];
                 try
                 {
                     value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)

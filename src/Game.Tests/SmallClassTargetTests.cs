@@ -39,7 +39,7 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
-        List<string> log = new();
+        List<string> log = [];
         using AIMoveExecutor executor = new(null!) { Holder = EngineFixture.Engine };
         executor.ActivateMoveExecutorControl(() => new TrackedControl(log));
         log.Clear();

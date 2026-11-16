@@ -1056,7 +1056,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void RegisteredAbilityBitsSurviveTheCleanup()
     {
-        List<Ability> placed = new();
+        List<Ability> placed = [];
         try
         {
             placed.Add(PlaceAbility(0));

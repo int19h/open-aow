@@ -20,7 +20,7 @@ public sealed class GlyphIndexTests
         (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         GraphicsState.InitializeBlendTables(5, 31);
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         // The game keeps library names relative to the install, as UIFonts does with Int\Fonts.
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
