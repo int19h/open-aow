@@ -46,7 +46,7 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
         HexNumberWalkData walk = hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
-        resource = (UnholyGround.Resource)GamePack.Current.MapObjectResourceList.FindChild(131986);
+        resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(131986);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

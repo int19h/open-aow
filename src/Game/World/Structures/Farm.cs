@@ -126,7 +126,7 @@ public partial class Farm : PlayerCropStructure
             count = GetRazed() || TerrainType == 5
                 ? 0
                 : StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
-                    ? ((PlayerCropStructureResource)base.Resource).CropLocations.Count
+                    ? base.Resource.CropLocations.Count
                     : -1;
 
             if (count != -1)

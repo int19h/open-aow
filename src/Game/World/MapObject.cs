@@ -391,7 +391,9 @@ public partial class MapObject : HexSprite
         return PlaceOnMap();
     }
 
-    public MapObjectResource Resource { get => _resource; set => SetResource(value); }
+    public virtual MapObjectResource Resource => _resource;
+
+    protected T GetResource<T>() where T : MapObjectResource => (T)_resource;
 
     internal void SetResourceWithoutOverrides(MapObjectResource value) => _resource = value;
 
