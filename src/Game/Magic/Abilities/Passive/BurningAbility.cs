@@ -24,7 +24,7 @@ public partial class BurningAbility : DurationAbility
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
         DurationAbilityData data;
-        data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        data = GetData(combatObject.GetAbilityOwner());
         if (data != null)
         {
             if (data.Duration != 0 && data.PlayerIndex == player)

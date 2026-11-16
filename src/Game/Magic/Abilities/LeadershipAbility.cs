@@ -44,7 +44,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         LeadershipAbilityData data;
         if (owner != null)
         {
-            data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+            data = GetData(owner);
             if (data != null)
             {
                 result = data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level;
@@ -67,7 +67,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         string result;
         LeadershipAbilityData data;
-        data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         result = data != null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
 
         return result;
@@ -77,7 +77,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     public override bool GetInherent(AbilityOwner owner)
     {
         LeadershipAbilityData data;
-        data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         return data != null && data.Level > 0;
     }
 
@@ -86,7 +86,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         bool result;
         LeadershipAbilityData data;
-        data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         result = data == null || data.Level < MaxLevel;
 
         return result;
@@ -99,7 +99,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     public void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
     {
         LeadershipAbilityData data;
-        data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             SetAbility(owner, AbilityId, 1);
@@ -126,7 +126,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     public void ResetExternalSource(AbilityOwner owner)
     {
         LeadershipAbilityData data;
-        data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data != null)
         {
             if (data.Level != 0)
@@ -149,6 +149,8 @@ public partial class LeadershipAbility : MultiLevelAbility
 
     // AoWAb.PAS:973
     public override EngineClass AbilityDataClass() => EngineClass.Of<LeadershipAbilityData>();
+
+    public override LeadershipAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<LeadershipAbilityData>(AbilityId);
 
     private static ReadOnlySpan<sbyte> LeadershipAttack => [0, 1, 1, 2, 2];
     private static ReadOnlySpan<sbyte> LeadershipDefense => [2, 0, 1, 1, 2];

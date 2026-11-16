@@ -24,7 +24,7 @@ public partial class DecayAbility : DurationAbility
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
         DurationAbilityData data;
-        data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        data = GetData(combatObject.GetAbilityOwner());
         if (data != null && data.PlayerIndex == player)
         {
             if (combatObject.GetAbilityOwner() is Troop)

@@ -35,8 +35,8 @@ public partial class CommandedAbility : AdjustableAbility
     // AoWAb.PAS:5032
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        CommandedAbilityData data;
-        data = (CommandedAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        CommandedAbilityData? data;
+        data = GetData(combatObject.GetAbilityOwner());
         if (data != null && combatObject is CombatUnit combatUnit)
         {
             ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(data.CommandAbilityId)).Uncommand(combatUnit);
@@ -48,6 +48,8 @@ public partial class CommandedAbility : AdjustableAbility
 
     // AoWAb.PAS:5019
     public override EngineClass AbilityDataClass() => s_commandedDataClass;
+
+    public CommandedAbilityData? GetData(AbilityOwner owner) => owner.GetAbilityData<CommandedAbilityData>(AbilityId);
 
     private static readonly EngineClass s_commandedDataClass = EngineClass.Of<CommandedAbilityData>();
 
