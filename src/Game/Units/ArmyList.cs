@@ -14,7 +14,7 @@ public partial class ArmyList : ObservableEventList
     public Player Player { get; set; }
 
     // Player.PAS:6
-    public Army GetArmy(int index) => (Army)GetChild(index);
+    public Army GetArmy(int index) => GetChild<Army>(index);
 
     // Engine.pas:708
 

@@ -12,7 +12,7 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.
-    public PlayerSetupSettings this[int index] => (PlayerSetupSettings)GetChild(index);
+    public PlayerSetupSettings this[int index] => GetChild<PlayerSetupSettings>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerSetupSettings;
 

@@ -12,7 +12,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
 {
     // The unit graphics in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a UnitGraphicsResource, so the cast never fails.
-    public new UnitGraphicsResource this[int index] => (UnitGraphicsResource)GetChild(index);
+    public new UnitGraphicsResource this[int index] => GetChild<UnitGraphicsResource>(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is UnitGraphicsResource;
 

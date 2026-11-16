@@ -15,7 +15,7 @@ public partial class CombatSide : OwningNode, IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.
-    public CombatObject this[int index] => (CombatObject)GetChild(index);
+    public CombatObject this[int index] => GetChild<CombatObject>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatObject;
 

@@ -30,6 +30,9 @@ public partial class FastBattleUnit : CombatUnit
 
     public int RoundDistance { get; set; }
 
+    // FastBattle.CreateCombatUnit makes this unit, so its battle is a fast battle.
+    private FastBattle FastCombat => (FastBattle)Combat;
+
     public Set<FastBattleUnitStateElement> State { get; set; }
 
     // AIGroup.pas:6797
@@ -290,7 +293,7 @@ public partial class FastBattleUnit : CombatUnit
         Troop troop;
         FleeCombatAction action;
         bool executed;
-        combat = (FastBattle)Combat;
+        combat = FastCombat;
         CombatSideIndex side = GetSide();
         fastBattleCommandList = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
         troop = Troop;
@@ -307,7 +310,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (FastBattleBehindWall())
             {
-                if (((FastBattle)Combat).AttackerCanCrushWall() || ((FastBattle)Combat).GetAttackerBallisticCombatValue() > ((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
+                if (FastCombat.AttackerCanCrushWall() || FastCombat.GetAttackerBallisticCombatValue() > FastCombat.GetDefenderBallisticCombatValue() * 1.5)
                 {
                     State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                     troop = Troop;
@@ -478,7 +481,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (!State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
-                ((FastBattle)Combat).WallSiegeObjectCount += 1;
+                FastCombat.WallSiegeObjectCount += 1;
                 State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }
@@ -486,7 +489,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
-                ((FastBattle)Combat).WallSiegeObjectCount -= 1;
+                FastCombat.WallSiegeObjectCount -= 1;
                 State = State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }

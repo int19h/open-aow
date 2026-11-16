@@ -14,7 +14,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Player, so the cast never fails.
-    public Player this[int index] => (Player)GetChild(index);
+    public Player this[int index] => GetChild<Player>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Player;
 
@@ -41,10 +41,12 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1543
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        SetNumberOfPlayers(((PlayerCollection)source).GetNumberOfPlayers());
+        // Assign copies a player collection, so the source is a player collection.
+        PlayerCollection other = (PlayerCollection)source;
+        SetNumberOfPlayers(other.GetNumberOfPlayers());
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            Player players = ((PlayerCollection)source).GetPlayers(i);
+            Player players = other.GetPlayers(i);
             this[i].Assign(players, engine);
         }
     }
@@ -199,7 +201,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         int result = 0;
         for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            player = (Player)GetChildInRange(i);
+            player = GetChildInRange<Player>(i);
             for (int j = player.Heroes.Count - 1; j >= 0; j--)
             {
                 result += player.Heroes.GetHero(j).GetLevel();
@@ -218,7 +220,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         int result = 0;
         for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            result += ((Player)GetChildInRange(i)).Heroes.Count;
+            result += GetChildInRange<Player>(i).Heroes.Count;
         }
 
         return result / (Count - 1);
@@ -230,9 +232,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         int result = 0;
         for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            if (((Player)GetChildInRange(i)).Heroes.Count > result)
+            if (GetChildInRange<Player>(i).Heroes.Count > result)
             {
-                result = ((Player)GetChildInRange(i)).Heroes.Count;
+                result = GetChildInRange<Player>(i).Heroes.Count;
             }
         }
 

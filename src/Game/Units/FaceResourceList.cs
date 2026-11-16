@@ -12,7 +12,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
 {
     // The face in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a FaceResource, so the cast never fails.
-    public new FaceResource this[int index] => (FaceResource)GetChild(index);
+    public new FaceResource this[int index] => GetChild<FaceResource>(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is FaceResource;
 

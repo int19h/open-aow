@@ -19,7 +19,7 @@ namespace Aow.Game.Session;
 public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
 {
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
-    public new RaceList Owner { get => (RaceList)base.Owner; set => SetOwner(value); }
+    public new RaceList Owner { get => GetOwner<RaceList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is RaceList;
 

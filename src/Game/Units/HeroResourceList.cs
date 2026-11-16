@@ -14,7 +14,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
 {
     // The hero resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a HeroResource, so the cast never fails.
-    public new HeroResource this[int index] => (HeroResource)GetChild(index);
+    public new HeroResource this[int index] => GetChild<HeroResource>(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is HeroResource;
 

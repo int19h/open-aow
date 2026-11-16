@@ -16,6 +16,6 @@ public partial class TacticalBattlePlayerList
     }
 
     // AoWTC.pas:6431
-    public TacticalBattlePlayer GetPlayers(sbyte index) => (TacticalBattlePlayer)Players.GetPlayers(index);
+    public TacticalBattlePlayer GetPlayers(sbyte index) => Players.GetPlayers<TacticalBattlePlayer>(index);
 
 }

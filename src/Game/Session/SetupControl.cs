@@ -167,11 +167,11 @@ public partial class SetupControl : Component
         try
         {
             objectValue = _engine.RetrieveEngineObject(stream, null);
-            if (objectValue is SetupPackage)
+            if (objectValue is SetupPackage package)
             {
                 int sizeLocal = (int)stream.Length;
-                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
-                PackageReceived((SetupPackage)objectValue, senderId);
+                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                PackageReceived(package, senderId);
             }
 
             objectValue?.Dispose();
@@ -201,7 +201,7 @@ public partial class SetupControl : Component
         {
             if (Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId) == -1)
             {
-                player = (RemotePlayer)player.Copy(_engine);
+                player = player.Copy<RemotePlayer>(_engine);
                 player.Name = ValidatePlayerName(player.Name);
                 player.MapValidation = MapValidationInfo.Unknown;
                 player.SetOwner(Settings.RemotePlayers);
@@ -344,6 +344,7 @@ public partial class SetupControl : Component
         switch (package.MessageId)
         {
             case 1:
+                // Message id 1 carries a remote player in Data.
                 ConnectPlayer((RemotePlayer)package.Data);
                 break;
             case 2:
@@ -356,6 +357,7 @@ public partial class SetupControl : Component
             case 3:
                 if (GetHost())
                 {
+                    // Message id 3 carries a remote player in Data.
                     UpdatePlayer((RemotePlayer)package.Data);
                 }
 

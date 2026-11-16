@@ -7,7 +7,7 @@ public partial class CombatPlayerList : OwningNode, IChildList<CombatPlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatPlayer, so the cast never fails.
-    public CombatPlayer this[int index] => (CombatPlayer)GetChild(index);
+    public CombatPlayer this[int index] => GetChild<CombatPlayer>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatPlayer;
 
@@ -20,6 +20,9 @@ public partial class CombatPlayerList : OwningNode, IChildList<CombatPlayer>
 
     // Combat2.pas:132
     public CombatPlayer GetPlayers(sbyte index) => this[index];
+
+    // The combat setup of the caller holds only the named player kind, so the cast never fails there.
+    public T GetPlayers<T>(sbyte index) where T : CombatPlayer => (T)this[index];
 
     // Combat2.pas:135
     public int IndexOfPlayer(byte player)

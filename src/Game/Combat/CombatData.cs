@@ -84,7 +84,7 @@ public partial class CombatData : EngineObject
     public int GetCount() => CombatObjects.Count;
 
     // Combat2.pas:234
-    public CombatObject GetObjects(int index) => (CombatObject)CombatObjects.GetChild(index);
+    public CombatObject GetObjects(int index) => CombatObjects.GetChild<CombatObject>(index);
 
     // The caller holds the guard that admits only the named kind, so the cast never fails there.
     public T GetObjects<T>(int index) where T : CombatObject => (T)GetObjects(index);
@@ -94,7 +94,7 @@ public partial class CombatData : EngineObject
     {
         for (int result = CombatObjects.Count - 1; result >= 0; result--)
         {
-            if (((CombatObject)CombatObjects.GetChild(result)).Id == id)
+            if (CombatObjects.GetChild<CombatObject>(result).Id == id)
             {
                 return result;
             }
@@ -111,9 +111,9 @@ public partial class CombatData : EngineObject
         while (i != 0)
         {
             i -= 1;
-            if (((CombatObject)CombatObjects.GetChild(i)).Id == id)
+            if (CombatObjects.GetChild<CombatObject>(i).Id == id)
             {
-                return (CombatObject)CombatObjects.GetChild(i);
+                return CombatObjects.GetChild<CombatObject>(i);
             }
         }
 
@@ -132,9 +132,9 @@ public partial class CombatData : EngineObject
         while (i != 0 && result == null)
         {
             i -= 1;
-            if (position == ((CombatObject)CombatObjects.GetChild(i)).Position)
+            if (position == CombatObjects.GetChild<CombatObject>(i).Position)
             {
-                result = (CombatObject)CombatObjects.GetChild(i);
+                result = CombatObjects.GetChild<CombatObject>(i);
             }
         }
 

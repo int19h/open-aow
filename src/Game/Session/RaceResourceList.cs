@@ -10,7 +10,7 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
 {
     // The race resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a RaceResource, so the cast never fails.
-    public new RaceResource this[int index] => (RaceResource)GetChild(index);
+    public new RaceResource this[int index] => GetChild<RaceResource>(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is RaceResource;
 

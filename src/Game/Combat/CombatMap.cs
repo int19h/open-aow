@@ -195,6 +195,7 @@ public partial class CombatMap : GameMap
     {
         if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
+            // A combat map runs a tactical battle, so the current combat is that battle.
             SetCombat((TacticalBattle)StrategicMap.Current.Combat);
         }
 

@@ -71,6 +71,6 @@ public partial class WorldMapCampaign : Campaign
 
     private static readonly string s_wonText = "Won";
 
-    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign campaign, int index) => (WorldMapCampaignScenario)campaign.Scenarios.GetScenario(index);
+    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign campaign, int index) => campaign.Scenarios.GetScenario<WorldMapCampaignScenario>(index);
 
 }

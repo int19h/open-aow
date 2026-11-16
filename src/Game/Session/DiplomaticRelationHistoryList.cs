@@ -7,7 +7,7 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.
-    public DiplomaticRelationHistoryItem this[int index] => (DiplomaticRelationHistoryItem)GetChild(index);
+    public DiplomaticRelationHistoryItem this[int index] => GetChild<DiplomaticRelationHistoryItem>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticRelationHistoryItem;
 
@@ -19,7 +19,7 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     { }
 
     // Player.PAS:45
-    public DiplomaticRelationHistoryItem GetItems(int index) => (DiplomaticRelationHistoryItem)GetChildInRange(index);
+    public DiplomaticRelationHistoryItem GetItems(int index) => GetChildInRange<DiplomaticRelationHistoryItem>(index);
 
     // Player.PAS:50
     public int GetLastModifiedOnDay()

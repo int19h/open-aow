@@ -9,7 +9,7 @@ public partial class MigrationList : OwningNode, IChildList<MigrationItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MigrationItem, so the cast never fails.
-    public MigrationItem this[int index] => (MigrationItem)GetChild(index);
+    public MigrationItem this[int index] => GetChild<MigrationItem>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MigrationItem;
 

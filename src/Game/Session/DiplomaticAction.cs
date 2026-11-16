@@ -27,7 +27,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
 {
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new DiplomaticActionList Owner { get => (DiplomaticActionList)base.Owner; set => SetOwner(value); }
+    public new DiplomaticActionList Owner { get => GetOwner<DiplomaticActionList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is DiplomaticActionList;
 
@@ -342,7 +342,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         Player players = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
         {
-            action = (DiplomaticAction)Copy(GetEngine());
+            action = Copy<DiplomaticAction>(GetEngine());
             action.Proposal = action.Proposal with { Message = [] };
             StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
             action.Release();

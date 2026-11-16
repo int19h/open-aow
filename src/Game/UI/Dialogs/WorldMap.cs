@@ -80,6 +80,7 @@ public partial class WorldMap : UIModule
 
     public byte BookAction { get; set; }
 
+    // The world map screen runs the world map campaign, so the engine campaign is that campaign.
     // AoWWorldMap.pas:152
     public WorldMapCampaign GetCampaign() => (WorldMapCampaign)UI.Engine.Campaign;
 

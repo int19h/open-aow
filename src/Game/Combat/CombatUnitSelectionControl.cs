@@ -321,6 +321,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
         moveSettings.PathMovePoints = 0;
         unitHexSprite = (TacticalBattleUnitHexSprite)moveSettings.MoveObject;
+        // CreateMoveControlSettings of this control makes combat move settings, so its settings are that class.
         ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = GetTacticalBattleUnitHexSprite() != null && (GetTacticalBattleUnitHexSprite().SelectedAbility == 117 || GetTacticalBattleUnitHexSprite().SelectedAbility == 65)
             ? Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing)
             : Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image);

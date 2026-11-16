@@ -21,7 +21,7 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
 
     // The action in slot index, read as the original reads the list, without a range check. The
     // list admits only diplomatic actions, so the cast never fails.
-    public DiplomaticAction this[int index] => (DiplomaticAction)_list.GetChild(index);
+    public DiplomaticAction this[int index] => _list.GetChild<DiplomaticAction>(index);
 
     public IEnumerator<DiplomaticAction> GetEnumerator()
     {

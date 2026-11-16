@@ -82,15 +82,7 @@ public partial class Arena : Structure
             return -1;
         }
 
-        if (troop is Unit)
-        {
-            Unit unitLocal = (Unit)troop;
-            result = unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = troop is Unit unitLocal && unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
 
         return result;
     }

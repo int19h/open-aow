@@ -276,6 +276,7 @@ public partial class Spell : EngineObject
             combatUnit.UpdateWallCombatFeatures();
             if (source.Combat is FastBattle)
             {
+                // A combat unit in a fast battle is a fast battle unit.
                 ((FastBattleUnit)source).UpdateWallSiegeObjectRegistration();
             }
         }

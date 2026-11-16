@@ -40,7 +40,7 @@ namespace Aow.Game.Session;
 public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
-    public new PlayerCollection Owner { get => (PlayerCollection)base.Owner; set => SetOwner(value); }
+    public new PlayerCollection Owner { get => GetOwner<PlayerCollection>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is PlayerCollection;
 

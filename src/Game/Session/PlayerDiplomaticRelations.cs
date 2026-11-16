@@ -103,7 +103,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:114
-    public DiplomaticRelationHistoryList GetHistory(sbyte player) => (DiplomaticRelationHistoryList)_history.GetChild(player - 1);
+    public DiplomaticRelationHistoryList GetHistory(sbyte player) => _history.GetChild<DiplomaticRelationHistoryList>(player - 1);
 
     // Player.PAS:119
     public void ValidateHistory()
