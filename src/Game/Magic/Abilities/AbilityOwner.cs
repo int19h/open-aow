@@ -252,7 +252,7 @@ public partial class AbilityOwner : CustomAbilityList
         data = source.AbilityData;
         while (data != null)
         {
-            AddAbilityData((AbilityData)data.Copy(GetEngine()));
+            AddAbilityData(data.Copy<AbilityData>(GetEngine()));
             data = data.Next;
         }
     }
@@ -333,7 +333,7 @@ public partial class AbilityOwner : CustomAbilityList
                 if (data != null)
                 {
                     RemoveAbilityDataId(i);
-                    data = (AbilityData)data.Copy(GetEngine());
+                    data = data.Copy<AbilityData>(GetEngine());
                     AddAbilityData(data);
                 }
 

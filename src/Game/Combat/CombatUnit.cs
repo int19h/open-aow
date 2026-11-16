@@ -802,7 +802,7 @@ public partial class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[i]))
             {
-                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.CommandingPriorityAbilityIds[i]);
+                data = Troop.GetAbilityData<CommandAbilityData>(CombatAbilityTables.CommandingPriorityAbilityIds[i]);
                 if (data != null)
                 {
                     result += data.CommandingTargetPriority(Combat);
@@ -822,7 +822,7 @@ public partial class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[i]))
             {
-                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.CommandingStrengthAbilityIds[i]);
+                data = Troop.GetAbilityData<CommandAbilityData>(CombatAbilityTables.CommandingStrengthAbilityIds[i]);
                 if (data != null)
                 {
                     result += data.CommandingTargetStrength(Combat);

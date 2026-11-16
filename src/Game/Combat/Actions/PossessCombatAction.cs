@@ -72,7 +72,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
             if (oldUnit.GetAbilityEnabled(107))
             {
-                data = (PossessedAbilityData)oldUnit.GetAbilityData(107);
+                data = oldUnit.GetAbilityData<PossessedAbilityData>(107);
                 experience = data != null ? data.SourceExperience : 0;
             }
             else
@@ -80,7 +80,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
                 experience = oldUnit.GetExperience();
             }
 
-            data = (PossessedAbilityData)source.Troop.GetAbilityData(107);
+            data = source.Troop.GetAbilityData<PossessedAbilityData>(107);
             data?.SourceExperience = source.Troop.GetUnitLevel() + experience;
 
             newUnit.Release();
