@@ -163,8 +163,7 @@ dotnet_diagnostic.IDE0004.severity = warning
 dotnet_diagnostic.IDE0005.severity = warning
 # IDE0007 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0007.severity = warning
-# IDE0008 raises to warning in fix group 8 (explicit types and target-typed new).
-dotnet_diagnostic.IDE0008.severity = suggestion
+dotnet_diagnostic.IDE0008.severity = warning
 # IDE0009 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0009.severity = warning
 # IDE0010 raises to warning in the manual remainder.
@@ -277,8 +276,7 @@ dotnet_diagnostic.IDE0080.severity = warning
 dotnet_diagnostic.IDE0082.severity = warning
 # IDE0083 raises to warning in fix group 17 (pattern matching).
 dotnet_diagnostic.IDE0083.severity = suggestion
-# IDE0090 raises to warning in fix group 8 (explicit types and target-typed new).
-dotnet_diagnostic.IDE0090.severity = suggestion
+dotnet_diagnostic.IDE0090.severity = warning
 dotnet_diagnostic.IDE0100.severity = warning
 # IDE0110 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0110.severity = warning
