@@ -34,7 +34,7 @@ public partial class CityWallDoor : CityWall
         {
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            combatUnit = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2228484);
+            combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             if (combatUnit != null)
             {
                 if (combatUnit.Unit.GetSide() != CombatSideIndex.Defender)

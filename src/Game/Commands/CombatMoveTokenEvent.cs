@@ -62,7 +62,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         base.Validate();
         index = Path.Count - 1;
         mapField = GetMapField(Path[index].Location);
-        hexSprite = (TacticalBattleUnitHexSprite)mapField.FindOwnedChild(2228484);
+        hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
         if (hexSprite != null)
         {
             _objects = [];
@@ -98,7 +98,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                 {
                     sbyte yhx = Unit.UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
-                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild(2228484);
+                    hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                     if (hexSprite != null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.GetSide() != Unit.GetSide() && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
                         _neighbour = (sbyte)hexNumber;

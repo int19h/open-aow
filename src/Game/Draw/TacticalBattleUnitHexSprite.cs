@@ -106,6 +106,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 }
                 else
                 {
+                    // The spell factory returns the base action type by design. Each spell id in this cascade builds a damage action.
                     if (message.MessageId == 200707 && message.HexNumber == 0)
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);

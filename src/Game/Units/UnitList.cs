@@ -77,6 +77,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     public override int AddChild(EngineObject child)
     {
         int result;
+        // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
         EngineObject unit = child;
         if (CanAddUnit((Troop)child))

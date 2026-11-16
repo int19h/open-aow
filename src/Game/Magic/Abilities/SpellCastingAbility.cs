@@ -101,9 +101,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool result = base.Expand(owner);
         if (result)
         {
-            if (owner is Troop && StrategicMap.Current != null)
+            if (owner is Troop troop && StrategicMap.Current != null)
             {
-                StrategicMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
+                StrategicMap.Current.Players.GetPlayers(troop.Player).MagicControl.Update();
             }
         }
 
@@ -116,9 +116,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool result = base.Remove(owner);
         if (result)
         {
-            if (owner is Troop && StrategicMap.Current != null)
+            if (owner is Troop troop && StrategicMap.Current != null)
             {
-                StrategicMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
+                StrategicMap.Current.Players.GetPlayers(troop.Player).MagicControl.Update();
             }
         }
 
