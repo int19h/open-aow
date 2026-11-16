@@ -264,7 +264,7 @@ public partial class ExplorationSite : Structure
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
-                StrategicMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(request, true, RequestCombatTypeCallback);
                 request.Release();
                 result = true;
             }

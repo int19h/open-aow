@@ -142,7 +142,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         log.Mode = NewTurnEventLogMode.Dialog;
         log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
         log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_letGameBeginText);
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)StartGameCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
         {
@@ -294,7 +294,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         log.Mode = NewTurnEventLogMode.Dialog;
         log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
         log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_gameContinuesText);
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)StartGameCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
         {

@@ -1109,9 +1109,9 @@ public partial class StrategicMap : GameMap
         }
     }
 
-    // A callback that takes EventLog stays on the untyped method. Those call sites cast the
-    // callback to ExecuteDoneEvent, so this overload does not wrap it.
-    public void TriggerExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
+    // TriggerExecuteEventLog for a done callback that takes the log's own class. The compiler infers TLog
+    // from the log, so the callback and the log it is registered for have the same class.
+    public void TriggerTypedExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
     {
         ExecuteDoneEvent callback = null;
         if (done != null)
@@ -2440,7 +2440,7 @@ public partial class StrategicMap : GameMap
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
-                TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)ShowSeatedPlayerCallback);
+                TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
                 log.Release();
                 UnlockGameOverEvent();
                 SetSeatedPlayer(-1);

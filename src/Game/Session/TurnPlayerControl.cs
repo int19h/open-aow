@@ -48,7 +48,7 @@ public partial class TurnPlayerControl : PlayerControl
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)ShowNewTurnCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
                 log.Release();
             }
             else
@@ -346,7 +346,7 @@ public partial class TurnPlayerControl : PlayerControl
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }
             else
@@ -381,7 +381,7 @@ public partial class TurnPlayerControl : PlayerControl
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, (ExecuteDoneEvent)StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }
         }

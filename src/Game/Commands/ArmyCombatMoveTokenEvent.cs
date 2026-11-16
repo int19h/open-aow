@@ -611,7 +611,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                     FinishMove();
                     ArmyHexSprite = null;
-                    StrategicMap.Current.TriggerExecuteEventLog(request, false, RequestCombatTypeCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
                 }
                 else
                 {
@@ -647,7 +647,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             log.Mode = NewTurnEventLogMode.Dialog;
             log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
-            StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
             log.Release();
         }
         else
@@ -660,7 +660,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
                 log.Release();
             }
         }
@@ -680,7 +680,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
 
-            StrategicMap.Current.TriggerExecuteEventLog(request, false, RequestCombatTypeCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
             request.Release();
         }
     }

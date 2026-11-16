@@ -29,7 +29,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         log = new SaveGameEventLog(null, holder: CreationHolder());
         log.DefaultName = "";
         log.Directory = GetEngine().StartupDirectory + "Save\\";
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
+        StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
         log.Release();
         return true;
     }

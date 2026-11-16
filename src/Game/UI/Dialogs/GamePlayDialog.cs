@@ -57,7 +57,7 @@ public partial class GamePlayDialog : UIModule
                 password = new PasswordEventLog(null, holder: UI.Engine);
                 password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
-                StrategicMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(password, true, PasswordConfirmed);
                 password.Release();
             }
             else
@@ -149,7 +149,7 @@ public partial class GamePlayDialog : UIModule
         {
             log = new PasswordEventLog(null, holder: UI.Engine);
             log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
-            StrategicMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, true, PasswordEntered);
             log.Release();
         }
     }
