@@ -369,14 +369,11 @@ public partial class City : PlayerCropStructure
         int index;
         ImageSequenceList sequences;
         LibraryImage result = GetTopCityActionImage(GetActiveOrder());
-        if (result == null)
-        {
-            result = Race != -1
-                ? GetHexLevel() == 0
-                    ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(40)
-                    : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(43)
-                : null;
-        }
+        result ??= Race != -1
+            ? GetHexLevel() == 0
+                ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(40)
+                : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(43)
+            : null;
 
         if (Mode.Contains(ModeElement.Razed))
         {
@@ -396,14 +393,11 @@ public partial class City : PlayerCropStructure
         int index;
         ImageSequenceList sequences;
         LibraryImage result = GetMiddleCityActionImage(GetActiveOrder());
-        if (result == null)
-        {
-            result = Race != -1
-                ? GetHexLevel() == 0
-                    ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(41)
-                    : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(44)
-                : null;
-        }
+        result ??= Race != -1
+            ? GetHexLevel() == 0
+                ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(41)
+                : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(44)
+            : null;
 
         if (Mode.Contains(ModeElement.Razed))
         {
@@ -423,14 +417,11 @@ public partial class City : PlayerCropStructure
         int index;
         ImageSequenceList sequences;
         LibraryImage result = GetBottomCityActionImage(GetActiveOrder());
-        if (result == null)
-        {
-            result = Race >= 0
-                ? GetHexLevel() == 0
-                    ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(42)
-                    : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(45)
-                : null;
-        }
+        result ??= Race >= 0
+            ? GetHexLevel() == 0
+                ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(42)
+                : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(45)
+            : null;
 
         if (Mode.Contains(ModeElement.Razed))
         {
@@ -2546,9 +2537,7 @@ public partial class City : PlayerCropStructure
         int? sequence = order?.CitySequence(this, row);
         result = sequence is int index
             ? Resource.ImageSequenceList != null && index != -1
-                ? Resource.ImageSequenceList.GetImageSequence(index) != null
-                    ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage()
-                    : null
+                ? Resource.ImageSequenceList.GetImageSequence(index)?.GetPreviewImage()
                 : null
             : hasRace
                 ? GetHexLevel() == 0

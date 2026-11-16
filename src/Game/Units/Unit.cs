@@ -238,9 +238,7 @@ public partial class Unit : Troop
         }
 
         faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        result = GamePack.Current.FaceResources.GetFaceResource(faceIndex) != null
-            ? GamePack.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage()
-            : null;
+        result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
 
         return result;
     }

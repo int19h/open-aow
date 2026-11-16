@@ -1456,20 +1456,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             ? null
                             : (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484);
 
-                        if (hitObject == null)
-                        {
-                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228582);
-                        }
+                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228582);
 
-                        if (hitObject == null)
-                        {
-                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229508);
-                        }
+                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229508);
 
-                        if (hitObject == null)
-                        {
-                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229510);
-                        }
+                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229510);
 
                         if (hitObject != null || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
                         {
