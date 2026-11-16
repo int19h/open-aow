@@ -13,7 +13,7 @@ public sealed class CorpusTests : FormatsTest
 
     public static TheoryData<string> Files()
     {
-        TheoryData<string> data = new();
+        TheoryData<string> data = [];
         foreach (string pattern in s_patterns)
         {
             string directory = Path.Combine(Checker.GameRoot, Path.GetDirectoryName(pattern)!);

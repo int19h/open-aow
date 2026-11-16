@@ -21,12 +21,9 @@ public interface IFileSystem
         }
 
         string first = ExpandPath(baseFile), second = ExpandPath(destination);
-        if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase))
-        {
-            return destination;
-        }
-
-        return Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');
+        return !string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)
+            ? destination
+            : Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');
     }
 
     bool SetCurrentDirectory(string path) => false;

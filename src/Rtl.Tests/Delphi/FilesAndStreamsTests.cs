@@ -32,7 +32,7 @@ public sealed class FilesAndStreamsTests
             Assert.False(CreateDir("absent/child")); Assert.True(CreateDir("a")); Assert.False(CreateDir("a")); Assert.True(DirectoryExists("a")); Assert.False(FileExists("a"));
             using (Stream f = OpenFile("a/test.bin", fmCreate))
             {
-                f.WriteBuffer(new byte[] { 1, 2, 3 });
+                f.WriteBuffer([1, 2, 3]);
             }
 
             Assert.True(FileExists("a\\test.bin")); Assert.True(FileExists("A/TEST.BIN")); Assert.False(DirectoryExists("a/test.bin"));
@@ -44,7 +44,7 @@ public sealed class FilesAndStreamsTests
             using (Stream readwrite = OpenFile("a/new.bin", fmOpenReadWrite))
             {
                 readwrite.Position = 1;
-                readwrite.Write(new byte[] { 4 });
+                readwrite.Write([4]);
                 Assert.Equal(2L, readwrite.Position);
             }
 
@@ -109,7 +109,7 @@ public sealed class FilesAndStreamsTests
             Files = files;
             Assert.Equal("fake", GetCurrentDir()); Assert.Equal("fake/a", ExpandFileName("a"));
             Assert.True(FileExists("a")); Assert.True(DirectoryExists("a")); Assert.True(CreateDir("a")); Assert.True(DeleteFile("a")); Assert.True(RenameFile("a", "b"));
-            using (Stream stream = OpenFile("virtual", fmCreate)) { stream.WriteBuffer(new byte[] { 7 }); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
+            using (Stream stream = OpenFile("virtual", fmCreate)) { stream.WriteBuffer([7]); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
             Assert.Contains("open virtual 65535", files.Calls);
             IReadOnlyList<RtlFileEntry> entries = Files.FindEntries("*", attributes: 0);
             Assert.Equal(2, entries.Count);
@@ -190,12 +190,12 @@ public sealed class FilesAndStreamsTests
         restored = default; memory.ReadBuffer(ref restored); Assert.Equal(record.Number, restored.Number);
         restored = default; Assert.Equal(2, memory.Read(ref restored, 2)); Assert.Equal(0x0201, restored.Number); memory.ReadBuffer(ref restored, 2);
         Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(ref restored));
-        memory.Clear(); Ptr<byte> pointer = Ptr<byte>.To(new byte[] { 1, 2, 3, 4 }, 1);
+        memory.Clear(); Ptr<byte> pointer = Ptr<byte>.To([1, 2, 3, 4], 1);
         Assert.Equal(2, memory.Write(pointer, 2)); memory.WriteBuffer(pointer, 2); memory.Position = 0; Assert.Equal(2, memory.Read(pointer, 2)); memory.ReadBuffer(pointer, 2);
         Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, 1));
         Assert.Equal(0, memory.Write(pointer, -1)); Assert.Equal(0, memory.Read(pointer, -1));
         Assert.Equal(0, memory.Write(new byte[1], -1)); Assert.Equal(0, memory.Read(new byte[1], -1));
-        memory.Clear(); Assert.Equal(1, memory.Write(new byte[] { 9, 8 }, 1)); Assert.Equal(0, memory.Read(new byte[2], 1));
+        memory.Clear(); Assert.Equal(1, memory.Write([9, 8], 1)); Assert.Equal(0, memory.Read(new byte[2], 1));
         memory.ReadBuffer(default, 0); memory.WriteBuffer(default, 0);
         using ShortStream shortStream = new();
         shortStream.ReadBuffer([]); shortStream.WriteBuffer([]); Assert.Equal(0, shortStream.Calls);
@@ -209,7 +209,7 @@ public sealed class FilesAndStreamsTests
         // CLASSES.PAS:2985..3134. LoadFromStream preserves the destination position.
         using ProbeDirectory directory = new();
         using MemoryStream source = new(); using MemoryStream destination = new();
-        source.WriteBuffer(new byte[] { 1, 2, 3, 4 }); source.Position = 2; destination.SetLength(8); destination.Position = 3; destination.LoadFromStream(source);
+        source.WriteBuffer([1, 2, 3, 4]); source.Position = 2; destination.SetLength(8); destination.Position = 3; destination.LoadFromStream(source);
         Assert.Equal(4L, source.Position); Assert.Equal(3L, destination.Position); Assert.Equal(4L, destination.Length);
         destination.SaveToFile("memory.bin"); Assert.Equal(3L, destination.Position); Assert.Equal(new byte[] { 1, 2, 3, 4 }, File.ReadAllBytes("memory.bin"));
         destination.Clear(); destination.LoadFromFile("memory.bin"); Assert.Equal(0L, destination.Position); Assert.Equal(4L, destination.Length);

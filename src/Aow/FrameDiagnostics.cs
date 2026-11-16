@@ -107,7 +107,7 @@ internal sealed class FrameDiagnostics : IDisposable
         HexSpriteMapViewer viewer = ui.MapWindow.MapViewer;
         Window window = ui.MapWindow.MainWindow;
         MapLevel level = map.MapContainer.GetMapLevel(viewer.SceneL);
-        List<object> objects = new();
+        List<object> objects = [];
         for (int y = 0; y < level.Height; y++)
         {
             for (int x = 0; x < level.Width; x++)
@@ -124,7 +124,7 @@ internal sealed class FrameDiagnostics : IDisposable
                 {
                     EngineObject child = field.GetChild(i);
                     MapObjectResource? resource = (child as MapObject)?.Resource;
-                    List<object> sequences = new();
+                    List<object> sequences = [];
                     if (resource?.ImageSequenceList is { } list)
                     {
                         for (int index = 0; index < list.Count; index++)

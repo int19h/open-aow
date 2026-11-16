@@ -62,12 +62,7 @@ public static class TransportProfile
             }
         }
 
-        if (Reserved(property.DynamicMinimum) is int dynamic)
-        {
-            return dynamic;
-        }
-
-        return null;
+        return Reserved(property.DynamicMinimum) is int dynamic ? dynamic : null;
     }
 
     private static int? Reserved(int? id) => id is int value && value >= PortMinimum ? value : null;

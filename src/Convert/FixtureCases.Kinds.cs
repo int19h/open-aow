@@ -134,7 +134,7 @@ public static partial class Fixtures
     /// <summary>The cases of every object of a class, in document order, with their fields.</summary>
     private static string CasesOf(JsonValue value, string classValue)
     {
-        List<string> found = new();
+        List<string> found = [];
         void Walk(JsonValue v)
         {
             switch (v)

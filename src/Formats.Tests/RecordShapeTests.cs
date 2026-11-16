@@ -468,7 +468,7 @@ public sealed class RecordShapeTests : FormatsTest
     private static List<object> Items(JsonValue value)
     {
         JsonArray array = (JsonArray)value;
-        List<object> items = new(array.Items.Count);
+        List<object> items = [with(array.Items.Count)];
         foreach (JsonValue item in array.Items)
         {
             if (item is JsonString text)

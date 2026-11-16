@@ -60,12 +60,7 @@ public sealed class JsonReader
         reader.SkipWhitespace();
         JsonValue value = reader.ReadValue(0);
         reader.SkipWhitespace();
-        if (reader._position < text.Length)
-        {
-            throw reader.Error(Codes.Syntax, "Content follows the document value.");
-        }
-
-        return value;
+        return reader._position < text.Length ? throw reader.Error(Codes.Syntax, "Content follows the document value.") : value;
     }
 
     private TextSpan Here => new(_position, _line, ColumnAt(_position));
@@ -170,14 +165,7 @@ public sealed class JsonReader
                 value = new JsonNull();
                 break;
             default:
-                if (c == '-' || c is >= '0' and <= '9')
-                {
-                    value = ReadNumber();
-                }
-                else
-                {
-                    throw Error(Codes.Syntax, $"Unexpected character '{Printable(c)}'.");
-                }
+                value = c == '-' || c is >= '0' and <= '9' ? ReadNumber() : throw Error(Codes.Syntax, $"Unexpected character '{Printable(c)}'.");
 
                 break;
         }
@@ -216,7 +204,7 @@ public sealed class JsonReader
             _position++;
             return result;
         }
-        Dictionary<string, TextSpan> names = new(StringComparer.Ordinal);
+        Dictionary<string, TextSpan> names = [with(StringComparer.Ordinal)];
         while (true)
         {
             SkipWhitespace();
@@ -444,11 +432,8 @@ public sealed class JsonReader
             return new JsonNumber(_text[begin.._position]);
         }
         ReadOnlySpan<char> digits = _text.AsSpan(begin, _position - begin);
-        if (!long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value))
-        {
-            throw Error(Codes.Range, "The integer is outside the 64-bit range.", start, digits.ToString());
-        }
-
-        return new JsonInteger(value);
+        return !long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value)
+            ? throw Error(Codes.Range, "The integer is outside the 64-bit range.", start, digits.ToString())
+            : (JsonValue)new JsonInteger(value);
     }
 }

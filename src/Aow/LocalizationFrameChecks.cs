@@ -13,7 +13,7 @@ internal static class LocalizationFrameChecks
     public static void Run(string root, string output, LayoutSession layouts, UIContext ui)
     {
         int language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
-        SortedSet<byte> germanBytes = new();
+        SortedSet<byte> germanBytes = [];
         foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
         {
             MldDictionary dictionary = new();
@@ -32,10 +32,10 @@ internal static class LocalizationFrameChecks
 
             dictionary.Close();
         }
-        List<object> coverage = new();
-        ImageLibraryFont[] fonts = new[] { ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
+        List<object> coverage = [];
+        ImageLibraryFont[] fonts = [ ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
             ui.Fonts.Age10Shadow, ui.Fonts.Age8Shadow, ui.Fonts.Age14Gold, ui.Fonts.Age15WhiteOnGrey,
-            ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow };
+            ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow ];
         foreach (ImageLibraryFont? font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
@@ -52,12 +52,12 @@ internal static class LocalizationFrameChecks
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
         string dialogTitle = ui.FileDialogWindow?.TitleLabel?.Text ?? "";
-        SortedSet<string> required = new(StringComparer.Ordinal);
+        SortedSet<string> required = [with(StringComparer.Ordinal)];
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
         HashSet<int> absentEverywhere = Enumerable.Range(128, 128)
             .Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)).ToHashSet();
-        SortedSet<string> absent = new(StringComparer.Ordinal);
+        SortedSet<string> absent = [with(StringComparer.Ordinal)];
         foreach (Component module in layouts.Modules.Values)
         {
             for (int index = 0; index < module.ComponentCount; index++)
@@ -68,8 +68,7 @@ internal static class LocalizationFrameChecks
                     continue;
                 }
 
-                List<string> texts = new()
-                { control.Text };
+                List<string> texts = [control.Text];
                 if (ItemsOf(control) is StringCollection items)
                 {
                     for (int item = 0; item < items.Count; item++)

@@ -113,7 +113,7 @@ public sealed class ClassesTests
     public void ComponentDestructionNotifiesThenMarksThenDestroysLastChildFirst()
     {
         // CLASSES.PAS:6024..6052 and :6112..6154.
-        List<string> log = new();
+        List<string> log = [];
         Watched root = new(log) { Name = "root" }; Watched a = new(log) { Name = "a" }; Watched b = new(log) { Name = "b" }; Watched observer = new(log) { Name = "observer" };
         root.InsertComponent(a); root.InsertComponent(b); root.FreeNotification(observer); root.FreeNotification(observer); log.Clear();
         root.Dispose();

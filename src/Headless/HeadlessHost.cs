@@ -41,12 +41,9 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         {
             string kind = value.GetProperty("kind").GetString() ?? "";
             JsonElement data = value.GetProperty("value");
-            if (kind == "rectangle" && data.ValueKind == JsonValueKind.Array)
-            {
-                return string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()));
-            }
-
-            return kind == "bytes" && data.ValueKind == JsonValueKind.String
+            return kind == "rectangle" && data.ValueKind == JsonValueKind.Array
+                ? string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()))
+                : kind == "bytes" && data.ValueKind == JsonValueKind.String
                 ? Convert.FromBase64String(data.GetString()!) : ReadSetting(key, data);
         }
         return value.ValueKind switch
@@ -146,12 +143,9 @@ internal sealed class RunFiles : IFileSystem
     {
         bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
-        if (!writing && IsInput(path))
-        {
-            return File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read);
-        }
-
-        return _files.Open(writing ? Target(path) : path, mode);
+        return !writing && IsInput(path)
+            ? File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read)
+            : _files.Open(writing ? Target(path) : path, mode);
     }
 
     public bool ReplaceFile(string source, string target) => _files.ReplaceFile(Target(source), Target(target));

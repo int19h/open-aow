@@ -245,32 +245,20 @@ public static class GameFiles
         }
 
         JsonValue value = JsonReader.Parse(bytes, fileName, gzip, limits);
-        if (value is not JsonObject document)
-        {
-            throw new ConversionException(new FormatDiagnostic(Codes.Format, "The document is not a JSON object.") { File = fileName, Span = value.Span, Decompressed = gzip });
-        }
-
-        if (document["$format"] is not JsonString { Value: OwnFormat.FormatName })
-        {
-            throw new ConversionException(new FormatDiagnostic(Codes.Format, "$format is not \"OpenAoW\".")
-            { File = fileName, Span = (document["$format"] ?? document).Span, Path = "$format", Decompressed = gzip });
-        }
-
-        if (document["$version"] is not JsonInteger { Value: >= 1 } versionValue)
-        {
-            throw new ConversionException(new FormatDiagnostic(Codes.Version, "$version is a positive integer.")
-            { File = fileName, Span = (document["$version"] ?? document).Span, Path = "$version", Decompressed = gzip });
-        }
-
-        if (versionValue.Value != OwnFormat.CurrentVersion)
-        {
-            throw new ConversionException(new FormatDiagnostic(Codes.Version, versionValue.Value > OwnFormat.CurrentVersion
+        return value is not JsonObject document
+            ? throw new ConversionException(new FormatDiagnostic(Codes.Format, "The document is not a JSON object.") { File = fileName, Span = value.Span, Decompressed = gzip })
+            : document["$format"] is not JsonString { Value: OwnFormat.FormatName }
+            ? throw new ConversionException(new FormatDiagnostic(Codes.Format, "$format is not \"OpenAoW\".")
+            { File = fileName, Span = (document["$format"] ?? document).Span, Path = "$format", Decompressed = gzip })
+            : document["$version"] is not JsonInteger { Value: >= 1 } versionValue
+            ? throw new ConversionException(new FormatDiagnostic(Codes.Version, "$version is a positive integer.")
+            { File = fileName, Span = (document["$version"] ?? document).Span, Path = "$version", Decompressed = gzip })
+            : versionValue.Value != OwnFormat.CurrentVersion
+            ? throw new ConversionException(new FormatDiagnostic(Codes.Version, versionValue.Value > OwnFormat.CurrentVersion
                 ? $"The document has version {versionValue.Value}, newer than the supported version {OwnFormat.CurrentVersion}."
                 : $"The document has version {versionValue.Value}, older than the supported version {OwnFormat.CurrentVersion}. Convert the original file again.")
-            { File = fileName, Span = versionValue.Span, Path = "$version", Value = versionValue.Value.ToString(CultureInfo.InvariantCulture), Decompressed = gzip });
-        }
-
-        return new ReadResult { Document = document, DeclaredVersion = (int)versionValue.Value, Gzip = gzip };
+            { File = fileName, Span = versionValue.Span, Path = "$version", Value = versionValue.Value.ToString(CultureInfo.InvariantCulture), Decompressed = gzip })
+            : new ReadResult { Document = document, DeclaredVersion = (int)versionValue.Value, Gzip = gzip };
     }
 
     private static byte[] Gunzip(byte[] bytes, FormatLimits limits, string? fileName)
@@ -342,11 +330,8 @@ public static class GameFiles
         }
 
         FileProfile? p = profileName is not null ? FileProfile.Find(profileName) : ProfileFor(kind, bytes);
-        if (p is null || !p.Kinds.Contains(kind))
-        {
-            return new Classification(DetectedFormat.Unknown, null, kind, null, null);
-        }
-
-        return new Classification(DetectedFormat.Original, p, kind, null, null);
+        return p is null || !p.Kinds.Contains(kind)
+            ? new Classification(DetectedFormat.Unknown, null, kind, null, null)
+            : new Classification(DetectedFormat.Original, p, kind, null, null);
     }
 }

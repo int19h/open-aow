@@ -73,7 +73,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void RejectsInvalidUtf8WithByteOffset()
     {
-        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse(new byte[] { (byte)'{', 0xFF, (byte)'}' }));
+        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse([(byte)'{', 0xFF, (byte)'}']));
         Assert.Equal(Codes.Utf8, error.Diagnostic.Code);
         Assert.Equal(1, error.Diagnostic.Offset);
     }

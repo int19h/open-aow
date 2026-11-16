@@ -39,7 +39,7 @@ public sealed class StringsTests
     public void StringListEventsBatchAndSortedMutationErrorsFollowSource()
     {
         // CLASSES.PAS:2575..2615, :2719..2733 and :2775..2788.
-        StringList list = new(); List<string> events = new();
+        StringList list = new(); List<string> events = [];
         list.OnChanging = s => { Assert.Same(list, s); events.Add("changing"); };
         list.OnChange = s => { Assert.Same(list, s); events.Add("changed"); };
         list.Clear(); Assert.Empty(events);
@@ -69,10 +69,10 @@ public sealed class StringsTests
         // CLASSES.PAS:2239..2261 and :2454..2484, also checked with DCC32.
         StringList list = new();
         foreach ((string? input, string[]? expected, string? canonical) in new[]{
-            ("",Array.Empty<string>(),""), ("a,,b,",new[]{"a","","b"},"a,,b"), (",,",new[]{"",""},","),
-            ("\"a\"\"b\", \"\",c",new[]{"a\"b","","c"},"\"a\"\"b\",,c"),
-            ("a b, c",new[]{"a","b","c"},"a,b,c"), (" \"a b\",\"x,y\" ",new[]{"a b","x,y"},"\"a b\",\"x,y\""),
-            ("\"\"",new[]{""},"\"\""), ("\"unterminated",new[]{"unterminated"},"unterminated"), ("a\0b",new[]{"a"},"a") })
+            ("",Array.Empty<string>(),""), ("a,,b,",["a","","b"],"a,,b"), (",,",["",""],","),
+            ("\"a\"\"b\", \"\",c",["a\"b","","c"],"\"a\"\"b\",,c"),
+            ("a b, c",["a","b","c"],"a,b,c"), (" \"a b\",\"x,y\" ",["a b","x,y"],"\"a b\",\"x,y\""),
+            ("\"\"",[""],"\"\""), ("\"unterminated",["unterminated"],"unterminated"), ("a\0b",["a"],"a") })
         {
             list.CommaText = input; Assert.Equal(expected, Enumerable.Range(0, list.Count).Select(i => list[i])); Assert.Equal(canonical, list.CommaText);
         }
@@ -106,7 +106,7 @@ public sealed class StringsTests
         source.Exchange(0, 1); Assert.Equal("b", source[0]); source.Move(0, 1); Assert.Equal("a", source[0]); source.Move(-1, -1);
         Assert.Equal(0, source.IndexOf("A")); Assert.Equal(-1, source.IndexOf("c"));
         PlainStrings copy = new(); copy.Assign(source); copy.AddStrings(source); Assert.Equal("a\r\nb\r\na\r\nb\r\n", copy.Text);
-        using MemoryStream memory = new(); memory.WriteBuffer(new byte[] { 0x78, 0x61, 0x0a, 0x62 }); memory.Position = 1;
+        using MemoryStream memory = new(); memory.WriteBuffer([0x78, 0x61, 0x0a, 0x62]); memory.Position = 1;
         copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.ToArray());
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);

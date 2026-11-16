@@ -45,7 +45,7 @@ internal interface IRecordCatalog
 /// <summary>A catalog built from explicit types. Tests register the records a fixture names.</summary>
 internal sealed class DictionaryRecordCatalog : IRecordCatalog
 {
-    private readonly Dictionary<string, RecordTypeInfo> _types = new();
+    private readonly Dictionary<string, RecordTypeInfo> _types = [];
 
     public DictionaryRecordCatalog(params Type[] records)
     {
@@ -109,12 +109,7 @@ public static class RecordCatalog
             }
 
             string? resolved = NameTable.ResolveStored(typeName);
-            if (resolved is null || resolved == typeName)
-            {
-                return null;
-            }
-
-            return Lookup(resolved);
+            return resolved is null || resolved == typeName ? null : Lookup(resolved);
         }
     }
 
@@ -145,8 +140,8 @@ public static class RecordCatalog
 
 internal sealed class ReflectionRecordCatalog : IRecordCatalog
 {
-    private readonly Dictionary<string, List<Type>> _types = new();
-    private readonly Dictionary<string, RecordTypeInfo> _described = new();
+    private readonly Dictionary<string, List<Type>> _types = [];
+    private readonly Dictionary<string, RecordTypeInfo> _described = [];
 
     public ReflectionRecordCatalog(Assembly assembly)
     {
@@ -222,9 +217,9 @@ internal sealed partial class RecordTypeInfo
             .Select(field => (Field: field, Offset: field.GetCustomAttribute<FieldOffsetAttribute>()))
             .Where(field => field.Offset is not null)
             .ToList();
-        HashSet<FieldInfo> consumed = new();
-        List<RecordFieldInfo> named = new();
-        List<(int Offset, int Length)> residue = new();
+        HashSet<FieldInfo> consumed = [];
+        List<RecordFieldInfo> named = [];
+        List<(int Offset, int Length)> residue = [];
         foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>))
@@ -409,12 +404,7 @@ internal sealed partial class RecordTypeInfo
             return (4, false);
         }
 
-        if (type == typeof(int))
-        {
-            return (4, true);
-        }
-
-        throw new InvalidOperationException(name + " is not an integer field.");
+        return type == typeof(int) ? ((int Width, bool Signed))(4, true) : throw new InvalidOperationException(name + " is not an integer field.");
     }
 
     private static int FieldSize(FieldInfo field)
@@ -430,17 +420,9 @@ internal sealed partial class RecordTypeInfo
                 : throw new InvalidOperationException(field.Name + " is not an integer array.");
             return inline.Length * width;
         }
-        if (field.FieldType.IsEnum)
-        {
-            return EnumTypeInfo.Layout(field.FieldType).Width;
-        }
-
-        if (field.FieldType == typeof(bool))
-        {
-            return 1;
-        }
-
-        return Marshal.SizeOf(field.FieldType);
+        return field.FieldType.IsEnum
+            ? EnumTypeInfo.Layout(field.FieldType).Width
+            : field.FieldType == typeof(bool) ? 1 : Marshal.SizeOf(field.FieldType);
     }
 
     private static int SetStorage(Type setType)
