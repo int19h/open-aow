@@ -26,7 +26,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
 
     // CitySpells.pas:576
-    public override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
+    protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         City targetCity;
         CityEnchantment enchantment;

@@ -844,7 +844,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     private static T SetupArmyMoveTokenEvent<T>(T move, ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
         where T : MoveArmyTokenEvent
     {
-        if (move.Setup(army, selection, path, mode))
+        if (move.Setup(army, selection: selection, path: path, mode: mode))
         {
             return move;
         }

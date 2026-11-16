@@ -50,13 +50,10 @@ public partial class StructureTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = tokenEvent.ExecuteCount != 0 || Validate()
-            ? ExecuteOnStructure((Structure)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(_structureClassId), executor: tokenEvent)
+            ? ((Structure)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent)
             : ExecuteResult.DoneHalt;
         return result;
     }
-
-    protected virtual ExecuteResult ExecuteOnStructure(Structure structure, TokenExecutor executor) =>
-        structure.ExecuteTokenEvent(this, executor);
 
     // Structur.PAS:3065
     public override bool Validate()

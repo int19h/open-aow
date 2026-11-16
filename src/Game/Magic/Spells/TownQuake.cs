@@ -30,7 +30,7 @@ public partial class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:820
-    public override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
+    protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result;
         City targetCity;

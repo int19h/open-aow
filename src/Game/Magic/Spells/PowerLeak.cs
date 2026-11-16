@@ -31,7 +31,7 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1049
-    public override bool ExecuteTokenEvent(GlobalEnchantmentSpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte x = default;
         sbyte y = default;

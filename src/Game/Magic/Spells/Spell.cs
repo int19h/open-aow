@@ -101,18 +101,6 @@ public partial class Spell : EngineObject
     // Spells.PAS:312
     public virtual bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) => false;
 
-    public virtual bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount) =>
-        ExecuteTokenEvent((SpellTokenEvent)eventValue, source: source, executeCount: executeCount);
-
-    public virtual bool ExecuteTokenEvent(TownGateTokenEvent eventValue, Troop source, int executeCount) =>
-        ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
-
-    public virtual bool ExecuteTokenEvent(GlobalEnchantmentSpellTokenEvent eventValue, Troop source, int executeCount) =>
-        ExecuteTokenEvent((SpellTokenEvent)eventValue, source: source, executeCount: executeCount);
-
-    public virtual bool ExecuteTokenEvent(GlobalTargetSpellTokenEvent eventValue, Troop source, int executeCount) =>
-        ExecuteTokenEvent((SpellTokenEvent)eventValue, source: source, executeCount: executeCount);
-
     // Spells.PAS:413
     public virtual void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {

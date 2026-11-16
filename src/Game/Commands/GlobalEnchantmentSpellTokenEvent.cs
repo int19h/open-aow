@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -44,8 +43,7 @@ public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalEnchantmentSpells.pas:408
-    public override bool Process(Troop source, int value) =>
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source: source, executeCount: value);
+    public override bool Process(Troop source, int value) => base.Process(source, value);
 
     // NetworkE.pas:230
 

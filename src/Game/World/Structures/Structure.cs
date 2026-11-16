@@ -564,9 +564,6 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         return result;
     }
 
-    public virtual ExecuteResult ExecuteTokenEvent(ArenaTokenEvent tokenEvent, TokenExecutor executor) =>
-        ExecuteTokenEvent((StructureTokenEvent)tokenEvent, executor);
-
     // Structur.PAS:1505
     public virtual bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements) => false;
 

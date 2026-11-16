@@ -33,7 +33,7 @@ public partial class AnimateRuins : CityTargetSpell
     }
 
     // CitySpells.pas:938
-    public override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
+    protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result = default;
         City targetCity = default;

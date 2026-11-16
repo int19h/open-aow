@@ -26,7 +26,7 @@ public partial class Harmony : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:980
-    public override bool ExecuteTokenEvent(GlobalEnchantmentSpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte x = default;
         sbyte y = default;

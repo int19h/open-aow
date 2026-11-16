@@ -60,9 +60,6 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
         return result;
     }
 
-    public override bool Process(Troop source, int value) =>
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source: source, executeCount: value);
-
     // NetworkE.pas:230
 
 }

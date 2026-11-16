@@ -40,6 +40,9 @@ public partial class AIGroupControl : EngineObject
 
     public AIGroup Group { get; set; }
 
+    // GroupControlClass constructs a control matching its AIGroup subclass.
+    protected T GetGroup<T>() where T : AIGroup => (T)Group;
+
     private Set<StatusElement> _status;
 
     public MapCoordinate Location { get; private set; }

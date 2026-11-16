@@ -171,24 +171,29 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:359
     public virtual bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        if (StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        bool result;
+        CityTargetSpellTokenEvent eventValue;
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            return false;
+            eventValue = CreateTokenEvent();
+            if (SetupTokenEvent(eventValue, source, X, Y, L))
+            {
+                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            eventValue.Release();
+        }
+        else
+        {
+            result = false;
         }
 
-        CityTargetSpellTokenEvent eventValue = CreateTokenEvent();
-        return SubmitTokenEvent(eventValue, setupResult: SetupTokenEvent(eventValue, source, X, Y, L), source: source);
-    }
-
-    private protected bool SubmitTokenEvent(CityTargetSpellTokenEvent eventValue, bool setupResult, Troop source)
-    {
-        if (setupResult)
-        {
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-        }
-
-        eventValue.Release();
-        return setupResult;
+        return result;
     }
 
     // CitySpells.pas:248
@@ -215,6 +220,12 @@ public partial class CityTargetSpell : Spell
 
     // CitySpells.pas:346
     public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
+
+    // CityTargetSpell.CreateTokenEvent constructs CityTargetSpellTokenEvent.
+    public sealed override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) =>
+        ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
+
+    protected virtual bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount) => false;
 
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)

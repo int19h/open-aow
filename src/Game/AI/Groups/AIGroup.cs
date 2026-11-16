@@ -754,16 +754,6 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
     public virtual bool HuntingPlayer(sbyte player) => false;
 
-    public virtual bool IsHuntingArmy(Army army) => false;
-
-    public virtual bool PruneAndHasHuntTargets() => false;
-
-    public virtual void OnControlMoveFailed()
-    {
-    }
-
-    public virtual void ProcessControlStates(AIGroupControl control) => control.Done();
-
     // AIGroup.pas:121
     public static GroupBehavior Behavior => GroupBehavior.None;
 
