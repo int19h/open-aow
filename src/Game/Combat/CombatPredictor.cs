@@ -420,6 +420,7 @@ public partial class CombatPredictor : IDisposable
         }
         else
         {
+            // AddWall is the only writer of a non-null _wall, and it always wraps a WallCombatant it created.
             ((WallCombatant)unitObject.Troop).SetWallType(wallType);
         }
     }

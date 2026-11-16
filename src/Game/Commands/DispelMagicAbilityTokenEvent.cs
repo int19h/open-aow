@@ -54,7 +54,7 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        ability = (DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60);
+        ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
         success = source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer;
         success = success && ability.GetEnabled(source);
         if (success)
@@ -66,7 +66,7 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         if (success)
         {
             count = 0;
-            mana = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60)).GetDispelMana(source);
+            mana = ability.GetDispelMana(source);
             for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
                 chance = enchantments.GetEnchantments(i).DispelChance(mana);

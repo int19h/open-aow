@@ -47,12 +47,12 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
             for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).ResetCommandedUnits(target);
+                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
             }
 
             for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).Uncommand(target);
+                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
             newUnit = target.Troop;
@@ -72,7 +72,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
             if (oldUnit.GetAbilityEnabled(107))
             {
-                data = oldUnit.GetAbilityData<PossessedAbilityData>(107);
+                data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(oldUnit);
                 experience = data != null ? data.SourceExperience : 0;
             }
             else
@@ -80,7 +80,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
                 experience = oldUnit.GetExperience();
             }
 
-            data = source.Troop.GetAbilityData<PossessedAbilityData>(107);
+            data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(source.Troop);
             data?.SourceExperience = source.Troop.GetUnitLevel() + experience;
 
             newUnit.Release();

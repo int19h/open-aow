@@ -95,7 +95,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 if (message.MessageId == 200704 && message.HexNumber == 0)
                 {
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    selfDestruct = ((SelfDestructAbility)GamePack.Current.AbilityControl.GetAbility(65)).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
+                    selfDestruct = GamePack.Current.AbilityControl.GetAbility<SelfDestructAbility>(65).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
                     if (selfDestruct.Damage > 0)
                     {
                         SetAction(SpriteAction.Hit);
@@ -138,7 +138,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                             if (message.MessageId == 200714 && message.HexNumber == 0)
                             {
                                 RandSeed = StrategicMap.Current.Random(16777215);
-                                rangedDamage = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(31)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                rangedDamage = GamePack.Current.AbilityControl.GetAbility<RangedAttackAbility>(31).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
                                 if (rangedDamage.Damage > 0)
                                 {
                                     SetAction(SpriteAction.Hit);
@@ -166,7 +166,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                     if (message.MessageId == 200722 && message.HexNumber == 0)
                                     {
                                         RandSeed = StrategicMap.Current.Random(16777215);
-                                        rangedDamage = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(message.Param[1].Int)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                        rangedDamage = GamePack.Current.AbilityControl.GetAbility<RangedAttackAbility>(message.Param[1].Int).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
                                         if (rangedDamage.Damage > 0)
                                         {
                                             SetAction(SpriteAction.Hit);
@@ -381,7 +381,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             }
 
         Touch:
-            if (((TouchAbility)GamePack.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility)).CanTouch(((CombatMoveControl)info.Sender).UnitHexSprite.Unit, Unit))
+            if (GamePack.Current.AbilityControl.GetAbility<TouchAbility>(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).CanTouch(((CombatMoveControl)info.Sender).UnitHexSprite.Unit, Unit))
             {
                 moveResult.Code = 0;
             }

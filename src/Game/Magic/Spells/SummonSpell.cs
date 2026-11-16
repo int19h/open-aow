@@ -124,7 +124,7 @@ public partial class SummonSpell : Spell
     public int GetAIUpkeepPriority()
     {
         int unitIndex = UnitIndices[0];
-        return ((SummonedAbility)GamePack.Current.AbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndex);
+        return GamePack.Current.AbilityControl.GetAbility<SummonedAbility>(155).UnitIndexToAIUpkeepPriority(unitIndex);
     }
 
     // SummonSpells.pas:255

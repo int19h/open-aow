@@ -73,7 +73,7 @@ public partial class UnitEnchantment : Enchantment
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         result = source != null
-            ? ((UnitEnchantmentAbility)GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId)).GetAIUpkeepPriority(source)
+            ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
             : 0;
 
         return result;

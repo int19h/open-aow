@@ -211,7 +211,7 @@ public partial class CommandAbility : TouchAbility
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        targetData = GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
+        targetData = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -273,7 +273,7 @@ public partial class CommandAbility : TouchAbility
         troopOwner = target.Troop;
         if (troopOwner.GetAbilityEnabled(CommandedAbilityId))
         {
-            data = troopOwner.GetAbilityData<CommandedAbilityData>(CommandedAbilityId);
+            data = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
             // { Original reads Data before checking it for nil. }
             source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
             if (data != null)

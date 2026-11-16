@@ -49,17 +49,16 @@ public partial class ConstructDialog : UIModule
         int gold = default;
         Troop u;
         string name = "";
-        ConstructAbility ability;
         ConstructionControl control;
         Window.Drawn = false;
         u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        ability = (ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125);
-        for (int i = 0, last = ability.ConstructionControls.Count - 1; i <= last; i++)
+        ConstructionControlList controls = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls;
+        for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
-            control = ability.ConstructionControls.GetConstructionControl(i);
+            control = controls.GetConstructionControl(i);
             control.GetInfo(u, out name, out gold, out days);
             ConstructionList.Items.AddObject(name, control);
             if (gold != 0)

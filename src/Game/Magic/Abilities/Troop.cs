@@ -2325,8 +2325,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     internal static int UnitStrikeDamageValue(Troop source, Troop target)
     {
-        ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).MeleeRound.CalculateFreeUnitSwing(source, target);
-        return ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).MeleeRound.GetAttackerDamageValue();
+        GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).MeleeRound.CalculateFreeUnitSwing(source, target);
+        return GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).MeleeRound.GetAttackerDamageValue();
     }
 
     public enum Morale : byte

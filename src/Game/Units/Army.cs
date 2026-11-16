@@ -1113,7 +1113,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             troop.UpdateMoraleValue();
             if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
-                ((LeadershipAbility)GamePack.Current.AbilityControl.GetAbility(46)).ResetExternalSource(troop);
+                GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).ResetExternalSource(troop);
                 unitLevel = troop.GetAbilityLevel(46);
                 if (unitLevel > level)
                 {
@@ -1134,7 +1134,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 troop = Units[i];
                 if (troop.GetAbilityLevel(46) < level)
                 {
-                    ((LeadershipAbility)GamePack.Current.AbilityControl.GetAbility(46)).SetExternalSource(troop, (byte)level, sourceName);
+                    GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).SetExternalSource(troop, (byte)level, sourceName);
                 }
             }
         }
@@ -1791,9 +1791,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         {
             if ((selection & 1) != 0)
             {
-                if (Units[i].EngineClass.ClassId == 131634)
+                // Class id 131634 is registered only for Leader. GetType matches that class exactly.
+                // A pattern match on its own also matches a subclass. No subclass exists today.
+                // A null unit fails at GetType.
+                Troop unit = Units[i];
+                if (unit.GetType() == typeof(Leader) && unit is Leader leader)
                 {
-                    result = (Leader)Units[i];
+                    result = leader;
                 }
             }
 

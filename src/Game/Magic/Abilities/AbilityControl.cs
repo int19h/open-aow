@@ -191,6 +191,11 @@ public partial class AbilityControl : EngineObject
         return index < Abilities.Count ? Abilities[index] : null;
     }
 
+    // RegisterAbility stores exactly one instance per id and refuses a second registration. The caller names
+    // the kind registered at that id. Another class throws InvalidCastException. An id past the list returns
+    // null, as GetAbility does.
+    public T GetAbility<T>(int id) where T : Ability => (T)GetAbility(id);
+
     public static int CompareAbilityNames(Ability item1, Ability item2) => CompareStr(b: item2.GetName(null), a: item1.GetName(null));
 
     internal static void UnregisterPassiveAbilities(AbilityControl control)
