@@ -142,9 +142,9 @@ public partial class City : PlayerCropStructure
         pixelYSurface = y - pixelYSurface;
         if (!Mode.Contains(ModeElement.Razed) || GetBuilding())
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (((PlayerStructureResource)Resource).Claimed || (_flagId & 32) == 0))
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (base.Resource.Claimed || (_flagId & 32) == 0))
             {
-                PlayerStructureResource cityResource = (PlayerStructureResource)Resource;
+                PlayerStructureResource cityResource = base.Resource;
                 if (cityResource.FlagType <= 1)
                 {
                     GamePack.Current.FlagControl.ShowFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + x, _flagId, lockedSurface);
@@ -164,11 +164,11 @@ public partial class City : PlayerCropStructure
 
         if (!Mode.Contains(ModeElement.Razed))
         {
-            ((Resource)Resource).ShowCity(pixelXSurface, pixelYSurface, lockedSurface, this);
+            GetResource<Resource>().ShowCity(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
         else
         {
-            ((StructureResource)Resource).Show(pixelXSurface, pixelYSurface, lockedSurface, this);
+            base.Resource.Show(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
     }
 
@@ -229,7 +229,7 @@ public partial class City : PlayerCropStructure
                 }
 
                 MapFieldMessageParameters param4 = message.Param;
-                param4[0] = param4[0].Int + ((((Resource)Resource).Size - 1) * 4194304);
+                param4[0] = param4[0].Int + ((GetResource<Resource>().Size - 1) * 4194304);
                 message.Param = param4;
             }
             else
@@ -932,7 +932,7 @@ public partial class City : PlayerCropStructure
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         CityProductionEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !base.Resource.Claimed)
         {
             log = new CityProductionEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
@@ -1074,7 +1074,7 @@ public partial class City : PlayerCropStructure
             count = GetRazed()
                 ? 0
                 : StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
-                    ? ((PlayerCropStructureResource)Resource).CropLocations.Count
+                    ? base.Resource.CropLocations.Count
                     : -1;
 
             if (count != -1)
@@ -1482,7 +1482,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1256
-    public int GetSize() => ((Resource)Resource).Size;
+    public int GetSize() => GetResource<Resource>().Size;
 
     // City.pas:1259
     public int GetObtainUnitsValue()

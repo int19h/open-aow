@@ -46,7 +46,7 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
-        resource = (PoisonPlant.Resource)GamePack.Current.MapObjectResourceList.FindChild(131999);
+        resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(131999);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
