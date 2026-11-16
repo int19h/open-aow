@@ -149,7 +149,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         fileName = "TCMaps\\";
-        structure = (Structure)StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(Structure));
+        structure = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<Structure>();
         bridge = null;
         if (structure == null)
         {

@@ -1449,10 +1449,10 @@ public partial class CityScreen : UIModule
         while (index != start)
         {
             s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
-            if (s is City)
+            if (s is City city)
             {
                 index = start + 1;
-                ShowCity((City)s);
+                ShowCity(city);
             }
 
             index += -1;
@@ -1479,10 +1479,10 @@ public partial class CityScreen : UIModule
         while (index != start)
         {
             s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
-            if (s is City)
+            if (s is City city)
             {
                 index = start - 1;
-                ShowCity((City)s);
+                ShowCity(city);
             }
 
             index += 1;

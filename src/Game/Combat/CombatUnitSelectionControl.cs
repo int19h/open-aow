@@ -556,7 +556,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             }
             else
             {
-                wall = (CityWall)field.FindOwnedChild(2229508) ?? field.FindOwnedChild(2229510) as CityWall;
+                wall = field.FindOwnedChild<CityWall>(2229508) ?? field.FindOwnedChild(2229510) as CityWall;
                 if (wall != null)
                 {
                     if (!(wall is CityWallDoor) || unitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker)

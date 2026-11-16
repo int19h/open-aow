@@ -60,7 +60,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
             x = coordinate56.X;
             y = coordinate56.Y;
             l = coordinate56.MapLevel;
-            targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
+            targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             bool condition = targetCity != null;
             if (condition)
             {
@@ -97,7 +97,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         x = coordinate57.X;
         y = coordinate57.Y;
         l = coordinate57.MapLevel;
-        targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
+        targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
         if (targetCity != null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);

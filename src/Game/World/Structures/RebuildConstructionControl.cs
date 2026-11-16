@@ -24,7 +24,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         x = coordinate36.X;
         y = coordinate36.Y;
         l = coordinate36.MapLevel;
-        Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(Structure));
+        Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
         if (result != null)
         {
             if (!result.GetRazed() || result.GetBuilding())

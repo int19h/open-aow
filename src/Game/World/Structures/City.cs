@@ -1754,7 +1754,7 @@ public partial class City : PlayerCropStructure
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                     {
-                        city = (City)mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite(typeof(City));
+                        city = mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite<City>();
                         if (city != null && city.Race == race)
                         {
                             radius = walk.Radius;
@@ -2653,9 +2653,9 @@ public partial class City : PlayerCropStructure
             {
                 break;
             }
-            if (players.Structures.GetStructure(i) is City)
+            if (players.Structures.GetStructure(i) is City city)
             {
-                flag = !players.Structures.GetStructure(i).GetBuilding() && ((City)players.Structures.GetStructure(i)).Race == race;
+                flag = !city.GetBuilding() && city.Race == race;
             }
         }
         return flag;
