@@ -51,7 +51,8 @@ public partial class HexagonResource : AbstractHexagonResource
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();
-                result.UpdateTransitions();
+                // The resource user class (131410) registers only Hex, so the cast never fails.
+                ((AbstractHexagon)result).UpdateTransitions();
             }
             else
             {

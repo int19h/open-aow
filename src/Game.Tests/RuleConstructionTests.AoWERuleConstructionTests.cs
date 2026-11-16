@@ -234,7 +234,7 @@ public sealed partial class RuleConstructionTests
         if (route == 3)
         {
             EngineClass meta = EngineClass.Of(type);
-            return Invoke(() => meta.GetType().GetMethods().Single(m => m.Name == "CreateInstance" && !m.IsGenericMethodDefinition).Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         ConstructorInfo? constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();

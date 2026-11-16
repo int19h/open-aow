@@ -89,7 +89,7 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:819
-    public override void UpdateTransitions()
+    public virtual void UpdateTransitions()
     {
     }
 

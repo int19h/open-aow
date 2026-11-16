@@ -39,7 +39,7 @@ public sealed class EngineClass
     };
 
     // The descriptor selects the object. An object of another class throws, the same way the call site did.
-    public T CreateInstance<T>(CustomNode owner, EngineObject holder) where T : EngineObject => (T)CreateInstance(owner, holder);
+    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject => (T)CreateInstance(owner, holder: holder);
 
     public override string ToString() => StorageKey;
 

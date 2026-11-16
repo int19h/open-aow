@@ -136,7 +136,7 @@ public partial class AbstractHexagon : MapObject
     }
 
     // MAPOBJ.PAS:687
-    public override void UpdateTransitions()
+    public virtual void UpdateTransitions()
     {
     }
 

@@ -172,7 +172,7 @@ public sealed partial class SpellConstructionTests
 
         if (route == 3)
         {
-            try { return (EngineObject)meta.GetType().GetMethods().Single(m => m.Name == "CreateInstance" && !m.IsGenericMethodDefinition).Invoke(meta, [owner, EngineFixture.Engine])!; }
+            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();

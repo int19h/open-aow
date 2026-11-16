@@ -441,9 +441,10 @@ public partial class CustomImageLibrary : Component
         stream = new MemoryStream();
         try
         {
-            // The Delphi constructor makes the library class itself. The port built the base
-            // Component, whose cast back always threw. No caller stores that throw today.
-            result = new(null);
+            // The Delphi constructor makes the runtime class, so a library of another class
+            // copies as itself. The port builds the base Component instead, so the cast back
+            // always throws. No caller stores that throw today.
+            result = (CustomImageLibrary)new Component(null);
             SaveToStream(stream);
             stream.Position = 0;
             result.LoadFromStream(stream);

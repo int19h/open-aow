@@ -443,7 +443,7 @@ public partial class GameMap : OwningNode
         {
             SetHssFileName(settings.HssFileName);
             _engine.InitializeHexSpriteSet(settings.HssFileName, null);
-            _mapContainer = _engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, this);
+            _mapContainer = _engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
             _engine.ActivateEngineObject(_mapContainer);
             _mapContainer.New(settings);
             result = true;

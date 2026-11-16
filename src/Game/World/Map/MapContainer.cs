@@ -135,7 +135,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         levelClass = _engine.GetEngineClass(classId);
         if (levelClass != null)
         {
-            level = levelClass.CreateInstance<MapLevel>(this, holder: CreationHolder());
+            level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
             level.HexLevel = _levelCount;
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(_width, _height);
@@ -161,7 +161,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
             levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
             for (int i = 0, last = settings.Levels - 1; i <= last; i++)
             {
-                level = levelClass.CreateInstance<MapLevel>(this, holder: CreationHolder());
+                level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
                 level.HexLevel = i;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);

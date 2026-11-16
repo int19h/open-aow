@@ -83,7 +83,7 @@ public partial class GameEngine : OwningNode
 
         try
         {
-            SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, this));
+            SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, owner: this));
             string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
@@ -142,7 +142,7 @@ public partial class GameEngine : OwningNode
 
         try
         {
-            result = CreateEngineObject<GameMap>(tree.ClassId, this);
+            result = CreateEngineObject<GameMap>(tree.ClassId, owner: this);
             result.FileName = ExpandFileName(fileName);
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
@@ -166,7 +166,7 @@ public partial class GameEngine : OwningNode
 
     // The file stores the previewed map. A file that stores another map class throws, the same way
     // the call site did.
-    public T CreatePreviewHsm<T>(string fileName, GameProfile profile) where T : GameMap => (T)CreatePreviewHsm(fileName, profile);
+    public T CreatePreviewHsm<T>(string fileName, GameProfile profile) where T : GameMap => (T)CreatePreviewHsm(fileName, profile: profile);
 
     // HSEngine.pas:5291
     // The tree of the map goes to the file boundary, which writes the document, so a failed
@@ -308,7 +308,7 @@ public partial class GameEngine : OwningNode
 
         try
         {
-            SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, this));
+            SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, owner: this));
             _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
             string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
@@ -344,7 +344,7 @@ public partial class GameEngine : OwningNode
 
         try
         {
-            result = CreateEngineObject<GameMap>(tree.ClassId, null);
+            result = CreateEngineObject<GameMap>(tree.ClassId, owner: null);
             result.FileName = fullName;
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             if (edit)
@@ -398,7 +398,7 @@ public partial class GameEngine : OwningNode
                 GameFileTree tree = IsOwnMapDocument(payload)
                     ? ReadOwnMap(payload)
                     : GameBoundary.ReadImageTree(payload, use: GameProfile.WorldMap);
-                SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, this));
+                SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, owner: this));
                 _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                 if (edit)
                 {
@@ -520,7 +520,7 @@ public partial class GameEngine : OwningNode
             SetHexSpriteMap(null);
         }
 
-        SetHexSpriteMap(CreateEngineObject<GameMap>(classId, this));
+        SetHexSpriteMap(CreateEngineObject<GameMap>(classId, owner: this));
         _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
         ActivateEngineObject(_hexSpriteMap);
         OnHsmLoadedStore.Raise(_hexSpriteMap);

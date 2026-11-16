@@ -40,7 +40,8 @@ public partial class IsometricHexResource : AbstractHexagonResource
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();
-                result.UpdateTransitions();
+                // The lookup finds only IsometricHex, so the cast never fails.
+                ((AbstractHexagon)result).UpdateTransitions();
             }
             else
             {
