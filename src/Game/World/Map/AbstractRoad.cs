@@ -33,7 +33,7 @@ public partial class AbstractRoad : MapObject
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             int classId = Resource.EngineClass.ClassId;
-            r = ((AbstractRoadResource)Resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
+            r = Resource.GetTerrainControl().GetRandomResource(message.TerrainType, classId);
             if (r != null)
             {
                 SetResource(r);
@@ -48,7 +48,7 @@ public partial class AbstractRoad : MapObject
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                if (((AbstractRoadResource)Resource).GetRoadControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
+                if (Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
                 {
                     Dispose();
                 }
@@ -89,7 +89,7 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:819
-    public virtual void UpdateTransitions()
+    public override void UpdateTransitions()
     {
     }
 

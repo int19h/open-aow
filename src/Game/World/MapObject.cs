@@ -73,6 +73,11 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:16
     public override byte GetLevel() => _resource.Level;
 
+    // The transition update of this kind, none by default. Hexagons and roads override it.
+    public virtual void UpdateTransitions()
+    {
+    }
+
     // MAPOBJ.PAS:8
     public override void SetVisible(bool value)
     {

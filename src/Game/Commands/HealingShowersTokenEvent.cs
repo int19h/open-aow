@@ -117,7 +117,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                             }
                         }
 
-                        cloud = (HexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(132990);
+                        cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(132990);
                         if (cloud != null)
                         {
                             cloud?.Dispose();

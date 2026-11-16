@@ -12,7 +12,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
-    public MapLevel this[int index] => (MapLevel)GetChild(index);
+    public MapLevel this[int index] => GetChild<MapLevel>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MapLevel;
 
@@ -135,7 +135,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         levelClass = _engine.GetEngineClass(classId);
         if (levelClass != null)
         {
-            level = (MapLevel)levelClass.CreateInstance(this, holder: CreationHolder());
+            level = levelClass.CreateInstance<MapLevel>(this, holder: CreationHolder());
             level.HexLevel = _levelCount;
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(_width, _height);
@@ -161,7 +161,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
             levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
             for (int i = 0, last = settings.Levels - 1; i <= last; i++)
             {
-                level = (MapLevel)levelClass.CreateInstance(this, holder: CreationHolder());
+                level = levelClass.CreateInstance<MapLevel>(this, holder: CreationHolder());
                 level.HexLevel = i;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);

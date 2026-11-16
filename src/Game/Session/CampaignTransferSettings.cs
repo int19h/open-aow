@@ -438,7 +438,7 @@ public partial class CampaignTransferSettings : EngineObject
     {
         StrategicMap map;
         ClearSelection();
-        map = (StrategicMap)GetEngine().CreatePreviewHsm(fileName, GameProfile.WorldMap);
+        map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, GameProfile.WorldMap);
         TransferPointsMax = map.CampaignSettings.TransferPointsMax;
         if (GetEngine().Campaign.DifficultyLevel == CampaignDifficultyLevel.Easy)
         {

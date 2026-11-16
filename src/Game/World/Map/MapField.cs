@@ -157,6 +157,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         return result;
     }
 
+    // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
+    public T FindHexSprite<T>() where T : HexSprite => (T)FindHexSprite(typeof(T));
+
+    // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
+    public T FindOwnedHexSprite<T>() where T : HexSprite => (T)FindOwnedHexSprite(typeof(T));
+
     // HSEngine.pas:2172
     public HexSprite FindOwnedHexSprite(Type classValue)
     {

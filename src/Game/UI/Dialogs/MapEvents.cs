@@ -628,9 +628,9 @@ public partial class MapEvents : UIModule
     // aowMapEvents.pas:507
     public void TheMapHexSpriteChanged(HexSprite hexSprite)
     {
-        if (hexSprite is ItemHexSprite)
+        if (hexSprite is ItemHexSprite itemHexSprite)
         {
-            UpdateItemSelection(UI.InfoWindow, (ItemHexSprite)hexSprite);
+            UpdateItemSelection(UI.InfoWindow, itemHexSprite);
         }
     }
 

@@ -38,7 +38,7 @@ public partial class IceStorm : BlastStorm
             {
                 if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
                 {
-                    ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                    ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                     if (ice != null)
                     {
                         ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
@@ -55,7 +55,7 @@ public partial class IceStorm : BlastStorm
         FrozenWaterHexSprite ice;
         if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
-            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };

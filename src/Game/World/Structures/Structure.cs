@@ -1155,7 +1155,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, item, ref x, ref y);
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
-                road = (AbstractRoad)level.GetField(x, y).FindHexSprite(typeof(AbstractRoad));
+                road = level.GetField(x, y).FindHexSprite<AbstractRoad>();
                 road?.UpdateTransitions();
             }
         }

@@ -1475,7 +1475,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
             {
-                ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                 if (ice != null)
                 {
                     ice.DaysRemaining = 2;
@@ -1498,7 +1498,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         FrozenWaterHexSprite ice;
         if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
-            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
@@ -1527,7 +1527,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
             if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)field.TerrainType))
             {
-                ice = (FrozenWaterHexSprite)field.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                ice = field.FindOwnedHexSprite<FrozenWaterHexSprite>();
                 if (ice != null)
                 {
                     ice.DaysRemaining = 2;

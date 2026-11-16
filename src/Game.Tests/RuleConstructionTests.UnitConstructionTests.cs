@@ -58,7 +58,7 @@ public sealed partial class RuleConstructionTests
         }
         if (route == 3)
         {
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return (Troop)Invoke(() => meta.GetType().GetMethods().Single(m => m.Name == "CreateInstance" && !m.IsGenericMethodDefinition).Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
 
         ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type)!;

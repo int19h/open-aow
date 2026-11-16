@@ -158,7 +158,7 @@ public partial class EmailGameControl : EngineObject
         {
             destination = "";
             overwrite = false;
-            map = (StrategicMap)GetEngine().CreatePreviewHsm(fileName, GameProfile.WorldMap);
+            map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, GameProfile.WorldMap);
             bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
@@ -178,7 +178,7 @@ public partial class EmailGameControl : EngineObject
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
                             if (FileExists(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg"))
                             {
-                                previousMap = (StrategicMap)GetEngine().CreatePreviewHsm(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
+                                previousMap = GetEngine().CreatePreviewHsm<StrategicMap>(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
                                 if (previousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }

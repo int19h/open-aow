@@ -105,7 +105,7 @@ public partial class MapLevel
     {
         for (int i = 0; i < Count; i++)
         {
-            ((MapField)GetChild(i)).SetFogCount(0);
+            GetChild<MapField>(i).SetFogCount(0);
         }
     }
 
@@ -113,7 +113,7 @@ public partial class MapLevel
     {
         for (int i = 0; i < Count; i++)
         {
-            ((MapField)GetChild(i)).SetFogCount(1);
+            GetChild<MapField>(i).SetFogCount(1);
         }
     }
 
@@ -121,7 +121,7 @@ public partial class MapLevel
     {
         for (int i = 0; i < Count; i++)
         {
-            ((MapField)GetChild(i)).FieldFlags = 0;
+            GetChild<MapField>(i).FieldFlags = 0;
         }
     }
 }

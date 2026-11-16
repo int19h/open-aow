@@ -92,9 +92,8 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9365
     public override void Assign(Persistent source)
     {
-        if (source is FrameTableList)
+        if (source is FrameTableList frameTableList)
         {
-            FrameTableList frameTableList = (FrameTableList)source;
             SetCapacity(frameTableList._count);
             _count = frameTableList._count;
             MoveElements(frameTableList._list, 0, _list, 0, _count);

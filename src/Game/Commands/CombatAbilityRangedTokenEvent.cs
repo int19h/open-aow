@@ -1454,13 +1454,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, out j, out k);
                         hitObject = effect.EffectType == BattleEffectType.Breath
                             ? null
-                            : (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484);
+                            : CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2228484);
 
-                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228582);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2228582);
 
-                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229508);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2229508);
 
-                        hitObject ??= (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2229510);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2229510);
 
                         if (hitObject != null || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
                         {

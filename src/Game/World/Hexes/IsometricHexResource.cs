@@ -40,7 +40,7 @@ public partial class IsometricHexResource : AbstractHexagonResource
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();
-                ((AbstractHexagon)result).UpdateTransitions();
+                result.UpdateTransitions();
             }
             else
             {

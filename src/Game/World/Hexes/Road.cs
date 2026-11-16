@@ -62,7 +62,7 @@ public partial class Road : AbstractRoad
             if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
             {
                 mapField = level.GetField(hexX, hexY);
-                road = (AbstractRoad)mapField.FindChild(131428);
+                road = mapField.FindChild<AbstractRoad>(131428);
                 road?.UpdateTransitions();
             }
         }

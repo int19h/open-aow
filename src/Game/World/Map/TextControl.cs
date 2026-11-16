@@ -11,7 +11,7 @@ public partial class TextControl : OwningNode, IChildList<TextControlItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TextControlItem, so the cast never fails.
-    public TextControlItem this[int index] => (TextControlItem)GetChild(index);
+    public TextControlItem this[int index] => GetChild<TextControlItem>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is TextControlItem;
 

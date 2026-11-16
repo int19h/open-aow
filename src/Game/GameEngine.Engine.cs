@@ -194,6 +194,9 @@ public partial class GameEngine : OwningNode
         return c.CreateInstance(owner, holder: this);
     }
 
+    // The class id selects the object. An object of another class throws, the same way the call site did.
+    public T CreateEngineObject<T>(int classId, CustomNode owner) where T : EngineObject => (T)CreateEngineObject(classId, owner);
+
     // Engine.pas:8860
     public virtual EngineClass GetEngineClass(int classId)
     {

@@ -59,17 +59,17 @@ public partial class LibraryImagePalette : Persistent
     // ImageLib.pas:7124
     public override void Assign(Persistent source)
     {
-        if (source is LibraryImagePalette)
+        if (source is LibraryImagePalette palette)
         {
-            _palette.Assign(((LibraryImagePalette)source)._palette);
-            if (((LibraryImagePalette)source).RemapPaletteValue != null)
+            _palette.Assign(palette._palette);
+            if (palette.RemapPaletteValue != null)
             {
                 if (RemapPaletteValue == null)
                 {
                     RemapPaletteValue = new Palette();
                 }
 
-                RemapPaletteValue.Assign(((LibraryImagePalette)source).RemapPaletteValue);
+                RemapPaletteValue.Assign(palette.RemapPaletteValue);
             }
             else
             {

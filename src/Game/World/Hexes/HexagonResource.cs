@@ -51,7 +51,7 @@ public partial class HexagonResource : AbstractHexagonResource
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();
-                ((AbstractHexagon)result).UpdateTransitions();
+                result.UpdateTransitions();
             }
             else
             {

@@ -317,7 +317,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             moveResult.Done = true;
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            movement = (MovementHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228490);
+            movement = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<MovementHexSprite>(2228490);
             if (movement != null && movement.Enabled)
             {
                 if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == Unit.GetSide())
