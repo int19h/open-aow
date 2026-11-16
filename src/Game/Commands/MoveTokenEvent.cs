@@ -133,7 +133,7 @@ public partial class MoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:2004
-    public virtual bool Validate() => true;
+    public override bool Validate() => true;
 
     // MoveT.PAS:2010
     public virtual void FinishMove() => _status = MoveStatus.Finished;

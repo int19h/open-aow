@@ -21,8 +21,8 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     public int Count => _list.GetCount();
 
     // The group in slot index, read as the original reads the list, without a range check. The
-    // list admits only recruitment groups, so the cast never fails.
-    public AIRecruitmentGroup this[int index] => (AIRecruitmentGroup)_list.GetChild(index);
+    // list admits only recruitment groups.
+    public AIRecruitmentGroup this[int index] => _list.GetChild<AIRecruitmentGroup>(index);
 
     public IEnumerator<AIRecruitmentGroup> GetEnumerator()
     {

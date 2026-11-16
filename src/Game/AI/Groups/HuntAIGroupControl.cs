@@ -19,6 +19,8 @@ public partial class HuntAIGroupControl : AIGroupControl
     public HuntAIGroupControl(CustomNode owner) : base(owner)
     { }
 
+    public new HuntAIGroup Group => GetGroup<HuntAIGroup>();
+
     // AIGroup.pas:1479
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
@@ -33,7 +35,7 @@ public partial class HuntAIGroupControl : AIGroupControl
             army = field.GetArmyHexSprite();
             if (army != null)
             {
-                group = (HuntAIGroup)Group;
+                group = Group;
                 found = false;
                 i = group.TargetUnitIds.Count;
                 while (!found && i != 0)
@@ -72,7 +74,7 @@ public partial class HuntAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                group = (HuntAIGroup)Group;
+                group = Group;
                 {
                     for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
                     {

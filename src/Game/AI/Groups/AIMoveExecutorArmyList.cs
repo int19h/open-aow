@@ -12,8 +12,8 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecutorArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AIMoveExecutorArmy, so the cast never fails.
-    public AIMoveExecutorArmy this[int index] => (AIMoveExecutorArmy)GetChild(index);
+    // AcceptsChild admits only an AIMoveExecutorArmy.
+    public AIMoveExecutorArmy this[int index] => GetChild<AIMoveExecutorArmy>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorArmy;
 

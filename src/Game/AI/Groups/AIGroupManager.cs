@@ -96,6 +96,10 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
         return result;
     }
 
+    // The behavior selects the registered group class, which constructs T.
+    public T CreateGroup<T>(sbyte player, sbyte relation) where T : AIGroup, IAIGroupClass =>
+        (T)CreateGroup(player, relation: relation, behavior: T.Behavior);
+
     // AIGroup.pas:624
     public int CreateUniqueId()
     {

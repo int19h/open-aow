@@ -7,8 +7,8 @@ namespace Aow.Game.AI;
 public partial class AIPlayerActionList : OwningNode, IChildList<AIPlayerAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AIPlayerAction, so the cast never fails.
-    public AIPlayerAction this[int index] => (AIPlayerAction)GetChild(index);
+    // AcceptsChild admits only an AIPlayerAction.
+    public AIPlayerAction this[int index] => GetChild<AIPlayerAction>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIPlayerAction;
 

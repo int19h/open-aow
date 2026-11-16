@@ -101,7 +101,7 @@ public partial class NegotiateTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:158
-    public virtual bool Validate()
+    public override bool Validate()
     {
         bool result;
         ArmyId id;

@@ -446,13 +446,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     // MoveT.PAS:2259
     public bool ObserveMove(int index)
     {
-        bool visible;
-        MultiMoveTokenEvent eventValue;
-        visible = MoveVisible(index);
+        bool visible = MoveVisible(index);
         bool result = visible && StrategicMap.Current.ShowIndependentMoves && (StrategicMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || StrategicMap.Current.Players.GetPlayers((sbyte)(byte)StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human);
-        if (result && StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent() is MultiMoveTokenEvent && ((MultiMoveTokenEvent)StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent()).Simultaneous)
+        if (result && StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent() is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
-            eventValue = (MultiMoveTokenEvent)StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent();
             visible = this == eventValue.Events[0];
             result = visible;
         }

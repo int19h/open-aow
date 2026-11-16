@@ -13,8 +13,8 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
-    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new AIGroupControlTargetList Owner { get => (AIGroupControlTargetList)base.Owner; set => SetOwner(value); }
+    // nothing else owns it. AcceptsOwner admits only that list.
+    public new AIGroupControlTargetList Owner { get => GetOwner<AIGroupControlTargetList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupControlTargetList;
 

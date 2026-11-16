@@ -62,6 +62,8 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
     // NetworkE.pas:975
     public virtual ExecuteResult Execute(TokenExecutor tokenEvent) => ExecuteResult.Done;
 
+    public virtual bool Validate() => true;
+
     public int TokenCounter { get => _tokenCounter; set => _tokenCounter = value; }
 
     private const short ClassIdTokenEvent = 1361;

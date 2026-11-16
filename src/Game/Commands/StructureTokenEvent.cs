@@ -56,7 +56,7 @@ public partial class StructureTokenEvent : TokenEvent
     }
 
     // Structur.PAS:3065
-    public virtual bool Validate()
+    public override bool Validate()
     {
         bool result;
         Structure structure;

@@ -838,10 +838,24 @@ public partial class ArmyHexSprite : UnitHexSprite
         return result;
     }
 
+    internal static ArmyCombatMoveTokenEvent CreateArmyCombatMoveTokenEvent(ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode) =>
+        SetupArmyMoveTokenEvent(new ArmyCombatMoveTokenEvent(null) { Holder = army }, army: army, selection: selection, path: path, mode: mode);
+
+    private static T SetupArmyMoveTokenEvent<T>(T move, ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
+        where T : MoveArmyTokenEvent
+    {
+        if (move.Setup(army, selection: selection, path: path, mode: mode))
+        {
+            return move;
+        }
+
+        move.Release();
+        return null;
+    }
+
     internal static MoveArmyTokenEvent CreateArmyMoveTokenEvent(ArmyHexSprite army, byte selection, MovePath path, MoveAction action, Set<ArmyMoveModeElement> mode)
     {
         MoveArmyTokenEvent move;
-        MoveArmyTokenEvent result = null;
         switch (action)
         {
             case MoveAction.Normal:
@@ -851,30 +865,15 @@ public partial class ArmyHexSprite : UnitHexSprite
                 move = new ArmyCombineMoveTokenEvent(null) { Holder = army };
                 break;
             case MoveAction.Attack:
-                move = new ArmyCombatMoveTokenEvent(null) { Holder = army };
-                break;
+                return CreateArmyCombatMoveTokenEvent(army, selection: selection, path: path, mode: mode);
             case MoveAction.Negotiate:
                 move = new ArmyNegotiateMoveTokenEvent(null) { Holder = army };
                 break;
             default:
-                move = null;
-                break;
+                return null;
         }
 
-        if (move != null)
-        {
-            if (!move.Setup(army, selection, path, mode))
-            {
-                result = null;
-                move.Release();
-            }
-            else
-            {
-                result = move;
-            }
-        }
-
-        return result;
+        return SetupArmyMoveTokenEvent(move, army: army, selection: selection, path: path, mode: mode);
     }
 
     internal static bool MoveArmy(ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode, bool force)

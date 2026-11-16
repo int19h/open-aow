@@ -20,7 +20,7 @@ public sealed class AIGroupClass
     public string StorageKey => Class.StorageKey;
     public GroupBehavior Behavior { get; }
 
-    public AIGroup CreateInstance(CustomNode owner, EngineObject holder) => (AIGroup)Class.CreateInstance(owner, holder);
+    public AIGroup CreateInstance(CustomNode owner, EngineObject holder) => Class.Create<AIGroup>(owner, holder: holder);
 
     public static AIGroupClass Register<T>() where T : AIGroup, IAIGroupClass =>
         s_catalog.Add(typeof(T), new AIGroupClass(EngineClass.Of<T>(), T.Behavior));
