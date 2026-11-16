@@ -249,7 +249,7 @@ internal static class TacticalTables
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
                         unitHexSprite = !includeUnits
                             ? null
-                            : (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
+                            : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
 
                         wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
                         if (wall == null && side == CombatSideIndex.Attacker)

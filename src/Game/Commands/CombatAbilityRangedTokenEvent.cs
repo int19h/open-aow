@@ -76,7 +76,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 case 0:
                     try
                     {
-                        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild(2228484);
+                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                         if (hexSprite == null)
                         {
                             result = ExecuteResult.Done;
@@ -248,21 +248,23 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     {
                                         Point3D path = effect.Path[effect.Frame];
                                         HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, out x, out y);
-                                        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild(2228484);
+                                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                         if (hexSprite != null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
                                             effect.CombatAction = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
+                                            // The spell factory returns the base action type by design. Spell 107 always builds a damage action.
+                                            DamageCombatAction damage = (DamageCombatAction)effect.CombatAction;
                                             sbyte hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out i, out x);
-                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
+                                            if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, ((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects, false);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damage.DamageTypes - damage.Effects, false);
                                             }
 
-                                            if (((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
+                                            if (damage.Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, ((DamageCombatAction)effect.CombatAction).Effects, true);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damage.Effects, true);
                                             }
 
                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
@@ -556,19 +558,19 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                     ? ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target)
                                                                                     : ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
 
-                                                                        if (effect.CombatAction is DamageCombatAction)
+                                                                        if (effect.CombatAction is DamageCombatAction damage)
                                                                         {
-                                                                            i = ((DamageCombatAction)effect.CombatAction).Damage;
+                                                                            i = damage.Damage;
                                                                             sbyte hexY = effect.Target.UnitHexSprite.HexY;
                                                                             HexGeometry.HexToPixel(effect.Target.UnitHexSprite.HexX, hexY, out x, out y);
-                                                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
+                                                                            if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, ((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects, false);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damage.DamageTypes - damage.Effects, false);
                                                                             }
 
-                                                                            if (((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
+                                                                            if (damage.Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, ((DamageCombatAction)effect.CombatAction).Effects, true);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damage.Effects, true);
                                                                             }
                                                                         }
                                                                         else
@@ -1033,7 +1035,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 point.X = x2 + 16;
                 point.Y = y2 + 16;
                 effect.Path.Add(point);
-                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1046,7 +1048,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 point.X = x2 + 16;
                 point.Y = y2 + 16;
                 effect.Path.Add(point);
-                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1204,7 +1206,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         break;
                     default:
                         {
-                            hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild(2228484);
+                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                             if (hexSprite != null)
                             {
                                 effect.Target = hexSprite.Unit;
@@ -1229,7 +1231,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 i = 3;
                 used = new DelphiList<TacticalBattleUnit>();
                 used.Add(_unit);
-                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
                 {
                     used.Add(hexSprite.Unit);
@@ -1339,7 +1341,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 point3DList?.Dispose();
                 break;
             case BattleEffectType.ScreenSwarm:
-                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 target = hexSprite?.Unit;
 
                 deltaX = TargetX;
@@ -1438,7 +1440,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             case BattleEffectType.Ray:
             case BattleEffectType.Swarm:
             case BattleEffectType.AltArrow:
-                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1472,17 +1474,17 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                 effect.Path.Delete(count - 1);
                             }
 
-                            if (!(hitObject is TacticalBattleUnitHexSprite))
+                            if (hitObject is TacticalBattleUnitHexSprite unitHexSprite)
+                            {
+                                effect.Target = unitHexSprite.Unit;
+                            }
+                            else
                             {
                                 effect.Target = null;
                                 if (effect.EffectType == BattleEffectType.Breath)
                                 {
                                     effect.TargetX = 0;
                                 }
-                            }
-                            else
-                            {
-                                effect.Target = ((TacticalBattleUnitHexSprite)hitObject).Unit;
                             }
 
                             i = obstacles.Count;

@@ -67,7 +67,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
 
     // The troop in slot index, read as the original reads the list, without a range check. The
     // holder admits only troops, so the cast never fails.
-    public Troop this[int index] => (Troop)_holder.GetChild(index);
+    public Troop this[int index] => _holder.GetChild<Troop>(index);
 
     public IEnumerator<Troop> GetEnumerator()
     {

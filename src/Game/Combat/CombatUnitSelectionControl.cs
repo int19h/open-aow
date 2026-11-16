@@ -104,7 +104,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                         {
                             int hexY = CombatMap.Current.Mouse.HexY;
                             int hexX = CombatMap.Current.Mouse.HexX;
-                            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild(2228484);
+                            unitHexSprite = CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                             if (unitHexSprite != null && unitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                             {
                                 index = MoveSettingsList.IndexOfMoveObject(unitHexSprite);
@@ -154,7 +154,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                             {
                                 int hexY = CombatMap.Current.Mouse.HexY;
                                 int hexX = CombatMap.Current.Mouse.HexX;
-                                unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild(2228484);
+                                unitHexSprite = CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                 if (unitHexSprite != null && unitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                                 {
                                     index = MoveSettingsList.IndexOfMoveObject(unitHexSprite);
@@ -209,7 +209,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                 {
                                     int hexY = CombatMap.Current.Mouse.HexY;
                                     int hexX = CombatMap.Current.Mouse.HexX;
-                                    unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild(2228484);
+                                    unitHexSprite = CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                     if (GetTacticalBattleUnitHexSprite().SelectedAbility == -1)
                                     {
                                         targets = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
@@ -275,7 +275,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
         {
             int hexY = CombatMap.Current.Mouse.HexY;
             int hexX = CombatMap.Current.Mouse.HexX;
-            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild(2228484);
+            unitHexSprite = CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             CombatMap.Current.Selection.UnselectLocation();
             if (unitHexSprite != null && CombatMap.Current.Mouse.Button == MouseButton.Left)
             {
@@ -429,7 +429,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             goto FinishCursor;
         }
 
-        targetHexSprite = (TacticalBattleUnitHexSprite)field.FindOwnedChild(2228484);
+        targetHexSprite = field.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
         if (unitHexSprite.Unit.CombatPlayer != CombatMap.Current.SeatedCombatPlayer && targetHexSprite != null)
         {
             CombatMap.Current.Mouse.CursorMode = 257;
@@ -697,7 +697,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 if (x >= 0 && x < level.Width && y > 0 && y < level.Height && pixelX >= r.Left && pixelX < r.Right && pixelY >= r.Top && pixelY < r.Bottom)
                 {
                     field = level.Field[x, y];
-                    unitHexSprite = (TacticalBattleUnitHexSprite)field.FindOwnedChild(2228484);
+                    unitHexSprite = field.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                     if (unitHexSprite != null && unitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                     {
                         units.Add(unitHexSprite);

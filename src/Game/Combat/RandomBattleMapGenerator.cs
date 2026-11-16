@@ -999,7 +999,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         {
             HexGeometry.CenterHexNumberToHex(x, y, hexNumber, ref hexX, ref hexY);
             slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
-            targetHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
+            targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             hexNumber += 1;
         }
         while (!(slot != 8 && targetHexSprite == null));

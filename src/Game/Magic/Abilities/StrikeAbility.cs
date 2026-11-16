@@ -222,9 +222,8 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1378
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        if (owner is Troop)
+        if (owner is Troop troop)
         {
-            Troop troop = (Troop)owner;
             sbyte attack = troop.GetAttack();
             info.Attack = attack;
             sbyte damage = troop.GetDamage();
@@ -256,10 +255,9 @@ public partial class StrikeAbility : AdjustableAbility
     public Set<DamageType> GetDamageTypes(AbilityOwner owner)
     {
         Set<DamageType> result;
-        if (owner is Troop && ((Troop)owner).GetAbilityEnabled(21))
+        if (owner is Troop troop && troop.GetAbilityEnabled(21))
         {
             result = Set<DamageType>.Of(DamageType.Physical);
-            Troop troop = (Troop)owner;
             if (troop.GetAbilityEnabled(14) || troop.GetAbilityEnabled(163))
             {
                 result = result + Set<DamageType>.Of(DamageType.Fire);
@@ -280,19 +278,17 @@ public partial class StrikeAbility : AdjustableAbility
                 result = result + Set<DamageType>.Of(DamageType.Poison);
             }
 
-            Troop troop2 = (Troop)owner;
-            if (troop2.GetAbilityEnabled(18) || troop2.GetAbilityEnabled(169))
+            if (troop.GetAbilityEnabled(18) || troop.GetAbilityEnabled(169))
             {
                 result = result + Set<DamageType>.Of(DamageType.Death);
             }
 
-            if (troop2.GetAbilityEnabled(19))
+            if (troop.GetAbilityEnabled(19))
             {
                 result = result + Set<DamageType>.Of(DamageType.Holy);
             }
 
-            Troop troop3 = (Troop)owner;
-            if (troop3.GetAbilityEnabled(20) || troop3.GetAbilityEnabled(154))
+            if (troop.GetAbilityEnabled(20) || troop.GetAbilityEnabled(154))
             {
                 result = result + Set<DamageType>.Of(DamageType.Magic);
             }

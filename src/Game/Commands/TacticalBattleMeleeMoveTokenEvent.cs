@@ -58,7 +58,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
-                        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild(2228484);
+                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                         PreviousUnit = hexSprite?.Unit;
 
                         if (PreviousUnit == null)
