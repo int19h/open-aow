@@ -57,12 +57,9 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(stored);
         Table table = Current();
-        if (!table.TypeByStored.TryGetValue(stored, out List<NameRow>? rows) || rows.Count == 0)
-        {
-            return null;
-        }
-
-        return table.TypeByCurrent.TryGetValue(rows[0].Current, out NameRow first) ? first.Delphi : rows[0].Delphi;
+        return !table.TypeByStored.TryGetValue(stored, out List<NameRow>? rows) || rows.Count == 0
+            ? null
+            : table.TypeByCurrent.TryGetValue(rows[0].Current, out NameRow first) ? first.Delphi : rows[0].Delphi;
     }
 
     public static string? ResolveStored(string name)
@@ -148,7 +145,7 @@ public static class NameTable
             rows = byDelphi;
         }
 
-        List<Type> matches = new();
+        List<Type> matches = [];
         foreach (Type type in Scan())
         {
             Type defined = Definition(type);
@@ -205,7 +202,7 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(type);
         type = Definition(type);
-        List<string> parts = new();
+        List<string> parts = [];
         for (Type? current = type; current is not null; current = current.DeclaringType)
         {
             parts.Add(current.Name);
@@ -262,7 +259,7 @@ public static class NameTable
                 return s_scanned;
             }
 
-            List<Type> list = new();
+            List<Type> list = [];
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (assembly.IsDynamic)
@@ -302,7 +299,7 @@ public static class NameTable
 
     private static string DeclaringChain(Type type)
     {
-        List<string> parts = new();
+        List<string> parts = [];
         for (Type? current = type; current is not null; current = current.DeclaringType)
         {
             parts.Add(SimpleName(current));
@@ -342,7 +339,7 @@ public static class NameTable
 
         internal static Table Parse(string text)
         {
-            List<NameRow> rows = new();
+            List<NameRow> rows = [];
             bool header = false;
             foreach (string[] parts in Records(text))
             {
@@ -378,19 +375,14 @@ public static class NameTable
 
                 rows.Add(new NameRow(parts[0], parts[1], parts[2], storedName));
             }
-            if (!header)
-            {
-                throw new InvalidOperationException("The name table header is missing.");
-            }
-
-            return Index(rows);
+            return !header ? throw new InvalidOperationException("The name table header is missing.") : Index(rows);
         }
 
         // A line that starts with # is a comment. A field is quoted only when it holds a comma, a quote or a line break.
         private static List<string[]> Records(string text)
         {
-            List<string[]> records = new();
-            List<string> fields = new();
+            List<string[]> records = [];
+            List<string> fields = [];
             StringBuilder field = new();
             bool quoted = false;
             bool begin = true;
@@ -476,11 +468,11 @@ public static class NameTable
 
         private static Table Index(List<NameRow> rows)
         {
-            Dictionary<string, NameRow> typeByCurrent = new();
-            Dictionary<string, List<NameRow>> typeByDelphi = new();
-            Dictionary<(string, string), string> memberCurrent = new();
-            Dictionary<(string, string), string> memberDelphi = new();
-            HashSet<string> seen = new();
+            Dictionary<string, NameRow> typeByCurrent = [];
+            Dictionary<string, List<NameRow>> typeByDelphi = [];
+            Dictionary<(string, string), string> memberCurrent = [];
+            Dictionary<(string, string), string> memberDelphi = [];
+            HashSet<string> seen = [];
             foreach (NameRow row in rows)
             {
                 if (!seen.Add(row.Current))
@@ -525,7 +517,7 @@ public static class NameTable
                 }
             }
             Dictionary<string, string> storedByCurrent = AssignStored(rows);
-            Dictionary<string, List<NameRow>> typeByStored = new();
+            Dictionary<string, List<NameRow>> typeByStored = [];
             foreach (NameRow row in rows)
             {
                 if (row.Kind != "type")
@@ -555,8 +547,8 @@ public static class NameTable
         // TPropertyTable is Engine.PropertyTable beside the formats type PropertyTable.
         private static Dictionary<string, string> AssignStored(List<NameRow> rows)
         {
-            HashSet<string> names = new();
-            Dictionary<string, string> delphiOf = new();
+            HashSet<string> names = [];
+            Dictionary<string, string> delphiOf = [];
             foreach (NameRow row in rows)
             {
                 if (row.Kind != "type")
@@ -571,25 +563,25 @@ public static class NameTable
 
                 names.Add(row.Current);
             }
-            Dictionary<string, string?> ownerOf = new();
+            Dictionary<string, string?> ownerOf = [];
             foreach (string name in names)
             {
                 ownerOf[name] = Owner(name, names);
             }
 
-            List<string> ordered = new(names);
+            List<string> ordered = [with(names)];
             ordered.Sort((left, right) =>
             {
                 int length = left.Length.CompareTo(right.Length);
                 return length != 0 ? length : Cp1252.Compare(left, right);
             });
-            Dictionary<string, string> stored = new();
+            Dictionary<string, string> stored = [];
             foreach (string name in ordered)
             {
                 string? owner = ownerOf[name];
                 stored[name] = owner is null ? Simple(name) : stored[owner] + name[owner.Length..];
             }
-            HashSet<string> pinned = new();
+            HashSet<string> pinned = [];
             // A written stored name wins over the computed one and stays put while children take it as their prefix.
             foreach (NameRow row in rows)
             {
@@ -606,7 +598,7 @@ public static class NameTable
                 stored[row.Current] = row.Stored;
                 pinned.Add(row.Current);
             }
-            Dictionary<string, List<string>> groups = new();
+            Dictionary<string, List<string>> groups = [];
             foreach (KeyValuePair<string, string> pair in stored)
             {
                 if (!groups.TryGetValue(pair.Value, out List<string>? list))
@@ -623,7 +615,7 @@ public static class NameTable
                     continue;
                 }
 
-                HashSet<string> delphis = new();
+                HashSet<string> delphis = [];
                 foreach (string member in group.Value)
                 {
                     delphis.Add(delphiOf[member]);
@@ -672,7 +664,7 @@ public static class NameTable
                     changed = true;
                 }
             }
-            Dictionary<string, string> seen = new();
+            Dictionary<string, string> seen = [];
             foreach (KeyValuePair<string, string> pair in stored)
             {
                 if (!seen.TryGetValue(pair.Value, out string? first))
@@ -705,7 +697,7 @@ public static class NameTable
         {
             string ns = NamespaceOf(qualified, names);
             string[] parts = ns.Length == 0 ? [] : ns.Split('.');
-            HashSet<string> used = new(stored.Values);
+            HashSet<string> used = [with(stored.Values)];
             string candidate = baseStored;
             for (int i = parts.Length - 1; i >= 0; i--)
             {

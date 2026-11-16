@@ -18,7 +18,7 @@ internal static class PacingVerification
         RtlUnit.Clock = clock;
         TimedDisplay display = new();
         SdlDisplayController controller = new(host);
-        List<double> times = new(306);
+        List<double> times = [with(306)];
         const int warmupFrames = 150;
         long previous = 0;
         ThreadPriority priority = Thread.CurrentThread.Priority;

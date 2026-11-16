@@ -87,7 +87,7 @@ public sealed class MldDictionary
             throw new InvalidDataException("MLD locale records are unsupported");
         }
 
-        List<(int Start, int End)> coverage = new() { (0, 42) };
+        List<(int Start, int End)> coverage = [(0, 42)];
         MldLanguage[] languages = new MldLanguage[languageCount];
         reader.Seek(languageOffset);
         for (int i = 0; i < languageCount; i++)
@@ -273,12 +273,9 @@ public sealed class MldDictionary
 
     public string TranslateContext(string source, string form, string component)
     {
-        if (source.Length == 0 || ContextCode == 0)
-        {
-            return Translate(source);
-        }
-
-        return Translation(source, Search(key: source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
+        return source.Length == 0 || ContextCode == 0
+            ? Translate(source)
+            : Translation(source, Search(key: source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
             + (ContextCode is 1 or 2 ? component : ""), entries: _contextual, selector: Key) ?? Find(source));
     }
 
@@ -317,12 +314,7 @@ public sealed class MldDictionary
         public int Offset()
         {
             uint offset = LittleEndian ? BinaryPrimitives.ReadUInt32LittleEndian(Take(4)) : BinaryPrimitives.ReadUInt32BigEndian(Take(4));
-            if (offset > int.MaxValue)
-            {
-                throw new InvalidDataException("MLD offset outside file");
-            }
-
-            return (int)offset;
+            return offset > int.MaxValue ? throw new InvalidDataException("MLD offset outside file") : (int)offset;
         }
 
         public string Text() => Chars(UInt16());

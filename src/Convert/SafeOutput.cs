@@ -40,22 +40,11 @@ public static class SafeOutput
 
     public static string? CheckFile(string input, string output, bool overwrite)
     {
-        if (SamePath(input, output))
-        {
-            return $"The output {output} is the input file.";
-        }
-
-        if (Directory.Exists(output))
-        {
-            return $"The output {output} is a directory.";
-        }
-
-        if (File.Exists(output) && !overwrite)
-        {
-            return $"The output {output} exists. Use --overwrite to replace it.";
-        }
-
-        return null;
+        return SamePath(input, output)
+            ? $"The output {output} is the input file."
+            : Directory.Exists(output)
+            ? $"The output {output} is a directory."
+            : File.Exists(output) && !overwrite ? $"The output {output} exists. Use --overwrite to replace it." : null;
     }
 
     /// <summary>Writes a sibling temporary, then moves it over the destination in one step.</summary>

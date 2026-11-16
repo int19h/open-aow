@@ -134,8 +134,7 @@ public sealed class SystemTests
         Assert.Equal("b", StrPas(pointer + 1));
         Assert.Equal("", StrPas(default));
         Assert.Equal("ab\0cd", SetString(pointer, 5));
-        string value = "";
-        SetString(out value, pointer + 1, 3);
+        SetString(out string value, pointer + 1, 3);
         Assert.Equal("b\0c", value);
         pointer[1] = 99;
         Assert.Equal("b\0c", value);
@@ -173,14 +172,14 @@ public sealed class SystemTests
         GetMem(out Ptr<int> zero, 0);
         Assert.True(zero.IsNull);
         FillChar(pointer, 3, 7);
-        Assert.Equal(new[] { 7, 7, 7 }, pointer.Array);
+        Assert.Equal((int[])[7, 7, 7], pointer.Array);
         pointer.Value = 1;
         Move(pointer, pointer + 1, 2);
-        Assert.Equal(new[] { 1, 1, 7 }, pointer.Array);
+        Assert.Equal((int[])[1, 1, 7], pointer.Array);
         ReallocMem(ref pointer, 5);
-        Assert.Equal(new[] { 1, 1, 7, 0, 0 }, pointer.Array);
+        Assert.Equal((int[])[1, 1, 7, 0, 0], pointer.Array);
         ReallocMem(ref pointer, 1);
-        Assert.Equal(new[] { 1 }, pointer.Array);
+        Assert.Equal((int[])[1], pointer.Array);
         Ptr<int> alias = pointer;
         FreeMem(out pointer);
         Assert.True(pointer.IsNull);

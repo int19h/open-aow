@@ -13,11 +13,6 @@ public static partial class RtlUnit
 
         int read = stream.Read(buffer);
         value = Cp1252.Decode(bytes);
-        if (exact && read != count)
-        {
-            throw new EndOfStreamException("Stream read error");
-        }
-
-        return read;
+        return exact && read != count ? throw new EndOfStreamException("Stream read error") : read;
     }
 }

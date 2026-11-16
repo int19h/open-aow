@@ -281,12 +281,9 @@ public static class GameBoundary
 
             return new GameFileTree(Root: DocumentBackend.Read(root, classValue: classValue, schema: schema, engine: profile.Engine), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
         }
-        if (result.HasImage && result.Bytes is not null)
-        {
-            return ReadImageTree(result.Bytes, use: use);
-        }
-
-        throw new InvalidOperationException("A load without an image has no tree.");
+        return result.HasImage && result.Bytes is not null
+            ? ReadImageTree(result.Bytes, use: use)
+            : throw new InvalidOperationException("A load without an image has no tree.");
     }
 
     /// <summary>
@@ -413,12 +410,9 @@ public static class GameBoundary
         DecodeContext context = new(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
-        if (context.Int32(start) == 0)
-        {
-            throw new InvalidOperationException("A nil packet has no object.");
-        }
-
-        return ImageTree.Read(context, start: start + 4, end: image.Length, classValue: classValue);
+        return context.Int32(start) == 0
+            ? throw new InvalidOperationException("A nil packet has no object.")
+            : ImageTree.Read(context, start: start + 4, end: image.Length, classValue: classValue);
     }
 
     /// <summary>

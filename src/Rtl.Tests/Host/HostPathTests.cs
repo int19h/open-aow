@@ -29,7 +29,7 @@ public sealed class HostPathTests
                 File.WriteAllBytes(Path.Combine(directory.Root, s_names[i]), [(byte)i]);
             }
 
-            List<string> found = new();
+            List<string> found = [];
             foreach (RtlFileEntry entry in Files.FindEntries("*.sav", attributes: faAnyFile))
             {
                 found.Add(entry.Name);

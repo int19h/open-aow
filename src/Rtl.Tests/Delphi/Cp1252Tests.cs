@@ -42,7 +42,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void EveryByteHasTheSpecifiedCharAndInverseAndCachedText()
     {
-        HashSet<char> chars = new();
+        HashSet<char> chars = [];
         for (int b = 0; b < 256; b++)
         {
             char c = Cp1252.Char((byte)b);
@@ -289,6 +289,6 @@ public sealed class Cp1252Tests
             }
         }
         string[] values = ["\u0080", "?", "\u20ac", "\u00ff", "\u2603", "\u0081", "\ud800", "\0"];
-        Assert.Equal(actual: values.Order(Cp1252.Comparer).ToArray(), expected: new[] { "\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800" });
+        Assert.Equal(actual: values.Order(Cp1252.Comparer).ToArray(), expected: ["\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800"]);
     }
 }

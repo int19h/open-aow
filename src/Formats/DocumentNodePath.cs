@@ -27,7 +27,7 @@ public sealed class DocumentNodePath
 
     public override string ToString()
     {
-        List<DocumentNodePath> parts = new();
+        List<DocumentNodePath> parts = [];
         for (DocumentNodePath? p = this; p is not null; p = p._parent)
         {
             parts.Add(p);

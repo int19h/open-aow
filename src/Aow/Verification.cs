@@ -194,8 +194,8 @@ internal static class Verification
             Equal(480, registry.GetDisplayHeight(), "missing height default");
             Equal(50, registry.GetMusicVolume(), "missing volume default");
             Equal(false, registry.GetSkipIntro(), "missing bool default");
-            (string Section, string Kind, string[] Names)[] schemas = new (string Section, string Kind, string[] Names)[]
-            {
+            (string Section, string Kind, string[] Names)[] schemas =
+            [
                 ("General","boolean",["Debug Mode","Skip Intro","Auto Save","Auto Debug Save","Fast Movement Enabled","Log Token Events"]),
                 ("General","integer",["Language"]),
                 ("General","string",["Root Directory","Startup Directory","Serial number","D"]),
@@ -209,7 +209,7 @@ internal static class Verification
                 ("Email","string",["SMTP Server","POP3 Server","POP3 UserName","POP3 Password","Local Email Address","Attachment Directory"]),
                 ("Email","integer",["Check Email Frequency"]),
                 ("General/rectangles","rectangle",["1"]),("General/booleans","boolean",["1"]),("General/strings","string",["1"]),("General/integers","integer",["1"])
-            };
+            ];
             int count = 0;
             foreach ((string? section, string? kind, string[]? names) in schemas)
             {
@@ -237,7 +237,7 @@ internal static class Verification
                         case "boolean": registry.WriteBool(name, true); break;
                         case "string": registry.WriteString(name, "é test €"); break;
                         case "rectangle": registry.WriteString(name, "-10,20,640,480"); break;
-                        case "bytes": registry.WriteBinaryData(name, new byte[] { 0xA5 }, 1); break;
+                        case "bytes": registry.WriteBinaryData(name, [0xA5], 1); break;
                     }
                     registry.CloseKey();
                     count++;
@@ -428,7 +428,7 @@ internal static class Verification
         int literals = 0;
         if (sourceRoot is not null)
         {
-            HashSet<string> candidates = new(StringComparer.OrdinalIgnoreCase);
+            HashSet<string> candidates = [with(StringComparer.OrdinalIgnoreCase)];
             IEnumerable<string> sourceFiles = new[] { "AoW", "AoWEPACK", "AoWTCPCK", "AOWTools", "HSEPack", "aowInt" }
                 .SelectMany(package => Directory.EnumerateFiles(Path.Combine(sourceRoot, package), "*", SearchOption.AllDirectories))
                 .Where(path => Path.GetExtension(path).ToLowerInvariant() is ".pas" or ".inc")

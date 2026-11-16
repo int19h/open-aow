@@ -75,7 +75,7 @@ internal static class CaseCodec
 
     private static void Choose(SchemaMapping mapping, JsonObject target)
     {
-        Dictionary<string, JsonValue> stored = new(StringComparer.Ordinal);
+        Dictionary<string, JsonValue> stored = [with(StringComparer.Ordinal)];
         int first = -1;
         for (int i = 0; i < target.Members.Count;)
         {
@@ -106,8 +106,8 @@ internal static class CaseCodec
             long key = Number(discriminator);
             chosen = mapping.Cases.FirstOrDefault(c => c.Key == key) ?? mapping.Unknown;
         }
-        List<JsonMember> fields = new();
-        HashSet<string> used = new(StringComparer.Ordinal);
+        List<JsonMember> fields = [];
+        HashSet<string> used = [with(StringComparer.Ordinal)];
         if (chosen.Key is not null)
         {
             used.Add(mapping.Discriminator);
@@ -169,7 +169,7 @@ internal static class CaseCodec
 
         JsonObject flat = new() { Span = objectValue.Span };
         Dictionary<string, string> fieldMembers = chosen.Fields.ToDictionary(f => f.Field, f => f.Member, StringComparer.Ordinal);
-        Dictionary<string, long> numbers = new(StringComparer.Ordinal);
+        Dictionary<string, long> numbers = [with(StringComparer.Ordinal)];
         foreach (JsonMember m in objectValue.Members)
         {
             if (m.Name == "$case")

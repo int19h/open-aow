@@ -60,10 +60,10 @@ public class IvCustomTranslator : Component
 {
     public IvCustomTranslator(Component? owner = null) : base(owner) { }
 
-    private ConditionalWeakTable<Component, Dictionary<string, string[]>> _nativeValues = new();
+    private ConditionalWeakTable<Component, Dictionary<string, string[]>> _nativeValues = [];
 
     public string DictionaryName { get; set; } = "AoW";
-    public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
+    public IList<TranslationTarget> TargetsData { get; } = [];
     public MldDictionary? Dictionary { get; init; }
     public int? Language { get; set; }
 
@@ -75,7 +75,7 @@ public class IvCustomTranslator : Component
         }
     }
 
-    public void ClearNativeValues() => _nativeValues = new();
+    public void ClearNativeValues() => _nativeValues = [];
 
     public void Translate(Component module)
     {
@@ -169,7 +169,7 @@ public class IvCustomTranslator : Component
 
     private static string[] Split(string value)
     {
-        List<string> result = new();
+        List<string> result = [];
         do
         {
             int marker = RtlUnit.Pos("<eol>", value), lineFeed = RtlUnit.Pos("\n", value);

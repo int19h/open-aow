@@ -18,7 +18,7 @@ public sealed class CensusFacts
     public static CensusFacts Read(byte[] bytes)
     {
         using JsonDocument census = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
-        List<CensusRow> rows = new();
+        List<CensusRow> rows = [];
         foreach (JsonElement row in census.RootElement.GetProperty("corpus").EnumerateArray())
         {
             if (row.GetProperty("scope").GetString() != "convert")
@@ -87,19 +87,19 @@ public sealed class Expectation
         }
 
         JsonElement layout = root.GetProperty("layout");
-        SortedDictionary<string, int> categories = new(StringComparer.Ordinal);
+        SortedDictionary<string, int> categories = [with(StringComparer.Ordinal)];
         foreach (JsonProperty c in layout.GetProperty("categories").EnumerateObject())
         {
             categories[c.Name] = c.Value.GetInt32();
         }
 
-        SortedDictionary<string, (int, int)> profiles = new(StringComparer.Ordinal);
+        SortedDictionary<string, (int, int)> profiles = [with(StringComparer.Ordinal)];
         foreach (JsonProperty p in layout.GetProperty("profiles").EnumerateObject())
         {
             profiles[p.Name] = (p.Value.GetProperty("parts").GetInt32(), p.Value.GetProperty("files").GetInt32());
         }
 
-        SortedDictionary<string, (int, List<string>)> rules = new(StringComparer.Ordinal);
+        SortedDictionary<string, (int, List<string>)> rules = [with(StringComparer.Ordinal)];
         foreach (JsonProperty r in root.GetProperty("legacyRules").EnumerateObject())
         {
             rules[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
@@ -123,7 +123,7 @@ public sealed class Expectation
         SortedDictionary<string, (int Parts, int Files)> profiles,
         SortedDictionary<string, (int Occurrences, List<string> Files)> rules, int caseResidues)
     {
-        List<string> problems = new();
+        List<string> problems = [];
         void Check(string what, object pinned, object measured)
         {
             if (!Equals(pinned, measured))

@@ -153,12 +153,9 @@ public abstract partial class PropertyCodec
     private static int CheckedWidth(JsonObject source, string path, string kind)
     {
         int width = Width(source);
-        if (width is 1 or 2 or 4)
-        {
-            return width;
-        }
-
-        throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
+        return width is 1 or 2 or 4
+            ? width
+            : throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
     }
 
     private static bool Signed(JsonObject source) => source["signed"] is JsonBoolean { Value: true };
@@ -182,22 +179,13 @@ public abstract partial class PropertyCodec
     // A list names an enum or a record for its values from version 4. A record value fills the 4 bytes of an integer list.
     private static ListElement? Element(JsonObject source, int width, string path)
     {
-        if (source["enum"] is JsonString enumName)
-        {
-            return new EnumListElement(enumName.Value, width);
-        }
-
-        if (source["record"] is not JsonString recordName)
-        {
-            return null;
-        }
-
-        if (width != 4)
-        {
-            throw new InvalidOperationException(path + " names a record for a list of " + width + "-byte values.");
-        }
-
-        return new RecordListElement(recordName.Value);
+        return source["enum"] is JsonString enumName
+            ? new EnumListElement(enumName.Value, width)
+            : source["record"] is not JsonString recordName
+            ? null
+            : width != 4
+            ? throw new InvalidOperationException(path + " names a record for a list of " + width + "-byte values.")
+            : (ListElement)new RecordListElement(recordName.Value);
     }
 
     /// <summary>Decodes one stored value that occupies data[start..end) exactly.</summary>
@@ -322,23 +310,17 @@ internal static class TextCodec
 
     public static byte[] Encode(EncodeContext context, string text, JsonValue at, DocumentNodePath path)
     {
-        if (Problem(text, context.Limits.StringBytes) is { } problem)
-        {
-            throw context.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint);
-        }
-
-        return Cp1252.Encode(text);
+        return Problem(text, context.Limits.StringBytes) is { } problem
+            ? throw context.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint)
+            : Cp1252.Encode(text);
     }
 
     /// <summary>The code page bytes of <paramref name="text"/>, or the same refusal the document path raises.</summary>
     internal static byte[] Bytes(EncodeContext context, string text, DocumentNodePath path)
     {
-        if (Problem(text, context.Limits.StringBytes) is { } problem)
-        {
-            throw context.Fail(problem.Code, problem.Message, null, path, problem.Value, problem.Constraint);
-        }
-
-        return Cp1252.Encode(text);
+        return Problem(text, context.Limits.StringBytes) is { } problem
+            ? throw context.Fail(problem.Code, problem.Message, null, path, problem.Value, problem.Constraint)
+            : Cp1252.Encode(text);
     }
 
     /// <summary>The code page and length check shared by the converter and the document backend.</summary>
@@ -355,12 +337,7 @@ internal static class TextCodec
             }
         }
 
-        if (text.Length > limit)
-        {
-            return new TextProblem(Codes.Limit, "A string is too long.", null, $"at most {limit} bytes");
-        }
-
-        return null;
+        return text.Length > limit ? new TextProblem(Codes.Limit, "A string is too long.", null, $"at most {limit} bytes") : null;
     }
 }
 
@@ -429,17 +406,11 @@ internal partial class StringsCodec : PropertyCodec
     {
         context.Need(start, 4, end, site.Path, "text length");
         int length = context.Int32(start);
-        if (length < 0 || start + 4L + length > end)
-        {
-            throw Mismatch(context, start, site, $"A text block of {length} bytes does not fit its value.");
-        }
-
-        if (length > context.Limits.StringBytes)
-        {
-            throw context.Fail(Codes.Limit, "A text block is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes");
-        }
-
-        return (TextCodec.Decode(context.Data.AsSpan(start + 4, length)), start + 4 + length);
+        return length < 0 || start + 4L + length > end
+            ? throw Mismatch(context, start, site, $"A text block of {length} bytes does not fit its value.")
+            : length > context.Limits.StringBytes
+            ? throw context.Fail(Codes.Limit, "A text block is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes")
+            : ((string Text, int End))(TextCodec.Decode(context.Data.AsSpan(start + 4, length)), start + 4 + length);
     }
 
     internal static List<string>? Lines(string text)
@@ -541,12 +512,7 @@ internal partial class StringsCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         (string? text, int after) = Block(context, start, end, site);
-        if (after != end)
-        {
-            throw Mismatch(context, start, site, "Bytes follow the text block.");
-        }
-
-        return TextValue(text);
+        return after != end ? throw Mismatch(context, start, site, "Bytes follow the text block.") : TextValue(text);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -642,7 +608,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
             throw context.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects, path.Member("objects"));
         }
 
-        List<int> ids = new(objects.Items.Count);
+        List<int> ids = [with(objects.Items.Count)];
         for (int i = 0; i < objects.Items.Count; i++)
         {
             if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
@@ -664,12 +630,9 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        if (size is int n && end - start != n)
-        {
-            throw Mismatch(context, start, site, $"A record of {n} bytes is stored in {end - start} bytes.");
-        }
-
-        return new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, end - start)));
+        return size is int n && end - start != n
+            ? throw Mismatch(context, start, site, $"A record of {n} bytes is stored in {end - start} bytes.")
+            : (JsonValue)new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, end - start)));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -685,17 +648,11 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
 
     internal static byte[] HexValue(EncodeContext context, JsonValue value, ValueSite site)
     {
-        if (value is not JsonString s || !HexText.IsLowerHex(s.Value))
-        {
-            throw context.Fail(Codes.Type, $"{site.Property.Name} is lowercase hexadecimal bytes.", value, site.Path, value.KindName);
-        }
-
-        if (s.Value.Length / 2 > context.Limits.DecompressedBytes)
-        {
-            throw context.Fail(Codes.Limit, "A payload is too large.", value, site.Path);
-        }
-
-        return HexText.Decode(s.Value);
+        return value is not JsonString s || !HexText.IsLowerHex(s.Value)
+            ? throw context.Fail(Codes.Type, $"{site.Property.Name} is lowercase hexadecimal bytes.", value, site.Path, value.KindName)
+            : s.Value.Length / 2 > context.Limits.DecompressedBytes
+            ? throw context.Fail(Codes.Limit, "A payload is too large.", value, site.Path)
+            : HexText.Decode(s.Value);
     }
 }
 
@@ -710,12 +667,9 @@ internal sealed class FloatCodec(int width) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        if (end - start != width)
-        {
-            throw Mismatch(context, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.");
-        }
-
-        return new JsonObject().Add("$bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, width))));
+        return end - start != width
+            ? throw Mismatch(context, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.")
+            : (JsonValue)new JsonObject().Add("$bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, width))));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)

@@ -126,37 +126,19 @@ internal sealed class IntegerRecordField : RecordFieldInfo
 
     private static T ReadNumber<T>(ReadOnlySpan<byte> bytes) where T : unmanaged
     {
-        if (typeof(T) == typeof(int))
-        {
-            return (T)(object)BinaryPrimitives.ReadInt32LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(uint))
-        {
-            return (T)(object)BinaryPrimitives.ReadUInt32LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(short))
-        {
-            return (T)(object)BinaryPrimitives.ReadInt16LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(ushort))
-        {
-            return (T)(object)BinaryPrimitives.ReadUInt16LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(byte))
-        {
-            return (T)(object)bytes[0];
-        }
-
-        if (typeof(T) == typeof(sbyte))
-        {
-            return (T)(object)(sbyte)bytes[0];
-        }
-
-        throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
+        return typeof(T) == typeof(int)
+            ? (T)(object)BinaryPrimitives.ReadInt32LittleEndian(bytes)
+            : typeof(T) == typeof(uint)
+            ? (T)(object)BinaryPrimitives.ReadUInt32LittleEndian(bytes)
+            : typeof(T) == typeof(short)
+            ? (T)(object)BinaryPrimitives.ReadInt16LittleEndian(bytes)
+            : typeof(T) == typeof(ushort)
+            ? (T)(object)BinaryPrimitives.ReadUInt16LittleEndian(bytes)
+            : typeof(T) == typeof(byte)
+            ? (T)(object)bytes[0]
+            : typeof(T) == typeof(sbyte)
+            ? (T)(object)(sbyte)bytes[0]
+            : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
     }
 
     private static void WriteNumber<T>(Span<byte> bytes, T value) where T : unmanaged
@@ -177,17 +159,13 @@ internal sealed class IntegerRecordField : RecordFieldInfo
         {
             BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)(object)value!);
         }
-        else if (typeof(T) == typeof(byte))
-        {
-            bytes[0] = (byte)(object)value!;
-        }
-        else if (typeof(T) == typeof(sbyte))
-        {
-            bytes[0] = (byte)(sbyte)(object)value!;
-        }
         else
         {
-            throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
+            bytes[0] = typeof(T) == typeof(byte)
+                ? (byte)(object)value!
+                : typeof(T) == typeof(sbyte)
+                ? (byte)(sbyte)(object)value!
+                : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
         }
     }
 
@@ -230,7 +208,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        object[] box = new object[] { ReadBytes(image, ElementWidth, ElementSigned) };
+        object[] box = [ReadBytes(image, ElementWidth, ElementSigned)];
         typeof(EnumRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, Name, box]);
@@ -264,7 +242,7 @@ internal sealed class SetRecordField : RecordFieldInfo
 
     internal void TransferNamed(IPersister persister, string name, Span<byte> image)
     {
-        object[] box = new object[] { image.ToArray() };
+        object[] box = [image.ToArray()];
         typeof(SetRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, name, box]);
@@ -339,7 +317,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
     private void Move<T>(IPersister persister, Span<byte> image, ItemTransfer<T> transfer)
     {
-        List<T> items = new(ElementCount);
+        List<T> items = [with(ElementCount)];
         for (int i = 0; i < ElementCount; i++)
         {
             items.Add(ReadItem<T>(image.Slice(i * ElementWidth, ElementWidth)));
@@ -372,37 +350,19 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
     private static T ReadItem<T>(ReadOnlySpan<byte> bytes)
     {
-        if (typeof(T) == typeof(int))
-        {
-            return (T)(object)BinaryPrimitives.ReadInt32LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(uint))
-        {
-            return (T)(object)BinaryPrimitives.ReadUInt32LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(short))
-        {
-            return (T)(object)BinaryPrimitives.ReadInt16LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(ushort))
-        {
-            return (T)(object)BinaryPrimitives.ReadUInt16LittleEndian(bytes);
-        }
-
-        if (typeof(T) == typeof(byte))
-        {
-            return (T)(object)bytes[0];
-        }
-
-        if (typeof(T) == typeof(sbyte))
-        {
-            return (T)(object)(sbyte)bytes[0];
-        }
-
-        throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
+        return typeof(T) == typeof(int)
+            ? (T)(object)BinaryPrimitives.ReadInt32LittleEndian(bytes)
+            : typeof(T) == typeof(uint)
+            ? (T)(object)BinaryPrimitives.ReadUInt32LittleEndian(bytes)
+            : typeof(T) == typeof(short)
+            ? (T)(object)BinaryPrimitives.ReadInt16LittleEndian(bytes)
+            : typeof(T) == typeof(ushort)
+            ? (T)(object)BinaryPrimitives.ReadUInt16LittleEndian(bytes)
+            : typeof(T) == typeof(byte)
+            ? (T)(object)bytes[0]
+            : typeof(T) == typeof(sbyte)
+            ? (T)(object)(sbyte)bytes[0]
+            : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
     }
 
     private static void WriteItem<T>(Span<byte> bytes, T value)
@@ -423,17 +383,13 @@ internal sealed class ArrayRecordField : RecordFieldInfo
         {
             BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)(object)value!);
         }
-        else if (typeof(T) == typeof(byte))
-        {
-            bytes[0] = (byte)(object)value!;
-        }
-        else if (typeof(T) == typeof(sbyte))
-        {
-            bytes[0] = (byte)(sbyte)(object)value!;
-        }
         else
         {
-            throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
+            bytes[0] = typeof(T) == typeof(byte)
+                ? (byte)(object)value!
+                : typeof(T) == typeof(sbyte)
+                ? (byte)(sbyte)(object)value!
+                : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
         }
     }
 }

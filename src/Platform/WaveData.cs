@@ -55,12 +55,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             else if (bytes.Slice(at, 4).SequenceEqual("data"u8)) { data = chunk; haveData = true; }
             offset = next + (length & 1);
         }
-        if (!haveFormat || !haveData)
-        {
-            throw new InvalidDataException("WAVE needs fmt and data chunks.");
-        }
-
-        return Decode(format, data);
+        return !haveFormat || !haveData ? throw new InvalidDataException("WAVE needs fmt and data chunks.") : Decode(format, data);
     }
 
     public static WaveData Decode(in WaveFormat format, ReadOnlySpan<byte> data)

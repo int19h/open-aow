@@ -27,16 +27,16 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         public int Parts { get; set; }
     }
 
-    private readonly SortedDictionary<string, ProfileTally> _tallies = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, ProfileTally> _tallies = [with(StringComparer.Ordinal)];
     private int _originals, _originalRoundTrips, _documentRoundTrips, _stableNormalizations, _ownDocuments, _unknownProperties, _failures, _differences, _layoutParts, _residueFiles;
     private int _caseResidues, _validated, _refused;
-    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _legacy = new(StringComparer.Ordinal);
-    private readonly SortedDictionary<string, int> _categories = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _legacy = [with(StringComparer.Ordinal)];
+    private readonly SortedDictionary<string, int> _categories = [with(StringComparer.Ordinal)];
     // The census corpus alone, compared with the pinned expectation.
     private int _corpusParts, _corpusResidueFiles, _corpusCaseResidues;
-    private readonly SortedDictionary<string, int> _corpusCategories = new(StringComparer.Ordinal);
-    private readonly SortedDictionary<string, (int Parts, int Files)> _corpusProfiles = new(StringComparer.Ordinal);
-    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _corpusLegacy = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, int> _corpusCategories = [with(StringComparer.Ordinal)];
+    private readonly SortedDictionary<string, (int Parts, int Files)> _corpusProfiles = [with(StringComparer.Ordinal)];
+    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _corpusLegacy = [with(StringComparer.Ordinal)];
     private readonly List<(string Name, string Profile, long Size, long Inflated, double ImportMs, double ExportMs, long Json)> _timings = [];
 
     public static string GameRoot => Environment.GetEnvironmentVariable("AOW_GAME_ROOT") is { Length: > 0 } r ? r : @"D:\Games\GOG\Age of Wonders";
@@ -151,12 +151,9 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             output.WriteLine("Expect: census only, layout counts are not pinned. Pass the 9.7-1 check expectation file to pin them.");
         }
 
-        if (_failures > 0 || fixtures.Failed > 0 || drift || schema.RegistrationAmbiguities.Count > 0 || (census is not null && pinned != expected))
-        {
-            return Program.Error;
-        }
-
-        return _differences > 0 ? Program.Difference : Program.Success;
+        return _failures > 0 || fixtures.Failed > 0 || drift || schema.RegistrationAmbiguities.Count > 0 || (census is not null && pinned != expected)
+            ? Program.Error
+            : _differences > 0 ? Program.Difference : Program.Success;
     }
 
     private void Failure(string name, string message)

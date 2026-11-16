@@ -179,7 +179,7 @@ public sealed class StringFormatTests
         // Each row: an argument, a conversion and the result or the error message.
         const string integer = "Integer format argument required", text = "String format argument required";
         const string pointer = "Pointer format argument required", unsupported = "Unsupported format at 1";
-        TheoryData<string, string, string> data = new();
+        TheoryData<string, string, string> data = [];
         string[][] table =
         [
             ["int", "-7", "4294967289", "FFFFFFF9", text, pointer],

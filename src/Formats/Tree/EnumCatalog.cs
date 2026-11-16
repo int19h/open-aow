@@ -13,7 +13,7 @@ public interface IEnumCatalog
 /// <summary>A catalog built from explicit types. Tests register the enums a fixture names.</summary>
 internal sealed class DictionaryEnumCatalog : IEnumCatalog
 {
-    private readonly Dictionary<string, EnumTypeInfo> _types = new();
+    private readonly Dictionary<string, EnumTypeInfo> _types = [];
 
     public DictionaryEnumCatalog(params Type[] enums)
     {
@@ -75,12 +75,7 @@ public static class EnumCatalog
             }
 
             string? resolved = NameTable.ResolveStored(typeName);
-            if (resolved is null || resolved == typeName)
-            {
-                return null;
-            }
-
-            return Lookup(resolved);
+            return resolved is null || resolved == typeName ? null : Lookup(resolved);
         }
     }
 
@@ -111,7 +106,7 @@ public static class EnumCatalog
 
 internal sealed class ReflectionEnumCatalog : IEnumCatalog
 {
-    private readonly Dictionary<string, List<EnumTypeInfo>> _types = new();
+    private readonly Dictionary<string, List<EnumTypeInfo>> _types = [];
 
     public ReflectionEnumCatalog(Assembly assembly)
     {

@@ -149,11 +149,6 @@ public sealed class CoordinateTests : FormatsTest
 
             found = i;
         }
-        if (found < 0)
-        {
-            throw new InvalidOperationException("The stored 127 is absent.");
-        }
-
-        return found;
+        return found < 0 ? throw new InvalidOperationException("The stored 127 is absent.") : found;
     }
 }

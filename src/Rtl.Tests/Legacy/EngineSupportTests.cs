@@ -23,7 +23,7 @@ public sealed class EngineSupportTests
     public void MethodPointerCastAdaptsTheContextAndPreservesMulticastOrder()
     {
         EventContext context = new();
-        List<int> calls = new();
+        List<int> calls = [];
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
         NotifyEvent<object> cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
@@ -101,7 +101,7 @@ public sealed class EngineSupportTests
     public void StringReadsCopyBeforeWritingAndKeepPartialTransfers()
     {
         MemoryStream stream = new();
-        stream.WriteBuffer(new byte[] { 0, 233 });
+        stream.WriteBuffer([0, 233]);
         stream.Position = 0;
         string value = "abcd", shared = value;
         Assert.Equal(2, R.ReadString(stream, ref value, 1, 2, false));

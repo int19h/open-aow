@@ -10,7 +10,7 @@ public sealed class FixtureTests : FormatsTest
 {
     private static TheoryData<string> Names(bool usesGame)
     {
-        TheoryData<string> data = new();
+        TheoryData<string> data = [];
         foreach (Fixtures.Case? c in Fixtures.All().Where(c => c.UsesGame == usesGame))
         {
             data.Add(c.Group + "/" + c.Name);

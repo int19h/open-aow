@@ -37,10 +37,10 @@ internal static class Program
             return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
         }
         string? output = null;
-        List<object> saves = new();
-        SortedSet<string> todos = new(StringComparer.Ordinal);
-        HashSet<string> exceptions = new();
-        SortedSet<string> runtimeErrors = new(StringComparer.Ordinal);
+        List<object> saves = [];
+        SortedSet<string> todos = [with(StringComparer.Ordinal)];
+        HashSet<string> exceptions = [];
+        SortedSet<string> runtimeErrors = [with(StringComparer.Ordinal)];
         bool gameplay = false;
         bool writeManifest = false;
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
