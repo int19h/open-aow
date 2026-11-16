@@ -37,7 +37,7 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
         }
         else
         {
-            itemHexSprite = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild(131697);
+            itemHexSprite = StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild<ItemHexSprite>(131697);
             if (itemHexSprite == null)
             {
                 itemHexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };

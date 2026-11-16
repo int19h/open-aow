@@ -1496,7 +1496,7 @@ public partial class SetupControl : Component
         bool firstHuman = default;
         PlayerSetupSettings settings = default;
         StrategicMap preview;
-        preview = (StrategicMap)_engine.CreatePreviewHsm(_engine.StartupDirectory + fileName, GameProfile.WorldMap);
+        preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
         if (GetHost() && preview != null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
             _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);

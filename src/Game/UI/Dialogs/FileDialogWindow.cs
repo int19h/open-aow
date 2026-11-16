@@ -108,7 +108,7 @@ public partial class FileDialogWindow : UIModule
         }
         else
         {
-            map = (StrategicMap)UI.Engine.CreatePreviewHsm(name, GameProfile.WorldMap);
+            map = UI.Engine.CreatePreviewHsm<StrategicMap>(name, profile: GameProfile.WorldMap);
             if (map != null)
             {
                 UI.Engine.CloseCampaign();
@@ -448,7 +448,7 @@ public partial class FileDialogWindow : UIModule
             SaveFileNameEdit.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
-                map = (StrategicMap)UI.Engine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
+                map = UI.Engine.CreatePreviewHsm<StrategicMap>(SaveFileNameEdit.Text, profile: GameProfile.WorldMap);
                 if (map != null)
                 {
                     int count = map.Players.GetCount();

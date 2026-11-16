@@ -65,7 +65,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)terrainType))
                     {
-                        ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                        ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                         if (ice != null)
                         {
                             ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
@@ -83,7 +83,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
         FrozenWaterHexSprite ice;
         if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)originalTerrainType))
         {
-            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };

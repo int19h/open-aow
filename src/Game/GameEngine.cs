@@ -117,10 +117,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public virtual void SetHexSpriteMap(GameMap value)
     {
         _hexSpriteMap = value;
-        if (value is StrategicMap)
+        if (value is StrategicMap strategicMap)
         {
-            _gameMap = (StrategicMap)_hexSpriteMap;
-            StrategicMap.Current = (StrategicMap)value;
+            _gameMap = strategicMap;
+            StrategicMap.Current = strategicMap;
         }
     }
 

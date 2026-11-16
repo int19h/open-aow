@@ -464,7 +464,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         ItemHexSprite hexSprite;
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            hexSprite = (ItemHexSprite)map.MapContainer.GetField(x, y, level).FindOwnedChild(131697);
+            hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
             if (hexSprite == null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };

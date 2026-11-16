@@ -21,11 +21,11 @@ public sealed class MapNetSoundDispatchTests
     {
         internal int MouseCalls { get; private set; }
 
-        public override HexSpriteMapMouse CreateMouse()
+        public override GameMapMouse CreateMouse()
         {
             Assert.Null(Selection);
             MouseCalls++;
-            return new HexSpriteMapMouse();
+            return new GameMapMouse();
         }
     }
 

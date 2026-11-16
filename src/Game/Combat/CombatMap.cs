@@ -176,7 +176,7 @@ public partial class CombatMap : GameMap
         UnitChangedEventsStore = new();
         Players = new TacticalBattlePlayerList();
         UnitSelection = new CombatUnitSelectionControl(this);
-        ((GameMapMouse)Mouse).RectangleSelected += UnitSelection.RectangleSelectEvent;
+        Mouse.RectangleSelected += UnitSelection.RectangleSelectEvent;
         Effects = [];
         Walls = [];
         FleeLocations = [];
@@ -203,7 +203,7 @@ public partial class CombatMap : GameMap
     }
 
     // AoWTC.pas:2240
-    public override HexSpriteMapMouse CreateMouse() => new CombatMapMouse();
+    public override GameMapMouse CreateMouse() => new CombatMapMouse();
 
     // AoWTC.pas:2267
     public override void InitializeNewMap()
@@ -260,9 +260,9 @@ public partial class CombatMap : GameMap
         }
 
         DrawMoveRoute(lockedSurface);
-        if (((GameMapMouse)Mouse).SelectionRectangle.Left != -1)
+        if (Mouse.SelectionRectangle.Left != -1)
         {
-            DrawSelectionRectangle(ViewPixelX, ViewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
+            DrawSelectionRectangle(ViewPixelX, ViewPixelY, Mouse.SelectionRectangle, lockedSurface);
         }
     }
 
@@ -344,7 +344,7 @@ public partial class CombatMap : GameMap
 
         if (x > -1)
         {
-            hexSprite = (ItemHexSprite)MapContainer.GetField(x, y, l).FindOwnedChild(131697);
+            hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
             if (hexSprite == null)
             {
                 hexSprite = new TacticalBattleItemHexSprite(null) { Holder = CreationHolder() };
@@ -371,7 +371,7 @@ public partial class CombatMap : GameMap
         GetUnitLocation(hero, out sbyte x, ref y, ref l);
         if (x > -1)
         {
-            hexSprite = (ItemHexSprite)MapContainer.GetField(x, y, l).FindOwnedChild(131697);
+            hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
             if (hexSprite != null)
             {
                 result = hexSprite.Items;

@@ -387,7 +387,7 @@ public partial class WorldMap : UIModule
                 case 4:
                     WorldMapCampaign campaign27 = GetCampaign();
                     WorldMapCampaignScenario campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
-                    preview = (StrategicMap)UI.Engine.CreatePreviewHsm(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
+                    preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), profile: GameProfile.WorldMap);
                     if (preview != null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
