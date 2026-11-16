@@ -60,7 +60,7 @@ public partial class DisbandUnitTokenEvent : TokenEvent
                 x = coordinate5.X;
                 y = coordinate5.Y;
                 l = coordinate5.MapLevel;
-                structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();

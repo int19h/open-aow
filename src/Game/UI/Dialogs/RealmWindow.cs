@@ -146,9 +146,9 @@ public partial class RealmWindow : UIModule
         for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
             structure = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
-            if (structure is City)
+            if (structure is City found)
             {
-                c = (City)structure;
+                c = found;
                 string name = c.GetName();
                 CityNameList.Items.AddObject(name, c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
@@ -497,10 +497,9 @@ public partial class RealmWindow : UIModule
     {
         if (sender.Selected != -1)
         {
-            if (PlaceNameList.Items.Objects[sender.Selected] is ProductionPlace)
+            if (PlaceNameList.Items.Objects[sender.Selected] is ProductionPlace productionPlace)
             {
-                PlayerStructure productionPlace = PlaceNameList.Items.Objects[sender.Selected];
-                UI.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
+                UI.ProductionScreen.ShowPlace(productionPlace);
             }
             else
             {

@@ -224,7 +224,7 @@ internal static class EffectPaths
                             }
                         }
 
-                        wall = (CityWall)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229508);
+                        wall = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CityWall>(2229508);
                         if (wall != null)
                         {
                             if (wall.WallType == 1)

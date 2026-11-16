@@ -97,7 +97,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
         {
             int hexY = HexY;
             int hexX = HexX;
-            structure = (Structure)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
             if (structure != null && structure.CanDoubleClick())
             {
                 StrategicMap.Current.Selection.UnselectLocation();

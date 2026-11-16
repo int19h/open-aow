@@ -83,7 +83,7 @@ public partial class CityEnchantment : GlobalEnchantment
     public override bool VisibleForPlayer(sbyte player) => GetCity().VisibleForPlayer(player);
 
     // City.pas:2756
-    public City GetCity() => (City)StrategicMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite(typeof(City));
+    public City GetCity() => StrategicMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite<City>();
 
     private static readonly ImmutableArray<string> s_cityEnchantmentIdTexts = ["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"];
 

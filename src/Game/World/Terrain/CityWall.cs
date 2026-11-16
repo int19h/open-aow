@@ -199,28 +199,28 @@ public partial class CityWall : CombatImageLibraryTerrain
     // CityWall.pas:81
     public override void Activate()
     {
-        PlayerStructure structure;
         bool razed;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             razed = false;
             _playSound = true;
-            structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(City));
-            if (structure != null)
+            MapField field = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
+            City city = field.FindNoneTransparentHexSprite<City>();
+            if (city != null)
             {
-                WallType = ((City)structure).WallType;
-                razed = structure.GetRazed();
-                _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                WallType = city.WallType;
+                razed = city.GetRazed();
+                _flagId = city.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(city.Player).PlayerRace;
             }
             else
             {
-                structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(Tower));
-                if (structure != null)
+                Tower tower = field.FindNoneTransparentHexSprite<Tower>();
+                if (tower != null)
                 {
                     WallType = 1;
-                    razed = structure.GetRazed();
-                    _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                    razed = tower.GetRazed();
+                    _flagId = tower.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(tower.Player).PlayerRace;
                 }
                 else
                 {
@@ -283,7 +283,7 @@ public partial class CityWall : CombatImageLibraryTerrain
     }
 
     // CityWall.pas:130
-    public byte GetDirection() => ((Resource)base.Resource).Direction;
+    public byte GetDirection() => GetResource<Resource>().Direction;
 
     // CityWall.pas:197
     public new int GetDefense() => -2;
