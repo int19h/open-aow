@@ -3,6 +3,8 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Game.Net;
+using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;
 
@@ -29,6 +31,9 @@ public partial class ArenaTokenEvent : StructureTokenEvent
         base.PersistFields(persister);
         PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
     }
+
+    protected override ExecuteResult ExecuteOnStructure(Structure structure, TokenExecutor executor) =>
+        structure.ExecuteTokenEvent(this, executor: executor);
 
     // Arena.pas:74
 

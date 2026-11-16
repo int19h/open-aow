@@ -52,7 +52,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     {
                         if (FindAvailableTransporter() == null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
-                            budget = (AIBudget)player.AIBudget.Budgets.FindChild(131742);
+                            budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
                             if (budget == null)
                             {
                                 budget = new AITransporterBudget(null) { Holder = CreationHolder() };

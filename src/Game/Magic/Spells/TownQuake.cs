@@ -30,14 +30,14 @@ public partial class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:820
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result;
         City targetCity;
         ArmyHSList armies;
         if (executeCount == 0)
         {
-            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            targetCity = eventValue.GetSelectedCity();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.StartTownQuake();
             targetCity.ValidateObservation(source.Player);
@@ -47,7 +47,7 @@ public partial class TownQuake : CityTargetSpell
         {
             if (executeCount == 50)
             {
-                targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+                targetCity = eventValue.GetSelectedCity();
                 targetCity.StopTownQuake();
                 armies = new ArmyHSList(null) { Holder = CreationHolder() };
                 if (StrategicMap.Current.Random(10) < 7)

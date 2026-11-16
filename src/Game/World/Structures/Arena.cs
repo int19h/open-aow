@@ -23,21 +23,21 @@ public partial class Arena : Structure
     public new const int ClassId = 133276;
 
     // Arena.pas:212
-    public override StructureTokenEvent CreateTokenEvent() => new ArenaTokenEvent(null) { Holder = CreationHolder() };
+    public override ArenaTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // Arena.pas:135
-    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
+    public override ExecuteResult ExecuteTokenEvent(ArenaTokenEvent tokenEvent, TokenExecutor executor)
     {
         Troop troop;
         string errorText = "";
-        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        ExecuteResult result = base.ExecuteTokenEvent((StructureTokenEvent)tokenEvent, executor);
         if (tokenEvent.Action == 1)
         {
-            if (CanTrainUnits((sbyte)tokenEvent.Param, ((ArenaTokenEvent)tokenEvent).UnitIds, ref errorText))
+            if (CanTrainUnits((sbyte)tokenEvent.Param, tokenEvent.UnitIds, ref errorText))
             {
-                for (int i = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; i <= last; i++)
+                for (int i = 0, last = tokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
-                    int unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[i];
+                    int unitId = tokenEvent.UnitIds[i];
                     troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop != null)
                     {
@@ -50,15 +50,14 @@ public partial class Arena : Structure
 
                 if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
                 {
-                    ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
-                    if (arenaTokenEvent.UnitIds.Count == 1)
+                    if (tokenEvent.UnitIds.Count == 1)
                     {
                         string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
                         StrategicMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
-                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(tokenEvent.UnitIds.Count)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -180,7 +179,7 @@ public partial class Arena : Structure
         errorText = "";
         if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            tokenEvent = (ArenaTokenEvent)CreateTokenEvent();
+            tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
             tokenEvent.Param = player;

@@ -1,12 +1,9 @@
-#nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
-
-using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
@@ -24,38 +21,22 @@ public partial class HuntAIGroupControl : AIGroupControl
     {
         MapField field;
         ArmyHexSprite army;
-        int i;
-        HuntAIGroup group;
-        bool found;
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
         if (field.GetPlayer() != Group.Player)
         {
             army = field.GetArmyHexSprite();
-            if (army != null)
+            if (army != null && Group.IsHuntingArmy(army.Army))
             {
-                group = (HuntAIGroup)Group;
-                found = false;
-                i = group.TargetUnitIds.Count;
-                while (!found && i != 0)
+                SetupCP(target);
+                CombatResult execute = CombatPredictor.Execute();
+                if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
                 {
-                    i -= 1;
-                    int item = group.TargetUnitIds[i];
-                    found = army.Army.Units.IndexOfId(item) != -1;
-                }
-
-                if (found)
-                {
-                    SetupCP(target);
-                    CombatResult execute = CombatPredictor.Execute();
-                    if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
+                    if (CombatPredictor.GetEfficiency() != 0)
                     {
-                        if (CombatPredictor.GetEfficiency() != 0)
-                        {
-                            AITargetData data = target.Data;
-                            data.Priority = 1000 - target.MovePoints;
-                            target.Data = data;
-                            base.TargetFoundEvent(sender, target, ref searchDone);
-                        }
+                        AITargetData data = target.Data;
+                        data.Priority = 1000 - target.MovePoints;
+                        target.Data = data;
+                        base.TargetFoundEvent(sender, target, ref searchDone);
                     }
                 }
             }
@@ -66,26 +47,11 @@ public partial class HuntAIGroupControl : AIGroupControl
     public override void ProcessStates()
     {
         AIGroupTargetFinder finder;
-        HuntAIGroup group;
-        Troop troop;
         AIGroup newGroup;
         switch (State)
         {
             case 0:
-                group = (HuntAIGroup)Group;
-                {
-                    for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
-                    {
-                        int item = group.TargetUnitIds[i];
-                        troop = StrategicMap.Current.UnitControl.FindUnit(item);
-                        if (troop == null || troop.Player == 0)
-                        {
-                            group.TargetUnitIds.Delete(i);
-                        }
-                    }
-                }
-
-                if (group.TargetUnitIds.Count != 0)
+                if (Group.PruneAndHasHuntTargets())
                 {
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);

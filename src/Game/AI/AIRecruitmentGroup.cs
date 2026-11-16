@@ -10,8 +10,8 @@ namespace Aow.Game.AI;
 public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
 {
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
-    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new AIRecruitmentGroupList Owner { get => (AIRecruitmentGroupList)base.Owner; set => SetOwner(value); }
+    // nothing else owns it. AcceptsOwner admits only that list.
+    public new AIRecruitmentGroupList Owner { get => GetOwner<AIRecruitmentGroupList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIRecruitmentGroupList;
 

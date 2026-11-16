@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -51,6 +52,9 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
 
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
     }
+
+    public override bool Process(Troop source, int value) =>
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source: source, executeCount: value);
 
     // NetworkE.pas:230
 

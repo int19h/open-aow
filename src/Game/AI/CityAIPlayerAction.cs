@@ -36,7 +36,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         if (player.PlayerIndex != 0)
         {
             manager = player.AIBudget;
-            upgradeBudget = (AIBudget)manager.Budgets.FindChild(131349);
+            upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
             if (upgradeBudget == null)
             {
                 upgradeBudget = new AICityUpgradeBudget(null) { Holder = CreationHolder() };
@@ -45,7 +45,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 upgradeBudget.Days = 7;
             }
 
-            researchBudget = (AIBudget)manager.Budgets.FindChild(131350);
+            researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
             if (researchBudget != null)
             {
                 if (researchBudget.Gold + upgradeBudget.Gold > 125)
@@ -76,7 +76,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             }
 
             ValidateUpgradeBudget(upgradeBudget);
-            fortifyBudget = (AIBudget)manager.Budgets.FindChild(131351);
+            fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
             if (fortifyBudget != null)
             {
                 if (fortifyBudget.GetReady())

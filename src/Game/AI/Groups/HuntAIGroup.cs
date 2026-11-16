@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
@@ -37,7 +37,7 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     }
 
     // AIGroup.pas:1457
-    public bool HuntingPlayer(sbyte player)
+    public override bool HuntingPlayer(sbyte player)
     {
         int i;
         Troop troop;
@@ -52,6 +52,33 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
         }
 
         return result;
+    }
+
+    public override bool IsHuntingArmy(Army army)
+    {
+        for (int i = TargetUnitIds.Count - 1; i >= 0; i--)
+        {
+            if (army.Units.IndexOfId(TargetUnitIds[i]) != -1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public override bool PruneAndHasHuntTargets()
+    {
+        for (int i = TargetUnitIds.Count - 1; i >= 0; i--)
+        {
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds[i]);
+            if (troop == null || troop.Player == 0)
+            {
+                TargetUnitIds.Delete(i);
+            }
+        }
+
+        return TargetUnitIds.Count != 0;
     }
 
     // intf_P5_07.inc:660

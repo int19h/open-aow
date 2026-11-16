@@ -19,11 +19,11 @@ public partial class GlobalEnchantmentSpell : Spell
     public GlobalEnchantmentSpell(CustomNode owner) : base(owner) => AIBasePriority = -1;
 
     // GlobalEnchantmentSpells.pas:429
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(GlobalEnchantmentSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         if (executeCount == 0)
         {
-            ((GlobalEnchantmentSpellTokenEvent)eventValue).Enchantment.Cast(source.Player);
+            eventValue.Enchantment.Cast(source.Player);
         }
 
         return false;

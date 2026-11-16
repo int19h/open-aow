@@ -26,13 +26,13 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2373
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(GlobalTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         EngineResource resource;
         SmokeCloud cloud;
         Troop sourceLocal = eventValue.GetSource();
-        StrategicMap.Current.ValidateObservation(sourceLocal.Player, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2);
-        if (eventValue.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2))
+        StrategicMap.Current.ValidateObservation(sourceLocal.Player, eventValue.Location.X, eventValue.Location.Y, eventValue.Location.MapLevel, 2);
+        if (eventValue.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(eventValue.Location.X, eventValue.Location.Y, eventValue.Location.MapLevel, 2))
         {
             GamePack.Current.SpellControl.GetSpell(eventValue.EventSpellId).CastSounds.Play(0);
         }
@@ -46,7 +46,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             cloud.Enchantment.PlayerIndex = source.Player;
             cloud.Enchantment.EnchantmentManaUpkeep = ManaUpkeep;
             cloud.Drifting = false;
-            if (!StrategicMap.Current.PlaceHex(cloud, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel))
+            if (!StrategicMap.Current.PlaceHex(cloud, eventValue.Location.X, eventValue.Location.Y, eventValue.Location.MapLevel))
             {
                 cloud?.Dispose();
             }

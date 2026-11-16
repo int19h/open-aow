@@ -171,29 +171,24 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:359
     public virtual bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool result;
-        CityTargetSpellTokenEvent eventValue;
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = CreateTokenEvent();
-            if (SetupTokenEvent(eventValue, source, X, Y, L))
-            {
-                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
-            eventValue.Release();
-        }
-        else
-        {
-            result = false;
+            return false;
         }
 
-        return result;
+        CityTargetSpellTokenEvent eventValue = CreateTokenEvent();
+        return SubmitTokenEvent(eventValue, setupResult: SetupTokenEvent(eventValue, source, X, Y, L), source: source);
+    }
+
+    private protected bool SubmitTokenEvent(CityTargetSpellTokenEvent eventValue, bool setupResult, Troop source)
+    {
+        if (setupResult)
+        {
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        }
+
+        eventValue.Release();
+        return setupResult;
     }
 
     // CitySpells.pas:248

@@ -37,7 +37,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
     }
 
     // CitySpells.pas:692
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result = default;
         City targetCity = default;
@@ -45,7 +45,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
         result = base.ExecuteTokenEvent(eventValue, source, executeCount);
         if (executeCount == 0)
         {
-            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            targetCity = eventValue.GetSelectedCity();
             a = new Animation(null) { Holder = CreationHolder() };
             a.AnimationLevel = 27;
             a.OnShow += ShowFountain;

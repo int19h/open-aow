@@ -32,7 +32,7 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:486
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    public override bool ExecuteTokenEvent(TownGateTokenEvent eventValue, Troop source, int executeCount)
     {
         bool showSource;
         bool showTarget;
@@ -48,8 +48,8 @@ public partial class TownGate : CityTargetSpell
         x = coordinate84.X;
         y = coordinate84.Y;
         l = coordinate84.MapLevel;
-        ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
-        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation);
+        eventValue.ArmyId.RetrieveArmy(ref army, ref selection);
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(eventValue.TeleportLocation);
         army.Army.ResetDestinationPosition();
         if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
         {
@@ -61,7 +61,7 @@ public partial class TownGate : CityTargetSpell
             newArmy = new ArmyHexSprite(null) { Holder = CreationHolder() };
             newArmy.Army.SetPlayer(army.Army.Player);
             newArmy.Army.AddUnitSelection(army.Army.Units, selection);
-            StrategicMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
+            StrategicMap.Current.PlaceHex(newArmy, eventValue.TeleportLocation.X, eventValue.TeleportLocation.Y, eventValue.TeleportLocation.MapLevel);
         }
         else
         {
@@ -129,17 +129,28 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:445
-    public override CityTargetSpellTokenEvent CreateTokenEvent() => new TownGateTokenEvent(null) { Holder = CreationHolder() };
+    public override TownGateTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
+
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
+    {
+        if (StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        {
+            return false;
+        }
+
+        TownGateTokenEvent eventValue = CreateTokenEvent();
+        return SubmitTokenEvent(eventValue, setupResult: SetupTokenEvent(eventValue, source: source, x: X, y: Y, l: L), source: source);
+    }
 
     // CitySpells.pas:450
-    public override bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
+    public bool SetupTokenEvent(TownGateTokenEvent eventValue, Troop source, int x, int y, int l)
     {
         byte selection;
         ArmyHexSprite army;
         bool found;
         MapLevel level;
         HexNumberWalkData walk = default;
-        bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
+        bool result = base.SetupTokenEvent(eventValue, source, x, y, l);
         if (result)
         {
             // Without an army the source has no party to teleport.
@@ -153,14 +164,14 @@ public partial class TownGate : CityTargetSpell
                 ? StrategicMap.Current.SelectedArmy.GetSelection()
                 : (byte)255;
 
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
             found = false;
-            level = StrategicMap.Current.MapContainer.GetMapLevel(L);
+            level = StrategicMap.Current.MapContainer.GetMapLevel(l);
             while (walk.Radius < 4 && !found)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)l);
                 }
 
                 if (!found)
@@ -172,9 +183,9 @@ public partial class TownGate : CityTargetSpell
             if (found)
             {
                 ArmyId id = army.Army.CreateId(selection);
-                ((TownGateTokenEvent)eventValue).ArmyId = id;
-                MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
-                ((TownGateTokenEvent)eventValue).TeleportLocation = packMapCoordinate;
+                eventValue.ArmyId = id;
+                MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)l);
+                eventValue.TeleportLocation = packMapCoordinate;
                 result = true;
             }
             else

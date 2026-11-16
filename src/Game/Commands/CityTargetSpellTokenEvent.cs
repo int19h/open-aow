@@ -59,6 +59,9 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     // CitySpells.pas:204
     public City GetSelectedCity() => (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite(typeof(City));
 
+    public override bool Process(Troop source, int value) =>
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source: source, executeCount: value);
+
     // NetworkE.pas:230
 
 }

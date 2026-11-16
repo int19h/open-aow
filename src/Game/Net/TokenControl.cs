@@ -61,11 +61,11 @@ public partial class TokenControl : IDisposable
                 {
                     if (executor.HasSyncErrorHandlers)
                     {
-                        tokenEvent = new SyncTokenEvent(null) { Holder = _tokenManager.Owner };
+                        SyncTokenEvent syncEvent = new(null) { Holder = _tokenManager.Owner };
                         int syncValue = executor.GetSyncValue();
-                        ((SyncTokenEvent)tokenEvent).SyncValue = syncValue;
-                        _events.Insert(0, tokenEvent);
-                        tokenEvent.Release();
+                        syncEvent.SyncValue = syncValue;
+                        _events.Insert(0, syncEvent);
+                        syncEvent.Release();
                     }
 
                     tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };

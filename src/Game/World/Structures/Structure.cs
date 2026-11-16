@@ -510,9 +510,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1755
     public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
-        HuntAIGroup group;
         sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
-        group = (HuntAIGroup)StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+        HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
         group.AddUnits(defenders.Units);
         for (int i = attackers.Count - 1; i >= 0; i--)
         {
@@ -564,6 +563,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
         return result;
     }
+
+    public virtual ExecuteResult ExecuteTokenEvent(ArenaTokenEvent tokenEvent, TokenExecutor executor) =>
+        ExecuteTokenEvent((StructureTokenEvent)tokenEvent, executor);
 
     // Structur.PAS:1505
     public virtual bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements) => false;

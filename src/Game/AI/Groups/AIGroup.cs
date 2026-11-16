@@ -387,7 +387,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:138
     public virtual AIGroupControl CreateGroupControl()
     {
-        AIGroupControl result = (AIGroupControl)GroupControlClass().CreateInstance(null, holder: CreationHolder());
+        AIGroupControl result = GroupControlClass().Create<AIGroupControl>(null, holder: CreationHolder());
         result.Group = this;
         AddRef();
         return result;
@@ -751,6 +751,18 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
     // AIGroup.pas:123
     public virtual EngineClass GroupControlClass() => EngineClass.Of<AIGroupControl>();
+
+    public virtual bool HuntingPlayer(sbyte player) => false;
+
+    public virtual bool IsHuntingArmy(Army army) => false;
+
+    public virtual bool PruneAndHasHuntTargets() => false;
+
+    public virtual void OnControlMoveFailed()
+    {
+    }
+
+    public virtual void ProcessControlStates(AIGroupControl control) => control.Done();
 
     // AIGroup.pas:121
     public static GroupBehavior Behavior => GroupBehavior.None;
