@@ -23,4 +23,6 @@ public partial class AbstractHexagonResource : MapObjectResource
     // MAPOBJ.PAS:776
     public virtual HexControl GetHexControl() => Engine.HexSpriteSet.HexControl;
 
+    public override MapObjectResourceTerrainControl GetTerrainControl() => GetHexControl();
+
 }

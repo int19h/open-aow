@@ -67,7 +67,7 @@ public partial class GameMap : OwningNode
         FPS = 30;
     }
 
-    private readonly HexSpriteMapMouse _mouse;
+    private readonly GameMapMouse _mouse;
     private MapContainer _mapContainer;
     private GameEngine _engine;
     private readonly HexSpriteSelection _selection;
@@ -297,7 +297,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS makes the engine mouse. AoWHSMap.PAS:396 makes the game mouse.
-    public virtual HexSpriteMapMouse CreateMouse() => new GameMapMouse();
+    public virtual GameMapMouse CreateMouse() => new();
 
     // HSMAP.PAS:236
     public virtual void NotifyProgress(in MapProgress progress)
@@ -443,7 +443,7 @@ public partial class GameMap : OwningNode
         {
             SetHssFileName(settings.HssFileName);
             _engine.InitializeHexSpriteSet(settings.HssFileName, null);
-            _mapContainer = (MapContainer)_engine.CreateEngineObject(settings.MapContainerClassId, this);
+            _mapContainer = _engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
             _engine.ActivateEngineObject(_mapContainer);
             _mapContainer.New(settings);
             result = true;
@@ -1117,7 +1117,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:745
     public void InvalidateStaticScene(int hexX, int hexY, int hexLevel) => _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel);
 
-    public HexSpriteMapMouse Mouse => _mouse;
+    public GameMapMouse Mouse => _mouse;
     public MapContainer MapContainer { get => _mapContainer; internal set => _mapContainer = value; }
     public GameEngine Engine => _engine;
     public HexSpriteSelection Selection => _selection;
@@ -1348,7 +1348,7 @@ public partial class GameMap : OwningNode
         l = coordinate31.MapLevel;
         if (x != -1)
         {
-            items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131697);
+            items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
             if (items != null)
             {
                 result = items.Items;

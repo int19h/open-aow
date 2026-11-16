@@ -30,11 +30,11 @@ public partial class AbstractHexagon : MapObject
     // MAPOBJ.PAS:704
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        HexControl control;
+        MapObjectResourceTerrainControl control;
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            control = ((AbstractHexagonResource)Resource).GetHexControl();
+            control = Resource.GetTerrainControl();
             if (control != null)
             {
                 r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
@@ -52,7 +52,7 @@ public partial class AbstractHexagon : MapObject
                     sbyte hexLevel = GetHexLevel();
                     sbyte hexY = GetHexY();
                     sbyte hexX = GetHexX();
-                    ((AbstractHexagonResource)Resource).GetHexControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
+                    Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }
         }

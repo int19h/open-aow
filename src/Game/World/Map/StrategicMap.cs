@@ -662,7 +662,7 @@ public partial class StrategicMap : GameMap
         DefendersSeed = 0;
         HeroCountMax = 5;
         SelectedArmy = new SelectedArmy(this);
-        ((GameMapMouse)Mouse).RectangleSelected += SelectedArmy.RectangleSelectEvent;
+        Mouse.RectangleSelected += SelectedArmy.RectangleSelectEvent;
         MoveControl = new MoveControl(this);
         GlobalMagicControl = new GlobalMagicControl(null) { Holder = CreationHolder() };
         MapName = "noname";
@@ -787,7 +787,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1549
-    public override HexSpriteMapMouse CreateMouse() => new AowHexSpriteMapMouse();
+    public override GameMapMouse CreateMouse() => new AowHexSpriteMapMouse();
 
     // AoWHSMap.PAS:2116
     public override void NotifyProgress(in MapProgress progress)
@@ -992,9 +992,9 @@ public partial class StrategicMap : GameMap
 
         SelectedArmy.ShowMovePaths(lockedSurface);
         TargetSelection.ShowSelection(ViewPixelX, ViewPixelY, lockedSurface);
-        if (((GameMapMouse)Mouse).SelectionRectangle.Left != -1)
+        if (Mouse.SelectionRectangle.Left != -1)
         {
-            DrawSelectionRectangle(ViewPixelX, ViewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
+            DrawSelectionRectangle(ViewPixelX, ViewPixelY, Mouse.SelectionRectangle, lockedSurface);
         }
     }
 
@@ -2034,7 +2034,7 @@ public partial class StrategicMap : GameMap
             {
                 int pixelY = Mouse.PixelY;
                 int pixelX = Mouse.PixelX;
-                Mouse.CursorMode = Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle()
+                Mouse.CursorMode = Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !Mouse.GetSelectingRectangle()
                     ? 257
                     : 0;
             }
@@ -2351,7 +2351,7 @@ public partial class StrategicMap : GameMap
 
             if (classId == 2228496)
             {
-                ((GameMapMouse)Current.Mouse).ResetRectangleSelection();
+                Current.Mouse.ResetRectangleSelection();
                 Current.Selection.UnselectLocation();
                 TargetSelection.Deactivate();
                 DisableTurnTimer();

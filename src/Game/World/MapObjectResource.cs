@@ -237,6 +237,10 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:545
     public virtual void CalculateShowPriorityOffset(int dX, int dY, int level) => _showPriorityOffset = dX + (level << 26) + (dY << 13);
 
+    // The control of this resource kind, null for a resource with none. Hexagon resources answer
+    // the hexagon control, road resources the road control.
+    public virtual MapObjectResourceTerrainControl GetTerrainControl() => null;
+
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
     {

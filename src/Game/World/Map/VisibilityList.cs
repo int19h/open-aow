@@ -33,6 +33,7 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
     // HSEngine.pas:3876
     public override int RemoveChild(EngineObject child)
     {
+        // The list stores hex sprites, so the override's EngineObject child always is one.
         HexSprite hexSprite = (HexSprite)child;
         if (hexSprite.GetVisible())
         {

@@ -132,7 +132,8 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:130
     public override int ResourceUserClassId() => 131604;
 
-    // UnitRes.PAS:134
+    // UnitRes.PAS:134. The resource user class (131604) registers only UnitHexSprite, which the
+    // factory builds, so the cast never fails.
     public override EngineObject CreateResourceUser()
     {
         EngineObject result = base.CreateResourceUser();

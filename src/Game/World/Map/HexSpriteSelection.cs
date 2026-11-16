@@ -18,7 +18,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
 {
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
-    public HexSprite this[int index] => (HexSprite)GetChild(index);
+    public HexSprite this[int index] => GetChild<HexSprite>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is HexSprite;
 

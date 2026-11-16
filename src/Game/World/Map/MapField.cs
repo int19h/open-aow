@@ -91,6 +91,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
+        // The list stores hex sprites, so the override's EngineObject child always is one.
         _hexSpriteList[index] = (HexSprite)child;
     }
 
@@ -98,9 +99,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override int GetCount() => StoredCount;
 
     // HSEngine.pas:2226
+    // The list stores hex sprites, so the override's EngineObject child always is one.
     public override int RemoveChild(EngineObject child) => RemoveHexSprite((HexSprite)child);
 
     // HSEngine.pas:2221
+    // The list stores hex sprites, so the override's EngineObject child always is one.
     public override int AddChild(EngineObject child) => AddHexSprite((HexSprite)child, 0);
 
     // HSEngine.pas:2154
@@ -156,6 +159,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
         return result;
     }
+
+    // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
+    public T FindHexSprite<T>() where T : HexSprite => (T)FindHexSprite(typeof(T));
+
+    // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
+    public T FindOwnedHexSprite<T>() where T : HexSprite => (T)FindOwnedHexSprite(typeof(T));
 
     // HSEngine.pas:2172
     public HexSprite FindOwnedHexSprite(Type classValue)

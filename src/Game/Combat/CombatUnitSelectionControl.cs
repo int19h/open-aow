@@ -1229,7 +1229,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                             {
                                                 int mouseHexY = CombatMap.Current.Mouse.HexY;
                                                 int hexX = CombatMap.Current.Mouse.HexX;
-                                                MouseOverTarget = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, mouseHexY].FindOwnedChild(2228484);
+                                                MouseOverTarget = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, mouseHexY].FindOwnedChild<HexSprite>(2228484);
                                                 CombatMap.Current.MouseOverTargetEventsStore.Raise(MouseOverTarget);
                                             }
                                         }

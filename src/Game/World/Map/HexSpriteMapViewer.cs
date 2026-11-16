@@ -214,6 +214,7 @@ public partial class HexSpriteMapViewer : Component
             mp = _hexSpriteMap;
             if (mp != null)
             {
+                // The field holds the map; the object-typed copy belongs to #150.
                 m = (GameMap)mp;
                 if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
                 {
