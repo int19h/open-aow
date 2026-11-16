@@ -1073,10 +1073,10 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.Priority = 0;
         closeBtn.WinLeft = 415;
         closeBtn.WinTop = 4;
-        closeBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        closeBtn.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         closeBtn.CaptureInput = true;
         closeBtn.Alignment.AlignWidth = AlignWidth.Right;
         closeBtn.Alignment.AlignHeight = AlignHeight.Top;

@@ -21,14 +21,7 @@ public static class AudioHost
 
     internal static void Initialize()
     {
-        if (ToolServices != null)
-        {
-            BaseSoundEnginePath = ExtractFilePath(ToolServices.GetProjectName());
-        }
-        else
-        {
-            BaseSoundEnginePath = ExtractFilePath(RtlUnit.Application.ExeName);
-        }
+        BaseSoundEnginePath = ToolServices != null ? ExtractFilePath(ToolServices.GetProjectName()) : ExtractFilePath(RtlUnit.Application.ExeName);
 
         SampleList = new SampleList();
         SampleDataList = new SampleDataList();
@@ -53,10 +46,7 @@ public static class AudioHost
 
         SampleDataList?.Dispose();
         SampleDataList = null;
-        if (SoundSystem != null)
-        {
-            SoundSystem.Release();
-        }
+        SoundSystem?.Release();
 
         SoundSystems?.Dispose();
     }

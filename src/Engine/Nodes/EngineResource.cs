@@ -62,14 +62,7 @@ public partial class EngineResource : EngineObject
         EngineObject result;
         int userClassId;
         userClassId = ResourceUserClassId();
-        if (userClassId != 0)
-        {
-            result = GetEngine().CreateEngineObject(userClassId, null);
-        }
-        else
-        {
-            result = null;
-        }
+        result = userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
 
         return result;
     }

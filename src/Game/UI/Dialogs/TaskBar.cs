@@ -65,10 +65,7 @@ public partial class TaskBar : UIModule
     public void WorldTurnButtonAnimationDone()
     {
         WorldTurnButton.Checked = false;
-        if (CombatMap.Current != null)
-        {
-            CombatMap.Current.EndTurnPending = true;
-        }
+        CombatMap.Current?.EndTurnPending = true;
     }
 
     // AoWTBWindow.pas:128
@@ -316,14 +313,7 @@ public partial class TaskBar : UIModule
                     WorldClockDelay = 10;
                     minute = (ushort)(StrategicMap.Current.GetTurnTimeLeft() / 60000);
                     second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
-                    if (minute == 0 && second > 0 && second <= 10)
-                    {
-                        WorldTimeLabel.TextColor = 255;
-                    }
-                    else
-                    {
-                        WorldTimeLabel.TextColor = 0;
-                    }
+                    WorldTimeLabel.TextColor = minute == 0 && second > 0 && second <= 10 ? 255 : 0;
 
                     WorldTimeLabel.Text = IntToStr(minute) + ":";
                     if (second < 10)

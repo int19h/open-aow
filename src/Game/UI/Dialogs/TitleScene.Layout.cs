@@ -94,14 +94,14 @@ public partial class TitleScene : ILayoutModule
         LegalNoticeMemo.Masked = true;
         LegalNoticeMemo.WinWidth = 640;
         LegalNoticeMemo.WinHeight = 120;
-        LegalNoticeMemo.LayoutItems = new LayoutStrings()
-        {
+        LegalNoticeMemo.LayoutItems =
+        [
             "Age of Wonders(TM)  Triumph Studios and Epic Games, Inc.",
             "All Rights Reserved",
             "Copyright (c) 1996, 1997, 1998, 1999, Triumph Studios and Epic Games, Inc.",
             "CONFIDENTIAL AND PROPRIETARY INFORMATION",
             "DO NOT DISTRIBUTE"
-        };
+        ];
         LegalNoticeMemo.BorderWidth = 0;
         LegalNoticeMemo.BorderHeight = 0;
         LegalNoticeMemo.TextColor = 255;

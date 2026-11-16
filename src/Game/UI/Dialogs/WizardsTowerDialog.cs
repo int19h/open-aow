@@ -42,15 +42,9 @@ public partial class WizardsTowerDialog : UIModule
         eventValue = _event;
         OnClose = null;
         _event = null;
-        if (notify != null)
-        {
-            notify(eventValue);
-        }
+        notify?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
 
         StrategicMap.Current.TutorialControl.ShowMessage(69, true, true);
     }
@@ -65,9 +59,8 @@ public partial class WizardsTowerDialog : UIModule
     // AoWWizardsTowerDlg.pas:73
     public void BuyBtnClick()
     {
-        string reason = "";
         UI.General.PlayButtonSound(0);
-        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, out reason))
+        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, out string reason))
         {
             StrategicMap.Current.ShowWarning(reason);
         }

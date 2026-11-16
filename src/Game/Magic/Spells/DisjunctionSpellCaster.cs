@@ -112,14 +112,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
         GlobalEnchantment result;
         int index;
         index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        if (index != -1)
-        {
-            result = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
 
         return result;
     }
@@ -130,14 +123,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
         int result;
         GlobalEnchantment enchantment;
         enchantment = SelectedEnchantment();
-        if (enchantment != null)
-        {
-            result = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
-        }
-        else
-        {
-            result = -1;
-        }
+        result = enchantment != null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
 
         return result;
     }

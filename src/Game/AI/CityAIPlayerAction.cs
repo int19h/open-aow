@@ -293,14 +293,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         bool result;
         int level;
         level = city.Production.GetProduceUnitLevelMax();
-        if (city.GetSize() <= city.UpgradeLevel || level != city.UpgradeLevel)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
 
         return result;
     }

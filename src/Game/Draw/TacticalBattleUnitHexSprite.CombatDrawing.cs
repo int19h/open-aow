@@ -50,23 +50,11 @@ public partial class TacticalBattleUnitHexSprite
                 race = 32;
             }
 
-            if (Unit.GetAbilityEnabled(1))
-            {
-                flyingOffset = -8;
-            }
-            else
-            {
-                flyingOffset = 0;
-            }
+            flyingOffset = Unit.GetAbilityEnabled(1) ? -8 : 0;
 
             if (Unit.GetAbilityEnabled(36))
             {
-                wall = (CityWall)Owner.FindOwnedChild(2229508);
-                if (wall == null)
-                {
-                    wall = Owner.FindOwnedChild(2229510) as CityWall;
-                }
-
+                wall = (CityWall)Owner.FindOwnedChild(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
                 if (MoveStep == -1)
                 {
                     if (wall != null && wall.HitPoints > 0)
@@ -78,12 +66,7 @@ public partial class TacticalBattleUnitHexSprite
                 {
                     sbyte yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, Direction, ref hexX, ref hexY);
-                    nextWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508);
-                    if (nextWall == null)
-                    {
-                        nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
-                    }
-
+                    nextWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                     int moveSteps = GetMoveSteps();
                     if (MoveStep < moveSteps / 2)
                     {
@@ -313,21 +296,12 @@ public partial class TacticalBattleUnitHexSprite
     {
         ImageSequence sequence;
         float progress;
-        int pixelX = default;
-        int pixelY = default;
         int index;
         int deltaX = default;
         int deltaY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         X = pixelX - X + OffsetX;
-        if (Busy)
-        {
-            Y = pixelY - Y - 8;
-        }
-        else
-        {
-            Y = pixelY - Y - 8 + OffsetY;
-        }
+        Y = Busy ? pixelY - Y - 8 : pixelY - Y - 8 + OffsetY;
 
         if (MoveStep != -1)
         {

@@ -257,14 +257,7 @@ public partial class CombatPredictor : IDisposable
 
         if (surviving[1] == 0 && surviving[0] == 0)
         {
-            if (hits[0] >= hits[1])
-            {
-                Result = 3;
-            }
-            else
-            {
-                Result = 4;
-            }
+            Result = hits[0] >= hits[1] ? (byte)3 : (byte)4;
         }
         else
         {
@@ -275,28 +268,9 @@ public partial class CombatPredictor : IDisposable
             else
             {
                 wall = _wall;
-                if (wall != null && wall.HitPoints > 0)
-                {
-                    if (surviving[1] == 1 && CanPassWall())
-                    {
-                        Result = 3;
-                    }
-                    else
-                    {
-                        Result = 8;
-                    }
-                }
-                else
-                {
-                    if (surviving[0] == 0)
-                    {
-                        Result = 4;
-                    }
-                    else
-                    {
-                        Result = 2;
-                    }
-                }
+                Result = wall != null && wall.HitPoints > 0
+                    ? surviving[1] == 1 && CanPassWall() ? (byte)3 : (byte)8
+                    : surviving[0] == 0 ? (byte)4 : (byte)2;
             }
         }
 
@@ -641,21 +615,7 @@ public partial class CombatPredictor : IDisposable
                     }
                 }
 
-                if (total == left)
-                {
-                    _superiority = 999;
-                }
-                else
-                {
-                    if (left > 0)
-                    {
-                        _superiority = total * 100 / (total - left);
-                    }
-                    else
-                    {
-                        _superiority = 100;
-                    }
-                }
+                _superiority = total == left ? 999 : left > 0 ? total * 100 / (total - left) : 100;
             }
             else
             {
@@ -674,32 +634,11 @@ public partial class CombatPredictor : IDisposable
                         }
                     }
 
-                    if (total == 0)
-                    {
-                        _superiority = 0;
-                    }
-                    else
-                    {
-                        if (left > 0)
-                        {
-                            _superiority = (total - left) * 100 / total;
-                        }
-                        else
-                        {
-                            _superiority = 100;
-                        }
-                    }
+                    _superiority = total == 0 ? 0 : left > 0 ? (total - left) * 100 / total : 100;
                 }
                 else
                 {
-                    if (Result == 6)
-                    {
-                        _superiority = 200;
-                    }
-                    else
-                    {
-                        _superiority = 0;
-                    }
+                    _superiority = Result == 6 ? 200 : 0;
                 }
             }
         }
@@ -738,21 +677,7 @@ public partial class CombatPredictor : IDisposable
                 }
             }
 
-            if (lost[0] != 0)
-            {
-                _efficiency = lost[1] * 100 / lost[0];
-            }
-            else
-            {
-                if (lost[1] != 0 || Sides[1].Count == 0)
-                {
-                    _efficiency = 999;
-                }
-                else
-                {
-                    _efficiency = 100;
-                }
-            }
+            _efficiency = lost[0] != 0 ? lost[1] * 100 / lost[0] : lost[1] != 0 || Sides[1].Count == 0 ? 999 : 100;
         }
 
         return _efficiency;
@@ -780,14 +705,7 @@ public partial class CombatPredictor : IDisposable
             for (int i = Sides[0].Count - 1; i >= 0; i--)
             {
                 u = Sides[0].List[i];
-                if (u.IncomingCombatValue != 0)
-                {
-                    score = u.CombatValueTotal * 100 / u.IncomingCombatValue;
-                }
-                else
-                {
-                    score = 9999;
-                }
+                score = u.IncomingCombatValue != 0 ? u.CombatValueTotal * 100 / u.IncomingCombatValue : 9999;
 
                 total += u.CombatValueTotal;
                 list.AddAbility(u, score);
@@ -914,17 +832,11 @@ public partial class CombatPredictor : IDisposable
                 u = Sides[0].List[i];
                 if (u.CombatValueTotal == 0)
                 {
-                    if (useless != null)
-                    {
-                        useless.AddUnit(u.Troop);
-                    }
+                    useless?.AddUnit(u.Troop);
                 }
                 else
                 {
-                    if (required != null)
-                    {
-                        required.AddUnit(u.Troop);
-                    }
+                    required?.AddUnit(u.Troop);
                 }
             }
         }

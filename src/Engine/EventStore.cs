@@ -54,11 +54,7 @@ internal sealed class EventStore<TSender>
         for (int i = upper; i >= 0; i--)
         {
             NotifyEvent<TSender>[] list = _items;
-            NotifyEvent<TSender> handler = list[i];
-            if (handler != null)
-            {
-                handler(sender);
-            }
+            list[i]?.Invoke(sender);
         }
     }
 
@@ -91,20 +87,7 @@ internal sealed class EventStore<TSender>
     // Engine.pas:4937. Growth replaces the array. Raise reads the field again each step.
     private void Grow(int capacity)
     {
-        int delta;
-        if (capacity > 64)
-        {
-            delta = capacity / 4;
-        }
-        else if (capacity > 8)
-        {
-            delta = 16;
-        }
-        else
-        {
-            delta = 4;
-        }
-
+        int delta = capacity > 64 ? capacity / 4 : capacity > 8 ? 16 : 4;
         Array.Resize(ref _items, capacity + delta);
     }
 }

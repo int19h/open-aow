@@ -77,14 +77,7 @@ public partial class TitleScene : UIModule
         if (lines.Count > 0)
         {
             alpha = _creditFrame;
-            if (alpha > duration)
-            {
-                alpha = 100 - ((alpha - duration) * 5);
-            }
-            else
-            {
-                alpha = alpha * 10;
-            }
+            alpha = alpha > duration ? 100 - ((alpha - duration) * 5) : alpha * 10;
 
             info.Blend = alpha;
             if (alpha > 0)
@@ -103,14 +96,7 @@ public partial class TitleScene : UIModule
 
             for (int i = 1, last = lines.Count - 1; i <= last; i++)
             {
-                if (_creditFrame > duration)
-                {
-                    alpha = 100 - ((_creditFrame - duration) * 5);
-                }
-                else
-                {
-                    alpha = (_creditFrame - ((i * 30) + 20)) * 10;
-                }
+                alpha = _creditFrame > duration ? 100 - ((_creditFrame - duration) * 5) : (_creditFrame - ((i * 30) + 20)) * 10;
 
                 if (alpha > 0)
                 {
@@ -315,21 +301,7 @@ public partial class TitleScene : UIModule
         TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, surface);
         if (!_showCredits && _frame > 25)
         {
-            if (_frame < 75)
-            {
-                frame = (_frame - 25) * 2;
-            }
-            else
-            {
-                if (_totalFrame <= 730)
-                {
-                    frame = 100;
-                }
-                else
-                {
-                    frame = (750 - _totalFrame) * 5;
-                }
-            }
+            frame = _frame < 75 ? (_frame - 25) * 2 : _totalFrame <= 730 ? 100 : (750 - _totalFrame) * 5;
 
             LibraryImage titleSceneImageLibrary = TitleSceneImages[1];
             x = (_sceneRectangle.Right - _sceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
@@ -348,21 +320,7 @@ public partial class TitleScene : UIModule
         x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
         for (int i = 0; i <= 4; i++)
         {
-            if (i == _pressedButton && i == HitTest())
-            {
-                image = 2;
-            }
-            else
-            {
-                if (_pressedButton == -1 && i == _hoverButton)
-                {
-                    image = 1;
-                }
-                else
-                {
-                    image = 0;
-                }
-            }
+            image = i == _pressedButton && i == HitTest() ? 2 : _pressedButton == -1 && i == _hoverButton ? 1 : 0;
 
             TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, surface);
             if (i == HitTest())
@@ -494,7 +452,7 @@ public partial class TitleScene : UIModule
         string versionString = UI.Engine.GetVersionString();
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
         VersionLabel.Text = format;
-        _credits = new List<StringList>();
+        _credits = [];
         lines = new StringList();
         lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
         lines.Add("Lennart Sas");

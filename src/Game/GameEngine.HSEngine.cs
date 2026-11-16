@@ -118,17 +118,14 @@ public partial class GameEngine : OwningNode
     // load has none, so a failed nested object is dropped and the load goes on.
     private static LoadErrorHandler EditorErrorHandler(GameMap map)
     {
-        if (map is not StrategicMap strategicMap || !strategicMap.Status.Contains(HexSpriteMapStatusElement.Editting))
-        {
-            return null;
-        }
-
-        return (string message, out bool continueLoad) =>
+        return map is not StrategicMap strategicMap || !strategicMap.Status.Contains(HexSpriteMapStatusElement.Editting)
+            ? null
+            : ((string message, out bool continueLoad) =>
         {
             bool handled = true;
             strategicMap.OnStreamError(message: message, handled: ref handled);
             continueLoad = handled;
-        };
+        });
     }
 
     // HSEngine.pas:5137
@@ -487,12 +484,9 @@ public partial class GameEngine : OwningNode
     private static GameFileTree ReadOwnMap(byte[] payload)
     {
         GameFileResult prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
-        if (!prepared.Succeeded)
-        {
-            throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."));
-        }
-
-        return GameBoundary.ReadTree(prepared, use: GameProfile.WorldMap);
+        return !prepared.Succeeded
+            ? throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."))
+            : GameBoundary.ReadTree(prepared, use: GameProfile.WorldMap);
     }
 
     // HSEngine.pas:5341

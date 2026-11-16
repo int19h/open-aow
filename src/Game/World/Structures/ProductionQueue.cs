@@ -23,16 +23,7 @@ public partial class ProductionQueue : OwningNode, IChildList<ProductionItem>
     // Structur.PAS:83
     public ProductionItem GetItem(int index)
     {
-        ProductionItem result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        ProductionItem result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

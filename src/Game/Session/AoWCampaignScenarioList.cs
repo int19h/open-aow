@@ -20,16 +20,7 @@ public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignSc
     // Diplomacy.pas:2214
     public CampaignScenario GetScenario(int index)
     {
-        CampaignScenario result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        CampaignScenario result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 
@@ -67,14 +58,7 @@ public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignSc
         CampaignScenario result;
         int index;
         index = IndexOfId(id);
-        if (index != -1)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? this[index] : null;
 
         return result;
     }

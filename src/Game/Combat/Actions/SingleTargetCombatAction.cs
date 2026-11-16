@@ -90,13 +90,8 @@ public partial class SingleTargetCombatAction : CombatAction
     // Combat2.pas:743
     public void SetDefensive(bool defensive)
     {
-        if (defensive)
-        {
-            Mode = Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
-        }
-        else
-        {
-            Mode = Mode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
-        }
+        Mode = defensive
+            ? Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive)
+            : Mode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
     }
 }

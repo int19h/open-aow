@@ -29,7 +29,7 @@ public partial class TabPanel : Control
     {
         _items = new StringList();
         _items.OnChange = OnChangeText;
-        Panels = new List<Panel>();
+        Panels = [];
     }
 
     // AoWTabPanel.pas:70

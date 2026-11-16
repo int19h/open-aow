@@ -39,16 +39,7 @@ public partial class MoveSettings : EngineObject
     // Structur.PAS:4024
     public MapCoordinate GetMoveLocation()
     {
-        MapCoordinate result = default;
-        if (Path.Count > MovePosition && MovePosition >= 0)
-        {
-            result = Path.List[MovePosition].Location;
-        }
-        else
-        {
-            result = MapCoordinate.None;
-        }
-
+        MapCoordinate result = Path.Count > MovePosition && MovePosition >= 0 ? Path.List[MovePosition].Location : MapCoordinate.None;
         return result;
     }
 

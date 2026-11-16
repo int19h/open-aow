@@ -126,27 +126,13 @@ public partial class CombatHex : AbstractHexagon
             {
                 if (terrainType == 0)
                 {
-                    if (neighbourTerrain == 6)
-                    {
-                        imageIndex = 10;
-                    }
-                    else
-                    {
-                        imageIndex = neighbourTerrain + 4;
-                    }
+                    imageIndex = neighbourTerrain == 6 ? 10 : neighbourTerrain + 4;
                 }
                 else
                 {
                     if (terrainType == 6)
                     {
-                        if (neighbourTerrain == 0)
-                        {
-                            imageIndex = 16;
-                        }
-                        else
-                        {
-                            imageIndex = neighbourTerrain + 10;
-                        }
+                        imageIndex = neighbourTerrain == 0 ? 16 : neighbourTerrain + 10;
                     }
                     else
                     {
@@ -202,21 +188,7 @@ public partial class CombatHex : AbstractHexagon
                                 }
                                 else
                                 {
-                                    if (terrainType == 9)
-                                    {
-                                        if (neighbourTerrain == 12)
-                                        {
-                                            imageIndex = 24;
-                                        }
-                                        else
-                                        {
-                                            imageIndex = 25;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        imageIndex = terrainType - 1;
-                                    }
+                                    imageIndex = terrainType == 9 ? neighbourTerrain == 12 ? 24 : 25 : terrainType - 1;
                                 }
                             }
                         }
@@ -227,14 +199,7 @@ public partial class CombatHex : AbstractHexagon
             if (imageIndex != -1)
             {
                 imageIndex = (Random(2) * 3) + (imageIndex * 6) + (side - 1);
-                if (((Resource)base.Resource).TransitionLibrary.GetSafe(imageIndex) != null)
-                {
-                    _transitions[side - 1] = (byte)imageIndex;
-                }
-                else
-                {
-                    _transitions[side - 1] = 255;
-                }
+                _transitions[side - 1] = ((Resource)base.Resource).TransitionLibrary.GetSafe(imageIndex) != null ? (byte)imageIndex : (byte)255;
             }
             else
             {

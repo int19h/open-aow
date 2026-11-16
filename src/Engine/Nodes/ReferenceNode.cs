@@ -65,12 +65,7 @@ public partial class ReferenceNode : OwningNode
         }
 
         AppendChild(child);
-        if (child.AddRef() == -1)
-        {
-            throw new NotSupportedException("EObject doesn't support ReferenceCounting");
-        }
-
-        return Count - 1;
+        return child.AddRef() == -1 ? throw new NotSupportedException("EObject doesn't support ReferenceCounting") : Count - 1;
     }
 
     // Engine.pas:631

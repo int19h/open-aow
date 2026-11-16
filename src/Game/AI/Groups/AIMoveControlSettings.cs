@@ -30,13 +30,7 @@ public partial class AIMoveControlSettings : EngineObject
 
     public event NotifyEvent<object> OnDone;
 
-    internal void RaiseDone(object sender)
-    {
-        if (OnDone != null)
-        {
-            OnDone(sender);
-        }
-    }
+    internal void RaiseDone(object sender) => OnDone?.Invoke(sender);
 
     public Troop Transporter { get; set; }
     public int MovePointsMax { get; private set; }

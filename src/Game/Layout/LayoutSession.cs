@@ -12,7 +12,7 @@ public sealed class LayoutSession
 {
     private sealed record Fixup(string Module, Action<Component> Apply);
 
-    private readonly Dictionary<string, Component> _modules = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, Component> _modules = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly List<Fixup> _pending = [];
 
     public static LayoutSession Default { get; } = new();

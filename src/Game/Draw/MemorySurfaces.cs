@@ -48,10 +48,7 @@ internal static class MemorySurfaces
         }
 
         byte[] result = new byte[size];
-        if (memory != null)
-        {
-            memory.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);
-        }
+        memory?.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);
 
         return result;
     }

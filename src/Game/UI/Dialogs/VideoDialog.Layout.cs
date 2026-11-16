@@ -149,10 +149,10 @@ public partial class VideoDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 305;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -361,10 +361,10 @@ public partial class VideoDialog : ILayoutModule
         DisplayModesList.Masked = false;
         DisplayModesList.WinWidth = 239;
         DisplayModesList.WinHeight = 107;
-        DisplayModesList.LayoutItems = new LayoutStrings()
-        {
+        DisplayModesList.LayoutItems =
+        [
             ""
-        };
+        ];
         DisplayModesList.BorderWidth = 6;
         DisplayModesList.BorderHeight = 4;
         DisplayModesList.OnDoubleClick += _ => ApplyBtnClick();
@@ -383,10 +383,10 @@ public partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.Priority = 0;
         ResolutionCheckBox.WinLeft = 50;
         ResolutionCheckBox.WinTop = 212;
-        ResolutionCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ResolutionCheckBox.LayoutToolTipText =
+        [
             "Selects whether to change to 640x480 resolution for some scenes, or stay in the current resolution."
-        };
+        ];
         ResolutionCheckBox.CaptureInput = true;
         ResolutionCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         ResolutionCheckBox.Alignment.AlignHeight = AlignHeight.Bottom;

@@ -119,14 +119,7 @@ public partial class MoveControl
             }
 
             Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
-            if ((field.FieldFlags & MapField.MoveOverFlag) == 0)
-            {
-                moveOverCode = 1;
-            }
-            else
-            {
-                moveOverCode = field.CanMoveOver(this);
-            }
+            moveOverCode = (field.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : field.CanMoveOver(this);
 
             continueMove = moveOverCode != 0;
             if (continueMove)

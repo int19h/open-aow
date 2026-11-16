@@ -98,10 +98,10 @@ public partial class CityScreen : ILayoutModule
         UnitAbilitiesList.Priority = 200;
         UnitAbilitiesList.WinLeft = 2;
         UnitAbilitiesList.WinTop = 1;
-        UnitAbilitiesList.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitAbilitiesList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         UnitAbilitiesList.CaptureInput = true;
         UnitAbilitiesList.Alignment.AlignWidth = AlignWidth.Both;
         UnitAbilitiesList.Alignment.AlignHeight = AlignHeight.Both;
@@ -762,10 +762,10 @@ public partial class CityScreen : ILayoutModule
         Production1CheckBox.Priority = 1511;
         Production1CheckBox.WinLeft = 2;
         Production1CheckBox.WinTop = 0;
-        Production1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production1CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production1CheckBox.CaptureInput = true;
         Production1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -802,10 +802,10 @@ public partial class CityScreen : ILayoutModule
         Production2CheckBox.Priority = 1510;
         Production2CheckBox.WinLeft = 53;
         Production2CheckBox.WinTop = 0;
-        Production2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production2CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production2CheckBox.CaptureInput = true;
         Production2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -842,10 +842,10 @@ public partial class CityScreen : ILayoutModule
         Production3CheckBox.Priority = 1509;
         Production3CheckBox.WinLeft = 104;
         Production3CheckBox.WinTop = 0;
-        Production3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production3CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production3CheckBox.CaptureInput = true;
         Production3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -882,10 +882,10 @@ public partial class CityScreen : ILayoutModule
         Production4CheckBox.Priority = 1508;
         Production4CheckBox.WinLeft = 155;
         Production4CheckBox.WinTop = 0;
-        Production4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production4CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production4CheckBox.CaptureInput = true;
         Production4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -922,10 +922,10 @@ public partial class CityScreen : ILayoutModule
         Production5CheckBox.Priority = 1507;
         Production5CheckBox.WinLeft = 206;
         Production5CheckBox.WinTop = 0;
-        Production5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production5CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production5CheckBox.CaptureInput = true;
         Production5CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -962,10 +962,10 @@ public partial class CityScreen : ILayoutModule
         Production6CheckBox.Priority = 1506;
         Production6CheckBox.WinLeft = 257;
         Production6CheckBox.WinTop = 0;
-        Production6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production6CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production6CheckBox.CaptureInput = true;
         Production6CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production6CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1002,10 +1002,10 @@ public partial class CityScreen : ILayoutModule
         Production7CheckBox.Priority = 1505;
         Production7CheckBox.WinLeft = 308;
         Production7CheckBox.WinTop = 0;
-        Production7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production7CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production7CheckBox.CaptureInput = true;
         Production7CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production7CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1042,10 +1042,10 @@ public partial class CityScreen : ILayoutModule
         Production8CheckBox.Priority = 1504;
         Production8CheckBox.WinLeft = 359;
         Production8CheckBox.WinTop = 0;
-        Production8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production8CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production8CheckBox.CaptureInput = true;
         Production8CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production8CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1082,10 +1082,10 @@ public partial class CityScreen : ILayoutModule
         Production9CheckBox.Priority = 1503;
         Production9CheckBox.WinLeft = 410;
         Production9CheckBox.WinTop = 0;
-        Production9CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production9CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production9CheckBox.CaptureInput = true;
         Production9CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production9CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1122,10 +1122,10 @@ public partial class CityScreen : ILayoutModule
         Production10CheckBox.Priority = 1502;
         Production10CheckBox.WinLeft = 461;
         Production10CheckBox.WinTop = 0;
-        Production10CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production10CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production10CheckBox.CaptureInput = true;
         Production10CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production10CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1162,10 +1162,10 @@ public partial class CityScreen : ILayoutModule
         Production11CheckBox.Priority = 1501;
         Production11CheckBox.WinLeft = 512;
         Production11CheckBox.WinTop = 0;
-        Production11CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production11CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production11CheckBox.CaptureInput = true;
         Production11CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production11CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1202,10 +1202,10 @@ public partial class CityScreen : ILayoutModule
         Production12CheckBox.Priority = 1500;
         Production12CheckBox.WinLeft = 563;
         Production12CheckBox.WinTop = 0;
-        Production12CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Production12CheckBox.LayoutToolTipText =
+        [
             "Shows information on Producing this unit."
-        };
+        ];
         Production12CheckBox.CaptureInput = true;
         Production12CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Production12CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1241,10 +1241,10 @@ public partial class CityScreen : ILayoutModule
         Action4CheckBox.Priority = 1700;
         Action4CheckBox.WinLeft = 153;
         Action4CheckBox.WinTop = 1;
-        Action4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action4CheckBox.LayoutToolTipText =
+        [
             "Shows information for Migrating a new race into the city."
-        };
+        ];
         Action4CheckBox.CaptureInput = true;
         Action4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action4CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1280,10 +1280,10 @@ public partial class CityScreen : ILayoutModule
         Action5CheckBox.Priority = 1600;
         Action5CheckBox.WinLeft = 204;
         Action5CheckBox.WinTop = 1;
-        Action5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action5CheckBox.LayoutToolTipText =
+        [
             "Shows information for Looting the city."
-        };
+        ];
         Action5CheckBox.CaptureInput = true;
         Action5CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action5CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1319,10 +1319,10 @@ public partial class CityScreen : ILayoutModule
         Action6CheckBox.Priority = 1500;
         Action6CheckBox.WinLeft = 255;
         Action6CheckBox.WinTop = 1;
-        Action6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action6CheckBox.LayoutToolTipText =
+        [
             "Shows information for Razing the city."
-        };
+        ];
         Action6CheckBox.CaptureInput = true;
         Action6CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action6CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1357,10 +1357,10 @@ public partial class CityScreen : ILayoutModule
         Action1CheckBox.Priority = 2000;
         Action1CheckBox.WinLeft = 0;
         Action1CheckBox.WinTop = 1;
-        Action1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action1CheckBox.LayoutToolTipText =
+        [
             "Shows information for Producing Merchandise."
-        };
+        ];
         Action1CheckBox.CaptureInput = true;
         Action1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action1CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1396,10 +1396,10 @@ public partial class CityScreen : ILayoutModule
         Action2CheckBox.Priority = 1900;
         Action2CheckBox.WinLeft = 51;
         Action2CheckBox.WinTop = 1;
-        Action2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action2CheckBox.LayoutToolTipText =
+        [
             "Shows information for Upgrading the city."
-        };
+        ];
         Action2CheckBox.CaptureInput = true;
         Action2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action2CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1435,10 +1435,10 @@ public partial class CityScreen : ILayoutModule
         Action3CheckBox.Priority = 1800;
         Action3CheckBox.WinLeft = 102;
         Action3CheckBox.WinTop = 1;
-        Action3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Action3CheckBox.LayoutToolTipText =
+        [
             "Shows information for Fortifying the city."
-        };
+        ];
         Action3CheckBox.CaptureInput = true;
         Action3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Action3CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1847,10 +1847,10 @@ public partial class CityScreen : ILayoutModule
         QueueList.Priority = 3005;
         QueueList.WinLeft = 0;
         QueueList.WinTop = 0;
-        QueueList.LayoutToolTipText = new LayoutStrings()
-        {
+        QueueList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         QueueList.CaptureInput = true;
         QueueList.Alignment.AlignWidth = AlignWidth.Both;
         QueueList.Alignment.AlignHeight = AlignHeight.Both;
@@ -2200,13 +2200,13 @@ public partial class CityScreen : ILayoutModule
         PopulationMemo.Masked = false;
         PopulationMemo.WinWidth = 167;
         PopulationMemo.WinHeight = 46;
-        PopulationMemo.LayoutItems = new LayoutStrings()
-        {
+        PopulationMemo.LayoutItems =
+        [
             "",
             "",
             "",
             ""
-        };
+        ];
         PopulationMemo.BorderWidth = 5;
         PopulationMemo.BorderHeight = 1;
         PopulationMemo.TextColor = 9415072;
@@ -4089,10 +4089,10 @@ public partial class CityScreen : ILayoutModule
         relIcn.Priority = 10;
         relIcn.WinLeft = 8;
         relIcn.WinTop = 2;
-        relIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        relIcn.LayoutToolTipText =
+        [
             "Unit's cost in gems"
-        };
+        ];
         relIcn.CaptureInput = true;
         relIcn.Alignment.AlignWidth = AlignWidth.Left;
         relIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -4450,10 +4450,10 @@ public partial class CityScreen : ILayoutModule
         NextCityButton.Priority = 100;
         NextCityButton.WinLeft = 76;
         NextCityButton.WinTop = 21;
-        NextCityButton.LayoutToolTipText = new LayoutStrings()
-        {
+        NextCityButton.LayoutToolTipText =
+        [
             "Next City"
-        };
+        ];
         NextCityButton.CaptureInput = true;
         NextCityButton.Alignment.AlignWidth = AlignWidth.Both;
         NextCityButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -4485,10 +4485,10 @@ public partial class CityScreen : ILayoutModule
         PreviousCityButton.Priority = 100;
         PreviousCityButton.WinLeft = 0;
         PreviousCityButton.WinTop = 21;
-        PreviousCityButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PreviousCityButton.LayoutToolTipText =
+        [
             "Previous City"
-        };
+        ];
         PreviousCityButton.CaptureInput = true;
         PreviousCityButton.Alignment.AlignWidth = AlignWidth.Both;
         PreviousCityButton.Alignment.AlignHeight = AlignHeight.Top;

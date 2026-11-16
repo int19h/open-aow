@@ -22,16 +22,7 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
     // Structur.PAS:14
     public UnitProduction GetItem(int index)
     {
-        UnitProduction result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        UnitProduction result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

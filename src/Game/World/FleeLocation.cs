@@ -44,14 +44,9 @@ public partial class FleeLocation : MapObject
     {
         if (info.HexNumber == 0)
         {
-            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker)
-            {
-                moveResult.Code = 25;
-            }
-            else
-            {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
-            }
+            moveResult.Code = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker
+                ? 25
+                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
 
             moveResult.Done = true;
         }
@@ -63,14 +58,7 @@ public partial class FleeLocation : MapObject
         base.Activate();
         CombatMap.Current.NewFrameEvents += NewFrame;
         _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
-        if (_highlighted)
-        {
-            _alpha = 50;
-        }
-        else
-        {
-            _alpha = 0;
-        }
+        _alpha = _highlighted ? 50 : 0;
 
         CombatMap.Current.FleeLocations.Add(this);
     }
@@ -130,14 +118,7 @@ public partial class FleeLocation : MapObject
         if (highlight != _highlighted)
         {
             _highlighted = highlight;
-            if (_highlighted)
-            {
-                _alphaStep = 5;
-            }
-            else
-            {
-                _alphaStep = -5;
-            }
+            _alphaStep = _highlighted ? 5 : -5;
         }
         else
         {

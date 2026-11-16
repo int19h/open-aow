@@ -94,14 +94,7 @@ public partial class ListBox : Control
                 _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
             }
 
-            if (_imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
-            {
-                _textOnly = 0;
-            }
-            else
-            {
-                _textOnly = 1;
-            }
+            _textOnly = _imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null ? (byte)0 : (byte)1;
 
             Valid = true;
         }
@@ -239,10 +232,7 @@ public partial class ListBox : Control
     public override void SetVisible(bool value)
     {
         base.SetVisible(value);
-        if (_verticalScrollBar != null)
-        {
-            _verticalScrollBar.Visible = Visible;
-        }
+        _verticalScrollBar?.Visible = Visible;
     }
 
     // AoWListBox.pas:304
@@ -319,10 +309,7 @@ public partial class ListBox : Control
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        if (OnPreDrawItem != null)
-                        {
-                            OnPreDrawItem(this, _drawItemRectangle, _drawItem, ref lockedSurface);
-                        }
+                        OnPreDrawItem?.Invoke(this, _drawItemRectangle, _drawItem, ref lockedSurface);
 
                         if (FirstShownItem + i == _selected)
                         {
@@ -358,10 +345,7 @@ public partial class ListBox : Control
                                 break;
                         }
 
-                        if (OnDrawItem != null)
-                        {
-                            OnDrawItem(this, _drawItemRectangle, _drawItem, ref lockedSurface);
-                        }
+                        OnDrawItem?.Invoke(this, _drawItemRectangle, _drawItem, ref lockedSurface);
                     }
                 }
 
@@ -569,10 +553,7 @@ public partial class ListBox : Control
     public void SetVScroll(VerticalScrollBar value)
     {
         _verticalScrollBar = value;
-        if (value != null)
-        {
-            value.Priority = Priority;
-        }
+        value?.Priority = Priority;
 
         Priority = Priority;
         Sized = false;

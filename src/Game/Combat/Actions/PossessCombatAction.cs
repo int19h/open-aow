@@ -73,14 +73,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             if (oldUnit.GetAbilityEnabled(107))
             {
                 data = (PossessedAbilityData)oldUnit.GetAbilityData(107);
-                if (data != null)
-                {
-                    experience = data.SourceExperience;
-                }
-                else
-                {
-                    experience = 0;
-                }
+                experience = data != null ? data.SourceExperience : 0;
             }
             else
             {
@@ -88,10 +81,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             }
 
             data = (PossessedAbilityData)source.Troop.GetAbilityData(107);
-            if (data != null)
-            {
-                data.SourceExperience = source.Troop.GetUnitLevel() + experience;
-            }
+            data?.SourceExperience = source.Troop.GetUnitLevel() + experience;
 
             newUnit.Release();
             oldUnit.Release();

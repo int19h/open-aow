@@ -107,14 +107,9 @@ public static class AbilityRules
                 else
                 {
                     attackDefense = 10 - (attackDefense * 2);
-                    if (roll >= attackDefense && attackDefense < 18)
-                    {
-                        result = ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1;
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
+                    result = roll >= attackDefense && attackDefense < 18
+                        ? ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1
+                        : 0;
                 }
             }
         }
@@ -153,21 +148,9 @@ public static class AbilityRules
     {
         int result;
         damageTypes = damageTypes - immunityTypes;
-        if (damageTypes != Set<DamageType>.Of())
-        {
-            if (damageTypes - protectionTypes == Set<DamageType>.Of())
-            {
-                result = (int)(((uint)(damage + 1)) >> 1);
-            }
-            else
-            {
-                result = damage;
-            }
-        }
-        else
-        {
-            result = 0;
-        }
+        result = damageTypes != Set<DamageType>.Of()
+            ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (int)(((uint)(damage + 1)) >> 1) : damage
+            : 0;
 
         return result;
     }
@@ -248,14 +231,9 @@ public static class AbilityRules
         if (damageType != DamageType.None)
         {
             GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, surface);
-            if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType))
-            {
-                engine.CombatFont.Color = 0;
-            }
-            else
-            {
-                engine.CombatFont.Color = 16777215;
-            }
+            engine.CombatFont.Color = Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType)
+                ? 0
+                : 16777215;
 
             engine.CombatFont.SetTextCentered(x + 34, y + 36, IntToStr(damage), surface);
         }
@@ -331,23 +309,7 @@ public static class AbilityRules
 
     internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B)
     {
-        Status result;
-        if (A == B)
-        {
-            result = Status.Friendly;
-        }
-        else
-        {
-            if ((A & B) == Set<Alignment>.Of())
-            {
-                result = Status.Hostile;
-            }
-            else
-            {
-                result = Status.Neutral;
-            }
-        }
-
+        Status result = A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
         return result;
     }
 
@@ -464,57 +426,23 @@ public static class AbilityRules
         Alignment otherAlignment;
         if (player == 0 || otherPlayer == 0)
         {
-            if (player != 0)
-            {
-                race = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
-            }
-            else
-            {
-                if (independentRelation >= 0)
-                {
-                    race = independentRelation;
-                }
-                else
-                {
-                    race = -1;
-                }
-            }
+            race = player != 0
+                ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
+                : independentRelation >= 0 ? independentRelation : (sbyte)-1;
 
-            if (otherPlayer != 0)
-            {
-                otherRace = StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace;
-            }
-            else
-            {
-                if (otherIndependentRelation >= 0)
-                {
-                    otherRace = otherIndependentRelation;
-                }
-                else
-                {
-                    otherRace = -1;
-                }
-            }
+            otherRace = otherPlayer != 0
+                ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
+                : otherIndependentRelation >= 0 ? otherIndependentRelation : (sbyte)-1;
 
             if (race == -1 || otherRace == -1)
             {
-                if (race != -1)
-                {
-                    alignment = GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment();
-                }
-                else
-                {
-                    alignment = IndependentRelationToAlignment(independentRelation);
-                }
+                alignment = race != -1
+                    ? GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment()
+                    : IndependentRelationToAlignment(independentRelation);
 
-                if (otherRace != -1)
-                {
-                    otherAlignment = GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment();
-                }
-                else
-                {
-                    otherAlignment = IndependentRelationToAlignment(otherIndependentRelation);
-                }
+                otherAlignment = otherRace != -1
+                    ? GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment()
+                    : IndependentRelationToAlignment(otherIndependentRelation);
 
                 result = AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
             }
@@ -525,14 +453,9 @@ public static class AbilityRules
         }
         else
         {
-            if (player != otherPlayer)
-            {
-                result = StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer);
-            }
-            else
-            {
-                result = Session.DiplomaticRelation.Alliance;
-            }
+            result = player != otherPlayer
+                ? StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer)
+                : Session.DiplomaticRelation.Alliance;
         }
 
         return result;
@@ -808,8 +731,7 @@ public static class AbilityRules
         MapFieldMessageParameters param2 = message.Param;
         param2[2] = query;
         message.Param = param2;
-        HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -834,7 +756,6 @@ public static class AbilityRules
     internal static void TriggerStormDamage(StormType storm, sbyte x, sbyte y, sbyte mapLevel, sbyte innerRadius, sbyte outerRadius, sbyte player)
     {
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         MapLevel level;
         level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
@@ -844,7 +765,7 @@ public static class AbilityRules
         MapFieldMessageParameters param2 = message.Param;
         param2[2] = player;
         message.Param = param2;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, innerRadius);
         while (walk.Radius <= outerRadius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

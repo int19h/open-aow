@@ -50,15 +50,9 @@ public partial class NewTurnDialog : UIModule
         eventValue = _newTurn;
         Done = null;
         _newTurn = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWNewTurnDialog.pas:69
@@ -69,11 +63,8 @@ public partial class NewTurnDialog : UIModule
         switch (eventValue.Mode)
         {
             case NewTurnEventLogMode.Dialog:
-                if (_newTurn != null)
-                {
-                    _newTurn.Release();
-                    _newTurn = null;
-                }
+                _newTurn?.Release();
+                _newTurn = null;
 
                 Done = done;
                 _newTurn = eventValue;
@@ -92,14 +83,7 @@ public partial class NewTurnDialog : UIModule
                     PlayerRaceLabel.Text = "";
                 }
 
-                if (StrategicMap.Current.Day > 0)
-                {
-                    day2 = StrategicMap.Current.Day;
-                }
-                else
-                {
-                    day2 = 1;
-                }
+                day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
                 TurnLabel.Text = day + " " + IntToStr(day2);

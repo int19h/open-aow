@@ -214,16 +214,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index)
-    {
+    public Troop GetUnit(int index) =>
         // { Original accepts negative indexes and reads the backing array directly. }
-        if (index < Count)
-        {
-            return this[index];
-        }
-
-        return null;
-    }
+        index < Count ? this[index] : null;
 
     private static int CompareUnits(Troop item1, Troop item2)
     {
@@ -264,23 +257,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         int result = s2 - s1;
         if (result == 0)
         {
-            if (item1.UnitStatus.Contains(UnitStatusElement.Enchanted))
-            {
-                s1 = 1;
-            }
-            else
-            {
-                s1 = 0;
-            }
+            s1 = item1.UnitStatus.Contains(UnitStatusElement.Enchanted) ? 1 : 0;
 
-            if (item2.UnitStatus.Contains(UnitStatusElement.Enchanted))
-            {
-                s2 = 1;
-            }
-            else
-            {
-                s2 = 0;
-            }
+            s2 = item2.UnitStatus.Contains(UnitStatusElement.Enchanted) ? 1 : 0;
 
             result = s2 - s1;
         }

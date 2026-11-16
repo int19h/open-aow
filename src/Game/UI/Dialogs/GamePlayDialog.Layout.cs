@@ -147,10 +147,10 @@ public partial class GamePlayDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 305;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -265,10 +265,10 @@ public partial class GamePlayDialog : ILayoutModule
         AutoSaveCheckBox.Priority = 0;
         AutoSaveCheckBox.WinLeft = 20;
         AutoSaveCheckBox.WinTop = 16;
-        AutoSaveCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AutoSaveCheckBox.LayoutToolTipText =
+        [
             "Selects whether to automatically save the game after each turn."
-        };
+        ];
         AutoSaveCheckBox.CaptureInput = true;
         AutoSaveCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AutoSaveCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -323,10 +323,10 @@ public partial class GamePlayDialog : ILayoutModule
         SkipIntroCheckBox.Priority = 0;
         SkipIntroCheckBox.WinLeft = 140;
         SkipIntroCheckBox.WinTop = 16;
-        SkipIntroCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        SkipIntroCheckBox.LayoutToolTipText =
+        [
             "Selects whether to skip the introductory movie when the game starts."
-        };
+        ];
         SkipIntroCheckBox.CaptureInput = true;
         SkipIntroCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         SkipIntroCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -395,11 +395,11 @@ public partial class GamePlayDialog : ILayoutModule
         tab1.Alignment.TopOffset = 23;
         tab1.Alignment.BottomOffset = 0;
         tab1.Masked = true;
-        tab1.LayoutItems = new LayoutStrings()
-        {
+        tab1.LayoutItems =
+        [
             "General",
             "Events"
-        };
+        ];
         tab1.BorderHeight = 6;
         tab1.Selected = 0;
         tab1.WinWidth = 300;
@@ -1321,12 +1321,12 @@ public partial class GamePlayDialog : ILayoutModule
         MovementSpeedComboBox.Alignment.BottomOffset = 4;
         MovementSpeedComboBox.Masked = false;
         MovementSpeedComboBox.WinWidth = 170;
-        MovementSpeedComboBox.LayoutItems = new LayoutStrings()
-        {
+        MovementSpeedComboBox.LayoutItems =
+        [
             "Normal",
             "Fast",
             "Very fast"
-        };
+        ];
         MovementSpeedComboBox.BorderWidth = 7;
         MovementSpeedComboBox.BorderHeight = 5;
         MovementSpeedComboBox.ListBorderWidth = 6;

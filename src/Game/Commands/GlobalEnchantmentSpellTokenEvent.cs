@@ -21,11 +21,8 @@ public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
     // GlobalEnchantmentSpells.pas:379
     public override void Dispose()
     {
-        if (Enchantment != null)
-        {
-            Enchantment.Release();
-            Enchantment = null;
-        }
+        Enchantment?.Release();
+        Enchantment = null;
 
         base.Dispose();
     }

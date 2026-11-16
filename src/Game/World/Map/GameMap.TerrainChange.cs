@@ -11,8 +11,7 @@ public partial class GameMap
         TerrainList saved = new();
         saved.SetCount(terrain.Count);
         MapLevel mapLevel = _mapContainer.GetMapLevel(level);
-        HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         bool InRange() => terrain.GetUsed(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height;
         while (walk.HexNumber < terrain.Count)
         {

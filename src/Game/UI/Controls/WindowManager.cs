@@ -596,10 +596,7 @@ public partial class WindowManager : UIComponent
 
         if (base.Cursor != _oldCursor)
         {
-            if (OnChangeCursor != null)
-            {
-                OnChangeCursor(this);
-            }
+            OnChangeCursor?.Invoke(this);
         }
 
         RaiseMouseMove(this, shift, X, Y);
@@ -706,10 +703,7 @@ public partial class WindowManager : UIComponent
         if (value != base.Cursor)
         {
             base.Cursor = value;
-            if (OnChangeCursor != null)
-            {
-                OnChangeCursor(this);
-            }
+            OnChangeCursor?.Invoke(this);
         }
     }
 

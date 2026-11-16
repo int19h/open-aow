@@ -24,16 +24,7 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     // Player.PAS:50
     public int GetLastModifiedOnDay()
     {
-        int result;
-        if (Count != 0)
-        {
-            result = GetItems(Count - 1).Day;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = Count != 0 ? GetItems(Count - 1).Day : 0;
         return result;
     }
 

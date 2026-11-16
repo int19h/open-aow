@@ -136,14 +136,7 @@ public partial class TargetSelectionControl : IDisposable
         MapField mapField;
         if (X != -1 && Y != -1)
         {
-            if (TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
-            {
-                result = HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
-            }
-            else
-            {
-                result = true;
-            }
+            result = !TargetMode.Contains(TargetSelectionModeElement.ValidateDistance) || HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
 
             if (TargetMode.Contains(TargetSelectionModeElement.FixedLevel))
             {
@@ -196,14 +189,9 @@ public partial class TargetSelectionControl : IDisposable
                 condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
             }
 
-            if (condition)
-            {
-                Status = Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
-            }
-            else
-            {
-                Status = Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
-            }
+            Status = condition
+                ? Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible)
+                : Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
         }
     }
 
@@ -230,10 +218,7 @@ public partial class TargetSelectionControl : IDisposable
                     ys = y + deltaY;
                     if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
-                        if (OnShow != null)
-                        {
-                            OnShow(this, i, xs, ys, lockedSurface);
-                        }
+                        OnShow?.Invoke(this, i, xs, ys, lockedSurface);
                     }
                     else
                     {

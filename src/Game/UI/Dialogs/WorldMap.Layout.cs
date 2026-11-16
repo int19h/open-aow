@@ -291,10 +291,10 @@ public partial class WorldMap : ILayoutModule
         BackButton.Priority = 20000;
         BackButton.WinLeft = 28;
         BackButton.WinTop = 343;
-        BackButton.LayoutToolTipText = new LayoutStrings()
-        {
+        BackButton.LayoutToolTipText =
+        [
             "Previous page"
-        };
+        ];
         BackButton.CaptureInput = true;
         BackButton.Alignment.AlignWidth = AlignWidth.Left;
         BackButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -325,10 +325,10 @@ public partial class WorldMap : ILayoutModule
         NextButton.Priority = 20000;
         NextButton.WinLeft = 518;
         NextButton.WinTop = 343;
-        NextButton.LayoutToolTipText = new LayoutStrings()
-        {
+        NextButton.LayoutToolTipText =
+        [
             "Next Page"
-        };
+        ];
         NextButton.CaptureInput = true;
         NextButton.Alignment.AlignWidth = AlignWidth.Right;
         NextButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -359,10 +359,10 @@ public partial class WorldMap : ILayoutModule
         CancelButton.Priority = 0;
         CancelButton.WinLeft = 520;
         CancelButton.WinTop = 386;
-        CancelButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CancelButton.LayoutToolTipText =
+        [
             "Close"
-        };
+        ];
         CancelButton.CaptureInput = true;
         CancelButton.Alignment.AlignWidth = AlignWidth.Right;
         CancelButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -393,10 +393,10 @@ public partial class WorldMap : ILayoutModule
         BookStartButton.Priority = 0;
         BookStartButton.WinLeft = 475;
         BookStartButton.WinTop = 386;
-        BookStartButton.LayoutToolTipText = new LayoutStrings()
-        {
+        BookStartButton.LayoutToolTipText =
+        [
             "Accept"
-        };
+        ];
         BookStartButton.CaptureInput = true;
         BookStartButton.Alignment.AlignWidth = AlignWidth.Right;
         BookStartButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1229,10 +1229,10 @@ public partial class WorldMap : ILayoutModule
         QuitButton.Priority = 20000;
         QuitButton.WinLeft = 500;
         QuitButton.WinTop = 448;
-        QuitButton.LayoutToolTipText = new LayoutStrings()
-        {
+        QuitButton.LayoutToolTipText =
+        [
             "Quits the campaign"
-        };
+        ];
         QuitButton.CaptureInput = true;
         QuitButton.Alignment.AlignWidth = AlignWidth.Right;
         QuitButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1264,10 +1264,10 @@ public partial class WorldMap : ILayoutModule
         ShowButton.Priority = 20000;
         ShowButton.WinLeft = 500;
         ShowButton.WinTop = 418;
-        ShowButton.LayoutToolTipText = new LayoutStrings()
-        {
+        ShowButton.LayoutToolTipText =
+        [
             "Shows information on map locations and allies"
-        };
+        ];
         ShowButton.CaptureInput = true;
         ShowButton.Alignment.AlignWidth = AlignWidth.Right;
         ShowButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1560,10 +1560,10 @@ public partial class WorldMap : ILayoutModule
         SetButton.Priority = 20000;
         SetButton.WinLeft = 500;
         SetButton.WinTop = 418;
-        SetButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SetButton.LayoutToolTipText =
+        [
             "Allows you to change the Campaign's settings."
-        };
+        ];
         SetButton.CaptureInput = true;
         SetButton.Alignment.AlignWidth = AlignWidth.Right;
         SetButton.Alignment.AlignHeight = AlignHeight.Bottom;

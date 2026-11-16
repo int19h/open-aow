@@ -45,15 +45,9 @@ public partial class HeroInfoDialog : UIModule
         eventValue = _armyInfo;
         Done = null;
         _armyInfo = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWHeroInfoDlg.pas:118

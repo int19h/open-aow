@@ -57,14 +57,7 @@ public partial class CityEnchantment : GlobalEnchantment
         int result;
         City city;
         city = GetCity();
-        if (city != null)
-        {
-            result = city.AICityEnchantmentUpkeepPriority(CityEnchantmentId);
-        }
-        else
-        {
-            result = 0;
-        }
+        result = city != null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
 
         return result;
     }

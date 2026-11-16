@@ -82,14 +82,9 @@ public partial class FaceResource : EngineResource
     public void LinkToImageLibrary()
     {
         ReleaseImageLibrary();
-        if (!IsEmpty(_imageLibraryName))
-        {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
-        }
-        else
-        {
-            _imageLibrary = null;
-        }
+        _imageLibrary = !IsEmpty(_imageLibraryName)
+            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName)
+            : null;
     }
 
     // Ability.PAS:459
@@ -129,14 +124,7 @@ public partial class FaceResource : EngineResource
         LibraryImage result;
         CustomImageLibrary images;
         images = _imageLibrary;
-        if (images != null)
-        {
-            result = images[_imageIndex];
-        }
-        else
-        {
-            result = null;
-        }
+        result = images?[_imageIndex];
 
         return result;
     }

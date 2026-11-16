@@ -65,25 +65,11 @@ public partial class AIExecutor : EngineObject
         {
             case AIExecutorProcessTimeMode.Static:
                 used = _processTimeUsed;
-                if (used != 0)
-                {
-                    result = time <= _processTime - used;
-                }
-                else
-                {
-                    result = true;
-                }
+                result = used == 0 || time <= _processTime - used;
 
                 break;
             case AIExecutorProcessTimeMode.Dynamic:
-                if (_processTimeUsed != 0)
-                {
-                    result = time < GetProcessTimeLeft();
-                }
-                else
-                {
-                    result = true;
-                }
+                result = _processTimeUsed == 0 || time < GetProcessTimeLeft();
 
                 break;
             default:
@@ -227,14 +213,7 @@ public partial class AIExecutor : EngineObject
             Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
             StrategicMap.Current.SynchronizeBegin();
             _processTimeUsed = 0;
-            if (_processTimeMode == AIExecutorProcessTimeMode.Dynamic)
-            {
-                _processStarted = PixelFormats.GetElapsedMilliseconds();
-            }
-            else
-            {
-                _processStarted = 0;
-            }
+            _processStarted = _processTimeMode == AIExecutorProcessTimeMode.Dynamic ? PixelFormats.GetElapsedMilliseconds() : 0;
 
             try
             {

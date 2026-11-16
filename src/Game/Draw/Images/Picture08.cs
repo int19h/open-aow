@@ -78,14 +78,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
     public void AllocateDiscardableImageData(int width, int height)
     {
         int size;
-        if (width < 32)
-        {
-            _pitch = (width + 3) & ~3;
-        }
-        else
-        {
-            _pitch = (width + 7) & ~7;
-        }
+        _pitch = width < 32 ? (width + 3) & ~3 : (width + 7) & ~7;
 
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the

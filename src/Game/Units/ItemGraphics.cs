@@ -87,14 +87,9 @@ public partial class ItemGraphics : EngineResource
     public void LinkToImageLibrary()
     {
         ReleaseImageLibrary();
-        if (!IsEmpty(ImageLibraryName))
-        {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
-        }
-        else
-        {
-            _imageLibrary = null;
-        }
+        _imageLibrary = !IsEmpty(ImageLibraryName)
+            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName)
+            : null;
     }
 
     // Army.PAS:5116
@@ -130,16 +125,7 @@ public partial class ItemGraphics : EngineResource
     // Army.PAS:5161
     public LibraryImage GetItemImage()
     {
-        LibraryImage result;
-        if (_imageLibrary != null)
-        {
-            result = _imageLibrary[ImageIndex];
-        }
-        else
-        {
-            result = null;
-        }
-
+        LibraryImage result = _imageLibrary?[ImageIndex];
         return result;
     }
 

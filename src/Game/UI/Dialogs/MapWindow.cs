@@ -152,13 +152,7 @@ public partial class MapWindow : UIModule
     }
 
     // AOWMWindow.pas:136
-    public void MapWindowExit()
-    {
-        if (StrategicMap.Current != null)
-        {
-            StrategicMap.Current.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
-        }
-    }
+    public void MapWindowExit() => StrategicMap.Current?.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
 
     // AOWMWindow.pas:150
     public void MapWindowPreDrawSurface(Surface surface, int X, int Y)
@@ -240,26 +234,17 @@ public partial class MapWindow : UIModule
                     UI.MapWindow.MapViewer.SceneL = UI.MapWindow.MapViewer.SceneL + 1;
                     break;
                 case 77:
-                    if (CombatMap.Current != null)
-                    {
-                        CombatMap.Current.UnitSelection.MoveUnits();
-                    }
+                    CombatMap.Current?.UnitSelection.MoveUnits();
 
                     sender.Handled = true;
                     break;
                 case 78:
-                    if (CombatMap.Current != null)
-                    {
-                        CombatMap.Current.SelectNextUnit(true);
-                    }
+                    CombatMap.Current?.SelectNextUnit(true);
 
                     sender.Handled = true;
                     break;
                 case 80:
-                    if (CombatMap.Current != null)
-                    {
-                        CombatMap.Current.SelectNextUnit(false);
-                    }
+                    CombatMap.Current?.SelectNextUnit(false);
 
                     sender.Handled = true;
                     break;

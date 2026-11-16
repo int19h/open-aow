@@ -111,16 +111,7 @@ public partial class CustomAbilityList : EngineObject
     // Ability.PAS:1134
     public void AssignAbility(CustomAbilityList source)
     {
-        int count;
-        if (source.GetAbCount() > GetAbCount())
-        {
-            count = source.GetAbCount();
-        }
-        else
-        {
-            count = GetAbCount();
-        }
-
+        int count = source.GetAbCount() > GetAbCount() ? source.GetAbCount() : GetAbCount();
         for (int i = 0; i <= count - 1; i++)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))

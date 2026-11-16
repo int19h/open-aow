@@ -44,14 +44,7 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
         if (result)
         {
             targetCity = GetSelectedCity();
-            if (targetCity == null || targetCity.Player != TargetPlayer)
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = targetCity != null && targetCity.Player == TargetPlayer;
         }
 
         return result;

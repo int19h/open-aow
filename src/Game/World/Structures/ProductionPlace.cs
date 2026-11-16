@@ -202,35 +202,13 @@ public partial class ProductionPlace : PlayerStructure
         string result;
         if (ProductionControl.Queue.Count == 0)
         {
-            if (Player > 0)
-            {
-                if (GetMagicSphere() != MagicSphere.None)
-                {
-                    if (GetPower() != 0)
-                    {
-                        result = AbilityRules.TranslateResourceString(GetEngine(), GameText.GeneratingExtraPowerText);
-                    }
-                    else
-                    {
-                        result = "-";
-                    }
-                }
-                else
-                {
-                    if (GetBaseIncome() != 0)
-                    {
-                        result = AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText);
-                    }
-                    else
-                    {
-                        result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText);
-                    }
-                }
-            }
-            else
-            {
-                result = LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText));
-            }
+            result = Player > 0
+                ? GetMagicSphere() != MagicSphere.None
+                    ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), GameText.GeneratingExtraPowerText) : "-"
+                    : GetBaseIncome() != 0
+                        ? AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText)
+                        : AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText)
+                : LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText));
         }
         else
         {
@@ -312,16 +290,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:294
     public override bool CanDoubleClick()
     {
-        bool result;
-        if (StrategicMap.Current.SeatedPlayer != Player || GetMagicSphere() != MagicSphere.None)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = StrategicMap.Current.SeatedPlayer == Player && GetMagicSphere() == MagicSphere.None;
         return result;
     }
 
@@ -395,14 +364,7 @@ public partial class ProductionPlace : PlayerStructure
         {
             MagicSphere magicSphere = GetMagicSphere();
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
-            if (result != 0)
-            {
-                result = (result * 5) + 10;
-            }
-            else
-            {
-                result = 0;
-            }
+            result = result != 0 ? (result * 5) + 10 : 0;
         }
         else
         {
@@ -482,16 +444,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:369
     public virtual int GetBaseIncome()
     {
-        int result;
-        if (RazedState != 1 && !GetBuilding())
-        {
-            result = 10;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = RazedState != 1 && !GetBuilding() ? 10 : 0;
         return result;
     }
 
@@ -667,14 +620,7 @@ public partial class ProductionPlace : PlayerStructure
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             item = new ProductionItem(null) { Holder = CreationHolder() };
-            if (queue)
-            {
-                item.Order = new Trade(1);
-            }
-            else
-            {
-                item.Order = new Trade(-1);
-            }
+            item.Order = queue ? new Trade(1) : new Trade(-1);
 
             ProductionControl.Produce(item, queue);
             item?.Dispose();

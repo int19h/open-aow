@@ -30,24 +30,12 @@ public partial class BaseWindow : WindowControl
     [Published]
     public event NotifyEvent<BaseWindow> OnShow;
 
-    protected void RaiseShow(BaseWindow sender)
-    {
-        if (OnShow != null)
-        {
-            OnShow(sender);
-        }
-    }
+    protected void RaiseShow(BaseWindow sender) => OnShow?.Invoke(sender);
 
     [Published]
     public event NotifyEvent<BaseWindow> OnHide;
 
-    protected void RaiseHide(BaseWindow sender)
-    {
-        if (OnHide != null)
-        {
-            OnHide(sender);
-        }
-    }
+    protected void RaiseHide(BaseWindow sender) => OnHide?.Invoke(sender);
 
     // AoWBaseWin.pas:56
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
@@ -100,10 +88,7 @@ public partial class BaseWindow : WindowControl
             if (!Visible)
             {
                 Hidden = true;
-                if (OnHide != null)
-                {
-                    OnHide(this);
-                }
+                OnHide?.Invoke(this);
 
                 if (FreeSurfaceOnHide && BackSurface != null)
                 {
@@ -145,10 +130,7 @@ public partial class BaseWindow : WindowControl
 
                 ClearBlitList();
                 ClearDrawList();
-                if (OnShow != null)
-                {
-                    OnShow(this);
-                }
+                OnShow?.Invoke(this);
             }
         }
 

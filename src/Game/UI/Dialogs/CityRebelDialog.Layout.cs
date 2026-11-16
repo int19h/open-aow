@@ -89,10 +89,10 @@ public partial class CityRebelDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 279;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

@@ -33,9 +33,7 @@ public partial class BloodShrine : Structure
     // BloodShrine.pas:68
     public void ShowBlessingAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
         base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);

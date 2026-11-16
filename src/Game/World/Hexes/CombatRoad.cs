@@ -33,9 +33,7 @@ public partial class CombatRoad : AbstractRoad
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary images;
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y = y - pixelYSurface;
         images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -63,16 +61,7 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
-        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
-        {
-            result = !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
         return result;
     }
 
@@ -83,10 +72,7 @@ public partial class CombatRoad : AbstractRoad
         MapField mapField;
         mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
-        if (oldRoad != null)
-        {
-            oldRoad.Dispose();
-        }
+        oldRoad?.Dispose();
 
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
     }

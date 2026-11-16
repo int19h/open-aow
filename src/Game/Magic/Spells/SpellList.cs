@@ -18,16 +18,7 @@ public partial class SpellList : IDisposable
     // Spells.PAS:705
     public Spell GetSpell(int index)
     {
-        Spell result;
-        if (index >= 0 && index < GetCount())
-        {
-            result = _spells[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        Spell result = index >= 0 && index < GetCount() ? _spells[index] : null;
         return result;
     }
 

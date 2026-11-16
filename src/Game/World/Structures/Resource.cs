@@ -46,10 +46,7 @@ public partial class Resource : PlayerCropStructureResource
         dY = Y;
         dY += ImageOffsetY;
         image = city.WallBackImage;
-        if (image != null)
-        {
-            image.Show(dX, dY, lockedSurface);
-        }
+        image?.Show(dX, dY, lockedSurface);
 
         if (city.CityImage != null)
         {
@@ -65,10 +62,7 @@ public partial class Resource : PlayerCropStructureResource
         }
 
         image = city.WallFrontImage;
-        if (image != null)
-        {
-            image.Show(dX, dY, lockedSurface);
-        }
+        image?.Show(dX, dY, lockedSurface);
     }
 
     // City.pas:2661

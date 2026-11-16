@@ -57,14 +57,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         switch (State)
         {
             case 0:
-                if (_selector.Status == AIMoveTargetSelectorStatus.Searching)
-                {
-                    result = _selector.Process();
-                }
-                else
-                {
-                    result = false;
-                }
+                result = _selector.Status == AIMoveTargetSelectorStatus.Searching && _selector.Process();
 
                 if (!result)
                 {

@@ -65,10 +65,10 @@ public partial class TaskBar : ILayoutModule
         tbNextButton.Priority = 5;
         tbNextButton.WinLeft = 568;
         tbNextButton.WinTop = 7;
-        tbNextButton.LayoutToolTipText = new LayoutStrings()
-        {
+        tbNextButton.LayoutToolTipText =
+        [
             "Selects the next available Unit"
-        };
+        ];
         tbNextButton.CaptureInput = true;
         tbNextButton.Alignment.AlignWidth = AlignWidth.Right;
         tbNextButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -99,10 +99,10 @@ public partial class TaskBar : ILayoutModule
         WorldStartMenuBar.Priority = 50;
         WorldStartMenuBar.WinLeft = 4;
         WorldStartMenuBar.WinTop = 7;
-        WorldStartMenuBar.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldStartMenuBar.LayoutToolTipText =
+        [
             "Opens the options menu"
-        };
+        ];
         WorldStartMenuBar.CaptureInput = true;
         WorldStartMenuBar.Alignment.AlignWidth = AlignWidth.Left;
         WorldStartMenuBar.Alignment.AlignHeight = AlignHeight.Top;
@@ -117,10 +117,10 @@ public partial class TaskBar : ILayoutModule
         WorldStartMenuBar.Alignment.TopOffset = 7;
         WorldStartMenuBar.Alignment.BottomOffset = 0;
         WorldStartMenuBar.Masked = false;
-        WorldStartMenuBar.LayoutItems = new LayoutStrings()
-        {
+        WorldStartMenuBar.LayoutItems =
+        [
             " "
-        };
+        ];
         WorldStartMenuBar.BorderWidth = 0;
         WorldStartMenuBar.BorderHeight = 0;
         WorldStartMenuBar.OnChange += _ => StartMenuBarChange();
@@ -137,10 +137,10 @@ public partial class TaskBar : ILayoutModule
         WorldMessageEdit.Priority = 5;
         WorldMessageEdit.WinLeft = 48;
         WorldMessageEdit.WinTop = 28;
-        WorldMessageEdit.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldMessageEdit.LayoutToolTipText =
+        [
             "The newest message"
-        };
+        ];
         WorldMessageEdit.CaptureInput = true;
         WorldMessageEdit.Alignment.AlignWidth = AlignWidth.Both;
         WorldMessageEdit.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -172,10 +172,10 @@ public partial class TaskBar : ILayoutModule
         WorldGoldIncomeLabel.Priority = 10;
         WorldGoldIncomeLabel.WinLeft = 3;
         WorldGoldIncomeLabel.WinTop = 5;
-        WorldGoldIncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldGoldIncomeLabel.LayoutToolTipText =
+        [
             "Gold income per Turn"
-        };
+        ];
         WorldGoldIncomeLabel.CaptureInput = false;
         WorldGoldIncomeLabel.Alignment.AlignWidth = AlignWidth.Center;
         WorldGoldIncomeLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -198,10 +198,10 @@ public partial class TaskBar : ILayoutModule
         WorldGoldTotalLabel.Priority = 10;
         WorldGoldTotalLabel.WinLeft = 22;
         WorldGoldTotalLabel.WinTop = 6;
-        WorldGoldTotalLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldGoldTotalLabel.LayoutToolTipText =
+        [
             "Total amount of Gold"
-        };
+        ];
         WorldGoldTotalLabel.CaptureInput = false;
         WorldGoldTotalLabel.Alignment.AlignWidth = AlignWidth.Right;
         WorldGoldTotalLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -224,10 +224,10 @@ public partial class TaskBar : ILayoutModule
         WorldTurnButton.Priority = 5;
         WorldTurnButton.WinLeft = 596;
         WorldTurnButton.WinTop = 7;
-        WorldTurnButton.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldTurnButton.LayoutToolTipText =
+        [
             "Ends the Turn"
-        };
+        ];
         WorldTurnButton.CaptureInput = true;
         WorldTurnButton.Alignment.AlignWidth = AlignWidth.Right;
         WorldTurnButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -255,10 +255,10 @@ public partial class TaskBar : ILayoutModule
         wmButton.Priority = 5;
         wmButton.WinLeft = 72;
         wmButton.WinTop = 0;
-        wmButton.LayoutToolTipText = new LayoutStrings()
-        {
+        wmButton.LayoutToolTipText =
+        [
             "Displays the World Map."
-        };
+        ];
         wmButton.CaptureInput = true;
         wmButton.Alignment.AlignWidth = AlignWidth.Left;
         wmButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -290,10 +290,10 @@ public partial class TaskBar : ILayoutModule
         ovButton.Priority = 5;
         ovButton.WinLeft = 145;
         ovButton.WinTop = 0;
-        ovButton.LayoutToolTipText = new LayoutStrings()
-        {
+        ovButton.LayoutToolTipText =
+        [
             "Displays the Realm Overview window."
-        };
+        ];
         ovButton.CaptureInput = true;
         ovButton.Alignment.AlignWidth = AlignWidth.Left;
         ovButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -326,10 +326,10 @@ public partial class TaskBar : ILayoutModule
         PartyButton.Priority = 0;
         PartyButton.WinLeft = 291;
         PartyButton.WinTop = 0;
-        PartyButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PartyButton.LayoutToolTipText =
+        [
             "Displays the Party window."
-        };
+        ];
         PartyButton.CaptureInput = true;
         PartyButton.Alignment.AlignWidth = AlignWidth.Left;
         PartyButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -362,10 +362,10 @@ public partial class TaskBar : ILayoutModule
         StructureButton.Priority = 0;
         StructureButton.WinLeft = 291;
         StructureButton.WinTop = 0;
-        StructureButton.LayoutToolTipText = new LayoutStrings()
-        {
+        StructureButton.LayoutToolTipText =
+        [
             "Displays the Structure window."
-        };
+        ];
         StructureButton.CaptureInput = true;
         StructureButton.Alignment.AlignWidth = AlignWidth.Left;
         StructureButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -397,10 +397,10 @@ public partial class TaskBar : ILayoutModule
         oV2Btn.Priority = 0;
         oV2Btn.WinLeft = 218;
         oV2Btn.WinTop = 0;
-        oV2Btn.LayoutToolTipText = new LayoutStrings()
-        {
+        oV2Btn.LayoutToolTipText =
+        [
             "Displays the Magic Management window."
-        };
+        ];
         oV2Btn.CaptureInput = true;
         oV2Btn.Alignment.AlignWidth = AlignWidth.Left;
         oV2Btn.Alignment.AlignHeight = AlignHeight.Top;
@@ -432,10 +432,10 @@ public partial class TaskBar : ILayoutModule
         infoBtn.Priority = 0;
         infoBtn.WinLeft = 291;
         infoBtn.WinTop = 0;
-        infoBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        infoBtn.LayoutToolTipText =
+        [
             "Displays the Events window."
-        };
+        ];
         infoBtn.CaptureInput = true;
         infoBtn.Alignment.AlignWidth = AlignWidth.Left;
         infoBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -469,10 +469,10 @@ public partial class TaskBar : ILayoutModule
         ChatButton.Priority = 0;
         ChatButton.WinLeft = 437;
         ChatButton.WinTop = 0;
-        ChatButton.LayoutToolTipText = new LayoutStrings()
-        {
+        ChatButton.LayoutToolTipText =
+        [
             "Displays the Chat window."
-        };
+        ];
         ChatButton.CaptureInput = true;
         ChatButton.Alignment.AlignWidth = AlignWidth.Left;
         ChatButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -585,10 +585,10 @@ public partial class TaskBar : ILayoutModule
         timerImg.Priority = 50;
         timerImg.WinLeft = 385;
         timerImg.WinTop = 28;
-        timerImg.LayoutToolTipText = new LayoutStrings()
-        {
+        timerImg.LayoutToolTipText =
+        [
             "The clock in non-timed games, or the countdown to the forced end-of-turn in timed games."
-        };
+        ];
         timerImg.CaptureInput = true;
         timerImg.Alignment.AlignWidth = AlignWidth.Right;
         timerImg.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -696,10 +696,10 @@ public partial class TaskBar : ILayoutModule
         CurrentPlayerImage.Priority = 15;
         CurrentPlayerImage.WinLeft = 0;
         CurrentPlayerImage.WinTop = 0;
-        CurrentPlayerImage.LayoutToolTipText = new LayoutStrings()
-        {
+        CurrentPlayerImage.LayoutToolTipText =
+        [
             "Indicates current player"
-        };
+        ];
         CurrentPlayerImage.CaptureInput = true;
         CurrentPlayerImage.Alignment.AlignWidth = AlignWidth.None;
         CurrentPlayerImage.Alignment.AlignHeight = AlignHeight.None;
@@ -756,10 +756,10 @@ public partial class TaskBar : ILayoutModule
         tcNextBtn.Priority = 5;
         tcNextBtn.WinLeft = 568;
         tcNextBtn.WinTop = 7;
-        tcNextBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        tcNextBtn.LayoutToolTipText =
+        [
             "Selects the next available unit"
-        };
+        ];
         tcNextBtn.CaptureInput = true;
         tcNextBtn.Alignment.AlignWidth = AlignWidth.Right;
         tcNextBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -790,10 +790,10 @@ public partial class TaskBar : ILayoutModule
         CombatStartMenuBar.Priority = 50;
         CombatStartMenuBar.WinLeft = 5;
         CombatStartMenuBar.WinTop = 7;
-        CombatStartMenuBar.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatStartMenuBar.LayoutToolTipText =
+        [
             "Opens the options menu"
-        };
+        ];
         CombatStartMenuBar.CaptureInput = true;
         CombatStartMenuBar.Alignment.AlignWidth = AlignWidth.Left;
         CombatStartMenuBar.Alignment.AlignHeight = AlignHeight.Top;
@@ -808,10 +808,10 @@ public partial class TaskBar : ILayoutModule
         CombatStartMenuBar.Alignment.TopOffset = 7;
         CombatStartMenuBar.Alignment.BottomOffset = 0;
         CombatStartMenuBar.Masked = false;
-        CombatStartMenuBar.LayoutItems = new LayoutStrings()
-        {
+        CombatStartMenuBar.LayoutItems =
+        [
             " "
-        };
+        ];
         CombatStartMenuBar.BorderWidth = 0;
         CombatStartMenuBar.BorderHeight = 0;
         CombatStartMenuBar.OnChange += _ => StartMenuBarChange();
@@ -828,11 +828,11 @@ public partial class TaskBar : ILayoutModule
         CombatMessageEdit.Priority = 5;
         CombatMessageEdit.WinLeft = 48;
         CombatMessageEdit.WinTop = 28;
-        CombatMessageEdit.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatMessageEdit.LayoutToolTipText =
+        [
             "The newest message",
             ""
-        };
+        ];
         CombatMessageEdit.CaptureInput = true;
         CombatMessageEdit.Alignment.AlignWidth = AlignWidth.Both;
         CombatMessageEdit.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -864,10 +864,10 @@ public partial class TaskBar : ILayoutModule
         CombatTurnButton.Priority = 5;
         CombatTurnButton.WinLeft = 596;
         CombatTurnButton.WinTop = 7;
-        CombatTurnButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatTurnButton.LayoutToolTipText =
+        [
             "Ends the Combat Round."
-        };
+        ];
         CombatTurnButton.CaptureInput = true;
         CombatTurnButton.Alignment.AlignWidth = AlignWidth.Right;
         CombatTurnButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -895,10 +895,10 @@ public partial class TaskBar : ILayoutModule
         CombatScannerButton.Priority = 5;
         CombatScannerButton.WinLeft = 0;
         CombatScannerButton.WinTop = 0;
-        CombatScannerButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatScannerButton.LayoutToolTipText =
+        [
             "Displays the Battle View."
-        };
+        ];
         CombatScannerButton.CaptureInput = true;
         CombatScannerButton.Alignment.AlignWidth = AlignWidth.Left;
         CombatScannerButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -931,10 +931,10 @@ public partial class TaskBar : ILayoutModule
         CombatUnitButton.Priority = 0;
         CombatUnitButton.WinLeft = 364;
         CombatUnitButton.WinTop = 0;
-        CombatUnitButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatUnitButton.LayoutToolTipText =
+        [
             "Displays the Unit window."
-        };
+        ];
         CombatUnitButton.CaptureInput = true;
         CombatUnitButton.Alignment.AlignWidth = AlignWidth.Left;
         CombatUnitButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -993,10 +993,10 @@ public partial class TaskBar : ILayoutModule
         tcTimerImg.Priority = 5;
         tcTimerImg.WinLeft = 385;
         tcTimerImg.WinTop = 28;
-        tcTimerImg.LayoutToolTipText = new LayoutStrings()
-        {
+        tcTimerImg.LayoutToolTipText =
+        [
             "The clock in non-timed games, or the countdown to the forced end-of-turn in timed games."
-        };
+        ];
         tcTimerImg.CaptureInput = true;
         tcTimerImg.Alignment.AlignWidth = AlignWidth.Right;
         tcTimerImg.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1104,10 +1104,10 @@ public partial class TaskBar : ILayoutModule
         CombatCurrentPlayerImage.Priority = 15;
         CombatCurrentPlayerImage.WinLeft = 0;
         CombatCurrentPlayerImage.WinTop = 0;
-        CombatCurrentPlayerImage.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatCurrentPlayerImage.LayoutToolTipText =
+        [
             "Indicates current player"
-        };
+        ];
         CombatCurrentPlayerImage.CaptureInput = true;
         CombatCurrentPlayerImage.Alignment.AlignWidth = AlignWidth.None;
         CombatCurrentPlayerImage.Alignment.AlignHeight = AlignHeight.None;
@@ -1194,10 +1194,10 @@ public partial class TaskBar : ILayoutModule
         CombatChatButton.Priority = 0;
         CombatChatButton.WinLeft = 437;
         CombatChatButton.WinTop = 0;
-        CombatChatButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatChatButton.LayoutToolTipText =
+        [
             "Displays the Chat window."
-        };
+        ];
         CombatChatButton.CaptureInput = true;
         CombatChatButton.Alignment.AlignWidth = AlignWidth.Left;
         CombatChatButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -1278,10 +1278,10 @@ public partial class TaskBar : ILayoutModule
         WorldManaIncomeLabel.Priority = 10;
         WorldManaIncomeLabel.WinLeft = 3;
         WorldManaIncomeLabel.WinTop = 5;
-        WorldManaIncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldManaIncomeLabel.LayoutToolTipText =
+        [
             "Mana income per Turn"
-        };
+        ];
         WorldManaIncomeLabel.CaptureInput = false;
         WorldManaIncomeLabel.Alignment.AlignWidth = AlignWidth.Center;
         WorldManaIncomeLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1304,10 +1304,10 @@ public partial class TaskBar : ILayoutModule
         WorldManaTotalLabel.Priority = 10;
         WorldManaTotalLabel.WinLeft = 22;
         WorldManaTotalLabel.WinTop = 6;
-        WorldManaTotalLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        WorldManaTotalLabel.LayoutToolTipText =
+        [
             "Total amount of Mana Crystals"
-        };
+        ];
         WorldManaTotalLabel.CaptureInput = false;
         WorldManaTotalLabel.Alignment.AlignWidth = AlignWidth.Right;
         WorldManaTotalLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1406,10 +1406,10 @@ public partial class TaskBar : ILayoutModule
         CombatGoldIncomeLabel.Priority = 10;
         CombatGoldIncomeLabel.WinLeft = 3;
         CombatGoldIncomeLabel.WinTop = 5;
-        CombatGoldIncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatGoldIncomeLabel.LayoutToolTipText =
+        [
             "Gold income per Turn"
-        };
+        ];
         CombatGoldIncomeLabel.CaptureInput = false;
         CombatGoldIncomeLabel.Alignment.AlignWidth = AlignWidth.Center;
         CombatGoldIncomeLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1432,10 +1432,10 @@ public partial class TaskBar : ILayoutModule
         CombatGoldTotalLabel.Priority = 10;
         CombatGoldTotalLabel.WinLeft = 22;
         CombatGoldTotalLabel.WinTop = 6;
-        CombatGoldTotalLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatGoldTotalLabel.LayoutToolTipText =
+        [
             "Total amount of Gold"
-        };
+        ];
         CombatGoldTotalLabel.CaptureInput = false;
         CombatGoldTotalLabel.Alignment.AlignWidth = AlignWidth.Right;
         CombatGoldTotalLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1458,10 +1458,10 @@ public partial class TaskBar : ILayoutModule
         tgIcn.Priority = 5;
         tgIcn.WinLeft = 0;
         tgIcn.WinTop = 0;
-        tgIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        tgIcn.LayoutToolTipText =
+        [
             "Indicates total amount of Gold and Income"
-        };
+        ];
         tgIcn.CaptureInput = true;
         tgIcn.Alignment.AlignWidth = AlignWidth.Left;
         tgIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1566,10 +1566,10 @@ public partial class TaskBar : ILayoutModule
         CombatManaIncomeLabel.Priority = 10;
         CombatManaIncomeLabel.WinLeft = 3;
         CombatManaIncomeLabel.WinTop = 5;
-        CombatManaIncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatManaIncomeLabel.LayoutToolTipText =
+        [
             "Mana income per Turn"
-        };
+        ];
         CombatManaIncomeLabel.CaptureInput = false;
         CombatManaIncomeLabel.Alignment.AlignWidth = AlignWidth.Center;
         CombatManaIncomeLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1592,10 +1592,10 @@ public partial class TaskBar : ILayoutModule
         CombatManaTotalLabel.Priority = 10;
         CombatManaTotalLabel.WinLeft = 22;
         CombatManaTotalLabel.WinTop = 6;
-        CombatManaTotalLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CombatManaTotalLabel.LayoutToolTipText =
+        [
             "Total amount of Mana Crystals"
-        };
+        ];
         CombatManaTotalLabel.CaptureInput = false;
         CombatManaTotalLabel.Alignment.AlignWidth = AlignWidth.Right;
         CombatManaTotalLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1618,10 +1618,10 @@ public partial class TaskBar : ILayoutModule
         twmIcn.Priority = 5;
         twmIcn.WinLeft = 0;
         twmIcn.WinTop = 0;
-        twmIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        twmIcn.LayoutToolTipText =
+        [
             "Indicates total amount of Gold and Income"
-        };
+        ];
         twmIcn.CaptureInput = true;
         twmIcn.Alignment.AlignWidth = AlignWidth.Left;
         twmIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1726,10 +1726,10 @@ public partial class TaskBar : ILayoutModule
         relationsBtn.Priority = 0;
         relationsBtn.WinLeft = 0;
         relationsBtn.WinTop = 0;
-        relationsBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        relationsBtn.LayoutToolTipText =
+        [
             "Displays the Relations Overview Window."
-        };
+        ];
         relationsBtn.CaptureInput = true;
         relationsBtn.Alignment.AlignWidth = AlignWidth.Left;
         relationsBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1761,10 +1761,10 @@ public partial class TaskBar : ILayoutModule
         AutoCombatCheckBox.Priority = 0;
         AutoCombatCheckBox.WinLeft = 0;
         AutoCombatCheckBox.WinTop = 0;
-        AutoCombatCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AutoCombatCheckBox.LayoutToolTipText =
+        [
             "Toggles whether your army fights under AI control."
-        };
+        ];
         AutoCombatCheckBox.CaptureInput = true;
         AutoCombatCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AutoCombatCheckBox.Alignment.AlignHeight = AlignHeight.Top;

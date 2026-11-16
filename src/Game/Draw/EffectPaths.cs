@@ -101,14 +101,7 @@ internal static class EffectPaths
         seg = Random(15) + 5;
         while (dist + seg < length)
         {
-            if ((double)a2 > angle)
-            {
-                a2 = (float)((double)angle - DegToRad(Random(40) + 40));
-            }
-            else
-            {
-                a2 = (float)((double)angle + DegToRad(Random(40) + 40));
-            }
+            a2 = (double)a2 > angle ? (float)((double)angle - DegToRad(Random(40) + 40)) : (float)((double)angle + DegToRad(Random(40) + 40));
 
             double cos = Math.Cos(angle);
             double mathCos = Math.Cos(a2);
@@ -187,16 +180,7 @@ internal static class EffectPaths
 
     internal static float GetAngle(int x1, int y1, int x2, int y2)
     {
-        float result;
-        if (x1 == x2)
-        {
-            result = (float)(Math.PI / 2);
-        }
-        else
-        {
-            result = (float)Math.Atan((double)(y2 - y1) / (x2 - x1));
-        }
-
+        float result = x1 == x2 ? (float)(Math.PI / 2) : (float)Math.Atan((double)(y2 - y1) / (x2 - x1));
         if (x2 > x1)
         {
             result = (float)((double)result + Math.PI);

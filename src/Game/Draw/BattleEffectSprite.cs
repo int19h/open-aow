@@ -319,14 +319,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.HailImpact:
-                        if (AbilityIndex == 52)
-                        {
-                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2];
-                        }
-                        else
-                        {
-                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
-                        }
+                        sequence = AbilityIndex == 52
+                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2]
+                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
 
                         if (sequence != null)
                         {
@@ -344,14 +339,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.PrayerGlow:
-                        if (AbilityIndex == 52)
-                        {
-                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
-                        }
-                        else
-                        {
-                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
-                        }
+                        sequence = AbilityIndex == 52
+                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
+                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
 
                         if (sequence != null)
                         {
@@ -1221,14 +1211,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
                                     unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild(2228484);
-                                    if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide())
-                                    {
-                                        effect.Target = unitHexSprite.Unit;
-                                    }
-                                    else
-                                    {
-                                        effect.Target = null;
-                                    }
+                                    effect.Target = unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide()
+                                        ? unitHexSprite.Unit
+                                        : null;
 
                                     if (effect.Target != null)
                                     {
@@ -1321,14 +1306,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int count8 = newPath.Count;
                                         newPath[count8 - 1].Z = k - 1;
                                         Frame = newPath.Count - 1;
-                                        if (k == 2)
-                                        {
-                                            k = -1;
-                                        }
-                                        else
-                                        {
-                                            k = 0;
-                                        }
+                                        k = k == 2 ? -1 : 0;
 
                                         break;
                                 }
@@ -1379,14 +1357,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                         }
 
-                        if (AbilityIndex == 52)
-                        {
-                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
-                        }
-                        else
-                        {
-                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
-                        }
+                        sequence = AbilityIndex == 52
+                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
+                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
 
                         if (sequence != null)
                         {
@@ -1416,14 +1389,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.SacredWrath:
-                        if (AbilityIndex == 52)
-                        {
-                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
-                        }
-                        else
-                        {
-                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
-                        }
+                        sequence = AbilityIndex == 52
+                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
+                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
 
                         if (sequence == null)
                         {
@@ -1638,14 +1606,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.CloudPuff:
-                        if (AbilityIndex == 52)
-                        {
-                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
-                        }
-                        else
-                        {
-                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
-                        }
+                        sequence = AbilityIndex == 52
+                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
+                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
 
                         if (sequence != null)
                         {

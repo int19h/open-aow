@@ -38,32 +38,14 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
     // Sound.pas:1063
     public Sample Play()
     {
-        Sample result;
-        if (Count != 0)
-        {
-            result = this[Random(Count)].Play();
-        }
-        else
-        {
-            result = null;
-        }
-
+        Sample result = Count != 0 ? this[Random(Count)].Play() : null;
         return result;
     }
 
     // Sound.pas:1071
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
-        Sample result = default;
-        if (Count != 0)
-        {
-            result = this[Random(Count)].Play(volume, looped, delay, panning, callback);
-        }
-        else
-        {
-            result = null;
-        }
-
+        Sample result = Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
         return result;
     }
 

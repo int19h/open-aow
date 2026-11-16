@@ -25,10 +25,7 @@ public partial class ConstructionControl : EngineObject
     public virtual bool CanConstruct(Troop troop, ref string reason)
     {
         bool result;
-        int gold = default;
-        int days = default;
-        string text = "";
-        GetInfo(troop, out text, out gold, out days);
+        GetInfo(troop, out string text, out int gold, out int days);
         if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughGoldText);

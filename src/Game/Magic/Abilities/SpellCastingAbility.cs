@@ -91,16 +91,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     // AoWAb.PAS:4479
     public override bool CanActivate(AbilityOwner owner, ref string reason)
     {
-        bool result;
-        if (owner is Hero)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = owner is Hero;
         return result;
     }
 
@@ -288,14 +279,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
 
             // { Original divides by zero when the opponent strength is zero. }
             ratio = (float)((double)sourceStrength / targetStrength);
-            if (((double)ratio >= 1.5 || troop.GetCastingSpellId() != 0) && (double)ratio >= 1 && (double)((double)source.GetHitPoints() * ratio) >= 7)
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = ((double)ratio < 1.5 && troop.GetCastingSpellId() == 0) || (double)ratio < 1 || (double)((double)source.GetHitPoints() * ratio) < 7;
         }
 
         return result;

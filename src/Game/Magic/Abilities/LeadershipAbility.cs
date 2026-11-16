@@ -21,14 +21,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         sbyte result;
         int level;
         level = GetLevel(owner);
-        if (level != 0)
-        {
-            result = LeadershipAttack[level];
-        }
-        else
-        {
-            result = 0;
-        }
+        result = level != 0 ? LeadershipAttack[level] : (sbyte)0;
 
         return result;
     }
@@ -39,14 +32,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         sbyte result;
         int level;
         level = GetLevel(owner);
-        if (level != 0)
-        {
-            result = LeadershipDefense[level];
-        }
-        else
-        {
-            result = 0;
-        }
+        result = level != 0 ? LeadershipDefense[level] : (sbyte)0;
 
         return result;
     }
@@ -61,14 +47,7 @@ public partial class LeadershipAbility : MultiLevelAbility
             data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
             if (data != null)
             {
-                if (data.ExternalLevel > data.Level)
-                {
-                    result = data.ExternalLevel;
-                }
-                else
-                {
-                    result = data.Level;
-                }
+                result = data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level;
             }
             else
             {
@@ -89,14 +68,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         string result;
         LeadershipAbilityData data;
         data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
-        if (data != null && data.ExternalLevel > data.Level)
-        {
-            result = data.ExternalSource;
-        }
-        else
-        {
-            result = owner.GetOwnerName();
-        }
+        result = data != null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
 
         return result;
     }
@@ -115,14 +87,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         bool result;
         LeadershipAbilityData data;
         data = (LeadershipAbilityData)owner.GetAbilityData(AbilityId);
-        if (data != null)
-        {
-            result = data.Level < MaxLevel;
-        }
-        else
-        {
-            result = true;
-        }
+        result = data == null || data.Level < MaxLevel;
 
         return result;
     }

@@ -17,7 +17,7 @@ public partial class SpellControl : EngineObject
 {
 
     // Spells.PAS:577
-    public SpellControl(CustomNode owner) : base(owner) => RegisteredSpells = new List<Spell>();
+    public SpellControl(CustomNode owner) : base(owner) => RegisteredSpells = [];
 
     public List<Spell> RegisteredSpells { get; init; }
 
@@ -173,14 +173,7 @@ public partial class SpellControl : EngineObject
             }
         }
 
-        if (candidates.Count != 0)
-        {
-            result = candidates[StrategicMap.Current.Random(candidates.Count)];
-        }
-        else
-        {
-            result = 0;
-        }
+        result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
 
         candidates?.Dispose();
         return result;

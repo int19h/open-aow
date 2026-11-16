@@ -88,14 +88,7 @@ public partial class Anarchy : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        if (!result || targetCity.Player == 0 || targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
 
         return result;
     }

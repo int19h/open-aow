@@ -88,16 +88,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     // AoWHSMap.PAS:1071
     public bool GetSelectingRectangle()
     {
-        bool result;
-        if (SelectionRectangle.Left == -1 || (SelectionRectangle.Left == SelectionRectangle.Right && SelectionRectangle.Top == SelectionRectangle.Bottom))
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = SelectionRectangle.Left != -1 && (SelectionRectangle.Left != SelectionRectangle.Right || SelectionRectangle.Top != SelectionRectangle.Bottom);
         return result;
     }
 
@@ -169,41 +160,13 @@ public partial class GameMapMouse : HexSpriteMapMouse
         Rect selectionRectangle2 = SelectionRectangle;
         selectionRectangle2.Bottom = pixelY;
         SelectionRectangle = selectionRectangle2;
-        if (SelectionRectangle.Left < SelectionRectangle.Right)
-        {
-            r.Left = SelectionRectangle.Left;
-        }
-        else
-        {
-            r.Left = SelectionRectangle.Right;
-        }
+        r.Left = SelectionRectangle.Left < SelectionRectangle.Right ? SelectionRectangle.Left : SelectionRectangle.Right;
 
-        if (SelectionRectangle.Right > SelectionRectangle.Left)
-        {
-            r.Right = SelectionRectangle.Right;
-        }
-        else
-        {
-            r.Right = SelectionRectangle.Left;
-        }
+        r.Right = SelectionRectangle.Right > SelectionRectangle.Left ? SelectionRectangle.Right : SelectionRectangle.Left;
 
-        if (SelectionRectangle.Top < SelectionRectangle.Bottom)
-        {
-            r.Top = SelectionRectangle.Top;
-        }
-        else
-        {
-            r.Top = SelectionRectangle.Bottom;
-        }
+        r.Top = SelectionRectangle.Top < SelectionRectangle.Bottom ? SelectionRectangle.Top : SelectionRectangle.Bottom;
 
-        if (SelectionRectangle.Bottom > SelectionRectangle.Top)
-        {
-            r.Bottom = SelectionRectangle.Bottom;
-        }
-        else
-        {
-            r.Bottom = SelectionRectangle.Top;
-        }
+        r.Bottom = SelectionRectangle.Bottom > SelectionRectangle.Top ? SelectionRectangle.Bottom : SelectionRectangle.Top;
 
         SelectionRectangle = r;
         RectangleSelectEventsStore.Raise(this);

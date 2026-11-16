@@ -32,15 +32,13 @@ public partial class TwinkleAnimation : Animation
         ImageSequence sequence;
         int oldSeed;
         int delay;
-        int x = default;
-        int y = default;
         int deltaX = default;
         int deltaY = default;
         int radius;
         int angle;
         int index;
         oldSeed = RandSeed;
-        HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
+        HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
         pixelXSurface = x - pixelXSurface + 16;
         pixelYSurface = y - pixelYSurface + 16;
         sbyte hexX = GetHexX();

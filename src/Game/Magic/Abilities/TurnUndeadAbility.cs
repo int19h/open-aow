@@ -89,28 +89,13 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3204
-    public override bool CanExpand(AbilityOwner owner)
-    {
-        if ((owner.GetAbilitySelectionTypes() & SelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 4)
-        {
-            return false;
-        }
-
-        return true;
-    }
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != Set<AbilitySelectionType>.Of() && GetLevel(owner) < 4;
 
     // AoWAb.PAS:3199
     public override int ExpandCost(AbilityOwner owner)
     {
         int result = GetLevel(owner);
-        if (result < 4)
-        {
-            result = 5;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = result < 4 ? 5 : 0;
 
         return result;
     }

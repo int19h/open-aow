@@ -30,23 +30,9 @@ public partial class House : CombatStructure
             structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
             if (structure != null)
             {
-                if (structure is City)
-                {
-                    _race = ((City)structure).Race;
-                }
-                else
-                {
-                    _race = 0;
-                }
+                _race = structure is City ? ((City)structure).Race : 0;
 
-                if (structure.Player == -1)
-                {
-                    _flagId = -1;
-                }
-                else
-                {
-                    _flagId = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
-                }
+                _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
 
                 if (_flagId == -1)
                 {
@@ -60,10 +46,8 @@ public partial class House : CombatStructure
     {
         ImageSequence sequence;
         int imageIndex;
-        int pixelX = default;
-        int pixelY = default;
         int terrainOffset;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (HitPoints == 0)

@@ -23,16 +23,7 @@ public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     // Army.PAS:5182
     public ItemGraphics GetItemGraphics(int index)
     {
-        ItemGraphics result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        ItemGraphics result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

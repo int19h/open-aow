@@ -185,35 +185,7 @@ public partial class CombatPredictorUnit : IDisposable
                 j = WallTargets.IndexOfItemC(u.CpuId);
                 if (j == -1)
                 {
-                    if (!passing)
-                    {
-                        if (BehindWall != 0)
-                        {
-                            if (u.BehindWall == 0)
-                            {
-                                mode = 1;
-                            }
-                            else
-                            {
-                                mode = 0;
-                            }
-                        }
-                        else
-                        {
-                            if (u.BehindWall != 0)
-                            {
-                                mode = 2;
-                            }
-                            else
-                            {
-                                mode = 0;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        mode = 0;
-                    }
+                    mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? (byte)1 : (byte)0 : u.BehindWall != 0 ? (byte)2 : (byte)0 : (byte)0;
 
                     _predictor.Work += 1;
                     v = Troop.GetCombatValue(u.Troop, mode);
@@ -233,35 +205,7 @@ public partial class CombatPredictorUnit : IDisposable
             for (int i = _opponents.Count - 1; i >= 0; i--)
             {
                 u = _opponents.List[i];
-                if (!passing)
-                {
-                    if (BehindWall != 0)
-                    {
-                        if (u.BehindWall == 0)
-                        {
-                            mode = 1;
-                        }
-                        else
-                        {
-                            mode = 0;
-                        }
-                    }
-                    else
-                    {
-                        if (u.BehindWall != 0)
-                        {
-                            mode = 2;
-                        }
-                        else
-                        {
-                            mode = 0;
-                        }
-                    }
-                }
-                else
-                {
-                    mode = 0;
-                }
+                mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? (byte)1 : (byte)0 : u.BehindWall != 0 ? (byte)2 : (byte)0 : (byte)0;
 
                 _predictor.Work += 1;
                 v = Troop.GetCombatValue(u.Troop, mode);
@@ -382,14 +326,7 @@ public partial class CombatPredictorUnit : IDisposable
         {
             u = RoundTargets.List[i].First;
             v = RoundTargets.List[i].Second;
-            if (u.CombatValueTotal != 0)
-            {
-                priority = (v * 100 * 1000 / u.IncomingCombatValue) + (u._targetPriority * 100) + v;
-            }
-            else
-            {
-                priority = 0;
-            }
+            priority = u.CombatValueTotal != 0 ? (v * 100 * 1000 / u.IncomingCombatValue) + (u._targetPriority * 100) + v : 0;
 
             RoundTargets.List[i].Fourth = priority;
         }

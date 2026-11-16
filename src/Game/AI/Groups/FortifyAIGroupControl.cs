@@ -104,14 +104,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 Targets.Validate();
                 newTarget = null;
                 i = Targets.IndexOfMapCoordinate(Location);
-                if (i == -1)
-                {
-                    currentTarget = null;
-                }
-                else
-                {
-                    currentTarget = Targets.GetTargets(i);
-                }
+                currentTarget = i == -1 ? null : Targets.GetTargets(i);
 
                 {
                     i = 0;
@@ -160,43 +153,19 @@ public partial class FortifyAIGroupControl : AIGroupControl
                         condition = currentTarget.Data.Priority < target.Data.Priority;
                     }
 
-                    if (condition)
-                    {
-                        newTarget = Targets.GetTargets(0);
-                    }
-                    else
-                    {
-                        newTarget = currentTarget;
-                    }
+                    newTarget = condition ? Targets.GetTargets(0) : currentTarget;
                 }
 
-                if (newTarget != null && newTarget != currentTarget)
-                {
-                    _fortifyLocation = newTarget.Location;
-                }
-                else
-                {
-                    if (currentTarget != null)
-                    {
-                        _fortifyLocation = currentTarget.Location;
-                    }
-                    else
-                    {
-                        _fortifyLocation = MapCoordinate.None;
-                    }
-                }
+                _fortifyLocation = newTarget != null && newTarget != currentTarget
+                    ? newTarget.Location
+                    : currentTarget != null ? currentTarget.Location : MapCoordinate.None;
 
                 State += 1;
                 break;
             case 3:
-                if (_fortifyLocation == MapCoordinate.None)
-                {
-                    _enemyStrength = GetSurroundingEnemyStrength(Location, 70);
-                }
-                else
-                {
-                    _enemyStrength = GetSurroundingEnemyStrength(_fortifyLocation, 70);
-                }
+                _enemyStrength = _fortifyLocation == MapCoordinate.None
+                    ? GetSurroundingEnemyStrength(Location, 70)
+                    : GetSurroundingEnemyStrength(_fortifyLocation, 70);
 
                 UpdateRequiredStrength();
                 State += 1;
@@ -260,14 +229,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     targetInfo2.Mode = AITargetMode.AttackArmies;
                     finder.Selector.TargetInfo = targetInfo2;
                     finder.Selector.MovePointsMax = 55;
-                    if (_fortifyLocation == MapCoordinate.None)
-                    {
-                        finder.Selector.SourceLocation = Location;
-                    }
-                    else
-                    {
-                        finder.Selector.SourceLocation = _fortifyLocation;
-                    }
+                    finder.Selector.SourceLocation = _fortifyLocation == MapCoordinate.None ? Location : _fortifyLocation;
 
                     finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
                     finder.Range = 12;
@@ -277,14 +239,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 }
                 else
                 {
-                    if (StrengthMax < _enemyStrength)
-                    {
-                        State = 18;
-                    }
-                    else
-                    {
-                        State = 17;
-                    }
+                    State = StrengthMax < _enemyStrength ? 18 : 17;
                 }
 
                 break;
@@ -351,14 +306,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 targetInfo3.Mode = AITargetMode.Attack;
                 finder.Selector.TargetInfo = targetInfo3;
                 finder.Selector.MovePointsMax = 55;
-                if (_fortifyLocation == MapCoordinate.None)
-                {
-                    finder.Selector.SourceLocation = Location;
-                }
-                else
-                {
-                    finder.Selector.SourceLocation = _fortifyLocation;
-                }
+                finder.Selector.SourceLocation = _fortifyLocation == MapCoordinate.None ? Location : _fortifyLocation;
 
                 finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
                 finder.Range = 12;
@@ -536,16 +484,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:268
     public City FortifyCity()
     {
-        City result;
-        if (_fortifyLocation != MapCoordinate.None)
-        {
-            result = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite(typeof(City));
-        }
-        else
-        {
-            result = null;
-        }
-
+        City result = _fortifyLocation != MapCoordinate.None
+            ? (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite(typeof(City))
+            : null;
         return result;
     }
 
@@ -704,8 +645,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
     private static int CompareFortifyUnits(Troop item1, Troop item2)
     {
-        int number = item1.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
-        int number2 = item2.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number = item1.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of([DamageType.Wall]));
+        int number2 = item2.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of([DamageType.Wall]));
         if (item1 is Leader)
         {
             number = number2 + 16777215;

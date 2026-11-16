@@ -31,68 +31,32 @@ public partial class UIComponent : Rtl.Component
     [Published]
     public event AoWOnDrawEvent<UIComponent> OnDraw;
 
-    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc)
-    {
-        if (OnDraw != null)
-        {
-            OnDraw(sender, surfDesc);
-        }
-    }
+    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => OnDraw?.Invoke(sender, surfDesc);
 
     [Published]
     public event AoWOnDrawEvent<UIComponent> OnPreDraw;
 
-    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc)
-    {
-        if (OnPreDraw != null)
-        {
-            OnPreDraw(sender, surfDesc);
-        }
-    }
+    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => OnPreDraw?.Invoke(sender, surfDesc);
 
     [Published]
     public event MouseEvent<UIComponent> OnMouseDown;
 
-    protected void RaiseMouseDown(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y)
-    {
-        if (OnMouseDown != null)
-        {
-            OnMouseDown(sender, button, shift, x, y);
-        }
-    }
+    protected void RaiseMouseDown(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y) => OnMouseDown?.Invoke(sender, button, shift, x, y);
 
     [Published]
     public event MouseEvent<UIComponent> OnMouseUp;
 
-    protected void RaiseMouseUp(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y)
-    {
-        if (OnMouseUp != null)
-        {
-            OnMouseUp(sender, button, shift, x, y);
-        }
-    }
+    protected void RaiseMouseUp(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y) => OnMouseUp?.Invoke(sender, button, shift, x, y);
 
     [Published]
     public event MouseMoveEvent<UIComponent> OnMouseMove;
 
-    protected void RaiseMouseMove(UIComponent sender, Set<ShiftState> shift, int x, int y)
-    {
-        if (OnMouseMove != null)
-        {
-            OnMouseMove(sender, shift, x, y);
-        }
-    }
+    protected void RaiseMouseMove(UIComponent sender, Set<ShiftState> shift, int x, int y) => OnMouseMove?.Invoke(sender, shift, x, y);
 
     [Published]
     public event KeyPressEvent<UIComponent> OnKeyPress;
 
-    protected void RaiseKeyPress(UIComponent sender, ref byte key)
-    {
-        if (OnKeyPress != null)
-        {
-            OnKeyPress(sender, ref key);
-        }
-    }
+    protected void RaiseKeyPress(UIComponent sender, ref byte key) => OnKeyPress?.Invoke(sender, ref key);
 
     // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
     // keeps that: it has no null test of its own and throws when OnKeyPress has no handler.
@@ -101,25 +65,13 @@ public partial class UIComponent : Rtl.Component
     [Published]
     public event KeyEvent<UIComponent> OnKeyDown;
 
-    protected void RaiseKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
-    {
-        if (OnKeyDown != null)
-        {
-            OnKeyDown(sender, ref key, shift);
-        }
-    }
+    protected void RaiseKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift) => OnKeyDown?.Invoke(sender, ref key, shift);
 
     protected bool HasKeyDownHandlers => OnKeyDown != null;
 
     public event NotifyEvent<UIComponent> OnChange;
 
-    internal void RaiseChange(UIComponent sender)
-    {
-        if (OnChange != null)
-        {
-            OnChange(sender);
-        }
-    }
+    internal void RaiseChange(UIComponent sender) => OnChange?.Invoke(sender);
 
     public bool MouseDown { get; protected set; }
 
@@ -165,13 +117,7 @@ public partial class UIComponent : Rtl.Component
     [Published]
     public event NotifyEvent<UIComponent> OnUpdate;
 
-    protected void RaiseUpdate(UIComponent sender)
-    {
-        if (OnUpdate != null)
-        {
-            OnUpdate(sender);
-        }
-    }
+    protected void RaiseUpdate(UIComponent sender) => OnUpdate?.Invoke(sender);
 
     private bool _captureInput;
     // Nothing in the port raises OnDebugMessage. The bound handler is kept.
@@ -209,8 +155,8 @@ public partial class UIComponent : Rtl.Component
         FirstDraw = true;
         _alignment = new Alignment();
         Children = new DelphiList<UIComponent>();
-        BlitList = new List<DirtyRectangle>();
-        DrawList = new List<DirtyRectangle>();
+        BlitList = [];
+        DrawList = [];
     }
 
     // AoWComp.pas:233
@@ -414,10 +360,7 @@ public partial class UIComponent : Rtl.Component
         {
             if (Valid && _visible)
             {
-                if (OnUpdate != null)
-                {
-                    OnUpdate(this);
-                }
+                OnUpdate?.Invoke(this);
 
                 for (int i = Children.Count - 1; i >= 0; i--)
                 {

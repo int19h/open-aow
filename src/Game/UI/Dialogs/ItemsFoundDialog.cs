@@ -60,15 +60,9 @@ public partial class ItemsFoundDialog : UIModule
         eventValue = _event;
         OnDone = null;
         _event = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWItemsFoundDlg.pas:62
@@ -97,10 +91,7 @@ public partial class ItemsFoundDialog : UIModule
             {
                 int itemId = _event.ItemIds[slot + _itemOffset];
                 item = StrategicMap.Current.ItemControl.FindItem(itemId);
-                if (item != null)
-                {
-                    item.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
-                }
+                item?.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
             }
         }
     }

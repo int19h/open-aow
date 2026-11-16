@@ -155,10 +155,7 @@ public partial class ItemBanner : UIModule
     {
         Item item;
         item = StrategicMap.Current.ItemControl.FindItem(ItemId);
-        if (item != null)
-        {
-            item.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);
-        }
+        item?.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);
     }
 
     internal static int ItemId { get; set; }

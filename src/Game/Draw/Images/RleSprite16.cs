@@ -395,10 +395,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
             }
             finally
             {
-                if (surface != null)
-                {
-                    surface.Dispose();
-                }
+                surface?.Dispose();
             }
         }
         catch

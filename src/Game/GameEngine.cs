@@ -208,23 +208,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5741
     public string TranslateResourceString(string S)
     {
-        string result;
-        if (Dictionary.Language > 0)
-        {
-            result = Dictionary.Translate(S);
-        }
-        else
-        {
-            if (CompareText(S, s_undeadPluralText) == 0)
-            {
-                result = s_undeadText;
-            }
-            else
-            {
-                result = S;
-            }
-        }
-
+        string result = Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
         return result;
     }
 
@@ -297,14 +281,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         int version;
         string result = IntToStr(GetMajorVersion()) + ".";
         version = GetMinorVersion();
-        if (version < 10)
-        {
-            result = result + "0" + IntToStr(version) + ".";
-        }
-        else
-        {
-            result = result + IntToStr(version) + ".";
-        }
+        result = version < 10 ? result + "0" + IntToStr(version) + "." : result + IntToStr(version) + ".";
 
         version = GetBuildNumber();
         if (version < 1000)

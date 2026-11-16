@@ -16,10 +16,7 @@ public partial class AbstractHexagonResource : MapObjectResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65556)
         {
-            if (GetHexControl() != null)
-            {
-                GetHexControl().RegisterResource(this);
-            }
+            GetHexControl()?.RegisterResource(this);
         }
     }
 

@@ -173,8 +173,7 @@ dotnet_diagnostic.IDE0011.severity = warning
 dotnet_diagnostic.IDE0016.severity = warning
 # IDE0017 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0017.severity = suggestion
-# IDE0018 raises to warning in fix group 9 (inline out declarations).
-dotnet_diagnostic.IDE0018.severity = suggestion
+dotnet_diagnostic.IDE0018.severity = warning
 # IDE0019 raises to warning in fix group 17 (pattern matching).
 dotnet_diagnostic.IDE0019.severity = suggestion
 # IDE0020 raises to warning in fix group 17 (pattern matching).
@@ -188,14 +187,12 @@ dotnet_diagnostic.IDE0024.severity = warning
 dotnet_diagnostic.IDE0025.severity = warning
 dotnet_diagnostic.IDE0026.severity = warning
 dotnet_diagnostic.IDE0027.severity = warning
-# IDE0028 raises to warning in fix group 10 (collection initializers and collection expressions).
-dotnet_diagnostic.IDE0028.severity = suggestion
+dotnet_diagnostic.IDE0028.severity = warning
 # IDE0029 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0029.severity = warning
 # IDE0030 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0030.severity = warning
-# IDE0031 raises to warning in fix group 12 (null propagation and related).
-dotnet_diagnostic.IDE0031.severity = suggestion
+dotnet_diagnostic.IDE0031.severity = warning
 # IDE0032 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0032.severity = suggestion
 # IDE0033 is clean on the code of 2026-11-15.
@@ -219,10 +216,8 @@ dotnet_diagnostic.IDE0042.severity = suggestion
 dotnet_diagnostic.IDE0043.severity = warning
 # IDE0044 raises to warning in fix group 14 (static local functions and readonly).
 dotnet_diagnostic.IDE0044.severity = suggestion
-# IDE0045 raises to warning in fix group 11 (conditional expressions).
-dotnet_diagnostic.IDE0045.severity = suggestion
-# IDE0046 raises to warning in fix group 11 (conditional expressions).
-dotnet_diagnostic.IDE0046.severity = suggestion
+dotnet_diagnostic.IDE0045.severity = warning
+dotnet_diagnostic.IDE0046.severity = warning
 dotnet_diagnostic.IDE0047.severity = warning
 dotnet_diagnostic.IDE0048.severity = warning
 # IDE0049 is clean on the code of 2026-11-15.
@@ -314,14 +309,12 @@ dotnet_diagnostic.IDE0250.severity = suggestion
 dotnet_diagnostic.IDE0251.severity = suggestion
 # IDE0260 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0260.severity = warning
-# IDE0270 raises to warning in fix group 12 (null propagation and related).
-dotnet_diagnostic.IDE0270.severity = suggestion
+dotnet_diagnostic.IDE0270.severity = warning
 # IDE0280 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0280.severity = warning
 # IDE0290 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0290.severity = suggestion
-# IDE0300 raises to warning in fix group 10 (collection initializers and collection expressions).
-dotnet_diagnostic.IDE0300.severity = suggestion
+dotnet_diagnostic.IDE0300.severity = warning
 # IDE0301 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0301.severity = suggestion
 # IDE0302 is clean on the code of 2026-11-15.
@@ -332,8 +325,7 @@ dotnet_diagnostic.IDE0303.severity = warning
 dotnet_diagnostic.IDE0304.severity = warning
 # IDE0305 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0305.severity = suggestion
-# IDE0306 raises to warning in fix group 10 (collection initializers and collection expressions).
-dotnet_diagnostic.IDE0306.severity = suggestion
+dotnet_diagnostic.IDE0306.severity = warning
 # IDE0320 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0320.severity = warning
 # IDE0330 raises to warning in the manual remainder.
@@ -351,8 +343,7 @@ dotnet_diagnostic.IDE0380.severity = warning
 dotnet_diagnostic.IDE0390.severity = warning
 # IDE0410 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0410.severity = warning
-# IDE1005 raises to warning in fix group 12 (null propagation and related).
-dotnet_diagnostic.IDE1005.severity = suggestion
+dotnet_diagnostic.IDE1005.severity = warning
 # IDE2000 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE2000.severity = warning
 # IDE2001 raises to warning in newline fix group (experimental newline rules, after the format groups).

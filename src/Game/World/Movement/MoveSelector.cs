@@ -202,14 +202,7 @@ public partial class MoveSelector : IDisposable
                                 direction = HexGeometry.DeltaHexToHexNumberFast(x1, y1, x2, y2);
                                 if (direction != 0)
                                 {
-                                    if (pointsLeft <= settings.MovePoints)
-                                    {
-                                        imageIndex = direction + 34;
-                                    }
-                                    else
-                                    {
-                                        imageIndex = direction + 41;
-                                    }
+                                    imageIndex = pointsLeft <= settings.MovePoints ? direction + 34 : direction + 41;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     if (CurrentMove == i || CurrentMove == -1)
@@ -226,27 +219,13 @@ public partial class MoveSelector : IDisposable
                             {
                                 if (CurrentMove == i)
                                 {
-                                    if (pointsLeft <= settings.MovePoints)
-                                    {
-                                        imageIndex = 41;
-                                    }
-                                    else
-                                    {
-                                        imageIndex = 48;
-                                    }
+                                    imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     if (pointsLeft - settings.Path[j].MoveCost != 0 && settings.Path[j + 1].Location.MapLevel == Map.ViewMapLevel)
                                     {
-                                        if (pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints)
-                                        {
-                                            imageIndex = 41;
-                                        }
-                                        else
-                                        {
-                                            imageIndex = 48;
-                                        }
+                                        imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                         HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
                                         GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
@@ -254,25 +233,11 @@ public partial class MoveSelector : IDisposable
                                 }
                                 else
                                 {
-                                    if (pointsLeft <= settings.MovePoints)
-                                    {
-                                        imageIndex = 41;
-                                    }
-                                    else
-                                    {
-                                        imageIndex = 48;
-                                    }
+                                    imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
-                                    if (pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints)
-                                    {
-                                        imageIndex = 41;
-                                    }
-                                    else
-                                    {
-                                        imageIndex = 48;
-                                    }
+                                    imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
@@ -298,10 +263,7 @@ public partial class MoveSelector : IDisposable
                             GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
                             // { Original sets the font color before checking the font for nil. }
                             Creator.GetEngine().CombatFont.Color = 0;
-                            if (Creator.GetEngine().CombatFont != null)
-                            {
-                                Creator.GetEngine().CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), surface);
-                            }
+                            Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), surface);
                         }
                         else
                         {
@@ -380,16 +342,7 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4167
     public void DeleteMoveObject(int index)
     {
-        object objectValue;
-        if (CurrentMove != -1)
-        {
-            objectValue = MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject;
-        }
-        else
-        {
-            objectValue = null;
-        }
-
+        object objectValue = CurrentMove != -1 ? MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
         (MoveSettingsList[index] as IDisposable)?.Dispose();
         if (objectValue != null)
         {

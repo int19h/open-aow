@@ -368,14 +368,7 @@ public partial class MagicWindow : UIModule
     public void EnchantmentSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_enchantmentSort == 0)
-        {
-            _enchantmentSort = 1;
-        }
-        else
-        {
-            _enchantmentSort = 0;
-        }
+        _enchantmentSort = _enchantmentSort == 0 ? 1 : 0;
 
         SortEnchantments();
     }
@@ -384,14 +377,7 @@ public partial class MagicWindow : UIModule
     public void BindingSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_enchantmentSort == 2)
-        {
-            _enchantmentSort = 3;
-        }
-        else
-        {
-            _enchantmentSort = 2;
-        }
+        _enchantmentSort = _enchantmentSort == 2 ? 3 : 2;
 
         SortEnchantments();
     }
@@ -400,14 +386,7 @@ public partial class MagicWindow : UIModule
     public void UpkeepSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_enchantmentSort == 4)
-        {
-            _enchantmentSort = 5;
-        }
-        else
-        {
-            _enchantmentSort = 4;
-        }
+        _enchantmentSort = _enchantmentSort == 4 ? 5 : 4;
 
         SortEnchantments();
     }
@@ -416,14 +395,7 @@ public partial class MagicWindow : UIModule
     public void GlobalEnchantmentSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_globalEnchantmentSort == 0)
-        {
-            _globalEnchantmentSort = 1;
-        }
-        else
-        {
-            _globalEnchantmentSort = 0;
-        }
+        _globalEnchantmentSort = _globalEnchantmentSort == 0 ? 1 : 0;
 
         SortGlobalEnchantments();
     }
@@ -433,14 +405,7 @@ public partial class MagicWindow : UIModule
     {
         UI.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
-        if (_globalEnchantmentSort == 0)
-        {
-            _globalEnchantmentSort = 1;
-        }
-        else
-        {
-            _globalEnchantmentSort = 0;
-        }
+        _globalEnchantmentSort = _globalEnchantmentSort == 0 ? 1 : 0;
 
         SortGlobalEnchantments();
     }
@@ -450,14 +415,7 @@ public partial class MagicWindow : UIModule
     {
         UI.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
-        if (_globalEnchantmentSort == 0)
-        {
-            _globalEnchantmentSort = 1;
-        }
-        else
-        {
-            _globalEnchantmentSort = 0;
-        }
+        _globalEnchantmentSort = _globalEnchantmentSort == 0 ? 1 : 0;
 
         SortGlobalEnchantments();
     }
@@ -466,14 +424,7 @@ public partial class MagicWindow : UIModule
     public void PowerSourceSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_powerSort == 0)
-        {
-            _powerSort = 1;
-        }
-        else
-        {
-            _powerSort = 0;
-        }
+        _powerSort = _powerSort == 0 ? 1 : 0;
 
         SortPowerSources();
     }
@@ -482,14 +433,7 @@ public partial class MagicWindow : UIModule
     public void PowerValueSortBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_powerSort == 2)
-        {
-            _powerSort = 3;
-        }
-        else
-        {
-            _powerSort = 2;
-        }
+        _powerSort = _powerSort == 2 ? 3 : 2;
 
         SortPowerSources();
     }
@@ -671,10 +615,7 @@ public partial class MagicWindow : UIModule
     internal static void ShowMagicEvent(MagicWindow window, PlayerMagicEventLog eventValue, ExecuteDoneEvent done)
     {
         TaskBar.ShowMagicWindow(window);
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
     }
 
 }

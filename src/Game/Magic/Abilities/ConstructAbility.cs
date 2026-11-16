@@ -41,16 +41,7 @@ public partial class ConstructAbility : AdjustableAbility
     // AoWAb.PAS:5555
     public override bool CanActivate(AbilityOwner owner, ref string reason)
     {
-        bool result;
-        if (owner is Troop)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = owner is Troop;
         return result;
     }
 

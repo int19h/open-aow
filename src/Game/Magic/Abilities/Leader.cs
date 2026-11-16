@@ -91,16 +91,7 @@ public partial class Leader : Hero
     // Hero.PAS:2886
     public override int GetPowerGeneration()
     {
-        int result;
-        if (GetAbilityEnabled(52))
-        {
-            result = (GetAbilityLevel(52) * 5) + 5;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
         return result;
     }
 
@@ -248,29 +239,13 @@ public partial class Leader : Hero
     {
         MapLevel level;
         int l;
-        int x = default;
-        int y = default;
         bool placed;
         level = message.Param[0].As<MapLevel>();
         l = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out x, out y);
-        if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
-        {
-            placed = Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) != null;
-        }
-        else
-        {
-            placed = false;
-        }
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
+        placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) != null;
 
-        if (placed)
-        {
-            message.Result = 0;
-        }
-        else
-        {
-            message.Result = -1;
-        }
+        message.Result = placed ? 0 : -1;
     }
 
     // Hero.PAS:2800
@@ -315,79 +290,7 @@ public partial class Leader : Hero
     // Hero.PAS:2824
     public bool CanAddSphere(MagicSphere sphere)
     {
-        bool result;
-        if (_spheres.Count < SpherePicksMax)
-        {
-            if (sphere == MagicSphere.Cosmos)
-            {
-                result = false;
-            }
-            else
-            {
-                if (GetEngine().Demo && GetSpherePicks(sphere) >= 2)
-                {
-                    result = false;
-                }
-                else
-                {
-                    if (GetSpherePicks(sphere) == 4)
-                    {
-                        result = false;
-                    }
-                    else
-                    {
-                        if (sphere == MagicSphere.Fire && GetSpherePicks(MagicSphere.Water) != 0)
-                        {
-                            result = false;
-                        }
-                        else
-                        {
-                            if (sphere == MagicSphere.Water && GetSpherePicks(MagicSphere.Fire) != 0)
-                            {
-                                result = false;
-                            }
-                            else
-                            {
-                                if (sphere == MagicSphere.Life && GetSpherePicks(MagicSphere.Death) != 0)
-                                {
-                                    result = false;
-                                }
-                                else
-                                {
-                                    if (sphere == MagicSphere.Death && GetSpherePicks(MagicSphere.Life) != 0)
-                                    {
-                                        result = false;
-                                    }
-                                    else
-                                    {
-                                        if (sphere == MagicSphere.Earth && GetSpherePicks(MagicSphere.Air) != 0)
-                                        {
-                                            result = false;
-                                        }
-                                        else
-                                        {
-                                            if (sphere == MagicSphere.Air && GetSpherePicks(MagicSphere.Earth) != 0)
-                                            {
-                                                result = false;
-                                            }
-                                            else
-                                            {
-                                                result = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = _spheres.Count < SpherePicksMax && sphere != MagicSphere.Cosmos && (!GetEngine().Demo || GetSpherePicks(sphere) < 2) && GetSpherePicks(sphere) != 4 && (sphere != MagicSphere.Fire || GetSpherePicks(MagicSphere.Water) == 0) && (sphere != MagicSphere.Water || GetSpherePicks(MagicSphere.Fire) == 0) && (sphere != MagicSphere.Life || GetSpherePicks(MagicSphere.Death) == 0) && (sphere != MagicSphere.Death || GetSpherePicks(MagicSphere.Life) == 0) && (sphere != MagicSphere.Earth || GetSpherePicks(MagicSphere.Air) == 0) && (sphere != MagicSphere.Air || GetSpherePicks(MagicSphere.Earth) == 0);
         return result;
     }
 

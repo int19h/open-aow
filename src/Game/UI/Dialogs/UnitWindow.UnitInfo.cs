@@ -28,14 +28,7 @@ public partial class UnitWindow
                 StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
             }
 
-            if (u is Hero heroUnit)
-            {
-                h = heroUnit;
-            }
-            else
-            {
-                h = null;
-            }
+            h = u is Hero heroUnit ? heroUnit : null;
 
             if (CombatMap.Current == null && UI.General.UnitList != null && UI.General.IndexOfUnit(u) > -1 && UI.General.SelectedUnits[1] > -1)
             {

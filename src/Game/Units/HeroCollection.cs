@@ -44,16 +44,7 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     // Hero.PAS:2407
     public Hero GetHero(int index)
     {
-        Hero result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        Hero result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

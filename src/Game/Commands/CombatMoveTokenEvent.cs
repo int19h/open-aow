@@ -65,7 +65,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         hexSprite = (TacticalBattleUnitHexSprite)mapField.FindOwnedChild(2228484);
         if (hexSprite != null)
         {
-            _objects = new List<TacticalBattleUnit>();
+            _objects = [];
             Unit = hexSprite.Unit;
             result = true;
         }
@@ -261,11 +261,8 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                                     }
                                 }
 
-                                if (Strike != null)
-                                {
-                                    Strike.Release();
-                                    Strike = null;
-                                }
+                                Strike?.Release();
+                                Strike = null;
 
                                 _freeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
                                 Step = TokenStep.Start;
@@ -325,14 +322,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                             {
                                 if (direction != 0)
                                 {
-                                    if (Unit.UnitHexSprite.MoveFirst(direction, false) == -1)
-                                    {
-                                        result = MoveStatus.Failed;
-                                    }
-                                    else
-                                    {
-                                        result = MoveStatus.Moving;
-                                    }
+                                    result = Unit.UnitHexSprite.MoveFirst(direction, false) == -1 ? MoveStatus.Failed : MoveStatus.Moving;
 
                                     if (result == MoveStatus.Moving)
                                     {

@@ -225,10 +225,7 @@ public partial class WorldMap : UIModule
                         SetButton.Visible = false;
                         ShowButton.Visible = false;
                         QuitButton.Visible = false;
-                        if (Book.BackSurface != null)
-                        {
-                            Book.BackSurface.Clear(Book.MaskColor);
-                        }
+                        Book.BackSurface?.Clear(Book.MaskColor);
 
                         if (UI.TitleWindow.MainWindow.Visible)
                         {
@@ -541,10 +538,7 @@ public partial class WorldMap : UIModule
         bookWindow.Hidden = true;
         bookWindow.Visible = true;
 
-        if (Book.BackSurface != null)
-        {
-            Book.BackSurface.Clear(Book.MaskColor);
-        }
+        Book.BackSurface?.Clear(Book.MaskColor);
 
         if (UI.TitleWindow.MainWindow.Visible)
         {
@@ -608,15 +602,9 @@ public partial class WorldMap : UIModule
         context = BookContext;
         OnBookClosed = null;
         BookContext = null;
-        if (done != null)
-        {
-            done(context);
-        }
+        done?.Invoke(context);
 
-        if (context != null)
-        {
-            context.Release();
-        }
+        context?.Release();
 
         UI.General.Manager.OverlayPriority = 0;
     }
@@ -677,10 +665,7 @@ public partial class WorldMap : UIModule
         button.Visible = false;
 
         Book.Drawn = false;
-        if (Book.BackSurface != null)
-        {
-            Book.BackSurface.Clear(Book.MaskColor);
-        }
+        Book.BackSurface?.Clear(Book.MaskColor);
 
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
         BookAction = 1;
@@ -925,14 +910,9 @@ public partial class WorldMap : UIModule
         {
             if (GetCampaign().State == 1)
             {
-                if (GetCampaign().Faction == 0)
-                {
-                    description = UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText);
-                }
-                else
-                {
-                    description = UI.Engine.TranslateResourceString(LobbyText.KeepersText);
-                }
+                description = GetCampaign().Faction == 0
+                    ? UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText)
+                    : UI.Engine.TranslateResourceString(LobbyText.KeepersText);
             }
         }
 
@@ -1200,10 +1180,7 @@ public partial class WorldMap : UIModule
     {
         Rect r;
         r = new Rect(InfoPanel.WinLeft + HeroFrame.WinLeft, InfoPanel.WinTop + HeroFrame.WinTop, InfoPanel.WinLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.WinTop + HeroFrame.WinTop + HeroFrame.WinHeight);
-        if (GetCampaign().TransferSettings.Leader != null)
-        {
-            GetCampaign().TransferSettings.Leader.ShowFace(r, surface);
-        }
+        GetCampaign().TransferSettings.Leader?.ShowFace(r, surface);
     }
 
     // AoWWorldMap.pas:854

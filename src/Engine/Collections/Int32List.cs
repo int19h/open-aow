@@ -25,16 +25,7 @@ public partial class Int32List : Persistent
     // Engine.pas:3343
     public int Get(int index)
     {
-        int result;
-        if (index < 0 || index >= _count)
-        {
-            result = _default;
-        }
-        else
-        {
-            result = _list[index];
-        }
-
+        int result = index < 0 || index >= _count ? _default : _list[index];
         return result;
     }
 
@@ -129,14 +120,7 @@ public partial class Int32List : Persistent
                 S = "";
             }
 
-            if (!IsEmpty(item))
-            {
-                v = StrToInt(item);
-            }
-            else
-            {
-                v = 0;
-            }
+            v = !IsEmpty(item) ? StrToInt(item) : 0;
 
             Add(v);
             p = Pos(",", S);
@@ -146,23 +130,7 @@ public partial class Int32List : Persistent
     // Engine.pas:3351
     protected internal virtual void Grow()
     {
-        int delta;
-        if (_capacity > 64)
-        {
-            delta = _capacity / 4;
-        }
-        else
-        {
-            if (_capacity > 8)
-            {
-                delta = 16;
-            }
-            else
-            {
-                delta = 4;
-            }
-        }
-
+        int delta = _capacity > 64 ? _capacity / 4 : _capacity > 8 ? 16 : 4;
         SetCapacity(_capacity + delta);
     }
 

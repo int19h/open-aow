@@ -126,14 +126,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                 if (army.Army.Transporter(255) != null)
                 {
-                    if (army.Army.Transporter(selection) != null)
-                    {
-                        selection = 255;
-                    }
-                    else
-                    {
-                        selection = 0;
-                    }
+                    selection = army.Army.Transporter(selection) != null ? (byte)255 : (byte)0;
                 }
 
                 if (selection != 0)
@@ -188,10 +181,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                                     troopObject = army.Army.Units.GetUnit(i);
                                     movedUnits.AddUnit(troopObject);
                                     placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
-                                    if (placed != null)
-                                    {
-                                        placed.Army.UpdateExploration();
-                                    }
+                                    placed?.Army.UpdateExploration();
                                 }
                             }
                         }
@@ -256,21 +246,9 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + (i * 0.02)) * (200 - i)) * 0.25) + 16;
                     double pi = Math.PI;
                     angle = (float)((double)((direction + _angle) * pi) / 180);
-                    if (GetEngine().AnimationDetail == 0)
-                    {
-                        last = 1;
-                    }
-                    else
-                    {
-                        if (GetEngine().AnimationDetail == 1)
-                        {
-                            last = (int)(((uint)(200 - i)) >> 5);
-                        }
-                        else
-                        {
-                            last = (int)(((uint)(200 - i)) >> 4);
-                        }
-                    }
+                    last = GetEngine().AnimationDetail == 0
+                        ? 1
+                        : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
 
                     for (int count = last; count >= 0; count--)
                     {

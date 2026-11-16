@@ -95,10 +95,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         if (owner != Owner)
         {
             AddRef();
-            if (Owner != null)
-            {
-                Owner.RemoveChild(this);
-            }
+            Owner?.RemoveChild(this);
 
             SetOwnerWithoutNotify(owner);
             if (Owner != null)
@@ -363,15 +360,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4320
-    public MapCoordinate GetLocation()
-    {
-        if (Owner is IItemHolder holder)
-        {
-            return holder.GetLocation();
-        }
-
-        return MapCoordinate.None;
-    }
+    public MapCoordinate GetLocation() => Owner is IItemHolder holder ? holder.GetLocation() : MapCoordinate.None;
 
     // Army.PAS:4353
     public int GetCampaignTransferPoints() => GetObtainValue();
@@ -464,16 +453,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4443
     public int GetObtainValue()
     {
-        int result;
-        if (_obtainValue > 10)
-        {
-            result = _obtainValue;
-        }
-        else
-        {
-            result = 10;
-        }
-
+        int result = _obtainValue > 10 ? _obtainValue : 10;
         return result;
     }
 

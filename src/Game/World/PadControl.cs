@@ -30,23 +30,14 @@ public partial class PadControl : ControlStyleObject
     public PadControl(CustomNode owner) : base(owner)
     {
         TerrainTypes = new BitList();
-        PadResources = new List<MapObjectResource>();
+        PadResources = [];
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }
 
     // MoveT.PAS:3629
     public MapObjectResource GetPadResource(int size)
     {
-        MapObjectResource result;
-        if (size < PadResources.Count)
-        {
-            result = PadResources[size];
-        }
-        else
-        {
-            result = null;
-        }
-
+        MapObjectResource result = size < PadResources.Count ? PadResources[size] : null;
         return result;
     }
 
@@ -106,14 +97,7 @@ public partial class PadControl : ControlStyleObject
         ImageLibraryTerrainMapObject result;
         MapObjectResource resource;
         resource = GetPadResource(size);
-        if (resource != null)
-        {
-            result = (ImageLibraryTerrainMapObject)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
-        }
-        else
-        {
-            result = null;
-        }
+        result = resource != null ? (ImageLibraryTerrainMapObject)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L) : null;
 
         return result;
     }

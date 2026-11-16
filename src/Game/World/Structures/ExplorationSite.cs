@@ -81,14 +81,7 @@ public partial class ExplorationSite : Structure
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
-            if (Owner.HexX == hexX && Owner.HexY == hexY)
-            {
-                result = base.CanSelect(pixelX, pixelY);
-            }
-            else
-            {
-                result = false;
-            }
+            result = Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
         }
         else
         {
@@ -110,14 +103,7 @@ public partial class ExplorationSite : Structure
         else
         {
             image = terrainType + 100;
-            if (Resource.ImageSequenceList.ImageSequences[image << 0] != null)
-            {
-                result = image;
-            }
-            else
-            {
-                result = terrainType;
-            }
+            result = Resource.ImageSequenceList.ImageSequences[image << 0] != null ? image : terrainType;
         }
 
         return result;
@@ -129,14 +115,7 @@ public partial class ExplorationSite : Structure
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 0)
         {
-            if (ExecuteSearch((CombatType)tokenEvent.Param))
-            {
-                result = ExecuteResult.Done;
-            }
-            else
-            {
-                result = ExecuteResult.DoneHalt;
-            }
+            result = ExecuteSearch((CombatType)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
         }
 
         return result;

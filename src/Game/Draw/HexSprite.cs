@@ -201,10 +201,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     {
         MapField mapField;
         mapField = Owner;
-        if (mapField != null)
-        {
-            mapField.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
-        }
+        mapField?.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
     }
 
     // HXSPRITE.PAS:563
@@ -257,17 +254,11 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public bool PlaceOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         bool result;
-        int x = default;
-        int y = default;
-        int minX = default;
-        int minYOdd = default;
         int minYEven;
-        int maxX = default;
-        int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out minX, out minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out int x, out int y);
         if (!((minX & 1) != 0))
         {
             minYEven = minYOdd;
@@ -279,7 +270,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out maxX, out maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
         HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out x, out y);
         if (!((maxX & 1) != 0))
         {
@@ -341,14 +332,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
 
             mapL = map.GetMapLevel(hexLevel);
             x = (int)(((uint)(minX + maxX)) >> 1);
-            if (!((x & 1) != 0))
-            {
-                y = (int)(((uint)(minYEven + maxYEven)) >> 1);
-            }
-            else
-            {
-                y = (int)(((uint)(minYOdd + maxYOdd)) >> 1);
-            }
+            y = !((x & 1) != 0) ? (int)(((uint)(minYEven + maxYEven)) >> 1) : (int)(((uint)(minYOdd + maxYOdd)) >> 1);
 
             SetOwnerWithoutNotify(mapL.GetField(x, y));
             x = minX;
@@ -388,18 +372,12 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     // HXSPRITE.PAS:295
     public void RemoveFromMap(int pixelX, int pixelY, int width, int height)
     {
-        int x = default;
-        int y = default;
-        int minX = default;
-        int minYOdd = default;
         int minYEven;
-        int maxX = default;
-        int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
         mapL = Owner.Owner;
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out minX, out minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out int x, out int y);
         if (!((minX & 1) != 0))
         {
             minYEven = minYOdd;
@@ -411,7 +389,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out maxX, out maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
         HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out x, out y);
         if (!((maxX & 1) != 0))
         {
@@ -502,17 +480,11 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public bool PlaceUserOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         bool result;
-        int x = default;
-        int y = default;
-        int minX = default;
-        int minYOdd = default;
         int minYEven;
-        int maxX = default;
-        int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out minX, out minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out int x, out int y);
         if (!((minX & 1) != 0))
         {
             minYEven = minYOdd;
@@ -524,7 +496,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out maxX, out maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
         HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out x, out y);
         if (!((maxX & 1) != 0))
         {
@@ -621,18 +593,12 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     // HXSPRITE.PAS:431
     public void RemoveUserFromMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        int x = default;
-        int y = default;
-        int minX = default;
-        int minYOdd = default;
         int minYEven;
-        int maxX = default;
-        int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
         mapL = map.GetMapLevel(hexLevel);
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out minX, out minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out int x, out int y);
         if (!((minX & 1) != 0))
         {
             minYEven = minYOdd;
@@ -644,7 +610,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out maxX, out maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
         HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out x, out y);
         if (!((maxX & 1) != 0))
         {
@@ -732,18 +698,12 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     // HXSPRITE.PAS:497
     public void SortMapField(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        int x = default;
-        int y = default;
-        int minX = default;
-        int minYOdd = default;
         int minYEven;
-        int maxX = default;
-        int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
         mapL = map.GetMapLevel(hexLevel);
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out minX, out minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out int x, out int y);
         if (!((minX & 1) != 0))
         {
             minYEven = minYOdd;
@@ -755,7 +715,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out maxX, out maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
         HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out x, out y);
         if (!((maxX & 1) != 0))
         {

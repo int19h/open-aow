@@ -119,14 +119,9 @@ public partial class Control : UIComponent
 
                 if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Right != WinWidth || OldRectangle.Bottom != WinHeight))
                 {
-                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
-                    {
-                        r = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
-                    }
-                    else
-                    {
-                        r = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
-                    }
+                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                        ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1)
+                        : new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
 
                     OwnerComponent.AddDrawRectangle(ref r, this);
                     Drawn = false;
@@ -135,14 +130,9 @@ public partial class Control : UIComponent
                 {
                     if (Masked && !Drawn)
                     {
-                        if (OwnerComponent.OwnerComponent.OwnerComponent == null)
-                        {
-                            r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
-                        }
-                        else
-                        {
-                            r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
-                        }
+                        r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                            ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
+                            : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
 
                         OwnerComponent.AddDrawRectangle(ref r, this);
                     }
@@ -150,14 +140,9 @@ public partial class Control : UIComponent
 
                 if (!Drawn)
                 {
-                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
-                    {
-                        r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
-                    }
-                    else
-                    {
-                        r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
-                    }
+                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                        ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
+                        : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
 
                     int indexOf = OwnerComponent.Children.IndexOf(this);
                     OwnerComponent.InvalidateRectangle(indexOf, ref r, this);
@@ -180,14 +165,9 @@ public partial class Control : UIComponent
             {
                 if (Hidden)
                 {
-                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
-                    {
-                        r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
-                    }
-                    else
-                    {
-                        r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
-                    }
+                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                        ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
+                        : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
 
                     OwnerComponent.AddDrawRectangle(ref r, this);
                     Hidden = false;

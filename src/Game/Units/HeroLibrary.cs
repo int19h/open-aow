@@ -52,12 +52,7 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
         }
 
         AppendChild(child);
-        if (child.AddRef() == -1)
-        {
-            throw new NotSupportedException("EObject doesn't support ReferenceCounting");
-        }
-
-        return Heroes.Count - 1;
+        return child.AddRef() == -1 ? throw new NotSupportedException("EObject doesn't support ReferenceCounting") : Heroes.Count - 1;
     }
 
     // Hero.PAS:2580

@@ -128,14 +128,7 @@ public partial class ItemLibraryManager : EngineObject
         Item result;
         int index;
         index = IndexOfLibraryName(libraryName);
-        if (index != -1)
-        {
-            result = ((ItemLibrary)Libraries.GetChild(index)).FindLibraryId(libraryId);
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? ((ItemLibrary)Libraries.GetChild(index)).FindLibraryId(libraryId) : null;
 
         return result;
     }

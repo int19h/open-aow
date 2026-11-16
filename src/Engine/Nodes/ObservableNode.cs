@@ -144,14 +144,9 @@ public partial class ObservableNode : CustomNode
 
         internal UpdateBatch(ObservableNode node) => _node = node;
 
-        public void Dispose()
-        {
+        public void Dispose() =>
             // A default batch leaves the field null. The units project compiles this file with nullable off.
-            if (_node is not null)
-            {
-                _node.EndUpdate();
-            }
-        }
+            _node?.EndUpdate();
     }
 
     // Engine.pas:7284
@@ -1041,14 +1036,7 @@ public partial class ObservableNode : CustomNode
             i += 1;
         }
 
-        if (found)
-        {
-            result = c;
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? c : null;
 
         return result;
     }

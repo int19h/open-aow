@@ -73,16 +73,10 @@ public partial class AIMoveTargetSelector : EngineObject
     {
         if (transporter != _transporter)
         {
-            if (_transporter != null)
-            {
-                _transporter.Release();
-            }
+            _transporter?.Release();
 
             _transporter = transporter;
-            if (_transporter != null)
-            {
-                _transporter.AddRef();
-            }
+            _transporter?.AddRef();
         }
     }
 
@@ -477,14 +471,7 @@ public partial class AIMoveTargetSelector : EngineObject
         bool result;
         if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter != null)))
         {
-            if (MovePointsMax > 0)
-            {
-                _state = 0;
-            }
-            else
-            {
-                _state = 10;
-            }
+            _state = MovePointsMax > 0 ? 0 : 10;
             _control = control;
             Status = AIMoveTargetSelectorStatus.Searching;
             result = true;

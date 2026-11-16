@@ -24,7 +24,7 @@ public partial class PaletteManager : IDisposable
     }
 
     // ImageLib.pas:6971
-    public PaletteManager() => Palettes = new List<LibraryImagePalette>();
+    public PaletteManager() => Palettes = [];
 
     // ImageLib.pas:6977
     public virtual void Dispose()

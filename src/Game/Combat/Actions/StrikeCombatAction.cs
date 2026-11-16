@@ -57,10 +57,7 @@ public partial class StrikeCombatAction : DamageCombatAction
         {
             GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
             data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
-            if (data != null)
-            {
-                data.EnchantmentPlayerIndex = source.CombatPlayer;
-            }
+            data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }
 

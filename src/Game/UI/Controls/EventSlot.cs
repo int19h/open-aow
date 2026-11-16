@@ -16,7 +16,7 @@ namespace Aow.Game.UI.Controls;
 
 internal static class EventSlot
 {
-    private static readonly ConditionalWeakTable<object, List<SlotView>> s_views = new();
+    private static readonly ConditionalWeakTable<object, List<SlotView>> s_views = [];
 
     public static NotifyEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
         where TBase : class

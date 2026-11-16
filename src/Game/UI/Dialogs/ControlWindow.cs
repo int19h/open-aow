@@ -216,77 +216,21 @@ public partial class ControlWindow : UIModule
         Unit6CheckBox.Checked = UI.General.SelectedUnits[5] != -1 && (_selection & (1 << UI.General.SelectedUnits[5])) == 0;
         Unit7CheckBox.Checked = UI.General.SelectedUnits[6] != -1 && (_selection & (1 << UI.General.SelectedUnits[6])) == 0;
         Unit8CheckBox.Checked = UI.General.SelectedUnits[7] != -1 && (_selection & (1 << UI.General.SelectedUnits[7])) == 0;
-        if (Unit1CheckBox.Checked)
-        {
-            Unit1Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit1Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit1Frame.ImageLibraryIndexFrame = Unit1CheckBox.Checked ? 26 : 12;
 
-        if (Unit2CheckBox.Checked)
-        {
-            Unit2Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit2Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit2Frame.ImageLibraryIndexFrame = Unit2CheckBox.Checked ? 26 : 12;
 
-        if (Unit3CheckBox.Checked)
-        {
-            Unit3Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit3Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit3Frame.ImageLibraryIndexFrame = Unit3CheckBox.Checked ? 26 : 12;
 
-        if (Unit4CheckBox.Checked)
-        {
-            Unit4Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit4Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit4Frame.ImageLibraryIndexFrame = Unit4CheckBox.Checked ? 26 : 12;
 
-        if (Unit5CheckBox.Checked)
-        {
-            Unit5Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit5Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit5Frame.ImageLibraryIndexFrame = Unit5CheckBox.Checked ? 26 : 12;
 
-        if (Unit6CheckBox.Checked)
-        {
-            Unit6Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit6Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit6Frame.ImageLibraryIndexFrame = Unit6CheckBox.Checked ? 26 : 12;
 
-        if (Unit7CheckBox.Checked)
-        {
-            Unit7Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit7Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit7Frame.ImageLibraryIndexFrame = Unit7CheckBox.Checked ? 26 : 12;
 
-        if (Unit8CheckBox.Checked)
-        {
-            Unit8Frame.ImageLibraryIndexFrame = 26;
-        }
-        else
-        {
-            Unit8Frame.ImageLibraryIndexFrame = 12;
-        }
+        Unit8Frame.ImageLibraryIndexFrame = Unit8CheckBox.Checked ? 26 : 12;
 
         byte selection = StrategicMap.Current.SelectedArmy.GetSelection();
         Set<MoveType> partyMove = UI.General.UnitList.GetPartyMoves(selection);

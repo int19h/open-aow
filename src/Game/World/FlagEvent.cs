@@ -72,14 +72,7 @@ public partial class FlagEvent : MapObject
     {
         if (player > 0)
         {
-            if (!value)
-            {
-                _triggerPlayers = _triggerPlayers & ~(1 << (player - 1));
-            }
-            else
-            {
-                _triggerPlayers = _triggerPlayers | (1 << (player - 1));
-            }
+            _triggerPlayers = !value ? _triggerPlayers & ~(1 << (player - 1)) : _triggerPlayers | (1 << (player - 1));
         }
     }
 

@@ -253,7 +253,6 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         TerrainList terrains;
         Span<byte> counts = stackalloc byte[128];
-        HexNumberWalkData walk = default;
         sbyte terrainType;
         sbyte result = defaultValue;
         terrains = base.Resource.TerrainList;
@@ -263,7 +262,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         }
 
         counts.Clear();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < terrains.Count)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -296,10 +295,8 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3422
     public void CalculateShowPriority(MapField mapField)
     {
-        int x = default;
-        int y = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out x, out y);
+        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
         hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
         if (hexSprite != this && hexSprite != null)

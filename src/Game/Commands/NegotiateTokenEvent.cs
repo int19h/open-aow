@@ -117,14 +117,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             result = true;
         }
 
-        if (result && Location.X != -1)
-        {
-            result = (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
-        }
-        else
-        {
-            result = false;
-        }
+        result = result && Location.X != -1 && (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
 
         return result;
     }

@@ -43,16 +43,7 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:100
     public override sbyte GetTerrain(int index)
     {
-        sbyte result;
-        if (index == 0)
-        {
-            result = _terrain;
-        }
-        else
-        {
-            result = -2;
-        }
-
+        sbyte result = index == 0 ? _terrain : (sbyte)-2;
         return result;
     }
 
@@ -74,10 +65,9 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:117
     public override void Connect()
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -94,10 +84,9 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:135
     public override void Disconnect()
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -127,9 +116,7 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:186
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         base.Resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
     }
 
@@ -206,10 +193,7 @@ public partial class HexBridge : AbstractRoad
         MapField mapField;
         mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         road = mapField.FindHexSprite(typeof(AbstractRoad));
-        if (road != null)
-        {
-            road.Dispose();
-        }
+        road?.Dispose();
 
         CustomNode previous = Owner;
         Owner = mapField;

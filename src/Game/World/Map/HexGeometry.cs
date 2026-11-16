@@ -14,16 +14,7 @@ public static class HexGeometry
 
     internal static int RadiusToHexNumber(int radius)
     {
-        int result;
-        if (radius <= 10)
-        {
-            result = RadiusToHexNumberTable[radius];
-        }
-        else
-        {
-            result = ((radius - 1) * radius * 3) + 1;
-        }
-
+        int result = radius <= 10 ? RadiusToHexNumberTable[radius] : ((radius - 1) * radius * 3) + 1;
         return result;
     }
 
@@ -87,14 +78,7 @@ public static class HexGeometry
             newHexY = 0;
         }
 
-        if ((hexX & 1) != 0 && (newHexX & 1) != 0)
-        {
-            newHexY = newHexY + hexY + 1;
-        }
-        else
-        {
-            newHexY = newHexY + hexY;
-        }
+        newHexY = (hexX & 1) != 0 && (newHexX & 1) != 0 ? newHexY + hexY + 1 : newHexY + hexY;
 
         newHexX = newHexX + hexX;
     }
@@ -129,14 +113,7 @@ public static class HexGeometry
 
     internal static void TranslateZeroHex(int hexX, int hexY, int deltaHexX, int deltaHexY, out int newHexX, out int newHexY)
     {
-        if ((hexX & 1) != 0 && (deltaHexX & 1) != 0)
-        {
-            newHexY = deltaHexY + hexY + 1;
-        }
-        else
-        {
-            newHexY = deltaHexY + hexY;
-        }
+        newHexY = (hexX & 1) != 0 && (deltaHexX & 1) != 0 ? deltaHexY + hexY + 1 : deltaHexY + hexY;
 
         newHexX = deltaHexX + hexX;
     }
@@ -301,14 +278,7 @@ public static class HexGeometry
         if (dY >= dX)
         {
             up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
-            if (up)
-            {
-                result = (int)(((uint)(dX + 1)) >> 1) + dY;
-            }
-            else
-            {
-                result = (int)(((uint)dX) >> 1) + dY;
-            }
+            result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
@@ -340,14 +310,7 @@ public static class HexGeometry
         if (dY >= dX)
         {
             up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
-            if (up)
-            {
-                result = (int)(((uint)(dX + 1)) >> 1) + dY;
-            }
-            else
-            {
-                result = (int)(((uint)dX) >> 1) + dY;
-            }
+            result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
@@ -453,79 +416,9 @@ public static class HexGeometry
 
     internal static int DeltaHexToHexNumberFast(int x1, int y1, int x2, int y2)
     {
-        int result;
-        if (x1 == x2)
-        {
-            if (y2 < y1)
-            {
-                result = 1;
-            }
-            else
-            {
-                if (y2 > y1)
-                {
-                    result = 4;
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
-        }
-        else
-        {
-            if (!((x1 & 1) != 0))
-            {
-                if (x2 < x1)
-                {
-                    if (y2 < y1)
-                    {
-                        result = 6;
-                    }
-                    else
-                    {
-                        result = 5;
-                    }
-                }
-                else
-                {
-                    if (y2 < y1)
-                    {
-                        result = 2;
-                    }
-                    else
-                    {
-                        result = 3;
-                    }
-                }
-            }
-            else
-            {
-                if (x2 < x1)
-                {
-                    if (y2 > y1)
-                    {
-                        result = 5;
-                    }
-                    else
-                    {
-                        result = 6;
-                    }
-                }
-                else
-                {
-                    if (y2 > y1)
-                    {
-                        result = 3;
-                    }
-                    else
-                    {
-                        result = 2;
-                    }
-                }
-            }
-        }
-
+        int result = x1 == x2
+            ? y2 < y1 ? 1 : y2 > y1 ? 4 : 0
+            : !((x1 & 1) != 0) ? x2 < x1 ? y2 < y1 ? 6 : 5 : y2 < y1 ? 2 : 3 : x2 < x1 ? y2 > y1 ? 5 : 6 : y2 > y1 ? 3 : 2;
         return result;
     }
 
@@ -540,63 +433,9 @@ public static class HexGeometry
         int result;
         int h;
         h = HexToH(hexX, hexY);
-        if (h > 0)
-        {
-            if (hexX < 0)
-            {
-                result = 6;
-            }
-            else
-            {
-                if (HexToV(hexX, hexY) < 0)
-                {
-                    result = 1;
-                }
-                else
-                {
-                    result = 2;
-                }
-            }
-        }
-        else
-        {
-            if (h < 0)
-            {
-                if (hexX > 0)
-                {
-                    result = 3;
-                }
-                else
-                {
-                    if (HexToV(hexX, hexY) > 0)
-                    {
-                        result = 4;
-                    }
-                    else
-                    {
-                        result = 5;
-                    }
-                }
-            }
-            else
-            {
-                if (hexX < 0)
-                {
-                    result = 6;
-                }
-                else
-                {
-                    if (hexX > 0)
-                    {
-                        result = 3;
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
-                }
-            }
-        }
+        result = h > 0
+            ? hexX < 0 ? 6 : HexToV(hexX, hexY) < 0 ? 1 : 2
+            : h < 0 ? hexX > 0 ? 3 : HexToV(hexX, hexY) > 0 ? 4 : 5 : hexX < 0 ? 6 : hexX > 0 ? 3 : 0;
 
         return result;
     }

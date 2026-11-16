@@ -5,14 +5,8 @@ public partial class UnitWindow
     public override void Loaded()
     {
         base.Loaded();
-        if (AbilityAbilityList != null)
-        {
-            AbilityAbilityList.WheelScrollBar = AbilityScrollBar;
-        }
+        AbilityAbilityList?.WheelScrollBar = AbilityScrollBar;
 
-        if (AbilityTypeList != null)
-        {
-            AbilityTypeList.WheelScrollBar = AbilityScrollBar;
-        }
+        AbilityTypeList?.WheelScrollBar = AbilityScrollBar;
     }
 }

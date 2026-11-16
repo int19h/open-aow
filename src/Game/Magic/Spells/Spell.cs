@@ -296,14 +296,7 @@ public partial class Spell : EngineObject
         }
 
         manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
-        {
-            result = manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
-        }
-        else
-        {
-            result = true;
-        }
+        result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
 
         return result;
     }
@@ -316,14 +309,7 @@ public partial class Spell : EngineObject
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
             manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
-            {
-                result = manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
-            }
-            else
-            {
-                result = true;
-            }
+            result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
         }
         else
         {

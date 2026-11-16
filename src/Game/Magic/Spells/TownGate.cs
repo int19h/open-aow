@@ -149,14 +149,9 @@ public partial class TownGate : CityTargetSpell
             }
 
             army = armyOwner.GetArmyHexSprite();
-            if (army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
-            {
-                selection = StrategicMap.Current.SelectedArmy.GetSelection();
-            }
-            else
-            {
-                selection = 255;
-            }
+            selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army
+                ? StrategicMap.Current.SelectedArmy.GetSelection()
+                : (byte)255;
 
             HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             found = false;
@@ -197,14 +192,7 @@ public partial class TownGate : CityTargetSpell
         bool result;
         MapField field;
         field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-        if (field.GetPlayer() != -1 && field.GetPlayer() != army.Army.Player)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = field.GetPlayer() == -1 || field.GetPlayer() == army.Army.Player;
 
         if (result)
         {

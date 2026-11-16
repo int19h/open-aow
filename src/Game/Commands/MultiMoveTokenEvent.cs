@@ -90,14 +90,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
             }
         }
 
-        if (!valid || Events.Count == 0)
-        {
-            moveResult = ExecuteResult.Done;
-        }
-        else
-        {
-            moveResult = ExecuteResult.Retry;
-        }
+        moveResult = !valid || Events.Count == 0 ? ExecuteResult.Done : ExecuteResult.Retry;
 
         return moveResult;
     }

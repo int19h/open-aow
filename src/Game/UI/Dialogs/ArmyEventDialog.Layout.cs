@@ -175,10 +175,10 @@ public partial class ArmyEventDialog : ILayoutModule
         closeBut.Priority = 100;
         closeBut.WinLeft = 159;
         closeBut.WinTop = 202;
-        closeBut.LayoutToolTipText = new LayoutStrings()
-        {
+        closeBut.LayoutToolTipText =
+        [
             "Closes Window"
-        };
+        ];
         closeBut.CaptureInput = true;
         closeBut.Alignment.AlignWidth = AlignWidth.Center;
         closeBut.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -238,10 +238,10 @@ public partial class ArmyEventDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 402;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

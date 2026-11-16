@@ -147,14 +147,7 @@ public partial class CombatObject : EngineObject
             TargetPriority = (count + 2) * TargetPriority;
             i = TargetedBy.Count;
             // { Original bug: the normalized priority is stored in FTargetStrength. }
-            if (i != 0)
-            {
-                TargetStrength = TargetPriority / i;
-            }
-            else
-            {
-                TargetStrength = 0;
-            }
+            TargetStrength = i != 0 ? TargetPriority / i : 0;
 
             TargetPriorityInvalid = false;
         }
@@ -353,14 +346,7 @@ public partial class CombatObject : EngineObject
         if (objectValue.GetSide() != GetSide())
         {
             GetTargetCombatValueDamageValue(objectValue, out combatValue, out damageValue);
-            if (Combat.CombatData.WallType != 0)
-            {
-                wallCombatValue = GetTargetWallCombatValue(objectValue);
-            }
-            else
-            {
-                wallCombatValue = 0;
-            }
+            wallCombatValue = Combat.CombatData.WallType != 0 ? GetTargetWallCombatValue(objectValue) : 0;
 
             AddTarget(objectValue, combatValue, wallCombatValue, damageValue);
         }
@@ -509,14 +495,7 @@ public partial class CombatObject : EngineObject
         types = damageTypes - GetImmunityTypes();
         if (types != Set<DamageType>.Of())
         {
-            if (damageMode == 1)
-            {
-                attackLocal = attack - GetResistance();
-            }
-            else
-            {
-                attackLocal = attack - GetDefense();
-            }
+            attackLocal = damageMode == 1 ? attack - GetResistance() : attack - GetDefense();
 
             result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
             if (types - GetProtectionTypes() == Set<DamageType>.Of())
@@ -567,14 +546,7 @@ public partial class CombatObject : EngineObject
         int hits;
         Assert(damage >= 0 && damage < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
         hits = GetHitPoints();
-        if (hits < damage)
-        {
-            result = hits;
-        }
-        else
-        {
-            result = damage;
-        }
+        result = hits < damage ? hits : damage;
 
         SetHitPoints((byte)(hits - result));
         if (damage != 0)
@@ -706,14 +678,7 @@ public partial class CombatObject : EngineObject
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 GetTargetCombatValueDamageValue(target, out combatValue, out damageValue);
-                if (Combat.CombatData.WallType != 0)
-                {
-                    wallCombatValue = GetTargetWallCombatValue(target);
-                }
-                else
-                {
-                    wallCombatValue = 0;
-                }
+                wallCombatValue = Combat.CombatData.WallType != 0 ? GetTargetWallCombatValue(target) : 0;
 
                 AddTarget(target, combatValue, wallCombatValue, damageValue);
             }
@@ -726,14 +691,7 @@ public partial class CombatObject : EngineObject
         CombatSideIndex result;
         sbyte player;
         player = CombatPlayer;
-        if (player != -1)
-        {
-            result = (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex;
-        }
-        else
-        {
-            result = CombatSideIndex.Neutral;
-        }
+        result = player != -1 ? (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex : CombatSideIndex.Neutral;
 
         return result;
     }
@@ -744,14 +702,7 @@ public partial class CombatObject : EngineObject
         CombatSideIndex result;
         sbyte player;
         player = CombatPlayer;
-        if (player != -1)
-        {
-            result = (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1);
-        }
-        else
-        {
-            result = CombatSideIndex.Neutral;
-        }
+        result = player != -1 ? (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1) : CombatSideIndex.Neutral;
 
         return result;
     }
@@ -762,14 +713,7 @@ public partial class CombatObject : EngineObject
         sbyte result;
         byte player;
         player = (byte)CombatPlayer;
-        if (player != 255)
-        {
-            result = Combat.CombatData.Players.GetPlayers((sbyte)player).Player;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = player != 255 ? Combat.CombatData.Players.GetPlayers((sbyte)player).Player : (sbyte)-1;
 
         return result;
     }
@@ -780,30 +724,16 @@ public partial class CombatObject : EngineObject
         sbyte result;
         byte player;
         player = (byte)CombatPlayer;
-        if (player != 255)
-        {
-            result = (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = player != 255 ? (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation : (sbyte)-1;
 
         return result;
     }
 
     internal static Set<DamageType> MeleeDamageTypes(CombatObject source)
     {
-        Set<DamageType> result;
-        if (source is CombatUnit sourceUnit)
-        {
-            result = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(sourceUnit.Troop);
-        }
-        else
-        {
-            result = Set<DamageType>.Of();
-        }
-
+        Set<DamageType> result = source is CombatUnit sourceUnit
+            ? ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(sourceUnit.Troop)
+            : Set<DamageType>.Of();
         return result;
     }
 

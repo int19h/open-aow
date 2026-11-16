@@ -177,14 +177,9 @@ internal static class PixelRemap
         switch (destinationPixelFormatId)
         {
             case PixelFormats.pfPAL8:
-                if (destinationPalette != null)
-                {
-                    result = destinationPalette.GetNearestColor(r + (g << 8) + (b << 16));
-                }
-                else
-                {
-                    throw new InvalidOperationException("Destination Palette needed");
-                }
+                result = destinationPalette != null
+                    ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
+                    : throw new InvalidOperationException("Destination Palette needed");
 
                 break;
             case PixelFormats.pfRGB565:

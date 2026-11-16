@@ -194,14 +194,7 @@ public partial class CombatTerrain : TerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType))
-        {
-            _hitPoints = 3;
-        }
-        else
-        {
-            _hitPoints = 0;
-        }
+        _hitPoints = Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)base.Resource).DecorationType) ? 3 : 0;
 
         _defense = -2;
         CreateShadow();
@@ -284,9 +277,7 @@ public partial class CombatTerrain : TerrainMapObject
     // CombatTerrain.pas:138
     public void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));

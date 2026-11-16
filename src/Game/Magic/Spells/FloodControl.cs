@@ -106,10 +106,7 @@ public partial class FloodControl : EngineObject
                             if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)mapField.OverlayType))
                             {
                                 roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
-                                if (roadHexSprite != null)
-                                {
-                                    roadHexSprite.Dispose();
-                                }
+                                roadHexSprite?.Dispose();
                             }
                         }
 

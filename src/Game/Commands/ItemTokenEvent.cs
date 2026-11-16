@@ -47,27 +47,13 @@ public partial class ItemTokenEvent : TokenEvent
             {
                 case 0:
                     hero = StrategicMap.Current.HeroControl.FindId(HeroId);
-                    if (hero != null)
-                    {
-                        done = item.ExecuteUse(hero);
-                    }
-                    else
-                    {
-                        done = false;
-                    }
+                    done = hero != null && item.ExecuteUse(hero);
 
                     break;
             }
         }
 
-        if (done)
-        {
-            result = ExecuteResult.Done;
-        }
-        else
-        {
-            result = ExecuteResult.DoneHalt;
-        }
+        result = done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
 
         return result;
     }

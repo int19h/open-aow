@@ -37,13 +37,12 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
     public void CreateHolyGround(Troop caster)
     {
         MapLevel level = default;
-        HexNumberWalkData walk = default;
         HolyGround.Resource resource = default;
         MapField field = default;
         HolyGround ground = default;
         ImageSequenceAnimation animation = default;
         level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         resource = (HolyGround.Resource)GamePack.Current.MapObjectResourceList.FindChild(131988);
         while (walk.Radius <= 1)
         {

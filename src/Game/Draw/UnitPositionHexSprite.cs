@@ -50,9 +50,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     // AoWTC.pas:5074
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         _images[_imageIndex].ShowClipped(x - pixelXSurface - 8, y - pixelYSurface - 8, lockedSurface);
     }
 

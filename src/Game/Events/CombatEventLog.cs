@@ -176,16 +176,10 @@ public partial class CombatEventLog : EventLog
         old = Logbook;
         if (old != logbook)
         {
-            if (old != null)
-            {
-                old.Release();
-            }
+            old?.Release();
 
             Logbook = logbook;
-            if (Logbook != null)
-            {
-                Logbook.AddRef();
-            }
+            Logbook?.AddRef();
         }
     }
 

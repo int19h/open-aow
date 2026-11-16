@@ -23,7 +23,7 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     public AIGroupManager(CustomNode owner) : base(owner)
     {
         _nextId = 1;
-        RegisteredClasses = new List<AIGroupClass>();
+        RegisteredClasses = [];
     }
 
     private int _nextId;

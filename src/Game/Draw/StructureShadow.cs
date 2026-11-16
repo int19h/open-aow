@@ -33,14 +33,9 @@ public partial class StructureShadow : HexSprite
     // Structur.PAS:940
     public override void SetVisible(bool value)
     {
-        if (value)
-        {
-            ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
-        }
-        else
-        {
-            ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
-        }
+        ShadowStatus = value
+            ? ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible)
+            : ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
     }
 
     // Structur.PAS:946

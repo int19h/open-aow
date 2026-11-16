@@ -442,14 +442,9 @@ public partial class Surface : IDisposable
             destinationRectangle = dr;
         }
 
-        if (sourceRectangle.Value.Right - sourceRectangle.Value.Left == destinationRectangle.Value.Right - destinationRectangle.Value.Left && sourceRectangle.Value.Bottom - sourceRectangle.Value.Top == destinationRectangle.Value.Bottom - destinationRectangle.Value.Top)
-        {
-            result = Blit(destination, sourceRectangle, destinationRectangle.Value.Left, destinationRectangle.Value.Top);
-        }
-        else
-        {
-            result = PixelFormats.GFXE_NOTSUPPORTED;
-        }
+        result = sourceRectangle.Value.Right - sourceRectangle.Value.Left == destinationRectangle.Value.Right - destinationRectangle.Value.Left && sourceRectangle.Value.Bottom - sourceRectangle.Value.Top == destinationRectangle.Value.Bottom - destinationRectangle.Value.Top
+            ? Blit(destination, sourceRectangle, destinationRectangle.Value.Left, destinationRectangle.Value.Top)
+            : PixelFormats.GFXE_NOTSUPPORTED;
 
         return result;
     }

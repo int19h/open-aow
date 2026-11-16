@@ -86,14 +86,9 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         DiplomaticAction last;
         player = Control.Player.PlayerIndex;
         last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, DiplomaticActionReaction.None, player, target, other);
-        if (last == null || StrategicMap.Current.Day - last.Day >= minDays)
-        {
-            result = StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other);
-        }
-        else
-        {
-            result = null;
-        }
+        result = last == null || StrategicMap.Current.Day - last.Day >= minDays
+            ? StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other)
+            : null;
 
         return result;
     }
@@ -129,26 +124,16 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             case DiplomaticRelation.Unknown:
                 if (idealPeace.IndexOf((byte)player) != -1)
                 {
-                    if (Control.CanOfferPeace((byte)player))
-                    {
-                        action = CreateDA(new OfferPeace(), player, -1, 10);
-                    }
-                    else
-                    {
-                        action = CreateDA(new DeclareWar(), player, -1, -1);
-                    }
+                    action = Control.CanOfferPeace((byte)player)
+                        ? CreateDA(new OfferPeace(), player, -1, 10)
+                        : CreateDA(new DeclareWar(), player, -1, -1);
                 }
 
                 if (idealWar.IndexOf((byte)player) != -1)
                 {
-                    if (Control.CanDeclareWar((byte)player))
-                    {
-                        action = CreateDA(new DeclareWar(), player, -1, -1);
-                    }
-                    else
-                    {
-                        action = CreateDA(new OfferPeace(), player, -1, 10);
-                    }
+                    action = Control.CanDeclareWar((byte)player)
+                        ? CreateDA(new DeclareWar(), player, -1, -1)
+                        : CreateDA(new OfferPeace(), player, -1, 10);
                 }
 
                 break;

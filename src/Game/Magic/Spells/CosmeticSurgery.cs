@@ -55,14 +55,7 @@ public partial class CosmeticSurgery : UnitSpell
             caster.CasterSourceId = source.UnitId;
             caster.CasterSpellId = SpellId;
             caster.TargetUnitId = targets.GetUnit(0).UnitId;
-            if (targets.GetUnit(0) is Hero faceTarget)
-            {
-                caster.FaceIndex = faceTarget.FaceIndex;
-            }
-            else
-            {
-                caster.FaceIndex = 0;
-            }
+            caster.FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0;
 
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             caster.Release();
@@ -84,14 +77,7 @@ public partial class CosmeticSurgery : UnitSpell
         bool expanded;
         if (ValidTargetUnit(source, target))
         {
-            if (!target.GetAbilityEnabled(126))
-            {
-                expanded = target.ExpandAbility(126);
-            }
-            else
-            {
-                expanded = true;
-            }
+            expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
 
             if (expanded)
             {

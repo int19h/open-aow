@@ -30,15 +30,9 @@ public partial class TutorialWindow : UIModule
         log = _event;
         Done = null;
         _event = null;
-        if (done != null)
-        {
-            done(log);
-        }
+        done?.Invoke(log);
 
-        if (log != null)
-        {
-            log.Release();
-        }
+        log?.Release();
     }
 
     // AoWTutorialWin.pas:38

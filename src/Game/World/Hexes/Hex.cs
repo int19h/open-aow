@@ -27,9 +27,7 @@ public partial class Hex : AbstractHexagon
     // Hexagon.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         ((HexagonResource)base.Resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 

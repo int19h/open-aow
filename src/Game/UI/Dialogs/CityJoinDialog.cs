@@ -37,15 +37,9 @@ public partial class CityJoinDialog : UIModule
         log = _event;
         Done = null;
         _event = null;
-        if (done != null)
-        {
-            done(log);
-        }
+        done?.Invoke(log);
 
-        if (log != null)
-        {
-            log.Release();
-        }
+        log?.Release();
     }
 
     // AoWCityJoinDlg.pas:69
@@ -90,10 +84,7 @@ public partial class CityJoinDialog : UIModule
     {
         LibraryImage face;
         face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
-        if (face != null)
-        {
-            face.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
-        }
+        face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
     }
 
     // AoWCityJoinDlg.pas:102

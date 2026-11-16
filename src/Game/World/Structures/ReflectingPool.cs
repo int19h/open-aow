@@ -116,21 +116,9 @@ public partial class ReflectingPool : PlayerStructure
         int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1)
-            {
-                if (PoolVisionPlayer(StrategicMap.Current.SeatedPlayer))
-                {
-                    range = VisibilityRange();
-                }
-                else
-                {
-                    range = 0;
-                }
-            }
-            else
-            {
-                range = 0;
-            }
+            range = Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1
+                ? PoolVisionPlayer(StrategicMap.Current.SeatedPlayer) ? VisibilityRange() : 0
+                : 0;
 
             if (range != UnfogRange)
             {

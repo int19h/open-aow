@@ -15,8 +15,7 @@ public partial class StrategicMap
         param[0] = query;
         message.Param = param;
         MapLevel mapLevel = MapContainer.GetMapLevel(level);
-        HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         try
         {
             while (walk.Radius <= radius)

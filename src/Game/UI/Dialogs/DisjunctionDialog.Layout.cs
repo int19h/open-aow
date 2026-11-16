@@ -99,10 +99,10 @@ public partial class DisjunctionDialog : ILayoutModule
         cancelBtn.Priority = 100;
         cancelBtn.WinLeft = 248;
         cancelBtn.WinTop = 382;
-        cancelBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        cancelBtn.LayoutToolTipText =
+        [
             "Cancel casting"
-        };
+        ];
         cancelBtn.CaptureInput = true;
         cancelBtn.Alignment.AlignWidth = AlignWidth.Right;
         cancelBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -134,10 +134,10 @@ public partial class DisjunctionDialog : ILayoutModule
         castBtn.Priority = 100;
         castBtn.WinLeft = 32;
         castBtn.WinTop = 382;
-        castBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        castBtn.LayoutToolTipText =
+        [
             "Cast Disjunction"
-        };
+        ];
         castBtn.CaptureInput = true;
         castBtn.Alignment.AlignWidth = AlignWidth.Left;
         castBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -616,10 +616,10 @@ public partial class DisjunctionDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 363;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

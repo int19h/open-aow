@@ -216,10 +216,8 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:556
     public virtual MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int pixelX = default;
-        int pixelY = default;
         MapObject result = (MapObject)CreateResourceUser();
-        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
@@ -239,14 +237,7 @@ public partial class MapObjectResource : EngineResource
     {
         ImageSequence sequence;
         int frame;
-        if (index < _imageSequenceList.Count)
-        {
-            sequence = _imageSequenceList.List[index];
-        }
-        else
-        {
-            sequence = null;
-        }
+        sequence = index < _imageSequenceList.Count ? _imageSequenceList.List[index] : null;
 
         while (sequence != null)
         {
@@ -281,20 +272,17 @@ public partial class MapObjectResource : EngineResource
     public void EditDropMessage(ref EngineMessage message)
     {
         MapLevel mapLevel;
-        int hexX = default;
-        int hexY = default;
         int hexLevel;
         int radius;
         bool clear;
         bool placed;
-        HexNumberWalkData walk = default;
         placed = true;
         mapLevel = message.Param[0].As<MapLevel>();
         hexLevel = message.Data[1];
         radius = message.Param[1].Int;
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out hexX, out hexY);
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
         clear = message.Param[2].Int == 1;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -310,14 +298,7 @@ public partial class MapObjectResource : EngineResource
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (placed)
-        {
-            message.Result = 0;
-        }
-        else
-        {
-            message.Result = -1;
-        }
+        message.Result = placed ? 0 : -1;
     }
 
     public GameEngine Engine => _engine;

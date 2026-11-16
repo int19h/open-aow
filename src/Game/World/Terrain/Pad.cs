@@ -23,16 +23,7 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
     // Pad.pas:58
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        sbyte result;
-        if (mapLevel.HexLevel != 0)
-        {
-            result = 12;
-        }
-        else
-        {
-            result = -1;
-        }
-
+        sbyte result = mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
         return result;
     }
 
@@ -62,12 +53,7 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         // Pad.pas:101
         public override EditorClass Editor()
         {
-            EditorClass result = Engine.Editors.FindEditor(131335);
-            if (result == null)
-            {
-                result = base.Editor();
-            }
-
+            EditorClass result = Engine.Editors.FindEditor(131335) ?? base.Editor();
             return result;
         }
 

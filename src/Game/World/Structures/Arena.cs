@@ -84,14 +84,7 @@ public partial class Arena : Structure
         if (troop is Unit)
         {
             Unit unitLocal = (Unit)troop;
-            if (unitLocal.GetRank() != Unit.Rank.Gold)
-            {
-                result = (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5;
-            }
-            else
-            {
-                result = -1;
-            }
+            result = unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
         }
         else
         {
@@ -210,14 +203,7 @@ public partial class Arena : Structure
         bool result;
         ArmyHexSprite army;
         army = Owner.GetArmyHexSprite();
-        if (army == null || army.Army.Player != player)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = army != null && army.Army.Player == player;
 
         return result;
     }

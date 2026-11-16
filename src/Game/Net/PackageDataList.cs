@@ -9,7 +9,7 @@ public partial class PackageDataList : IDisposable
     private readonly List<MemoryStream> _list;
 
     // NetworkE.pas:870
-    public PackageDataList() => _list = new List<MemoryStream>();
+    public PackageDataList() => _list = [];
 
     // NetworkE.pas:876
     public virtual void Dispose()

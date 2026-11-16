@@ -147,14 +147,7 @@ public partial class FastBattleWindow : UIModule
         }
 
         Y -= 19;
-        if (_viewer.Combat.CombatData.WallType == 2)
-        {
-            image = 80;
-        }
-        else
-        {
-            image = 60;
-        }
+        image = _viewer.Combat.CombatData.WallType == 2 ? 80 : 60;
 
         if (_viewer.Combat.CombatData.WallBreached)
         {
@@ -300,14 +293,7 @@ public partial class FastBattleWindow : UIModule
             left = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0)
-        {
-            leftOpacity = 60;
-        }
-        else
-        {
-            leftOpacity = 100;
-        }
+        leftOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0 ? 60 : 100;
 
         if (_phase == 3)
         {
@@ -324,14 +310,7 @@ public partial class FastBattleWindow : UIModule
             right = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1)
-        {
-            rightOpacity = 60;
-        }
-        else
-        {
-            rightOpacity = 100;
-        }
+        rightOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1 ? 60 : 100;
 
         if (_phase == 3)
         {
@@ -364,15 +343,9 @@ public partial class FastBattleWindow : UIModule
         log = _event;
         Done = null;
         _event = null;
-        if (done != null)
-        {
-            done(log);
-        }
+        done?.Invoke(log);
 
-        if (log != null)
-        {
-            log.Release();
-        }
+        log?.Release();
     }
 
     // FastCombatWin.pas:549
@@ -588,13 +561,7 @@ public partial class FastBattleWindow : UIModule
     }
 
     // FastCombatWin.pas:516
-    public void SequenceSpeedSldChange()
-    {
-        if (_viewer != null)
-        {
-            _viewer.SetSpeed((byte)(20 - SequenceSpeedSlider.Position));
-        }
-    }
+    public void SequenceSpeedSldChange() => _viewer?.SetSpeed((byte)(20 - SequenceSpeedSlider.Position));
 
     // FastCombatWin.pas:521
     public void LShieldUserDraw(UIComponent sender, LockedSurface surface)
@@ -695,14 +662,7 @@ public partial class FastBattleWindow : UIModule
             if (party != null)
             {
                 playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
-                if (playerIndex != 0)
-                {
-                    partyRace = StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace;
-                }
-                else
-                {
-                    partyRace = 12;
-                }
+                partyRace = playerIndex != 0 ? StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace : 12;
 
                 image.CurrentImage = partyRace + 21;
                 image.Visible = true;

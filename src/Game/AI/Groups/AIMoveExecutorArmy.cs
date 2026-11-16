@@ -60,14 +60,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
                 {
                     AIMoveExecutorUnit units = GetUnits(i);
                     index = army.Army.FindChildIndex(units.Troop);
-                    if (index != -1)
-                    {
-                        armySelection = (byte)(armySelection | (1 << index));
-                    }
-                    else
-                    {
-                        throw new KeyNotFoundException("Unit missing!");
-                    }
+                    armySelection = index != -1 ? (byte)(armySelection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
                 }
 
                 selection = (byte)(int)(((uint)selection) >> 1);

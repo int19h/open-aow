@@ -106,16 +106,7 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:359
     public PlayerSetupSettings GetSettings(int index)
     {
-        PlayerSetupSettings result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        PlayerSetupSettings result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

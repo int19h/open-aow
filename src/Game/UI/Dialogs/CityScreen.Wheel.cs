@@ -5,14 +5,8 @@ public partial class CityScreen
     public override void Loaded()
     {
         base.Loaded();
-        if (MigrationRaceList != null)
-        {
-            MigrationRaceList.WheelScrollBar = MigrationScrollBar;
-        }
+        MigrationRaceList?.WheelScrollBar = MigrationScrollBar;
 
-        if (MigrationTurnsList != null)
-        {
-            MigrationTurnsList.WheelScrollBar = MigrationScrollBar;
-        }
+        MigrationTurnsList?.WheelScrollBar = MigrationScrollBar;
     }
 }

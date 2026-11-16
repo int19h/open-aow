@@ -41,12 +41,7 @@ public partial class ProductionPlaceResource : PlayerStructureResource
     // PrdPlace.pas:724
     public override EditorClass Editor()
     {
-        EditorClass result = Engine.Editors.FindEditor(132027);
-        if (result == null)
-        {
-            result = base.Editor();
-        }
-
+        EditorClass result = Engine.Editors.FindEditor(132027) ?? base.Editor();
         return result;
     }
 

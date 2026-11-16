@@ -77,14 +77,7 @@ public static class EngineServices
             int c = i;
             for (int j = 7; j >= 0; j--)
             {
-                if ((c & 1) != 0)
-                {
-                    c = ((int)(((uint)c) >> 1)) ^ polynomial;
-                }
-                else
-                {
-                    c = (int)(((uint)c) >> 1);
-                }
+                c = (c & 1) != 0 ? ((int)(((uint)c) >> 1)) ^ polynomial : (int)(((uint)c) >> 1);
             }
 
             table[i] = c;

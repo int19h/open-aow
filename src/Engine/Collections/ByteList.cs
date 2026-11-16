@@ -18,16 +18,7 @@ public partial class ByteList : Persistent
     // Engine.pas:3678
     internal byte Get(int index)
     {
-        byte result;
-        if (index < 0 || index >= _count)
-        {
-            result = _default;
-        }
-        else
-        {
-            result = _list[index];
-        }
-
+        byte result = index < 0 || index >= _count ? _default : _list[index];
         return result;
     }
 
@@ -121,14 +112,7 @@ public partial class ByteList : Persistent
                 S = "";
             }
 
-            if (!IsEmpty(item))
-            {
-                v = StrToInt(item);
-            }
-            else
-            {
-                v = 0;
-            }
+            v = !IsEmpty(item) ? StrToInt(item) : 0;
 
             if (v > 255)
             {
@@ -143,23 +127,7 @@ public partial class ByteList : Persistent
     // Engine.pas:3686
     protected internal virtual void Grow()
     {
-        int delta;
-        if (_capacity > 64)
-        {
-            delta = _capacity / 4;
-        }
-        else
-        {
-            if (_capacity > 8)
-            {
-                delta = 16;
-            }
-            else
-            {
-                delta = 4;
-            }
-        }
-
+        int delta = _capacity > 64 ? _capacity / 4 : _capacity > 8 ? 16 : 4;
         SetCapacity(_capacity + delta);
     }
 

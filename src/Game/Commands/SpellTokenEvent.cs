@@ -68,16 +68,10 @@ public partial class SpellTokenEvent : TokenEvent
         base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
         Troop source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
-        if (source == null)
-        {
-            return ExecuteResult.DoneHalt;
-        }
-
-        if (executor.ExecuteCount == 0 && (source is not Hero hero || !Validate(hero)))
-        {
-            return ExecuteResult.DoneHalt;
-        }
-
-        return Process(source, executor.ExecuteCount) ? ExecuteResult.Retry : ExecuteResult.Done;
+        return source == null
+            ? ExecuteResult.DoneHalt
+            : executor.ExecuteCount == 0 && (source is not Hero hero || !Validate(hero))
+            ? ExecuteResult.DoneHalt
+            : Process(source, executor.ExecuteCount) ? ExecuteResult.Retry : ExecuteResult.Done;
     }
 }

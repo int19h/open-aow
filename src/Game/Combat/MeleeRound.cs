@@ -227,23 +227,11 @@ public partial class MeleeRound : IDisposable
         }
 
         _defenderDamageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
-        if (_defenderDamageTypes != Set<DamageType>.Of())
-        {
-            _defenderStrikes = 2;
-        }
-        else
-        {
-            _defenderStrikes = 0;
-        }
+        _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() ? 2 : 0;
 
-        if (_defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0)
-        {
-            side = CombatSideIndex.Defender;
-        }
-        else
-        {
-            side = CombatSideIndex.Attacker;
-        }
+        side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0
+            ? CombatSideIndex.Defender
+            : CombatSideIndex.Attacker;
 
         CalculateUnitStrikes(side);
     }
@@ -372,23 +360,11 @@ public partial class MeleeRound : IDisposable
         }
 
         _defenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
-        if (_defenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked())
-        {
-            _defenderStrikes = 2;
-        }
-        else
-        {
-            _defenderStrikes = 0;
-        }
+        _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked() ? 2 : 0;
 
-        if (defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0)
-        {
-            side = CombatSideIndex.Defender;
-        }
-        else
-        {
-            side = CombatSideIndex.Attacker;
-        }
+        side = defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0
+            ? CombatSideIndex.Defender
+            : CombatSideIndex.Attacker;
 
         CalculateStrikes(side);
     }

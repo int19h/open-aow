@@ -331,10 +331,7 @@ public partial class ToolTip : GenericWindow
                             LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            if (OnDrawItem != null)
-                            {
-                                OnDrawItem(this);
-                            }
+                            OnDrawItem?.Invoke(this);
                         }
 
                         lockedSurface.ClipRectangle = oldClip;

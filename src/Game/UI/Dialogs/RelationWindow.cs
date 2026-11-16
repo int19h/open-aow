@@ -142,15 +142,7 @@ public partial class RelationWindow : UIModule
 
     // Slots 0..23 are images and slots 24..47 are check boxes, in RelWindowCreate order.
     // An index outside 0..47 throws.
-    private UIComponent ControlAt(int Index)
-    {
-        if (Index >= 0 && Index < 24)
-        {
-            return FImages[Index];
-        }
-
-        return FChecks[Index - 24];
-    }
+    private UIComponent ControlAt(int Index) => Index >= 0 && Index < 24 ? FImages[Index] : FChecks[Index - 24];
 
     // AoWRelations.pas:221
     public void FillPlayers()
@@ -313,14 +305,7 @@ public partial class RelationWindow : UIModule
                 relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, StrategicMap.Current.SeatedPlayer);
                 string diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
-                if (relation != DiplomaticRelation.Unknown)
-                {
-                    PlayerStatusIcon.CurrentImage = (int)relation + 8;
-                }
-                else
-                {
-                    PlayerStatusIcon.CurrentImage = 50;
-                }
+                PlayerStatusIcon.CurrentImage = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
             }
             else
             {
@@ -403,21 +388,7 @@ public partial class RelationWindow : UIModule
             if (i < Players.Count)
             {
                 image.Visible = true;
-                if (Players[i] == player)
-                {
-                    image.CurrentImage = 2;
-                }
-                else
-                {
-                    if (i > Races.Count)
-                    {
-                        image.CurrentImage = 0;
-                    }
-                    else
-                    {
-                        image.CurrentImage = 1;
-                    }
-                }
+                image.CurrentImage = Players[i] == player ? 2 : i > Races.Count ? 0 : 1;
             }
             else
             {
@@ -456,14 +427,7 @@ public partial class RelationWindow : UIModule
         for (int i = 0; i <= 11; i++)
         {
             Image image = FImages[i + 12];
-            if (i < Races.Count)
-            {
-                image.CurrentImage = 4;
-            }
-            else
-            {
-                image.CurrentImage = 5;
-            }
+            image.CurrentImage = i < Races.Count ? 4 : 5;
 
             switch (image.CurrentImage)
             {
@@ -547,14 +511,7 @@ public partial class RelationWindow : UIModule
         for (int i = 0; i <= 11; i++)
         {
             Image image = FImages[i];
-            if (i < Players.Count)
-            {
-                image.CurrentImage = 1;
-            }
-            else
-            {
-                image.CurrentImage = 2;
-            }
+            image.CurrentImage = i < Players.Count ? 1 : 2;
 
             switch (image.CurrentImage)
             {
@@ -591,16 +548,10 @@ public partial class RelationWindow : UIModule
     {
         if (action != _action)
         {
-            if (_action != null)
-            {
-                _action.Release();
-            }
+            _action?.Release();
 
             _action = action;
-            if (_action != null)
-            {
-                _action.AddRef();
-            }
+            _action?.AddRef();
         }
     }
 
@@ -617,15 +568,9 @@ public partial class RelationWindow : UIModule
             eventValue = pending;
             Done = null;
             _event = null;
-            if (done != null)
-            {
-                done(eventValue);
-            }
+            done?.Invoke(eventValue);
 
-            if (eventValue != null)
-            {
-                eventValue.Release();
-            }
+            eventValue?.Release();
         }
     }
 
@@ -762,10 +707,7 @@ public partial class RelationWindow : UIModule
             else
             {
                 r = new Rect(component.WinLeft + 1, component.WinTop + 1, component.WinLeft + component.WinWidth - 1, component.WinTop + component.WinHeight - 1);
-                if (StrategicMap.Current.Players.GetPlayers(player2).GetFace() != null)
-                {
-                    StrategicMap.Current.Players.GetPlayers(player2).GetFace().ShowStretched(r, surface);
-                }
+                StrategicMap.Current.Players.GetPlayers(player2).GetFace()?.ShowStretched(r, surface);
             }
 
             Player player = StrategicMap.Current.Players.GetPlayers(player2);
@@ -824,14 +766,7 @@ public partial class RelationWindow : UIModule
                         if (StrategicMap.Current.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                         {
                             relation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player);
-                            if (relation != DiplomaticRelation.Unknown)
-                            {
-                                image = (int)relation + 8;
-                            }
-                            else
-                            {
-                                image = 50;
-                            }
+                            image = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
 
                             UI.Graphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, surface);
                         }

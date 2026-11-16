@@ -84,14 +84,13 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
     // GlobalSpells.pas:421
     public void StartAnimation(sbyte X, sbyte Y, sbyte layer, sbyte radius)
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         _x = X;
         _y = Y;
         _layer = layer;
         _frame = 0;
         GamePack.Current.SpellControl.GetSpell(2).CastSounds.Play(0);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[layer];
         while (walk.Radius <= radius)
         {

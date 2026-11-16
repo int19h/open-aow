@@ -68,14 +68,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                         if (_combatType != CombatType.None)
                         {
                             ExecuteCombat();
-                            if (ArmyHexSprite == null)
-                            {
-                                result = MoveStatus.Done;
-                            }
-                            else
-                            {
-                                result = MoveStatus.Moving;
-                            }
+                            result = ArmyHexSprite == null ? MoveStatus.Done : MoveStatus.Moving;
                         }
                         else
                         {
@@ -105,14 +98,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
                 field = GetMapField(Path[MoveIndex - 1].Location);
-                if (field.GetPlayer() != -1)
-                {
-                    result = ArmyHexSprite.GetMoveStatus() < 50;
-                }
-                else
-                {
-                    result = ArmyHexSprite.GetMoveStatus() < 100;
-                }
+                result = field.GetPlayer() != -1 ? ArmyHexSprite.GetMoveStatus() < 50 : ArmyHexSprite.GetMoveStatus() < 100;
             }
             else
             {
@@ -595,14 +581,9 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             StrategicMap.Current.DisableTurnTimer();
             StrategicMap.Current.AIExecutor.Lock();
-            if (StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human)
-            {
-                player2 = ArmyHexSprite.Army.Player;
-            }
-            else
-            {
-                player2 = field.GetPlayer();
-            }
+            player2 = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human
+                ? ArmyHexSprite.Army.Player
+                : field.GetPlayer();
 
             if (StrategicMap.Current.TokenManager.GetTokenControl(player2).Local())
             {

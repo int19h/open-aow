@@ -37,23 +37,7 @@ public partial class CityWall : CombatImageLibraryTerrain
     // CityWall.pas:133
     public override sbyte GetOverlay(int index)
     {
-        sbyte result;
-        if (index == 0)
-        {
-            if (HitPoints == 0)
-            {
-                result = 6;
-            }
-            else
-            {
-                result = 8;
-            }
-        }
-        else
-        {
-            result = base.GetOverlay(index);
-        }
-
+        sbyte result = index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
         return result;
     }
 
@@ -185,28 +169,13 @@ public partial class CityWall : CombatImageLibraryTerrain
                 }
                 else
                 {
-                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y)
-                    {
-                        moveResult.Code = 0;
-                    }
-                    else
-                    {
-                        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36))
-                        {
-                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay];
-                        }
-                        else
-                        {
-                            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
-                            {
-                                moveResult.Code = -1;
-                            }
-                            else
-                            {
-                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
-                            }
-                        }
-                    }
+                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y
+                        ? 0
+                        : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36)
+                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
+                            : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
+                                ? -1
+                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
                 }
             }
 
@@ -217,37 +186,13 @@ public partial class CityWall : CombatImageLibraryTerrain
     // CityWall.pas:180
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (info.HexNumber == 0)
-        {
-            if (HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
-            {
-                result = 1;
-            }
-            else
-            {
-                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
-                {
-                    result = 0;
-                }
-                else
-                {
-                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0)
-                    {
-                        result = 1;
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
-                }
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
+        int result = info.HexNumber == 0
+            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
+                ? 1
+                : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
+                    ? 0
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
+            : 1;
         return result;
     }
 
@@ -266,14 +211,7 @@ public partial class CityWall : CombatImageLibraryTerrain
             {
                 WallType = ((City)structure).WallType;
                 razed = structure.GetRazed();
-                if (structure.Player == -1)
-                {
-                    _flagId = -1;
-                }
-                else
-                {
-                    _flagId = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
-                }
+                _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
             }
             else
             {
@@ -282,14 +220,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 {
                     WallType = 1;
                     razed = structure.GetRazed();
-                    if (structure.Player == -1)
-                    {
-                        _flagId = -1;
-                    }
-                    else
-                    {
-                        _flagId = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
-                    }
+                    _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
                 else
                 {
@@ -398,28 +329,9 @@ public partial class CityWall : CombatImageLibraryTerrain
         }
 
         HitPoints = value;
-        if (TacticalTables.WallMaxHitPoints[WallType - 1] == HitPoints)
-        {
-            _damageImage = 0;
-        }
-        else
-        {
-            if (TacticalTables.WallMaxHitPoints[WallType - 1] / 2 < HitPoints)
-            {
-                _damageImage = 1;
-            }
-            else
-            {
-                if (HitPoints > 0)
-                {
-                    _damageImage = 2;
-                }
-                else
-                {
-                    _damageImage = 3;
-                }
-            }
-        }
+        _damageImage = TacticalTables.WallMaxHitPoints[WallType - 1] == HitPoints
+            ? 0
+            : TacticalTables.WallMaxHitPoints[WallType - 1] / 2 < HitPoints ? 1 : HitPoints > 0 ? 2 : 3;
 
         _playSound = true;
     }
@@ -428,10 +340,8 @@ public partial class CityWall : CombatImageLibraryTerrain
     {
         ImageSequence sequence;
         int imageIndex;
-        int pixelX = default;
-        int pixelY = default;
         int terrainOffset;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sbyte hexY = GetHexY();

@@ -267,21 +267,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 
-            if (good && !evil)
-            {
-                result = -2;
-            }
-            else
-            {
-                if (evil && !good)
-                {
-                    result = -4;
-                }
-                else
-                {
-                    result = -3;
-                }
-            }
+            result = good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
         }
         else
         {

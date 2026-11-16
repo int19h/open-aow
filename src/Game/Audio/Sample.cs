@@ -86,15 +86,9 @@ public partial class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        if (Callback != null)
-        {
-            Callback(this, SampleCallbackMode.Done);
-        }
+        Callback?.Invoke(this, SampleCallbackMode.Done);
 
-        if (_sampleData != null)
-        {
-            _sampleData.Release();
-        }
+        _sampleData?.Release();
 
         _sampleData = null;
         AudioHost.SampleList.Remove(this);

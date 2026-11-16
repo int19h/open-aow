@@ -59,14 +59,7 @@ public partial class WallCombatant : Troop
     public void SetWallType(WallType value)
     {
         _wallType = value;
-        if (_wallType == WallType.Stone)
-        {
-            Hits = 10;
-        }
-        else
-        {
-            Hits = 5;
-        }
+        Hits = _wallType == WallType.Stone ? (sbyte)10 : (sbyte)5;
 
         HitPoints = Hits;
     }

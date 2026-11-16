@@ -24,16 +24,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
     // UnitHS.PAS:138
     public UnitGraphicsResource GetUnitGraphicsResource(int index)
     {
-        UnitGraphicsResource result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        UnitGraphicsResource result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

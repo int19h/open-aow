@@ -12,7 +12,7 @@ public partial class ExecuteEventLogCallbackList : IDisposable
     public virtual void Dispose() => Clear();
 
     // EventLog.pas:277
-    public ExecuteEventLogCallbackList() => _list = new List<ExecuteEventLogInfo>();
+    public ExecuteEventLogCallbackList() => _list = [];
 
     // EventLog.pas:290
     public void Clear()

@@ -63,7 +63,7 @@ public partial class Memo : Control
         Lines = new StringList();
         _items = new StringList();
         _items.OnChange = OnChangeText;
-        ColorList = new List<ColorChange>();
+        ColorList = [];
         _numberVisible = 3;
         _cursorChar = 124;
         _editable = true;
@@ -97,14 +97,7 @@ public partial class Memo : Control
                 _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
             }
 
-            if (_imageLibraryFrame != null && _imageLibraryTexture != null)
-            {
-                NoFrame = false;
-            }
-            else
-            {
-                NoFrame = true;
-            }
+            NoFrame = _imageLibraryFrame == null || _imageLibraryTexture == null;
 
             Valid = true;
         }
@@ -180,14 +173,7 @@ public partial class Memo : Control
             ColorList.Add(colorChange);
             j = 0;
             start = 0;
-            if (!NoFrame)
-            {
-                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2);
-            }
-            else
-            {
-                w = BorderWidth * 2;
-            }
+            w = !NoFrame ? _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2) : BorderWidth * 2;
 
             string item = NullTerminatedText(_items[i]);
             text = Cp1252.Encode(item);
@@ -219,14 +205,9 @@ public partial class Memo : Control
                         Lines.Add(s);
                         ColorChange colorChange2 = new();
                         ColorList.Add(colorChange2);
-                        if (!NoFrame)
-                        {
-                            w = tw + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2);
-                        }
-                        else
-                        {
-                            w = tw + (BorderWidth * 2);
-                        }
+                        w = !NoFrame
+                            ? tw + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2)
+                            : tw + (BorderWidth * 2);
                     }
                     else
                     {
@@ -257,14 +238,7 @@ public partial class Memo : Control
         _scrollSet = false;
         if (!_scrollSet)
         {
-            if (!NoFrame)
-            {
-                _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
-            }
-            else
-            {
-                _scrollWidth = 0;
-            }
+            _scrollWidth = !NoFrame ? _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width : 0;
             if (_verticalScrollBar != null)
             {
                 _scrollSet = true;
@@ -327,10 +301,7 @@ public partial class Memo : Control
                     Drawn = false;
                     if (NoFrame)
                     {
-                        if (Window != null)
-                        {
-                            Window.Drawn = false;
-                        }
+                        Window?.Drawn = false;
                     }
                 }
             }
@@ -343,21 +314,11 @@ public partial class Memo : Control
                     Drawn = false;
                     if (NoFrame)
                     {
-                        if (Window != null)
-                        {
-                            Window.Drawn = false;
-                        }
+                        Window?.Drawn = false;
                     }
 
                     _blinkCount = 0;
-                    if (_blink)
-                    {
-                        _blink = false;
-                    }
-                    else
-                    {
-                        _blink = true;
-                    }
+                    _blink = !_blink;
                 }
             }
         }
@@ -367,10 +328,7 @@ public partial class Memo : Control
     public override void SetVisible(bool value)
     {
         base.SetVisible(value);
-        if (_verticalScrollBar != null)
-        {
-            _verticalScrollBar.Visible = Visible;
-        }
+        _verticalScrollBar?.Visible = Visible;
     }
 
     // AoWMemo.pas:378
@@ -472,10 +430,7 @@ public partial class Memo : Control
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        if (OnDrawItem != null)
-                        {
-                            OnDrawItem(this);
-                        }
+                        OnDrawItem?.Invoke(this);
                     }
                 }
 
@@ -843,10 +798,7 @@ public partial class Memo : Control
     public void SetVScroll(VerticalScrollBar value)
     {
         _verticalScrollBar = value;
-        if (value != null)
-        {
-            value.Priority = Priority;
-        }
+        value?.Priority = Priority;
 
         Sized = false;
     }
@@ -940,20 +892,14 @@ public partial class Memo : Control
     {
         if (_numberVisible + _topItem - 1 < _currentLine)
         {
-            if (_verticalScrollBar != null)
-            {
-                _verticalScrollBar.Position = _verticalScrollBar.Position + 1;
-            }
+            _verticalScrollBar?.Position = _verticalScrollBar.Position + 1;
 
             _topItem += 1;
         }
 
         if (_currentLine < _topItem)
         {
-            if (_verticalScrollBar != null)
-            {
-                _verticalScrollBar.Position = _verticalScrollBar.Position - 1;
-            }
+            _verticalScrollBar?.Position = _verticalScrollBar.Position - 1;
 
             _topItem -= 1;
         }
@@ -963,10 +909,7 @@ public partial class Memo : Control
         Drawn = false;
         if (NoFrame)
         {
-            if (Window != null)
-            {
-                Window.Drawn = false;
-            }
+            Window?.Drawn = false;
         }
     }
 

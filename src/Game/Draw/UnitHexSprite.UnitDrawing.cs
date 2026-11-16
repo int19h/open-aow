@@ -15,13 +15,11 @@ public partial class UnitHexSprite
     {
         ImageSequence sequence;
         int index;
-        int pixelX = default;
-        int pixelY = default;
         int deltaX = default;
         int deltaY = default;
         float progress;
         Assert(Direction < UnitGraphicsResource.Sequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (MoveStep != -1)
@@ -78,11 +76,9 @@ public partial class UnitHexSprite
         ImageSequence sequence;
         int index;
         float progress;
-        int pixelX = default;
-        int pixelY = default;
         int deltaX = default;
         int deltaY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         X = pixelX - X;
         Y = pixelY - Y;
         if (MoveStep != -1)
@@ -94,14 +90,9 @@ public partial class UnitHexSprite
             Y += Round((double)deltaY * progress);
         }
 
-        if (Direction == 0)
-        {
-            sequence = UnitGraphicsResource.Sequences.GetImageSequence(27);
-        }
-        else
-        {
-            sequence = UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
-        }
+        sequence = Direction == 0
+            ? UnitGraphicsResource.Sequences.GetImageSequence(27)
+            : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 
         while (sequence != null)
         {

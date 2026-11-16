@@ -97,18 +97,16 @@ public partial class WarpParty : Spell
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army)
     {
         DelphiList<MapField> candidates;
-        MovePointTable table = default;
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         MapLevel level;
         MapField field;
         int i;
         bool found;
         candidates = new DelphiList<MapField>();
-        army.Army.CreateMovePointTable(255, out table);
+        army.Army.CreateMovePointTable(255, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
         level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 20)
         {

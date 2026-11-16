@@ -40,14 +40,9 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             {
                 // { Process the negotiate or ordinary move animation. }
                 // { Evaluate the map field directly. }
-                if (GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
-                {
-                    result = ArmyHexSprite.GetMoveStatus() < 50;
-                }
-                else
-                {
-                    result = ArmyHexSprite.GetMoveStatus() < 100;
-                }
+                result = GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate
+                    ? ArmyHexSprite.GetMoveStatus() < 50
+                    : ArmyHexSprite.GetMoveStatus() < 100;
             }
             else
             {

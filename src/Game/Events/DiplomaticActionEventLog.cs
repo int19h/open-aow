@@ -68,14 +68,7 @@ public partial class DiplomaticActionEventLog : EventLog
                 condition = Action.OtherPlayer < count;
             }
 
-            if (condition)
-            {
-                race = StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace;
-            }
-            else
-            {
-                race = 12;
-            }
+            race = condition ? StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
 
             result = RaceColors[race];
         }
@@ -90,14 +83,7 @@ public partial class DiplomaticActionEventLog : EventLog
                     condition = Action.Target < count;
                 }
 
-                if (condition)
-                {
-                    race = StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
-                }
-                else
-                {
-                    race = 12;
-                }
+                race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
                 result = RaceColors[race];
             }
@@ -112,14 +98,7 @@ public partial class DiplomaticActionEventLog : EventLog
                         condition = Action.Source < count;
                     }
 
-                    if (condition)
-                    {
-                        race = StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace;
-                    }
-                    else
-                    {
-                        race = 12;
-                    }
+                    race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace : 12;
 
                     result = RaceColors[race];
                 }
@@ -132,14 +111,7 @@ public partial class DiplomaticActionEventLog : EventLog
                         condition = Action.Target < count;
                     }
 
-                    if (condition)
-                    {
-                        race = StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
-                    }
-                    else
-                    {
-                        race = 12;
-                    }
+                    race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
                     result = RaceColors[race];
                 }
@@ -164,14 +136,7 @@ public partial class DiplomaticActionEventLog : EventLog
                 condition = action.Source < count;
             }
 
-            if (condition)
-            {
-                result = StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace;
-            }
-            else
-            {
-                result = -1;
-            }
+            result = condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
         }
         else
         {
@@ -182,14 +147,7 @@ public partial class DiplomaticActionEventLog : EventLog
                 condition = action.OtherPlayer < count;
             }
 
-            if (condition)
-            {
-                result = StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace;
-            }
-            else
-            {
-                result = -1;
-            }
+            result = condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
         }
 
         return result;
@@ -209,14 +167,7 @@ public partial class DiplomaticActionEventLog : EventLog
             condition = action.Target < count;
         }
 
-        if (condition)
-        {
-            result = StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
 
         return result;
     }
@@ -233,10 +184,7 @@ public partial class DiplomaticActionEventLog : EventLog
         DiplomaticAction action;
         base.NotifyLogged(logbook);
         action = Action;
-        if (action != null)
-        {
-            action.EventLogId = Id;
-        }
+        action?.EventLogId = Id;
     }
 
     // Diplomacy.pas:1414
@@ -272,19 +220,9 @@ public partial class DiplomaticActionEventLog : EventLog
         old = Action;
         if (old != action)
         {
-            if (old != null)
-            {
-                old.Release();
-            }
+            old?.Release();
 
-            if (action != null)
-            {
-                Action = (DiplomaticAction)action.Copy(GetEngine());
-            }
-            else
-            {
-                Action = null;
-            }
+            Action = action != null ? (DiplomaticAction)action.Copy(GetEngine()) : null;
         }
     }
 

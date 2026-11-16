@@ -79,21 +79,7 @@ public partial class DisbandUnitTokenEvent : TokenEvent
                 if (armyHexSprite != null)
                 {
                     n = StrategicMap.Current.Random(10);
-                    if (n == 0)
-                    {
-                        behavior = GroupBehavior.GuardArea;
-                    }
-                    else
-                    {
-                        if (n < 7)
-                        {
-                            behavior = GroupBehavior.Scout;
-                        }
-                        else
-                        {
-                            behavior = GroupBehavior.Raid;
-                        }
-                    }
+                    behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
 
                     i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
                     if (i == -1)

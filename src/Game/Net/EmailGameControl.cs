@@ -80,14 +80,9 @@ public partial class EmailGameControl : EngineObject
         EmailGame result;
         int index;
         index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
-        if (index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId)
-        {
-            result = _games.GetEmailGames(index);
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
+            ? _games.GetEmailGames(index)
+            : null;
 
         return result;
     }
@@ -256,18 +251,12 @@ public partial class EmailGameControl : EngineObject
             }
             finally
             {
-                if (value2 != null)
-                {
-                    value2.Dispose();
-                }
+                value2?.Dispose();
             }
         }
         finally
         {
-            if (value != null)
-            {
-                value.Dispose();
-            }
+            value?.Dispose();
         }
         return result;
     }

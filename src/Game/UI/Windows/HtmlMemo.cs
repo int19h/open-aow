@@ -36,8 +36,8 @@ public partial class HtmlMemo : BaseWindow
         _lines = new StringList();
         _items = new StringList();
         _items.OnChange = OnChangeText;
-        Changes = new List<ChangeInfo>();
-        _fonts = new List<ImageLibraryFont>();
+        Changes = [];
+        _fonts = [];
         _images = new InterfaceImageLibrary(this);
     }
 
@@ -367,14 +367,7 @@ public partial class HtmlMemo : BaseWindow
                                     for (int k = 0; k <= 5; k++)
                                     {
                                         v = text[tagStart + k];
-                                        if (v < 58)
-                                        {
-                                            v = v - 48;
-                                        }
-                                        else
-                                        {
-                                            v = v - 55;
-                                        }
+                                        v = v < 58 ? v - 48 : v - 55;
 
                                         ci.Color = (ci.Color << 4) + v;
                                     }
@@ -404,10 +397,7 @@ public partial class HtmlMemo : BaseWindow
                                 try
                                 {
                                     ci.Spacing = StrToInt(Copy(item, tagStart + 1, j - tagStart));
-                                    if (Font != null)
-                                    {
-                                        Font.CharacterDistance = ci.Spacing;
-                                    }
+                                    Font?.CharacterDistance = ci.Spacing;
                                 }
                                 catch
                                 {
@@ -434,21 +424,7 @@ public partial class HtmlMemo : BaseWindow
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
-                                if (s == "RIGHT")
-                                {
-                                    ci.Align = TextAlignment.Right;
-                                }
-                                else
-                                {
-                                    if (s == "CENTER")
-                                    {
-                                        ci.Align = TextAlignment.Center;
-                                    }
-                                    else
-                                    {
-                                        ci.Align = TextAlignment.Left;
-                                    }
-                                }
+                                ci.Align = s == "RIGHT" ? TextAlignment.Right : s == "CENTER" ? TextAlignment.Center : TextAlignment.Left;
 
                                 NewChange();
                                 if (c == 62)
@@ -551,10 +527,7 @@ public partial class HtmlMemo : BaseWindow
                 _textHeight = WinHeight;
             }
 
-            if (BackSurface != null)
-            {
-                BackSurface.Resize(_textWidth, _textHeight);
-            }
+            BackSurface?.Resize(_textWidth, _textHeight);
         }
 
         SurfaceValid = false;
@@ -609,14 +582,9 @@ public partial class HtmlMemo : BaseWindow
         base.Update();
         if (Visible && Masked && !SurfaceValid)
         {
-            if (OwnerComponent.OwnerComponent.OwnerComponent == null)
-            {
-                r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
-            }
-            else
-            {
-                r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
-            }
+            r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
+                : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
 
             OwnerComponent.AddDrawRectangle(ref r, this);
         }
@@ -914,10 +882,7 @@ public partial class HtmlMemo : BaseWindow
         if (value != _verticalScrollBar)
         {
             _verticalScrollBar = value;
-            if (_verticalScrollBar != null)
-            {
-                _verticalScrollBar.Priority = Priority;
-            }
+            _verticalScrollBar?.Priority = Priority;
 
             Sized = false;
         }

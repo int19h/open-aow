@@ -163,32 +163,16 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:67
     public override int GetPower()
     {
-        int result;
-        if (!GetRazed() && !GetBuilding())
-        {
-            result = 10;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = !GetRazed() && !GetBuilding() ? 10 : 0;
         return result;
     }
 
     // PowerNode.pas:145
     public override string GetCombatEventText(Battle combat)
     {
-        string result;
-        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText);
-        }
-        else
-        {
-            result = "";
-        }
-
+        string result = combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders
+            ? AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText)
+            : "";
         return result;
     }
 

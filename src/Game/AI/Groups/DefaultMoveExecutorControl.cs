@@ -29,14 +29,9 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
                 if (armies.Count != 0)
                 {
-                    if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
-                    {
-                        mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround);
-                    }
-                    else
-                    {
-                        mode = Set<CreateMoveModeElement>.Of();
-                    }
+                    mode = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack)
+                        ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround)
+                        : Set<CreateMoveModeElement>.Of();
 
                     move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
                     if (move != null)
@@ -56,14 +51,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                     if (Executor.Moves.Count != 0)
                     {
                         Executor.ExecuteMoves();
-                        if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
-                        {
-                            State = 1;
-                        }
-                        else
-                        {
-                            State = 2;
-                        }
+                        State = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) ? 1 : 2;
                     }
                 }
 

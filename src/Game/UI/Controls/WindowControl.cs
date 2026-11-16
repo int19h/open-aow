@@ -21,23 +21,11 @@ public partial class WindowControl : UIComponent
 
     public event AoWOnDrawSurface<WindowControl> OnDrawSurface;
 
-    protected void RaiseDrawSurface(WindowControl sender, Surface surface, int left, int top)
-    {
-        if (OnDrawSurface != null)
-        {
-            OnDrawSurface(sender, surface, left, top);
-        }
-    }
+    protected void RaiseDrawSurface(WindowControl sender, Surface surface, int left, int top) => OnDrawSurface?.Invoke(sender, surface, left, top);
 
     public event AoWOnDrawSurface<WindowControl> OnPreDrawSurface;
 
-    protected void RaisePreDrawSurface(WindowControl sender, Surface surface, int left, int top)
-    {
-        if (OnPreDrawSurface != null)
-        {
-            OnPreDrawSurface(sender, surface, left, top);
-        }
-    }
+    protected void RaisePreDrawSurface(WindowControl sender, Surface surface, int left, int top) => OnPreDrawSurface?.Invoke(sender, surface, left, top);
 
     public byte Dragging { get; protected set; }
     public int DragX { get; protected set; }
@@ -54,23 +42,11 @@ public partial class WindowControl : UIComponent
 
     public event NotifyEvent<WindowControl> OnResize;
 
-    protected void RaiseResize(WindowControl sender)
-    {
-        if (OnResize != null)
-        {
-            OnResize(sender);
-        }
-    }
+    protected void RaiseResize(WindowControl sender) => OnResize?.Invoke(sender);
 
     public event NotifyEvent<WindowControl> OnInternalResize;
 
-    protected void RaiseInternalResize(WindowControl sender)
-    {
-        if (OnInternalResize != null)
-        {
-            OnInternalResize(sender);
-        }
-    }
+    protected void RaiseInternalResize(WindowControl sender) => OnInternalResize?.Invoke(sender);
 
     [Published]
     public int DragHeight { get; set; }
@@ -92,13 +68,7 @@ public partial class WindowControl : UIComponent
 
     public event NotifyEvent<WindowControl> OnChangeCursor;
 
-    protected void RaiseChangeCursor(WindowControl sender)
-    {
-        if (OnChangeCursor != null)
-        {
-            OnChangeCursor(sender);
-        }
-    }
+    protected void RaiseChangeCursor(WindowControl sender) => OnChangeCursor?.Invoke(sender);
 
     [Published]
     public int MinWidth { get; set; }
@@ -142,35 +112,17 @@ public partial class WindowControl : UIComponent
     [Published]
     public event AoWOnDrawBackEvent<WindowControl> OnDrawBack;
 
-    protected void RaiseDrawBack(WindowControl sender, LockedSurface surfDesc)
-    {
-        if (OnDrawBack != null)
-        {
-            OnDrawBack(sender, surfDesc);
-        }
-    }
+    protected void RaiseDrawBack(WindowControl sender, LockedSurface surfDesc) => OnDrawBack?.Invoke(sender, surfDesc);
 
     [Published]
     public event NotifyEvent<WindowControl> OnEnter;
 
-    internal void RaiseEnter(WindowControl sender)
-    {
-        if (OnEnter != null)
-        {
-            OnEnter(sender);
-        }
-    }
+    internal void RaiseEnter(WindowControl sender) => OnEnter?.Invoke(sender);
 
     [Published]
     public event NotifyEvent<WindowControl> OnExit;
 
-    internal void RaiseExit(WindowControl sender)
-    {
-        if (OnExit != null)
-        {
-            OnExit(sender);
-        }
-    }
+    internal void RaiseExit(WindowControl sender) => OnExit?.Invoke(sender);
 
     public bool MouseInside { get; set; }
 
@@ -212,28 +164,9 @@ public partial class WindowControl : UIComponent
                 ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
             }
 
-            if (ImageLibraryFrame != null)
-            {
-                if (ImageLibraryTexture != null)
-                {
-                    WindowStyle = Style.Normal;
-                }
-                else
-                {
-                    WindowStyle = Style.Hollow;
-                }
-            }
-            else
-            {
-                if (ImageLibraryTexture != null)
-                {
-                    WindowStyle = Style.Borderless;
-                }
-                else
-                {
-                    WindowStyle = Style.Blank;
-                }
-            }
+            WindowStyle = ImageLibraryFrame != null
+                ? ImageLibraryTexture != null ? Style.Normal : Style.Hollow
+                : ImageLibraryTexture != null ? Style.Borderless : Style.Blank;
 
             Valid = true;
         }
@@ -305,10 +238,7 @@ public partial class WindowControl : UIComponent
     public virtual void Blit(Surface surface)
     {
         Rect r = default;
-        if (OnPreDrawSurface != null)
-        {
-            OnPreDrawSurface(this, surface, WinLeft, WinTop);
-        }
+        OnPreDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
 
         r = new Rect(0, 0, WinWidth, WinHeight);
         if (!Masked)
@@ -321,10 +251,7 @@ public partial class WindowControl : UIComponent
             BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
         }
 
-        if (OnDrawSurface != null)
-        {
-            OnDrawSurface(this, surface, WinLeft, WinTop);
-        }
+        OnDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
     }
 
     // AoWWinControl.pas:142

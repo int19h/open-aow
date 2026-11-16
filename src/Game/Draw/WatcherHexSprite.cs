@@ -109,10 +109,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             HexGeometry.HexToPixel(HexX, hexY, out x, out y);
             x = x - pixelXSurface + 16;
             y = y - pixelYSurface + 16;
-            if (GamePack.Current.SpellControl.GetSpell(57).CastImages != null)
-            {
-                GamePack.Current.SpellControl.GetSpell(57).CastImages.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
-            }
+            GamePack.Current.SpellControl.GetSpell(57).CastImages?.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
 
             if (_animationFrame != -1)
             {
@@ -330,16 +327,9 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1321
     public void UpdateUnfog()
     {
-        int radius;
-        if ((byte)StrategicMap.Current.SeatedPlayer != 255 && (Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer || (byte)StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)StrategicMap.Current.SeatedPlayer) == 2) && Activated())
-        {
-            radius = VisibilityRange();
-        }
-        else
-        {
-            radius = 0;
-        }
-
+        int radius = (byte)StrategicMap.Current.SeatedPlayer != 255 && (Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer || (byte)StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)StrategicMap.Current.SeatedPlayer) == 2) && Activated()
+            ? VisibilityRange()
+            : 0;
         if (radius != _unfogRadius)
         {
             if (_unfogRadius != 0)

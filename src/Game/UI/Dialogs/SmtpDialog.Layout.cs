@@ -384,11 +384,11 @@ public partial class SmtpDialog : ILayoutModule
         failedMemo.Masked = true;
         failedMemo.WinWidth = 326;
         failedMemo.WinHeight = 80;
-        failedMemo.LayoutItems = new LayoutStrings()
-        {
+        failedMemo.LayoutItems =
+        [
             "Warning!",
             "Cannot send email game, please check your email settings and make sure you are online."
-        };
+        ];
         failedMemo.BorderWidth = 0;
         failedMemo.BorderHeight = 0;
         failedMemo.TextColor = 0;
@@ -523,10 +523,10 @@ public partial class SmtpDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 351;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

@@ -168,10 +168,9 @@ public partial class Crop : ImageLibraryTerrainMapObject
     {
         PlayerCropStructure found;
         MapLevel mapLevel;
-        HexNumberWalkData walk = default;
         found = null;
         mapLevel = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 1);
         while (walk.Radius <= 1 && found == null)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

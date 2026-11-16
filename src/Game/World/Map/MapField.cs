@@ -79,15 +79,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:1898
 
     // HSEngine.pas:1943
-    public override EngineObject GetChild(int index)
-    {
-        if (index >= StoredCount)
-        {
-            throw new IndexOutOfRangeException("Index out of bounds");
-        }
-
-        return _hexSpriteList[index];
-    }
+    public override EngineObject GetChild(int index) => index >= StoredCount
+        ? throw new IndexOutOfRangeException("Index out of bounds")
+        : (EngineObject)_hexSpriteList[index];
 
     // HSEngine.pas:1949
     public override void SetChild(int index, EngineObject child)
@@ -120,14 +114,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        if (i < StoredCount)
-        {
-            result = _hexSpriteList[i];
-        }
-        else
-        {
-            result = null;
-        }
+        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
 
         return result;
     }
@@ -143,14 +130,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        if (i < StoredCount)
-        {
-            result = _hexSpriteList[i];
-        }
-        else
-        {
-            result = null;
-        }
+        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
 
         return result;
     }
@@ -172,14 +152,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        if (i < StoredCount)
-        {
-            result = _hexSpriteList[i];
-        }
-        else
-        {
-            result = null;
-        }
+        result = i < StoredCount ? _hexSpriteList[i] : null;
 
         return result;
     }
@@ -249,12 +222,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     //   never used. }
     public void DestroyLevelHexSprite(int minLevel, int maxLevel)
     {
-        int pixelX = default;
-        int pixelY = default;
         bool done;
         int i;
         int level;
-        HexGeometry.HexToPixel(_location.X, _location.Y, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(_location.X, _location.Y, out int pixelX, out int pixelY);
         i = StoredCount - 1;
         // { Preserve the original stack slot. }
         done = false;
@@ -325,11 +296,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public void UpdateNeighbourTerrain()
     {
         HexSpriteTerrainInfo info = default;
-        HexNumberWalkData walk = default;
         info.MapField = this;
         info.TerrainType = _terrainType;
         info.OverlayType = _overlayType;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _location.X, _location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _location.X, _location.Y, 0);
         for (int i = 1; i <= 6; i++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -648,56 +618,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         int result;
         if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) == null && !mapField.GetMagicShieldActive())
         {
-            if (mapField.OverlayType == 1)
-            {
-                if (mapField.TerrainType == 3)
-                {
-                    result = 40;
-                }
-                else
-                {
-                    if (mapField.TerrainType == 2)
-                    {
-                        result = 80;
-                    }
-                    else
-                    {
-                        result = 60;
-                    }
-                }
-            }
-            else
-            {
-                if (mapField.OverlayType == 3)
-                {
-                    if (mapField.TerrainType == 3)
-                    {
-                        result = 10;
-                    }
-                    else
-                    {
-                        if (mapField.TerrainType == 2)
-                        {
-                            result = 30;
-                        }
-                        else
-                        {
-                            result = 20;
-                        }
-                    }
-                }
-                else
-                {
-                    if (mapField.TerrainType == 3)
-                    {
-                        result = 1;
-                    }
-                    else
-                    {
-                        result = 5;
-                    }
-                }
-            }
+            result = mapField.OverlayType == 1
+                ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60
+                : mapField.OverlayType == 3
+                    ? mapField.TerrainType == 3 ? 10 : mapField.TerrainType == 2 ? 30 : 20
+                    : mapField.TerrainType == 3 ? 1 : 5;
 
             if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null)
             {

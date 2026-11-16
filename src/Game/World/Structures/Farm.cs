@@ -123,21 +123,11 @@ public partial class Farm : PlayerCropStructure
         int count;
         if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
         {
-            if (GetRazed() || TerrainType == 5)
-            {
-                count = 0;
-            }
-            else
-            {
-                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
-                {
-                    count = ((PlayerCropStructureResource)base.Resource).CropLocations.Count;
-                }
-                else
-                {
-                    count = -1;
-                }
-            }
+            count = GetRazed() || TerrainType == 5
+                ? 0
+                : StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
+                    ? ((PlayerCropStructureResource)base.Resource).CropLocations.Count
+                    : -1;
 
             if (count != -1)
             {

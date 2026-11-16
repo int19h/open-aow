@@ -66,10 +66,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         min.Priority = 0;
         min.WinLeft = 181;
         min.WinTop = 1;
-        min.LayoutToolTipText = new LayoutStrings()
-        {
+        min.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         min.CaptureInput = true;
         min.Alignment.AlignWidth = AlignWidth.Right;
         min.Alignment.AlignHeight = AlignHeight.Top;
@@ -211,10 +211,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         TurnLabel.Priority = 5;
         TurnLabel.WinLeft = 77;
         TurnLabel.WinTop = 50;
-        TurnLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        TurnLabel.LayoutToolTipText =
+        [
             "The current day."
-        };
+        ];
         TurnLabel.CaptureInput = false;
         TurnLabel.Alignment.AlignWidth = AlignWidth.Center;
         TurnLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -358,10 +358,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         leaderCB.Priority = 6000;
         leaderCB.WinLeft = 1;
         leaderCB.WinTop = 1;
-        leaderCB.LayoutToolTipText = new LayoutStrings()
-        {
+        leaderCB.LayoutToolTipText =
+        [
             "Your Leader's portrait. Click to open Unit Window for your leader."
-        };
+        ];
         leaderCB.CaptureInput = true;
         leaderCB.Alignment.AlignWidth = AlignWidth.Left;
         leaderCB.Alignment.AlignHeight = AlignHeight.Top;
@@ -526,10 +526,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         PlayerLabel.Priority = 5;
         PlayerLabel.WinLeft = 70;
         PlayerLabel.WinTop = 6;
-        PlayerLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        PlayerLabel.LayoutToolTipText =
+        [
             "Your leader's name."
-        };
+        ];
         PlayerLabel.CaptureInput = false;
         PlayerLabel.Alignment.AlignWidth = AlignWidth.Center;
         PlayerLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -552,10 +552,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         RaceLabel.Priority = 5;
         RaceLabel.WinLeft = 69;
         RaceLabel.WinTop = 31;
-        RaceLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        RaceLabel.LayoutToolTipText =
+        [
             "Your side's race."
-        };
+        ];
         RaceLabel.CaptureInput = false;
         RaceLabel.Alignment.AlignWidth = AlignWidth.Center;
         RaceLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -580,10 +580,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         raceCB.Priority = 6000;
         raceCB.WinLeft = 1;
         raceCB.WinTop = 1;
-        raceCB.LayoutToolTipText = new LayoutStrings()
-        {
+        raceCB.LayoutToolTipText =
+        [
             "Your race's shield. Click to opens the Race Info Window."
-        };
+        ];
         raceCB.CaptureInput = true;
         raceCB.Alignment.AlignWidth = AlignWidth.Left;
         raceCB.Alignment.AlignHeight = AlignHeight.Top;
@@ -615,10 +615,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         center.Priority = 0;
         center.WinLeft = 167;
         center.WinTop = 1;
-        center.LayoutToolTipText = new LayoutStrings()
-        {
+        center.LayoutToolTipText =
+        [
             "Centers the World Map on the Player's Leader."
-        };
+        ];
         center.CaptureInput = true;
         center.Alignment.AlignWidth = AlignWidth.Right;
         center.Alignment.AlignHeight = AlignHeight.Top;
@@ -649,10 +649,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 153;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;

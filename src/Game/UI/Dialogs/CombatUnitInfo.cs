@@ -83,25 +83,12 @@ public partial class CombatUnitInfo : UIModule
                 condition = test;
             }
 
-            if (condition)
-            {
-                UnitAbilityList.TextColor = 16777215;
-            }
-            else
-            {
-                UnitAbilityList.TextColor = 12632256;
-            }
+            UnitAbilityList.TextColor = condition ? 16777215 : 12632256;
         }
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(LockedSurface lockedSurface)
-    {
-        if (UI.General.CombatUnit != null)
-        {
-            UI.General.CombatUnit.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, UI.General.UnitShowInfo);
-        }
-    }
+    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, UI.General.UnitShowInfo);
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()

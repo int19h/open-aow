@@ -28,13 +28,11 @@ public partial class PestilenceStorm : Storm
     // Storms.pas:644
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         int frame;
         int blend;
         ImageSequence sequence;
         sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y = y - pixelYSurface;
         sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
@@ -44,14 +42,7 @@ public partial class PestilenceStorm : Storm
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
                 blend = sequence.GetTotalSequenceFrames();
-                if (blend != 0)
-                {
-                    blend = FrameCounter * 100 / blend;
-                }
-                else
-                {
-                    blend = 100;
-                }
+                blend = blend != 0 ? FrameCounter * 100 / blend : 100;
 
                 sequence.ImageLibrary[frame].ShowBlended(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface, GraphicsState.ShadowBlendTable.LookupTables[blend]);
             }

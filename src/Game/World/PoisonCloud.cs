@@ -188,10 +188,9 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:95
     public new void UpdateMapFields(MapLevel level, int hexX, int hexY)
     {
-        HexNumberWalkData walk = default;
         int count;
         count = base.Resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
             if (GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -233,12 +232,11 @@ public partial class PoisonCloud : MultiHexMapObject
     public void TriggerDamage()
     {
         MapFieldMessage message = default;
-        HexNumberWalkData hexNumberWalkData = default;
         MapLevel level;
         level = Owner.Owner;
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, 0);
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
         param[0] = (int)StormType.Pestilence;

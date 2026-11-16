@@ -105,10 +105,7 @@ public partial class LeaderSetupWindow : UIModule
     public void Execute(LeaderSetupControl control)
     {
         Reset();
-        if (Setup != null)
-        {
-            Setup.Release();
-        }
+        Setup?.Release();
 
         Setup = control;
         Setup.AddRef();
@@ -810,10 +807,7 @@ public partial class LeaderSetupWindow : UIModule
             Frame frame = sender;
             r = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
 
-            if (setup.OriginalLeader.GetFace() != null)
-            {
-                setup.OriginalLeader.GetFace().ShowStretched(r, lockedSurface);
-            }
+            setup.OriginalLeader.GetFace()?.ShowStretched(r, lockedSurface);
         }
     }
 
@@ -1117,14 +1111,7 @@ public partial class LeaderSetupWindow : UIModule
     public void SelectedAbilitiesSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_selectedSort == 0)
-        {
-            _selectedSort = 1;
-        }
-        else
-        {
-            _selectedSort = 0;
-        }
+        _selectedSort = _selectedSort == 0 ? 1 : 0;
 
         SortSelectedAbilities();
     }
@@ -1133,14 +1120,7 @@ public partial class LeaderSetupWindow : UIModule
     public void SelectedAbilitiesCostSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_selectedSort == 2)
-        {
-            _selectedSort = 3;
-        }
-        else
-        {
-            _selectedSort = 2;
-        }
+        _selectedSort = _selectedSort == 2 ? 3 : 2;
 
         SortSelectedAbilities();
     }
@@ -1149,14 +1129,7 @@ public partial class LeaderSetupWindow : UIModule
     public void AvailableAbilitiesSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_availableSort == 0)
-        {
-            _availableSort = 1;
-        }
-        else
-        {
-            _availableSort = 0;
-        }
+        _availableSort = _availableSort == 0 ? 1 : 0;
 
         SortAvailableAbilities();
     }
@@ -1165,14 +1138,7 @@ public partial class LeaderSetupWindow : UIModule
     public void AvailableAbilitiesCostSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_availableSort == 2)
-        {
-            _availableSort = 3;
-        }
-        else
-        {
-            _availableSort = 2;
-        }
+        _availableSort = _availableSort == 2 ? 3 : 2;
 
         SortAvailableAbilities();
     }

@@ -186,14 +186,7 @@ public partial class ResultsWindow : UIModule
         {
             width = R.Right - R.Left;
             height = R.Bottom - R.Top;
-            if (turns >= 2)
-            {
-                xStep = (float)((double)width / (turns - 1));
-            }
-            else
-            {
-                xStep = width;
-            }
+            xStep = turns >= 2 ? (float)((double)width / (turns - 1)) : width;
 
             yStep = (float)((double)height / maximum);
             lastY = values[0];
@@ -336,19 +329,21 @@ public partial class ResultsWindow : UIModule
     public void ResultsWinCreate()
     {
         Players = new ByteList();
-        Controls = new List<CheckBox>();
-        Controls.Add(Player1CheckBox);
-        Controls.Add(Player2CheckBox);
-        Controls.Add(Player3CheckBox);
-        Controls.Add(Player4CheckBox);
-        Controls.Add(Player5CheckBox);
-        Controls.Add(Player6CheckBox);
-        Controls.Add(Player7CheckBox);
-        Controls.Add(Player8CheckBox);
-        Controls.Add(Player9CheckBox);
-        Controls.Add(Player10CheckBox);
-        Controls.Add(Player11CheckBox);
-        Controls.Add(Player12CheckBox);
+        Controls =
+        [
+            Player1CheckBox,
+            Player2CheckBox,
+            Player3CheckBox,
+            Player4CheckBox,
+            Player5CheckBox,
+            Player6CheckBox,
+            Player7CheckBox,
+            Player8CheckBox,
+            Player9CheckBox,
+            Player10CheckBox,
+            Player11CheckBox,
+            Player12CheckBox,
+        ];
     }
 
     // AoWResultsWin.pas:288

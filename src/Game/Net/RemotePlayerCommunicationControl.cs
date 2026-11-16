@@ -76,24 +76,9 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     public override bool SendPackageData(int player, MemoryStream stream)
     {
         bool result;
-        int systemId;
-        if (player == NetworkSession.AllPlayers)
-        {
-            systemId = 0;
-        }
-        else
-        {
-            systemId = PlayerCommunicationSettingsList.Players[player].SystemId;
-        }
+        int systemId = player == NetworkSession.AllPlayers ? 0 : PlayerCommunicationSettingsList.Players[player].SystemId;
 
-        if (systemId != _localSystemId)
-        {
-            result = SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
-        }
-        else
-        {
-            result = true;
-        }
+        result = systemId == _localSystemId || SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
 
         if (player == NetworkSession.AllPlayers || systemId == _localSystemId)
         {
@@ -135,16 +120,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // NetworkE.pas:842
     public bool SendData(object data, int size, int systemId)
     {
-        bool result = default;
-        if (OnSendData != null)
-        {
-            result = OnSendData(data, size, systemId);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = OnSendData != null && OnSendData(data, size, systemId);
         return result;
     }
 

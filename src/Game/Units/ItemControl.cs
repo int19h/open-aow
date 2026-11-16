@@ -19,7 +19,7 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4639
     public ItemControl(CustomNode owner) : base(owner)
     {
-        _items = new List<Item>();
+        _items = [];
         _onChangedStore = new();
         _onItemChangedStore = new();
     }
@@ -258,14 +258,7 @@ public partial class ItemControl : EngineObject
             }
         }
 
-        if (list.Count != 0)
-        {
-            result = list[list.RandomChanceItemB(1)].First;
-        }
-        else
-        {
-            result = null;
-        }
+        result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
 
         list?.Dispose();
         return result;

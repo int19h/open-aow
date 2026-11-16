@@ -27,12 +27,10 @@ public partial class BlastStorm : Storm
     // Storms.pas:338
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         int frame;
         frame = FrameCounter % _stormImages.Count;
         sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         LibraryImage stormImageWidth = _stormImages[frame];
         x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
         LibraryImage stormImageHeight = _stormImages[frame];

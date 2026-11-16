@@ -54,7 +54,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // HSEngine.pas:3681
     public HexSpriteSelection(CustomNode owner) : base(owner)
     {
-        _locationHexSprite = new List<HexSprite>();
+        _locationHexSprite = [];
         OnSelectStore = new();
         OnDeselectStore = new();
     }
@@ -161,9 +161,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // HSEngine.pas:3829
     public void SelectLocationHex(int hexX, int hexY, int hexLevel)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         SelectLocation(pixelX, pixelY, hexLevel);
     }
 

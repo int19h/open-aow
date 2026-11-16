@@ -730,11 +730,11 @@ public partial class CampaignTransferDialog : ILayoutModule
         addBtn.Priority = 100;
         addBtn.WinLeft = 15;
         addBtn.WinTop = 333;
-        addBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        addBtn.LayoutToolTipText =
+        [
             "Adds selected resource",
             "Clicking on a selected item again will also add it"
-        };
+        ];
         addBtn.CaptureInput = true;
         addBtn.Alignment.AlignWidth = AlignWidth.Both;
         addBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -789,10 +789,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableGoldLabel.Priority = 10;
         AvailableGoldLabel.WinLeft = 119;
         AvailableGoldLabel.WinTop = 74;
-        AvailableGoldLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        AvailableGoldLabel.LayoutToolTipText =
+        [
             "Available gold"
-        };
+        ];
         AvailableGoldLabel.CaptureInput = true;
         AvailableGoldLabel.Alignment.AlignWidth = AlignWidth.Center;
         AvailableGoldLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -839,10 +839,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         AvailableManaLabel.Priority = 10;
         AvailableManaLabel.WinLeft = 114;
         AvailableManaLabel.WinTop = 96;
-        AvailableManaLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        AvailableManaLabel.LayoutToolTipText =
+        [
             "Available mana"
-        };
+        ];
         AvailableManaLabel.CaptureInput = true;
         AvailableManaLabel.Alignment.AlignWidth = AlignWidth.Center;
         AvailableManaLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1828,10 +1828,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         removeBtn.Priority = 100;
         removeBtn.WinLeft = 62;
         removeBtn.WinTop = 333;
-        removeBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        removeBtn.LayoutToolTipText =
+        [
             "Removes selected resource"
-        };
+        ];
         removeBtn.CaptureInput = true;
         removeBtn.Alignment.AlignWidth = AlignWidth.Center;
         removeBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1917,10 +1917,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         GoldSlider.Priority = 0;
         GoldSlider.WinLeft = 170;
         GoldSlider.WinTop = 79;
-        GoldSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        GoldSlider.LayoutToolTipText =
+        [
             "Sets Gold"
-        };
+        ];
         GoldSlider.CaptureInput = true;
         GoldSlider.Alignment.AlignWidth = AlignWidth.Both;
         GoldSlider.Alignment.AlignHeight = AlignHeight.Top;
@@ -1958,10 +1958,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         ManaSlider.Priority = 0;
         ManaSlider.WinLeft = 170;
         ManaSlider.WinTop = 99;
-        ManaSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        ManaSlider.LayoutToolTipText =
+        [
             "Sets Mana"
-        };
+        ];
         ManaSlider.CaptureInput = true;
         ManaSlider.Alignment.AlignWidth = AlignWidth.Both;
         ManaSlider.Alignment.AlignHeight = AlignHeight.Top;
@@ -2029,10 +2029,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         autoBtn.Priority = 100;
         autoBtn.WinLeft = 135;
         autoBtn.WinTop = 333;
-        autoBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        autoBtn.LayoutToolTipText =
+        [
             "Automatically assigns resources to next scenario"
-        };
+        ];
         autoBtn.CaptureInput = true;
         autoBtn.Alignment.AlignWidth = AlignWidth.Both;
         autoBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2554,10 +2554,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferGoldLabel.Priority = 10;
         TransferGoldLabel.WinLeft = 119;
         TransferGoldLabel.WinTop = 74;
-        TransferGoldLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        TransferGoldLabel.LayoutToolTipText =
+        [
             "Available gold"
-        };
+        ];
         TransferGoldLabel.CaptureInput = true;
         TransferGoldLabel.Alignment.AlignWidth = AlignWidth.Center;
         TransferGoldLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2604,10 +2604,10 @@ public partial class CampaignTransferDialog : ILayoutModule
         TransferManaLabel.Priority = 10;
         TransferManaLabel.WinLeft = 114;
         TransferManaLabel.WinTop = 96;
-        TransferManaLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        TransferManaLabel.LayoutToolTipText =
+        [
             "Available mana"
-        };
+        ];
         TransferManaLabel.CaptureInput = true;
         TransferManaLabel.Alignment.AlignWidth = AlignWidth.Center;
         TransferManaLabel.Alignment.AlignHeight = AlignHeight.Top;

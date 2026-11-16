@@ -120,10 +120,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     protected override void OnChange()
     {
         base.OnChange();
-        if (OnChanged != null)
-        {
-            OnChanged(this);
-        }
+        OnChanged?.Invoke(this);
     }
 
     // Hero.PAS:410
@@ -342,14 +339,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         Item result;
         int index;
         index = ((int)position) & 127;
-        if (index < Items.Count)
-        {
-            result = Items[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index < Items.Count ? Items[index] : null;
 
         return result;
     }

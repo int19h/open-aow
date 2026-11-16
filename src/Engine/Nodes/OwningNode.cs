@@ -281,14 +281,7 @@ public partial class OwningNode : CustomNode
             i += 1;
         }
 
-        if (found)
-        {
-            result = c;
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? c : null;
 
         return result;
     }

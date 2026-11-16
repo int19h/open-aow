@@ -68,16 +68,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // ImageLib.pas:8939
     public ImageSequence GetLayerImageSequence(int index, int layer)
     {
-        ImageSequence result;
-        if (index < Count)
-        {
-            result = List[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        ImageSequence result = index < Count ? List[index] : null;
         while (result != null && layer != result.Layer)
         {
             result = result.Next;
@@ -107,7 +98,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     internal List<IReadOnlyList<SequenceLayer>> SaveLayers()
     {
         ReduceCount();
-        List<IReadOnlyList<SequenceLayer>> entries = new(Count);
+        List<IReadOnlyList<SequenceLayer>> entries = [with(Count)];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             entries.Add(List[i]?.SaveLayers());
@@ -158,16 +149,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     // ImageLib.pas:9044
     public ImageSequence GetImageSequence(int index)
     {
-        ImageSequence result;
-        if (index >= 0 && index < Count)
-        {
-            result = List[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        ImageSequence result = index >= 0 && index < Count ? List[index] : null;
         return result;
     }
 
@@ -192,14 +174,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         ImageSequence sequence;
         int result = 0;
-        if (index < Count)
-        {
-            sequence = List[index];
-        }
-        else
-        {
-            sequence = null;
-        }
+        sequence = index < Count ? List[index] : null;
 
         while (sequence != null)
         {
@@ -216,14 +191,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         ImageSequence s;
         int result = 0;
-        if (index < Count)
-        {
-            s = List[index];
-        }
-        else
-        {
-            s = null;
-        }
+        s = index < Count ? List[index] : null;
 
         while (s != sequence)
         {
@@ -245,14 +213,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         ImageSequence result;
         int i;
         i = 0;
-        if (index < Count)
-        {
-            result = List[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index < Count ? List[index] : null;
 
         while (result != null && i != subIndex)
         {
@@ -270,14 +231,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         ImageSequence s;
         ImageSequence previous;
-        if (index < Count)
-        {
-            s = List[index];
-        }
-        else
-        {
-            s = null;
-        }
+        s = index < Count ? List[index] : null;
 
         if (s != null)
         {

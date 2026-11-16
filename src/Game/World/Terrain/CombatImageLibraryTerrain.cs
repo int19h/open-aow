@@ -79,9 +79,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     // CombatILTer.pas:108
     public virtual void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));

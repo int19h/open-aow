@@ -121,10 +121,7 @@ public partial class MoveControlSettings : EngineObject
         MovePointTable = movePointTable;
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            if (_levelData[i] is not null)
-            {
-                _levelData[i].AsSpan(0, _width * _height).Fill(16777215);
-            }
+            _levelData[i]?.AsSpan(0, _width * _height).Fill(16777215);
         }
 
         Mode = Set<MoveModeElement>.Of();
@@ -216,10 +213,7 @@ public partial class MoveControlSettings : EngineObject
         {
             for (int i = 0, last = _levelCount - 1; i <= last; i++)
             {
-                if (_levelData[i] is not null)
-                {
-                    _levelData[i].AsSpan(0, _width * _height).Fill(16777215);
-                }
+                _levelData[i]?.AsSpan(0, _width * _height).Fill(16777215);
             }
 
             _movePointsClear = true;

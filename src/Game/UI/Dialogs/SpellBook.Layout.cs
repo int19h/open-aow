@@ -3188,10 +3188,10 @@ public partial class SpellBook : ILayoutModule
         CancelResearchButton.Priority = 100;
         CancelResearchButton.WinLeft = 64;
         CancelResearchButton.WinTop = 296;
-        CancelResearchButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CancelResearchButton.LayoutToolTipText =
+        [
             "Removes selected resource"
-        };
+        ];
         CancelResearchButton.CaptureInput = true;
         CancelResearchButton.Alignment.AlignWidth = AlignWidth.Center;
         CancelResearchButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3223,10 +3223,10 @@ public partial class SpellBook : ILayoutModule
         cancelCastingBtn.Priority = 100;
         cancelCastingBtn.WinLeft = 61;
         cancelCastingBtn.WinTop = 114;
-        cancelCastingBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        cancelCastingBtn.LayoutToolTipText =
+        [
             "Cancels spell casting"
-        };
+        ];
         cancelCastingBtn.CaptureInput = true;
         cancelCastingBtn.Alignment.AlignWidth = AlignWidth.Center;
         cancelCastingBtn.Alignment.AlignHeight = AlignHeight.Bottom;

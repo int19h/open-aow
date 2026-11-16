@@ -11,7 +11,7 @@ public partial class Point3DList : IDisposable
     private readonly List<Point3D> _list;
 
     // aowFX.pas:93
-    public Point3DList() => _list = new List<Point3D>();
+    public Point3DList() => _list = [];
 
     // aowFX.pas:98
     public virtual void Dispose()
@@ -44,16 +44,7 @@ public partial class Point3DList : IDisposable
     // aowFX.pas:128
     public Point3D GetXYZ(int index)
     {
-        Point3D result;
-        if (index >= 0 && index < _list.Count)
-        {
-            result = _list[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        Point3D result = index >= 0 && index < _list.Count ? _list[index] : null;
         return result;
     }
 

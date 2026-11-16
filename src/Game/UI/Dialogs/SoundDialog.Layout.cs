@@ -234,10 +234,10 @@ public partial class SoundDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 385;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -309,11 +309,11 @@ public partial class SoundDialog : ILayoutModule
         soundTab.Alignment.TopOffset = 150;
         soundTab.Alignment.BottomOffset = 0;
         soundTab.Masked = true;
-        soundTab.LayoutItems = new LayoutStrings()
-        {
+        soundTab.LayoutItems =
+        [
             "PLAY LIST",
             "SOUND OPTIONS"
-        };
+        ];
         soundTab.BorderHeight = 6;
         soundTab.OnChange += _ => SoundTabChange();
         soundTab.Selected = 0;
@@ -366,10 +366,10 @@ public partial class SoundDialog : ILayoutModule
         AddButton.Priority = 250;
         AddButton.WinLeft = 0;
         AddButton.WinTop = 148;
-        AddButton.LayoutToolTipText = new LayoutStrings()
-        {
+        AddButton.LayoutToolTipText =
+        [
             "Add the selected song to the Jukebox Playlist."
-        };
+        ];
         AddButton.CaptureInput = true;
         AddButton.Alignment.AlignWidth = AlignWidth.Both;
         AddButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -401,10 +401,10 @@ public partial class SoundDialog : ILayoutModule
         RemoveButton.Priority = 250;
         RemoveButton.WinLeft = 187;
         RemoveButton.WinTop = 148;
-        RemoveButton.LayoutToolTipText = new LayoutStrings()
-        {
+        RemoveButton.LayoutToolTipText =
+        [
             "Remove the selected song from the Jukebox Playlist."
-        };
+        ];
         RemoveButton.CaptureInput = true;
         RemoveButton.Alignment.AlignWidth = AlignWidth.Both;
         RemoveButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -436,10 +436,10 @@ public partial class SoundDialog : ILayoutModule
         PlayButton.Priority = 250;
         PlayButton.WinLeft = 273;
         PlayButton.WinTop = 148;
-        PlayButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PlayButton.LayoutToolTipText =
+        [
             "Play the selected song."
-        };
+        ];
         PlayButton.CaptureInput = true;
         PlayButton.Alignment.AlignWidth = AlignWidth.Both;
         PlayButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -545,10 +545,10 @@ public partial class SoundDialog : ILayoutModule
         musicVolLbl.Priority = 0;
         musicVolLbl.WinLeft = 55;
         musicVolLbl.WinTop = 38;
-        musicVolLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        musicVolLbl.LayoutToolTipText =
+        [
             "The volume to play music at."
-        };
+        ];
         musicVolLbl.CaptureInput = false;
         musicVolLbl.Alignment.AlignWidth = AlignWidth.Right;
         musicVolLbl.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -572,10 +572,10 @@ public partial class SoundDialog : ILayoutModule
         sfxVolLbl.Priority = 0;
         sfxVolLbl.WinLeft = 61;
         sfxVolLbl.WinTop = 69;
-        sfxVolLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        sfxVolLbl.LayoutToolTipText =
+        [
             "The volume to play sfx at."
-        };
+        ];
         sfxVolLbl.CaptureInput = false;
         sfxVolLbl.Alignment.AlignWidth = AlignWidth.Right;
         sfxVolLbl.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -727,10 +727,10 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityNoneCheckBox.Priority = 0;
         SoundQualityNoneCheckBox.WinLeft = 15;
         SoundQualityNoneCheckBox.WinTop = 14;
-        SoundQualityNoneCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        SoundQualityNoneCheckBox.LayoutToolTipText =
+        [
             "Do not play music or sfx."
-        };
+        ];
         SoundQualityNoneCheckBox.CaptureInput = true;
         SoundQualityNoneCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         SoundQualityNoneCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -763,10 +763,10 @@ public partial class SoundDialog : ILayoutModule
         sqlbL1.Priority = 0;
         sqlbL1.WinLeft = 35;
         sqlbL1.WinTop = 15;
-        sqlbL1.LayoutToolTipText = new LayoutStrings()
-        {
+        sqlbL1.LayoutToolTipText =
+        [
             "Do not play music or sfx."
-        };
+        ];
         sqlbL1.CaptureInput = false;
         sqlbL1.Alignment.AlignWidth = AlignWidth.Left;
         sqlbL1.Alignment.AlignHeight = AlignHeight.Top;
@@ -790,10 +790,10 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityLowCheckBox.Priority = 0;
         SoundQualityLowCheckBox.WinLeft = 15;
         SoundQualityLowCheckBox.WinTop = 34;
-        SoundQualityLowCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        SoundQualityLowCheckBox.LayoutToolTipText =
+        [
             "Play music and sfx in low quality (recommended for slower computers)."
-        };
+        ];
         SoundQualityLowCheckBox.CaptureInput = true;
         SoundQualityLowCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         SoundQualityLowCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -826,10 +826,10 @@ public partial class SoundDialog : ILayoutModule
         sqlbL2.Priority = 0;
         sqlbL2.WinLeft = 35;
         sqlbL2.WinTop = 35;
-        sqlbL2.LayoutToolTipText = new LayoutStrings()
-        {
+        sqlbL2.LayoutToolTipText =
+        [
             "Play music and sfx in low quality (recommended for slower computers)."
-        };
+        ];
         sqlbL2.CaptureInput = false;
         sqlbL2.Alignment.AlignWidth = AlignWidth.Left;
         sqlbL2.Alignment.AlignHeight = AlignHeight.Top;
@@ -853,10 +853,10 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityMediumCheckBox.Priority = 0;
         SoundQualityMediumCheckBox.WinLeft = 15;
         SoundQualityMediumCheckBox.WinTop = 54;
-        SoundQualityMediumCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        SoundQualityMediumCheckBox.LayoutToolTipText =
+        [
             "Play music and sfx in medium quality (recommended for most computers)."
-        };
+        ];
         SoundQualityMediumCheckBox.CaptureInput = true;
         SoundQualityMediumCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         SoundQualityMediumCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -889,10 +889,10 @@ public partial class SoundDialog : ILayoutModule
         sqlbL3.Priority = 0;
         sqlbL3.WinLeft = 35;
         sqlbL3.WinTop = 55;
-        sqlbL3.LayoutToolTipText = new LayoutStrings()
-        {
+        sqlbL3.LayoutToolTipText =
+        [
             "Play music and sfx in medium quality (recommended for most computers)."
-        };
+        ];
         sqlbL3.CaptureInput = false;
         sqlbL3.Alignment.AlignWidth = AlignWidth.Left;
         sqlbL3.Alignment.AlignHeight = AlignHeight.Top;
@@ -916,10 +916,10 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityHighCheckBox.Priority = 0;
         SoundQualityHighCheckBox.WinLeft = 15;
         SoundQualityHighCheckBox.WinTop = 74;
-        SoundQualityHighCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        SoundQualityHighCheckBox.LayoutToolTipText =
+        [
             "Play music and sfx in high quality (recommended for fast computers)."
-        };
+        ];
         SoundQualityHighCheckBox.CaptureInput = true;
         SoundQualityHighCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         SoundQualityHighCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -952,10 +952,10 @@ public partial class SoundDialog : ILayoutModule
         sqlbL4.Priority = 0;
         sqlbL4.WinLeft = 35;
         sqlbL4.WinTop = 75;
-        sqlbL4.LayoutToolTipText = new LayoutStrings()
-        {
+        sqlbL4.LayoutToolTipText =
+        [
             "Play music and sfx in high quality (recommended for fast computers)."
-        };
+        ];
         sqlbL4.CaptureInput = false;
         sqlbL4.Alignment.AlignWidth = AlignWidth.Left;
         sqlbL4.Alignment.AlignHeight = AlignHeight.Top;
@@ -1006,10 +1006,10 @@ public partial class SoundDialog : ILayoutModule
         MusicEnabledCheckBox.Priority = 0;
         MusicEnabledCheckBox.WinLeft = 15;
         MusicEnabledCheckBox.WinTop = 20;
-        MusicEnabledCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        MusicEnabledCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not to play music."
-        };
+        ];
         MusicEnabledCheckBox.CaptureInput = true;
         MusicEnabledCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         MusicEnabledCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1042,10 +1042,10 @@ public partial class SoundDialog : ILayoutModule
         sfxlbL2.Priority = 0;
         sfxlbL2.WinLeft = 33;
         sfxlbL2.WinTop = 22;
-        sfxlbL2.LayoutToolTipText = new LayoutStrings()
-        {
+        sfxlbL2.LayoutToolTipText =
+        [
             "Selects whether or not to play music."
-        };
+        ];
         sfxlbL2.CaptureInput = false;
         sfxlbL2.Alignment.AlignWidth = AlignWidth.Left;
         sfxlbL2.Alignment.AlignHeight = AlignHeight.Top;
@@ -1069,10 +1069,10 @@ public partial class SoundDialog : ILayoutModule
         EffectsEnabledCheckBox.Priority = 0;
         EffectsEnabledCheckBox.WinLeft = 15;
         EffectsEnabledCheckBox.WinTop = 45;
-        EffectsEnabledCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        EffectsEnabledCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not to play sfx."
-        };
+        ];
         EffectsEnabledCheckBox.CaptureInput = true;
         EffectsEnabledCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         EffectsEnabledCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1105,10 +1105,10 @@ public partial class SoundDialog : ILayoutModule
         sfxlbL3.Priority = 0;
         sfxlbL3.WinLeft = 33;
         sfxlbL3.WinTop = 46;
-        sfxlbL3.LayoutToolTipText = new LayoutStrings()
-        {
+        sfxlbL3.LayoutToolTipText =
+        [
             "Selects whether or not to play sfx."
-        };
+        ];
         sfxlbL3.CaptureInput = false;
         sfxlbL3.Alignment.AlignWidth = AlignWidth.Left;
         sfxlbL3.Alignment.AlignHeight = AlignHeight.Top;
@@ -1243,10 +1243,10 @@ public partial class SoundDialog : ILayoutModule
         MusicVolumeSlider.Priority = 0;
         MusicVolumeSlider.WinLeft = 140;
         MusicVolumeSlider.WinTop = 35;
-        MusicVolumeSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        MusicVolumeSlider.LayoutToolTipText =
+        [
             "The volume to play music at."
-        };
+        ];
         MusicVolumeSlider.CaptureInput = true;
         MusicVolumeSlider.Alignment.AlignWidth = AlignWidth.Left;
         MusicVolumeSlider.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1284,10 +1284,10 @@ public partial class SoundDialog : ILayoutModule
         EffectsVolumeSlider.Priority = 0;
         EffectsVolumeSlider.WinLeft = 140;
         EffectsVolumeSlider.WinTop = 66;
-        EffectsVolumeSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        EffectsVolumeSlider.LayoutToolTipText =
+        [
             "The volume to play sfx at."
-        };
+        ];
         EffectsVolumeSlider.CaptureInput = true;
         EffectsVolumeSlider.Alignment.AlignWidth = AlignWidth.Left;
         EffectsVolumeSlider.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1427,10 +1427,10 @@ public partial class SoundDialog : ILayoutModule
         DirectSoundEnabledCheckBox.Priority = 0;
         DirectSoundEnabledCheckBox.WinLeft = 15;
         DirectSoundEnabledCheckBox.WinTop = 70;
-        DirectSoundEnabledCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        DirectSoundEnabledCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
-        };
+        ];
         DirectSoundEnabledCheckBox.CaptureInput = true;
         DirectSoundEnabledCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         DirectSoundEnabledCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1463,10 +1463,10 @@ public partial class SoundDialog : ILayoutModule
         useDirectSoundLbl.Priority = 0;
         useDirectSoundLbl.WinLeft = 33;
         useDirectSoundLbl.WinTop = 72;
-        useDirectSoundLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        useDirectSoundLbl.LayoutToolTipText =
+        [
             "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
-        };
+        ];
         useDirectSoundLbl.CaptureInput = false;
         useDirectSoundLbl.Alignment.AlignWidth = AlignWidth.Left;
         useDirectSoundLbl.Alignment.AlignHeight = AlignHeight.Top;

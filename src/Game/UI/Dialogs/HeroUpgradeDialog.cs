@@ -71,15 +71,9 @@ public partial class HeroUpgradeDialog : UIModule
         hero = _referencedHero;
         OnClose = null;
         _referencedHero = null;
-        if (onClose != null)
-        {
-            onClose(hero);
-        }
+        onClose?.Invoke(hero);
 
-        if (hero != null)
-        {
-            hero.Release();
-        }
+        hero?.Release();
 
         _editedHero?.Dispose();
         _editedHero = null;
@@ -247,16 +241,7 @@ public partial class HeroUpgradeDialog : UIModule
     // AoWHeroUpgradeDlg.pas:212
     public bool CanAddAbility(int abilityId)
     {
-        bool result;
-        if (!GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) || GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) > _editedHero.GetSkillPoints())
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) && GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
         return result;
     }
 
@@ -477,14 +462,7 @@ public partial class HeroUpgradeDialog : UIModule
     public void SelectedAbilitiesSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_selectedSort == 0)
-        {
-            _selectedSort = 1;
-        }
-        else
-        {
-            _selectedSort = 0;
-        }
+        _selectedSort = _selectedSort == 0 ? 1 : 0;
 
         SortSelected();
     }
@@ -493,14 +471,7 @@ public partial class HeroUpgradeDialog : UIModule
     public void SelectedAbilitiesCostSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_selectedSort == 2)
-        {
-            _selectedSort = 3;
-        }
-        else
-        {
-            _selectedSort = 2;
-        }
+        _selectedSort = _selectedSort == 2 ? 3 : 2;
 
         SortSelected();
     }
@@ -509,14 +480,7 @@ public partial class HeroUpgradeDialog : UIModule
     public void AvailableAbilitiesSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_availableSort == 0)
-        {
-            _availableSort = 1;
-        }
-        else
-        {
-            _availableSort = 0;
-        }
+        _availableSort = _availableSort == 0 ? 1 : 0;
 
         SortAvailable();
     }
@@ -525,14 +489,7 @@ public partial class HeroUpgradeDialog : UIModule
     public void AvailableAbilityCostSortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_availableSort == 2)
-        {
-            _availableSort = 3;
-        }
-        else
-        {
-            _availableSort = 2;
-        }
+        _availableSort = _availableSort == 2 ? 3 : 2;
 
         SortAvailable();
     }

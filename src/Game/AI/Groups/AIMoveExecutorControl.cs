@@ -45,15 +45,13 @@ public partial class AIMoveExecutorControl : EngineObject
         MoveControlSettings settings;
         AIMoveExecutorMove move;
         RecordList<SurroundCandidate> candidates;
-        byte armySelection = default;
         int position;
         int points;
         MapField mapField;
-        ArmyHexSprite armyHexSprite = default;
         MapLevel level;
         HexNumberWalkData walk = default;
         move = null;
-        army.RetrieveArmy(selection, out armyHexSprite, out armySelection);
+        army.RetrieveArmy(selection, out ArmyHexSprite armyHexSprite, out byte armySelection);
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         if (mode.Contains(CreateMoveModeElement.SurroundNearest))
         {
@@ -110,14 +108,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 army.SetMoveResult(selection, 2);
             }
 
-            if (position == 0)
-            {
-                moveResult = 2;
-            }
-            else
-            {
-                moveResult = 0;
-            }
+            moveResult = position == 0 ? (byte)2 : (byte)0;
 
             if (mode.Contains(CreateMoveModeElement.Surround) && position == 0)
             {
@@ -172,14 +163,7 @@ public partial class AIMoveExecutorControl : EngineObject
         }
         else
         {
-            if (army.Location.X == x && army.Location.Y == y && army.Location.MapLevel == mapLevel)
-            {
-                moveResult = 2;
-            }
-            else
-            {
-                moveResult = 3;
-            }
+            moveResult = army.Location.X == x && army.Location.Y == y && army.Location.MapLevel == mapLevel ? (byte)2 : (byte)3;
 
             if (Executor.Destination.X == settings.Source.X && Executor.Destination.Y == settings.Source.Y && Executor.Destination.MapLevel == settings.Source.MapLevel)
             {

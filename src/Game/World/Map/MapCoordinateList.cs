@@ -108,8 +108,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
         bool[] reached = [];
         void Connect(MapCoordinate mapCoordinate)
         {
-            HexNumberWalkData walk = default;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, mapCoordinate.X, mapCoordinate.Y, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, mapCoordinate.X, mapCoordinate.Y, 1);
             while (walk.Radius <= 1)
             {
                 for (int i = 0, last = locations.Count - 1; i <= last; i++)

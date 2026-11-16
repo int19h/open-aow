@@ -22,11 +22,6 @@ public partial class UnitSpellCaster
         }
 
         int deficit = GetRequiredMana() - hero.GetCastingPoints();
-        if (deficit <= 0)
-        {
-            return 0;
-        }
-
-        return (deficit / hero.GetCastingPointsMax()) + (deficit % hero.GetCastingPoints() != 0 ? 1 : 0);
+        return deficit <= 0 ? 0 : (deficit / hero.GetCastingPointsMax()) + (deficit % hero.GetCastingPoints() != 0 ? 1 : 0);
     }
 }

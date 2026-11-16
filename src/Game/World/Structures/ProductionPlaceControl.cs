@@ -90,32 +90,15 @@ public partial class ProductionPlaceControl : ProductionControl
     // PrdPlace.pas:139
     public override int UnitProductionGold(int index)
     {
-        int result;
-        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
-        {
-            result = 0;
-        }
-        else
-        {
-            result = base.UnitProductionGold(index);
-        }
-
+        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionGold(index);
         return result;
     }
 
     // PrdPlace.pas:145
     public override int UnitProductionMana(int index)
     {
-        int result;
+        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? base.UnitProductionGold(index) : 0;
         // { The original uses the gold production cost as the node's mana cost. }
-        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
-        {
-            result = base.UnitProductionGold(index);
-        }
-        else
-        {
-            result = 0;
-        }
 
         return result;
     }
@@ -123,16 +106,8 @@ public partial class ProductionPlaceControl : ProductionControl
     // PrdPlace.pas:152
     public override int UnitProductionGoldUpkeep(int index)
     {
-        int result;
+        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionMana(index);
         // { The original uses the inherited mana production cost for gold upkeep. }
-        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
-        {
-            result = 0;
-        }
-        else
-        {
-            result = base.UnitProductionMana(index);
-        }
 
         return result;
     }

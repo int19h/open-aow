@@ -157,16 +157,7 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1379
     public override bool CanActivateCombat(Troop source, ref string reason)
     {
-        bool result;
-        if (!SpellControlTypes.Contains(SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = SpellControlTypes.Contains(SpellControlTypeElement.Combat) && base.CanActivateCombat(source, ref reason);
         return result;
     }
 
@@ -371,14 +362,7 @@ public partial class UnitSpell : Spell
             if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
                 party = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-                if (party != null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()))
-                {
-                    valid = ValidTargetParty(source, party);
-                }
-                else
-                {
-                    valid = false;
-                }
+                valid = party != null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
             }
             else
             {

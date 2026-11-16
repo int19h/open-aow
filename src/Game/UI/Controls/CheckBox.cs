@@ -52,10 +52,7 @@ public partial class CheckBox : BaseButton
 
                 if ((shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
                 {
-                    if (OnDoubleClick != null)
-                    {
-                        OnDoubleClick(this);
-                    }
+                    OnDoubleClick?.Invoke(this);
                 }
             }
             else

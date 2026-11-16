@@ -10,7 +10,7 @@ public partial class TokenManager : IDisposable
     public TokenManager(GameEngine owner)
     {
         _owner = owner;
-        _tokenControls = new List<TokenControl>();
+        _tokenControls = [];
         _tokenExecutor = CreateTokenExecutor();
         _tokenPackageDistributor = CreateTokenPackageDistributor();
     }
@@ -47,13 +47,7 @@ public partial class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1657
-    public virtual void Process()
-    {
-        if (_tokenExecutor != null)
-        {
-            _tokenExecutor.Process();
-        }
-    }
+    public virtual void Process() => _tokenExecutor?.Process();
 
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
@@ -70,14 +64,7 @@ public partial class TokenManager : IDisposable
                 condition = _tokenExecutor.PrefetchTacticalBattle == item && _tokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
-            if (condition)
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = !condition;
         }
         else
         {
@@ -143,27 +130,12 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1710
     public TokenControl GetTokenControl(int player)
     {
-        TokenControl result;
-        if (player < _tokenControls.Count)
-        {
-            result = _tokenControls[player];
-        }
-        else
-        {
-            result = null;
-        }
-
+        TokenControl result = player < _tokenControls.Count ? _tokenControls[player] : null;
         return result;
     }
 
     // NetworkE.pas:1718
-    public void TriggerMessage(string message)
-    {
-        if (OnMessage != null)
-        {
-            OnMessage(this, message);
-        }
-    }
+    public void TriggerMessage(string message) => OnMessage?.Invoke(this, message);
 
     public TokenExecutor TokenExecutor => _tokenExecutor;
     public TokenPackageDistributor TokenPackageDistributor => _tokenPackageDistributor;

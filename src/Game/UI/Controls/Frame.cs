@@ -47,14 +47,7 @@ public partial class Frame : Control
             Valid = true;
             if (_imageLibraryFrame != null)
             {
-                if (_imageLibraryTexture != null)
-                {
-                    _frameType = FrameType.FilledBox;
-                }
-                else
-                {
-                    _frameType = FrameType.HollowBox;
-                }
+                _frameType = _imageLibraryTexture != null ? FrameType.FilledBox : FrameType.HollowBox;
             }
             else
             {

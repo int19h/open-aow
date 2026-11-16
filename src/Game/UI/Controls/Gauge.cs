@@ -46,14 +46,7 @@ public partial class Gauge : Control
                 _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (_imageLibraryFrame != null)
-            {
-                _style = GaugeType.Normal;
-            }
-            else
-            {
-                _style = GaugeType.Borderless;
-            }
+            _style = _imageLibraryFrame != null ? GaugeType.Normal : GaugeType.Borderless;
 
             Valid = true;
         }

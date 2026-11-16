@@ -37,15 +37,9 @@ public partial class SendEmailGameDialog : UIModule
         eventValue = _sendEvent;
         Done = null;
         _sendEvent = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWSendEmailGameDlg.pas:77

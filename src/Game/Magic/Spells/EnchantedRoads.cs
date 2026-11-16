@@ -67,8 +67,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
         {
-            int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, map.ViewHexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(x, map.ViewHexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)

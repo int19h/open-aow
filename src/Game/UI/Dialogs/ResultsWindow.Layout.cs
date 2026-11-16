@@ -24,10 +24,10 @@ public partial class ResultsWindow : ILayoutModule
         Player1CheckBox.Priority = 800;
         Player1CheckBox.WinLeft = 14;
         Player1CheckBox.WinTop = 375;
-        Player1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player1CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player1CheckBox.CaptureInput = true;
         Player1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player1CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -62,10 +62,10 @@ public partial class ResultsWindow : ILayoutModule
         Player2CheckBox.Priority = 800;
         Player2CheckBox.WinLeft = 65;
         Player2CheckBox.WinTop = 375;
-        Player2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player2CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player2CheckBox.CaptureInput = true;
         Player2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player2CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -100,10 +100,10 @@ public partial class ResultsWindow : ILayoutModule
         Player3CheckBox.Priority = 800;
         Player3CheckBox.WinLeft = 116;
         Player3CheckBox.WinTop = 375;
-        Player3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player3CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player3CheckBox.CaptureInput = true;
         Player3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player3CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -138,10 +138,10 @@ public partial class ResultsWindow : ILayoutModule
         Player4CheckBox.Priority = 800;
         Player4CheckBox.WinLeft = 167;
         Player4CheckBox.WinTop = 375;
-        Player4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player4CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player4CheckBox.CaptureInput = true;
         Player4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player4CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -176,10 +176,10 @@ public partial class ResultsWindow : ILayoutModule
         Player5CheckBox.Priority = 800;
         Player5CheckBox.WinLeft = 218;
         Player5CheckBox.WinTop = 375;
-        Player5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player5CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player5CheckBox.CaptureInput = true;
         Player5CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player5CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -214,10 +214,10 @@ public partial class ResultsWindow : ILayoutModule
         Player6CheckBox.Priority = 800;
         Player6CheckBox.WinLeft = 269;
         Player6CheckBox.WinTop = 375;
-        Player6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player6CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player6CheckBox.CaptureInput = true;
         Player6CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player6CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -252,10 +252,10 @@ public partial class ResultsWindow : ILayoutModule
         Player7CheckBox.Priority = 800;
         Player7CheckBox.WinLeft = 320;
         Player7CheckBox.WinTop = 375;
-        Player7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player7CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player7CheckBox.CaptureInput = true;
         Player7CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player7CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -290,10 +290,10 @@ public partial class ResultsWindow : ILayoutModule
         Player8CheckBox.Priority = 800;
         Player8CheckBox.WinLeft = 371;
         Player8CheckBox.WinTop = 375;
-        Player8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player8CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player8CheckBox.CaptureInput = true;
         Player8CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player8CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -328,10 +328,10 @@ public partial class ResultsWindow : ILayoutModule
         Player9CheckBox.Priority = 800;
         Player9CheckBox.WinLeft = 422;
         Player9CheckBox.WinTop = 375;
-        Player9CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player9CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player9CheckBox.CaptureInput = true;
         Player9CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player9CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -366,10 +366,10 @@ public partial class ResultsWindow : ILayoutModule
         Player10CheckBox.Priority = 800;
         Player10CheckBox.WinLeft = 473;
         Player10CheckBox.WinTop = 375;
-        Player10CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player10CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player10CheckBox.CaptureInput = true;
         Player10CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player10CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -404,10 +404,10 @@ public partial class ResultsWindow : ILayoutModule
         Player11CheckBox.Priority = 800;
         Player11CheckBox.WinLeft = 524;
         Player11CheckBox.WinTop = 375;
-        Player11CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player11CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player11CheckBox.CaptureInput = true;
         Player11CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player11CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -442,10 +442,10 @@ public partial class ResultsWindow : ILayoutModule
         Player12CheckBox.Priority = 800;
         Player12CheckBox.WinLeft = 575;
         Player12CheckBox.WinTop = 375;
-        Player12CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player12CheckBox.LayoutToolTipText =
+        [
             "Shows this player's statistics."
-        };
+        ];
         Player12CheckBox.CaptureInput = true;
         Player12CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player12CheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -797,10 +797,10 @@ public partial class ResultsWindow : ILayoutModule
         StrengthCheckBox.Priority = 100;
         StrengthCheckBox.WinLeft = 0;
         StrengthCheckBox.WinTop = 5;
-        StrengthCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        StrengthCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's overall strength."
-        };
+        ];
         StrengthCheckBox.CaptureInput = true;
         StrengthCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         StrengthCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -883,10 +883,10 @@ public partial class ResultsWindow : ILayoutModule
         GoldCheckBox.Priority = 100;
         GoldCheckBox.WinLeft = 0;
         GoldCheckBox.WinTop = 35;
-        GoldCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        GoldCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's gold."
-        };
+        ];
         GoldCheckBox.CaptureInput = true;
         GoldCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         GoldCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -942,10 +942,10 @@ public partial class ResultsWindow : ILayoutModule
         ArmiesCheckBox.Priority = 100;
         ArmiesCheckBox.WinLeft = 0;
         ArmiesCheckBox.WinTop = 20;
-        ArmiesCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ArmiesCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's army strength."
-        };
+        ];
         ArmiesCheckBox.CaptureInput = true;
         ArmiesCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         ArmiesCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1001,10 +1001,10 @@ public partial class ResultsWindow : ILayoutModule
         HeroesCheckBox.Priority = 100;
         HeroesCheckBox.WinLeft = 0;
         HeroesCheckBox.WinTop = 65;
-        HeroesCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        HeroesCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's number of heroes."
-        };
+        ];
         HeroesCheckBox.CaptureInput = true;
         HeroesCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         HeroesCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1060,10 +1060,10 @@ public partial class ResultsWindow : ILayoutModule
         StructuresCheckBox.Priority = 100;
         StructuresCheckBox.WinLeft = 0;
         StructuresCheckBox.WinTop = 80;
-        StructuresCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        StructuresCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's number of structures."
-        };
+        ];
         StructuresCheckBox.CaptureInput = true;
         StructuresCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         StructuresCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1165,10 +1165,10 @@ public partial class ResultsWindow : ILayoutModule
         ManaCheckBox.Priority = 100;
         ManaCheckBox.WinLeft = 0;
         ManaCheckBox.WinTop = 50;
-        ManaCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ManaCheckBox.LayoutToolTipText =
+        [
             "Shows a graph of player's mana."
-        };
+        ];
         ManaCheckBox.CaptureInput = true;
         ManaCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         ManaCheckBox.Alignment.AlignHeight = AlignHeight.Top;

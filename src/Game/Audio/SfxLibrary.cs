@@ -23,16 +23,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
     // Sound.pas:1088
     public SfxSequence GetSfxSequence(int index)
     {
-        SfxSequence result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        SfxSequence result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 
@@ -42,14 +33,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
         Sample result;
         SfxSequence s;
         s = Find(id);
-        if (s != null)
-        {
-            result = s.Play();
-        }
-        else
-        {
-            result = null;
-        }
+        result = s?.Play();
 
         return result;
     }
@@ -60,14 +44,7 @@ public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
         Sample result = default;
         SfxSequence s;
         s = Find(id);
-        if (s != null)
-        {
-            result = s.Play(volume, looped, delay, panning, callback);
-        }
-        else
-        {
-            result = null;
-        }
+        result = s?.Play(volume, looped, delay, panning, callback);
 
         return result;
     }

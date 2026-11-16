@@ -626,14 +626,9 @@ public partial class StrategicMap : GameMap
         base.MainPersist(persister);
         if (persister.Loading && !persister.Preview && Day == 0)
         {
-            if (GameType == GameType.Campaign)
-            {
-                fileName = GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
-            }
-            else
-            {
-                fileName = GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
-            }
+            fileName = GameType == GameType.Campaign
+                ? GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld"
+                : GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
 
             if (FileExists(fileName))
             {
@@ -663,7 +658,7 @@ public partial class StrategicMap : GameMap
         PlayMode = PlayMode.None;
         Keyboard = new HexSpriteMapKeyboard(null) { Holder = CreationHolder() };
         TargetSelection = new TargetSelectionControl();
-        Effects = new List<WorldEffectHexSprite>();
+        Effects = [];
         DefendersSeed = 0;
         HeroCountMax = 5;
         SelectedArmy = new SelectedArmy(this);
@@ -775,10 +770,7 @@ public partial class StrategicMap : GameMap
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
         base.SendMessage(ref message, sender);
-        if (GlobalMagicControl != null)
-        {
-            GlobalMagicControl.MessageProc(ref message, sender);
-        }
+        GlobalMagicControl?.MessageProc(ref message, sender);
 
         Players.MessageProc(ref message, sender);
         Races.MessageProc(ref message, sender);
@@ -812,56 +804,36 @@ public partial class StrategicMap : GameMap
                 case MapProgressType.Loading:
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)total / 3) / MapContainer.LevelCount);
-                    if (GetEngine().Debug)
-                    {
-                        text = AbilityRules.TranslateResourceString(GetEngine(), s_loadingLevelText) + IntToStr(progress.Level);
-                    }
-                    else
-                    {
-                        text = defaultText;
-                    }
+                    text = GetEngine().Debug
+                        ? AbilityRules.TranslateResourceString(GetEngine(), s_loadingLevelText) + IntToStr(progress.Level)
+                        : defaultText;
 
                     RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Initializing:
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)100 / 3));
-                    if (GetEngine().Debug)
-                    {
-                        text = AbilityRules.TranslateResourceString(GetEngine(), s_initializingLevelText) + IntToStr(progress.Level);
-                    }
-                    else
-                    {
-                        text = defaultText;
-                    }
+                    text = GetEngine().Debug
+                        ? AbilityRules.TranslateResourceString(GetEngine(), s_initializingLevelText) + IntToStr(progress.Level)
+                        : defaultText;
 
                     RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.UpdatingTerrain:
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)500 / 9));
-                    if (GetEngine().Debug)
-                    {
-                        text = AbilityRules.TranslateResourceString(GetEngine(), s_updatingTerrainLevelText) + IntToStr(progress.Level);
-                    }
-                    else
-                    {
-                        text = defaultText;
-                    }
+                    text = GetEngine().Debug
+                        ? AbilityRules.TranslateResourceString(GetEngine(), s_updatingTerrainLevelText) + IntToStr(progress.Level)
+                        : defaultText;
 
                     RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Activating:
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)700 / 9));
-                    if (GetEngine().Debug)
-                    {
-                        text = AbilityRules.TranslateResourceString(GetEngine(), s_activatingLevelText) + IntToStr(progress.Level);
-                    }
-                    else
-                    {
-                        text = defaultText;
-                    }
+                    text = GetEngine().Debug
+                        ? AbilityRules.TranslateResourceString(GetEngine(), s_activatingLevelText) + IntToStr(progress.Level)
+                        : defaultText;
 
                     RaiseProgress(this, text, percent);
                     break;
@@ -1046,10 +1018,7 @@ public partial class StrategicMap : GameMap
             UpdateTurnTimeBeep();
             UpdateEffects();
             combatMap = CombatMap;
-            if (combatMap != null)
-            {
-                combatMap.NewFrame();
-            }
+            combatMap?.NewFrame();
         }
     }
 
@@ -1150,16 +1119,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1486
     public bool GetSynchronized()
     {
-        bool result;
-        if (_synchronizeCount == 0 && !TokenManager.TokenExecutor.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
         return result;
     }
 
@@ -1175,14 +1135,7 @@ public partial class StrategicMap : GameMap
         StrategicMapIndependentAIMode result = _independentAIMode;
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
         {
-            if (result == StrategicMapIndependentAIMode.Off)
-            {
-                result = StrategicMapIndependentAIMode.Normal;
-            }
-            else
-            {
-                result = StrategicMapIndependentAIMode.Aggressive;
-            }
+            result = result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive;
         }
 
         return result;
@@ -1214,11 +1167,10 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapField field;
-        HexNumberWalkData walk = default;
         // { Original returns true immediately when exploration is enabled. }
         bool result = Current.ExplorationEnabled;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1241,10 +1193,9 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapField field;
-        HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1267,10 +1218,9 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapField field;
-        HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1293,10 +1243,9 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapField field;
-        HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1517,9 +1466,8 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1809
     public void NotifySeatedPlayerChanged()
     {
-        EngineMessage message = default;
         Selection.UnselectAll();
-        EngineMessage.InitializeMessage(out message, 537001990, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537001990, this);
         MapContainer.SendMessage(ref message, this);
         EngineMessage.InitializeMessage(out message, 537001993, this);
         MapContainer.SendMessage(ref message, this);
@@ -1632,18 +1580,12 @@ public partial class StrategicMap : GameMap
             else
             {
                 ExecuteExitGame();
-                if (done != null)
-                {
-                    done(mode, true);
-                }
+                done?.Invoke(mode, true);
             }
         }
         else
         {
-            if (done != null)
-            {
-                done(mode, true);
-            }
+            done?.Invoke(mode, true);
         }
     }
 
@@ -1719,10 +1661,7 @@ public partial class StrategicMap : GameMap
         {
             info = _executeEventLogCallBacks.GetItem(0);
             _executeEventLogCallBacks.Delete(0);
-            if (info.Done != null)
-            {
-                info.Done(info.Log);
-            }
+            info.Done?.Invoke(info.Log);
 
             info.Log.Release();
         }
@@ -1822,8 +1761,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2088
     public bool ValidateMap(StringCollection messages)
     {
-        EngineMessage message = default;
-        EngineMessage.InitializeMessage(out message, 537002243, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537002243, this);
         message.Payload = messages;
         Array4<int> data = message.Data;
         data[0] = 0;
@@ -1900,12 +1838,11 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4365;
         message.Result = 1;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1929,14 +1866,13 @@ public partial class StrategicMap : GameMap
     {
         MapLevel mapLevel;
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4400;
         MapFieldMessageParameters param = message.Param;
         param[0] = player;
         message.Param = param;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= sightRadius || walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -2098,14 +2034,9 @@ public partial class StrategicMap : GameMap
             {
                 int pixelY = Mouse.PixelY;
                 int pixelX = Mouse.PixelX;
-                if (Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle())
-                {
-                    Mouse.CursorMode = 257;
-                }
-                else
-                {
-                    Mouse.CursorMode = 0;
-                }
+                Mouse.CursorMode = Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle()
+                    ? 257
+                    : 0;
             }
         }
     }
@@ -2237,10 +2168,7 @@ public partial class StrategicMap : GameMap
 
         ConnectionType = connection;
         PlayMode = mode;
-        if (PlayerControl != null)
-        {
-            PlayerControl.Setup();
-        }
+        PlayerControl?.Setup();
     }
 
     // AoWHSMap.PAS:2692
@@ -2311,39 +2239,14 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2749
     public bool EndTurn()
     {
-        bool result;
-        if (SeatedPlayer != -1)
-        {
-            if (!RequestCombatType || _executeEventLogCallBacks.GetCount() == 0)
-            {
-                result = TryEndPlayerTurn(SeatedPlayer);
-            }
-            else
-            {
-                result = false;
-            }
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = SeatedPlayer != -1 && (!RequestCombatType || _executeEventLogCallBacks.GetCount() == 0) && TryEndPlayerTurn(SeatedPlayer);
         return result;
     }
 
     // AoWHSMap.PAS:2777
     public bool CancelEndTurn()
     {
-        bool result;
-        if (SeatedPlayer != -1)
-        {
-            result = CancelPlayerTurn(SeatedPlayer);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = SeatedPlayer != -1 && CancelPlayerTurn(SeatedPlayer);
         return result;
     }
 
@@ -2600,14 +2503,7 @@ public partial class StrategicMap : GameMap
         if (_turnTimerStart != -1)
         {
             time = PixelFormats.GetElapsedMilliseconds();
-            if (time >= _turnTimerStart)
-            {
-                left = left - (time - _turnTimerStart);
-            }
-            else
-            {
-                left = 0;
-            }
+            left = time >= _turnTimerStart ? left - (time - _turnTimerStart) : 0;
         }
 
         if (left < 0)
@@ -2757,8 +2653,7 @@ public partial class StrategicMap : GameMap
             return false;
         }
 
-        HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         MapLevel mapLevel = null;
         bool result = false;
         while (walk.Radius <= radius && !result)
@@ -2806,16 +2701,7 @@ public partial class StrategicMap : GameMap
 
     private bool TryEndPlayerTurn(sbyte player)
     {
-        bool result;
-        if (player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle)
-        {
-            result = AbilityRules.EndPlayerTurn(player, engine: GetEngine());
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle && AbilityRules.EndPlayerTurn(player, engine: GetEngine());
         return result;
     }
 

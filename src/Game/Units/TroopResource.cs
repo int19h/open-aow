@@ -50,12 +50,7 @@ public partial class TroopResource : EngineResource
     {
         UnitGraphicsResource resource;
         resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
-        if (resource != null)
-        {
-            return resource.GetCellImage();
-        }
-
-        return null;
+        return resource?.GetCellImage();
     }
 
     // UnitRes.PAS:9
@@ -63,12 +58,7 @@ public partial class TroopResource : EngineResource
     {
         UnitGraphicsResource resource;
         resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
-        if (resource != null)
-        {
-            return resource.GetFaceImage();
-        }
-
-        return null;
+        return resource?.GetFaceImage();
     }
 
     // UnitRes.PAS:5
@@ -82,19 +72,10 @@ public partial class TroopResource : EngineResource
     {
         MapContainer map;
         int hexLevel;
-        int hexX = default;
-        int hexY = default;
         map = message.Param[0].As<MapContainer>();
         hexLevel = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out hexX, out hexY);
-        if (hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel))
-        {
-            message.Result = 0;
-        }
-        else
-        {
-            message.Result = -1;
-        }
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
+        message.Result = hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel) ? 0 : -1;
     }
 
     // UnitRes.PAS:62

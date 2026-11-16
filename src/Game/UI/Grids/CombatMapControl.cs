@@ -149,10 +149,7 @@ public partial class CombatMapControl : Component
         if (sender.EngineClass.ClassId == 2228480)
         {
             LinkToHsm();
-            if (OnActivateHsm != null)
-            {
-                OnActivateHsm(this);
-            }
+            OnActivateHsm?.Invoke(this);
         }
     }
 
@@ -161,10 +158,7 @@ public partial class CombatMapControl : Component
     {
         if (sender.EngineClass.ClassId == 2228480)
         {
-            if (OnDeactivateHsm != null)
-            {
-                OnDeactivateHsm(this);
-            }
+            OnDeactivateHsm?.Invoke(this);
 
             ReleaseHsm();
         }
@@ -175,10 +169,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnSelected != null)
-            {
-                OnSelected(CombatMap.Current.Selection.EventHexSprite);
-            }
+            OnSelected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
         }
         catch
         {
@@ -191,10 +182,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnDeselected != null)
-            {
-                OnDeselected(CombatMap.Current.Selection.EventHexSprite);
-            }
+            OnDeselected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
         }
         catch
         {
@@ -207,10 +195,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnMouseOverTarget != null)
-            {
-                OnMouseOverTarget(CombatMap.Current.UnitSelection.MouseOverTarget);
-            }
+            OnMouseOverTarget?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
         }
         catch
         {
@@ -240,10 +225,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnPlayerChanged != null)
-            {
-                OnPlayerChanged(CombatMap.Current.CurrentPlayer);
-            }
+            OnPlayerChanged?.Invoke(CombatMap.Current.CurrentPlayer);
         }
         catch
         {
@@ -256,10 +238,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnSeatedPlayerChanged != null)
-            {
-                OnSeatedPlayerChanged(CombatMap.Current.SeatedPlayer);
-            }
+            OnSeatedPlayerChanged?.Invoke(CombatMap.Current.SeatedPlayer);
         }
         catch
         {
@@ -272,10 +251,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnGemsChanged != null)
-            {
-                OnGemsChanged(sender.PlayerIndex);
-            }
+            OnGemsChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -288,10 +264,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnIncomeChanged != null)
-            {
-                OnIncomeChanged(sender.PlayerIndex);
-            }
+            OnIncomeChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -304,10 +277,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnUpkeepChanged != null)
-            {
-                OnUpkeepChanged(sender.PlayerIndex);
-            }
+            OnUpkeepChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -321,10 +291,7 @@ public partial class CombatMapControl : Component
         try
         {
             // { The original passes the seated player as the turn number. }
-            if (OnTurnChanged != null)
-            {
-                OnTurnChanged(CombatMap.Current.SeatedPlayer);
-            }
+            OnTurnChanged?.Invoke(CombatMap.Current.SeatedPlayer);
         }
         catch
         {
@@ -337,10 +304,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnLogbookChanged != null)
-            {
-                OnLogbookChanged(sender.PlayerIndex);
-            }
+            OnLogbookChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -353,10 +317,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnActivateMap != null)
-            {
-                OnActivateMap(this);
-            }
+            OnActivateMap?.Invoke(this);
         }
         catch
         {
@@ -369,10 +330,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnDeActivateMap != null)
-            {
-                OnDeActivateMap(this);
-            }
+            OnDeActivateMap?.Invoke(this);
         }
         catch
         {
@@ -385,10 +343,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnCastSpell != null)
-            {
-                OnCastSpell(sender);
-            }
+            OnCastSpell?.Invoke(sender);
         }
         catch
         {
@@ -401,10 +356,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnActivateAbility != null)
-            {
-                OnActivateAbility(sender);
-            }
+            OnActivateAbility?.Invoke(sender);
         }
         catch
         {

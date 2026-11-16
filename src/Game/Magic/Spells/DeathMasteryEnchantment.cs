@@ -48,13 +48,12 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1509
     public override bool Deactivate(byte player)
     {
-        EngineMessage message = default;
         base.Deactivate(player);
         // { Original doubles Life. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
-        EngineMessage.InitializeMessage(out message, 537002241, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537002241, this);
         StrategicMap.Current.SendMessage(ref message, this);
         return true;
     }

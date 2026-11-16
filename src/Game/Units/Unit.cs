@@ -238,14 +238,7 @@ public partial class Unit : Troop
         }
 
         faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        if (GamePack.Current.FaceResources.GetFaceResource(faceIndex) != null)
-        {
-            result = GamePack.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage();
-        }
-        else
-        {
-            result = null;
-        }
+        result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
 
         return result;
     }
@@ -254,15 +247,7 @@ public partial class Unit : Troop
     public override string GetName() => UnitResource.GetUnitName();
 
     // Unit.PAS:1932
-    public override Alignment GetAlignment()
-    {
-        if (GetAbilityEnabled(107))
-        {
-            return Alignment.PureEvil;
-        }
-
-        return UnitResource.Alignment;
-    }
+    public override Alignment GetAlignment() => GetAbilityEnabled(107) ? Alignment.PureEvil : UnitResource.Alignment;
 
     // Unit.PAS:2081
     public override LibraryImage GetPreviewImage() => UnitResource.GetPreviewImage();

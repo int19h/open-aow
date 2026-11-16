@@ -19,14 +19,7 @@ public partial class SampleDataList : DelphiList<SampleData>
             i += 1;
         }
 
-        if (i != Count)
-        {
-            result = List[i];
-        }
-        else
-        {
-            result = null;
-        }
+        result = i != Count ? List[i] : null;
 
         return result;
     }

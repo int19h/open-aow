@@ -108,13 +108,7 @@ public partial class GameMap : OwningNode
 
     public event Engine.ProgressEvent OnProgress;
 
-    protected void RaiseProgress(EngineObject sender, string message, int progression)
-    {
-        if (OnProgress != null)
-        {
-            OnProgress(sender, message, progression);
-        }
-    }
+    protected void RaiseProgress(EngineObject sender, string message, int progression) => OnProgress?.Invoke(sender, message, progression);
 
     protected bool HasProgressHandlers => OnProgress != null;
 
@@ -176,7 +170,6 @@ public partial class GameMap : OwningNode
         _backHexSelector?.Dispose();
         _frontHexSelector?.Dispose();
         _scannerIconsChangedEventsStore.Clear();
-        EngineMessage message = default;
         LockTerrainChangedEvent();
         _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         _selection.OnSelectStore.Clear();
@@ -189,7 +182,7 @@ public partial class GameMap : OwningNode
         _dynamicVisibleHexSprite.QuickClear();
         _staticFixedVisibleHexSprite.QuickClear();
         _dynamicFixedVisibleHexSprite.QuickClear();
-        EngineMessage.InitializeMessage(out message, 536936471, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 536936471, this);
         SendMessage(ref message, this);
         NewFrameEventsStore.Clear();
         base.Dispose();
@@ -420,22 +413,10 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:115
-    public virtual void CenterViewTo(int hexX, int hexY, int hexLevel)
-    {
-        if (OnCenterView != null)
-        {
-            OnCenterView(hexX, hexY, hexLevel);
-        }
-    }
+    public virtual void CenterViewTo(int hexX, int hexY, int hexLevel) => OnCenterView?.Invoke(hexX, hexY, hexLevel);
 
     // HSMAP.PAS:121
-    public virtual void ChangeViewTo(int pixelX, int pixelY, int lHitPoints)
-    {
-        if (OnChangeView != null)
-        {
-            OnChangeView(pixelX, pixelY, lHitPoints);
-        }
-    }
+    public virtual void ChangeViewTo(int pixelX, int pixelY, int lHitPoints) => OnChangeView?.Invoke(pixelX, pixelY, lHitPoints);
 
     // HSMAP.PAS:579
     public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
@@ -486,14 +467,13 @@ public partial class GameMap : OwningNode
         SByteList list;
         int count;
         MapField mapField;
-        HexNumberWalkData walk = default;
         Rect r = default;
         MapLevel mapLevel;
         LockTerrainChangedEvent();
         list = new SByteList();
         mapLevel = _mapContainer.GetMapLevel(L);
         count = 0;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -647,10 +627,7 @@ public partial class GameMap : OwningNode
                         count += 1;
                     }
 
-                    if (terrainChangedProc != null)
-                    {
-                        terrainChangedProc(originalOverlayType: orgList[(walk.HexNumber * 2) + 1], originalTerrainType: orgList[walk.HexNumber * 2], mapField: mapLevel.GetField(walk.X, walk.Y));
-                    }
+                    terrainChangedProc?.Invoke(originalOverlayType: orgList[(walk.HexNumber * 2) + 1], originalTerrainType: orgList[walk.HexNumber * 2], mapField: mapLevel.GetField(walk.X, walk.Y));
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -930,9 +907,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:208
     public int GetMaxPixelX()
     {
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(_mapContainer.Width - 1, _mapContainer.Height - 1, out x, out y);
+        HexGeometry.HexToPixel(_mapContainer.Width - 1, _mapContainer.Height - 1, out int x, out int y);
 
         x += 40;
         return x;
@@ -966,13 +941,12 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:459
     public void ClearTerrain(int X, int Y, int L, int radius, int terrainType)
     {
-        HexNumberWalkData walk = default;
         MapLevel mapLevel;
         MapFieldMessage message = default;
         Rect r = default;
         LockTerrainChangedEvent();
         mapLevel = _mapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         message.MessageId = 16;
         while (walk.Radius <= radius)
         {
@@ -1020,9 +994,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:561
     public bool PlaceHex(HexSprite hexSprite, int hexX, int hexY, int L)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         return hexSprite.MainPlace(_mapContainer, pixelX, pixelY, L);
     }
 
@@ -1772,8 +1744,7 @@ public partial class GameMap : OwningNode
         MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
-            int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, ViewHexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(x, ViewHexY, out int pixelX, out int pixelY);
             pixelX -= ViewPixelX + 8;
             pixelY -= ViewPixelY + 4;
             for (int y = ViewHexY; y < ViewHexY + ViewHeightHex; y++, pixelY += 32)
@@ -1798,8 +1769,7 @@ public partial class GameMap : OwningNode
         int maxX = ViewHexX + ViewWidthHex - 1, maxY = ViewHexY + ViewHeightHex - 1;
         for (int x = ViewHexX; x <= maxX; x++)
         {
-            int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, ViewHexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(x, ViewHexY, out int pixelX, out int pixelY);
             pixelX = pixelX - ViewPixelX - 8;
             pixelY = pixelY - ViewPixelY - 4 + 4;
             for (int y = ViewHexY; y <= maxY; y++, pixelY += 32)

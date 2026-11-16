@@ -282,14 +282,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
             lists[0].AddAbility(mapField, 0);
         }
 
-        if (group.PatrolTo.X != -1)
-        {
-            lastHeading = HexGeometry.DeltaHexToHexDirection(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolTo.X, group.PatrolTo.Y);
-        }
-        else
-        {
-            lastHeading = 0;
-        }
+        lastHeading = group.PatrolTo.X != -1
+            ? HexGeometry.DeltaHexToHexDirection(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolTo.X, group.PatrolTo.Y)
+            : 0;
 
         previousHeading = group.PreviousHeading;
         choices = new ByteList();

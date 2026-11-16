@@ -204,22 +204,18 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:216
     public void UpdateConcealment(sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         MapField mapField;
         ArmyHexSprite armyHexSprite;
         level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
             if (base.Resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
                 mapField = level.GetField(walk.X, walk.Y);
                 armyHexSprite = mapField.GetArmyHexSprite();
-                if (armyHexSprite != null)
-                {
-                    armyHexSprite.Army.Update();
-                }
+                armyHexSprite?.Army.Update();
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

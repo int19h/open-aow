@@ -214,14 +214,9 @@ public partial class Battle : EngineObject
     {
         CombatData data;
         Clear();
-        if (logActions)
-        {
-            Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
-        }
-        else
-        {
-            Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
-        }
+        Status = logActions
+            ? Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions)
+            : Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
 
         data = CombatData;
         data.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
@@ -444,14 +439,9 @@ public partial class Battle : EngineObject
     // { }
     public void SetLogCombatActions(byte value)
     {
-        if (value != 0)
-        {
-            Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
-        }
-        else
-        {
-            Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
-        }
+        Status = value != 0
+            ? Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions)
+            : Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
     }
 
     // Combat.pas:6112
@@ -504,23 +494,9 @@ public partial class Battle : EngineObject
     // AIGroup.pas:7195
     public WallSituation GetWallSituation(CombatObject source, CombatObject target)
     {
-        WallSituation result;
-        if (GetWallInBetween(source.Position, target.Position))
-        {
-            if (source.GetSide() == CombatSideIndex.Defender)
-            {
-                result = WallSituation.Source;
-            }
-            else
-            {
-                result = WallSituation.Target;
-            }
-        }
-        else
-        {
-            result = WallSituation.None;
-        }
-
+        WallSituation result = GetWallInBetween(source.Position, target.Position)
+            ? source.GetSide() == CombatSideIndex.Defender ? WallSituation.Source : WallSituation.Target
+            : WallSituation.None;
         return result;
     }
 
@@ -595,10 +571,7 @@ public partial class Battle : EngineObject
         if (!Terminated)
         {
             Terminated = true;
-            if (OnTerminated != null)
-            {
-                OnTerminated(this);
-            }
+            OnTerminated?.Invoke(this);
         }
     }
 
@@ -632,12 +605,11 @@ public partial class Battle : EngineObject
     {
         CombatData data;
         MapLevel level;
-        HexNumberWalkData walk = default;
         ArmyHexSprite armyHexSprite;
         CombatSideIndex side;
         data = CombatData;
         level = StrategicMap.Current.MapContainer.GetMapLevel(data.Location.MapLevel);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, data.Location.X, data.Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, data.Location.X, data.Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -683,14 +655,9 @@ public partial class Battle : EngineObject
         byte result;
         CombatData data;
         data = CombatData;
-        if (layer == data.Location.MapLevel && HexGeometry.DeltaHexToRadius(data.Location.X, data.Location.Y, X, Y) <= 1)
-        {
-            result = (byte)HexGeometry.DeltaHexToHexNumberFast(data.Location.X, data.Location.Y, X, Y);
-        }
-        else
-        {
-            result = 7;
-        }
+        result = layer == data.Location.MapLevel && HexGeometry.DeltaHexToRadius(data.Location.X, data.Location.Y, X, Y) <= 1
+            ? (byte)HexGeometry.DeltaHexToHexNumberFast(data.Location.X, data.Location.Y, X, Y)
+            : (byte)7;
 
         return result;
     }
@@ -896,35 +863,15 @@ public partial class Battle : EngineObject
         result = query.Text;
         if (IsEmpty(result))
         {
-            if (CombatResult == CombatResult.Victory)
-            {
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_battleWonText);
-            }
-            else
-            {
-                if (CombatResult == CombatResult.Defeat)
-                {
-                    result = AbilityRules.TranslateResourceString(GetEngine(), s_battleLostText);
-                }
-                else
-                {
-                    if (CombatResult == CombatResult.CannotBreachWall)
-                    {
-                        result = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText);
-                    }
-                    else
-                    {
-                        if (CombatResult == CombatResult.CannotInflictDamage)
-                        {
-                            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText);
-                        }
-                        else
-                        {
-                            result = AbilityRules.TranslateResourceString(GetEngine(), s_battleDrawnText);
-                        }
-                    }
-                }
-            }
+            result = CombatResult == CombatResult.Victory
+                ? AbilityRules.TranslateResourceString(GetEngine(), s_battleWonText)
+                : CombatResult == CombatResult.Defeat
+                    ? AbilityRules.TranslateResourceString(GetEngine(), s_battleLostText)
+                    : CombatResult == CombatResult.CannotBreachWall
+                        ? AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText)
+                        : CombatResult == CombatResult.CannotInflictDamage
+                            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText)
+                            : AbilityRules.TranslateResourceString(GetEngine(), s_battleDrawnText);
 
             query.Text = result;
         }

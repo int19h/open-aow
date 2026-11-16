@@ -228,14 +228,7 @@ public partial class TokenControl : IDisposable
                 i += 1;
             }
 
-            if (inOrder)
-            {
-                result = i;
-            }
-            else
-            {
-                result = 0;
-            }
+            result = inOrder ? i : 0;
         }
         else
         {

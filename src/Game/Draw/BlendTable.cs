@@ -59,14 +59,7 @@ public partial class BlendTable
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    if (i == 0)
-                    {
-                        f = 0;
-                    }
-                    else
-                    {
-                        f = (float)((double)((double)((double)i * intensity) * 1.75) / (i + j));
-                    }
+                    f = i == 0 ? 0 : (float)((double)((double)((double)i * intensity) * 1.75) / (i + j));
 
                     v = Round((double)i * f) + j;
                     if (v > 31)
@@ -136,14 +129,7 @@ public partial class BlendTable
         {
             for (int i = 0; i <= 31; i++)
             {
-                if ((double)alpha > 0)
-                {
-                    f = (float)(i / ((double)31 * alpha));
-                }
-                else
-                {
-                    f = 1;
-                }
+                f = (double)alpha > 0 ? (float)(i / ((double)31 * alpha)) : 1;
 
                 if ((double)f > 1)
                 {

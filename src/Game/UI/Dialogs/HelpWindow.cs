@@ -31,15 +31,9 @@ public partial class HelpWindow : UIModule
         eventValue = _helpEvent;
         Done = null;
         _helpEvent = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // aowHelpWin.pas:66
@@ -73,10 +67,7 @@ public partial class HelpWindow : UIModule
         }
         else
         {
-            if (done != null)
-            {
-                done(_helpEvent);
-            }
+            done?.Invoke(_helpEvent);
         }
 
         MainWindow.Visible = true;

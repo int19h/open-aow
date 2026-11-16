@@ -324,14 +324,7 @@ public partial class MoveControl : IDisposable
         {
             MapCoordinate originMapCoordinate = origin.GetMapCoordinate();
             pathFindingStep.Origin = originMapCoordinate;
-            if ((mapField.FieldFlags & MapField.MoveOverFlag) == 0)
-            {
-                overCode = 1;
-            }
-            else
-            {
-                overCode = mapField.CanMoveOver(this);
-            }
+            overCode = (mapField.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : mapField.CanMoveOver(this);
         }
         else
         {

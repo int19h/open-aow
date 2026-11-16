@@ -155,14 +155,7 @@ public partial class RaceResource : EngineResource
         CustomImageLibrary images;
         AddRef();
         images = _faceLibrary;
-        if (images != null)
-        {
-            result = images.GetSafe(GetRaceIndex());
-        }
-        else
-        {
-            result = null;
-        }
+        result = images?.GetSafe(GetRaceIndex());
 
         Release();
         return result;
@@ -220,35 +213,13 @@ public partial class RaceResource : EngineResource
     public LibraryImage GetCityImage(int size, int terrain, int level)
     {
         LibraryImage result;
-        int index;
-        if (terrain == 5)
-        {
-            index = size + 60 - 1;
-        }
-        else
-        {
-            index = (terrain * 10) + 70 + (size - 1);
-        }
+        int index = terrain == 5 ? size + 60 - 1 : (terrain * 10) + 70 + (size - 1);
 
-        if (ImageLibrary.ImageExist(index))
-        {
-            result = ImageLibrary[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
 
         if (result == null)
         {
-            if (level == 0)
-            {
-                index = size + 50 - 1;
-            }
-            else
-            {
-                index = size + 60 - 1;
-            }
+            index = level == 0 ? size + 50 - 1 : size + 60 - 1;
 
             if (ImageLibrary.ImageExist(index))
             {
@@ -268,42 +239,15 @@ public partial class RaceResource : EngineResource
             return Alignment.PureGood;
         }
 
-        if (Alignments == AlignmentTables.GoodAlignments)
-        {
-            result = Alignment.Good;
-        }
-        else
-        {
-            if (Alignments == AlignmentTables.NeutralAlignments)
-            {
-                result = Alignment.Neutral;
-            }
-            else
-            {
-                if (Alignments == AlignmentTables.EvilAlignments)
-                {
-                    result = Alignment.Evil;
-                }
-                else
-                {
-                    if (Alignments == AlignmentTables.PureEvilAlignments)
-                    {
-                        result = Alignment.PureEvil;
-                    }
-                    else
-                    {
-                        if (Alignments == s_pureNeutralAlignments)
-                        {
-                            result = Alignment.PureNeutral;
-                        }
-                        else
-                        {
-                            result = Alignment.None;
-                        }
-                    }
-                }
-            }
-        }
+        result = Alignments == AlignmentTables.GoodAlignments
+            ? Alignment.Good
+            : Alignments == AlignmentTables.NeutralAlignments
+                ? Alignment.Neutral
+                : Alignments == AlignmentTables.EvilAlignments
+                    ? Alignment.Evil
+                    : Alignments == AlignmentTables.PureEvilAlignments
+                        ? Alignment.PureEvil
+                        : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
 
         return result;
     }

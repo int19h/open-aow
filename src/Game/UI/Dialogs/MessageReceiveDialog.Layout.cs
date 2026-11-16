@@ -81,11 +81,11 @@ public partial class MessageReceiveDialog : ILayoutModule
         MessageMemo.Masked = true;
         MessageMemo.WinWidth = 290;
         MessageMemo.WinHeight = 82;
-        MessageMemo.LayoutItems = new LayoutStrings()
-        {
+        MessageMemo.LayoutItems =
+        [
             "##############",
             "##############"
-        };
+        ];
         MessageMemo.BorderWidth = 10;
         MessageMemo.BorderHeight = 5;
         MessageMemo.TextColor = 0;
@@ -172,10 +172,10 @@ public partial class MessageReceiveDialog : ILayoutModule
         LeftShield.Priority = 1000;
         LeftShield.WinLeft = 45;
         LeftShield.WinTop = 40;
-        LeftShield.LayoutToolTipText = new LayoutStrings()
-        {
+        LeftShield.LayoutToolTipText =
+        [
             "Player's Shield"
-        };
+        ];
         LeftShield.CaptureInput = false;
         LeftShield.Alignment.AlignWidth = AlignWidth.Left;
         LeftShield.Alignment.AlignHeight = AlignHeight.Top;
@@ -204,10 +204,10 @@ public partial class MessageReceiveDialog : ILayoutModule
         RightShield.Priority = 1000;
         RightShield.WinLeft = 299;
         RightShield.WinTop = 45;
-        RightShield.LayoutToolTipText = new LayoutStrings()
-        {
+        RightShield.LayoutToolTipText =
+        [
             "Player's Shield"
-        };
+        ];
         RightShield.CaptureInput = false;
         RightShield.Alignment.AlignWidth = AlignWidth.Right;
         RightShield.Alignment.AlignHeight = AlignHeight.Top;
@@ -252,10 +252,10 @@ public partial class MessageReceiveDialog : ILayoutModule
         HeaderMemo.Masked = true;
         HeaderMemo.WinWidth = 244;
         HeaderMemo.WinHeight = 137;
-        HeaderMemo.LayoutItems = new LayoutStrings()
-        {
+        HeaderMemo.LayoutItems =
+        [
             "##############"
-        };
+        ];
         HeaderMemo.BorderWidth = 10;
         HeaderMemo.BorderHeight = 5;
         HeaderMemo.TextColor = 0;

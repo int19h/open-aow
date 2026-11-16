@@ -53,14 +53,7 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
                 break;
         }
 
-        if (success)
-        {
-            result = ExecuteResult.Done;
-        }
-        else
-        {
-            result = ExecuteResult.DoneHalt;
-        }
+        result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
 
         return result;
     }

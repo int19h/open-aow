@@ -12,16 +12,7 @@ public partial class DiplomaticRelationList : ByteList
     // Player.PAS:17
     public DiplomaticRelation GetDiplomaticRelation(int index)
     {
-        DiplomaticRelation result;
-        if (index < Count)
-        {
-            result = (DiplomaticRelation)List[index];
-        }
-        else
-        {
-            result = DiplomaticRelation.Unknown;
-        }
-
+        DiplomaticRelation result = index < Count ? (DiplomaticRelation)List[index] : DiplomaticRelation.Unknown;
         return result;
     }
 

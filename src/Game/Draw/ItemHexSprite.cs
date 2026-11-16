@@ -61,10 +61,8 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5240
     public override int GetShowPriority()
     {
-        int pixelX = default;
-        int pixelY = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
         hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite != null)
@@ -103,16 +101,7 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5260
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
-        if (Owner.FogCount == 0 && StrategicMap.Current.FogEnabled)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
         return result;
     }
 
@@ -154,10 +143,7 @@ public partial class ItemHexSprite : SingleHexSprite
             {
                 i = (byte)iOrdinal;
                 item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
-                if (item != null)
-                {
-                    item.SetOwner(Items);
-                }
+                item?.SetOwner(Items);
             }
 
             Items.SetChangedHandler(ItemsChanged);

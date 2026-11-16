@@ -56,16 +56,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         if (owner != _owner)
         {
             CheckOwner(owner);
-            if (_owner != null)
-            {
-                _owner.RemoveChild(this);
-            }
+            _owner?.RemoveChild(this);
 
             _owner = owner;
-            if (_owner != null)
-            {
-                _owner.AddChild(this);
-            }
+            _owner?.AddChild(this);
         }
     }
 
@@ -199,16 +193,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     public virtual void SetArrayOwner(CustomNode owner, int index)
     {
         CheckOwner(owner);
-        if (_owner != null)
-        {
-            _owner.RemoveChild(this);
-        }
+        _owner?.RemoveChild(this);
 
         _owner = owner;
-        if (_owner != null)
-        {
-            _owner.SetChild(index, this);
-        }
+        _owner?.SetChild(index, this);
     }
 
     // Engine.pas:2436

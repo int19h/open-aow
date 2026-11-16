@@ -30,15 +30,9 @@ public partial class PasswordDialog : UIModule
         eventValue = _passwordEvent;
         Done = null;
         _passwordEvent = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWPasswordDlg.pas:42

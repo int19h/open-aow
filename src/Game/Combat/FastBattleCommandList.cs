@@ -14,14 +14,7 @@ public partial class FastBattleCommandList : IDisposable
         Source = source;
         Combat = combat;
         SourceSide = side;
-        if (SourceSide.SideIndex == 0)
-        {
-            TargetSide = Combat.Sides[(int)CombatSideIndex.Defender];
-        }
-        else
-        {
-            TargetSide = Combat.Sides[(int)CombatSideIndex.Attacker];
-        }
+        TargetSide = SourceSide.SideIndex == 0 ? Combat.Sides[(int)CombatSideIndex.Defender] : Combat.Sides[(int)CombatSideIndex.Attacker];
     }
 
     public CombatObject Source { get; }

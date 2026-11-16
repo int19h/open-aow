@@ -136,13 +136,13 @@ public partial class RealmWindow : ILayoutModule
         HeaderTabs.Alignment.TopOffset = 19;
         HeaderTabs.Alignment.BottomOffset = 0;
         HeaderTabs.Masked = true;
-        HeaderTabs.LayoutItems = new LayoutStrings()
-        {
+        HeaderTabs.LayoutItems =
+        [
             "GOLD",
             "CITIES",
             "PLACES",
             "HEROES"
-        };
+        ];
         HeaderTabs.BorderHeight = 6;
         HeaderTabs.OnChange += _ => HeaderTabChange();
         HeaderTabs.Selected = 0;
@@ -296,10 +296,10 @@ public partial class RealmWindow : ILayoutModule
         minimize.Priority = 0;
         minimize.WinLeft = 421;
         minimize.WinTop = 1;
-        minimize.LayoutToolTipText = new LayoutStrings()
-        {
+        minimize.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         minimize.CaptureInput = true;
         minimize.Alignment.AlignWidth = AlignWidth.Right;
         minimize.Alignment.AlignHeight = AlignHeight.Top;
@@ -640,10 +640,10 @@ public partial class RealmWindow : ILayoutModule
         t2SName.Priority = 1000;
         t2SName.WinLeft = 1;
         t2SName.WinTop = 0;
-        t2SName.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SName.LayoutToolTipText =
+        [
             "Sort Cities by Name."
-        };
+        ];
         t2SName.CaptureInput = true;
         t2SName.Alignment.AlignWidth = AlignWidth.Both;
         t2SName.Alignment.AlignHeight = AlignHeight.Top;
@@ -675,10 +675,10 @@ public partial class RealmWindow : ILayoutModule
         t2SRace.Priority = 1000;
         t2SRace.WinLeft = 113;
         t2SRace.WinTop = 0;
-        t2SRace.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SRace.LayoutToolTipText =
+        [
             "Sort Cities by the Race of their dwellers."
-        };
+        ];
         t2SRace.CaptureInput = true;
         t2SRace.Alignment.AlignWidth = AlignWidth.Both;
         t2SRace.Alignment.AlignHeight = AlignHeight.Top;
@@ -710,10 +710,10 @@ public partial class RealmWindow : ILayoutModule
         t2SIn.Priority = 1000;
         t2SIn.WinLeft = 200;
         t2SIn.WinTop = 0;
-        t2SIn.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SIn.LayoutToolTipText =
+        [
             "Sort Cities by Income."
-        };
+        ];
         t2SIn.CaptureInput = true;
         t2SIn.Alignment.AlignWidth = AlignWidth.Right;
         t2SIn.Alignment.AlignHeight = AlignHeight.Top;
@@ -745,10 +745,10 @@ public partial class RealmWindow : ILayoutModule
         t2SWall.Priority = 1000;
         t2SWall.WinLeft = 250;
         t2SWall.WinTop = 0;
-        t2SWall.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SWall.LayoutToolTipText =
+        [
             "Sort Cities by Wall Strength."
-        };
+        ];
         t2SWall.CaptureInput = true;
         t2SWall.Alignment.AlignWidth = AlignWidth.Right;
         t2SWall.Alignment.AlignHeight = AlignHeight.Top;
@@ -780,10 +780,10 @@ public partial class RealmWindow : ILayoutModule
         t2SLvl.Priority = 1000;
         t2SLvl.WinLeft = 225;
         t2SLvl.WinTop = 0;
-        t2SLvl.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SLvl.LayoutToolTipText =
+        [
             "Sort Cities by Upgrade Level."
-        };
+        ];
         t2SLvl.CaptureInput = true;
         t2SLvl.Alignment.AlignWidth = AlignWidth.Right;
         t2SLvl.Alignment.AlignHeight = AlignHeight.Top;
@@ -815,10 +815,10 @@ public partial class RealmWindow : ILayoutModule
         t2SSize.Priority = 1000;
         t2SSize.WinLeft = 275;
         t2SSize.WinTop = 0;
-        t2SSize.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SSize.LayoutToolTipText =
+        [
             "Sort Cities by Size."
-        };
+        ];
         t2SSize.CaptureInput = true;
         t2SSize.Alignment.AlignWidth = AlignWidth.Right;
         t2SSize.Alignment.AlignHeight = AlignHeight.Top;
@@ -850,10 +850,10 @@ public partial class RealmWindow : ILayoutModule
         t2SEnc.Priority = 1000;
         t2SEnc.WinLeft = 375;
         t2SEnc.WinTop = 0;
-        t2SEnc.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SEnc.LayoutToolTipText =
+        [
             "Sort Cities by Enchantment."
-        };
+        ];
         t2SEnc.CaptureInput = true;
         t2SEnc.Alignment.AlignWidth = AlignWidth.Right;
         t2SEnc.Alignment.AlignHeight = AlignHeight.Top;
@@ -922,10 +922,10 @@ public partial class RealmWindow : ILayoutModule
         t2SAct.Priority = 1000;
         t2SAct.WinLeft = 350;
         t2SAct.WinTop = 0;
-        t2SAct.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SAct.LayoutToolTipText =
+        [
             "Sort Cities by Activity."
-        };
+        ];
         t2SAct.CaptureInput = true;
         t2SAct.Alignment.AlignWidth = AlignWidth.Right;
         t2SAct.Alignment.AlignHeight = AlignHeight.Top;
@@ -994,10 +994,10 @@ public partial class RealmWindow : ILayoutModule
         t2SRel.Priority = 1000;
         t2SRel.WinLeft = 300;
         t2SRel.WinTop = 0;
-        t2SRel.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SRel.LayoutToolTipText =
+        [
             "Sort Cities by Race Relation."
-        };
+        ];
         t2SRel.CaptureInput = true;
         t2SRel.Alignment.AlignWidth = AlignWidth.Right;
         t2SRel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1066,10 +1066,10 @@ public partial class RealmWindow : ILayoutModule
         t2SMor.Priority = 1000;
         t2SMor.WinLeft = 325;
         t2SMor.WinTop = 0;
-        t2SMor.LayoutToolTipText = new LayoutStrings()
-        {
+        t2SMor.LayoutToolTipText =
+        [
             "Sort Cities by Morale."
-        };
+        ];
         t2SMor.CaptureInput = true;
         t2SMor.Alignment.AlignWidth = AlignWidth.Right;
         t2SMor.Alignment.AlignHeight = AlignHeight.Top;
@@ -1174,10 +1174,10 @@ public partial class RealmWindow : ILayoutModule
         t3SName.Priority = 1000;
         t3SName.WinLeft = 1;
         t3SName.WinTop = 0;
-        t3SName.LayoutToolTipText = new LayoutStrings()
-        {
+        t3SName.LayoutToolTipText =
+        [
             "Sort Structures by Name."
-        };
+        ];
         t3SName.CaptureInput = true;
         t3SName.Alignment.AlignWidth = AlignWidth.Both;
         t3SName.Alignment.AlignHeight = AlignHeight.Top;
@@ -1245,10 +1245,10 @@ public partial class RealmWindow : ILayoutModule
         t3Activity.Priority = 1000;
         t3Activity.WinLeft = 209;
         t3Activity.WinTop = 0;
-        t3Activity.LayoutToolTipText = new LayoutStrings()
-        {
+        t3Activity.LayoutToolTipText =
+        [
             "Sort Structures by Activity."
-        };
+        ];
         t3Activity.CaptureInput = true;
         t3Activity.Alignment.AlignWidth = AlignWidth.Both;
         t3Activity.Alignment.AlignHeight = AlignHeight.Top;
@@ -1871,10 +1871,10 @@ public partial class RealmWindow : ILayoutModule
         t5SName.Priority = 1000;
         t5SName.WinLeft = 0;
         t5SName.WinTop = 0;
-        t5SName.LayoutToolTipText = new LayoutStrings()
-        {
+        t5SName.LayoutToolTipText =
+        [
             "Sort Heroes by Name."
-        };
+        ];
         t5SName.CaptureInput = true;
         t5SName.Alignment.AlignWidth = AlignWidth.Both;
         t5SName.Alignment.AlignHeight = AlignHeight.Top;
@@ -1906,10 +1906,10 @@ public partial class RealmWindow : ILayoutModule
         t5SHealth.Priority = 1000;
         t5SHealth.WinLeft = 229;
         t5SHealth.WinTop = 0;
-        t5SHealth.LayoutToolTipText = new LayoutStrings()
-        {
+        t5SHealth.LayoutToolTipText =
+        [
             "Sort Heroes by Health."
-        };
+        ];
         t5SHealth.CaptureInput = true;
         t5SHealth.Alignment.AlignWidth = AlignWidth.Right;
         t5SHealth.Alignment.AlignHeight = AlignHeight.Top;
@@ -1941,10 +1941,10 @@ public partial class RealmWindow : ILayoutModule
         t5SLevel.Priority = 1000;
         t5SLevel.WinLeft = 300;
         t5SLevel.WinTop = 0;
-        t5SLevel.LayoutToolTipText = new LayoutStrings()
-        {
+        t5SLevel.LayoutToolTipText =
+        [
             "Sort Heroes by Level."
-        };
+        ];
         t5SLevel.CaptureInput = true;
         t5SLevel.Alignment.AlignWidth = AlignWidth.Right;
         t5SLevel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2735,10 +2735,10 @@ public partial class RealmWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 405;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;

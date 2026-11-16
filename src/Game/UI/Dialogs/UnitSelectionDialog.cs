@@ -75,17 +75,10 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:177
     public void ResetSelection()
     {
-        if (Event != null)
-        {
-            Event.Release();
-            Event = null;
-        }
-
-        if (_eventLog != null)
-        {
-            _eventLog.Release();
-            _eventLog = null;
-        }
+        Event?.Release();
+        Event = null;
+        _eventLog?.Release();
+        _eventLog = null;
 
         Unit1CheckBox.Checked = false;
         Unit2CheckBox.Checked = false;
@@ -126,17 +119,10 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:95
     public void ClearEvent()
     {
-        if (Event != null)
-        {
-            Event.Release();
-            Event = null;
-        }
-
-        if (_eventLog != null)
-        {
-            _eventLog.Release();
-            _eventLog = null;
-        }
+        Event?.Release();
+        Event = null;
+        _eventLog?.Release();
+        _eventLog = null;
     }
 
     // AoWUnitSelDlg.pas:101
@@ -204,14 +190,7 @@ public partial class UnitSelectionDialog : UIModule
 
         if (Event.Selection != 0)
         {
-            if (Event.CanSelect(ref reason))
-            {
-                SelectionInfoLabel.TextColor = 0;
-            }
-            else
-            {
-                SelectionInfoLabel.TextColor = 149;
-            }
+            SelectionInfoLabel.TextColor = Event.CanSelect(ref reason) ? 0 : 149;
         }
         else
         {
@@ -237,10 +216,7 @@ public partial class UnitSelectionDialog : UIModule
                 r.Top = SourceFace.WinTop + SourcePanel.WinTop;
                 r.Bottom = SourceFace.WinHeight + r.Top;
 
-                if (u.GetFace() != null)
-                {
-                    u.GetFace().ShowStretched(r, lockedSurface);
-                }
+                u.GetFace()?.ShowStretched(r, lockedSurface);
             }
         }
     }

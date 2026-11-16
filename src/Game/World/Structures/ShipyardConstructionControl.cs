@@ -72,14 +72,9 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         x = coordinate38.X;
         y = coordinate38.Y;
         l = coordinate38.MapLevel;
-        if (l == 0)
-        {
-            result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60);
-        }
-        else
-        {
-            result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(107);
-        }
+        result = l == 0
+            ? (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60)
+            : (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(107);
 
         return result;
     }

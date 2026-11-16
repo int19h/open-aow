@@ -16,17 +16,7 @@ public partial class FixedVisibleHexSprite : HexSprite
     private byte _status;
 
     // HXSPRITE.PAS:770
-    public override void SetVisible(bool value)
-    {
-        if (value)
-        {
-            _status = (byte)(_status | 1);
-        }
-        else
-        {
-            _status = (byte)(_status & 254);
-        }
-    }
+    public override void SetVisible(bool value) => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
 
     // HXSPRITE.PAS:775
     public override bool GetVisible() => (_status & 1) != 0;

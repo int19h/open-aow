@@ -169,14 +169,7 @@ public partial class DurationAbility : AdjustableAbility
         byte result;
         DurationAbilityData data;
         data = (DurationAbilityData)abilityOwner.GetAbilityData(AbilityId);
-        if (data != null)
-        {
-            result = data.Duration;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = data != null ? data.Duration : (byte)0;
 
         return result;
     }

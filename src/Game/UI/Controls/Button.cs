@@ -15,13 +15,7 @@ public partial class Button : BaseButton
 
     internal bool HasClickHandlers => OnClick != null;
 
-    internal void RaiseClick(Button sender)
-    {
-        if (OnClick != null)
-        {
-            OnClick(sender);
-        }
-    }
+    internal void RaiseClick(Button sender) => OnClick?.Invoke(sender);
 
     // AoWButton.pas:239
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

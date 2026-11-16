@@ -14,16 +14,7 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:225
     public int GetUnitIndex(int index)
     {
-        int result;
-        if (index < 0 || index >= Count)
-        {
-            result = Default;
-        }
-        else
-        {
-            result = List[index];
-        }
-
+        int result = index < 0 || index >= Count ? Default : List[index];
         return result;
     }
 

@@ -321,14 +321,7 @@ public partial class General : UIModule
         {
             map.Alignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight + window.WinHeight;
             map.Aligned = false;
-            if (map.Visible)
-            {
-                window.Alignment.RightOffset = map.Alignment.RightOffset;
-            }
-            else
-            {
-                window.Alignment.RightOffset = 0;
-            }
+            window.Alignment.RightOffset = map.Visible ? map.Alignment.RightOffset : 0;
 
             window.Aligned = false;
         }
@@ -489,7 +482,7 @@ public partial class General : UIModule
         UnitShowInfo unitShowInfo2 = UnitShowInfo;
         unitShowInfo2.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
         UnitShowInfo = unitShowInfo2;
-        Abilities = new List<CombatAbilityRef>();
+        Abilities = [];
     }
 
     // AoWWinMan.pas:223
@@ -511,14 +504,9 @@ public partial class General : UIModule
         scannerAlignment.TopOffset = 0;
         scannerAlignment.RightOffset = 0;
 
-        if (UI.General.Manager.WinHeight > 700)
-        {
-            scanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 3;
-        }
-        else
-        {
-            scanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 2;
-        }
+        scanner.WinHeight = UI.General.Manager.WinHeight > 700
+            ? (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 3
+            : (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 2;
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
         if (StrategicMap.Current != null)
@@ -646,14 +634,9 @@ public partial class General : UIModule
         UI.MapWindow.MapRectangle = rectangle2;
         if (StrategicMap.Current != null)
         {
-            if (StrategicMap.Current.CombatMap == null)
-            {
-                UI.MapWindow.MainWindow.Alignment.RightOffset = scanner.WinWidth;
-            }
-            else
-            {
-                UI.MapWindow.MainWindow.Alignment.RightOffset = tacticalBattleScanner.WinWidth;
-            }
+            UI.MapWindow.MainWindow.Alignment.RightOffset = StrategicMap.Current.CombatMap == null
+                ? scanner.WinWidth
+                : tacticalBattleScanner.WinWidth;
         }
 
         UI.MapWindow.MainWindow.Alignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
@@ -678,14 +661,7 @@ public partial class General : UIModule
             if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
                 player = StrategicMap.Current.Players.GetPlayers(key - 48);
-                if (player.PlayerType == PlayerType.Cpu5)
-                {
-                    player.PlayerType = PlayerType.Human;
-                }
-                else
-                {
-                    player.PlayerType = (PlayerType)((int)player.PlayerType + 1);
-                }
+                player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
                 s = "Player " + IntToStr(key - 48) + " set to: " + playerType;

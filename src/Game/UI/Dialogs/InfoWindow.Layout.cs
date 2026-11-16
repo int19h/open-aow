@@ -66,10 +66,10 @@ public partial class InfoWindow : ILayoutModule
         min.Priority = 0;
         min.WinLeft = 167;
         min.WinTop = 1;
-        min.LayoutToolTipText = new LayoutStrings()
-        {
+        min.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         min.CaptureInput = true;
         min.Alignment.AlignWidth = AlignWidth.Right;
         min.Alignment.AlignHeight = AlignHeight.Top;
@@ -100,10 +100,10 @@ public partial class InfoWindow : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 181;
         close.WinTop = 1;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -1275,10 +1275,10 @@ public partial class InfoWindow : ILayoutModule
         center.Priority = 0;
         center.WinLeft = 153;
         center.WinTop = 1;
-        center.LayoutToolTipText = new LayoutStrings()
-        {
+        center.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         center.CaptureInput = true;
         center.Alignment.AlignWidth = AlignWidth.Right;
         center.Alignment.AlignHeight = AlignHeight.Top;
@@ -1472,10 +1472,10 @@ public partial class InfoWindow : ILayoutModule
         RazeButton.Priority = 0;
         RazeButton.WinLeft = 8;
         RazeButton.WinTop = 13;
-        RazeButton.LayoutToolTipText = new LayoutStrings()
-        {
+        RazeButton.LayoutToolTipText =
+        [
             "Razes Object"
-        };
+        ];
         RazeButton.CaptureInput = true;
         RazeButton.Alignment.AlignWidth = AlignWidth.Left;
         RazeButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1558,10 +1558,10 @@ public partial class InfoWindow : ILayoutModule
         CityIncomeLabel.Priority = 0;
         CityIncomeLabel.WinLeft = 32;
         CityIncomeLabel.WinTop = 4;
-        CityIncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CityIncomeLabel.LayoutToolTipText =
+        [
             "Town's Income"
-        };
+        ];
         CityIncomeLabel.CaptureInput = true;
         CityIncomeLabel.Alignment.AlignWidth = AlignWidth.Left;
         CityIncomeLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1585,10 +1585,10 @@ public partial class InfoWindow : ILayoutModule
         goldIcn.Priority = 10;
         goldIcn.WinLeft = 10;
         goldIcn.WinTop = 2;
-        goldIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        goldIcn.LayoutToolTipText =
+        [
             "Town's Income"
-        };
+        ];
         goldIcn.CaptureInput = true;
         goldIcn.Alignment.AlignWidth = AlignWidth.Left;
         goldIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1617,11 +1617,11 @@ public partial class InfoWindow : ILayoutModule
         ugradeI.Priority = 10;
         ugradeI.WinLeft = 61;
         ugradeI.WinTop = 3;
-        ugradeI.LayoutToolTipText = new LayoutStrings()
-        {
+        ugradeI.LayoutToolTipText =
+        [
             "Upgrade Level",
             ""
-        };
+        ];
         ugradeI.CaptureInput = true;
         ugradeI.Alignment.AlignWidth = AlignWidth.Left;
         ugradeI.Alignment.AlignHeight = AlignHeight.Top;
@@ -1727,10 +1727,10 @@ public partial class InfoWindow : ILayoutModule
         IncomeTypeIcon.Priority = 10;
         IncomeTypeIcon.WinLeft = 34;
         IncomeTypeIcon.WinTop = 2;
-        IncomeTypeIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomeTypeIcon.LayoutToolTipText =
+        [
             "Structures Income"
-        };
+        ];
         IncomeTypeIcon.CaptureInput = true;
         IncomeTypeIcon.Alignment.AlignWidth = AlignWidth.Right;
         IncomeTypeIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -1759,10 +1759,10 @@ public partial class InfoWindow : ILayoutModule
         IncomeValueLabel.Priority = 0;
         IncomeValueLabel.WinLeft = 53;
         IncomeValueLabel.WinTop = 4;
-        IncomeValueLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomeValueLabel.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         IncomeValueLabel.CaptureInput = true;
         IncomeValueLabel.Alignment.AlignWidth = AlignWidth.Left;
         IncomeValueLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1843,10 +1843,10 @@ public partial class InfoWindow : ILayoutModule
         currentActivityLbl.Priority = 0;
         currentActivityLbl.WinLeft = 13;
         currentActivityLbl.WinTop = 20;
-        currentActivityLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        currentActivityLbl.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         currentActivityLbl.CaptureInput = true;
         currentActivityLbl.Alignment.AlignWidth = AlignWidth.Center;
         currentActivityLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -1870,10 +1870,10 @@ public partial class InfoWindow : ILayoutModule
         IncomeLabel.Priority = 0;
         IncomeLabel.WinLeft = 37;
         IncomeLabel.WinTop = 82;
-        IncomeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomeLabel.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         IncomeLabel.CaptureInput = true;
         IncomeLabel.Alignment.AlignWidth = AlignWidth.Center;
         IncomeLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1999,10 +1999,10 @@ public partial class InfoWindow : ILayoutModule
         IncomeTypeImage.Priority = 10;
         IncomeTypeImage.WinLeft = 34;
         IncomeTypeImage.WinTop = 2;
-        IncomeTypeImage.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomeTypeImage.LayoutToolTipText =
+        [
             "Structures Income"
-        };
+        ];
         IncomeTypeImage.CaptureInput = true;
         IncomeTypeImage.Alignment.AlignWidth = AlignWidth.Right;
         IncomeTypeImage.Alignment.AlignHeight = AlignHeight.Top;
@@ -2031,10 +2031,10 @@ public partial class InfoWindow : ILayoutModule
         IncomeAmountLabel.Priority = 0;
         IncomeAmountLabel.WinLeft = 53;
         IncomeAmountLabel.WinTop = 4;
-        IncomeAmountLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomeAmountLabel.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         IncomeAmountLabel.CaptureInput = true;
         IncomeAmountLabel.Alignment.AlignWidth = AlignWidth.Left;
         IncomeAmountLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2058,10 +2058,10 @@ public partial class InfoWindow : ILayoutModule
         incomeTextLbl.Priority = 0;
         incomeTextLbl.WinLeft = 37;
         incomeTextLbl.WinTop = 96;
-        incomeTextLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        incomeTextLbl.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         incomeTextLbl.CaptureInput = true;
         incomeTextLbl.Alignment.AlignWidth = AlignWidth.Center;
         incomeTextLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -2147,10 +2147,10 @@ public partial class InfoWindow : ILayoutModule
         ItemsInBagLabel.Priority = 0;
         ItemsInBagLabel.WinLeft = 22;
         ItemsInBagLabel.WinTop = 28;
-        ItemsInBagLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ItemsInBagLabel.LayoutToolTipText =
+        [
             "Structure's Income"
-        };
+        ];
         ItemsInBagLabel.CaptureInput = true;
         ItemsInBagLabel.Alignment.AlignWidth = AlignWidth.Center;
         ItemsInBagLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2190,8 +2190,8 @@ public partial class InfoWindow : ILayoutModule
         ItemBagList.Masked = false;
         ItemBagList.WinWidth = 78;
         ItemBagList.WinHeight = 60;
-        ItemBagList.LayoutItems = new LayoutStrings()
-        {
+        ItemBagList.LayoutItems =
+        [
             "99",
             "99",
             "99",
@@ -2201,7 +2201,7 @@ public partial class InfoWindow : ILayoutModule
             "99",
             "99",
             "99"
-        };
+        ];
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
@@ -2272,10 +2272,10 @@ public partial class InfoWindow : ILayoutModule
         ItemBagMemo.Masked = true;
         ItemBagMemo.WinWidth = 108;
         ItemBagMemo.WinHeight = 125;
-        ItemBagMemo.LayoutItems = new LayoutStrings()
-        {
+        ItemBagMemo.LayoutItems =
+        [
             "Move onto the item bag to see what is in it."
-        };
+        ];
         ItemBagMemo.BorderWidth = 3;
         ItemBagMemo.BorderHeight = 0;
         ItemBagMemo.TextColor = 9236989;
@@ -2513,10 +2513,10 @@ public partial class InfoWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 138;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;

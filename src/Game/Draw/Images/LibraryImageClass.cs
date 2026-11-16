@@ -41,13 +41,7 @@ public sealed class LibraryImageClass
         LibraryImageClass imageClass;
         LibraryImage image = default;
         RectangleList rects = default;
-        void Progress(int percent, string message)
-        {
-            if (onProgress != null)
-            {
-                onProgress(null, percent, message);
-            }
-        }
+        void Progress(int percent, string message) => onProgress?.Invoke(null, percent, message);
 
         Progress(10, "Analyzing Image..");
         imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
@@ -125,10 +119,7 @@ public sealed class LibraryImageClass
         }
         if (rectangleList.Count == 0)
         {
-            if (rectangleList != null)
-            {
-                rectangleList.Dispose();
-            }
+            rectangleList?.Dispose();
             return null;
         }
         return rectangleList;

@@ -56,9 +56,7 @@ public partial class IsometricHex : AbstractHexagon
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary imageLibrary;
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         imageLibrary = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

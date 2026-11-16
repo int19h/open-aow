@@ -66,14 +66,9 @@ public partial class TacticalBattleUnit : CombatUnit
             if (GetEnabled() && UnitHexSprite != null && Troop.GetBloodType() != BloodType.None)
             {
                 sbyte hitPoints = GetHitPoints();
-                if (damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode))
-                {
-                    count = Random(5) + 10;
-                }
-                else
-                {
-                    count = Random(damage + 7) - 4;
-                }
+                count = damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode)
+                    ? Random(5) + 10
+                    : Random(damage + 7) - 4;
 
                 while (count > 0)
                 {
@@ -299,10 +294,7 @@ public partial class TacticalBattleUnit : CombatUnit
     internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
         CombatMoveTokenEvent result = new(null) { Holder = unitObject };
-        if (result != null)
-        {
-            result.Setup(unitObject, path);
-        }
+        result?.Setup(unitObject, path);
 
         return result;
     }

@@ -486,21 +486,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                             }
                             else
                             {
-                                if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
-                                {
-                                    State = 12;
-                                }
-                                else
-                                {
-                                    if (_target.Status.Contains(AIGroupTargetFlags.Produce))
-                                    {
-                                        State = 14;
-                                    }
-                                    else
-                                    {
-                                        State = 20;
-                                    }
-                                }
+                                State = _target.Status.Contains(AIGroupTargetFlags.Recruit)
+                                    ? 12
+                                    : _target.Status.Contains(AIGroupTargetFlags.Produce)
+                                    ? 14
+                                    : 20;
                             }
                         }
                         else
@@ -519,21 +509,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
-                        {
-                            State = 12;
-                        }
-                        else
-                        {
-                            if (_target.Status.Contains(AIGroupTargetFlags.Produce))
-                            {
-                                State = 14;
-                            }
-                            else
-                            {
-                                State = 20;
-                            }
-                        }
+                        State = _target.Status.Contains(AIGroupTargetFlags.Recruit)
+                            ? 12
+                            : _target.Status.Contains(AIGroupTargetFlags.Produce)
+                            ? 14
+                            : 20;
                     }
 
                     break;
@@ -555,14 +535,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        if (_target.Status.Contains(AIGroupTargetFlags.Produce))
-                        {
-                            State = 14;
-                        }
-                        else
-                        {
-                            State = 20;
-                        }
+                        State = _target.Status.Contains(AIGroupTargetFlags.Produce) ? 14 : 20;
                     }
 
                     break;
@@ -874,11 +847,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3181
     public void DeactivatePlugin()
     {
-        if (_aiGroupTask != null)
-        {
-            _aiGroupTask.Release();
-            _aiGroupTask = null;
-        }
+        _aiGroupTask?.Release();
+        _aiGroupTask = null;
     }
 
     // AIGroup.pas:3190
@@ -973,14 +943,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
             AIGroup group = GroupControl.Group;
-            if ((group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute) || group.GetMovesMin() >= target.MovePoints)
-            {
-                result = NearSuperiority;
-            }
-            else
-            {
-                result = Superiority;
-            }
+            result = (group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute) || group.GetMovesMin() >= target.MovePoints
+                ? NearSuperiority
+                : Superiority;
 
             if (GroupControl.Group.GetMovesMin() > 0)
             {
@@ -1027,16 +992,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3317
     public float GetRequiredBattleFieldSuperiority(AIGroupControlTarget target)
     {
-        float result;
-        if (AITargetLocation.At(target.Location) == GroupControl.Group.TargetMapCoordinate && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
-        {
-            result = CurrentBattleFieldFactor;
-        }
-        else
-        {
-            result = BattleFieldFactor;
-        }
-
+        float result = AITargetLocation.At(target.Location) == GroupControl.Group.TargetMapCoordinate && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute
+            ? CurrentBattleFieldFactor
+            : BattleFieldFactor;
         return (float)((double)result + Round((double)target.MovePoints * _battleFieldMoveFactor));
     }
 
@@ -1060,14 +1018,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         AIGroup group = GroupControl.Group;
-        if (group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute)
-        {
-            pathStrength = Round((double)target.PathStrength * CurrentPathStrengthFactor);
-        }
-        else
-        {
-            pathStrength = Round((double)target.PathStrength * PathStrengthFactor);
-        }
+        pathStrength = group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute
+            ? Round((double)target.PathStrength * CurrentPathStrengthFactor)
+            : Round((double)target.PathStrength * PathStrengthFactor);
 
         if (result < pathStrength)
         {
@@ -1145,15 +1098,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
             result = result && strength <= 0;
         }
 
-        if (required != null)
-        {
-            required.AddUnits(requiredUnits.Units);
-        }
+        required?.AddUnits(requiredUnits.Units);
 
-        if (optional != null)
-        {
-            optional.AddUnits(optionalUnits.Units);
-        }
+        optional?.AddUnits(optionalUnits.Units);
 
         optionalUnits?.Dispose();
         requiredUnits?.Dispose();

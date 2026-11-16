@@ -90,14 +90,7 @@ public partial class ArmyView : Army
     {
         int mask;
         mask = 1 << (player - 1);
-        if (value)
-        {
-            ConcealedForPlayers = (ushort)(ConcealedForPlayers | (ushort)mask);
-        }
-        else
-        {
-            ConcealedForPlayers = (ushort)(ConcealedForPlayers & ~(ushort)mask);
-        }
+        ConcealedForPlayers = value ? (ushort)(ConcealedForPlayers | (ushort)mask) : (ushort)(ConcealedForPlayers & ~(ushort)mask);
     }
 
     // Army.PAS:92
@@ -105,14 +98,7 @@ public partial class ArmyView : Army
     {
         int mask;
         mask = 1 << (player - 1);
-        if (value)
-        {
-            UnitConcealment[index] = (ushort)(UnitConcealment[index] | (ushort)mask);
-        }
-        else
-        {
-            UnitConcealment[index] = (ushort)(UnitConcealment[index] & ~(ushort)mask);
-        }
+        UnitConcealment[index] = value ? (ushort)(UnitConcealment[index] | (ushort)mask) : (ushort)(UnitConcealment[index] & ~(ushort)mask);
     }
 
     // intf_P2_07.inc:445

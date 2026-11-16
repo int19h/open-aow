@@ -116,10 +116,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     protected override void OnChange()
     {
         base.OnChange();
-        if (OnChanged != null)
-        {
-            OnChanged(this);
-        }
+        OnChanged?.Invoke(this);
     }
 
     // Hero.PAS:286

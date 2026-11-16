@@ -27,9 +27,7 @@ public partial class Bridge : AbstractRoad
     // Bridge.pas:53
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         ((Resource)base.Resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
@@ -43,10 +41,7 @@ public partial class Bridge : AbstractRoad
         MapField oldOwner;
         mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
-        if (oldRoad != null)
-        {
-            oldRoad.Dispose();
-        }
+        oldRoad?.Dispose();
 
         oldOwner = Owner;
         Owner = mapField;
@@ -217,14 +212,7 @@ public partial class Bridge : AbstractRoad
                 {
                     if (hexNumber != start && shore == sides[hexNumber - 1])
                     {
-                        if (hexNumber != maxSide)
-                        {
-                            sides[hexNumber - 1] = 0;
-                        }
-                        else
-                        {
-                            sides[hexNumber - 1] = 2;
-                        }
+                        sides[hexNumber - 1] = hexNumber != maxSide ? (byte)0 : (byte)2;
                     }
                 }
             }
@@ -334,12 +322,7 @@ public partial class Bridge : AbstractRoad
         // Bridge.pas:253
         public override EditorClass Editor()
         {
-            EditorClass result = Engine.Editors.FindEditor(131445);
-            if (result == null)
-            {
-                result = base.Editor();
-            }
-
+            EditorClass result = Engine.Editors.FindEditor(131445) ?? base.Editor();
             return result;
         }
 
