@@ -285,15 +285,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public sbyte GetPlayer() => Player;
 
     // Army.PAS:1874
-    public virtual MapCoordinate GetLocation()
-    {
-        if (Status.Contains(ArmyStatusElement.Activated))
-        {
-            return Location;
-        }
-
-        return MapCoordinate.None;
-    }
+    public virtual MapCoordinate GetLocation() => Status.Contains(ArmyStatusElement.Activated) ? Location : MapCoordinate.None;
 
     // Army.PAS:1719
     public virtual bool CanAddUnit(Troop troop)
@@ -328,23 +320,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // Army.PAS:1836
     public virtual bool CanDeleteUnit(Troop troop)
     {
-        bool result;
-        if (IndexOfTransporter(255) != -1)
-        {
-            if (troop.GetTransporter() && UnitsInTransporter() != 0)
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = IndexOfTransporter(255) == -1 || !troop.GetTransporter() || UnitsInTransporter() == 0;
         return result;
     }
 
@@ -493,14 +469,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             troop = Units[i];
-            if (troop.Group != null)
-            {
-                behavior = troop.Group.GroupClass.Behavior;
-            }
-            else
-            {
-                behavior = GroupBehavior.Passive;
-            }
+            behavior = troop.Group != null ? troop.Group.GroupClass.Behavior : GroupBehavior.Passive;
 
             // A default collection has no holder and counts every troop, as a missing list did.
             includeUnit = info.Units.Holder is null || info.Units.IndexOf(troop) == -1;
@@ -565,14 +534,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (i != Units.Count)
-        {
-            result = Units[i].UnitId;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = i != Units.Count ? Units[i].UnitId : 0;
 
         return result;
     }
@@ -650,14 +612,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         GroupBehavior result;
         AIGroup group;
         group = GetGroup(selection);
-        if (group != null)
-        {
-            result = group.GroupClass.Behavior;
-        }
-        else
-        {
-            result = GroupBehavior.None;
-        }
+        result = group != null ? group.GroupClass.Behavior : GroupBehavior.None;
 
         return result;
     }
@@ -728,28 +683,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             behavior = OldAIBehavior;
             if (behavior == GroupBehavior.None)
             {
-                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off)
-                {
-                    if (Location.X != -1 && StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
-                    {
-                        if (IndependentRelation >= 0)
-                        {
-                            behavior = GroupBehavior.Patrol;
-                        }
-                        else
-                        {
-                            behavior = GroupBehavior.GuardArea;
-                        }
-                    }
-                    else
-                    {
-                        behavior = GroupBehavior.Passive;
-                    }
-                }
-                else
-                {
-                    behavior = StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
-                }
+                behavior = Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off
+                    ? Location.X != -1 && StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null
+                        ? IndependentRelation >= 0 ? GroupBehavior.Patrol : GroupBehavior.GuardArea
+                        : GroupBehavior.Passive
+                    : StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
             }
 
             SetBehavior(selection, behavior);
@@ -786,14 +724,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 {
                     if (StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
-                        if (IndependentRelation >= 0)
-                        {
-                            behavior = GroupBehavior.Patrol;
-                        }
-                        else
-                        {
-                            behavior = GroupBehavior.GuardArea;
-                        }
+                        behavior = IndependentRelation >= 0 ? GroupBehavior.Patrol : GroupBehavior.GuardArea;
                     }
                 }
             }
@@ -844,14 +775,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         x = coordinate26.X;
         y = coordinate26.Y;
         l = coordinate26.MapLevel;
-        if (x != -1)
-        {
-            result = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
-        }
-        else
-        {
-            result = null;
-        }
+        result = x != -1 ? StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
 
         return result;
     }
@@ -868,14 +792,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         if (value != Status.Contains(ArmyStatusElement.FullyConcealed))
         {
-            if (value)
-            {
-                Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
-            }
-            else
-            {
-                Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
-            }
+            Status = value
+                ? Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed)
+                : Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
 
             if (Status.Contains(ArmyStatusElement.Activated) && Location.X != -1)
             {
@@ -896,14 +815,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         bool showCrown;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (ConcealedUnits != 0 && StrategicMap.Current.SeatedPlayer != Player && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
-            {
-                concealed = GetConcealedForPlayer(StrategicMap.Current.SeatedPlayer);
-            }
-            else
-            {
-                concealed = false;
-            }
+            concealed = ConcealedUnits != 0 && StrategicMap.Current.SeatedPlayer != Player && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && GetConcealedForPlayer(StrategicMap.Current.SeatedPlayer);
 
             leader = Leader(255);
             showCrown = leader != null;
@@ -917,25 +829,15 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             }
 
             changed = false;
-            if (showCrown)
-            {
-                Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
-            }
-            else
-            {
-                Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
-            }
+            Status = showCrown
+                ? Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown)
+                : Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
 
             if (concealed != Status.Contains(ArmyStatusElement.Concealed))
             {
-                if (concealed)
-                {
-                    Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
-                }
-                else
-                {
-                    Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
-                }
+                Status = concealed
+                    ? Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed)
+                    : Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
 
                 changed = true;
             }
@@ -1268,10 +1170,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
             StrategicMap.Current.NotifyArmyChanged(this);
-            if (OnUpdate != null)
-            {
-                OnUpdate(this);
-            }
+            OnUpdate?.Invoke(this);
         }
     }
 
@@ -1395,14 +1294,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         bool result;
         selection = ValidateSelection(selection);
-        if (selection == (ConcealedUnits & selection))
-        {
-            result = GetConcealedForPlayer(player);
-        }
-        else
-        {
-            result = false;
-        }
+        result = selection == (ConcealedUnits & selection) && GetConcealedForPlayer(player);
 
         return result;
     }
@@ -1633,14 +1525,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         {
                             if (!moves.Contains(MoveType.Flying))
                             {
-                                if (moves.Contains(MoveType.Swimming))
-                                {
-                                    moveType = (int)MoveType.Swimming;
-                                }
-                                else
-                                {
-                                    moveType = (int)MoveType.Walking;
-                                }
+                                moveType = moves.Contains(MoveType.Swimming) ? (int)MoveType.Swimming : (int)MoveType.Walking;
                             }
                         }
                         else
@@ -2056,14 +1941,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         int range;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
-            {
-                range = VisibilityRange();
-            }
-            else
-            {
-                range = 0;
-            }
+            range = StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+                ? VisibilityRange()
+                : 0;
 
             if (range != _unfogRange)
             {
@@ -2129,14 +2009,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     }
                 }
 
-                if (units.Count + Units.Count <= transport.GetTransportCapacity() + 1)
-                {
-                    result = AddUnitsResult.Ok;
-                }
-                else
-                {
-                    result = AddUnitsResult.TooManyUnits;
-                }
+                result = units.Count + Units.Count <= transport.GetTransportCapacity() + 1 ? AddUnitsResult.Ok : AddUnitsResult.TooManyUnits;
             }
             else
             {
@@ -2152,14 +2025,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         }
                     }
 
-                    if (i != units.Count)
-                    {
-                        result = AddUnitsResult.InvalidMoveType;
-                    }
-                    else
-                    {
-                        result = AddUnitsResult.Ok;
-                    }
+                    result = i != units.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
                 }
                 else
                 {
@@ -2232,14 +2098,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
                 int count = Units.Count;
                 byte transportCapacity = transport.GetTransportCapacity();
-                if (list.Count + count <= transportCapacity + 1)
-                {
-                    result = AddUnitsResult.Ok;
-                }
-                else
-                {
-                    result = AddUnitsResult.TooManyUnits;
-                }
+                result = list.Count + count <= transportCapacity + 1 ? AddUnitsResult.Ok : AddUnitsResult.TooManyUnits;
             }
             else
             {
@@ -2252,14 +2111,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                         i += 1;
                     }
 
-                    if (i != list.Count)
-                    {
-                        result = AddUnitsResult.InvalidMoveType;
-                    }
-                    else
-                    {
-                        result = AddUnitsResult.Ok;
-                    }
+                    result = i != list.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
                 }
                 else
                 {
@@ -2540,14 +2392,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             while (valid && i != 0)
             {
                 i -= 1;
-                if (!Units[i].GetAbilityEnabled(107))
-                {
-                    unitRace = Units[i].GetRace();
-                }
-                else
-                {
-                    unitRace = -1;
-                }
+                unitRace = !Units[i].GetAbilityEnabled(107) ? Units[i].GetRace() : -1;
 
                 if (unitRace != -1 && unitRace != race)
                 {
@@ -2623,21 +2468,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
                 }
 
-                if (good && !evil)
-                {
-                    IndependentRelation = -2;
-                }
-                else
-                {
-                    if (evil && !good)
-                    {
-                        IndependentRelation = -4;
-                    }
-                    else
-                    {
-                        IndependentRelation = -3;
-                    }
-                }
+                IndependentRelation = good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
             }
             else
             {
@@ -2684,14 +2515,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         }
 
         log.Description = AbilityRules.TranslateResourceString(GetEngine(), s_leaderOfPartyStepsForwardText);
-        if (count == 1)
-        {
-            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitDesertedText);
-        }
-        else
-        {
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsDesertedFormat), [IntToStr(count)]);
-        }
+        log.Text = count == 1
+            ? AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitDesertedText)
+            : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsDesertedFormat), [IntToStr(count)]);
 
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems == 0 && StrategicMap.Current.Players.GetPlayers(Player).GetUpkeep() > StrategicMap.Current.Players.GetPlayers(Player).Income)
         {
@@ -2819,35 +2645,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (predictor.Execute() == CombatResult.Defeat)
-        {
-            if (predictor.GetSuperiority() < 50)
-            {
-                result = PartyStatus.Unruly;
-            }
-            else
-            {
-                result = PartyStatus.Unrest;
-            }
-        }
-        else
-        {
-            if (count == 0 || morale <= 60)
-            {
-                result = PartyStatus.Stable;
-            }
-            else
-            {
-                if (morale <= 80)
-                {
-                    result = PartyStatus.Content;
-                }
-                else
-                {
-                    result = PartyStatus.Cheerful;
-                }
-            }
-        }
+        result = predictor.Execute() == CombatResult.Defeat
+            ? predictor.GetSuperiority() < 50 ? PartyStatus.Unruly : PartyStatus.Unrest
+            : count == 0 || morale <= 60 ? PartyStatus.Stable : morale <= 80 ? PartyStatus.Content : PartyStatus.Cheerful;
 
         predictor?.Dispose();
         return result;
@@ -2864,14 +2664,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             status = GetPartyStatus(255);
             if (Set<PartyStatus>.Of(PartyStatus.Unruly, PartyStatus.Unrest).Contains(status))
             {
-                if (status == PartyStatus.Unrest)
-                {
-                    chance = 10;
-                }
-                else
-                {
-                    chance = 50;
-                }
+                chance = status == PartyStatus.Unrest ? 10 : 50;
 
                 if (chance > StrategicMap.Current.Random(100))
                 {
@@ -2990,26 +2783,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 if (!Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
-                    if (Player == 0 && GetJoinSelection(player) != 0)
-                    {
-                        result = MoveAction.Negotiate;
-                    }
-                    else
-                    {
-                        result = MoveAction.Attack;
-                    }
+                    result = Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
                 }
             }
             else
             {
-                if (Player == 0 && GetJoinSelection(player) != 0)
-                {
-                    result = MoveAction.Negotiate;
-                }
-                else
-                {
-                    result = MoveAction.Attack;
-                }
+                result = Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
             }
         }
         else
@@ -3443,28 +3222,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 {
                     if (Player > 0)
                     {
-                        if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, IndependentRelation) || info.Mode == AITargetMode.Raid)
-                        {
-                            if (info.Player != 0 && Leader(255) != null)
-                            {
-                                data.Priority = 300;
-                            }
-                            else
-                            {
-                                if (info.Player != 0 && Hero(255, Set<HeroType>.Of(HeroType.Hero)) != null)
-                                {
-                                    data.Priority = 100;
-                                }
-                                else
-                                {
-                                    data.Priority = 50;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            data.Priority = 0;
-                        }
+                        data.Priority = AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, IndependentRelation) || info.Mode == AITargetMode.Raid
+                            ? info.Player != 0 && Leader(255) != null
+                                ? 300
+                                : info.Player != 0 && Hero(255, Set<HeroType>.Of(HeroType.Hero)) != null ? 100 : 50
+                            : 0;
                     }
                     else
                     {
@@ -3490,14 +3252,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
                 break;
             case AITargetMode.GuardArea:
-                if (!GetUnitsConcealedForPlayer(255, info.Player) && info.Player != Player)
-                {
-                    data.Priority = 50;
-                }
-                else
-                {
-                    data.Priority = 0;
-                }
+                data.Priority = !GetUnitsConcealedForPlayer(255, info.Player) && info.Player != Player ? 50 : 0;
 
                 break;
             case AITargetMode.Hunt:
@@ -3565,27 +3320,13 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         }
 
         ownTransporter = Transporter(255);
-        if (ownTransporter != null)
-        {
-            maxCount = ownTransporter.GetTransportCapacity() + 1;
-        }
-        else
-        {
-            maxCount = 8;
-        }
+        maxCount = ownTransporter != null ? ownTransporter.GetTransportCapacity() + 1 : 8;
 
         i += Units.Count;
         if (i <= maxCount)
         {
             otherTransporter = army.Transporter(selection);
-            if (otherTransporter != null && (i > otherTransporter.GetTransportCapacity() + 1 || ownTransporter != null))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = otherTransporter == null || (i <= otherTransporter.GetTransportCapacity() + 1 && ownTransporter == null);
         }
         else
         {

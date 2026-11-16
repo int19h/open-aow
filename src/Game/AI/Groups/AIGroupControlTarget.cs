@@ -65,17 +65,9 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     public virtual bool Validate(AIGroupControl control)
     {
         bool result;
-        AITargetData data = default;
         sbyte x;
         x = Location.X;
-        if (x != -1)
-        {
-            result = StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, out data);
-        }
-        else
-        {
-            result = false;
-        }
+        result = x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, out AITargetData data);
 
         return result;
     }

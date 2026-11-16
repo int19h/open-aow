@@ -66,10 +66,10 @@ public partial class HeroUpgradeDialog : ILayoutModule
         cancelBtn.Priority = 250;
         cancelBtn.WinLeft = 219;
         cancelBtn.WinTop = 395;
-        cancelBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        cancelBtn.LayoutToolTipText =
+        [
             "Cancels upgrading the hero."
-        };
+        ];
         cancelBtn.CaptureInput = true;
         cancelBtn.Alignment.AlignWidth = AlignWidth.Both;
         cancelBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -128,10 +128,10 @@ public partial class HeroUpgradeDialog : ILayoutModule
         done.Priority = 250;
         done.WinLeft = 53;
         done.WinTop = 395;
-        done.LayoutToolTipText = new LayoutStrings()
-        {
+        done.LayoutToolTipText =
+        [
             "Upgrades the hero to the selected settings."
-        };
+        ];
         done.CaptureInput = true;
         done.Alignment.AlignWidth = AlignWidth.Both;
         done.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -186,10 +186,10 @@ public partial class HeroUpgradeDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 372;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -734,10 +734,10 @@ public partial class HeroUpgradeDialog : ILayoutModule
         addAbilityBtn.Priority = 100;
         addAbilityBtn.WinLeft = 199;
         addAbilityBtn.WinTop = 125;
-        addAbilityBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        addAbilityBtn.LayoutToolTipText =
+        [
             "Adds the selected ability"
-        };
+        ];
         addAbilityBtn.CaptureInput = true;
         addAbilityBtn.Alignment.AlignWidth = AlignWidth.Both;
         addAbilityBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -769,10 +769,10 @@ public partial class HeroUpgradeDialog : ILayoutModule
         removeBtn.Priority = 100;
         removeBtn.WinLeft = 20;
         removeBtn.WinTop = 125;
-        removeBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        removeBtn.LayoutToolTipText =
+        [
             "Removes the selected ability."
-        };
+        ];
         removeBtn.CaptureInput = true;
         removeBtn.Alignment.AlignWidth = AlignWidth.Both;
         removeBtn.Alignment.AlignHeight = AlignHeight.Bottom;

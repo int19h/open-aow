@@ -54,10 +54,8 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     // Structur.PAS:4524
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         sbyte hexY = HexY;
-        HexGeometry.HexToPixel(HexX, hexY, out x, out y);
+        HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 16;
         y = y - pixelYSurface + 16;
         sbyte hexX = HexX;

@@ -206,10 +206,10 @@ public partial class ScenarioSetup : ILayoutModule
         PlayerList.Priority = 0;
         PlayerList.WinLeft = 0;
         PlayerList.WinTop = 15;
-        PlayerList.LayoutToolTipText = new LayoutStrings()
-        {
+        PlayerList.LayoutToolTipText =
+        [
             ""
-        };
+        ];
         PlayerList.CaptureInput = true;
         PlayerList.Alignment.AlignWidth = AlignWidth.Left;
         PlayerList.Alignment.AlignHeight = AlignHeight.Both;
@@ -245,10 +245,10 @@ public partial class ScenarioSetup : ILayoutModule
         EjectButton.Priority = 0;
         EjectButton.WinLeft = 85;
         EjectButton.WinTop = 103;
-        EjectButton.LayoutToolTipText = new LayoutStrings()
-        {
+        EjectButton.LayoutToolTipText =
+        [
             "Eject the selected player."
-        };
+        ];
         EjectButton.CaptureInput = true;
         EjectButton.Alignment.AlignWidth = AlignWidth.Right;
         EjectButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -627,10 +627,10 @@ public partial class ScenarioSetup : ILayoutModule
         exitGame.Priority = 99980;
         exitGame.WinLeft = 10;
         exitGame.WinTop = 372;
-        exitGame.LayoutToolTipText = new LayoutStrings()
-        {
+        exitGame.LayoutToolTipText =
+        [
             "Aborts the current game."
-        };
+        ];
         exitGame.CaptureInput = true;
         exitGame.Alignment.AlignWidth = AlignWidth.Both;
         exitGame.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -662,10 +662,10 @@ public partial class ScenarioSetup : ILayoutModule
         PickScenarioButton.Priority = 99980;
         PickScenarioButton.WinLeft = 10;
         PickScenarioButton.WinTop = 345;
-        PickScenarioButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PickScenarioButton.LayoutToolTipText =
+        [
             "Opens the scenario-selection dialog, to pick a new map."
-        };
+        ];
         PickScenarioButton.CaptureInput = true;
         PickScenarioButton.Alignment.AlignWidth = AlignWidth.Both;
         PickScenarioButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -697,10 +697,10 @@ public partial class ScenarioSetup : ILayoutModule
         StartButton.Priority = 99980;
         StartButton.WinLeft = 10;
         StartButton.WinTop = 399;
-        StartButton.LayoutToolTipText = new LayoutStrings()
-        {
+        StartButton.LayoutToolTipText =
+        [
             "Starts the game, using the current settings."
-        };
+        ];
         StartButton.CaptureInput = true;
         StartButton.Alignment.AlignWidth = AlignWidth.Both;
         StartButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -945,10 +945,10 @@ public partial class ScenarioSetup : ILayoutModule
         turnsLbl.Priority = 100;
         turnsLbl.WinLeft = 15;
         turnsLbl.WinTop = 105;
-        turnsLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        turnsLbl.LayoutToolTipText =
+        [
             "Sets the game's time limit to be in minutes."
-        };
+        ];
         turnsLbl.CaptureInput = true;
         turnsLbl.Alignment.AlignWidth = AlignWidth.Left;
         turnsLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -972,10 +972,10 @@ public partial class ScenarioSetup : ILayoutModule
         turnTimeLbl.Priority = 100;
         turnTimeLbl.WinLeft = 15;
         turnTimeLbl.WinTop = 75;
-        turnTimeLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        turnTimeLbl.LayoutToolTipText =
+        [
             "Sets the game's time limit to be in turns."
-        };
+        ];
         turnTimeLbl.CaptureInput = true;
         turnTimeLbl.Alignment.AlignWidth = AlignWidth.Left;
         turnTimeLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -999,10 +999,10 @@ public partial class ScenarioSetup : ILayoutModule
         TurnTimeSlider.Priority = 100;
         TurnTimeSlider.WinLeft = 15;
         TurnTimeSlider.WinTop = 87;
-        TurnTimeSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        TurnTimeSlider.LayoutToolTipText =
+        [
             "Sets the time limit on each player's turn."
-        };
+        ];
         TurnTimeSlider.CaptureInput = true;
         TurnTimeSlider.Alignment.AlignWidth = AlignWidth.Left;
         TurnTimeSlider.Alignment.AlignHeight = AlignHeight.Top;
@@ -1040,10 +1040,10 @@ public partial class ScenarioSetup : ILayoutModule
         TurnTimeValueLabel.Priority = 100;
         TurnTimeValueLabel.WinLeft = 70;
         TurnTimeValueLabel.WinTop = 87;
-        TurnTimeValueLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        TurnTimeValueLabel.LayoutToolTipText =
+        [
             "Sets the time limit on each player's turn."
-        };
+        ];
         TurnTimeValueLabel.CaptureInput = true;
         TurnTimeValueLabel.Alignment.AlignWidth = AlignWidth.Left;
         TurnTimeValueLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1094,10 +1094,10 @@ public partial class ScenarioSetup : ILayoutModule
         TurnsSlider.Priority = 100;
         TurnsSlider.WinLeft = 15;
         TurnsSlider.WinTop = 116;
-        TurnsSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        TurnsSlider.LayoutToolTipText =
+        [
             "Sets the limit on the length of the game."
-        };
+        ];
         TurnsSlider.CaptureInput = true;
         TurnsSlider.Alignment.AlignWidth = AlignWidth.Left;
         TurnsSlider.Alignment.AlignHeight = AlignHeight.Top;
@@ -1135,10 +1135,10 @@ public partial class ScenarioSetup : ILayoutModule
         TurnsValueLabel.Priority = 100;
         TurnsValueLabel.WinLeft = 70;
         TurnsValueLabel.WinTop = 117;
-        TurnsValueLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        TurnsValueLabel.LayoutToolTipText =
+        [
             "Sets the limit on the length of the game."
-        };
+        ];
         TurnsValueLabel.CaptureInput = true;
         TurnsValueLabel.Alignment.AlignWidth = AlignWidth.Left;
         TurnsValueLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -4338,11 +4338,11 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceComboBox.Alignment.BottomOffset = 104;
         PreferredRaceComboBox.Masked = false;
         PreferredRaceComboBox.WinWidth = 114;
-        PreferredRaceComboBox.LayoutItems = new LayoutStrings()
-        {
+        PreferredRaceComboBox.LayoutItems =
+        [
             "Humans",
             "Lizards"
-        };
+        ];
         PreferredRaceComboBox.BorderWidth = 10;
         PreferredRaceComboBox.BorderHeight = 4;
         PreferredRaceComboBox.ListBorderWidth = 6;
@@ -4452,10 +4452,10 @@ public partial class ScenarioSetup : ILayoutModule
         CustomizeLeadersCheckBox.Priority = 100;
         CustomizeLeadersCheckBox.WinLeft = 15;
         CustomizeLeadersCheckBox.WinTop = 177;
-        CustomizeLeadersCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        CustomizeLeadersCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not players can customize their Leader before play begins."
-        };
+        ];
         CustomizeLeadersCheckBox.CaptureInput = true;
         CustomizeLeadersCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         CustomizeLeadersCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -4488,10 +4488,10 @@ public partial class ScenarioSetup : ILayoutModule
         CustomizeLeadersLabel.Priority = 100;
         CustomizeLeadersLabel.WinLeft = 30;
         CustomizeLeadersLabel.WinTop = 179;
-        CustomizeLeadersLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        CustomizeLeadersLabel.LayoutToolTipText =
+        [
             "Selects whether or not players can customize their Leader before play begins."
-        };
+        ];
         CustomizeLeadersLabel.CaptureInput = true;
         CustomizeLeadersLabel.Alignment.AlignWidth = AlignWidth.Left;
         CustomizeLeadersLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -4986,10 +4986,10 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceList.Priority = 2;
         PreferredRaceList.WinLeft = 95;
         PreferredRaceList.WinTop = 15;
-        PreferredRaceList.LayoutToolTipText = new LayoutStrings()
-        {
+        PreferredRaceList.LayoutToolTipText =
+        [
             ""
-        };
+        ];
         PreferredRaceList.CaptureInput = true;
         PreferredRaceList.Alignment.AlignWidth = AlignWidth.Left;
         PreferredRaceList.Alignment.AlignHeight = AlignHeight.Both;
@@ -5154,10 +5154,10 @@ public partial class ScenarioSetup : ILayoutModule
         explorationLbl.Priority = 100;
         explorationLbl.WinLeft = 30;
         explorationLbl.WinTop = 209;
-        explorationLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        explorationLbl.LayoutToolTipText =
+        [
             "Selects whether the map is hidden when play begins, or all areas are immediately visible."
-        };
+        ];
         explorationLbl.CaptureInput = true;
         explorationLbl.Alignment.AlignWidth = AlignWidth.Left;
         explorationLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -5181,10 +5181,10 @@ public partial class ScenarioSetup : ILayoutModule
         ExplorationCheckBox.Priority = 100;
         ExplorationCheckBox.WinLeft = 15;
         ExplorationCheckBox.WinTop = 207;
-        ExplorationCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ExplorationCheckBox.LayoutToolTipText =
+        [
             "Selects whether the map is hidden when play begins, or all areas are immediately visible."
-        };
+        ];
         ExplorationCheckBox.CaptureInput = true;
         ExplorationCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         ExplorationCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -5396,10 +5396,10 @@ public partial class ScenarioSetup : ILayoutModule
         LeadersOnMapCheckBox.Priority = 100;
         LeadersOnMapCheckBox.WinLeft = 15;
         LeadersOnMapCheckBox.WinTop = 162;
-        LeadersOnMapCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        LeadersOnMapCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not Leaders are represented by units on the game map."
-        };
+        ];
         LeadersOnMapCheckBox.CaptureInput = true;
         LeadersOnMapCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         LeadersOnMapCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -5432,10 +5432,10 @@ public partial class ScenarioSetup : ILayoutModule
         label1.Priority = 100;
         label1.WinLeft = 30;
         label1.WinTop = 164;
-        label1.LayoutToolTipText = new LayoutStrings()
-        {
+        label1.LayoutToolTipText =
+        [
             "Selects whether or not Leaders are represented by units on the game map."
-        };
+        ];
         label1.CaptureInput = true;
         label1.Alignment.AlignWidth = AlignWidth.Left;
         label1.Alignment.AlignHeight = AlignHeight.Top;
@@ -5459,10 +5459,10 @@ public partial class ScenarioSetup : ILayoutModule
         AlliedVictoryCheckBox.Priority = 100;
         AlliedVictoryCheckBox.WinLeft = 15;
         AlliedVictoryCheckBox.WinTop = 192;
-        AlliedVictoryCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AlliedVictoryCheckBox.LayoutToolTipText =
+        [
             "Selects whether allies can have a joint victory, or only one player can win the game."
-        };
+        ];
         AlliedVictoryCheckBox.CaptureInput = true;
         AlliedVictoryCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AlliedVictoryCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -5495,10 +5495,10 @@ public partial class ScenarioSetup : ILayoutModule
         AlliedVictoryLabel.Priority = 100;
         AlliedVictoryLabel.WinLeft = 30;
         AlliedVictoryLabel.WinTop = 194;
-        AlliedVictoryLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        AlliedVictoryLabel.LayoutToolTipText =
+        [
             "Selects whether allies can have a joint victory, or only one player can win the game."
-        };
+        ];
         AlliedVictoryLabel.CaptureInput = true;
         AlliedVictoryLabel.Alignment.AlignWidth = AlignWidth.Left;
         AlliedVictoryLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -5627,10 +5627,10 @@ public partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatCheckBox.Priority = 10001;
         AlwaysViewTacticalCombatCheckBox.WinLeft = 15;
         AlwaysViewTacticalCombatCheckBox.WinTop = 270;
-        AlwaysViewTacticalCombatCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AlwaysViewTacticalCombatCheckBox.LayoutToolTipText =
+        [
             "Selects whether or not Leaders are represented by units on the game map."
-        };
+        ];
         AlwaysViewTacticalCombatCheckBox.CaptureInput = true;
         AlwaysViewTacticalCombatCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AlwaysViewTacticalCombatCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -5663,10 +5663,10 @@ public partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatLabel.Priority = 10001;
         AlwaysViewTacticalCombatLabel.WinLeft = 30;
         AlwaysViewTacticalCombatLabel.WinTop = 272;
-        AlwaysViewTacticalCombatLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        AlwaysViewTacticalCombatLabel.LayoutToolTipText =
+        [
             "Selects whether or not Leaders are represented by units on the game map."
-        };
+        ];
         AlwaysViewTacticalCombatLabel.CaptureInput = true;
         AlwaysViewTacticalCombatLabel.Alignment.AlignWidth = AlignWidth.Left;
         AlwaysViewTacticalCombatLabel.Alignment.AlignHeight = AlignHeight.Top;

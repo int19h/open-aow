@@ -99,10 +99,10 @@ public partial class TutorialWindow : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 125;
         close.WinTop = 211;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the Tutorial Window. You can reopen it by pressing F1 on the keyboard."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Center;
         close.Alignment.AlignHeight = AlignHeight.Bottom;

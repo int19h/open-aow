@@ -188,9 +188,7 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:171
     public void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
@@ -199,9 +197,7 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:182
     public void ShowOverlay(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out x, out y);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));

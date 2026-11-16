@@ -26,16 +26,9 @@ public partial class MovementAbility : AdjustableAbility
     // PassiveAb.pas:1422
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> result;
-        if (AbilityId == 1)
-        {
-            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
-        }
-        else
-        {
-            result = Set<WallCombatFeaturesElement>.Of();
-        }
-
+        Set<WallCombatFeaturesElement> result = AbilityId == 1
+            ? Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate)
+            : Set<WallCombatFeaturesElement>.Of();
         return result;
     }
 }

@@ -81,14 +81,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             LoadDiscardableImageData();
         }
 
-        if (value && !_reloadingEnabled)
-        {
-            throw new InvalidOperationException("Cannot turn on Reloading when disabled");
-        }
-        else
-        {
-            _reloadingEnabled = value;
-        }
+        _reloadingEnabled = value && !_reloadingEnabled ? throw new InvalidOperationException("Cannot turn on Reloading when disabled") : value;
     }
 
     // ImageLib.pas:1991

@@ -189,9 +189,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SpellControl.UnregisterAll();
         ItemLibraries?.Dispose();
         HeroLibraries?.Dispose();
-        EngineMessage message = default;
         _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
-        EngineMessage.InitializeMessage(out message, 66564, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 66564, this);
         if (_activatedEngine != null && _activatedEngine.ControlNode != null)
         {
             _activatedEngine.ControlNode.MessageProc(ref message, this);
@@ -318,8 +317,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // HSEngine.pas:3421
     public void Activate(bool edit)
     {
-        EngineMessage message = default;
-        EngineMessage.InitializeMessage(out message, 66560, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 66560, this);
         GetEngine().ControlNode.MessageProc(ref message, this);
         _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
         if (edit)

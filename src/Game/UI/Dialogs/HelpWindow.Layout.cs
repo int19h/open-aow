@@ -89,10 +89,10 @@ public partial class HelpWindow : ILayoutModule
         closeBtn.Priority = 0;
         closeBtn.WinLeft = 351;
         closeBtn.WinTop = 1;
-        closeBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        closeBtn.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         closeBtn.CaptureInput = true;
         closeBtn.Alignment.AlignWidth = AlignWidth.Right;
         closeBtn.Alignment.AlignHeight = AlignHeight.Top;

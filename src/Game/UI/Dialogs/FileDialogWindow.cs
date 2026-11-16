@@ -72,15 +72,9 @@ public partial class FileDialogWindow : UIModule
         eventValue = _saveEvent;
         Done = null;
         _saveEvent = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWFileDialog.pas:132
@@ -556,14 +550,9 @@ public partial class FileDialogWindow : UIModule
                 if (!IsEmpty(SaveFileNameEdit.Text))
                 {
                     // The default name shows the file the save writes (own-formats.md 4.2).
-                    if (UI.Engine.Campaign != null)
-                    {
-                        SaveFileNameEdit.Text = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.CampaignSave.OriginalExtension);
-                    }
-                    else
-                    {
-                        SaveFileNameEdit.Text = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.Save.OriginalExtension);
-                    }
+                    SaveFileNameEdit.Text = UI.Engine.Campaign != null
+                        ? FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.CampaignSave.OriginalExtension)
+                        : FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.Save.OriginalExtension);
                 }
 
                 FileNameEdit.Text = SaveFileNameEdit.Text;
@@ -767,44 +756,13 @@ public partial class FileDialogWindow : UIModule
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {
-        int result;
-        if (o1 == null && o2 == null)
-        {
-            result = CompareText(s1, s2);
-        }
-        else
-        {
-            if (o1 == null)
-            {
-                result = -1;
-            }
-            else
-            {
-                if (o2 == null)
-                {
-                    result = 1;
-                }
-                else
-                {
-                    if ((double)((FileTime)o2).Time > ((FileTime)o1).Time)
-                    {
-                        result = 1;
-                    }
-                    else
-                    {
-                        if ((double)((FileTime)o2).Time < ((FileTime)o1).Time)
-                        {
-                            result = -1;
-                        }
-                        else
-                        {
-                            result = 0;
-                        }
-                    }
-                }
-            }
-        }
-
+        int result = o1 == null && o2 == null
+            ? CompareText(s1, s2)
+            : o1 == null
+                ? -1
+                : o2 == null
+                    ? 1
+                    : (double)((FileTime)o2).Time > ((FileTime)o1).Time ? 1 : (double)((FileTime)o2).Time < ((FileTime)o1).Time ? -1 : 0;
         return result;
     }
 

@@ -29,7 +29,7 @@ public static class ImageLibraries
     public static void Initialize()
     {
         BaseImageLibraryPath = ExtractFilePath(RtlUnit.Application.ExeName);
-        LibraryImageClasses = new List<LibraryImageClass>();
+        LibraryImageClasses = [];
         RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>()]);
         RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
     }

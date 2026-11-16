@@ -100,10 +100,7 @@ public partial class TurnButton : Control
                         _frameOffset = 11;
                         _lastPlayer = _currentPlayer;
                         _animating = false;
-                        if (OnAnimationDone != null)
-                        {
-                            OnAnimationDone(this);
-                        }
+                        OnAnimationDone?.Invoke(this);
                     }
 
                     break;
@@ -177,17 +174,7 @@ public partial class TurnButton : Control
     }
 
     // TurnButton.pas:73
-    public virtual void SetImageLibrary(ImageLibrary value)
-    {
-        if (value != null)
-        {
-            _imageLibrary = value;
-        }
-        else
-        {
-            _imageLibrary = null;
-        }
-    }
+    public virtual void SetImageLibrary(ImageLibrary value) => _imageLibrary = value ?? null;
 
     [Published]
     public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }

@@ -59,14 +59,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
                         hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild(2228484);
-                        if (hexSprite == null)
-                        {
-                            PreviousUnit = null;
-                        }
-                        else
-                        {
-                            PreviousUnit = hexSprite.Unit;
-                        }
+                        PreviousUnit = hexSprite?.Unit;
 
                         if (PreviousUnit == null)
                         {
@@ -227,14 +220,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
                     break;
                 case TokenStep.End:
-                    if (Unit.UnitHexSprite.ActionDone)
-                    {
-                        result = MoveStatus.Done;
-                    }
-                    else
-                    {
-                        result = MoveStatus.Moving;
-                    }
+                    result = Unit.UnitHexSprite.ActionDone ? MoveStatus.Done : MoveStatus.Moving;
 
                     break;
             }
@@ -246,10 +232,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     _meleeRound?.Dispose();
                 }
 
-                if (Strike != null)
-                {
-                    Strike.Release();
-                }
+                Strike?.Release();
 
                 if (Unit.GetEnabled())
                 {
@@ -282,14 +265,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
         while (locked && _strikeIndex < _meleeRound.Count)
         {
             _meleeRound.GetMeleeStrike(_strikeIndex, out strike);
-            if (strike.Side == CombatSideIndex.Attacker)
-            {
-                locked = Unit.GetLocked();
-            }
-            else
-            {
-                locked = PreviousUnit.GetLocked();
-            }
+            locked = strike.Side == CombatSideIndex.Attacker ? Unit.GetLocked() : PreviousUnit.GetLocked();
 
             if (locked)
             {
@@ -312,15 +288,11 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
     // CombatTE.pas:602
     public void ExecuteStrike()
     {
-        MeleeRound.Strike strike = default;
-        if (Strike != null)
-        {
-            Strike.Release();
-        }
+        Strike?.Release();
 
         RandSeed = StrategicMap.Current.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
-        _meleeRound.GetMeleeStrike(_strikeIndex, out strike);
+        _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);
         if (strike.Side == CombatSideIndex.Attacker)
         {
             if (Strike.Damage == 0)

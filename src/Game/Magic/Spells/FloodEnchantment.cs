@@ -99,16 +99,7 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1276
     public override int GetUpkeep()
     {
-        int result;
-        if (!Removed)
-        {
-            result = base.GetUpkeep();
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = !Removed ? base.GetUpkeep() : 0;
         return result;
     }
 
@@ -140,14 +131,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         {
             DispelPlayer = (sbyte)player;
             Removed = true;
-            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
-            {
-                RestoreDays = 2;
-            }
-            else
-            {
-                RestoreDays = 1;
-            }
+            RestoreDays = StrategicMap.Current.PlayMode == PlayMode.Simultaneous ? (sbyte)2 : (sbyte)1;
 
             StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
             StrategicMap.Current.GlobalMagicControl.Update();
@@ -173,23 +157,9 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1260
     public int DaysBeforeActive()
     {
-        int result;
-        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2)
-        {
-            result = 2 - TurnsActive;
-        }
-        else
-        {
-            if (StrategicMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0)
-            {
-                result = 1;
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-
+        int result = StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2
+            ? 2 - TurnsActive
+            : StrategicMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0 ? 1 : 0;
         return result;
     }
 

@@ -22,16 +22,7 @@ public partial class UnitResourceList : ResourceCollection, IChildList<UnitResou
     // UnitRes.PAS:212
     public UnitResource GetUnitResource(int index)
     {
-        UnitResource result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        UnitResource result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

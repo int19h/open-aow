@@ -341,10 +341,7 @@ public partial class AIMoveControl : EngineObject
         AIMoveControlSettings oldSettings;
         Troop transporter;
         oldSettings = Settings;
-        if (oldSettings != null)
-        {
-            oldSettings.Release();
-        }
+        oldSettings?.Release();
 
         Settings = settings;
         if (Settings != null)

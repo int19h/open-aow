@@ -60,10 +60,7 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
         else
         {
             StrategicMap.Current.ExecuteExitGame();
-            if (ExitCallback != null)
-            {
-                ExitCallback(ExitMode, true);
-            }
+            ExitCallback?.Invoke(ExitMode, true);
         }
 
         return ExecuteResult.Done;

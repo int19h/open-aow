@@ -46,14 +46,7 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
             i += 1;
         }
 
-        if (found)
-        {
-            result = this[i - 1];
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? this[i - 1] : null;
 
         return result;
     }

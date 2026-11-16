@@ -151,16 +151,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:1962
     public bool GetCheatEnabled()
     {
-        bool result;
-        if (Player.PlayerType == PlayerType.Human)
-        {
-            result = CheatEnabled;
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = Player.PlayerType == PlayerType.Human && CheatEnabled;
         return result;
     }
 
@@ -323,14 +314,7 @@ public partial class PlayerMagicControl : EngineObject
         int manaIncome = GetManaIncome();
         int manaUpkeep = GetManaUpkeep();
         balance = Mana + manaIncome - manaUpkeep;
-        if (balance < 0 && GetManaUpkeep() != 0)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = balance >= 0 || GetManaUpkeep() == 0;
 
         return result;
     }
@@ -736,16 +720,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2311
     public bool ExecuteDispelEnchantment(int index)
     {
-        bool result;
-        if (index < Enchantments.GetCount())
-        {
-            result = Enchantments.GetEnchantments(index).Dispel();
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = index < Enchantments.GetCount() && Enchantments.GetEnchantments(index).Dispel();
         return result;
     }
 
@@ -814,14 +789,7 @@ public partial class PlayerMagicControl : EngineObject
         if (Spells.IndexOf(spellId) == -1 && spellId != ResearchSpellId)
         {
             ResearchSpellId = spellId;
-            if (spellId != 0)
-            {
-                ResearchPointsLeft = GamePack.Current.SpellControl.GetSpell(spellId).ResearchCost;
-            }
-            else
-            {
-                ResearchPointsLeft = 0;
-            }
+            ResearchPointsLeft = spellId != 0 ? GamePack.Current.SpellControl.GetSpell(spellId).ResearchCost : 0;
 
             Update();
             result = true;

@@ -158,10 +158,10 @@ public partial class CampaignJoinDialog : ILayoutModule
         leaderTypeMsg.Masked = true;
         leaderTypeMsg.WinWidth = 380;
         leaderTypeMsg.WinHeight = 65;
-        leaderTypeMsg.LayoutItems = new LayoutStrings()
-        {
+        leaderTypeMsg.LayoutItems =
+        [
             "Do you wish to start with a default leader or custom made character?"
-        };
+        ];
         leaderTypeMsg.BorderWidth = 20;
         leaderTypeMsg.BorderHeight = 0;
         leaderTypeMsg.TextColor = 16777215;

@@ -11,16 +11,7 @@ public partial class TacticalBattlePlayerList
     // AoWTC.pas:6426
     public int GetCount()
     {
-        int result;
-        if (Players != null)
-        {
-            result = Players.GetCount();
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = Players != null ? Players.GetCount() : 0;
         return result;
     }
 

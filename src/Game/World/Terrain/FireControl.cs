@@ -11,7 +11,7 @@ public partial class FireControl : IDisposable
 {
     // Structur.PAS:3720
     // Resources
-    public FireControl() => _resources = new List<Fire.Resource>();
+    public FireControl() => _resources = [];
 
     private readonly List<Fire.Resource> _resources;
 
@@ -23,7 +23,7 @@ public partial class FireControl : IDisposable
     {
         Fire.Resource result;
         List<Fire.Resource> resources;
-        resources = new List<Fire.Resource>();
+        resources = [];
         for (int i = 0, last = _resources.Count - 1; i <= last; i++)
         {
             if (_resources[i].FireType == fireType)
@@ -32,14 +32,7 @@ public partial class FireControl : IDisposable
             }
         }
 
-        if (resources.Count != 0)
-        {
-            result = resources[Random(resources.Count)];
-        }
-        else
-        {
-            result = null;
-        }
+        result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
 
         resources?.Clear();
         return result;

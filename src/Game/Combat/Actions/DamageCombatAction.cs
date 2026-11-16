@@ -66,14 +66,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         int duration;
         int effectFrames;
         CombatObject target;
-        if (viewer.Delay < 5)
-        {
-            hitFrame = viewer.Delay;
-        }
-        else
-        {
-            hitFrame = 5;
-        }
+        hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
 
         if (hitFrame == viewer.Time)
         {
@@ -121,14 +114,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
         else
         {
-            if (viewer.Delay < 5)
-            {
-                hitFrame = viewer.Delay;
-            }
-            else
-            {
-                hitFrame = 5;
-            }
+            hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
 
             if (objectValue.Id == TargetId && DamageDone != 0 && hitFrame <= viewer.Time)
             {
@@ -274,43 +260,23 @@ public partial class DamageCombatAction : SingleTargetCombatAction
 
     private static DamageType DamageTypesToDamageType(Set<DamageType> damageTypes)
     {
-        if (damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
-        {
-            if (damageTypes.Contains(DamageType.Holy))
-            {
-                return DamageType.Holy;
-            }
-            if (damageTypes.Contains(DamageType.Magic))
-            {
-                return DamageType.Magic;
-            }
-            if (damageTypes.Contains(DamageType.Death))
-            {
-                return DamageType.Death;
-            }
-            if (damageTypes.Contains(DamageType.Cold))
-            {
-                return DamageType.Cold;
-            }
-            if (damageTypes.Contains(DamageType.Fire))
-            {
-                return DamageType.Fire;
-            }
-            if (damageTypes.Contains(DamageType.Poison))
-            {
-                return DamageType.Poison;
-            }
-            if (damageTypes.Contains(DamageType.Physical))
-            {
-                return DamageType.Physical;
-            }
-            if (damageTypes.Contains(DamageType.Wall))
-            {
-                return DamageType.Wall;
-            }
-            return DamageType.None;
-        }
-        return DamageType.None;
+        return damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>())
+            ? damageTypes.Contains(DamageType.Holy)
+                ? DamageType.Holy
+                : damageTypes.Contains(DamageType.Magic)
+                ? DamageType.Magic
+                : damageTypes.Contains(DamageType.Death)
+                ? DamageType.Death
+                : damageTypes.Contains(DamageType.Cold)
+                ? DamageType.Cold
+                : damageTypes.Contains(DamageType.Fire)
+                ? DamageType.Fire
+                : damageTypes.Contains(DamageType.Poison)
+                ? DamageType.Poison
+                : damageTypes.Contains(DamageType.Physical)
+                ? DamageType.Physical
+                : damageTypes.Contains(DamageType.Wall) ? DamageType.Wall : DamageType.None
+            : DamageType.None;
     }
 
     // intf_P3_02.inc:38

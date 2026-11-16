@@ -24,16 +24,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     // MainAG.pas:138
     public override MapCoordinate GetLocation()
     {
-        MapCoordinate location = default;
-        if (TargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom)
-        {
-            location = TargetMapCoordinate.Location;
-        }
-        else
-        {
-            location = base.GetLocation();
-        }
-
+        MapCoordinate location = TargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom ? TargetMapCoordinate.Location : base.GetLocation();
         return location;
     }
 

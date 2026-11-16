@@ -391,12 +391,12 @@ public partial class ItemsFoundDialog : ILayoutModule
         MessageMemo.Masked = true;
         MessageMemo.WinWidth = 315;
         MessageMemo.WinHeight = 60;
-        MessageMemo.LayoutItems = new LayoutStrings()
-        {
+        MessageMemo.LayoutItems =
+        [
             "#########################",
             "#########################",
             "#########################"
-        };
+        ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 0;
         MessageMemo.TextColor = 0;

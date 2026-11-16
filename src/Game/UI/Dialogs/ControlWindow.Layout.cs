@@ -89,10 +89,10 @@ public partial class ControlWindow : ILayoutModule
         cwMinIcon.Priority = 0;
         cwMinIcon.WinLeft = 167;
         cwMinIcon.WinTop = 1;
-        cwMinIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        cwMinIcon.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         cwMinIcon.CaptureInput = true;
         cwMinIcon.Alignment.AlignWidth = AlignWidth.Right;
         cwMinIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -390,10 +390,10 @@ public partial class ControlWindow : ILayoutModule
         MovesLabel.Priority = 20;
         MovesLabel.WinLeft = 38;
         MovesLabel.WinTop = 4;
-        MovesLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        MovesLabel.LayoutToolTipText =
+        [
             "Movepoints available to the party."
-        };
+        ];
         MovesLabel.CaptureInput = true;
         MovesLabel.Alignment.AlignWidth = AlignWidth.Left;
         MovesLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -416,10 +416,10 @@ public partial class ControlWindow : ILayoutModule
         PartyStatusLabel.Priority = 10;
         PartyStatusLabel.WinLeft = 48;
         PartyStatusLabel.WinTop = 4;
-        PartyStatusLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        PartyStatusLabel.LayoutToolTipText =
+        [
             "Status of the party."
-        };
+        ];
         PartyStatusLabel.CaptureInput = true;
         PartyStatusLabel.Alignment.AlignWidth = AlignWidth.Center;
         PartyStatusLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -442,10 +442,10 @@ public partial class ControlWindow : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 181;
         close.WinTop = 1;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -729,10 +729,10 @@ public partial class ControlWindow : ILayoutModule
         MoveIcon.Priority = 20;
         MoveIcon.WinLeft = 6;
         MoveIcon.WinTop = 1;
-        MoveIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        MoveIcon.LayoutToolTipText =
+        [
             "Party's Movement Type"
-        };
+        ];
         MoveIcon.CaptureInput = false;
         MoveIcon.Alignment.AlignWidth = AlignWidth.Left;
         MoveIcon.Alignment.AlignHeight = AlignHeight.Center;
@@ -1129,10 +1129,10 @@ public partial class ControlWindow : ILayoutModule
         Unit1CheckBox.Priority = 0;
         Unit1CheckBox.WinLeft = 1;
         Unit1CheckBox.WinTop = 0;
-        Unit1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit1CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit1CheckBox.CaptureInput = true;
         Unit1CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1166,10 +1166,10 @@ public partial class ControlWindow : ILayoutModule
         Unit2CheckBox.Priority = 0;
         Unit2CheckBox.WinLeft = 49;
         Unit2CheckBox.WinTop = 0;
-        Unit2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit2CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit2CheckBox.CaptureInput = true;
         Unit2CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1203,10 +1203,10 @@ public partial class ControlWindow : ILayoutModule
         Unit3CheckBox.Priority = 0;
         Unit3CheckBox.WinLeft = 97;
         Unit3CheckBox.WinTop = 0;
-        Unit3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit3CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit3CheckBox.CaptureInput = true;
         Unit3CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1240,10 +1240,10 @@ public partial class ControlWindow : ILayoutModule
         Unit5CheckBox.Priority = 0;
         Unit5CheckBox.WinLeft = 1;
         Unit5CheckBox.WinTop = 0;
-        Unit5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit5CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit5CheckBox.CaptureInput = true;
         Unit5CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1277,10 +1277,10 @@ public partial class ControlWindow : ILayoutModule
         Unit6CheckBox.Priority = 0;
         Unit6CheckBox.WinLeft = 49;
         Unit6CheckBox.WinTop = 0;
-        Unit6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit6CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit6CheckBox.CaptureInput = true;
         Unit6CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit6CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1314,10 +1314,10 @@ public partial class ControlWindow : ILayoutModule
         Unit7CheckBox.Priority = 0;
         Unit7CheckBox.WinLeft = 97;
         Unit7CheckBox.WinTop = 0;
-        Unit7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit7CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit7CheckBox.CaptureInput = true;
         Unit7CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit7CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1351,10 +1351,10 @@ public partial class ControlWindow : ILayoutModule
         Unit4CheckBox.Priority = 0;
         Unit4CheckBox.WinLeft = 145;
         Unit4CheckBox.WinTop = 0;
-        Unit4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit4CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit4CheckBox.CaptureInput = true;
         Unit4CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1388,10 +1388,10 @@ public partial class ControlWindow : ILayoutModule
         Unit8CheckBox.Priority = 0;
         Unit8CheckBox.WinLeft = 145;
         Unit8CheckBox.WinTop = 0;
-        Unit8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Unit8CheckBox.LayoutToolTipText =
+        [
             "Toggles whether or not the unit travels with the party."
-        };
+        ];
         Unit8CheckBox.CaptureInput = true;
         Unit8CheckBox.Alignment.AlignWidth = AlignWidth.Both;
         Unit8CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1905,10 +1905,10 @@ public partial class ControlWindow : ILayoutModule
         center.Priority = 0;
         center.WinLeft = 153;
         center.WinTop = 1;
-        center.LayoutToolTipText = new LayoutStrings()
-        {
+        center.LayoutToolTipText =
+        [
             "Centers the World Map on this party."
-        };
+        ];
         center.CaptureInput = true;
         center.Alignment.AlignWidth = AlignWidth.Right;
         center.Alignment.AlignHeight = AlignHeight.Top;
@@ -1939,10 +1939,10 @@ public partial class ControlWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 139;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;
@@ -1973,10 +1973,10 @@ public partial class ControlWindow : ILayoutModule
         pPrev.Priority = 100;
         pPrev.WinLeft = 1;
         pPrev.WinTop = 0;
-        pPrev.LayoutToolTipText = new LayoutStrings()
-        {
+        pPrev.LayoutToolTipText =
+        [
             "Previous Active Party"
-        };
+        ];
         pPrev.CaptureInput = true;
         pPrev.Alignment.AlignWidth = AlignWidth.Both;
         pPrev.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2008,10 +2008,10 @@ public partial class ControlWindow : ILayoutModule
         pMove.Priority = 100;
         pMove.WinLeft = 96;
         pMove.WinTop = 0;
-        pMove.LayoutToolTipText = new LayoutStrings()
-        {
+        pMove.LayoutToolTipText =
+        [
             "Moves this Party"
-        };
+        ];
         pMove.CaptureInput = true;
         pMove.Alignment.AlignWidth = AlignWidth.Both;
         pMove.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2043,10 +2043,10 @@ public partial class ControlWindow : ILayoutModule
         pNext.Priority = 100;
         pNext.WinLeft = 164;
         pNext.WinTop = 0;
-        pNext.LayoutToolTipText = new LayoutStrings()
-        {
+        pNext.LayoutToolTipText =
+        [
             "Next Active Party"
-        };
+        ];
         pNext.CaptureInput = true;
         pNext.Alignment.AlignWidth = AlignWidth.Both;
         pNext.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2105,10 +2105,10 @@ public partial class ControlWindow : ILayoutModule
         PartyGuardCheckBox.Priority = 0;
         PartyGuardCheckBox.WinLeft = 29;
         PartyGuardCheckBox.WinTop = 0;
-        PartyGuardCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        PartyGuardCheckBox.LayoutToolTipText =
+        [
             "Removes party from next party loop. "
-        };
+        ];
         PartyGuardCheckBox.CaptureInput = true;
         PartyGuardCheckBox.Alignment.AlignWidth = AlignWidth.Both;
         PartyGuardCheckBox.Alignment.AlignHeight = AlignHeight.Bottom;

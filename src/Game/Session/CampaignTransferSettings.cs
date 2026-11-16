@@ -91,10 +91,7 @@ public partial class CampaignTransferSettings : EngineObject
             leader = null;
             leader = persister.Created("Leader", objectValue: leader);
             SetLeader(leader);
-            if (leader != null)
-            {
-                leader.Release();
-            }
+            leader?.Release();
         }
         else
         {
@@ -106,11 +103,8 @@ public partial class CampaignTransferSettings : EngineObject
     public override void Clear()
     {
         base.Clear();
-        if (Leader != null)
-        {
-            Leader.Release();
-            Leader = null;
-        }
+        Leader?.Release();
+        Leader = null;
 
         Heroes.Clear();
         Items.Clear();
@@ -121,16 +115,10 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1797
     public void SetLeader(Leader leader)
     {
-        if (Leader != null)
-        {
-            Leader.Release();
-        }
+        Leader?.Release();
 
         Leader = leader;
-        if (Leader != null)
-        {
-            Leader.AddRef();
-        }
+        Leader?.AddRef();
     }
 
     // Diplomacy.pas:1804
@@ -147,14 +135,7 @@ public partial class CampaignTransferSettings : EngineObject
         levelCounts[1 - 1] = 8;
         levelCounts[2 - 1] = 4;
         levelCounts[3 - 1] = 1;
-        if (GetEngine().Campaign.RaceHistory.Count > 2)
-        {
-            levelCounts[4 - 1] = 1;
-        }
-        else
-        {
-            levelCounts[4 - 1] = 0;
-        }
+        levelCounts[4 - 1] = GetEngine().Campaign.RaceHistory.Count > 2 ? 1 : 0;
 
         for (int level = 4; level >= 1; level--)
         {

@@ -43,14 +43,7 @@ public partial class TouchAbility : AdjustableAbility
                     command.SourceDamageValue = values.SourceDamage;
                     command.TargetDamageValue = values.TargetDamage;
                     command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
-                    if (values.TargetDamage == 0)
-                    {
-                        command.MoveCost = 1;
-                    }
-                    else
-                    {
-                        command.MoveCost = 2;
-                    }
+                    command.MoveCost = values.TargetDamage == 0 ? 1 : 2;
 
                     commands.Add(command);
                 }
@@ -86,14 +79,7 @@ public partial class TouchAbility : AdjustableAbility
         int attack;
         bool result = HitChance.HitRole(source.GetAttack() - target.GetDefense());
         attack = GetTouchAttack(GetLevel(source.Troop));
-        if (result && attack != -10)
-        {
-            result = result && HitChance.HitRole(attack - target.GetResistance());
-        }
-        else
-        {
-            result = false;
-        }
+        result = result && attack != -10 && result && HitChance.HitRole(attack - target.GetResistance());
 
         return result;
     }
@@ -104,14 +90,7 @@ public partial class TouchAbility : AdjustableAbility
         int attack;
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
         attack = GetTouchAttack(GetLevel(source.Troop));
-        if (attack != -10)
-        {
-            result = (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance()));
-        }
-        else
-        {
-            result = 0;
-        }
+        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
 
         return result;
     }
@@ -122,14 +101,7 @@ public partial class TouchAbility : AdjustableAbility
         int attack;
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
         attack = GetTouchAttack(GetLevel(source));
-        if (attack != -10)
-        {
-            result = (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance()));
-        }
-        else
-        {
-            result = 0;
-        }
+        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
 
         return result;
     }
@@ -137,30 +109,9 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1916
     public virtual bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result;
-        if (source.GetSide() == CombatSideIndex.Defender)
-        {
-            if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position))
-            {
-                result = target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-            }
-            else
-            {
-                result = true;
-            }
-        }
-        else
-        {
-            if (target.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
-        }
-
+        bool result = source.GetSide() == CombatSideIndex.Defender
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
         if (source.GetSide() != target.GetSide())
         {
             result = result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
@@ -170,15 +121,7 @@ public partial class TouchAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1937
-    public virtual bool CanTouchUnit(Troop source, Troop target)
-    {
-        if (target.GetAbilityEnabled(1) && !source.GetAbilityEnabled(1))
-        {
-            return false;
-        }
-
-        return true;
-    }
+    public virtual bool CanTouchUnit(Troop source, Troop target) => !target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1);
 
     // AoWAb.PAS:1947
     public void FastBattleValidateMoveOutsideWall(CombatObject source, CombatObject target)

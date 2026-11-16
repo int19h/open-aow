@@ -27,10 +27,8 @@ public partial class AbstractRoadResource : MapObjectResource
     // MAPOBJ.PAS:883
     public override MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int pixelX = default;
-        int pixelY = default;
         MapObject result = (MapObject)CreateResourceUser();
-        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))

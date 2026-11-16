@@ -120,12 +120,11 @@ public partial class GroupDefenseSelector : IDisposable
         MapField mapField = default;
         DamageType damageType = default;
         DefenseRequirements strengths = default;
-        HexNumberWalkData walk = default;
         Defenders.Clear();
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         DefenseLocation = MapCoordinate.None;
         candidates = new UnitUserList(null) { Holder = Creator.CreationHolder() };
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= 1 && Defenders.Count != group.Units.Count)
         {
             mapField = level.GetField(walk.X, walk.Y);

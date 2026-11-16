@@ -35,17 +35,7 @@ public partial class Panel
             }
 
             UIComponent child = TopWheelChild(X, Y);
-            if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
-            {
-                return true;
-            }
-
-            if (!PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight))
-            {
-                return false;
-            }
-
-            return ScrollOwnedBar(steps);
+            return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || (PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight) && ScrollOwnedBar(steps));
         }
         finally
         {

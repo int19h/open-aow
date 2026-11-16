@@ -370,14 +370,7 @@ public partial class ProductionScreen : UIModule
                 }
 
                 UpgradePanel.Visible = true;
-                if (_place.GetMagicSphere() != MagicSphere.None)
-                {
-                    UpgradePicture.CurrentImage = 28;
-                }
-                else
-                {
-                    UpgradePicture.CurrentImage = 27;
-                }
+                UpgradePicture.CurrentImage = _place.GetMagicSphere() != MagicSphere.None ? 28 : 27;
 
                 UpgradeLabel.Text = MainButton1.Text;
                 break;
@@ -444,14 +437,7 @@ public partial class ProductionScreen : UIModule
             }
 
             PlacePictureFrame.ImageLibraryTexture = UI.Graphics.CityWindow;
-            if (_place is Shipyard)
-            {
-                PlacePictureFrame.ImageLibraryIndexTexture = 67;
-            }
-            else
-            {
-                PlacePictureFrame.ImageLibraryIndexTexture = 66;
-            }
+            PlacePictureFrame.ImageLibraryIndexTexture = _place is Shipyard ? 67 : 66;
 
             SphereButton.Visible = false;
         }
@@ -666,10 +652,7 @@ public partial class ProductionScreen : UIModule
                     {
                         UI.Graphics.CityWindow[5].Show(r.Left + 2, r.Top + 2, lockedSurface);
                         info.Direction = 5;
-                        if (u != null)
-                        {
-                            u.Show(r.Left - 4, r.Top, lockedSurface, info);
-                        }
+                        u?.Show(r.Left - 4, r.Top, lockedSurface, info);
 
                         BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
                         UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
@@ -677,10 +660,7 @@ public partial class ProductionScreen : UIModule
                     else
                     {
                         UI.Graphics.CityWindow[4].Show(r.Left + 2, r.Top + 2, lockedSurface);
-                        if (u != null)
-                        {
-                            u.Show(r.Left - 4, r.Top, lockedSurface, info);
-                        }
+                        u?.Show(r.Left - 4, r.Top, lockedSurface, info);
                     }
 
                     u.Release();
@@ -924,14 +904,7 @@ public partial class ProductionScreen : UIModule
         }
         else
         {
-            if (_mode == 2)
-            {
-                QueueList.Selected = _queueIndex;
-            }
-            else
-            {
-                QueueList.Selected = -1;
-            }
+            QueueList.Selected = _mode == 2 ? _queueIndex : -1;
         }
     }
 
@@ -1057,10 +1030,7 @@ public partial class ProductionScreen : UIModule
     {
         CombatMap preview;
         preview = _preview;
-        if (preview != null)
-        {
-            preview.NewFrame();
-        }
+        preview?.NewFrame();
 
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }

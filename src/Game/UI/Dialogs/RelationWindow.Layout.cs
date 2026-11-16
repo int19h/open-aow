@@ -125,10 +125,10 @@ public partial class RelationWindow : ILayoutModule
         mExitBtn.Priority = 1000;
         mExitBtn.WinLeft = 10;
         mExitBtn.WinTop = 142;
-        mExitBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        mExitBtn.LayoutToolTipText =
+        [
             "Exits diplomacy"
-        };
+        ];
         mExitBtn.CaptureInput = true;
         mExitBtn.Alignment.AlignWidth = AlignWidth.Both;
         mExitBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -215,10 +215,10 @@ public partial class RelationWindow : ILayoutModule
         mAcceptBtn.Priority = 1000;
         mAcceptBtn.WinLeft = 10;
         mAcceptBtn.WinTop = 116;
-        mAcceptBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        mAcceptBtn.LayoutToolTipText =
+        [
             "Agrees to the offer."
-        };
+        ];
         mAcceptBtn.CaptureInput = true;
         mAcceptBtn.Alignment.AlignWidth = AlignWidth.Both;
         mAcceptBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -250,10 +250,10 @@ public partial class RelationWindow : ILayoutModule
         mRejectBtn.Priority = 1000;
         mRejectBtn.WinLeft = 104;
         mRejectBtn.WinTop = 116;
-        mRejectBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        mRejectBtn.LayoutToolTipText =
+        [
             "Rejects the offer."
-        };
+        ];
         mRejectBtn.CaptureInput = true;
         mRejectBtn.Alignment.AlignWidth = AlignWidth.Right;
         mRejectBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1104,10 +1104,10 @@ public partial class RelationWindow : ILayoutModule
         mbGoldLbl.Priority = 0;
         mbGoldLbl.WinLeft = 17;
         mbGoldLbl.WinTop = 8;
-        mbGoldLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        mbGoldLbl.LayoutToolTipText =
+        [
             "You will receive this amount of gold when you accept offer!"
-        };
+        ];
         mbGoldLbl.CaptureInput = true;
         mbGoldLbl.Alignment.AlignWidth = AlignWidth.Center;
         mbGoldLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -1131,10 +1131,10 @@ public partial class RelationWindow : ILayoutModule
         IncomingIcon.Priority = 100;
         IncomingIcon.WinLeft = 74;
         IncomingIcon.WinTop = 9;
-        IncomingIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomingIcon.LayoutToolTipText =
+        [
             "Symbol for this diplomatic action"
-        };
+        ];
         IncomingIcon.CaptureInput = true;
         IncomingIcon.Alignment.AlignWidth = AlignWidth.Center;
         IncomingIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -1255,10 +1255,10 @@ public partial class RelationWindow : ILayoutModule
         SendMessageMemo.Priority = 0;
         SendMessageMemo.WinLeft = 10;
         SendMessageMemo.WinTop = 30;
-        SendMessageMemo.LayoutToolTipText = new LayoutStrings()
-        {
+        SendMessageMemo.LayoutToolTipText =
+        [
             "Edit your message here"
-        };
+        ];
         SendMessageMemo.CaptureInput = true;
         SendMessageMemo.Alignment.AlignWidth = AlignWidth.Both;
         SendMessageMemo.Alignment.AlignHeight = AlignHeight.Both;
@@ -1294,10 +1294,10 @@ public partial class RelationWindow : ILayoutModule
         BribeGoldSlider.Priority = 0;
         BribeGoldSlider.WinLeft = 2;
         BribeGoldSlider.WinTop = 22;
-        BribeGoldSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        BribeGoldSlider.LayoutToolTipText =
+        [
             "Selects an amount of Gold to offer with action"
-        };
+        ];
         BribeGoldSlider.CaptureInput = true;
         BribeGoldSlider.Alignment.AlignWidth = AlignWidth.Center;
         BribeGoldSlider.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1417,10 +1417,10 @@ public partial class RelationWindow : ILayoutModule
         aExit.Priority = 2000;
         aExit.WinLeft = 110;
         aExit.WinTop = 140;
-        aExit.LayoutToolTipText = new LayoutStrings()
-        {
+        aExit.LayoutToolTipText =
+        [
             "Exits diplomacy"
-        };
+        ];
         aExit.CaptureInput = true;
         aExit.Alignment.AlignWidth = AlignWidth.Both;
         aExit.Alignment.AlignHeight = AlignHeight.Top;
@@ -1577,10 +1577,10 @@ public partial class RelationWindow : ILayoutModule
         Player1CheckBox.Priority = 800;
         Player1CheckBox.WinLeft = 14;
         Player1CheckBox.WinTop = 10;
-        Player1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player1CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player1CheckBox.CaptureInput = true;
         Player1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1615,10 +1615,10 @@ public partial class RelationWindow : ILayoutModule
         Player2CheckBox.Priority = 800;
         Player2CheckBox.WinLeft = 65;
         Player2CheckBox.WinTop = 10;
-        Player2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player2CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player2CheckBox.CaptureInput = true;
         Player2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1653,10 +1653,10 @@ public partial class RelationWindow : ILayoutModule
         Player3CheckBox.Priority = 800;
         Player3CheckBox.WinLeft = 116;
         Player3CheckBox.WinTop = 10;
-        Player3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player3CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player3CheckBox.CaptureInput = true;
         Player3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1691,10 +1691,10 @@ public partial class RelationWindow : ILayoutModule
         Player4CheckBox.Priority = 800;
         Player4CheckBox.WinLeft = 167;
         Player4CheckBox.WinTop = 10;
-        Player4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player4CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player4CheckBox.CaptureInput = true;
         Player4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1729,10 +1729,10 @@ public partial class RelationWindow : ILayoutModule
         Player5CheckBox.Priority = 800;
         Player5CheckBox.WinLeft = 218;
         Player5CheckBox.WinTop = 10;
-        Player5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player5CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player5CheckBox.CaptureInput = true;
         Player5CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1767,10 +1767,10 @@ public partial class RelationWindow : ILayoutModule
         Player6CheckBox.Priority = 800;
         Player6CheckBox.WinLeft = 269;
         Player6CheckBox.WinTop = 10;
-        Player6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player6CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player6CheckBox.CaptureInput = true;
         Player6CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player6CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1805,10 +1805,10 @@ public partial class RelationWindow : ILayoutModule
         Player7CheckBox.Priority = 800;
         Player7CheckBox.WinLeft = 320;
         Player7CheckBox.WinTop = 10;
-        Player7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player7CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player7CheckBox.CaptureInput = true;
         Player7CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player7CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1843,10 +1843,10 @@ public partial class RelationWindow : ILayoutModule
         Player8CheckBox.Priority = 800;
         Player8CheckBox.WinLeft = 371;
         Player8CheckBox.WinTop = 10;
-        Player8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player8CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player8CheckBox.CaptureInput = true;
         Player8CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player8CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1881,10 +1881,10 @@ public partial class RelationWindow : ILayoutModule
         Player9CheckBox.Priority = 800;
         Player9CheckBox.WinLeft = 422;
         Player9CheckBox.WinTop = 10;
-        Player9CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player9CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player9CheckBox.CaptureInput = true;
         Player9CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player9CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1919,10 +1919,10 @@ public partial class RelationWindow : ILayoutModule
         Player10CheckBox.Priority = 800;
         Player10CheckBox.WinLeft = 473;
         Player10CheckBox.WinTop = 10;
-        Player10CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player10CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player10CheckBox.CaptureInput = true;
         Player10CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player10CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1957,10 +1957,10 @@ public partial class RelationWindow : ILayoutModule
         Player11CheckBox.Priority = 800;
         Player11CheckBox.WinLeft = 524;
         Player11CheckBox.WinTop = 10;
-        Player11CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player11CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player11CheckBox.CaptureInput = true;
         Player11CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player11CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1995,10 +1995,10 @@ public partial class RelationWindow : ILayoutModule
         Player12CheckBox.Priority = 800;
         Player12CheckBox.WinLeft = 575;
         Player12CheckBox.WinTop = 10;
-        Player12CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Player12CheckBox.LayoutToolTipText =
+        [
             "Selects this Player."
-        };
+        ];
         Player12CheckBox.CaptureInput = true;
         Player12CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Player12CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2062,10 +2062,10 @@ public partial class RelationWindow : ILayoutModule
         Race1CheckBox.Priority = 800;
         Race1CheckBox.WinLeft = 14;
         Race1CheckBox.WinTop = 185;
-        Race1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race1CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race1CheckBox.CaptureInput = true;
         Race1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2100,10 +2100,10 @@ public partial class RelationWindow : ILayoutModule
         Race2CheckBox.Priority = 800;
         Race2CheckBox.WinLeft = 65;
         Race2CheckBox.WinTop = 185;
-        Race2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race2CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race2CheckBox.CaptureInput = true;
         Race2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2138,10 +2138,10 @@ public partial class RelationWindow : ILayoutModule
         Race3CheckBox.Priority = 800;
         Race3CheckBox.WinLeft = 116;
         Race3CheckBox.WinTop = 185;
-        Race3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race3CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race3CheckBox.CaptureInput = true;
         Race3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2176,10 +2176,10 @@ public partial class RelationWindow : ILayoutModule
         Race4CheckBox.Priority = 800;
         Race4CheckBox.WinLeft = 167;
         Race4CheckBox.WinTop = 185;
-        Race4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race4CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race4CheckBox.CaptureInput = true;
         Race4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2214,10 +2214,10 @@ public partial class RelationWindow : ILayoutModule
         Race5CheckBox.Priority = 800;
         Race5CheckBox.WinLeft = 218;
         Race5CheckBox.WinTop = 185;
-        Race5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race5CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race5CheckBox.CaptureInput = true;
         Race5CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2252,10 +2252,10 @@ public partial class RelationWindow : ILayoutModule
         Race6CheckBox.Priority = 800;
         Race6CheckBox.WinLeft = 269;
         Race6CheckBox.WinTop = 185;
-        Race6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race6CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race6CheckBox.CaptureInput = true;
         Race6CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race6CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2290,10 +2290,10 @@ public partial class RelationWindow : ILayoutModule
         Race7CheckBox.Priority = 800;
         Race7CheckBox.WinLeft = 320;
         Race7CheckBox.WinTop = 185;
-        Race7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race7CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race7CheckBox.CaptureInput = true;
         Race7CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race7CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2328,10 +2328,10 @@ public partial class RelationWindow : ILayoutModule
         Race8CheckBox.Priority = 800;
         Race8CheckBox.WinLeft = 371;
         Race8CheckBox.WinTop = 185;
-        Race8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race8CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race8CheckBox.CaptureInput = true;
         Race8CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race8CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2366,10 +2366,10 @@ public partial class RelationWindow : ILayoutModule
         Race9CheckBox.Priority = 800;
         Race9CheckBox.WinLeft = 422;
         Race9CheckBox.WinTop = 185;
-        Race9CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race9CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race9CheckBox.CaptureInput = true;
         Race9CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race9CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2404,10 +2404,10 @@ public partial class RelationWindow : ILayoutModule
         Race10CheckBox.Priority = 800;
         Race10CheckBox.WinLeft = 473;
         Race10CheckBox.WinTop = 185;
-        Race10CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race10CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race10CheckBox.CaptureInput = true;
         Race10CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race10CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2442,10 +2442,10 @@ public partial class RelationWindow : ILayoutModule
         Race11CheckBox.Priority = 800;
         Race11CheckBox.WinLeft = 524;
         Race11CheckBox.WinTop = 185;
-        Race11CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race11CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race11CheckBox.CaptureInput = true;
         Race11CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race11CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2480,10 +2480,10 @@ public partial class RelationWindow : ILayoutModule
         Race12CheckBox.Priority = 800;
         Race12CheckBox.WinLeft = 575;
         Race12CheckBox.WinTop = 185;
-        Race12CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Race12CheckBox.LayoutToolTipText =
+        [
             "Selects this Race."
-        };
+        ];
         Race12CheckBox.CaptureInput = true;
         Race12CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Race12CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2570,10 +2570,10 @@ public partial class RelationWindow : ILayoutModule
         SelectActionButton.Priority = 2000;
         SelectActionButton.WinLeft = 5;
         SelectActionButton.WinTop = 140;
-        SelectActionButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectActionButton.LayoutToolTipText =
+        [
             "Selects diplomatic action"
-        };
+        ];
         SelectActionButton.CaptureInput = true;
         SelectActionButton.Alignment.AlignWidth = AlignWidth.Both;
         SelectActionButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -2727,10 +2727,10 @@ public partial class RelationWindow : ILayoutModule
         piRelIcn.Priority = 100;
         piRelIcn.WinLeft = 22;
         piRelIcn.WinTop = 7;
-        piRelIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        piRelIcn.LayoutToolTipText =
+        [
             "Indicates mutual relation to this race"
-        };
+        ];
         piRelIcn.CaptureInput = true;
         piRelIcn.Alignment.AlignWidth = AlignWidth.Center;
         piRelIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -2835,10 +2835,10 @@ public partial class RelationWindow : ILayoutModule
         PlayerTypeIcon.Priority = 0;
         PlayerTypeIcon.WinLeft = 22;
         PlayerTypeIcon.WinTop = 10;
-        PlayerTypeIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        PlayerTypeIcon.LayoutToolTipText =
+        [
             "AI player strength"
-        };
+        ];
         PlayerTypeIcon.CaptureInput = true;
         PlayerTypeIcon.Alignment.AlignWidth = AlignWidth.Center;
         PlayerTypeIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2890,10 +2890,10 @@ public partial class RelationWindow : ILayoutModule
         PlayerStatusIcon.Priority = 100;
         PlayerStatusIcon.WinLeft = 21;
         PlayerStatusIcon.WinTop = 17;
-        PlayerStatusIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        PlayerStatusIcon.LayoutToolTipText =
+        [
             "Indicates mutual diplomatic status to this player"
-        };
+        ];
         PlayerStatusIcon.CaptureInput = true;
         PlayerStatusIcon.Alignment.AlignWidth = AlignWidth.Center;
         PlayerStatusIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -3130,10 +3130,10 @@ public partial class RelationWindow : ILayoutModule
         RaceRelationIcon.Priority = 100;
         RaceRelationIcon.WinLeft = 69;
         RaceRelationIcon.WinTop = 7;
-        RaceRelationIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        RaceRelationIcon.LayoutToolTipText =
+        [
             "Indicates mutual relation to this race"
-        };
+        ];
         RaceRelationIcon.CaptureInput = true;
         RaceRelationIcon.Alignment.AlignWidth = AlignWidth.Center;
         RaceRelationIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -3208,10 +3208,10 @@ public partial class RelationWindow : ILayoutModule
         ReceivedGoldLabel.Priority = 0;
         ReceivedGoldLabel.WinLeft = 30;
         ReceivedGoldLabel.WinTop = 26;
-        ReceivedGoldLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ReceivedGoldLabel.LayoutToolTipText =
+        [
             "You will receive this amount of gold when you accept offer!"
-        };
+        ];
         ReceivedGoldLabel.CaptureInput = true;
         ReceivedGoldLabel.Alignment.AlignWidth = AlignWidth.Left;
         ReceivedGoldLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -3235,10 +3235,10 @@ public partial class RelationWindow : ILayoutModule
         mbGoldIcn.Priority = 0;
         mbGoldIcn.WinLeft = 5;
         mbGoldIcn.WinTop = 22;
-        mbGoldIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        mbGoldIcn.LayoutToolTipText =
+        [
             "You will receive this amount of gold when you accept offer!"
-        };
+        ];
         mbGoldIcn.CaptureInput = true;
         mbGoldIcn.Alignment.AlignWidth = AlignWidth.Left;
         mbGoldIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3321,10 +3321,10 @@ public partial class RelationWindow : ILayoutModule
         mbManaLbl.Priority = 0;
         mbManaLbl.WinLeft = 16;
         mbManaLbl.WinTop = 8;
-        mbManaLbl.LayoutToolTipText = new LayoutStrings()
-        {
+        mbManaLbl.LayoutToolTipText =
+        [
             "You will receive this amount of mana when you accept the offer!"
-        };
+        ];
         mbManaLbl.CaptureInput = true;
         mbManaLbl.Alignment.AlignWidth = AlignWidth.Center;
         mbManaLbl.Alignment.AlignHeight = AlignHeight.Top;
@@ -3348,10 +3348,10 @@ public partial class RelationWindow : ILayoutModule
         ReceivedManaLabel.Priority = 0;
         ReceivedManaLabel.WinLeft = 30;
         ReceivedManaLabel.WinTop = 26;
-        ReceivedManaLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ReceivedManaLabel.LayoutToolTipText =
+        [
             "You will receive this amount of mana when you accept the offer!"
-        };
+        ];
         ReceivedManaLabel.CaptureInput = true;
         ReceivedManaLabel.Alignment.AlignWidth = AlignWidth.Left;
         ReceivedManaLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -3375,10 +3375,10 @@ public partial class RelationWindow : ILayoutModule
         mbManaIcn.Priority = 0;
         mbManaIcn.WinLeft = 5;
         mbManaIcn.WinTop = 22;
-        mbManaIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        mbManaIcn.LayoutToolTipText =
+        [
             "You will receive this amount of mana when you accept the offer!"
-        };
+        ];
         mbManaIcn.CaptureInput = true;
         mbManaIcn.Alignment.AlignWidth = AlignWidth.Left;
         mbManaIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3430,10 +3430,10 @@ public partial class RelationWindow : ILayoutModule
         msgSendBtn.Priority = 1000;
         msgSendBtn.WinLeft = 10;
         msgSendBtn.WinTop = 142;
-        msgSendBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        msgSendBtn.LayoutToolTipText =
+        [
             "Sends the message"
-        };
+        ];
         msgSendBtn.CaptureInput = true;
         msgSendBtn.Alignment.AlignWidth = AlignWidth.Both;
         msgSendBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3465,10 +3465,10 @@ public partial class RelationWindow : ILayoutModule
         msgCancelBtn.Priority = 1000;
         msgCancelBtn.WinLeft = 115;
         msgCancelBtn.WinTop = 142;
-        msgCancelBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        msgCancelBtn.LayoutToolTipText =
+        [
             "Cancels the message"
-        };
+        ];
         msgCancelBtn.CaptureInput = true;
         msgCancelBtn.Alignment.AlignWidth = AlignWidth.Right;
         msgCancelBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3550,10 +3550,10 @@ public partial class RelationWindow : ILayoutModule
         sbGoldIcn.Priority = 0;
         sbGoldIcn.WinLeft = 1;
         sbGoldIcn.WinTop = 0;
-        sbGoldIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        sbGoldIcn.LayoutToolTipText =
+        [
             "Unit's cost in gems"
-        };
+        ];
         sbGoldIcn.CaptureInput = true;
         sbGoldIcn.Alignment.AlignWidth = AlignWidth.Left;
         sbGoldIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3659,10 +3659,10 @@ public partial class RelationWindow : ILayoutModule
         sbManaIcn.Priority = 0;
         sbManaIcn.WinLeft = 1;
         sbManaIcn.WinTop = 0;
-        sbManaIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        sbManaIcn.LayoutToolTipText =
+        [
             "Unit's cost in gems"
-        };
+        ];
         sbManaIcn.CaptureInput = true;
         sbManaIcn.Alignment.AlignWidth = AlignWidth.Left;
         sbManaIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3741,10 +3741,10 @@ public partial class RelationWindow : ILayoutModule
         BribeManaSlider.Priority = 0;
         BribeManaSlider.WinLeft = 1;
         BribeManaSlider.WinTop = 22;
-        BribeManaSlider.LayoutToolTipText = new LayoutStrings()
-        {
+        BribeManaSlider.LayoutToolTipText =
+        [
             "Selects an amount of Gold to offer with action"
-        };
+        ];
         BribeManaSlider.CaptureInput = true;
         BribeManaSlider.Alignment.AlignWidth = AlignWidth.Center;
         BribeManaSlider.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3782,10 +3782,10 @@ public partial class RelationWindow : ILayoutModule
         SendBribeIcon.Priority = 100;
         SendBribeIcon.WinLeft = 2;
         SendBribeIcon.WinTop = 4;
-        SendBribeIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        SendBribeIcon.LayoutToolTipText =
+        [
             "Symbol for this diplomatic action"
-        };
+        ];
         SendBribeIcon.CaptureInput = true;
         SendBribeIcon.Alignment.AlignWidth = AlignWidth.Left;
         SendBribeIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -3814,10 +3814,10 @@ public partial class RelationWindow : ILayoutModule
         rsbSendBtn.Priority = 1000;
         rsbSendBtn.WinLeft = 10;
         rsbSendBtn.WinTop = 142;
-        rsbSendBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        rsbSendBtn.LayoutToolTipText =
+        [
             "Sends the message"
-        };
+        ];
         rsbSendBtn.CaptureInput = true;
         rsbSendBtn.Alignment.AlignWidth = AlignWidth.Both;
         rsbSendBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3849,10 +3849,10 @@ public partial class RelationWindow : ILayoutModule
         rbsCanlBtn.Priority = 1000;
         rbsCanlBtn.WinLeft = 104;
         rbsCanlBtn.WinTop = 142;
-        rbsCanlBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        rbsCanlBtn.LayoutToolTipText =
+        [
             "Cancels the message"
-        };
+        ];
         rbsCanlBtn.CaptureInput = true;
         rbsCanlBtn.Alignment.AlignWidth = AlignWidth.Right;
         rbsCanlBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -4022,10 +4022,10 @@ public partial class RelationWindow : ILayoutModule
         rmReplyBtn.Priority = 1000;
         rmReplyBtn.WinLeft = 10;
         rmReplyBtn.WinTop = 116;
-        rmReplyBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        rmReplyBtn.LayoutToolTipText =
+        [
             "Sends the message"
-        };
+        ];
         rmReplyBtn.CaptureInput = true;
         rmReplyBtn.Alignment.AlignWidth = AlignWidth.Both;
         rmReplyBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -4057,10 +4057,10 @@ public partial class RelationWindow : ILayoutModule
         rmCancelBtn.Priority = 1000;
         rmCancelBtn.WinLeft = 115;
         rmCancelBtn.WinTop = 116;
-        rmCancelBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        rmCancelBtn.LayoutToolTipText =
+        [
             "Cancels the message"
-        };
+        ];
         rmCancelBtn.CaptureInput = true;
         rmCancelBtn.Alignment.AlignWidth = AlignWidth.Right;
         rmCancelBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -4092,10 +4092,10 @@ public partial class RelationWindow : ILayoutModule
         rmExitBtn.Priority = 1000;
         rmExitBtn.WinLeft = 10;
         rmExitBtn.WinTop = 142;
-        rmExitBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        rmExitBtn.LayoutToolTipText =
+        [
             "Exits diplomacy"
-        };
+        ];
         rmExitBtn.CaptureInput = true;
         rmExitBtn.Alignment.AlignWidth = AlignWidth.Both;
         rmExitBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -4186,10 +4186,10 @@ public partial class RelationWindow : ILayoutModule
         iiExitBtn.Priority = 1000;
         iiExitBtn.WinLeft = 104;
         iiExitBtn.WinTop = 142;
-        iiExitBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        iiExitBtn.LayoutToolTipText =
+        [
             "Exits diplomacy"
-        };
+        ];
         iiExitBtn.CaptureInput = true;
         iiExitBtn.Alignment.AlignWidth = AlignWidth.Right;
         iiExitBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -4292,10 +4292,10 @@ public partial class RelationWindow : ILayoutModule
         IncomingInfoIcon.Priority = 100;
         IncomingInfoIcon.WinLeft = 74;
         IncomingInfoIcon.WinTop = 9;
-        IncomingInfoIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        IncomingInfoIcon.LayoutToolTipText =
+        [
             "Symbol for this diplomatic action"
-        };
+        ];
         IncomingInfoIcon.CaptureInput = true;
         IncomingInfoIcon.Alignment.AlignWidth = AlignWidth.Center;
         IncomingInfoIcon.Alignment.AlignHeight = AlignHeight.Top;

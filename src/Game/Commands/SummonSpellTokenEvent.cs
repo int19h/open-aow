@@ -76,10 +76,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                         enchantment.SetSource(source.Player);
                         enchantment.DispelResistance = (sbyte)((SummonSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(u);
                         group = source.Group;
-                        if (group != null)
-                        {
-                            group.AddUnit(u);
-                        }
+                        group?.AddUnit(u);
                     }
 
                     done = true;

@@ -33,23 +33,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:229
     public override sbyte GetOverlay(int index)
     {
-        sbyte result;
-        if (((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0)
-        {
-            if (HitPoints == 0)
-            {
-                result = 6;
-            }
-            else
-            {
-                result = 8;
-            }
-        }
-        else
-        {
-            result = -1;
-        }
-
+        sbyte result = ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : (sbyte)-1;
         return result;
     }
 
@@ -174,21 +158,11 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     {
         if (((MapObject)this).Resource.TerrainList.GetUsed(info.HexNumber))
         {
-            if (HitPoints == 0)
-            {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
-            }
-            else
-            {
-                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
-                {
-                    moveResult.Code = -1;
-                }
-                else
-                {
-                    moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
-                }
-            }
+            moveResult.Code = HitPoints == 0
+                ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay]
+                : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
+                    ? -1
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
 
             moveResult.Done = true;
         }
@@ -247,23 +221,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:237
     public override int GetTerrainTypeImage(int terrainType)
     {
-        int result;
-        if (terrainType == 3)
-        {
-            result = 20;
-        }
-        else
-        {
-            if (Set<byte>.WithBounds(0, 255).With(5).With(12).Contains((byte)terrainType))
-            {
-                result = 40;
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-
+        int result = terrainType == 3 ? 20 : Set<byte>.WithBounds(0, 255).With(5).With(12).Contains((byte)terrainType) ? 40 : 0;
         return result;
     }
 

@@ -62,16 +62,10 @@ public partial class TokenPackageDistributor
     // NetworkE.pas:1119
     public void SetPC(PlayerCommunicator pc)
     {
-        if (Pc != null)
-        {
-            Pc.Received -= DataPackageReceived;
-        }
+        Pc?.Received -= DataPackageReceived;
 
         Pc = pc;
-        if (Pc != null)
-        {
-            Pc.Received += DataPackageReceived;
-        }
+        Pc?.Received += DataPackageReceived;
     }
 
     // NetworkE.pas:1128

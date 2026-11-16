@@ -24,10 +24,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesList.Priority = 10000;
         SelectedAbilitiesList.WinLeft = 10;
         SelectedAbilitiesList.WinTop = 252;
-        SelectedAbilitiesList.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedAbilitiesList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         SelectedAbilitiesList.CaptureInput = true;
         SelectedAbilitiesList.Alignment.AlignWidth = AlignWidth.Both;
         SelectedAbilitiesList.Alignment.AlignHeight = AlignHeight.Both;
@@ -114,10 +114,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesList.Priority = 10000;
         AvailableAbilitiesList.WinLeft = 235;
         AvailableAbilitiesList.WinTop = 64;
-        AvailableAbilitiesList.LayoutToolTipText = new LayoutStrings()
-        {
+        AvailableAbilitiesList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         AvailableAbilitiesList.CaptureInput = true;
         AvailableAbilitiesList.Alignment.AlignWidth = AlignWidth.Both;
         AvailableAbilitiesList.Alignment.AlignHeight = AlignHeight.Both;
@@ -214,10 +214,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         ClearButton.Priority = 9999;
         ClearButton.WinLeft = 10;
         ClearButton.WinTop = 11;
-        ClearButton.LayoutToolTipText = new LayoutStrings()
-        {
+        ClearButton.LayoutToolTipText =
+        [
             "Clears all displayed settings."
-        };
+        ];
         ClearButton.CaptureInput = true;
         ClearButton.Alignment.AlignWidth = AlignWidth.Both;
         ClearButton.Alignment.AlignHeight = AlignHeight.Center;
@@ -249,10 +249,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         DefaultButton.Priority = 9999;
         DefaultButton.WinLeft = 165;
         DefaultButton.WinTop = 11;
-        DefaultButton.LayoutToolTipText = new LayoutStrings()
-        {
+        DefaultButton.LayoutToolTipText =
+        [
             "Reverts all displayed settings to their default values."
-        };
+        ];
         DefaultButton.CaptureInput = true;
         DefaultButton.Alignment.AlignWidth = AlignWidth.Both;
         DefaultButton.Alignment.AlignHeight = AlignHeight.Center;
@@ -1700,10 +1700,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         UnitAbilitiesList.Masked = false;
         UnitAbilitiesList.WinWidth = 130;
         UnitAbilitiesList.WinHeight = 120;
-        UnitAbilitiesList.LayoutItems = new LayoutStrings()
-        {
+        UnitAbilitiesList.LayoutItems =
+        [
             ""
-        };
+        ];
         UnitAbilitiesList.BorderWidth = 6;
         UnitAbilitiesList.BorderHeight = 3;
         UnitAbilitiesList.Selected = -1;
@@ -2031,10 +2031,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         removeAbility.Priority = 0;
         removeAbility.WinLeft = 10;
         removeAbility.WinTop = 351;
-        removeAbility.LayoutToolTipText = new LayoutStrings()
-        {
+        removeAbility.LayoutToolTipText =
+        [
             "Removes the selected ability from the Leader."
-        };
+        ];
         removeAbility.CaptureInput = true;
         removeAbility.Alignment.AlignWidth = AlignWidth.Both;
         removeAbility.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2066,10 +2066,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         addAbility.Priority = 0;
         addAbility.WinLeft = 235;
         addAbility.WinTop = 351;
-        addAbility.LayoutToolTipText = new LayoutStrings()
-        {
+        addAbility.LayoutToolTipText =
+        [
             "Adds the selected ability to the Leader."
-        };
+        ];
         addAbility.CaptureInput = true;
         addAbility.Alignment.AlignWidth = AlignWidth.Both;
         addAbility.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2618,10 +2618,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectDeathButton.Priority = 0;
         SelectDeathButton.WinLeft = 124;
         SelectDeathButton.WinTop = 156;
-        SelectDeathButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectDeathButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectDeathButton.CaptureInput = true;
         SelectDeathButton.Alignment.AlignWidth = AlignWidth.Center;
         SelectDeathButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2679,10 +2679,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectLifeButton.Priority = 0;
         SelectLifeButton.WinLeft = 124;
         SelectLifeButton.WinTop = 25;
-        SelectLifeButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectLifeButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectLifeButton.CaptureInput = true;
         SelectLifeButton.Alignment.AlignWidth = AlignWidth.Center;
         SelectLifeButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -2713,10 +2713,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectFireButton.Priority = 0;
         SelectFireButton.WinLeft = 60;
         SelectFireButton.WinTop = 55;
-        SelectFireButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectFireButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectFireButton.CaptureInput = true;
         SelectFireButton.Alignment.AlignWidth = AlignWidth.Left;
         SelectFireButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -2747,10 +2747,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectEarthButton.Priority = 0;
         SelectEarthButton.WinLeft = 60;
         SelectEarthButton.WinTop = 126;
-        SelectEarthButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectEarthButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectEarthButton.CaptureInput = true;
         SelectEarthButton.Alignment.AlignWidth = AlignWidth.Left;
         SelectEarthButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2781,10 +2781,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectAirButton.Priority = 0;
         SelectAirButton.WinLeft = 188;
         SelectAirButton.WinTop = 55;
-        SelectAirButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectAirButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectAirButton.CaptureInput = true;
         SelectAirButton.Alignment.AlignWidth = AlignWidth.Right;
         SelectAirButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -2815,10 +2815,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectWaterButton.Priority = 0;
         SelectWaterButton.WinLeft = 188;
         SelectWaterButton.WinTop = 126;
-        SelectWaterButton.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectWaterButton.LayoutToolTipText =
+        [
             "Adds this sphere to the Leader."
-        };
+        ];
         SelectWaterButton.CaptureInput = true;
         SelectWaterButton.Alignment.AlignWidth = AlignWidth.Right;
         SelectWaterButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2873,10 +2873,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere4Button.Priority = 0;
         SelectedSphere4Button.WinLeft = 159;
         SelectedSphere4Button.WinTop = 1;
-        SelectedSphere4Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere4Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere4Button.CaptureInput = true;
         SelectedSphere4Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere4Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -2935,10 +2935,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere3Button.Priority = 0;
         SelectedSphere3Button.WinLeft = 106;
         SelectedSphere3Button.WinTop = 1;
-        SelectedSphere3Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere3Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere3Button.CaptureInput = true;
         SelectedSphere3Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere3Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -2970,10 +2970,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere2Button.Priority = 0;
         SelectedSphere2Button.WinLeft = 53;
         SelectedSphere2Button.WinTop = 1;
-        SelectedSphere2Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere2Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere2Button.CaptureInput = true;
         SelectedSphere2Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere2Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -3004,10 +3004,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere1Button.Priority = 0;
         SelectedSphere1Button.WinLeft = 0;
         SelectedSphere1Button.WinTop = 1;
-        SelectedSphere1Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere1Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere1Button.CaptureInput = true;
         SelectedSphere1Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere1Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -3039,10 +3039,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere5Button.Priority = 0;
         SelectedSphere5Button.WinLeft = 212;
         SelectedSphere5Button.WinTop = 1;
-        SelectedSphere5Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere5Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere5Button.CaptureInput = true;
         SelectedSphere5Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere5Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -3074,10 +3074,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere6Button.Priority = 0;
         SelectedSphere6Button.WinLeft = 265;
         SelectedSphere6Button.WinTop = 1;
-        SelectedSphere6Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere6Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere6Button.CaptureInput = true;
         SelectedSphere6Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere6Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -3109,10 +3109,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere7Button.Priority = 0;
         SelectedSphere7Button.WinLeft = 318;
         SelectedSphere7Button.WinTop = 1;
-        SelectedSphere7Button.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedSphere7Button.LayoutToolTipText =
+        [
             "Removes this sphere from the Leader."
-        };
+        ];
         SelectedSphere7Button.CaptureInput = true;
         SelectedSphere7Button.Alignment.AlignWidth = AlignWidth.Left;
         SelectedSphere7Button.Alignment.AlignHeight = AlignHeight.Center;
@@ -3281,10 +3281,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         faceNextBtn.Priority = 0;
         faceNextBtn.WinLeft = 235;
         faceNextBtn.WinTop = 190;
-        faceNextBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        faceNextBtn.LayoutToolTipText =
+        [
             "Views the next portrait."
-        };
+        ];
         faceNextBtn.CaptureInput = true;
         faceNextBtn.Alignment.AlignWidth = AlignWidth.Left;
         faceNextBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3316,10 +3316,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         facePrevBtn.Priority = 0;
         facePrevBtn.WinLeft = 165;
         facePrevBtn.WinTop = 190;
-        facePrevBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        facePrevBtn.LayoutToolTipText =
+        [
             "Views the previous portrait."
-        };
+        ];
         facePrevBtn.CaptureInput = true;
         facePrevBtn.Alignment.AlignWidth = AlignWidth.Right;
         facePrevBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -3398,10 +3398,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesCostList.Priority = 10001;
         SelectedAbilitiesCostList.WinLeft = 180;
         SelectedAbilitiesCostList.WinTop = 252;
-        SelectedAbilitiesCostList.LayoutToolTipText = new LayoutStrings()
-        {
+        SelectedAbilitiesCostList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         SelectedAbilitiesCostList.CaptureInput = true;
         SelectedAbilitiesCostList.Alignment.AlignWidth = AlignWidth.Both;
         SelectedAbilitiesCostList.Alignment.AlignHeight = AlignHeight.Both;
@@ -3437,10 +3437,10 @@ public partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesCostList.Priority = 100001;
         AvailableAbilitiesCostList.WinLeft = 405;
         AvailableAbilitiesCostList.WinTop = 64;
-        AvailableAbilitiesCostList.LayoutToolTipText = new LayoutStrings()
-        {
+        AvailableAbilitiesCostList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         AvailableAbilitiesCostList.CaptureInput = true;
         AvailableAbilitiesCostList.Alignment.AlignWidth = AlignWidth.Both;
         AvailableAbilitiesCostList.Alignment.AlignHeight = AlignHeight.Both;

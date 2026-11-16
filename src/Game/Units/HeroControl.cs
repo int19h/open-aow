@@ -272,14 +272,7 @@ public partial class HeroControl : EngineObject
             }
         }
 
-        if (count != 0)
-        {
-            result = result / count;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = count != 0 ? result / count : 0;
 
         return result;
     }

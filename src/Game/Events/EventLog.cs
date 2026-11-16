@@ -89,14 +89,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             condition = Player < count;
         }
 
-        if (condition)
-        {
-            index = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-        }
-        else
-        {
-            index = 12;
-        }
+        index = condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
 
         return AbilityRules.RaceColors[index];
     }
@@ -112,14 +105,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             condition = Player < count;
         }
 
-        if (condition)
-        {
-            result = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-        }
-        else
-        {
-            result = 12;
-        }
+        result = condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
 
         return result;
     }

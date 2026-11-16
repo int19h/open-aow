@@ -87,13 +87,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:456
-    public void SendData(object data, int size, int recipient)
-    {
-        if (OnSendData != null)
-        {
-            OnSendData(data, size, recipient);
-        }
-    }
+    public void SendData(object data, int size, int recipient) => OnSendData?.Invoke(data, size, recipient);
 
     // AoWSetup.pas:461
     public void SendPackage(SetupPackage package, int recipient)
@@ -218,10 +212,7 @@ public partial class SetupControl : Component
         {
             if ((int)(((uint)player.Version) >> 24) == 1 && (((int)(((uint)player.Version) >> 16)) & 255) <= 10)
             {
-                if (OnEjectPlayer != null)
-                {
-                    OnEjectPlayer(this, player.RemoteId);
-                }
+                OnEjectPlayer?.Invoke(this, player.RemoteId);
             }
             else
             {
@@ -301,10 +292,7 @@ public partial class SetupControl : Component
                 SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (OnSettingChanged != null)
-            {
-                OnSettingChanged(this);
-            }
+            OnSettingChanged?.Invoke(this);
         }
     }
 
@@ -319,21 +307,11 @@ public partial class SetupControl : Component
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
-                if (FileExists(fileName))
-                {
-                    if (FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc)
-                    {
-                        validation = MapValidationInfo.Valid;
-                    }
-                    else
-                    {
-                        validation = MapValidationInfo.InvalidMap;
-                    }
-                }
-                else
-                {
-                    validation = MapValidationInfo.InvalidMap;
-                }
+                validation = FileExists(fileName)
+                    ? FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc
+                        ? MapValidationInfo.Valid
+                        : MapValidationInfo.InvalidMap
+                    : MapValidationInfo.InvalidMap;
             }
             else
             {
@@ -401,10 +379,7 @@ public partial class SetupControl : Component
                         }
                     }
 
-                    if (OnSettingChanged != null)
-                    {
-                        OnSettingChanged(this);
-                    }
+                    OnSettingChanged?.Invoke(this);
                 }
 
                 break;
@@ -426,10 +401,7 @@ public partial class SetupControl : Component
                             ValidateMap();
                         }
 
-                        if (OnSettingChanged != null)
-                        {
-                            OnSettingChanged(this);
-                        }
+                        OnSettingChanged?.Invoke(this);
 
                         LoadMap();
                     }
@@ -462,10 +434,7 @@ public partial class SetupControl : Component
                 if (!GetHost())
                 {
                     _phase = SetupPhase.SendMap;
-                    if (OnSendingMaps != null)
-                    {
-                        OnSendingMaps(this);
-                    }
+                    OnSendingMaps?.Invoke(this);
                 }
 
                 break;
@@ -480,10 +449,7 @@ public partial class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    if (OnIncompatibleVersion != null)
-                    {
-                        OnIncompatibleVersion(this, package.Param2, package.Param1);
-                    }
+                    OnIncompatibleVersion?.Invoke(this, package.Param2, package.Param1);
                 }
 
                 break;
@@ -494,10 +460,7 @@ public partial class SetupControl : Component
     public void LoadMap()
     {
         _phase = SetupPhase.LoadMap;
-        if (OnLoadMap != null)
-        {
-            OnLoadMap(this, _engine.StartupDirectory + Settings.MapName);
-        }
+        OnLoadMap?.Invoke(this, _engine.StartupDirectory + Settings.MapName);
     }
 
     // AoWSetup.pas:689
@@ -551,10 +514,7 @@ public partial class SetupControl : Component
     public void SendMap()
     {
         _phase = SetupPhase.SendMap;
-        if (OnSendingMaps != null)
-        {
-            OnSendingMaps(this);
-        }
+        OnSendingMaps?.Invoke(this);
 
         SendMessage(10, Settings, 0, 0, 0);
         if (ValidateSendMap())
@@ -597,10 +557,7 @@ public partial class SetupControl : Component
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
             _phase = SetupPhase.Synchronize;
-            if (OnSynchronize != null)
-            {
-                OnSynchronize(this);
-            }
+            OnSynchronize?.Invoke(this);
         }
 
         if (GetRemote())
@@ -707,10 +664,7 @@ public partial class SetupControl : Component
         else
         {
             _phase = SetupPhase.Synchronize;
-            if (OnSynchronize != null)
-            {
-                OnSynchronize(this);
-            }
+            OnSynchronize?.Invoke(this);
         }
 
         return result;
@@ -980,10 +934,7 @@ public partial class SetupControl : Component
                 SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (OnSettingChanged != null)
-            {
-                OnSettingChanged(this);
-            }
+            OnSettingChanged?.Invoke(this);
 
             _updateCount -= 1;
         }
@@ -1182,14 +1133,9 @@ public partial class SetupControl : Component
             if (!unique)
             {
                 // { Original reads the last character without guarding an empty name. }
-                if (Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[result.Length - 1])))
-                {
-                    result = Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[result.Length - 1]) + 1 - 48);
-                }
-                else
-                {
-                    result = result + "1";
-                }
+                result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[result.Length - 1]))
+                    ? Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[result.Length - 1]) + 1 - 48)
+                    : result + "1";
             }
             else
             {
@@ -1315,10 +1261,7 @@ public partial class SetupControl : Component
         bool result = default;
         if (GetHost() && GetPlayerSetupValid())
         {
-            if (OnPlayerSetupDone != null)
-            {
-                OnPlayerSetupDone(this);
-            }
+            OnPlayerSetupDone?.Invoke(this);
 
             if (GetRemote())
             {
@@ -1583,14 +1526,9 @@ public partial class SetupControl : Component
             for (int i = 0, last = Settings.RemotePlayers.GetCount() - 1; i <= last; i++)
             {
                 Settings.RemotePlayers.GetPlayers(i).PreferredRace = 255;
-                if (Settings.RemotePlayers.GetPlayers(i).RemoteId == RemotePlayer.RemoteId)
-                {
-                    Settings.RemotePlayers.GetPlayers(i).MapValidation = MapValidationInfo.Valid;
-                }
-                else
-                {
-                    Settings.RemotePlayers.GetPlayers(i).MapValidation = MapValidationInfo.Unknown;
-                }
+                Settings.RemotePlayers.GetPlayers(i).MapValidation = Settings.RemotePlayers.GetPlayers(i).RemoteId == RemotePlayer.RemoteId
+                    ? MapValidationInfo.Valid
+                    : MapValidationInfo.Unknown;
             }
 
             for (int i = 1, last = preview.Players.GetCount() - 1; i <= last; i++)
@@ -1654,10 +1592,7 @@ public partial class SetupControl : Component
             if (i != -1)
             {
                 Settings.RemotePlayers.GetPlayers(i)?.Dispose();
-                if (OnEjectPlayer != null)
-                {
-                    OnEjectPlayer(this, remoteId);
-                }
+                OnEjectPlayer?.Invoke(this, remoteId);
 
                 j = Settings.IndexOfRemoteId(remoteId);
                 if (j != -1)

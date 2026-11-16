@@ -97,14 +97,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         int result;
         int player;
         player = StrategicMap.Current.Players.RaceToPlayer(race);
-        if (player == -1)
-        {
-            result = StatusToStatusValue((Status)DefaultRelations[race]);
-        }
-        else
-        {
-            result = _playerRelations[player - 1];
-        }
+        result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
 
         return result + Owner.RelationOffset;
     }
@@ -115,14 +108,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         Status result;
         int player;
         player = StrategicMap.Current.Players.RaceToPlayer(race);
-        if (player == -1)
-        {
-            result = StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset);
-        }
-        else
-        {
-            result = StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
-        }
+        result = player == -1
+            ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset)
+            : StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
 
         return result;
     }
@@ -134,42 +122,21 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         {
             // { Original dereferences AoWHSMap before the nil check below. }
             _playerRelations[player - 1] = value - StrategicMap.Current.Races.RelationOffset;
-            if (StrategicMap.Current != null)
-            {
-                StrategicMap.Current.TriggerRelationsChanged();
-            }
+            StrategicMap.Current?.TriggerRelationsChanged();
         }
     }
 
     // Ability.PAS:259
     public int GetPlayerRelationValue(sbyte player)
     {
-        int result;
-        if (player > 0)
-        {
-            result = _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset;
-        }
-        else
-        {
-            result = 50;
-        }
-
+        int result = player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
         return result;
     }
 
     // Ability.PAS:265
     public Status GetPlayerRelation(sbyte player)
     {
-        Status result;
-        if (player > 0)
-        {
-            result = StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
-        }
-        else
-        {
-            result = Status.Neutral;
-        }
-
+        Status result = player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
         return result;
     }
 
@@ -216,16 +183,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     // Ability.PAS:298
     public Status GetDefaultRaceRelation(sbyte race)
     {
-        Status result;
-        if (race >= 0 && race < DefaultRelations.Count)
-        {
-            result = (Status)DefaultRelations[race];
-        }
-        else
-        {
-            result = Status.Neutral;
-        }
-
+        Status result = race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
         return result;
     }
 

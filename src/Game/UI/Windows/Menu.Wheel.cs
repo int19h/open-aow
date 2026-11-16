@@ -16,11 +16,6 @@ public partial class Menu
         }
 
         UIComponent child = TopWheelChild(X, Y);
-        if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
-        {
-            return true;
-        }
-
-        return ScrollOwnedBar(steps);
+        return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || ScrollOwnedBar(steps);
     }
 }

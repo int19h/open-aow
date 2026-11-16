@@ -84,9 +84,7 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2188
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (_flagId != 63 && (!StrategicMap.Current.FogEnabled || !Fogged))
@@ -158,21 +156,7 @@ public partial class PlayerStructure : Structure
         {
             if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !GetRazed())
             {
-                if (Player == 0)
-                {
-                    if (((PlayerStructureResource)Resource).Claimed)
-                    {
-                        message.Result = 0;
-                    }
-                    else
-                    {
-                        message.Result = -1;
-                    }
-                }
-                else
-                {
-                    message.Result = Player;
-                }
+                message.Result = Player == 0 ? ((PlayerStructureResource)Resource).Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : (Rtl.MsgArg)Player;
             }
         }
         else
@@ -269,37 +253,11 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2313
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || GetBuilding()))
-        {
-            if (Player == 0)
-            {
-                if (((MoveControl)info.Sender).Player == Player || !((PlayerStructureResource)Resource).Claimed)
-                {
-                    result = 1;
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
-            else
-            {
-                if (((MoveControl)info.Sender).Player == Player || Player == -1)
-                {
-                    result = 1;
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
+        int result = Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || GetBuilding())
+            ? Player == 0
+                ? ((MoveControl)info.Sender).Player == Player || !((PlayerStructureResource)Resource).Claimed ? 1 : 0
+                : ((MoveControl)info.Sender).Player == Player || Player == -1 ? 1 : 0
+            : 1;
         return result;
     }
 
@@ -500,28 +458,11 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2159
     public virtual void UpdateFlagId()
     {
-        if (!Status.Contains(MapObjectStatusElement.EditMode))
-        {
-            if (Player > 0)
-            {
-                _flagId = (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-            }
-            else
-            {
-                if (((PlayerStructureResource)Resource).Claimed)
-                {
-                    _flagId = 32;
-                }
-                else
-                {
-                    _flagId = 63;
-                }
-            }
-        }
-        else
-        {
-            _flagId = 63;
-        }
+        _flagId = !Status.Contains(MapObjectStatusElement.EditMode)
+            ? Player > 0
+                ? (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace
+                : ((PlayerStructureResource)Resource).Claimed ? (byte)32 : (byte)63
+            : (byte)63;
     }
 
     // Structur.PAS:2208
@@ -555,14 +496,9 @@ public partial class PlayerStructure : Structure
             return;
         }
 
-        if (Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
-        {
-            range = VisibilityRange();
-        }
-        else
-        {
-            range = 0;
-        }
+        range = Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+            ? VisibilityRange()
+            : 0;
 
         if (range != UnfogRange)
         {
@@ -667,16 +603,9 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2363
     public virtual MoveAction GetMoveAction(sbyte player, MoveAction action)
     {
-        MoveAction result;
-        if (player != Player && !GetRazed() && (Player != 0 || ((PlayerStructureResource)Resource).Claimed))
-        {
-            result = MoveAction.Attack;
-        }
-        else
-        {
-            result = action;
-        }
-
+        MoveAction result = player != Player && !GetRazed() && (Player != 0 || ((PlayerStructureResource)Resource).Claimed)
+            ? MoveAction.Attack
+            : action;
         return result;
     }
 
@@ -690,13 +619,12 @@ public partial class PlayerStructure : Structure
         bool different;
         int count;
         MapLevel level;
-        HexNumberWalkData walk = default;
         ArmyHexSprite army;
         player = -1;
         different = false;
         count = GetTerrainCount();
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && !different)
         {
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

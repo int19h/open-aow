@@ -316,14 +316,9 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     {
                                         if (structure != null && structure.ProductionPriority > 0)
                                         {
-                                            if (structure.ProductionPriority > 10)
-                                            {
-                                                priority = priority * 5;
-                                            }
-                                            else
-                                            {
-                                                priority = Round((double)(priority * 0.5) * structure.ProductionPriority);
-                                            }
+                                            priority = structure.ProductionPriority > 10
+                                                ? priority * 5
+                                                : Round((double)(priority * 0.5) * structure.ProductionPriority);
                                         }
 
                                         candidates.AddABCD(control, j, 0, priority);

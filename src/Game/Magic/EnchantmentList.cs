@@ -43,14 +43,7 @@ public partial class EnchantmentList : OwningNode, IChildList<Enchantment>
         Enchantment result;
         int index;
         index = IndexOfId(id);
-        if (index != -1)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? this[index] : null;
 
         return result;
     }

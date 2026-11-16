@@ -257,14 +257,9 @@ public partial class AIGroupRecruitControl : AIGroupTask
             result = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
             if (!result)
             {
-                if (Mode != AIGroupRecruitControlMode.ForceRecruit)
-                {
-                    result = group.Group.GetMovePointsMin() >= group.MovePoints;
-                }
-                else
-                {
-                    result = group.Group.GetMovePointsMin() + 20 >= group.MovePoints;
-                }
+                result = Mode != AIGroupRecruitControlMode.ForceRecruit
+                    ? group.Group.GetMovePointsMin() >= group.MovePoints
+                    : group.Group.GetMovePointsMin() + 20 >= group.MovePoints;
             }
         }
         else

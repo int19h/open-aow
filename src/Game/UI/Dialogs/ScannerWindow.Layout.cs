@@ -95,10 +95,10 @@ public partial class ScannerWindow : ILayoutModule
         ScannerTabs.Priority = 10000;
         ScannerTabs.WinLeft = 31;
         ScannerTabs.WinTop = 182;
-        ScannerTabs.LayoutToolTipText = new LayoutStrings()
-        {
+        ScannerTabs.LayoutToolTipText =
+        [
             "Selects one of the three map layers."
-        };
+        ];
         ScannerTabs.CaptureInput = true;
         ScannerTabs.Alignment.AlignWidth = AlignWidth.Both;
         ScannerTabs.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -129,10 +129,10 @@ public partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.Priority = 1001;
         BuildingCheckBox.WinLeft = 160;
         BuildingCheckBox.WinTop = 37;
-        BuildingCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        BuildingCheckBox.LayoutToolTipText =
+        [
             "Toggles player structures on and off."
-        };
+        ];
         BuildingCheckBox.CaptureInput = true;
         BuildingCheckBox.Alignment.AlignWidth = AlignWidth.Right;
         BuildingCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -165,10 +165,10 @@ public partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.Priority = 1002;
         ArmyCheckBox.WinLeft = 160;
         ArmyCheckBox.WinTop = 52;
-        ArmyCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ArmyCheckBox.LayoutToolTipText =
+        [
             "Toggles parties on and off."
-        };
+        ];
         ArmyCheckBox.CaptureInput = true;
         ArmyCheckBox.Alignment.AlignWidth = AlignWidth.Right;
         ArmyCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -201,10 +201,10 @@ public partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.Priority = 1003;
         NaturalCheckBox.WinLeft = 160;
         NaturalCheckBox.WinTop = 67;
-        NaturalCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        NaturalCheckBox.LayoutToolTipText =
+        [
             "Toggles natural structures on and off."
-        };
+        ];
         NaturalCheckBox.CaptureInput = true;
         NaturalCheckBox.Alignment.AlignWidth = AlignWidth.Right;
         NaturalCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -322,10 +322,10 @@ public partial class ScannerWindow : ILayoutModule
         sMinIcon.Priority = 1000;
         sMinIcon.WinLeft = 180;
         sMinIcon.WinTop = 1;
-        sMinIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        sMinIcon.LayoutToolTipText =
+        [
             "Minimizes the window"
-        };
+        ];
         sMinIcon.CaptureInput = true;
         sMinIcon.Alignment.AlignWidth = AlignWidth.Right;
         sMinIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -356,10 +356,10 @@ public partial class ScannerWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 165;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;

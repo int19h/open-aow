@@ -257,13 +257,7 @@ public partial class SetupEvents : UIModule
     }
 
     // aowSetupEvents.pas:291
-    public void DPlayMessageError()
-    {
-        if (StrategicMap.Current != null)
-        {
-            StrategicMap.Current.PlayerConnectionLost();
-        }
-    }
+    public void DPlayMessageError() => StrategicMap.Current?.PlayerConnectionLost();
 
     // aowSetupEvents.pas:299
     public void DPlayDestroyPlayer(int id, int numberPlayers)

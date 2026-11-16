@@ -67,10 +67,7 @@ public partial class LeaderSetupControl : EngineObject
     // Player.PAS:1787
     public virtual bool Done()
     {
-        if (OnDone != null)
-        {
-            OnDone(this);
-        }
+        OnDone?.Invoke(this);
 
         return true;
     }

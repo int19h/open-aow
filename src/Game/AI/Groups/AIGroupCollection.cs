@@ -42,16 +42,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     // AIGroup.pas:526
     public AIGroup GetGroups(int index)
     {
-        AIGroup result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        AIGroup result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 
@@ -77,14 +68,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
         AIGroup result;
         int index;
         index = IndexOfId(id);
-        if (index != -1)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? this[index] : null;
 
         return result;
     }

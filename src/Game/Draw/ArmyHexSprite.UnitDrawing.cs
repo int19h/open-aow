@@ -40,39 +40,13 @@ public partial class ArmyHexSprite
                     pixelYSurface += Round((double)part * deltaY);
                 }
 
-                if ((Status & 8) == 0)
-                {
-                    if (Direction == 0)
-                    {
-                        sequence = UnitGraphicsResource.Sequences.List[9];
-                    }
-                    else
-                    {
-                        sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
-                    }
-                }
-                else
-                {
-                    if (Direction == 0)
-                    {
-                        sequence = UnitGraphicsResource.Sequences.List[3];
-                    }
-                    else
-                    {
-                        sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
-                    }
-                }
+                sequence = (Status & 8) == 0
+                    ? Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5]
+                    : Direction == 0 ? UnitGraphicsResource.Sequences.List[3] : UnitGraphicsResource.Sequences.List[Direction - 1];
             }
             else
             {
-                if (Direction == 0)
-                {
-                    sequence = UnitGraphicsResource.Sequences.List[3];
-                }
-                else
-                {
-                    sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
-                }
+                sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[3] : UnitGraphicsResource.Sequences.List[Direction - 1];
             }
 
             if (!Army.Status.Contains(ArmyStatusElement.Concealed))
@@ -227,14 +201,9 @@ public partial class ArmyHexSprite
                 }
             }
 
-            if (Direction == 0)
-            {
-                sequence = UnitGraphicsResource.Sequences.GetImageSequence(27);
-            }
-            else
-            {
-                sequence = UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
-            }
+            sequence = Direction == 0
+                ? UnitGraphicsResource.Sequences.GetImageSequence(27)
+                : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 
             while (sequence != null)
             {
@@ -251,14 +220,7 @@ public partial class ArmyHexSprite
         int frame;
         if (MoveStep != -1 && (Status & 8) == 0)
         {
-            if (Direction == 0)
-            {
-                sequence = UnitGraphicsResource.Sequences.List[9];
-            }
-            else
-            {
-                sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
-            }
+            sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
 
             if (sequence != null)
             {

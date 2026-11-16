@@ -246,14 +246,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                         _castSpellActions.GetCastSpellActions(index)?.Dispose();
                     }
 
-                    if (done)
-                    {
-                        _state = 2;
-                    }
-                    else
-                    {
-                        _state = -1;
-                    }
+                    _state = done ? 2 : -1;
                 }
                 else
                 {

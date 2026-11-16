@@ -52,7 +52,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         Creator = creator;
         for (int i = 0; i <= 285; i++)
         {
-            List<MapObjectResource> list = new();
+            List<MapObjectResource> list = [];
             _resources[i] = list;
         }
 
@@ -109,23 +109,9 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         Items = null;
-        if (combat == null)
-        {
-            siteCombat = false;
-        }
-        else
-        {
-            siteCombat = combat.ExplorationSite == 1;
-        }
+        siteCombat = combat != null && combat.ExplorationSite == 1;
 
-        if (combat == null)
-        {
-            randomTerrain = true;
-        }
-        else
-        {
-            randomTerrain = !(siteCombat || combat.ExplorationSite == 2);
-        }
+        randomTerrain = combat == null || !(siteCombat || combat.ExplorationSite == 2);
 
         _randomTerrain = randomTerrain;
         CombatPlacement.CombatXLocation = X;
@@ -272,135 +258,51 @@ public partial class RandomBattleMapGenerator : IDisposable
                     switch (shape)
                     {
                         case 14:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 2;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)2;
 
                             break;
                         case 15:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 3;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)3;
 
                             break;
                         case 16:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 4;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)4;
 
                             break;
                         case 17:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 5;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)5;
 
                             break;
                         case 18:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 6;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)6;
 
                             break;
                         case 19:
-                            if (Random(100) < 50)
-                            {
-                                shape = 1;
-                            }
-                            else
-                            {
-                                shape = 7;
-                            }
+                            shape = Random(100) < 50 ? (byte)1 : (byte)7;
 
                             break;
                         case 11:
-                            if (Random(100) < 50)
-                            {
-                                shape = 2;
-                            }
-                            else
-                            {
-                                shape = 3;
-                            }
+                            shape = Random(100) < 50 ? (byte)2 : (byte)3;
 
                             break;
                         case 9:
-                            if (Random(100) < 50)
-                            {
-                                shape = 3;
-                            }
-                            else
-                            {
-                                shape = 4;
-                            }
+                            shape = Random(100) < 50 ? (byte)3 : (byte)4;
 
                             break;
                         case 13:
-                            if (Random(100) < 50)
-                            {
-                                shape = 5;
-                            }
-                            else
-                            {
-                                shape = 4;
-                            }
+                            shape = Random(100) < 50 ? (byte)5 : (byte)4;
 
                             break;
                         case 12:
-                            if (Random(100) < 50)
-                            {
-                                shape = 5;
-                            }
-                            else
-                            {
-                                shape = 6;
-                            }
+                            shape = Random(100) < 50 ? (byte)5 : (byte)6;
 
                             break;
                         case 8:
-                            if (Random(100) < 50)
-                            {
-                                shape = 7;
-                            }
-                            else
-                            {
-                                shape = 6;
-                            }
+                            shape = Random(100) < 50 ? (byte)7 : (byte)6;
 
                             break;
                         case 10:
-                            if (Random(100) < 50)
-                            {
-                                shape = 2;
-                            }
-                            else
-                            {
-                                shape = 7;
-                            }
+                            shape = Random(100) < 50 ? (byte)2 : (byte)7;
 
                             break;
                     }
@@ -467,69 +369,27 @@ public partial class RandomBattleMapGenerator : IDisposable
                         switch (shape)
                         {
                             case 21:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 2;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)2;
 
                                 break;
                             case 22:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 3;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)3;
 
                                 break;
                             case 23:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 4;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)4;
 
                                 break;
                             case 24:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 5;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)5;
 
                                 break;
                             case 25:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 6;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)6;
 
                                 break;
                             case 26:
-                                if (Random(100) < 50)
-                                {
-                                    shape = 0;
-                                }
-                                else
-                                {
-                                    shape = 7;
-                                }
+                                shape = Random(100) < 50 ? (byte)0 : (byte)7;
 
                                 break;
                         }
@@ -1104,14 +964,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         {
             if (direction != position)
             {
-                if (direction == 32)
-                {
-                    direction = position;
-                }
-                else
-                {
-                    direction = 0;
-                }
+                direction = direction == 32 ? position : 0;
             }
         }
 

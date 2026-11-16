@@ -129,10 +129,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     protected override void OnChange()
     {
         base.OnChange();
-        if (OnChanged != null)
-        {
-            OnChanged(this);
-        }
+        OnChanged?.Invoke(this);
     }
 
     // Army.PAS:4940

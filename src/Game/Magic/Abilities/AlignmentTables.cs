@@ -40,58 +40,19 @@ internal static class AlignmentTables
 
     internal static DiplomaticRelation AlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {
-        DiplomaticRelation result;
-        if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A))
-        {
-            if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B))
-            {
-                result = DiplomaticRelation.Peace;
-            }
-            else
-            {
-                if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
-                {
-                    result = DiplomaticRelation.Unknown;
-                }
-                else
-                {
-                    result = DiplomaticRelation.War;
-                }
-            }
-        }
-        else
-        {
-            if (Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(A))
-            {
-                if (Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(B))
-                {
-                    result = DiplomaticRelation.Peace;
-                }
-                else
-                {
-                    if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
-                    {
-                        result = DiplomaticRelation.Unknown;
-                    }
-                    else
-                    {
-                        result = DiplomaticRelation.War;
-                    }
-                }
-            }
-            else
-            {
-                if (A == Alignment.PureNeutral && B == Alignment.PureNeutral)
-                {
-                    result = DiplomaticRelation.Peace;
-                }
-                else
-                {
-                    result = DiplomaticRelation.Unknown;
-                }
-            }
-        }
-
+        DiplomaticRelation result = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A)
+            ? Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B)
+                ? DiplomaticRelation.Peace
+                : Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B)
+                    ? DiplomaticRelation.Unknown
+                    : DiplomaticRelation.War
+            : Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(A)
+                ? Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(B)
+                    ? DiplomaticRelation.Peace
+                    : Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B)
+                        ? DiplomaticRelation.Unknown
+                        : DiplomaticRelation.War
+                : A == Alignment.PureNeutral && B == Alignment.PureNeutral ? DiplomaticRelation.Peace : DiplomaticRelation.Unknown;
         return result;
     }
 

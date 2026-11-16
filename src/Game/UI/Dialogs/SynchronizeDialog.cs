@@ -30,14 +30,7 @@ public partial class SynchronizeDialog : UIModule
         PlayerSetupSettings result;
         int index;
         index = UI.SetupEvents.SetupControl.Settings.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
-        if (index != -1)
-        {
-            result = UI.SetupEvents.SetupControl.Settings.GetSettings(index);
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? UI.SetupEvents.SetupControl.Settings.GetSettings(index) : null;
 
         return result;
     }

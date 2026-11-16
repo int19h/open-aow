@@ -92,16 +92,7 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2286
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
-        if (CanTouchUnit(attacker, defender))
-        {
-            result = Troop.UnitStrikeDamageValue(attacker, defender) * 2;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = CanTouchUnit(attacker, defender) ? Troop.UnitStrikeDamageValue(attacker, defender) * 2 : 0;
         return result;
     }
 

@@ -249,14 +249,7 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         int index;
         index = IndexOfId(enchantmentId);
-        if (index != -1)
-        {
-            result = Enchantments.GetEnchantments(index).Dispel((byte)player);
-        }
-        else
-        {
-            result = false;
-        }
+        result = index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
 
         return result;
     }
@@ -303,14 +296,7 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         int index;
         index = IndexOfId(enchantmentId);
-        if (index != -1)
-        {
-            result = Enchantments.GetEnchantments(index).Remove((byte)player);
-        }
-        else
-        {
-            result = false;
-        }
+        result = index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
 
         return result;
     }

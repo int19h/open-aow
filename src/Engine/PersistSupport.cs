@@ -85,17 +85,14 @@ public static class PersistSupport
 
     private static sbyte InRange(string name, string component, int stored)
     {
-        if (stored is < -128 or > 127)
-        {
-            throw new InvalidOperationException(name + "." + component + " is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside -128 to 127.");
-        }
-
-        return (sbyte)stored;
+        return stored is < -128 or > 127
+            ? throw new InvalidOperationException(name + "." + component + " is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside -128 to 127.")
+            : (sbyte)stored;
     }
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {
-        List<int> list = new(values.Length);
+        List<int> list = [with(values.Length)];
         for (int i = 0; i < values.Length; i++)
         {
             list.Add(values[i]);
@@ -120,7 +117,7 @@ public static class PersistSupport
 
     public static void UInt16Array(IPersister persister, string name, Span<ushort> values)
     {
-        List<ushort> list = new(values.Length);
+        List<ushort> list = [with(values.Length)];
         for (int i = 0; i < values.Length; i++)
         {
             list.Add(values[i]);
@@ -152,7 +149,7 @@ public static class PersistSupport
     public static void Int32List(IPersister persister, string name, Int32List list)
     {
         bool present = persister.Has(name);
-        List<int> items = new(list.Count);
+        List<int> items = [with(list.Count)];
         for (int i = 0; i < list.Count; i++)
         {
             items.Add(list[i]);
@@ -180,7 +177,7 @@ public static class PersistSupport
     public static void ByteList(IPersister persister, string name, ByteList list)
     {
         bool present = persister.Has(name);
-        List<byte> items = new(list.Count);
+        List<byte> items = [with(list.Count)];
         for (int i = 0; i < list.Count; i++)
         {
             items.Add(list[i]);
@@ -294,7 +291,7 @@ public static class PersistSupport
             return;
         }
 
-        List<IReadOnlyList<SequenceLayer>> entries = new();
+        List<IReadOnlyList<SequenceLayer>> entries = [];
         persister.ImageSequences(name, entries: entries);
         LoadPayload(() => list.LoadLayers(entries));
     }
@@ -311,7 +308,7 @@ public static class PersistSupport
             return;
         }
 
-        List<(sbyte First, sbyte Second)> pairs = new();
+        List<(sbyte First, sbyte Second)> pairs = [];
         if (!persister.Loading)
         {
             list.Pack();
@@ -413,7 +410,7 @@ public static class PersistSupport
             return;
         }
 
-        List<string> copy = new(lines.Count);
+        List<string> copy = [with(lines.Count)];
         for (int i = 0; i < lines.Count; i++)
         {
             copy.Add(lines[i]);
@@ -448,8 +445,8 @@ public static class PersistSupport
             return;
         }
 
-        List<string> copy = new(lines.Count);
-        List<int> objects = new(lines.Count);
+        List<string> copy = [with(lines.Count)];
+        List<int> objects = [with(lines.Count)];
         for (int i = 0; i < lines.Count; i++)
         {
             copy.Add(lines[i]);

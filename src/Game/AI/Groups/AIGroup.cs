@@ -233,10 +233,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (Units.IndexOf(troop) == -1)
         {
             group = troop.Group;
-            if (group != null)
-            {
-                group.DeleteUnit(troop);
-            }
+            group?.DeleteUnit(troop);
 
             if (troop.UnitId != TransporterId || !troop.GetTransporter())
             {
@@ -402,14 +399,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         bool result;
         MapCoordinate groupLocation = default;
         groupLocation = GetLocation();
-        if (location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
+        result = location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1;
 
         return result;
     }

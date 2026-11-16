@@ -61,14 +61,7 @@ public partial class StrikeAbility : AdjustableAbility
                     command.TargetDamageValue = values.TargetDamage;
                     command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
                     // { Both original branches assign the same move cost. }
-                    if (values.TargetDamage == 0)
-                    {
-                        command.MoveCost = 2;
-                    }
-                    else
-                    {
-                        command.MoveCost = 2;
-                    }
+                    command.MoveCost = values.TargetDamage == 0 ? 2 : 2;
 
                     commands.Add(command);
                 }
@@ -253,30 +246,9 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1248
     public bool CanExecuteMelee(CombatObject source, CombatObject target)
     {
-        bool result;
-        if (source.GetSide() == CombatSideIndex.Defender)
-        {
-            if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position))
-            {
-                result = target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-            }
-            else
-            {
-                result = true;
-            }
-        }
-        else
-        {
-            if (target.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
-        }
-
+        bool result = source.GetSide() == CombatSideIndex.Defender
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
         return result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
     }
 

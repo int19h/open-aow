@@ -78,14 +78,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     {
         bool result;
         string reason = "";
-        if (CanConstruct(troop, ref reason))
-        {
-            result = GetStructure(troop).Rebuild(troop);
-        }
-        else
-        {
-            result = false;
-        }
+        result = CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
 
         return result;
     }

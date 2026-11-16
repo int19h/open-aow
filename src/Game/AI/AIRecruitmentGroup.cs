@@ -80,16 +80,10 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
         oldGroup = Group;
         if (oldGroup != group)
         {
-            if (oldGroup != null)
-            {
-                oldGroup.Release();
-            }
+            oldGroup?.Release();
 
             Group = group;
-            if (Group != null)
-            {
-                Group.AddRef();
-            }
+            Group?.AddRef();
         }
     }
 

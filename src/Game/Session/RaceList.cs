@@ -29,16 +29,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:379
     public Race GetRace(int index)
     {
-        Race result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        Race result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

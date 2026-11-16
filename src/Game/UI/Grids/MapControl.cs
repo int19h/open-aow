@@ -245,10 +245,7 @@ public partial class MapControl : Component
         if (map.EngineClass.ClassId == 131089)
         {
             LinkToHsm();
-            if (OnActivateHsm != null)
-            {
-                OnActivateHsm(this);
-            }
+            OnActivateHsm?.Invoke(this);
         }
     }
 
@@ -257,10 +254,7 @@ public partial class MapControl : Component
     {
         if (map.EngineClass.ClassId == 131089)
         {
-            if (OnDeactivateHsm != null)
-            {
-                OnDeactivateHsm(this);
-            }
+            OnDeactivateHsm?.Invoke(this);
 
             ReleaseHsm();
         }
@@ -330,10 +324,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnMapSettingsChanged != null)
-            {
-                OnMapSettingsChanged(this);
-            }
+            OnMapSettingsChanged?.Invoke(this);
         }
         catch
         {
@@ -402,10 +393,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnPlayerChanged != null)
-            {
-                OnPlayerChanged(StrategicMap.Current.CurrentPlayer);
-            }
+            OnPlayerChanged?.Invoke(StrategicMap.Current.CurrentPlayer);
         }
         catch
         {
@@ -418,10 +406,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnExitGame != null)
-            {
-                OnExitGame(this);
-            }
+            OnExitGame?.Invoke(this);
         }
         catch
         {
@@ -434,10 +419,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnNewTurn != null)
-            {
-                OnNewTurn(player);
-            }
+            OnNewTurn?.Invoke(player);
         }
         catch
         {
@@ -467,10 +449,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnSeatedPlayerChanged != null)
-            {
-                OnSeatedPlayerChanged(StrategicMap.Current.SeatedPlayer);
-            }
+            OnSeatedPlayerChanged?.Invoke(StrategicMap.Current.SeatedPlayer);
         }
         catch
         {
@@ -483,10 +462,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnGemsChanged != null)
-            {
-                OnGemsChanged(player.PlayerIndex);
-            }
+            OnGemsChanged?.Invoke(player.PlayerIndex);
         }
         catch
         {
@@ -499,10 +475,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnIncomeChanged != null)
-            {
-                OnIncomeChanged(player.PlayerIndex);
-            }
+            OnIncomeChanged?.Invoke(player.PlayerIndex);
         }
         catch
         {
@@ -515,10 +488,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnUpkeepChanged != null)
-            {
-                OnUpkeepChanged(player.PlayerIndex);
-            }
+            OnUpkeepChanged?.Invoke(player.PlayerIndex);
         }
         catch
         {
@@ -531,10 +501,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnPlayerMagicChanged != null)
-            {
-                OnPlayerMagicChanged(control.Player.PlayerIndex);
-            }
+            OnPlayerMagicChanged?.Invoke(control.Player.PlayerIndex);
         }
         catch
         {
@@ -547,10 +514,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnGlobalMagicChanged != null)
-            {
-                OnGlobalMagicChanged(sender);
-            }
+            OnGlobalMagicChanged?.Invoke(sender);
         }
         catch
         {
@@ -581,10 +545,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnDayChanged != null)
-            {
-                OnDayChanged(StrategicMap.Current.Day);
-            }
+            OnDayChanged?.Invoke(StrategicMap.Current.Day);
         }
         catch
         {
@@ -597,10 +558,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnCombat != null)
-            {
-                OnCombat(sender);
-            }
+            OnCombat?.Invoke(sender);
         }
         catch
         {
@@ -613,10 +571,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnLogbookChanged != null)
-            {
-                OnLogbookChanged(player.PlayerIndex);
-            }
+            OnLogbookChanged?.Invoke(player.PlayerIndex);
         }
         catch
         {
@@ -629,10 +584,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnStructureChanged != null)
-            {
-                OnStructureChanged(objectValue);
-            }
+            OnStructureChanged?.Invoke(objectValue);
         }
         catch
         {
@@ -645,10 +597,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnStructureDestroyed != null)
-            {
-                OnStructureDestroyed(objectValue);
-            }
+            OnStructureDestroyed?.Invoke(objectValue);
         }
         catch
         {
@@ -661,10 +610,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnArmyChanged != null)
-            {
-                OnArmyChanged(objectValue);
-            }
+            OnArmyChanged?.Invoke(objectValue);
         }
         catch
         {
@@ -677,10 +623,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnArmyDestroyed != null)
-            {
-                OnArmyDestroyed(objectValue);
-            }
+            OnArmyDestroyed?.Invoke(objectValue);
         }
         catch
         {
@@ -693,10 +636,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnHexSpriteChanged != null)
-            {
-                OnHexSpriteChanged(sender);
-            }
+            OnHexSpriteChanged?.Invoke(sender);
         }
         catch
         {
@@ -709,10 +649,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnUnitChanged != null)
-            {
-                OnUnitChanged(objectValue);
-            }
+            OnUnitChanged?.Invoke(objectValue);
         }
         catch
         {
@@ -725,10 +662,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnUnitDestroyed != null)
-            {
-                OnUnitDestroyed(objectValue);
-            }
+            OnUnitDestroyed?.Invoke(objectValue);
         }
         catch
         {
@@ -741,10 +675,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnGameOver != null)
-            {
-                OnGameOver(sender);
-            }
+            OnGameOver?.Invoke(sender);
         }
         catch
         {
@@ -757,10 +688,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnGameTerminated != null)
-            {
-                OnGameTerminated((sbyte)StrategicMap.Current.GameResult);
-            }
+            OnGameTerminated?.Invoke((sbyte)StrategicMap.Current.GameResult);
         }
         catch
         {
@@ -773,10 +701,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnPlayerTerminated != null)
-            {
-                OnPlayerTerminated(player);
-            }
+            OnPlayerTerminated?.Invoke(player);
         }
         catch
         {
@@ -789,10 +714,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnExecuteEventLog != null)
-            {
-                OnExecuteEventLog(info.Info.Log, info.Info.Immediate, info.Info.Done);
-            }
+            OnExecuteEventLog?.Invoke(info.Info.Log, info.Info.Immediate, info.Info.Done);
         }
         catch
         {
@@ -805,10 +727,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnActivateCombatMap != null)
-            {
-                OnActivateCombatMap(this);
-            }
+            OnActivateCombatMap?.Invoke(this);
         }
         catch
         {
@@ -821,10 +740,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnDeactivateCombatMap != null)
-            {
-                OnDeactivateCombatMap(this);
-            }
+            OnDeactivateCombatMap?.Invoke(this);
         }
         catch
         {
@@ -853,10 +769,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnCastSpell != null)
-            {
-                OnCastSpell(sender);
-            }
+            OnCastSpell?.Invoke(sender);
         }
         catch
         {
@@ -869,10 +782,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnViewPortChange != null)
-            {
-                OnViewPortChange(this);
-            }
+            OnViewPortChange?.Invoke(this);
         }
         catch
         {
@@ -885,10 +795,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnActivateAbility != null)
-            {
-                OnActivateAbility(sender);
-            }
+            OnActivateAbility?.Invoke(sender);
         }
         catch
         {
@@ -901,10 +808,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnDiplomaticChange != null)
-            {
-                OnDiplomaticChange(this);
-            }
+            OnDiplomaticChange?.Invoke(this);
         }
         catch
         {
@@ -917,10 +821,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnRelationsChanged != null)
-            {
-                OnRelationsChanged(this);
-            }
+            OnRelationsChanged?.Invoke(this);
         }
         catch
         {

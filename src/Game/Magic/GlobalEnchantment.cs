@@ -233,16 +233,7 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2626
     public virtual bool CanRemove(sbyte player, ref string reason)
     {
-        bool result;
-        if (player == PlayerIndex)
-        {
-            result = CanDeactivate((byte)PlayerIndex, ref reason);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = player == PlayerIndex && CanDeactivate((byte)PlayerIndex, ref reason);
         return result;
     }
 
@@ -291,14 +282,7 @@ public partial class GlobalEnchantment : EngineObject
         if (!EnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && player != PlayerIndex)
         {
             location = GetLocation();
-            if (location.X != -1)
-            {
-                result = StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
-            }
-            else
-            {
-                result = false;
-            }
+            result = location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
         }
         else
         {

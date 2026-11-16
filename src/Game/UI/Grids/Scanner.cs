@@ -58,15 +58,9 @@ public partial class Scanner : Control
     // Scanner.pas:126
     public override void Dispose()
     {
-        if (_mapSurface != null)
-        {
-            _mapSurface.Dispose();
-        }
+        _mapSurface?.Dispose();
 
-        if (_objectSurface != null)
-        {
-            _objectSurface.Dispose();
-        }
+        _objectSurface?.Dispose();
 
         base.Dispose();
     }
@@ -259,10 +253,7 @@ public partial class Scanner : Control
             if (TTop != oldTop || oldLeft != TLeft)
             {
                 Drawn = false;
-                if (OnChangeTileBox != null)
-                {
-                    OnChangeTileBox(this);
-                }
+                OnChangeTileBox?.Invoke(this);
             }
         }
     }
@@ -303,10 +294,7 @@ public partial class Scanner : Control
                 if (TTop != oldTop || TLeft != oldLeft)
                 {
                     Drawn = false;
-                    if (OnChangeTileBox != null)
-                    {
-                        OnChangeTileBox(this);
-                    }
+                    OnChangeTileBox?.Invoke(this);
                 }
             }
 
@@ -394,17 +382,7 @@ public partial class Scanner : Control
     }
 
     // Scanner.pas:205
-    public void SetMapWidth(int value)
-    {
-        if (StrategicMap.Current.CombatMap != null)
-        {
-            _mapWidth = value - 16;
-        }
-        else
-        {
-            _mapWidth = value - 12;
-        }
-    }
+    public void SetMapWidth(int value) => _mapWidth = StrategicMap.Current.CombatMap != null ? value - 16 : value - 12;
 
     // Scanner.pas:211
     public void SetMapHeight(int value)
@@ -423,16 +401,9 @@ public partial class Scanner : Control
     // Scanner.pas:217
     public byte GetTerrain(int X, int Y)
     {
-        byte result;
-        if (StrategicMap.Current.CombatMap != null)
-        {
-            result = (byte)Level.GetField(X + 8, Y + 6).TerrainType;
-        }
-        else
-        {
-            result = (byte)Level.GetField(X + 6, Y + 6).TerrainType;
-        }
-
+        byte result = StrategicMap.Current.CombatMap != null
+            ? (byte)Level.GetField(X + 8, Y + 6).TerrainType
+            : (byte)Level.GetField(X + 6, Y + 6).TerrainType;
         return result;
     }
 
@@ -497,59 +468,13 @@ public partial class Scanner : Control
     public byte GetExplored(int X, int Y)
     {
         byte result;
-        MapField field;
-        if (StrategicMap.Current.CombatMap != null)
-        {
-            field = Level.GetField(X + 8, Y + 6);
-        }
-        else
-        {
-            field = Level.GetField(X + 6, Y + 6);
-        }
+        MapField field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
-        if (_map.ExplorationEnabled)
-        {
-            if (field.GetExplored(_map.SeatedPlayer))
-            {
-                if (_map.FogEnabled)
-                {
-                    if (field.FogCount == 0)
-                    {
-                        result = 2;
-                    }
-                    else
-                    {
-                        result = 1;
-                    }
-                }
-                else
-                {
-                    result = 1;
-                }
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-        else
-        {
-            if (_map.FogEnabled)
-            {
-                if (field.FogCount == 0)
-                {
-                    result = 2;
-                }
-                else
-                {
-                    result = 1;
-                }
-            }
-            else
-            {
-                result = 1;
-            }
-        }
+        field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
+
+        result = _map.ExplorationEnabled
+            ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
+            : _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1;
 
         return result;
     }
@@ -562,16 +487,9 @@ public partial class Scanner : Control
     // Scanner.pas:280
     public int GetObject(int X, int Y)
     {
-        int result;
-        if (StrategicMap.Current.CombatMap != null)
-        {
-            result = Level.GetField(X + 8, Y + 6).GetScannerIcon();
-        }
-        else
-        {
-            result = Level.GetField(X + 6, Y + 6).GetScannerIcon();
-        }
-
+        int result = StrategicMap.Current.CombatMap != null
+            ? Level.GetField(X + 8, Y + 6).GetScannerIcon()
+            : Level.GetField(X + 6, Y + 6).GetScannerIcon();
         return result;
     }
 
@@ -713,14 +631,7 @@ public partial class Scanner : Control
                     Y = 0;
                 }
 
-                if (X == X / 2 * 2)
-                {
-                    yOffset = 0;
-                }
-                else
-                {
-                    yOffset = _halfRowInset;
-                }
+                yOffset = X == X / 2 * 2 ? 0 : _halfRowInset;
 
                 if (_mapSurface.Lock(ref lockedSurface) >= 0)
                 {
@@ -757,14 +668,7 @@ public partial class Scanner : Control
                             {
                                 terrain = GetTerrain(mapX, mapY);
                                 overlay = GetOverlay(mapX, mapY);
-                                if (overlay > 11 || overlay == 7)
-                                {
-                                    overlayIndex = 0;
-                                }
-                                else
-                                {
-                                    overlayIndex = overlay + 1;
-                                }
+                                overlayIndex = overlay > 11 || overlay == 7 ? 0 : overlay + 1;
 
                                 imageIndex = (overlayIndex * 16) + terrain;
                                 if (terrain == 15)
@@ -820,14 +724,7 @@ public partial class Scanner : Control
                             }
                         }
 
-                        if (yOffset == 0)
-                        {
-                            yOffset = _halfRowInset;
-                        }
-                        else
-                        {
-                            yOffset = 0;
-                        }
+                        yOffset = yOffset == 0 ? _halfRowInset : 0;
                     }
 
                     _mapSurface.Unlock();
@@ -908,14 +805,7 @@ public partial class Scanner : Control
                         }
                     }
 
-                    if (yOffset == 0)
-                    {
-                        yOffset = _halfRowInset;
-                    }
-                    else
-                    {
-                        yOffset = 0;
-                    }
+                    yOffset = yOffset == 0 ? _halfRowInset : 0;
                 }
 
                 _objectSurface.Unlock();

@@ -150,16 +150,7 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:176
     public int GetProcessCyclesMax()
     {
-        int result;
-        if (!Player.SingleProcessCycle)
-        {
-            result = _processCyclesMax;
-        }
-        else
-        {
-            result = 1;
-        }
-
+        int result = !Player.SingleProcessCycle ? _processCyclesMax : 1;
         return result;
     }
 
@@ -167,14 +158,7 @@ public partial class AIPlayerControl : EngineObject
     public void Activate(AIExecutor executor)
     {
         Reset();
-        if (StrategicMap.Current.Day < 10)
-        {
-            DefenseStrengthMultiplier = (float)(StrategicMap.Current.Day * 0.1);
-        }
-        else
-        {
-            DefenseStrengthMultiplier = 1;
-        }
+        DefenseStrengthMultiplier = StrategicMap.Current.Day < 10 ? (float)(StrategicMap.Current.Day * 0.1) : 1;
 
         SetupProcessPhase(AIPlayerProcessPhase.Main);
         switch (Player.PlayerType)

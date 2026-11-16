@@ -78,14 +78,7 @@ public partial class ArmyCombatMoveTokenEvent
 
         ArmyHexSprite.CancelMove();
         StrategicMap.Current.LockGameOverEvent();
-        if (_combatType == CombatType.Fast)
-        {
-            combat = StrategicMap.Current.CreateCombat(131760);
-        }
-        else
-        {
-            combat = StrategicMap.Current.CreateCombat(2228496);
-        }
+        combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(131760) : StrategicMap.Current.CreateCombat(2228496);
 
         sbyte hexY = ArmyHexSprite.GetHexY();
         sbyte hexLevel = ArmyHexSprite.GetHexLevel();

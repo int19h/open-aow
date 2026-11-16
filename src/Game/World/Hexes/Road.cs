@@ -26,9 +26,7 @@ public partial class Road : AbstractRoad
     // Road.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         ((Resource)base.Resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
@@ -39,10 +37,7 @@ public partial class Road : AbstractRoad
         HexSprite oldRoad;
         mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         oldRoad = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
-        if (oldRoad != null)
-        {
-            oldRoad.Dispose();
-        }
+        oldRoad?.Dispose();
 
         Owner = mapField;
         bool result = PlaceOnMap();
@@ -68,10 +63,7 @@ public partial class Road : AbstractRoad
             {
                 mapField = level.GetField(hexX, hexY);
                 road = (AbstractRoad)mapField.FindChild(131428);
-                if (road != null)
-                {
-                    road.UpdateTransitions();
-                }
+                road?.UpdateTransitions();
             }
         }
     }
@@ -149,12 +141,7 @@ public partial class Road : AbstractRoad
         // Road.pas:171
         public override EditorClass Editor()
         {
-            EditorClass result = Engine.Editors.FindEditor(131429);
-            if (result == null)
-            {
-                result = base.Editor();
-            }
-
+            EditorClass result = Engine.Editors.FindEditor(131429) ?? base.Editor();
             return result;
         }
 

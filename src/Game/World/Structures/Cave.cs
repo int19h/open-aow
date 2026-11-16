@@ -202,85 +202,40 @@ public partial class Cave : Structure
     // Cave.pas:199
     public override int GetTerrainTypeImage(int terrainType)
     {
-        int result;
-        if (Entrance == CaveEntrance.Down)
-        {
-            result = terrainType;
-        }
-        else
-        {
-            result = terrainType + 30;
-        }
-
+        int result = Entrance == CaveEntrance.Down ? terrainType : terrainType + 30;
         return result;
     }
 
     // Cave.pas:163
     public override LibraryImage GetTopBorderImage()
     {
-        LibraryImage result;
-        if (Entrance == CaveEntrance.Up)
-        {
-            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[33] != null)
-            {
-                result = base.Resource.ImageSequenceList.ImageSequences[33].GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = base.GetTopBorderImage();
-        }
-
+        LibraryImage result = Entrance == CaveEntrance.Up
+            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[33] != null
+                ? base.Resource.ImageSequenceList.ImageSequences[33].GetPreviewImage()
+                : null
+            : base.GetTopBorderImage();
         return result;
     }
 
     // Cave.pas:175
     public override LibraryImage GetMiddleBorderImage()
     {
-        LibraryImage result;
-        if (Entrance == CaveEntrance.Up)
-        {
-            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[34] != null)
-            {
-                result = base.Resource.ImageSequenceList.ImageSequences[34].GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = base.GetMiddleBorderImage();
-        }
-
+        LibraryImage result = Entrance == CaveEntrance.Up
+            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[34] != null
+                ? base.Resource.ImageSequenceList.ImageSequences[34].GetPreviewImage()
+                : null
+            : base.GetMiddleBorderImage();
         return result;
     }
 
     // Cave.pas:187
     public override LibraryImage GetBottomBorderImage()
     {
-        LibraryImage result;
-        if (Entrance == CaveEntrance.Up)
-        {
-            if (base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[35] != null)
-            {
-                result = base.Resource.ImageSequenceList.ImageSequences[35].GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = base.GetBottomBorderImage();
-        }
-
+        LibraryImage result = Entrance == CaveEntrance.Up
+            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[35] != null
+                ? base.Resource.ImageSequenceList.ImageSequences[35].GetPreviewImage()
+                : null
+            : base.GetBottomBorderImage();
         return result;
     }
 
@@ -293,14 +248,7 @@ public partial class Cave : Structure
         armyHexSprite = placedArmy;
         if (armyHexSprite != null)
         {
-            if (Entrance == CaveEntrance.Down)
-            {
-                l = GetHexLevel() + 1;
-            }
-            else
-            {
-                l = GetHexLevel() - 1;
-            }
+            l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
 
             byte visibilityRange = armyHexSprite.Army.VisibilityRange();
             sbyte hexY = armyHexSprite.GetHexY();
@@ -313,16 +261,7 @@ public partial class Cave : Structure
     public sbyte EnterMovePoints(Army army, byte selection)
     {
         MapField field;
-        int l;
-        if (Entrance == CaveEntrance.Down)
-        {
-            l = GetHexLevel() + 1;
-        }
-        else
-        {
-            l = GetHexLevel() - 1;
-        }
-
+        int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
@@ -335,14 +274,7 @@ public partial class Cave : Structure
         int l;
         MapField field;
         Troop troop;
-        if (Entrance == CaveEntrance.Down)
-        {
-            l = GetHexLevel() + 1;
-        }
-        else
-        {
-            l = GetHexLevel() - 1;
-        }
+        l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
 
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();

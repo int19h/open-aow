@@ -39,14 +39,7 @@ public partial class FastMemoryStream : Stream
     {
         if (newCapacity > 0)
         {
-            if (_capacity > 32)
-            {
-                newCapacity = (newCapacity + 127) & ~127;
-            }
-            else
-            {
-                newCapacity = (newCapacity + 31) & ~31;
-            }
+            newCapacity = _capacity > 32 ? (newCapacity + 127) & ~127 : (newCapacity + 31) & ~31;
         }
 
         if (newCapacity != _capacity)
@@ -85,15 +78,7 @@ public partial class FastMemoryStream : Stream
         base.Dispose(disposing);
     }
 
-    public override int Read(byte[] buffer, int offset, int count)
-    {
-        if (count < 0)
-        {
-            return 0;
-        }
-
-        return Read(buffer.AsSpan(offset, count));
-    }
+    public override int Read(byte[] buffer, int offset, int count) => count < 0 ? 0 : Read(buffer.AsSpan(offset, count));
 
     // FMemStr.pas:43
     public override int Read(Span<byte> buffer)

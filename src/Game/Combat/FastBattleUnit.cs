@@ -123,14 +123,7 @@ public partial class FastBattleUnit : CombatUnit
         AbilityDamageValues values = default;
         troop = Troop;
         best = 0;
-        if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1)
-        {
-            wall = WallSituation.Source;
-        }
-        else
-        {
-            wall = WallSituation.Target;
-        }
+        wall = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1 ? WallSituation.Source : WallSituation.Target;
 
         abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         for (int i = abilities.Count - 1; i >= 0; i--)
@@ -197,14 +190,7 @@ public partial class FastBattleUnit : CombatUnit
                     TargetPriority = TargetPriority * (count + 2);
                     i = TargetedBy.Count;
                     // { The original stores normalized priority in the target-strength field. }
-                    if (i != 0)
-                    {
-                        TargetStrength = TargetPriority / i;
-                    }
-                    else
-                    {
-                        TargetStrength = 0;
-                    }
+                    TargetStrength = i != 0 ? TargetPriority / i : 0;
                 }
                 else
                 {
@@ -233,14 +219,7 @@ public partial class FastBattleUnit : CombatUnit
 
                     TargetPriority = TargetPriority * (count + 2);
                     i = TargetedBy.Count;
-                    if (i != 0)
-                    {
-                        TargetStrength = TargetPriority / i;
-                    }
-                    else
-                    {
-                        TargetStrength = 0;
-                    }
+                    TargetStrength = i != 0 ? TargetPriority / i : 0;
                 }
 
                 TargetPriorityInvalid = false;
@@ -288,14 +267,7 @@ public partial class FastBattleUnit : CombatUnit
         Troop troop;
         base.Initialize(combat);
         troop = Troop;
-        if (troop is Leader || troop is Hero)
-        {
-            RoundDistance = 8;
-        }
-        else
-        {
-            RoundDistance = 4;
-        }
+        RoundDistance = troop is Leader || troop is Hero ? 8 : 4;
     }
 
     // AIGroup.pas:6856
@@ -422,14 +394,7 @@ public partial class FastBattleUnit : CombatUnit
         if (GetSide() == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
             position = Position;
-            if ((position & 15) > 7 || (int)(((uint)position) >> 4) > 7 || Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall == 0 || Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = (position & 15) <= 7 && (int)(((uint)position) >> 4) <= 7 && Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
 
             return result;
         }

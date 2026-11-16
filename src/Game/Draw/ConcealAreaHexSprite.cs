@@ -88,7 +88,6 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     // GlobalSpells.pas:214
     public void StartAnimation(sbyte X, sbyte Y, sbyte layer, sbyte radius)
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         _x = X;
         _y = Y;
@@ -96,7 +95,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         _frame = 0;
         GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
         StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _x, _y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _x, _y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[_layer];
         while (walk.Radius <= radius)
         {

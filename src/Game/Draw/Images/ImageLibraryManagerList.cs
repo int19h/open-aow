@@ -19,7 +19,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     public ImageLibraryManagerList(ImageLibraryManager owner)
     {
         _owner = owner;
-        HashTable = new Dictionary<string, ImageLibraryManagerObject>(AnsiCompareComparer.Instance);
+        HashTable = [with(AnsiCompareComparer.Instance)];
     }
 
     // ImageLib.pas:8102
@@ -75,10 +75,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     {
         ImageLibraryManagerObject objectValue;
         objectValue = Objects[index];
-        if (objectValue != null)
-        {
-            objectValue.ImageLibrary?.Dispose();
-        }
+        objectValue?.ImageLibrary?.Dispose();
 
         string item = Strings[index];
         HashTable.Remove(item);
@@ -93,10 +90,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
         for (int i = Count - 1; i >= 0; i--)
         {
             objectValue = Objects[i];
-            if (objectValue != null)
-            {
-                objectValue.ImageLibrary?.Dispose();
-            }
+            objectValue?.ImageLibrary?.Dispose();
         }
 
         base.Clear();
@@ -108,9 +102,8 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     public CustomImageLibrary LinkToImageLibrary(string fileName)
     {
         CustomImageLibrary result;
-        ImageLibraryManagerObject objectValue;
         fileName = UpperCase(fileName);
-        HashTable.TryGetValue(fileName, out objectValue);
+        HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
         if (objectValue != null)
         {
             objectValue.RefCount += 1;
@@ -142,9 +135,8 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     public bool ReleaseImageLibrary(string fileName)
     {
         bool result;
-        ImageLibraryManagerObject objectValue;
         fileName = UpperCase(fileName);
-        HashTable.TryGetValue(fileName, out objectValue);
+        HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
         if (objectValue != null)
         {
             objectValue.RefCount -= 1;

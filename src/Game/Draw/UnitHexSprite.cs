@@ -54,16 +54,10 @@ public partial class UnitHexSprite : HexSprite
     {
         if (owner != Owner)
         {
-            if (Owner != null)
-            {
-                Owner.RemoveChild(this);
-            }
+            Owner?.RemoveChild(this);
 
             SetOwnerWithoutNotify(owner);
-            if (Owner != null)
-            {
-                Owner.AddChild(this);
-            }
+            Owner?.AddChild(this);
         }
     }
 
@@ -82,17 +76,7 @@ public partial class UnitHexSprite : HexSprite
     public override byte GetLevel() => 26;
 
     // UnitHS.PAS:569
-    public override void SetVisible(bool value)
-    {
-        if (value)
-        {
-            Status = (byte)(Status | 1);
-        }
-        else
-        {
-            Status = (byte)(Status & 254);
-        }
-    }
+    public override void SetVisible(bool value) => Status = value ? (byte)(Status | 1) : (byte)(Status & 254);
 
     // UnitHS.PAS:574
     public override bool GetVisible() => (Status & 1) != 0;
@@ -117,17 +101,7 @@ public partial class UnitHexSprite : HexSprite
     public override bool GetEditMode() => (Status & 2) != 0;
 
     // UnitHS.PAS:578
-    public override void SetEditMode(bool value)
-    {
-        if (value)
-        {
-            Status = (byte)(Status | 2);
-        }
-        else
-        {
-            Status = (byte)(Status & 253);
-        }
-    }
+    public override void SetEditMode(bool value) => Status = value ? (byte)(Status | 2) : (byte)(Status & 253);
 
     // UnitHS.PAS:651
     public override int GetShowPriority() => _showPriority;
@@ -137,12 +111,11 @@ public partial class UnitHexSprite : HexSprite
     {
         MapField field;
         MapLevel level;
-        HexNumberWalkData walk = default;
         CalculateShowPriority();
         field = Owner;
         field.RemoveChild(this);
         level = field.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -217,9 +190,7 @@ public partial class UnitHexSprite : HexSprite
     // UnitHS.PAS:809
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        int x = default;
-        int y = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
+        HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
         return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
     }
 
@@ -247,15 +218,7 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:678
-    public override int CanMoveOver(in HexSpriteSenderInfo info)
-    {
-        if (info.HexNumber == 0)
-        {
-            return 0;
-        }
-
-        return 1;
-    }
+    public override int CanMoveOver(in HexSpriteSenderInfo info) => info.HexNumber == 0 ? 0 : 1;
 
     // UnitHS.PAS:663
     public override void Activate()
@@ -305,14 +268,7 @@ public partial class UnitHexSprite : HexSprite
         if (!Moving())
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
-            if (Owner.HexX != x || Owner.HexY != y)
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = Owner.HexX == x && Owner.HexY == y;
         }
         else
         {
@@ -470,15 +426,7 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:584
-    public int GetUnitGraphicsResourceIndex()
-    {
-        if (UnitGraphicsResource != null)
-        {
-            return UnitGraphicsResource.GetIndex();
-        }
-
-        return -1;
-    }
+    public int GetUnitGraphicsResourceIndex() => UnitGraphicsResource != null ? UnitGraphicsResource.GetIndex() : -1;
 
     // UnitHS.PAS:594
     public void SetUnitGraphicsResourceIndex(int value)
@@ -490,17 +438,11 @@ public partial class UnitHexSprite : HexSprite
         if (resource == null || value != resource.GetIndex())
         {
             old = UnitGraphicsResource;
-            if (old != null)
-            {
-                old.Release();
-            }
+            old?.Release();
 
             resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
             UnitGraphicsResource = resource;
-            if (resource != null)
-            {
-                resource.AddRef();
-            }
+            resource?.AddRef();
         }
     }
 

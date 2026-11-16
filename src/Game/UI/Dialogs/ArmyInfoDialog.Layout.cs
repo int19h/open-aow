@@ -346,10 +346,10 @@ public partial class ArmyInfoDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 403;
         close.WinTop = 7;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -545,11 +545,11 @@ public partial class ArmyInfoDialog : ILayoutModule
         MessageMemo.Masked = true;
         MessageMemo.WinWidth = 275;
         MessageMemo.WinHeight = 80;
-        MessageMemo.LayoutItems = new LayoutStrings()
-        {
+        MessageMemo.LayoutItems =
+        [
             "#################",
             "#################"
-        };
+        ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 8;
         MessageMemo.TextColor = 13827061;

@@ -59,10 +59,10 @@ public partial class InfoBanner : ILayoutModule
         InfoMemo.Masked = true;
         InfoMemo.WinWidth = 100;
         InfoMemo.WinHeight = 119;
-        InfoMemo.LayoutItems = new LayoutStrings()
-        {
+        InfoMemo.LayoutItems =
+        [
             "######"
-        };
+        ];
         InfoMemo.BorderWidth = 0;
         InfoMemo.BorderHeight = 0;
         InfoMemo.TextColor = 0;

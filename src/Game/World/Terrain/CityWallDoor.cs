@@ -75,28 +75,13 @@ public partial class CityWallDoor : CityWall
                 }
                 else
                 {
-                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y)
-                    {
-                        moveResult.Code = 0;
-                    }
-                    else
-                    {
-                        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender)
-                        {
-                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay];
-                        }
-                        else
-                        {
-                            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
-                            {
-                                moveResult.Code = -1;
-                            }
-                            else
-                            {
-                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
-                            }
-                        }
-                    }
+                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).Destination.X && GetHexY() == ((MoveControl)info.Sender).Destination.Y
+                        ? 0
+                        : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender
+                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
+                            : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
+                                ? -1
+                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
                 }
             }
 
@@ -107,37 +92,13 @@ public partial class CityWallDoor : CityWall
     // CityWall.pas:409
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (info.HexNumber == 0)
-        {
-            if (HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
-            {
-                result = 1;
-            }
-            else
-            {
-                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
-                {
-                    result = 0;
-                }
-                else
-                {
-                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0)
-                    {
-                        result = 1;
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
-                }
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
+        int result = info.HexNumber == 0
+            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
+                ? 1
+                : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
+                    ? 0
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
+            : 1;
         return result;
     }
 

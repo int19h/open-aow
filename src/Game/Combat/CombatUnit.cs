@@ -59,10 +59,7 @@ public partial class CombatUnit : CombatObject
         {
             u = persister.Created("Troop", objectValue: u);
             SetUnit(u);
-            if (u != null)
-            {
-                u.Release();
-            }
+            u?.Release();
         }
         else
         {
@@ -147,23 +144,11 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1450
     public override int GetTargetWallCombatValue(CombatObject target)
     {
-        int result;
-        if (target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
-        {
-            if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1)
-            {
-                result = Troop.GetCombatValue(targetUnit.Troop, 1);
-            }
-            else
-            {
-                result = Troop.GetCombatValue(targetUnit.Troop, 2);
-            }
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed)
+            ? Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1
+                ? Troop.GetCombatValue(targetUnit.Troop, 1)
+                : Troop.GetCombatValue(targetUnit.Troop, 2)
+            : 0;
         return result;
     }
 
@@ -222,17 +207,9 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1282
     public override sbyte GetHits()
     {
-        sbyte result;
+        sbyte result = Troop != null ? Troop.GetHits() : (sbyte)0;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
-        if (Troop != null)
-        {
-            result = Troop.GetHits();
-        }
-        else
-        {
-            result = 0;
-        }
 
         return result;
     }
@@ -240,31 +217,18 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1289
     public override sbyte GetHitPoints()
     {
-        sbyte result;
+        sbyte result = Troop != null ? Troop.GetHitPoints() : (sbyte)0;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
-        if (Troop != null)
-        {
-            result = Troop.GetHitPoints();
-        }
-        else
-        {
-            result = 0;
-        }
 
         return result;
     }
 
     // Combat.pas:1296
-    public override void SetHitPoints(byte value)
-    {
+    public override void SetHitPoints(byte value) =>
         // { Direct nil guard. }
         // { No cast temporary. }
-        if (Troop != null)
-        {
-            Troop.SetHitPoints((sbyte)value);
-        }
-    }
+        Troop?.SetHitPoints((sbyte)value);
 
     // Combat.pas:1260
     public override Alignment GetAlignment() => Troop.GetAlignment();
@@ -291,14 +255,7 @@ public partial class CombatUnit : CombatObject
         if (u != null)
         {
             level = u.GetAbilityLevel(64);
-            if (level != 0)
-            {
-                result = (level * 2) + 4;
-            }
-            else
-            {
-                result = 4;
-            }
+            result = level != 0 ? (level * 2) + 4 : 4;
 
             if (Combat.ExplorationSite == 1 && !Troop.GetAbilityEnabled(39))
             {
@@ -316,16 +273,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1266
     public override bool GetAbilityEnabled(int abilityId)
     {
-        bool result;
-        if (Troop != null)
-        {
-            result = Troop.GetAbilityEnabled(abilityId);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = Troop != null && Troop.GetAbilityEnabled(abilityId);
         return result;
     }
 
@@ -338,16 +286,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1277
     public override int GetAbilityCount()
     {
-        int result;
-        if (Troop != null)
-        {
-            result = Troop.GetAbilityCount();
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = Troop != null ? Troop.GetAbilityCount() : 0;
         return result;
     }
 
@@ -430,14 +369,7 @@ public partial class CombatUnit : CombatObject
             }
             else
             {
-                if ((Position & 15) <= 7)
-                {
-                    party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
-                }
-                else
-                {
-                    party = null;
-                }
+                party = (Position & 15) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4)) : null;
 
                 if (party == null || party.Location.X != -1)
                 {
@@ -532,10 +464,7 @@ public partial class CombatUnit : CombatObject
         Troop u;
         base.NewTurn(combatPlayer);
         u = Troop;
-        if (u != null)
-        {
-            u.TriggerNewCombatTurn(this, (sbyte)combatPlayer);
-        }
+        u?.TriggerNewCombatTurn(this, (sbyte)combatPlayer);
     }
 
     // Combat.pas:1124
@@ -547,10 +476,7 @@ public partial class CombatUnit : CombatObject
         Troop u;
         base.CombatDone();
         u = Troop;
-        if (u != null)
-        {
-            u.TriggerCombatDone(this);
-        }
+        u?.TriggerCombatDone(this);
     }
 
     // Combat.pas:1604
@@ -698,16 +624,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1486
     public override string IdString()
     {
-        string result;
-        if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 0)
-        {
-            result = "A";
-        }
-        else
-        {
-            result = "D";
-        }
-
+        string result = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 0 ? "A" : "D";
         if (Troop != null)
         {
             string name = Troop.GetName();
@@ -837,14 +754,7 @@ public partial class CombatUnit : CombatObject
         int index;
         Troop u;
         u = Troop;
-        if (u != null)
-        {
-            index = u.GetUnitGraphicsResourceIndex();
-        }
-        else
-        {
-            index = -1;
-        }
+        index = u != null ? u.GetUnitGraphicsResourceIndex() : -1;
 
         if (index != _unitGraphicsResourceIndex)
         {

@@ -152,14 +152,7 @@ public partial class SelfDestructAbility : TouchAbility
         }
         else
         {
-            if (target.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
         }
 
         return result;

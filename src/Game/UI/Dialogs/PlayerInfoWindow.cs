@@ -175,10 +175,7 @@ public partial class PlayerInfoWindow : UIModule
         if (StrategicMap.Current.SeatedPlayer > -1)
         {
             r = new Rect(FaceFrame.WinLeft + 3, FaceFrame.WinTop + 3, FaceFrame.WinLeft + FaceFrame.WinWidth - 3, FaceFrame.WinTop + FaceFrame.WinHeight - 3);
-            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace() != null)
-            {
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace().ShowStretched(r, lockedSurface);
-            }
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace()?.ShowStretched(r, lockedSurface);
         }
     }
 

@@ -18,7 +18,7 @@ internal sealed class GameContentValidator : IDocumentValidator
     {
         JsonObject root = context.Root;
         ContentScope scope = new(context, root, DocumentNodePath.Root);
-        List<FormatDiagnostic> findings = new();
+        List<FormatDiagnostic> findings = [];
         SchemaClass? rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
         Visit(scope, root, rootClass, DocumentNodePath.Root, findings);
         return findings;

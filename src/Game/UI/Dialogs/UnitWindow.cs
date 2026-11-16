@@ -208,14 +208,7 @@ public partial class UnitWindow : UIModule
             enabled = test;
         }
 
-        if (enabled)
-        {
-            sender.TextColor = 14679807;
-        }
-        else
-        {
-            sender.TextColor = 9415072;
-        }
+        sender.TextColor = enabled ? 14679807 : 9415072;
     }
 
     // AoWUnitWindow.pas:502
@@ -507,12 +500,7 @@ public partial class UnitWindow : UIModule
         if (component.Tag != -1 && UI.General.SelectedUnit is Hero heroUnit)
         {
             u = heroUnit;
-            item = u.Inventory.Items.FindItem(component.Tag);
-            if (item == null)
-            {
-                item = u.HeroItems.Items.FindItem(component.Tag);
-            }
-
+            item = u.Inventory.Items.FindItem(component.Tag) ?? u.HeroItems.Items.FindItem(component.Tag);
             if (item == null)
             {
                 if (u.GetItemsOnGround() != null)
@@ -524,10 +512,7 @@ public partial class UnitWindow : UIModule
             if (item != null)
             {
                 UIComponent checkBox = component;
-                if (item.GetImage() != null)
-                {
-                    item.GetImage().ShowClipped(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface);
-                }
+                item.GetImage()?.ShowClipped(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface);
             }
         }
     }
@@ -554,14 +539,9 @@ public partial class UnitWindow : UIModule
         if (UI.General.SelectedUnit != null)
         {
             _showInfo.Direction = 3;
-            if (UI.General.SelectedUnit is Hero)
-            {
-                _showInfo.Overlays = Set<UnitOverlayModesElement>.Of();
-            }
-            else
-            {
-                _showInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
-            }
+            _showInfo.Overlays = UI.General.SelectedUnit is Hero
+                ? Set<UnitOverlayModesElement>.Of()
+                : Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
 
             UIComponent image = sender;
             UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
@@ -577,14 +557,7 @@ public partial class UnitWindow : UIModule
             {
                 if (button == MouseButton.Right)
                 {
-                    if (sender.Tag == -1)
-                    {
-                        sender.PopupMenu = null;
-                    }
-                    else
-                    {
-                        sender.PopupMenu = UI.ItemBanner.BannerMenu;
-                    }
+                    sender.PopupMenu = sender.Tag == -1 ? null : UI.ItemBanner.BannerMenu;
 
                     ItemBanner.ItemId = sender.Tag;
                 }

@@ -61,14 +61,7 @@ public partial class ProductionTokenEvent : TokenEvent
         ExecuteResult result;
         ProductionControl control;
         control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
-        if (control != null)
-        {
-            result = control.ExecuteProductionTokenEvent(this);
-        }
-        else
-        {
-            result = ExecuteResult.DoneHalt;
-        }
+        result = control != null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
 
         return result;
     }

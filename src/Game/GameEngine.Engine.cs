@@ -72,8 +72,8 @@ public partial class GameEngine : OwningNode
         UpdateStartupDirectory();
         _options = Set<EngineModeElement>.Of(VerifyClasses);
         DebugEventsStore = new();
-        _engineClasses = new List<EngineClass>();
-        _classTable = new Dictionary<int, EngineClass>();
+        _engineClasses = [];
+        _classTable = [];
         _editors = new EngineObjectEditorList();
         _controlNode = new ControlStyleNode(this);
         _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
@@ -197,12 +197,9 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8860
     public virtual EngineClass GetEngineClass(int classId)
     {
-        if (!_classTable.TryGetValue(classId, out EngineClass result) || result == null)
-        {
-            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")");
-        }
-
-        return result;
+        return !_classTable.TryGetValue(classId, out EngineClass result) || result == null
+            ? throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")")
+            : result;
     }
 
     // Engine.pas:8796
@@ -230,8 +227,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8819
     public void ResetMessageCount()
     {
-        EngineMessage message = default;
-        InitializeMessage(out message, 1, this, _messageCount + 1);
+        InitializeMessage(out EngineMessage message, 1, this, _messageCount + 1);
         MessageProc(ref message, this);
         _messageCount = 0;
     }
@@ -299,8 +295,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8878
     public void ActivateEngineObject(EngineObject objectValue)
     {
-        EngineMessage message = default;
-        EngineMessage.InitializeMessage(out message, 536870920, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 536870920, this);
         message.Payload = this;
         objectValue.MessageProc(ref message, this);
     }

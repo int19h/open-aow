@@ -51,14 +51,7 @@ public partial class DispelMagicAbility : TouchAbility
             if (owner.GetAbilitySetAt(60))
             {
                 data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
-                if (data != null)
-                {
-                    result = data.Level;
-                }
-                else
-                {
-                    result = 1;
-                }
+                result = data != null ? data.Level : 1;
             }
             else
             {
@@ -81,14 +74,7 @@ public partial class DispelMagicAbility : TouchAbility
         if (result)
         {
             data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
-            if (data != null)
-            {
-                result = data.Enabled;
-            }
-            else
-            {
-                result = true;
-            }
+            result = data == null || data.Enabled;
         }
 
         return result;
@@ -168,14 +154,7 @@ public partial class DispelMagicAbility : TouchAbility
             Troop troop = owner as Troop;
             info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
-            if (troop != null)
-            {
-                info.UnitId = troop.UnitId;
-            }
-            else
-            {
-                info.UnitId = 0;
-            }
+            info.UnitId = troop != null ? troop.UnitId : 0;
 
             selector = new DispelMagicAbilityUnitSelector(this);
             string dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
@@ -209,15 +188,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4139
-    public override bool CanExpand(AbilityOwner owner)
-    {
-        if ((owner.GetAbilitySelectionTypes() & SelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 3)
-        {
-            return false;
-        }
-
-        return true;
-    }
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != Set<AbilitySelectionType>.Of() && GetLevel(owner) < 3;
 
     // AoWAb.PAS:4135
     public override int ExpandCost(AbilityOwner owner) => 5;
@@ -422,14 +393,7 @@ public partial class DispelMagicAbility : TouchAbility
         bool successful;
         DispelMagicAbilityCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, GetDispelMana(source.Troop));
-        if (source.GetSide() == target.GetSide())
-        {
-            successful = true;
-        }
-        else
-        {
-            successful = CombatTouchRole(source, target);
-        }
+        successful = source.GetSide() == target.GetSide() || CombatTouchRole(source, target);
 
         if (!successful)
         {

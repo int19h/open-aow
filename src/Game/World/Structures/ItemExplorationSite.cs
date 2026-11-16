@@ -126,10 +126,7 @@ public partial class ItemExplorationSite : ExplorationSite
             for (int itemOrdinal = 1, last = _itemCount; itemOrdinal <= last; itemOrdinal++)
             {
                 item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
-                if (item != null)
-                {
-                    item.Owner = _items;
-                }
+                item?.Owner = _items;
             }
         }
     }

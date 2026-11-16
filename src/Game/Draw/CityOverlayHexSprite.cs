@@ -28,13 +28,11 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     // City.pas:733
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         int intensity;
         int index;
         int frame;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(City.StoredHexX, City.StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(City.StoredHexX, City.StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (City.EnchantmentsVisible)

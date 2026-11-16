@@ -173,9 +173,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1647
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         ((StructureResource)Resource).Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
     }
 
@@ -340,14 +338,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, x, y);
-            if (hexNumber >= Resource.TerrainList.Count || (Resource.TerrainList.Terrain[hexNumber] < 0 && Resource.TerrainList.Overlay[hexNumber] < 0))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-            }
+            result = hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber] >= 0 || Resource.TerrainList.Overlay[hexNumber] >= 0);
         }
         else
         {
@@ -373,16 +364,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1308
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
-        if (((StructureResource)Resource).TerrainBound)
-        {
-            result = GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType);
-        }
-        else
-        {
-            result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
-        }
-
+        bool result = ((StructureResource)Resource).TerrainBound
+            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType)
+            : base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         return result;
     }
 
@@ -395,14 +379,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (((StructureResource)Resource).TerrainBound)
             {
-                if (!GetEditMode())
-                {
-                    pad = GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType);
-                }
-                else
-                {
-                    pad = null;
-                }
+                pad = !GetEditMode() ? GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType) : null;
 
                 if (pad != null || GetEditMode())
                 {
@@ -437,67 +414,16 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1053
     public override int GetTerrainTypeImage(int terrainType)
     {
-        int result;
-        if (GetRazed())
-        {
-            if (terrainType == 3)
-            {
-                result = 23;
-            }
-            else
-            {
-                if (terrainType == 5)
-                {
-                    result = 24;
-                }
-                else
-                {
-                    result = 22;
-                }
-            }
-        }
-        else
-        {
-            if (GetBuilding())
-            {
-                if (terrainType == 3)
-                {
-                    result = 26;
-                }
-                else
-                {
-                    if (terrainType == 5)
-                    {
-                        result = 27;
-                    }
-                    else
-                    {
-                        result = 25;
-                    }
-                }
-            }
-            else
-            {
-                result = base.GetTerrainTypeImage(terrainType);
-            }
-        }
-
+        int result = GetRazed()
+            ? terrainType == 3 ? 23 : terrainType == 5 ? 24 : 22
+            : GetBuilding() ? terrainType == 3 ? 26 : terrainType == 5 ? 27 : 25 : base.GetTerrainTypeImage(terrainType);
         return result;
     }
 
     // Structur.PAS:1159
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        sbyte result;
-        if (mapLevel.HexLevel != 0)
-        {
-            result = 12;
-        }
-        else
-        {
-            result = -1;
-        }
-
+        sbyte result = mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
         return result;
     }
 
@@ -507,21 +433,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        if (sequences != null)
-        {
-            if (sequences.GetImageSequence(30) != null)
-            {
-                result = Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = Resource.ImageLibrary.GetSafe(30);
-        }
+        result = sequences != null
+            ? sequences.GetImageSequence(30) != null ? Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage() : null
+            : Resource.ImageLibrary.GetSafe(30);
 
         return result;
     }
@@ -532,21 +446,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        if (sequences != null)
-        {
-            if (sequences.GetImageSequence(31) != null)
-            {
-                result = Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = Resource.ImageLibrary.GetSafe(31);
-        }
+        result = sequences != null
+            ? sequences.GetImageSequence(31) != null ? Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage() : null
+            : Resource.ImageLibrary.GetSafe(31);
 
         return result;
     }
@@ -557,21 +459,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        if (sequences != null)
-        {
-            if (sequences.GetImageSequence(32) != null)
-            {
-                result = Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage();
-            }
-            else
-            {
-                result = null;
-            }
-        }
-        else
-        {
-            result = Resource.ImageLibrary.GetSafe(32);
-        }
+        result = sequences != null
+            ? sequences.GetImageSequence(32) != null ? Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage() : null
+            : Resource.ImageLibrary.GetSafe(32);
 
         return result;
     }
@@ -649,14 +539,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         Troop troop;
         if (tokenEvent.Action == -1)
         {
-            if (ExecuteRaze((sbyte)tokenEvent.Param))
-            {
-                result = ExecuteResult.Done;
-            }
-            else
-            {
-                result = ExecuteResult.DoneHalt;
-            }
+            result = ExecuteRaze((sbyte)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
         }
         else
         {
@@ -768,9 +651,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1639
     public virtual void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         Resource.ImageSequenceList.Show(90, pixelX - pixelXSurface, pixelY - pixelYSurface, 0, lockedSurface);
     }
 
@@ -1041,14 +922,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1508
     public virtual int ListUnits(UnitUserList list)
     {
-        HexNumberWalkData walk = default;
         int count;
         MapLevel level;
         ArmyHexSprite army;
         int result = 0;
         count = GetTerrainCount();
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count)
         {
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -1276,10 +1156,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
                 road = (AbstractRoad)level.GetField(x, y).FindHexSprite(typeof(AbstractRoad));
-                if (road != null)
-                {
-                    road.UpdateTransitions();
-                }
+                road?.UpdateTransitions();
             }
         }
 
@@ -1317,11 +1194,10 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1366
     public bool ValidateObservation(sbyte player)
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         bool result = false;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (true)
         {
             int terrainCount = GetTerrainCount();

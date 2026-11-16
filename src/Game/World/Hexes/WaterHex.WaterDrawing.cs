@@ -13,8 +13,6 @@ public partial class WaterHex
 {
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         int x;
         int y;
         CustomImageLibrary imageLibrary;
@@ -22,7 +20,7 @@ public partial class WaterHex
         ImageSequence sequence;
         int image;
         bool showing;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
@@ -35,35 +33,13 @@ public partial class WaterHex
                 if (_animationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
-                    {
-                        if (OpenSides == 0 && Random(300) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
-                        {
-                            _animationIndex = (byte)(Random(10) + 30);
-                        }
-                        else
-                        {
-                            if (Random(10) < 3)
-                            {
-                                _animationIndex = (byte)(Random(9) + 50);
-                            }
-                            else
-                            {
-                                _animationIndex = (byte)(Random(10) + 20);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (OpenSides == 0 && Random(700) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
-                        {
-                            _animationIndex = (byte)(Random(10) + 30);
-                        }
-                        else
-                        {
-                            _animationIndex = (byte)(Random(10) + 20);
-                        }
-                    }
+                    _animationIndex = StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood)
+                        ? OpenSides == 0 && Random(300) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
+                            ? (byte)(Random(10) + 30)
+                            : Random(10) < 3 ? (byte)(Random(9) + 50) : (byte)(Random(10) + 20)
+                        : OpenSides == 0 && Random(700) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
+                            ? (byte)(Random(10) + 30)
+                            : (byte)(Random(10) + 20);
                 }
 
                 if (_animationIndex < ((MapObject)this).Resource.ImageSequenceList.Count)
@@ -87,14 +63,7 @@ public partial class WaterHex
 
                 if (!showing)
                 {
-                    if (GetEngine().AnimationDetail == 1)
-                    {
-                        _animationFrame = (sbyte)(-20 - Random(25));
-                    }
-                    else
-                    {
-                        _animationFrame = (sbyte)(-10 - Random(25));
-                    }
+                    _animationFrame = GetEngine().AnimationDetail == 1 ? (sbyte)(-20 - Random(25)) : (sbyte)(-10 - Random(25));
                 }
             }
         }

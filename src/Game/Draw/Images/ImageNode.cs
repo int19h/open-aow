@@ -62,16 +62,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1335
     public LibraryImage GetSafeImage(int index)
     {
-        LibraryImage result;
-        if (index >= 0 && index < _count)
-        {
-            result = Images[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        LibraryImage result = index >= 0 && index < _count ? Images[index] : null;
         return result;
     }
 

@@ -35,14 +35,7 @@ public partial class HeroJoinEventLog : JoinEventLog
             executeNow = trigger == ExecuteTrigger.User;
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
-            if (executeNow)
-            {
-                result = base.Execute(mode, trigger, done);
-            }
-            else
-            {
-                result = false;
-            }
+            result = executeNow && base.Execute(mode, trigger, done);
         }
         else
         {

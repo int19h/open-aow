@@ -105,14 +105,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 PathStep path = Path[0];
                                 PathStep path2 = Path[0];
                                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild(2228484);
-                                if (hexSprite == null)
-                                {
-                                    PreviousUnit = null;
-                                }
-                                else
-                                {
-                                    PreviousUnit = hexSprite.Unit;
-                                }
+                                PreviousUnit = hexSprite?.Unit;
 
                                 if (PreviousUnit != null && AbilityId != 117)
                                 {

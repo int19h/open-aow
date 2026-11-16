@@ -315,22 +315,8 @@ public partial class CombatMapEvents : UIModule
                     GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
                     Spell spell = GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell);
                     window.AbilityNameLabel.Text = spell.SpellName;
-                    if (info.Attack > 0)
-                    {
-                        window.AbilityAttackLabel.Text = IntToStr(info.Attack);
-                    }
-                    else
-                    {
-                        window.AbilityAttackLabel.Text = "-";
-                    }
-                    if (info.Damage > 0)
-                    {
-                        window.AbilityDamageLabel.Text = IntToStr(info.Damage);
-                    }
-                    else
-                    {
-                        window.AbilityDamageLabel.Text = "-";
-                    }
+                    window.AbilityAttackLabel.Text = info.Attack > 0 ? IntToStr(info.Attack) : "-";
+                    window.AbilityDamageLabel.Text = info.Damage > 0 ? IntToStr(info.Damage) : "-";
                     window.AbilityStatisticsList.Items.Clear();
                     if (info.DamageTypes.Contains(DamageType.Fire))
                     {
@@ -395,22 +381,8 @@ public partial class CombatMapEvents : UIModule
                     GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref abilityCombatInfo);
                     string name = GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
-                    if (abilityCombatInfo.Attack > 0)
-                    {
-                        window.AbilityAttackLabel.Text = IntToStr(abilityCombatInfo.Attack);
-                    }
-                    else
-                    {
-                        window.AbilityAttackLabel.Text = "-";
-                    }
-                    if (abilityCombatInfo.Damage > 0)
-                    {
-                        window.AbilityDamageLabel.Text = IntToStr(abilityCombatInfo.Damage);
-                    }
-                    else
-                    {
-                        window.AbilityDamageLabel.Text = "-";
-                    }
+                    window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? IntToStr(abilityCombatInfo.Attack) : "-";
+                    window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? IntToStr(abilityCombatInfo.Damage) : "-";
                     window.AbilityStatisticsList.Items.Clear();
                     if (abilityCombatInfo.DamageTypes.Contains(DamageType.Fire))
                     {
@@ -479,12 +451,5 @@ public partial class CombatMapEvents : UIModule
         window.UI.CombatUnitInfo.MainWindow.Visible = true;
     }
 
-    private static bool StopSong()
-    {
-        if (AudioHost.SoundSystem != null)
-        {
-            return AudioHost.SoundSystem.StopSong();
-        }
-        return false;
-    }
+    private static bool StopSong() => AudioHost.SoundSystem != null && AudioHost.SoundSystem.StopSong();
 }

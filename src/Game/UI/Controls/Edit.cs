@@ -105,14 +105,7 @@ public partial class Edit : Control
             {
                 Drawn = false;
                 _blinkCount = 0;
-                if (_cursorShown)
-                {
-                    _cursorShown = false;
-                }
-                else
-                {
-                    _cursorShown = true;
-                }
+                _cursorShown = !_cursorShown;
             }
         }
     }
@@ -234,10 +227,7 @@ public partial class Edit : Control
             if (_cursorShown)
             {
                 _cursorShown = false;
-                if (OnExit != null)
-                {
-                    OnExit(this);
-                }
+                OnExit?.Invoke(this);
             }
 
             Redraw = false;
@@ -301,10 +291,7 @@ public partial class Edit : Control
                 case 13:
                     _cursorShown = false;
                     Redraw = false;
-                    if (OnReturn != null)
-                    {
-                        OnReturn(this);
-                    }
+                    OnReturn?.Invoke(this);
 
                     break;
                 case >= 0 and <= 7:

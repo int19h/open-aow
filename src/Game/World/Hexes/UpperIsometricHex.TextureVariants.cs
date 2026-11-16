@@ -12,10 +12,8 @@ public partial class UpperIsometricHex
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary imageLibrary;
-        int pixelX = default;
-        int pixelY = default;
         int variant;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

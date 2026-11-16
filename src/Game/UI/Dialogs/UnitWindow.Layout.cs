@@ -132,10 +132,10 @@ public partial class UnitWindow : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 385;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -190,10 +190,10 @@ public partial class UnitWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 369;
         help.WinTop = 4;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays help on this window"
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;
@@ -345,10 +345,10 @@ public partial class UnitWindow : ILayoutModule
         ManaIcon.Priority = 0;
         ManaIcon.WinLeft = 74;
         ManaIcon.WinTop = 66;
-        ManaIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        ManaIcon.LayoutToolTipText =
+        [
             "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
-        };
+        ];
         ManaIcon.CaptureInput = true;
         ManaIcon.Alignment.AlignWidth = AlignWidth.Left;
         ManaIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -377,10 +377,10 @@ public partial class UnitWindow : ILayoutModule
         ManaLabel.Priority = 0;
         ManaLabel.WinLeft = 25;
         ManaLabel.WinTop = 68;
-        ManaLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ManaLabel.LayoutToolTipText =
+        [
             "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
-        };
+        ];
         ManaLabel.CaptureInput = true;
         ManaLabel.Alignment.AlignWidth = AlignWidth.Center;
         ManaLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1391,10 +1391,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack1CheckBox.Priority = 1000;
         Backpack1CheckBox.WinLeft = 10;
         Backpack1CheckBox.WinTop = 29;
-        Backpack1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack1CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack1CheckBox.CaptureInput = true;
         Backpack1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Backpack1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1453,10 +1453,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack2CheckBox.Priority = 1000;
         Backpack2CheckBox.WinLeft = 10;
         Backpack2CheckBox.WinTop = 71;
-        Backpack2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack2CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack2CheckBox.CaptureInput = true;
         Backpack2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Backpack2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1491,10 +1491,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack3CheckBox.Priority = 1000;
         Backpack3CheckBox.WinLeft = 10;
         Backpack3CheckBox.WinTop = 113;
-        Backpack3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack3CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack3CheckBox.CaptureInput = true;
         Backpack3CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Backpack3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1529,10 +1529,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack4CheckBox.Priority = 1000;
         Backpack4CheckBox.WinLeft = 10;
         Backpack4CheckBox.WinTop = 155;
-        Backpack4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack4CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack4CheckBox.CaptureInput = true;
         Backpack4CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Backpack4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1567,10 +1567,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack5CheckBox.Priority = 1000;
         Backpack5CheckBox.WinLeft = 325;
         Backpack5CheckBox.WinTop = 29;
-        Backpack5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack5CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack5CheckBox.CaptureInput = true;
         Backpack5CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Backpack5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1605,10 +1605,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack6CheckBox.Priority = 1000;
         Backpack6CheckBox.WinLeft = 325;
         Backpack6CheckBox.WinTop = 71;
-        Backpack6CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack6CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack6CheckBox.CaptureInput = true;
         Backpack6CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Backpack6CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1643,10 +1643,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack7CheckBox.Priority = 1000;
         Backpack7CheckBox.WinLeft = 325;
         Backpack7CheckBox.WinTop = 113;
-        Backpack7CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack7CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack7CheckBox.CaptureInput = true;
         Backpack7CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Backpack7CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1681,10 +1681,10 @@ public partial class UnitWindow : ILayoutModule
         Backpack8CheckBox.Priority = 1000;
         Backpack8CheckBox.WinLeft = 325;
         Backpack8CheckBox.WinTop = 155;
-        Backpack8CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Backpack8CheckBox.LayoutToolTipText =
+        [
             "Regular inventory, any item can be place here."
-        };
+        ];
         Backpack8CheckBox.CaptureInput = true;
         Backpack8CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Backpack8CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1766,11 +1766,11 @@ public partial class UnitWindow : ILayoutModule
         HeadSlotCheckBox.Priority = 500;
         HeadSlotCheckBox.WinLeft = 168;
         HeadSlotCheckBox.WinTop = 25;
-        HeadSlotCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        HeadSlotCheckBox.LayoutToolTipText =
+        [
             "Head slot",
             ""
-        };
+        ];
         HeadSlotCheckBox.CaptureInput = true;
         HeadSlotCheckBox.Alignment.AlignWidth = AlignWidth.Center;
         HeadSlotCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1805,10 +1805,10 @@ public partial class UnitWindow : ILayoutModule
         TorsoSlotCheckBox.Priority = 500;
         TorsoSlotCheckBox.WinLeft = 168;
         TorsoSlotCheckBox.WinTop = 84;
-        TorsoSlotCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        TorsoSlotCheckBox.LayoutToolTipText =
+        [
             "Torso slot"
-        };
+        ];
         TorsoSlotCheckBox.CaptureInput = true;
         TorsoSlotCheckBox.Alignment.AlignWidth = AlignWidth.Center;
         TorsoSlotCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1843,10 +1843,10 @@ public partial class UnitWindow : ILayoutModule
         AttackSlotCheckBox.Priority = 500;
         AttackSlotCheckBox.WinLeft = 78;
         AttackSlotCheckBox.WinTop = 46;
-        AttackSlotCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AttackSlotCheckBox.LayoutToolTipText =
+        [
             "Melee weapon slot"
-        };
+        ];
         AttackSlotCheckBox.CaptureInput = true;
         AttackSlotCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AttackSlotCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1881,10 +1881,10 @@ public partial class UnitWindow : ILayoutModule
         DefendSlotCheckBox.Priority = 500;
         DefendSlotCheckBox.WinLeft = 256;
         DefendSlotCheckBox.WinTop = 46;
-        DefendSlotCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        DefendSlotCheckBox.LayoutToolTipText =
+        [
             "Defensive weapon slot"
-        };
+        ];
         DefendSlotCheckBox.CaptureInput = true;
         DefendSlotCheckBox.Alignment.AlignWidth = AlignWidth.Right;
         DefendSlotCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1919,10 +1919,10 @@ public partial class UnitWindow : ILayoutModule
         LeftRingCheckBox.Priority = 500;
         LeftRingCheckBox.WinLeft = 230;
         LeftRingCheckBox.WinTop = 95;
-        LeftRingCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        LeftRingCheckBox.LayoutToolTipText =
+        [
             "Ring slot"
-        };
+        ];
         LeftRingCheckBox.CaptureInput = true;
         LeftRingCheckBox.Alignment.AlignWidth = AlignWidth.Right;
         LeftRingCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1957,11 +1957,11 @@ public partial class UnitWindow : ILayoutModule
         RightRingCheckBox.Priority = 500;
         RightRingCheckBox.WinLeft = 105;
         RightRingCheckBox.WinTop = 95;
-        RightRingCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        RightRingCheckBox.LayoutToolTipText =
+        [
             "Ring slot",
             ""
-        };
+        ];
         RightRingCheckBox.CaptureInput = true;
         RightRingCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         RightRingCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -1996,10 +1996,10 @@ public partial class UnitWindow : ILayoutModule
         Ground3CheckBox.Priority = 1000;
         Ground3CheckBox.WinLeft = 168;
         Ground3CheckBox.WinTop = 155;
-        Ground3CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Ground3CheckBox.LayoutToolTipText =
+        [
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-        };
+        ];
         Ground3CheckBox.CaptureInput = true;
         Ground3CheckBox.Alignment.AlignWidth = AlignWidth.Center;
         Ground3CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2034,10 +2034,10 @@ public partial class UnitWindow : ILayoutModule
         Ground2CheckBox.Priority = 1000;
         Ground2CheckBox.WinLeft = 124;
         Ground2CheckBox.WinTop = 155;
-        Ground2CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Ground2CheckBox.LayoutToolTipText =
+        [
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-        };
+        ];
         Ground2CheckBox.CaptureInput = true;
         Ground2CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Ground2CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2072,10 +2072,10 @@ public partial class UnitWindow : ILayoutModule
         Ground1CheckBox.Priority = 1000;
         Ground1CheckBox.WinLeft = 80;
         Ground1CheckBox.WinTop = 155;
-        Ground1CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Ground1CheckBox.LayoutToolTipText =
+        [
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-        };
+        ];
         Ground1CheckBox.CaptureInput = true;
         Ground1CheckBox.Alignment.AlignWidth = AlignWidth.Left;
         Ground1CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2110,10 +2110,10 @@ public partial class UnitWindow : ILayoutModule
         Ground4CheckBox.Priority = 1000;
         Ground4CheckBox.WinLeft = 212;
         Ground4CheckBox.WinTop = 155;
-        Ground4CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Ground4CheckBox.LayoutToolTipText =
+        [
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-        };
+        ];
         Ground4CheckBox.CaptureInput = true;
         Ground4CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Ground4CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2148,10 +2148,10 @@ public partial class UnitWindow : ILayoutModule
         Ground5CheckBox.Priority = 1000;
         Ground5CheckBox.WinLeft = 256;
         Ground5CheckBox.WinTop = 155;
-        Ground5CheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        Ground5CheckBox.LayoutToolTipText =
+        [
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
-        };
+        ];
         Ground5CheckBox.CaptureInput = true;
         Ground5CheckBox.Alignment.AlignWidth = AlignWidth.Right;
         Ground5CheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -2294,10 +2294,10 @@ public partial class UnitWindow : ILayoutModule
         ItemUseButton.Priority = 100;
         ItemUseButton.WinLeft = 83;
         ItemUseButton.WinTop = 103;
-        ItemUseButton.LayoutToolTipText = new LayoutStrings()
-        {
+        ItemUseButton.LayoutToolTipText =
+        [
             "Uses selected item"
-        };
+        ];
         ItemUseButton.CaptureInput = true;
         ItemUseButton.Alignment.AlignWidth = AlignWidth.Center;
         ItemUseButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -2433,10 +2433,10 @@ public partial class UnitWindow : ILayoutModule
         uAttackIcon.Priority = 0;
         uAttackIcon.WinLeft = 5;
         uAttackIcon.WinTop = 1;
-        uAttackIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uAttackIcon.LayoutToolTipText =
+        [
             "Attack is the ability of a unit to hit a target with a melee strike."
-        };
+        ];
         uAttackIcon.CaptureInput = true;
         uAttackIcon.Alignment.AlignWidth = AlignWidth.Left;
         uAttackIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2465,10 +2465,10 @@ public partial class UnitWindow : ILayoutModule
         uDefenseIcon.Priority = 0;
         uDefenseIcon.WinLeft = 5;
         uDefenseIcon.WinTop = 22;
-        uDefenseIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uDefenseIcon.LayoutToolTipText =
+        [
             "Defense is the ability of a unit to avoid being hit by physical attacks."
-        };
+        ];
         uDefenseIcon.CaptureInput = true;
         uDefenseIcon.Alignment.AlignWidth = AlignWidth.Left;
         uDefenseIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2497,10 +2497,10 @@ public partial class UnitWindow : ILayoutModule
         UnitMovesIcon.Priority = 0;
         UnitMovesIcon.WinLeft = 0;
         UnitMovesIcon.WinTop = 45;
-        UnitMovesIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitMovesIcon.LayoutToolTipText =
+        [
             "Moves are the range a unit can move in a turn (Current/Maximum)."
-        };
+        ];
         UnitMovesIcon.CaptureInput = true;
         UnitMovesIcon.Alignment.AlignWidth = AlignWidth.Left;
         UnitMovesIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2529,10 +2529,10 @@ public partial class UnitWindow : ILayoutModule
         uDamageIcon.Priority = 0;
         uDamageIcon.WinLeft = 74;
         uDamageIcon.WinTop = 1;
-        uDamageIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uDamageIcon.LayoutToolTipText =
+        [
             "Damage is the maximum strength of a unit's melee attack."
-        };
+        ];
         uDamageIcon.CaptureInput = true;
         uDamageIcon.Alignment.AlignWidth = AlignWidth.Left;
         uDamageIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2561,10 +2561,10 @@ public partial class UnitWindow : ILayoutModule
         uResistanceIcon.Priority = 0;
         uResistanceIcon.WinLeft = 74;
         uResistanceIcon.WinTop = 22;
-        uResistanceIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uResistanceIcon.LayoutToolTipText =
+        [
             "Resistance is the ability of a unit to repel non-physical attacks."
-        };
+        ];
         uResistanceIcon.CaptureInput = true;
         uResistanceIcon.Alignment.AlignWidth = AlignWidth.Left;
         uResistanceIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2593,10 +2593,10 @@ public partial class UnitWindow : ILayoutModule
         uHitsIcon.Priority = 0;
         uHitsIcon.WinLeft = 74;
         uHitsIcon.WinTop = 45;
-        uHitsIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uHitsIcon.LayoutToolTipText =
+        [
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-        };
+        ];
         uHitsIcon.CaptureInput = true;
         uHitsIcon.Alignment.AlignWidth = AlignWidth.Left;
         uHitsIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -2625,10 +2625,10 @@ public partial class UnitWindow : ILayoutModule
         UnitAttackLabel.Priority = 0;
         UnitAttackLabel.WinLeft = 22;
         UnitAttackLabel.WinTop = 3;
-        UnitAttackLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitAttackLabel.LayoutToolTipText =
+        [
             "Attack is the ability of a unit to hit a target with a melee strike."
-        };
+        ];
         UnitAttackLabel.CaptureInput = true;
         UnitAttackLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitAttackLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2651,10 +2651,10 @@ public partial class UnitWindow : ILayoutModule
         UnitDefenseLabel.Priority = 0;
         UnitDefenseLabel.WinLeft = 22;
         UnitDefenseLabel.WinTop = 25;
-        UnitDefenseLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitDefenseLabel.LayoutToolTipText =
+        [
             "Defense is the ability of a unit to avoid being hit by physical attacks."
-        };
+        ];
         UnitDefenseLabel.CaptureInput = true;
         UnitDefenseLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitDefenseLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2677,10 +2677,10 @@ public partial class UnitWindow : ILayoutModule
         UnitMovesLabel.Priority = 0;
         UnitMovesLabel.WinLeft = 22;
         UnitMovesLabel.WinTop = 47;
-        UnitMovesLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitMovesLabel.LayoutToolTipText =
+        [
             "Moves are the range a unit can move in a turn (Current/Maximum)."
-        };
+        ];
         UnitMovesLabel.CaptureInput = true;
         UnitMovesLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitMovesLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2703,10 +2703,10 @@ public partial class UnitWindow : ILayoutModule
         UnitDamageLabel.Priority = 0;
         UnitDamageLabel.WinLeft = 25;
         UnitDamageLabel.WinTop = 3;
-        UnitDamageLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitDamageLabel.LayoutToolTipText =
+        [
             "Damage is the maximum strength of a unit's melee attack."
-        };
+        ];
         UnitDamageLabel.CaptureInput = true;
         UnitDamageLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitDamageLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2729,10 +2729,10 @@ public partial class UnitWindow : ILayoutModule
         UnitResistanceLabel.Priority = 0;
         UnitResistanceLabel.WinLeft = 25;
         UnitResistanceLabel.WinTop = 25;
-        UnitResistanceLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitResistanceLabel.LayoutToolTipText =
+        [
             "Resistance is the ability of a unit to repel non-physical attacks."
-        };
+        ];
         UnitResistanceLabel.CaptureInput = true;
         UnitResistanceLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitResistanceLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -2755,10 +2755,10 @@ public partial class UnitWindow : ILayoutModule
         UnitHitsLabel.Priority = 0;
         UnitHitsLabel.WinLeft = 25;
         UnitHitsLabel.WinTop = 47;
-        UnitHitsLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitHitsLabel.LayoutToolTipText =
+        [
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-        };
+        ];
         UnitHitsLabel.CaptureInput = true;
         UnitHitsLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitHitsLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -3052,10 +3052,10 @@ public partial class UnitWindow : ILayoutModule
         MoraleLabel.Priority = 1500;
         MoraleLabel.WinLeft = 189;
         MoraleLabel.WinTop = 136;
-        MoraleLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        MoraleLabel.LayoutToolTipText =
+        [
             "Morale modifiers: High [-], Good[-], Okay [-], Poor [Def-1/Res-1], Terrible [Def-2/Res-2]"
-        };
+        ];
         MoraleLabel.CaptureInput = true;
         MoraleLabel.Alignment.AlignWidth = AlignWidth.Center;
         MoraleLabel.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3078,10 +3078,10 @@ public partial class UnitWindow : ILayoutModule
         UpkeepIcon.Priority = 0;
         UpkeepIcon.WinLeft = 5;
         UpkeepIcon.WinTop = 64;
-        UpkeepIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        UpkeepIcon.LayoutToolTipText =
+        [
             "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
-        };
+        ];
         UpkeepIcon.CaptureInput = true;
         UpkeepIcon.Alignment.AlignWidth = AlignWidth.Left;
         UpkeepIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -3110,10 +3110,10 @@ public partial class UnitWindow : ILayoutModule
         UpkeepLabel.Priority = 0;
         UpkeepLabel.WinLeft = 22;
         UpkeepLabel.WinTop = 68;
-        UpkeepLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UpkeepLabel.LayoutToolTipText =
+        [
             "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
-        };
+        ];
         UpkeepLabel.CaptureInput = true;
         UpkeepLabel.Alignment.AlignWidth = AlignWidth.Center;
         UpkeepLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -3192,10 +3192,10 @@ public partial class UnitWindow : ILayoutModule
         GroundPreviousButton.Priority = 0;
         GroundPreviousButton.WinLeft = 65;
         GroundPreviousButton.WinTop = 170;
-        GroundPreviousButton.LayoutToolTipText = new LayoutStrings()
-        {
+        GroundPreviousButton.LayoutToolTipText =
+        [
             "Displays help on this window"
-        };
+        ];
         GroundPreviousButton.CaptureInput = true;
         GroundPreviousButton.Alignment.AlignWidth = AlignWidth.Left;
         GroundPreviousButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3227,10 +3227,10 @@ public partial class UnitWindow : ILayoutModule
         GroundNextButton.Priority = 0;
         GroundNextButton.WinLeft = 300;
         GroundNextButton.WinTop = 170;
-        GroundNextButton.LayoutToolTipText = new LayoutStrings()
-        {
+        GroundNextButton.LayoutToolTipText =
+        [
             "Displays help on this window"
-        };
+        ];
         GroundNextButton.CaptureInput = true;
         GroundNextButton.Alignment.AlignWidth = AlignWidth.Right;
         GroundNextButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3462,10 +3462,10 @@ public partial class UnitWindow : ILayoutModule
         ExperienceLabel.Priority = 1000000;
         ExperienceLabel.WinLeft = 59;
         ExperienceLabel.WinTop = 30;
-        ExperienceLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ExperienceLabel.LayoutToolTipText =
+        [
             "Indicates combat experience needed for next level."
-        };
+        ];
         ExperienceLabel.CaptureInput = true;
         ExperienceLabel.Alignment.AlignWidth = AlignWidth.Center;
         ExperienceLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -3488,10 +3488,10 @@ public partial class UnitWindow : ILayoutModule
         NextUnitButton.Priority = 50000;
         NextUnitButton.WinLeft = 331;
         NextUnitButton.WinTop = 109;
-        NextUnitButton.LayoutToolTipText = new LayoutStrings()
-        {
+        NextUnitButton.LayoutToolTipText =
+        [
             "Selects the next unit in the party."
-        };
+        ];
         NextUnitButton.CaptureInput = true;
         NextUnitButton.Alignment.AlignWidth = AlignWidth.Right;
         NextUnitButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -3522,10 +3522,10 @@ public partial class UnitWindow : ILayoutModule
         PreviousUnitButton.Priority = 50000;
         PreviousUnitButton.WinLeft = 296;
         PreviousUnitButton.WinTop = 109;
-        PreviousUnitButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PreviousUnitButton.LayoutToolTipText =
+        [
             "Selects the previous unit in the party."
-        };
+        ];
         PreviousUnitButton.CaptureInput = true;
         PreviousUnitButton.Alignment.AlignWidth = AlignWidth.Right;
         PreviousUnitButton.Alignment.AlignHeight = AlignHeight.Bottom;

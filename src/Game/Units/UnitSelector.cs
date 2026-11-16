@@ -82,13 +82,7 @@ public partial class UnitSelector : IDisposable
     }
 
     // Ability.PAS:651
-    public virtual void Cancel()
-    {
-        if (OnCancel != null)
-        {
-            OnCancel(this);
-        }
-    }
+    public virtual void Cancel() => OnCancel?.Invoke(this);
 
     // Ability.PAS:589
     public int AddRef()

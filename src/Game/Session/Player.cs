@@ -664,10 +664,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 {
                     StrategicMap.Current.GameResult = StrategicMapGameResult.Failed;
                     campaign = GetEngine().Campaign;
-                    if (campaign != null)
-                    {
-                        campaign.RestartScenario();
-                    }
+                    campaign?.RestartScenario();
                 }
                 else
                 {
@@ -675,10 +672,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     {
                         StrategicMap.Current.GameResult = StrategicMapGameResult.Succeeded;
                         campaign = GetEngine().Campaign;
-                        if (campaign != null)
-                        {
-                            campaign.FinishScenario();
-                        }
+                        campaign?.FinishScenario();
                     }
                 }
             }
@@ -1046,16 +1040,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:682
     public LibraryImage GetFace()
     {
-        LibraryImage result;
-        if (Leader != null)
-        {
-            result = Leader.GetFace();
-        }
-        else
-        {
-            result = null;
-        }
-
+        LibraryImage result = Leader?.GetFace();
         return result;
     }
 
@@ -1067,42 +1052,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         int maximum;
         int count = Statistics.TurnInfo.Count;
         strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
-        if (strength < 10)
-        {
-            result = 1;
-        }
-        else
-        {
-            if (strength < 40)
-            {
-                result = 2;
-            }
-            else
-            {
-                if (strength < 80)
-                {
-                    result = 3;
-                }
-                else
-                {
-                    if (strength < 120)
-                    {
-                        result = 4;
-                    }
-                    else
-                    {
-                        if (strength < 200)
-                        {
-                            result = 5;
-                        }
-                        else
-                        {
-                            result = ((strength - 200) / 100) + 5;
-                        }
-                    }
-                }
-            }
-        }
+        result = strength < 10
+            ? 1
+            : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
 
         maximum = StrategicMap.Current.HeroCountMax;
         if (maximum < result)
@@ -1258,14 +1210,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 structure = (Structure)StrategicMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite(typeof(Structure));
                 log = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
                 log.Setup(hero, PlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
-                if (structure != null)
-                {
-                    log.LocationName = structure.GetName();
-                }
-                else
-                {
-                    log.LocationName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
-                }
+                log.LocationName = structure != null
+                    ? structure.GetName()
+                    : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
 
                 EventLogbook.AddEvent(log);
                 if (PlayerIndex == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(PlayerIndex).PlayerType == PlayerType.Human)
@@ -1521,46 +1468,14 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1108
     public int GetFirstDaySeen(sbyte player)
     {
-        int result;
-        if (player != PlayerIndex)
-        {
-            if (player < FirstDaySeen.Count)
-            {
-                result = FirstDaySeen[player];
-            }
-            else
-            {
-                result = -1;
-            }
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = player != PlayerIndex ? player < FirstDaySeen.Count ? FirstDaySeen[player] : -1 : 0;
         return result;
     }
 
     // Player.PAS:1116
     public int GetLastDaySeen(sbyte player)
     {
-        int result;
-        if (player != PlayerIndex)
-        {
-            if (player < _lastDaySeen.Count)
-            {
-                result = _lastDaySeen[player];
-            }
-            else
-            {
-                result = -1;
-            }
-        }
-        else
-        {
-            result = StrategicMap.Current.Day;
-        }
-
+        int result = player != PlayerIndex ? player < _lastDaySeen.Count ? _lastDaySeen[player] : -1 : StrategicMap.Current.Day;
         return result;
     }
 
@@ -2174,12 +2089,11 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
         {
-            if (player == action.Target && Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War)
-            {
-                return RaceModifier(modifier: Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? -60 : -20, other: action.OtherPlayer, race: race);
-            }
-
-            return 0;
+            return player == action.Target && Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War
+? RaceModifier(modifier: Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
+                    ? -60
+                    : -20, other: action.OtherPlayer, race: race)
+                : 0;
         }
 
         private static readonly string s_suggestWarFormat = "Suggest war with %s";

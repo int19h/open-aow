@@ -138,7 +138,6 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:177
     public virtual void NewTurn(sbyte player)
     {
-        EngineMessage message = default;
         if (StrategicMap.Current.Day != 1)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
@@ -166,7 +165,7 @@ public partial class PlayerControl : EngineObject
         Player players3 = StrategicMap.Current.Players.GetPlayers(player);
         players3.Day += 1;
         StrategicMap.Current.LockUpdateVisibility();
-        EngineMessage.InitializeMessage(out message, 537001986, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537001986, this);
         message.Payload = player;
         StrategicMap.Current.SendMessage(ref message, this);
         StrategicMap.Current.NewTurnEventsStore.Raise(player);
@@ -455,17 +454,13 @@ public partial class PlayerControl : EngineObject
         }
         else
         {
-            if (done != null)
-            {
-                done(mode, false);
-            }
+            done?.Invoke(mode, false);
         }
     }
 
     // PlayerC.PAS:153
     public virtual void EndTurn(sbyte player)
     {
-        EngineMessage message = default;
         int x = default;
         int y = default;
         int l = default;
@@ -482,7 +477,7 @@ public partial class PlayerControl : EngineObject
             }
         }
 
-        EngineMessage.InitializeMessage(out message, 537001991, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537001991, this);
         message.Payload = player;
         StrategicMap.Current.SendMessage(ref message, this);
         StrategicMap.Current.UnlockRelationsChanged();
@@ -592,10 +587,7 @@ public partial class PlayerControl : EngineObject
             }
 
             text = text + " at system " + IntToStr(playerCommunicationControl.Players[i].SystemId);
-            if (strings != null)
-            {
-                strings.Add(text);
-            }
+            strings?.Add(text);
 
             GetEngine().OutputDebugString(text);
         }
@@ -616,17 +608,11 @@ public partial class PlayerControl : EngineObject
             }
 
             StrategicMap.Current.ExecuteExitGame();
-            if (_exitCallback != null)
-            {
-                _exitCallback(_exitMode, true);
-            }
+            _exitCallback?.Invoke(_exitMode, true);
         }
         else
         {
-            if (_exitCallback != null)
-            {
-                _exitCallback(_exitMode, false);
-            }
+            _exitCallback?.Invoke(_exitMode, false);
         }
 
         _exitCallback = null;
@@ -673,10 +659,7 @@ public partial class PlayerControl : EngineObject
                 }
 
                 StrategicMap.Current.ExecuteExitGame();
-                if (_exitCallback != null)
-                {
-                    _exitCallback(_exitMode, true);
-                }
+                _exitCallback?.Invoke(_exitMode, true);
 
                 _exitCallback = null;
             }
@@ -686,10 +669,7 @@ public partial class PlayerControl : EngineObject
             if (((MessageEventLog)log).PressedButton == PressedEventLogButton.No)
             {
                 StrategicMap.Current.ExecuteExitGame();
-                if (_exitCallback != null)
-                {
-                    _exitCallback(_exitMode, true);
-                }
+                _exitCallback?.Invoke(_exitMode, true);
 
                 _exitCallback = null;
             }
@@ -697,10 +677,7 @@ public partial class PlayerControl : EngineObject
             {
                 if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Cancel)
                 {
-                    if (_exitCallback != null)
-                    {
-                        _exitCallback(_exitMode, false);
-                    }
+                    _exitCallback?.Invoke(_exitMode, false);
 
                     _exitCallback = null;
                 }

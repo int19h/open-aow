@@ -124,10 +124,7 @@ public partial class AbstractHexagon : MapObject
     {
         HexSprite hexSprite;
         hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
-        if (hexSprite != null)
-        {
-            hexSprite.Dispose();
-        }
+        hexSprite?.Dispose();
 
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)

@@ -67,14 +67,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
         AIGroupProductionLocation result;
         int index;
         index = IndexOfPC(control);
-        if (index != -1)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? this[index] : null;
 
         return result;
     }

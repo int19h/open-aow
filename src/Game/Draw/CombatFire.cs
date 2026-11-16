@@ -56,21 +56,9 @@ public partial class CombatFire : SingleHexSprite
         int penalty;
         if (info.HexNumber == 0)
         {
-            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(7))
-            {
-                penalty = 0;
-            }
-            else
-            {
-                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(71))
-                {
-                    penalty = 10;
-                }
-                else
-                {
-                    penalty = 20;
-                }
-            }
+            penalty = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(7)
+                ? 0
+                : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(71) ? 10 : 20;
 
             if (moveResult.Code > 127 - penalty)
             {
@@ -141,9 +129,7 @@ public partial class CombatFire : SingleHexSprite
     {
         ImageSequence sequence;
         int imageIndex;
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.GetImageSequence(60);

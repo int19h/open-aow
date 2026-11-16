@@ -29,14 +29,7 @@ internal static class CombatEvents
                 effect = CombatMap.Current.AddEffect(effectType);
                 speed = (float)((Random(10) + 10) * 0.1);
                 gravity = (float)0.5;
-                if (resisted || effectType == BattleEffectType.DamMagic)
-                {
-                    vz = (float)((Random(50) + 50) * 0.1);
-                }
-                else
-                {
-                    vz = (float)((Random(25) + 25) * 0.1);
-                }
+                vz = resisted || effectType == BattleEffectType.DamMagic ? (float)((Random(50) + 50) * 0.1) : (float)((Random(25) + 25) * 0.1);
 
                 z = 0;
                 Point3DList path = effect.Path;
@@ -84,16 +77,9 @@ internal static class CombatEvents
 
     internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player, GameEngine engine)
     {
-        TacticalBattleEndTurnTokenEvent result;
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
-        {
-            result = new TacticalBattleEndTurnTokenEvent(null) { Holder = engine };
-        }
-        else
-        {
-            result = null;
-        }
-
+        TacticalBattleEndTurnTokenEvent result = !StrategicMap.Current.Players.GetPlayers(player).GetBusy()
+            ? new TacticalBattleEndTurnTokenEvent(null) { Holder = engine }
+            : null;
         return result;
     }
 

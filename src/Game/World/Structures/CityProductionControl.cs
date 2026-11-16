@@ -40,7 +40,6 @@ public partial class CityProductionControl : ProductionControl
         bool valid;
         int count;
         MapLevel level;
-        HexNumberWalkData walk = default;
         CityProductionEventLog log;
         city = City;
         valid = false;
@@ -48,7 +47,7 @@ public partial class CityProductionControl : ProductionControl
         level = city.Owner.Owner;
         sbyte hexY = city.GetHexY();
         sbyte hexX = city.GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < count && !valid)
         {
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

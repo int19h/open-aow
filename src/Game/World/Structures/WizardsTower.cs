@@ -153,16 +153,7 @@ public partial class WizardsTower : Structure
     // WizardsTower.pas:99
     public bool ValidAITarget(sbyte player)
     {
-        bool result;
-        if (player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
-        {
-            result = GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
         return result;
     }
 
@@ -175,14 +166,7 @@ public partial class WizardsTower : Structure
         bool result;
         ArmyHexSprite armyHexSprite;
         armyHexSprite = Owner.GetArmyHexSprite();
-        if (armyHexSprite == null || armyHexSprite.Army.Player != player)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = armyHexSprite != null && armyHexSprite.Army.Player == player;
 
         return result;
     }
@@ -211,16 +195,7 @@ public partial class WizardsTower : Structure
     // WizardsTower.pas:215
     public int BuyCost()
     {
-        int result;
-        if (SpellId != 0)
-        {
-            result = GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost;
-        }
-        else
-        {
-            result = -1;
-        }
-
+        int result = SpellId != 0 ? GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost : -1;
         return result;
     }
 

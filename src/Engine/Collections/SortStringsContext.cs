@@ -54,10 +54,7 @@ public struct SortStringsContext
                 if (i <= j)
                 {
                     context.Strings.Exchange(i, j);
-                    if (context.ExchangeProc != null)
-                    {
-                        context.ExchangeProc(context.ExchangeData, i, j);
-                    }
+                    context.ExchangeProc?.Invoke(context.ExchangeData, i, j);
 
                     i += 1;
                     j -= 1;

@@ -30,15 +30,9 @@ public partial class CityRebelDialog : UIModule
         eventValue = _event;
         OnClose = null;
         _event = null;
-        if (notify != null)
-        {
-            notify(eventValue);
-        }
+        notify?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWCityRebelDlg.pas:60

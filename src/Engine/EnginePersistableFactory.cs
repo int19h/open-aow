@@ -47,17 +47,14 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
         // The stream stores the class id, and rwCreateEObject creates the class the engine table
         // holds at that id (TEngine.GetEClass). A class that keeps its parent's id, such as a
         // tactical battle unit, comes back as the class the table holds there.
-        if (!Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null)
-        {
-            throw new KeyNotFoundException("Unregistered E-ClassID found (" + engineClass.ClassId.ToString(CultureInfo.InvariantCulture) + ")");
-        }
-
-        return registered.CreateInstance(null!, holder: Engine);
+        return !Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null
+            ? throw new KeyNotFoundException("Unregistered E-ClassID found (" + engineClass.ClassId.ToString(CultureInfo.InvariantCulture) + ")")
+            : (IPersistable)registered.CreateInstance(null!, holder: Engine);
     }
 
     private static Dictionary<string, EngineClass> Index()
     {
-        Dictionary<string, EngineClass> byName = new();
+        Dictionary<string, EngineClass> byName = [];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
             if (!byName.TryAdd(engineClass.StorageKey, engineClass))

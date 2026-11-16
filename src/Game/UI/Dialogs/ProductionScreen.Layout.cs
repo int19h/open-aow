@@ -96,10 +96,10 @@ public partial class ProductionScreen : ILayoutModule
         UnitAbilitiesList.Priority = 200;
         UnitAbilitiesList.WinLeft = 2;
         UnitAbilitiesList.WinTop = 1;
-        UnitAbilitiesList.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitAbilitiesList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         UnitAbilitiesList.CaptureInput = true;
         UnitAbilitiesList.Alignment.AlignWidth = AlignWidth.Both;
         UnitAbilitiesList.Alignment.AlignHeight = AlignHeight.Both;
@@ -1349,10 +1349,10 @@ public partial class ProductionScreen : ILayoutModule
         QueueList.Priority = 1000;
         QueueList.WinLeft = 0;
         QueueList.WinTop = 0;
-        QueueList.LayoutToolTipText = new LayoutStrings()
-        {
+        QueueList.LayoutToolTipText =
+        [
             "Lists unit's abilities"
-        };
+        ];
         QueueList.CaptureInput = true;
         QueueList.Alignment.AlignWidth = AlignWidth.Both;
         QueueList.Alignment.AlignHeight = AlignHeight.Both;
@@ -2557,10 +2557,10 @@ public partial class ProductionScreen : ILayoutModule
         relIcn.Priority = 10;
         relIcn.WinLeft = 8;
         relIcn.WinTop = 2;
-        relIcn.LayoutToolTipText = new LayoutStrings()
-        {
+        relIcn.LayoutToolTipText =
+        [
             "Unit's cost in gems"
-        };
+        ];
         relIcn.CaptureInput = true;
         relIcn.Alignment.AlignWidth = AlignWidth.Left;
         relIcn.Alignment.AlignHeight = AlignHeight.Top;
@@ -2840,10 +2840,10 @@ public partial class ProductionScreen : ILayoutModule
         NextButton.Priority = 100;
         NextButton.WinLeft = 76;
         NextButton.WinTop = 21;
-        NextButton.LayoutToolTipText = new LayoutStrings()
-        {
+        NextButton.LayoutToolTipText =
+        [
             "Next"
-        };
+        ];
         NextButton.CaptureInput = true;
         NextButton.Alignment.AlignWidth = AlignWidth.Both;
         NextButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -2875,10 +2875,10 @@ public partial class ProductionScreen : ILayoutModule
         PreviousButton.Priority = 100;
         PreviousButton.WinLeft = 0;
         PreviousButton.WinTop = 21;
-        PreviousButton.LayoutToolTipText = new LayoutStrings()
-        {
+        PreviousButton.LayoutToolTipText =
+        [
             "Previous"
-        };
+        ];
         PreviousButton.CaptureInput = true;
         PreviousButton.Alignment.AlignWidth = AlignWidth.Both;
         PreviousButton.Alignment.AlignHeight = AlignHeight.Top;

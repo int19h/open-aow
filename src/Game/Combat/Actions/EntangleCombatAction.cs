@@ -39,10 +39,7 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
             GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
             data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
-            if (data != null)
-            {
-                data.EnchantmentPlayerIndex = source.CombatPlayer;
-            }
+            data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }
 

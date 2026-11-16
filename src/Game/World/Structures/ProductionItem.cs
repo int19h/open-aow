@@ -42,32 +42,18 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     // Structur.PAS:71
     public virtual string GetName()
     {
-        string result;
-        if (Owner != null)
-        {
-            result = Owner.ProductionControl.GetProductionName(this);
-        }
-        else
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
-        }
-
+        string result = Owner != null
+            ? Owner.ProductionControl.GetProductionName(this)
+            : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         return result;
     }
 
     // Structur.PAS:77
     public string GetNameProgressive()
     {
-        string result;
-        if (Owner != null)
-        {
-            result = Owner.ProductionControl.GetProductionNameProgressive(this);
-        }
-        else
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
-        }
-
+        string result = Owner != null
+            ? Owner.ProductionControl.GetProductionNameProgressive(this)
+            : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         return result;
     }
 

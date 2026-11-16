@@ -484,14 +484,7 @@ public partial class MapEvents : UIModule
             TurnButton turnButton = UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
-                if (player > -1)
-                {
-                    turnButton.CurrentPlayer = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
-                }
-                else
-                {
-                    turnButton.CurrentPlayer = -2;
-                }
+                turnButton.CurrentPlayer = player > -1 ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace : -2;
 
                 if (turnButton.CurrentPlayer == -1)
                 {
@@ -542,10 +535,7 @@ public partial class MapEvents : UIModule
     // aowMapEvents.pas:457
     public void TheMapStructureDeselected()
     {
-        if (UI.General.Sign != null)
-        {
-            UI.General.Sign.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items);
-        }
+        UI.General.Sign?.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items);
 
         UI.General.Structure = null;
         UI.General.City = null;
@@ -841,10 +831,7 @@ public partial class MapEvents : UIModule
 
     private static void ShowUnitSpellCaster(CastUnitSpellDialog dialog, UnitSpellCaster caster)
     {
-        if (dialog.Caster != null)
-        {
-            dialog.Caster.Release();
-        }
+        dialog.Caster?.Release();
         dialog.Caster = caster;
         dialog.Caster.AddRef();
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog.Caster.CasterSourceId);

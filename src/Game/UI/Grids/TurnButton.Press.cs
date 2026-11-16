@@ -12,20 +12,10 @@ public partial class TurnButton
             return false;
         }
 
-        if (ButtonChecked)
-        {
-            ButtonChecked = false;
-        }
-        else
-        {
-            ButtonChecked = true;
-        }
+        ButtonChecked = !ButtonChecked;
 
         Drawn = false;
-        if (OnChange != null)
-        {
-            OnChange(this);
-        }
+        OnChange?.Invoke(this);
 
         return true;
     }

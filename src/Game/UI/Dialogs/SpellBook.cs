@@ -160,15 +160,9 @@ public partial class SpellBook : UIModule
         eventValue = _event;
         Done = null;
         _event = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
 
         UI.General.Manager.OverlayPriority = 0;
         UI.General.Manager.DrawOverlay = true;
@@ -195,11 +189,8 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:427
     public void Reset()
     {
-        if (_activation != null)
-        {
-            _activation.Release();
-            _activation = null;
-        }
+        _activation?.Release();
+        _activation = null;
 
         _spells.Clear();
         Page = 0;
@@ -349,14 +340,7 @@ public partial class SpellBook : UIModule
         Spell spell;
         if (ValidateHero())
         {
-            if (Mode == 1)
-            {
-                player2 = CombatMap.Current.SeatedPlayer;
-            }
-            else
-            {
-                player2 = StrategicMap.Current.SeatedPlayer;
-            }
+            player2 = Mode == 1 ? CombatMap.Current.SeatedPlayer : StrategicMap.Current.SeatedPlayer;
 
             leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
             for (int i = 0; i <= 6; i++)
@@ -647,14 +631,9 @@ public partial class SpellBook : UIModule
             if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
             {
                 turns = _hero.CastingTurns(spell);
-                if (turns == 0)
-                {
-                    reason = UI.Engine.TranslateResourceString(s_instantText);
-                }
-                else
-                {
-                    reason = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
-                }
+                reason = turns == 0
+                    ? UI.Engine.TranslateResourceString(s_instantText)
+                    : AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
 
                 cost.Text = cost.Text + " " + reason;
             }
@@ -951,11 +930,8 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:206
     public void SpellBookDestroy()
     {
-        if (_activation != null)
-        {
-            _activation.Release();
-            _activation = null;
-        }
+        _activation?.Release();
+        _activation = null;
 
         _playerPages?.Dispose();
         _spells?.Dispose();

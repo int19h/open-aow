@@ -129,14 +129,7 @@ public partial class HeroLibraryManager : EngineObject
         Hero result;
         int index;
         index = IndexOfLibraryName(libraryName);
-        if (index != -1)
-        {
-            result = ((HeroLibrary)_libraries.GetChild(index)).FindLibraryId(libraryId);
-        }
-        else
-        {
-            result = null;
-        }
+        result = index != -1 ? ((HeroLibrary)_libraries.GetChild(index)).FindLibraryId(libraryId) : null;
 
         return result;
     }

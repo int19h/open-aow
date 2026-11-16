@@ -47,14 +47,14 @@ public partial class PopupWindows : ILayoutModule
         startMenu.ImageLibraryIndexFrame = 7;
         startMenu.ImageLibraryIndexTNormal = 2;
         startMenu.ImageLibraryIndexTSelected = 0;
-        startMenu.LayoutItems = new LayoutStrings()
-        {
+        startMenu.LayoutItems =
+        [
             "Overviews",
             "Settings",
             "End Game",
             "Disk",
             "Help"
-        };
+        ];
         startMenu.TextColor = 6291456;
         startMenu.TextSelectedColor = 16728128;
         startMenu.ItemHeight = 39;
@@ -94,10 +94,10 @@ public partial class PopupWindows : ILayoutModule
         OverviewsMenu.ImageLibraryIndexFrame = 0;
         OverviewsMenu.ImageLibraryIndexTNormal = 2;
         OverviewsMenu.ImageLibraryIndexTSelected = 9;
-        OverviewsMenu.LayoutItems = new LayoutStrings()
-        {
+        OverviewsMenu.LayoutItems =
+        [
             "Background"
-        };
+        ];
         OverviewsMenu.TextColor = 0;
         OverviewsMenu.TextSelectedColor = 0;
         OverviewsMenu.ItemHeight = 20;
@@ -138,14 +138,14 @@ public partial class PopupWindows : ILayoutModule
         settingsMenu.ImageLibraryIndexFrame = 0;
         settingsMenu.ImageLibraryIndexTNormal = 2;
         settingsMenu.ImageLibraryIndexTSelected = 9;
-        settingsMenu.LayoutItems = new LayoutStrings()
-        {
+        settingsMenu.LayoutItems =
+        [
             "Display",
             "Sound",
             "Gameplay",
             "Reset Layout",
             "Email"
-        };
+        ];
         settingsMenu.TextColor = 0;
         settingsMenu.TextSelectedColor = 0;
         settingsMenu.ItemHeight = 20;
@@ -186,12 +186,12 @@ public partial class PopupWindows : ILayoutModule
         endMenu.ImageLibraryIndexFrame = 0;
         endMenu.ImageLibraryIndexTNormal = 2;
         endMenu.ImageLibraryIndexTSelected = 9;
-        endMenu.LayoutItems = new LayoutStrings()
-        {
+        endMenu.LayoutItems =
+        [
             "Surrender",
             "Exit to Title",
             "Exit to Windows"
-        };
+        ];
         endMenu.TextColor = 0;
         endMenu.TextSelectedColor = 0;
         endMenu.ItemHeight = 20;
@@ -232,11 +232,11 @@ public partial class PopupWindows : ILayoutModule
         diskMenu.ImageLibraryIndexFrame = 0;
         diskMenu.ImageLibraryIndexTNormal = 2;
         diskMenu.ImageLibraryIndexTSelected = 9;
-        diskMenu.LayoutItems = new LayoutStrings()
-        {
+        diskMenu.LayoutItems =
+        [
             "Load Game",
             "Save Game"
-        };
+        ];
         diskMenu.TextColor = 0;
         diskMenu.TextSelectedColor = 0;
         diskMenu.ItemHeight = 20;
@@ -277,14 +277,14 @@ public partial class PopupWindows : ILayoutModule
         tcStartMenu.ImageLibraryIndexFrame = 7;
         tcStartMenu.ImageLibraryIndexTNormal = 2;
         tcStartMenu.ImageLibraryIndexTSelected = 0;
-        tcStartMenu.LayoutItems = new LayoutStrings()
-        {
+        tcStartMenu.LayoutItems =
+        [
             "Overviews",
             "Settings",
             "End Combat",
             "Disk",
             "Help"
-        };
+        ];
         tcStartMenu.TextColor = 6291456;
         tcStartMenu.TextSelectedColor = 16728128;
         tcStartMenu.ItemHeight = 39;
@@ -332,12 +332,12 @@ public partial class PopupWindows : ILayoutModule
         helpMenu.ImageLibraryIndexFrame = 0;
         helpMenu.ImageLibraryIndexTNormal = 2;
         helpMenu.ImageLibraryIndexTSelected = 9;
-        helpMenu.LayoutItems = new LayoutStrings()
-        {
+        helpMenu.LayoutItems =
+        [
             "General Interface",
             "Map Interface",
             "www.ageofwonders.com"
-        };
+        ];
         helpMenu.TextColor = 0;
         helpMenu.TextSelectedColor = 0;
         helpMenu.ItemHeight = 20;
@@ -378,10 +378,10 @@ public partial class PopupWindows : ILayoutModule
         tcovMenu.ImageLibraryIndexFrame = 0;
         tcovMenu.ImageLibraryIndexTNormal = 2;
         tcovMenu.ImageLibraryIndexTSelected = 9;
-        tcovMenu.LayoutItems = new LayoutStrings()
-        {
+        tcovMenu.LayoutItems =
+        [
             "Background"
-        };
+        ];
         tcovMenu.TextColor = 0;
         tcovMenu.TextSelectedColor = 0;
         tcovMenu.ItemHeight = 20;
@@ -422,10 +422,10 @@ public partial class PopupWindows : ILayoutModule
         tcDiskMenu.ImageLibraryIndexFrame = 0;
         tcDiskMenu.ImageLibraryIndexTNormal = 2;
         tcDiskMenu.ImageLibraryIndexTSelected = 9;
-        tcDiskMenu.LayoutItems = new LayoutStrings()
-        {
+        tcDiskMenu.LayoutItems =
+        [
             "Load Game"
-        };
+        ];
         tcDiskMenu.TextColor = 0;
         tcDiskMenu.TextSelectedColor = 0;
         tcDiskMenu.ItemHeight = 20;
@@ -466,12 +466,12 @@ public partial class PopupWindows : ILayoutModule
         tcHelpMenu.ImageLibraryIndexFrame = 0;
         tcHelpMenu.ImageLibraryIndexTNormal = 2;
         tcHelpMenu.ImageLibraryIndexTSelected = 9;
-        tcHelpMenu.LayoutItems = new LayoutStrings()
-        {
+        tcHelpMenu.LayoutItems =
+        [
             "General Interface",
             "Map Interface",
             "www.ageofwonders.com"
-        };
+        ];
         tcHelpMenu.TextColor = 0;
         tcHelpMenu.TextSelectedColor = 0;
         tcHelpMenu.ItemHeight = 20;
@@ -512,14 +512,14 @@ public partial class PopupWindows : ILayoutModule
         tcSettingsMenu.ImageLibraryIndexFrame = 0;
         tcSettingsMenu.ImageLibraryIndexTNormal = 2;
         tcSettingsMenu.ImageLibraryIndexTSelected = 9;
-        tcSettingsMenu.LayoutItems = new LayoutStrings()
-        {
+        tcSettingsMenu.LayoutItems =
+        [
             "Display",
             "Sound",
             "Gameplay",
             "Reset Layout",
             "Email"
-        };
+        ];
         tcSettingsMenu.TextColor = 0;
         tcSettingsMenu.TextSelectedColor = 0;
         tcSettingsMenu.ItemHeight = 20;
@@ -560,10 +560,10 @@ public partial class PopupWindows : ILayoutModule
         tcEndMenu.ImageLibraryIndexFrame = 0;
         tcEndMenu.ImageLibraryIndexTNormal = 2;
         tcEndMenu.ImageLibraryIndexTSelected = 9;
-        tcEndMenu.LayoutItems = new LayoutStrings()
-        {
+        tcEndMenu.LayoutItems =
+        [
             "Surrender"
-        };
+        ];
         tcEndMenu.TextColor = 0;
         tcEndMenu.TextSelectedColor = 0;
         tcEndMenu.ItemHeight = 20;

@@ -26,14 +26,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
             i += 1;
         }
 
-        if (found)
-        {
-            result = this[i - 1];
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? this[i - 1] : null;
 
         return result;
     }
@@ -52,14 +45,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
             i += 1;
         }
 
-        if (found)
-        {
-            result = i - 1;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = found ? i - 1 : -1;
 
         return result;
     }
@@ -68,12 +54,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     public EngineClass GetClass(int classId)
     {
         EngineClass result = FindClass(classId);
-        if (result == null)
-        {
-            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")");
-        }
-
-        return result;
+        return result ?? throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")");
     }
 
     // Engine.pas:8338

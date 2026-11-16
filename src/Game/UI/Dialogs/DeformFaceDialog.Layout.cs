@@ -230,10 +230,10 @@ public partial class DeformFaceDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 363;
         close.WinTop = 6;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

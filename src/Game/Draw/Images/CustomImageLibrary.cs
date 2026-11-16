@@ -75,24 +75,12 @@ public partial class CustomImageLibrary : Component
         string path;
         if (!IsEmpty(_fileName))
         {
-            if (ComponentState.Contains(Rtl.ComponentState.Designing))
-            {
-                path = ExtractFilePath(ToolServices.GetProjectName());
-            }
-            else
-            {
-                path = ImageLibraries.BaseImageLibraryPath;
-            }
+            path = ComponentState.Contains(Rtl.ComponentState.Designing)
+                ? ExtractFilePath(ToolServices.GetProjectName())
+                : ImageLibraries.BaseImageLibraryPath;
 
             drive = ExtractFileDrive(_fileName);
-            if (IsEmpty(drive) || drive == ExtractFileDrive(path))
-            {
-                result = ExpandFileName(path + _fileName);
-            }
-            else
-            {
-                result = _fileName;
-            }
+            result = IsEmpty(drive) || drive == ExtractFileDrive(path) ? ExpandFileName(path + _fileName) : _fileName;
         }
         else
         {
@@ -105,16 +93,9 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9743
     internal void SetFileName(string value)
     {
-        string path;
-        if (ComponentState.Contains(Rtl.ComponentState.Designing))
-        {
-            path = ExtractFilePath(ToolServices.GetProjectName());
-        }
-        else
-        {
-            path = ImageLibraries.BaseImageLibraryPath;
-        }
-
+        string path = ComponentState.Contains(Rtl.ComponentState.Designing)
+            ? ExtractFilePath(ToolServices.GetProjectName())
+            : ImageLibraries.BaseImageLibraryPath;
         value = ExtractRelativePath(path, value);
         if ((ComponentState.Contains(Rtl.ComponentState.Designing) || ComponentState.Contains(Rtl.ComponentState.Loading)) && value != _fileName)
         {
@@ -202,14 +183,9 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9691
     public virtual void SetModified(bool value)
     {
-        if (value)
-        {
-            _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
-        }
-        else
-        {
-            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
-        }
+        _status = value
+            ? _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified)
+            : _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
     }
 
     // ImageLib.pas:9826
@@ -519,10 +495,7 @@ public partial class CustomImageLibrary : Component
     {
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (Images[i].Image != null)
-            {
-                Images[i].Image.SetReloadingEnabled(false);
-            }
+            Images[i].Image?.SetReloadingEnabled(false);
         }
 
         _reloading = false;
@@ -537,10 +510,7 @@ public partial class CustomImageLibrary : Component
             for (int i = 0, last = _count - 1; i <= last; i++)
             {
                 image = Images[i].Image;
-                if (image != null)
-                {
-                    image.ReleaseDiscardableImageData();
-                }
+                image?.ReleaseDiscardableImageData();
             }
         }
     }
@@ -552,10 +522,7 @@ public partial class CustomImageLibrary : Component
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
             image = Images[i].Image;
-            if (image != null)
-            {
-                image.LoadDiscardableImageData();
-            }
+            image?.LoadDiscardableImageData();
         }
     }
 
@@ -573,14 +540,7 @@ public partial class CustomImageLibrary : Component
             if (!result)
             {
                 r = Images[index].Reference;
-                if (r >= 0 && r < _count)
-                {
-                    result = Images[r].Image != null;
-                }
-                else
-                {
-                    result = false;
-                }
+                result = r >= 0 && r < _count && Images[r].Image != null;
             }
         }
         else
@@ -604,10 +564,7 @@ public partial class CustomImageLibrary : Component
 
         if (value != -1)
         {
-            if (Images[index].Image != null)
-            {
-                Images[index].Image.Dispose();
-            }
+            Images[index].Image?.Dispose();
 
             Images[index].Image = null;
         }
@@ -760,18 +717,12 @@ public partial class CustomImageLibrary : Component
             SetCount(index + 1);
         }
 
-        if (Images[index].Image != null)
-        {
-            Images[index].Image.Dispose();
-        }
+        Images[index].Image?.Dispose();
 
         Images[index].Image = image;
         Images[index].Reference = -1;
         UpdateImageItemSettings(index);
-        if (image != null)
-        {
-            image.SetOwner(this);
-        }
+        image?.SetOwner(this);
 
         SetModified(true);
         if (_changeLock == 0)
@@ -833,21 +784,7 @@ public partial class CustomImageLibrary : Component
         int result;
         LibraryImage image;
         image = GetSafe(index);
-        if (image != null)
-        {
-            if (image.ImageClass.ClassId != 256)
-            {
-                result = 1;
-            }
-            else
-            {
-                result = ((ImageNode)image).Count;
-            }
-        }
-        else
-        {
-            result = -1;
-        }
+        result = image != null ? image.ImageClass.ClassId != 256 ? 1 : ((ImageNode)image).Count : -1;
 
         return result;
     }
@@ -867,28 +804,7 @@ public partial class CustomImageLibrary : Component
             }
         }
 
-        if (image != null)
-        {
-            if (image.ImageClass.ClassId == 256)
-            {
-                result = ((ImageNode)image).Images[subIndex];
-            }
-            else
-            {
-                if (subIndex == 0)
-                {
-                    result = image;
-                }
-                else
-                {
-                    result = null;
-                }
-            }
-        }
-        else
-        {
-            result = null;
-        }
+        result = image != null ? image.ImageClass.ClassId == 256 ? ((ImageNode)image).Images[subIndex] : subIndex == 0 ? image : null : null;
 
         return result;
     }
@@ -899,28 +815,9 @@ public partial class CustomImageLibrary : Component
         LibraryImage result;
         LibraryImage image;
         image = GetSafe(index);
-        if (image != null)
-        {
-            if (image.ImageClass.ClassId == 256)
-            {
-                result = ((ImageNode)image).GetSafeImage(subIndex);
-            }
-            else
-            {
-                if (subIndex == 0)
-                {
-                    result = image;
-                }
-                else
-                {
-                    result = null;
-                }
-            }
-        }
-        else
-        {
-            result = null;
-        }
+        result = image != null
+            ? image.ImageClass.ClassId == 256 ? ((ImageNode)image).GetSafeImage(subIndex) : subIndex == 0 ? image : null
+            : null;
 
         return result;
     }
@@ -978,14 +875,7 @@ public partial class CustomImageLibrary : Component
     {
         LibraryImage old;
         ImageNode node;
-        if (index < _count)
-        {
-            old = Images[index].Image;
-        }
-        else
-        {
-            old = null;
-        }
+        old = index < _count ? Images[index].Image : null;
 
         if (old != null)
         {
@@ -995,10 +885,7 @@ public partial class CustomImageLibrary : Component
                 if (subIndex >= 0 && subIndex < node.Count)
                 {
                     old = node.Images[subIndex];
-                    if (old != null)
-                    {
-                        old.Dispose();
-                    }
+                    old?.Dispose();
 
                     node.Images[subIndex] = image;
                     image.SetOwner(this);
@@ -1114,28 +1001,7 @@ public partial class CustomImageLibrary : Component
         int result;
         LibraryImage old;
         old = Images[index].Image;
-        if (old != null)
-        {
-            if (old.ImageClass.ClassId == 256)
-            {
-                result = ((ImageNode)old).IndexOf(image);
-            }
-            else
-            {
-                if (old == image)
-                {
-                    result = 0;
-                }
-                else
-                {
-                    result = -1;
-                }
-            }
-        }
-        else
-        {
-            result = -1;
-        }
+        result = old != null ? old.ImageClass.ClassId == 256 ? ((ImageNode)old).IndexOf(image) : old == image ? 0 : -1 : -1;
 
         return result;
     }
@@ -1205,21 +1071,7 @@ public partial class CustomImageLibrary : Component
         bool result;
         LibraryImage image;
         image = Images[index].Image;
-        if (image != null && subIndex >= 0)
-        {
-            if (image.ImageClass.ClassId == 256)
-            {
-                result = subIndex < ((ImageNode)image).Count;
-            }
-            else
-            {
-                result = subIndex == 0;
-            }
-        }
-        else
-        {
-            result = false;
-        }
+        result = image != null && subIndex >= 0 && (image.ImageClass.ClassId == 256 ? subIndex < ((ImageNode)image).Count : subIndex == 0);
 
         return result;
     }

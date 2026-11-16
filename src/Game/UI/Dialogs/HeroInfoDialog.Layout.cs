@@ -504,10 +504,10 @@ public partial class HeroInfoDialog : ILayoutModule
         MessageMemo.Masked = true;
         MessageMemo.WinWidth = 330;
         MessageMemo.WinHeight = 210;
-        MessageMemo.LayoutItems = new LayoutStrings()
-        {
+        MessageMemo.LayoutItems =
+        [
             "#########################"
-        };
+        ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 8;
         MessageMemo.TextColor = 13827061;

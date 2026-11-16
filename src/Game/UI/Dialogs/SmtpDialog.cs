@@ -78,13 +78,7 @@ public partial class SmtpDialog : UIModule
     }
 
     // AoWSMTPDlg.pas:185
-    public void SmtpSenderError(ref string error)
-    {
-        if (_event != null)
-        {
-            _event.Error = error;
-        }
-    }
+    public void SmtpSenderError(ref string error) => _event?.Error = error;
 
     // AoWSMTPDlg.pas:190
     public void DlgUpdate()

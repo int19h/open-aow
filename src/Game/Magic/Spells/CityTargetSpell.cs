@@ -87,14 +87,13 @@ public partial class CityTargetSpell : Spell
     {
         MapLevel level;
         ImageSequenceAnimation a;
-        HexNumberWalkData walk = default;
         bool playSound;
         playSound = false;
         sbyte hexLevel = targetCity.GetHexLevel();
         level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
         sbyte hexY = targetCity.GetHexY();
         sbyte hexX = targetCity.GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
@@ -247,14 +246,7 @@ public partial class CityTargetSpell : Spell
             if (valid)
             {
                 targetCity = (City)field.FindNoneTransparentHexSprite(typeof(City));
-                if (targetCity != null)
-                {
-                    valid = ValidTargetCity(source, targetCity);
-                }
-                else
-                {
-                    valid = false;
-                }
+                valid = targetCity != null && ValidTargetCity(source, targetCity);
             }
         }
         else

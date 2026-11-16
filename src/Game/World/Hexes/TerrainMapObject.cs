@@ -23,30 +23,7 @@ public partial class TerrainMapObject : MultiHexMapObject
     // Terrain.pas:179
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result;
-        if (this != info.Sender)
-        {
-            if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
-            {
-                if (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType)
-                {
-                    result = CanChangeOwnTerrain(info.HexNumber);
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-            else
-            {
-                result = true;
-            }
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = this == info.Sender || Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType && CanChangeOwnTerrain(info.HexNumber));
         return result;
     }
 
@@ -229,11 +206,10 @@ public partial class TerrainMapObject : MultiHexMapObject
     {
         MapLevel level;
         int count;
-        HexNumberWalkData walk = default;
         bool result = true;
         level = Owner.Owner;
         count = GetTerrainCount();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && result)
         {
             if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

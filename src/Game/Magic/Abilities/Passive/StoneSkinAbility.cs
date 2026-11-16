@@ -23,14 +23,9 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
         string result;
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        if (unitEnchantmentAbilityData.Enchantment.Source == -2)
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);
-        }
-        else
-        {
-            result = base.GetSourceName(owner);
-        }
+        result = unitEnchantmentAbilityData.Enchantment.Source == -2
+            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText)
+            : base.GetSourceName(owner);
 
         return result;
     }

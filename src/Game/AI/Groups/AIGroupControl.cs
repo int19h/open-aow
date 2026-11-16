@@ -460,11 +460,8 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        if (_aiGroupTask != null)
-        {
-            _aiGroupTask.Release();
-            _aiGroupTask = null;
-        }
+        _aiGroupTask?.Release();
+        _aiGroupTask = null;
     }
 
     // AIGroup.pas:1256

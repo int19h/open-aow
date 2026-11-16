@@ -150,14 +150,7 @@ public partial class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            if (_hexSpriteMap.GetMaxPixelX() < _sceneWidth + value + 16)
-            {
-                _sceneX = _hexSpriteMap.GetMaxPixelX() - _sceneWidth - 16;
-            }
-            else
-            {
-                _sceneX = value;
-            }
+            _sceneX = _hexSpriteMap.GetMaxPixelX() < _sceneWidth + value + 16 ? _hexSpriteMap.GetMaxPixelX() - _sceneWidth - 16 : value;
         }
     }
 
@@ -171,14 +164,7 @@ public partial class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            if (_hexSpriteMap.GetMaxPixelY() - 16 < _sceneHeight + value)
-            {
-                _sceneY = _hexSpriteMap.GetMaxPixelY() - _sceneHeight - 16;
-            }
-            else
-            {
-                _sceneY = value;
-            }
+            _sceneY = _hexSpriteMap.GetMaxPixelY() - 16 < _sceneHeight + value ? _hexSpriteMap.GetMaxPixelY() - _sceneHeight - 16 : value;
         }
     }
 

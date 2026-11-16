@@ -154,11 +154,8 @@ public partial class DisplayController : Component
             Deactivate();
         }
 
-        if (_inverseMatrix != null)
-        {
-            _inverseMatrix.Dispose();
-            _inverseMatrix = null;
-        }
+        _inverseMatrix?.Dispose();
+        _inverseMatrix = null;
 
         base.Dispose();
     }
@@ -169,16 +166,7 @@ public partial class DisplayController : Component
     // DisplayC.pas:639
     public virtual int GetSurfaceCount()
     {
-        int result;
-        if (GetDisplay() == null)
-        {
-            result = 0;
-        }
-        else
-        {
-            result = (int)GetDisplay().BufferingScheme;
-        }
-
+        int result = GetDisplay() == null ? 0 : (int)GetDisplay().BufferingScheme;
         return result;
     }
 
@@ -258,10 +246,7 @@ public partial class DisplayController : Component
         if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
             Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
-            if (_display != null)
-            {
-                _display.DeactivateDisplayController();
-            }
+            _display?.DeactivateDisplayController();
 
             result = 0;
             _display = null;
@@ -322,10 +307,7 @@ public partial class DisplayController : Component
     // DisplayC.pas:873
     public virtual void InitializeInverseMatrix(byte width, byte height)
     {
-        if (_inverseMatrix != null)
-        {
-            _inverseMatrix.Dispose();
-        }
+        _inverseMatrix?.Dispose();
 
         _inverseMatrix = new Matrix(width, height);
     }

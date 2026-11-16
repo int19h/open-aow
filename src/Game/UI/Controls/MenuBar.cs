@@ -32,7 +32,7 @@ public partial class MenuBar : Control
     {
         _items = new StringList();
         _items.OnChange = OnChangeText;
-        Menus = new List<Menu>();
+        Menus = [];
         _selected = -1;
     }
 

@@ -34,10 +34,7 @@ public partial class ImageLibraryFont
         foreach (char c in text)
         {
             LibraryImage image = GetSafe(Cp1252.Byte(c));
-            if (image != null)
-            {
-                image.Show(x, y, lockedSurface);
-            }
+            image?.Show(x, y, lockedSurface);
 
             x += (image?.Width ?? 5) + _characterDistance;
         }
@@ -50,11 +47,8 @@ public partial class ImageLibraryFont
             LibraryImagePalette palette = PaletteManager.Palettes[0];
             palette.Palette[_fontColorPaletteIndex] =
                 new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
-            if (palette.RemapPaletteValue != null)
-            {
-                palette.RemapPaletteValue[_fontColorPaletteIndex] =
+            palette.RemapPaletteValue?[_fontColorPaletteIndex] =
                     new((uint)PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null));
-            }
         }
         _color = value;
     }

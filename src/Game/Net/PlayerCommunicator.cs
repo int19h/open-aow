@@ -49,11 +49,8 @@ public partial class PlayerCommunicator : EngineObject
     public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
         bool result;
-        if (_playerCommunicationControl != null)
-        {
-            _playerCommunicationControl.Release();
-            _playerCommunicationControl = null;
-        }
+        _playerCommunicationControl?.Release();
+        _playerCommunicationControl = null;
 
         _playerCommunicationControl = playerCommunicationControl;
         if (_playerCommunicationControl != null)
@@ -91,11 +88,8 @@ public partial class PlayerCommunicator : EngineObject
         SendStream?.Dispose();
         ReceiveStream?.Dispose();
         OnProcessStore.Clear();
-        if (_playerCommunicationControl != null)
-        {
-            _playerCommunicationControl.Release();
-            _playerCommunicationControl = null;
-        }
+        _playerCommunicationControl?.Release();
+        _playerCommunicationControl = null;
 
         base.Dispose();
     }

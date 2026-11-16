@@ -36,13 +36,7 @@ public partial class Menu : GenericWindow
     [Published]
     public event NotifyEvent<Menu> OnDrawItem;
 
-    protected void RaiseDrawItem(Menu sender)
-    {
-        if (OnDrawItem != null)
-        {
-            OnDrawItem(sender);
-        }
-    }
+    protected void RaiseDrawItem(Menu sender) => OnDrawItem?.Invoke(sender);
 
     private int _itemHeight;
     private MenuBar _ownerMenuBar;
@@ -71,7 +65,7 @@ public partial class Menu : GenericWindow
         SelectedItem = -1;
         _subMenuItem = -1;
         _itemHeight = 10;
-        SubMenus = new List<Menu>();
+        SubMenus = [];
         SetVisibleWithoutUpdate(false);
     }
 
@@ -501,10 +495,7 @@ public partial class Menu : GenericWindow
                             LibraryImage imageLibraryFrameHeight5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             LibraryImage imageLibraryFrameWidth3 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             DrawItemRectangle = new Rect(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + (imageLibraryFrameHeight5.Height * i), WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + (imageLibraryFrameHeight3.Height * (i + 1)));
-                            if (OnDrawItem != null)
-                            {
-                                OnDrawItem(this);
-                            }
+                            OnDrawItem?.Invoke(this);
                         }
 
                         lockedSurface.ClipRectangle = oldClip;
@@ -579,10 +570,7 @@ public partial class Menu : GenericWindow
                         }
 
                         SelectedItem = Highlighted;
-                        if (OnSelect != null)
-                        {
-                            OnSelect(this);
-                        }
+                        OnSelect?.Invoke(this);
                     }
                 }
             }

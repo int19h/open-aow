@@ -34,14 +34,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     internal void AllocateDiscardableImageData(int width, int height)
     {
         int size;
-        if (width < 32)
-        {
-            _pitch = ((width << 1) + 3) & ~3;
-        }
-        else
-        {
-            _pitch = ((width << 1) + 7) & ~7;
-        }
+        _pitch = width < 32 ? ((width << 1) + 3) & ~3 : ((width << 1) + 7) & ~7;
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         size = (_pitch * height) + 7;
@@ -511,10 +504,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
             }
             finally
             {
-                if (surface != null)
-                {
-                    surface.Dispose();
-                }
+                surface?.Dispose();
             }
         }
         catch

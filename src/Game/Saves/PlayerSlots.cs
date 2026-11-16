@@ -12,7 +12,7 @@ public sealed class PlayerSlots : ReferenceDomain
 
     public override IReadOnlySet<long> Collect(JsonObject root)
     {
-        HashSet<long> slots = new();
+        HashSet<long> slots = [];
         if (root["Players"] is JsonObject players && players["Children"] is JsonArray children)
         {
             foreach (JsonValue child in children.Items)

@@ -33,13 +33,12 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:842
     public void CreateFireBarrier()
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         MapField mapField;
         Fire fire;
         RandSeed = StrategicMap.Current.Random(16777215);
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

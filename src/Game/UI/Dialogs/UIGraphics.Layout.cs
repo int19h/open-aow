@@ -59,8 +59,8 @@ public sealed partial class UIGraphics : ILayoutModule
         session.BeginRead(pyreAnim);
         pyreAnim.Name = "PyreAnim";
         pyreAnim.LoadOnDemand = true;
-        pyreAnim.LayoutData = new byte[]
-        {
+        pyreAnim.LayoutData =
+        [
             4,
             73,
             76,
@@ -93,7 +93,7 @@ public sealed partial class UIGraphics : ILayoutModule
             255,
             255,
             255
-        };
+        ];
         session.EndRead(pyreAnim);
         UnitBackgrounds = new InterfaceImageLibrary(this);
         session.BeginRead(UnitBackgrounds);
@@ -159,8 +159,8 @@ public sealed partial class UIGraphics : ILayoutModule
         session.BeginRead(BookLeftPage);
         BookLeftPage.Name = "BookPL";
         BookLeftPage.LoadOnDemand = true;
-        BookLeftPage.LayoutData = new byte[]
-        {
+        BookLeftPage.LayoutData =
+        [
             4,
             73,
             76,
@@ -193,14 +193,14 @@ public sealed partial class UIGraphics : ILayoutModule
             255,
             255,
             255
-        };
+        ];
         session.EndRead(BookLeftPage);
         BookRightPage = new InterfaceImageLibrary(this);
         session.BeginRead(BookRightPage);
         BookRightPage.Name = "BookPR";
         BookRightPage.LoadOnDemand = true;
-        BookRightPage.LayoutData = new byte[]
-        {
+        BookRightPage.LayoutData =
+        [
             4,
             73,
             76,
@@ -233,7 +233,7 @@ public sealed partial class UIGraphics : ILayoutModule
             255,
             255,
             255
-        };
+        ];
         session.EndRead(BookRightPage);
         FactionWindow = new InterfaceImageLibrary(this);
         session.BeginRead(FactionWindow);

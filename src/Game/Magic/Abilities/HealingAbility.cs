@@ -54,14 +54,7 @@ public partial class HealingAbility : TouchAbility
         if (result)
         {
             data = (HealingAbilityData)owner.GetAbilityData(AbilityId);
-            if (data != null)
-            {
-                result = data.Enabled;
-            }
-            else
-            {
-                result = true;
-            }
+            result = data == null || data.Enabled;
         }
 
         return result;
@@ -129,14 +122,7 @@ public partial class HealingAbility : TouchAbility
             Troop troop = owner as Troop;
             info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
-            if (troop != null)
-            {
-                info.UnitId = troop.UnitId;
-            }
-            else
-            {
-                info.UnitId = 0;
-            }
+            info.UnitId = troop != null ? troop.UnitId : 0;
 
             selector = new HealingUnitSelector(this);
             string healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);

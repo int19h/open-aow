@@ -182,10 +182,7 @@ public abstract partial record DiplomaticProposal
     protected static void RemoveTargetLog(DiplomaticAction action)
     {
         DiplomaticActionEventLog log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
-        if (log != null)
-        {
-            log.SetOwner(null);
-        }
+        log?.SetOwner(null);
     }
 
     // Moves the target's logbook entry, now holding the answer, to the source and shows it there.

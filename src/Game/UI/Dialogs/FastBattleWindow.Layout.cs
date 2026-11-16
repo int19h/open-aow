@@ -225,10 +225,10 @@ public partial class FastBattleWindow : ILayoutModule
         playBtn2.Priority = 0;
         playBtn2.WinLeft = 0;
         playBtn2.WinTop = 0;
-        playBtn2.LayoutToolTipText = new LayoutStrings()
-        {
+        playBtn2.LayoutToolTipText =
+        [
             "Plays battle from current position"
-        };
+        ];
         playBtn2.CaptureInput = true;
         playBtn2.Alignment.AlignWidth = AlignWidth.None;
         playBtn2.Alignment.AlignHeight = AlignHeight.None;
@@ -260,10 +260,10 @@ public partial class FastBattleWindow : ILayoutModule
         pauseBtn2.Priority = 0;
         pauseBtn2.WinLeft = 48;
         pauseBtn2.WinTop = 0;
-        pauseBtn2.LayoutToolTipText = new LayoutStrings()
-        {
+        pauseBtn2.LayoutToolTipText =
+        [
             "Pauses battle at current position"
-        };
+        ];
         pauseBtn2.CaptureInput = true;
         pauseBtn2.Alignment.AlignWidth = AlignWidth.Left;
         pauseBtn2.Alignment.AlignHeight = AlignHeight.Top;
@@ -295,10 +295,10 @@ public partial class FastBattleWindow : ILayoutModule
         startBtn.Priority = 0;
         startBtn.WinLeft = 72;
         startBtn.WinTop = 0;
-        startBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        startBtn.LayoutToolTipText =
+        [
             "Goes to start of battle."
-        };
+        ];
         startBtn.CaptureInput = true;
         startBtn.Alignment.AlignWidth = AlignWidth.None;
         startBtn.Alignment.AlignHeight = AlignHeight.None;
@@ -330,10 +330,10 @@ public partial class FastBattleWindow : ILayoutModule
         endBtn.Priority = 0;
         endBtn.WinLeft = 96;
         endBtn.WinTop = 0;
-        endBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        endBtn.LayoutToolTipText =
+        [
             "Goes to end of battle, showing final results"
-        };
+        ];
         endBtn.CaptureInput = true;
         endBtn.Alignment.AlignWidth = AlignWidth.None;
         endBtn.Alignment.AlignHeight = AlignHeight.None;
@@ -365,10 +365,10 @@ public partial class FastBattleWindow : ILayoutModule
         closeBut.Priority = 0;
         closeBut.WinLeft = 48;
         closeBut.WinTop = 0;
-        closeBut.LayoutToolTipText = new LayoutStrings()
-        {
+        closeBut.LayoutToolTipText =
+        [
             "Closes Window"
-        };
+        ];
         closeBut.CaptureInput = true;
         closeBut.Alignment.AlignWidth = AlignWidth.Right;
         closeBut.Alignment.AlignHeight = AlignHeight.Top;
@@ -1127,10 +1127,10 @@ public partial class FastBattleWindow : ILayoutModule
         initialView.Priority = 0;
         initialView.WinLeft = 72;
         initialView.WinTop = 0;
-        initialView.LayoutToolTipText = new LayoutStrings()
-        {
+        initialView.LayoutToolTipText =
+        [
             "Goes to start of battle."
-        };
+        ];
         initialView.CaptureInput = true;
         initialView.Alignment.AlignWidth = AlignWidth.Left;
         initialView.Alignment.AlignHeight = AlignHeight.Top;
@@ -1161,10 +1161,10 @@ public partial class FastBattleWindow : ILayoutModule
         finalView.Priority = 0;
         finalView.WinLeft = 96;
         finalView.WinTop = 0;
-        finalView.LayoutToolTipText = new LayoutStrings()
-        {
+        finalView.LayoutToolTipText =
+        [
             "Goes to end of battle, showing final results"
-        };
+        ];
         finalView.CaptureInput = true;
         finalView.Alignment.AlignWidth = AlignWidth.Left;
         finalView.Alignment.AlignHeight = AlignHeight.Top;
@@ -1195,10 +1195,10 @@ public partial class FastBattleWindow : ILayoutModule
         playBtn.Priority = 0;
         playBtn.WinLeft = 0;
         playBtn.WinTop = 0;
-        playBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        playBtn.LayoutToolTipText =
+        [
             "Plays battle from current position"
-        };
+        ];
         playBtn.CaptureInput = true;
         playBtn.Alignment.AlignWidth = AlignWidth.Left;
         playBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1229,10 +1229,10 @@ public partial class FastBattleWindow : ILayoutModule
         pauseBtn.Priority = 0;
         pauseBtn.WinLeft = 48;
         pauseBtn.WinTop = 0;
-        pauseBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        pauseBtn.LayoutToolTipText =
+        [
             "Plays battle from current position"
-        };
+        ];
         pauseBtn.CaptureInput = true;
         pauseBtn.Alignment.AlignWidth = AlignWidth.Left;
         pauseBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1372,10 +1372,10 @@ public partial class FastBattleWindow : ILayoutModule
         prevSeqBtn.Priority = 0;
         prevSeqBtn.WinLeft = 0;
         prevSeqBtn.WinTop = 0;
-        prevSeqBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        prevSeqBtn.LayoutToolTipText =
+        [
             "Plays battle from current position"
-        };
+        ];
         prevSeqBtn.CaptureInput = true;
         prevSeqBtn.Alignment.AlignWidth = AlignWidth.Left;
         prevSeqBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -1406,10 +1406,10 @@ public partial class FastBattleWindow : ILayoutModule
         nextSeqBtn.Priority = 0;
         nextSeqBtn.WinLeft = 24;
         nextSeqBtn.WinTop = 0;
-        nextSeqBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        nextSeqBtn.LayoutToolTipText =
+        [
             "Plays battle from current position"
-        };
+        ];
         nextSeqBtn.CaptureInput = true;
         nextSeqBtn.Alignment.AlignWidth = AlignWidth.Left;
         nextSeqBtn.Alignment.AlignHeight = AlignHeight.Top;

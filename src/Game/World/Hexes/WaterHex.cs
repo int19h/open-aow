@@ -34,8 +34,7 @@ public partial class WaterHex : LowerIsometricHex
     public override void Show(int xSurface, int ySurface, in LockedSurface surface)
     {
         MapField field = Owner;
-        int x = 0, y = 0;
-        HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
+        HexGeometry.HexToPixel(field.HexX, field.HexY, out int x, out int y);
         x -= xSurface + 8;
         y -= ySurface;
         CustomImageLibrary library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

@@ -65,15 +65,9 @@ public partial class PartyJoinDialog : UIModule
         eventValue = _joinEvent;
         Done = null;
         _joinEvent = null;
-        if (done != null)
-        {
-            done(eventValue);
-        }
+        done?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWPartyJoin.pas:99
@@ -183,13 +177,7 @@ public partial class PartyJoinDialog : UIModule
             r.Right = FaceFrame.WinWidth + r.Left;
             r.Top = FaceFrame.WinTop + Window.WinTop;
             r.Bottom = FaceFrame.WinHeight + r.Top;
-            if (_faceUnit != null)
-            {
-                if (_faceUnit.GetFace() != null)
-                {
-                    _faceUnit.GetFace().ShowStretched(r, surface);
-                }
-            }
+            _faceUnit?.GetFace()?.ShowStretched(r, surface);
         }
     }
 

@@ -32,15 +32,9 @@ public partial class MessageReceiveDialog : UIModule
         log = _event;
         Done = null;
         _event = null;
-        if (done != null)
-        {
-            done(log);
-        }
+        done?.Invoke(log);
 
-        if (log != null)
-        {
-            log.Release();
-        }
+        log?.Release();
     }
 
     // AoWMsgReceiveDlg.pas:40

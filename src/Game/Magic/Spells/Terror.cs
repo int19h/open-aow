@@ -48,16 +48,9 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1862
     public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int value;
-        if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
-        {
-            value = Round((double)HitChance.HitRoleProbability(6 - target.GetResistance()) * 100);
-        }
-        else
-        {
-            value = 0;
-        }
-
+        int value = !target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death)
+            ? Round((double)HitChance.HitRoleProbability(6 - target.GetResistance()) * 100)
+            : 0;
         if (value != 0)
         {
             values.SourceDamage = value;

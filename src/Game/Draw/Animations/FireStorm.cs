@@ -28,12 +28,10 @@ public partial class FireStorm : Storm
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         int frame;
         ImageSequence sequence;
         sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y = y - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.ImageSequences[0];
@@ -119,14 +117,7 @@ public partial class FireStorm : Storm
             }
         }
 
-        if (frame == -1)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = frame != -1;
 
         return result;
     }

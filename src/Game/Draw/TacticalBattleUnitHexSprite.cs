@@ -452,7 +452,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     {
         base.Activate();
         SetUnitGraphicsResourceIndex(Unit.Troop.GetUnitGraphicsResourceIndex());
-        Abilities = new List<CombatAbilityRef>();
+        Abilities = [];
         CreateTacticalBattleAbilityList();
         CombatMap.Current.NewFrameEvents += NewFrame;
         if (CombatMap.Current.ExplorationEnabled)
@@ -472,10 +472,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     // AoWTC.pas:3339
     public override void Deactivate()
     {
-        if (CombatMap.Current != null)
-        {
-            CombatMap.Current.NewFrameEvents -= NewFrame;
-        }
+        CombatMap.Current?.NewFrameEvents -= NewFrame;
 
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
@@ -541,14 +538,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         {
             case GameSettings.MovementSpeed.Fast:
                 result = base.GetMoveSteps();
-                if (result > 8)
-                {
-                    result = result - 4;
-                }
-                else
-                {
-                    result = 4;
-                }
+                result = result > 8 ? result - 4 : 4;
 
                 break;
             case GameSettings.MovementSpeed.Turbo:
@@ -628,21 +618,11 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                     {
                         if (Unit.Troop.GetMoves() == Unit.MovePoints)
                         {
-                            if (GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.ShortRange)
-                            {
-                                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 4;
-                            }
-                            else
-                            {
-                                if (GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.MediumRange)
-                                {
-                                    CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 8;
-                                }
-                                else
-                                {
-                                    CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 12;
-                                }
-                            }
+                            CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.ShortRange
+                                ? (ushort)4
+: GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.MediumRange
+                                    ? (ushort)8
+                                    : (ushort)12;
 
                             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
                             CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
@@ -680,14 +660,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         GamePack.Current.SpellControl.GetSpell(SelectedSpell).GetCombatInfo(Unit.Troop, ref info);
         if (info.Range != 0)
         {
-            if (info.Range == -1)
-            {
-                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 100;
-            }
-            else
-            {
-                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = (ushort)info.Range;
-            }
+            CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = info.Range == -1 ? (ushort)100 : (ushort)info.Range;
 
             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
             CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
@@ -753,15 +726,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public void ListAbilities(StringCollection names, StringCollection types, StringCollection sources)
     {
         names.Clear();
-        if (types != null)
-        {
-            types.Clear();
-        }
+        types?.Clear();
 
-        if (sources != null)
-        {
-            sources.Clear();
-        }
+        sources?.Clear();
 
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {

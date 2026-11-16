@@ -18,8 +18,8 @@ public partial class UnitControl : EngineObject
     // Unit.PAS:1
     public UnitControl(CustomNode owner) : base(owner)
     {
-        UnitTable = new Dictionary<int, Troop>();
-        Units = new List<Troop>();
+        UnitTable = [];
+        Units = [];
         _nextUnitId = 1;
     }
 

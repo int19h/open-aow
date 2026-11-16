@@ -31,21 +31,11 @@ internal static class PassiveAbilities
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.ImmunityTypes = damageTypes;
-        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
-        {
-            ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
-        }
-        else
-        {
-            if ((Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
-            {
-                ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
-            }
-            else
-            {
-                ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
-            }
-        }
+        ability.SelectionTypes = (Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of()
+            ? Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem)
+            : (Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of()
+                ? Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem)
+                : Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
 
         if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
         {

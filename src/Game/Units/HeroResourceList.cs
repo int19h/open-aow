@@ -26,16 +26,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     // Hero.PAS:2363
     public HeroResource GetHeroResource(int index)
     {
-        HeroResource result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        HeroResource result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

@@ -29,14 +29,9 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:93
     protected internal void SetResourceLinked(bool value)
     {
-        if (value)
-        {
-            _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
-        }
-        else
-        {
-            _status = _status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
-        }
+        _status = value
+            ? _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked)
+            : _status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
     }
 
     // MAPOBJ.PAS:138
@@ -131,9 +126,7 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:214
     public override int GetShowPriority()
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         return _resource.ShowPriorityOffset + (pixelY << 13) + pixelX;
     }
 
@@ -150,9 +143,7 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:222
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         if (_resource.ImageSequenceList == null)
         {
             _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
@@ -276,9 +267,7 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:206
     public override bool Place(MapContainer mapContainer, int pixelX, int pixelY, int hexLevel)
     {
-        int hexX = default;
-        int hexY = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
         return PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 
@@ -359,16 +348,7 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:21
     public override string EditName()
     {
-        string result;
-        if (IsEmpty(_resource.Name))
-        {
-            result = _resource.ResourceEditName();
-        }
-        else
-        {
-            result = _resource.Name;
-        }
-
+        string result = IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
         return result;
     }
 

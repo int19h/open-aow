@@ -40,7 +40,6 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
     {
         MapObjectResourceList resources = default;
         MapLevel level = default;
-        HexNumberWalkData walk = default;
         MapField field = default;
         RaisedMountain mountain = default;
         MapObjectResource resource = default;
@@ -49,7 +48,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
         ImageSequenceAnimation animation = default;
         resources = GamePack.Current.MapObjectResourceList;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

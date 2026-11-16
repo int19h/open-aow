@@ -66,14 +66,7 @@ public partial class HeroUpdateTokenEvent : TokenEvent
             }
         }
 
-        if (success)
-        {
-            result = ExecuteResult.Done;
-        }
-        else
-        {
-            result = ExecuteResult.DoneHalt;
-        }
+        result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
 
         return result;
     }

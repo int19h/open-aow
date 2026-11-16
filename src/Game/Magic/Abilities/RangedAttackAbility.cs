@@ -33,16 +33,9 @@ public partial class RangedAttackAbility : AdjustableAbility
     // AoWAb.PAS:4698
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> result;
-        if (GetDamageTypesRangedAttack(owner).Contains(DamageType.Wall))
-        {
-            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
-        }
-        else
-        {
-            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.Participate);
-        }
-
+        Set<WallCombatFeaturesElement> result = GetDamageTypesRangedAttack(owner).Contains(DamageType.Wall)
+            ? Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate)
+            : Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.Participate);
         return result;
     }
 
@@ -109,14 +102,7 @@ public partial class RangedAttackAbility : AdjustableAbility
         int penalty;
         RangedAttackCombatAction action;
         target = command.Target;
-        if (source.Combat.GetWallSituation(source, target) == WallSituation.Target)
-        {
-            penalty = 2;
-        }
-        else
-        {
-            penalty = 0;
-        }
+        penalty = source.Combat.GetWallSituation(source, target) == WallSituation.Target ? 2 : 0;
 
         if (target.GetEnabled())
         {

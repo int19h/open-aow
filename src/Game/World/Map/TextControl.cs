@@ -23,16 +23,7 @@ public partial class TextControl : OwningNode, IChildList<TextControlItem>
     // Structur.PAS:4419
     public TextControlItem GetItem(int index)
     {
-        TextControlItem result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        TextControlItem result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

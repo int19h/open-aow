@@ -19,16 +19,7 @@ public partial class RestartGameEventLog : MessageEventLog
     // Diplomacy.pas:2456
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        if (trigger != ExecuteTrigger.NewTurn)
-        {
-            result = base.Execute(mode, trigger, done);
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = trigger != ExecuteTrigger.NewTurn && base.Execute(mode, trigger, done);
         return result;
     }
 

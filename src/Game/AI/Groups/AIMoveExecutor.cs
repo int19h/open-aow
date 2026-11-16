@@ -193,10 +193,7 @@ public partial class AIMoveExecutor : EngineObject
     {
         Status = AIMoveExecutorStatus.Invalidated;
         UpdateMoveResult();
-        if (OnDone != null)
-        {
-            OnDone(this);
-        }
+        OnDone?.Invoke(this);
     }
 
     // AIGroup.pas:6084
@@ -482,10 +479,7 @@ public partial class AIMoveExecutor : EngineObject
             UpdateMoveResult();
             try
             {
-                if (OnDone != null)
-                {
-                    OnDone(this);
-                }
+                OnDone?.Invoke(this);
             }
             catch
             {
@@ -506,14 +500,7 @@ public partial class AIMoveExecutor : EngineObject
         AIMoveExecutorUnit unitEntry;
         ControlQueue.Add(1);
         capacity = Transporter.Troop.GetTransportCapacity();
-        if (capacity > 4)
-        {
-            capacity = capacity - 4;
-        }
-        else
-        {
-            capacity = 1;
-        }
+        capacity = capacity > 4 ? capacity - 4 : 1;
 
         army = StrategicMap.Current.MapContainer.GetField(Transporter.Location.X, Transporter.Location.Y, Transporter.Location.MapLevel).GetArmyHexSprite();
 

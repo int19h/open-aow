@@ -175,7 +175,7 @@ public partial class CastUnitSpellDialog : UIModule
         Caster.SetSelection((byte)(sender.Checked
             ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
             : Caster.SelectionMask & ~bit));
-        CheckBox[] checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
+        CheckBox[] checks = [Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox];
         for (int i = 0; i < checks.Length; i++)
         {
             checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;

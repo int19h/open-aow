@@ -695,14 +695,7 @@ public partial class ScenarioSetup : UIModule
             setup.PlayModeComboBox.Selected = indexOfObject;
             setup.ExplorationCheckBox.Checked = setup.SetupControl.Settings.ExplorationEnabled;
             setup.TurnTimeSlider.Position = setup.SetupControl.Settings.TurnTime;
-            if (setup.SetupControl.Settings.DayLimit != 0)
-            {
-                setup.TurnsSlider.Position = setup.SetupControl.Settings.DayLimit / 10;
-            }
-            else
-            {
-                setup.TurnsSlider.Position = 0;
-            }
+            setup.TurnsSlider.Position = setup.SetupControl.Settings.DayLimit != 0 ? setup.SetupControl.Settings.DayLimit / 10 : 0;
 
             setup.UpdateTurnLimit();
             setup.UpdateTurnTime();
@@ -794,14 +787,7 @@ public partial class ScenarioSetup : UIModule
                 SetupSettings setupSettings = setup.SetupControl.Settings;
                 hostIndex = setupSettings.RemotePlayers.IndexOfRemoteId(setupSettings.HostRemoteId);
 
-                if (hostIndex != -1)
-                {
-                    hostName = setup.SetupControl.Settings.RemotePlayers.GetPlayers(hostIndex).Name;
-                }
-                else
-                {
-                    hostName = "?";
-                }
+                hostName = hostIndex != -1 ? setup.SetupControl.Settings.RemotePlayers.GetPlayers(hostIndex).Name : "?";
 
                 setup.HostNameLabel.Visible = true;
                 setup.FileNameLabel.Visible = true;
@@ -812,14 +798,7 @@ public partial class ScenarioSetup : UIModule
                 setup.PlayerNameLabel.Text = formattedText;
                 string format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLabel.Text = format2;
-                if (setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid)
-                {
-                    setup.FileNameLabel.TextColor = 255;
-                }
-                else
-                {
-                    setup.FileNameLabel.TextColor = 10329501;
-                }
+                setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? 255 : 10329501;
             }
             else
             {
@@ -867,14 +846,7 @@ public partial class ScenarioSetup : UIModule
                     }
                 }
 
-                if (found)
-                {
-                    playerBox.Selected = i;
-                }
-                else
-                {
-                    playerBox.Selected = -1;
-                }
+                playerBox.Selected = found ? i : -1;
 
                 playerName.Visible = false;
             }
@@ -884,14 +856,9 @@ public partial class ScenarioSetup : UIModule
                 if (settings.Behavior.PlayerType == 0 && settings.Behavior.Flags != 0)
                 {
                     i = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
-                    if (i != -1)
-                    {
-                        playerName.Text = setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).Name;
-                    }
-                    else
-                    {
-                        playerName.Text = setup.UI.Engine.TranslateResourceString(GameTables.HumanText);
-                    }
+                    playerName.Text = i != -1
+                        ? setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).Name
+                        : setup.UI.Engine.TranslateResourceString(GameTables.HumanText);
                 }
                 else
                 {
@@ -915,14 +882,9 @@ public partial class ScenarioSetup : UIModule
                         if (i != -1)
                         {
                             // { Original compares race bytes, including the FF sentinel. }
-                            if (setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).PreferredRace == (byte)settings.Race)
-                            {
-                                info.Text = setup.UI.Engine.TranslateResourceString(GameText.TakenText);
-                            }
-                            else
-                            {
-                                info.Text = setup.UI.Engine.TranslateResourceString(GameText.ForcedText);
-                            }
+                            info.Text = setup.SetupControl.Settings.RemotePlayers.GetPlayers(i).PreferredRace == (byte)settings.Race
+                                ? setup.UI.Engine.TranslateResourceString(GameText.TakenText)
+                                : setup.UI.Engine.TranslateResourceString(GameText.ForcedText);
                         }
                     }
                     else

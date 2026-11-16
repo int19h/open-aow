@@ -44,9 +44,7 @@ public partial class MultiHexMapObject : MapObject
     // MAPOBJ.PAS:915
     public override int GetShowPriority()
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         return Resource.ShowPriorityOffset + (pixelY << 13) + pixelX;
     }
 
@@ -111,9 +109,7 @@ public partial class MultiHexMapObject : MapObject
     // MAPOBJ.PAS:930
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         if (Resource.ImageSequenceList == null)
         {
             Resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetY, lockedSurface);
@@ -231,10 +227,9 @@ public partial class MultiHexMapObject : MapObject
         sbyte terrainType;
         sbyte overlayType;
         HexSprite hexSprite;
-        HexNumberWalkData walk = default;
         bool result = true;
         count = Resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (result && walk.HexNumber < count)
         {
             terrainType = GetTerrain(walk.HexNumber);
@@ -263,9 +258,8 @@ public partial class MultiHexMapObject : MapObject
     public virtual void SortMapFields()
     {
         MapLevel mapLevel;
-        HexNumberWalkData walk = default;
         mapLevel = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (true)
         {
             int terrainCount = GetTerrainCount();
@@ -294,7 +288,6 @@ public partial class MultiHexMapObject : MapObject
         TerrainList terrainList;
         sbyte terrainType;
         Span<byte> counts = stackalloc byte[128];
-        HexNumberWalkData walk = default;
         sbyte result = defaultValue;
         terrainList = Resource.TerrainList;
         if (result < 0)
@@ -303,7 +296,7 @@ public partial class MultiHexMapObject : MapObject
         }
 
         counts.Clear();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < terrainList.Count)
         {
             if ((terrainList.GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -334,9 +327,8 @@ public partial class MultiHexMapObject : MapObject
     public void UpdateTerrain(MapLevel mapLevel, int hexX, int hexY)
     {
         int count;
-        HexNumberWalkData walk = default;
         count = Resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
             if ((GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -352,9 +344,8 @@ public partial class MultiHexMapObject : MapObject
     public void UpdateMapFields(MapLevel mapLevel, int hexX, int hexY)
     {
         int count;
-        HexNumberWalkData walk = default;
         count = Resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
             if ((GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -373,10 +364,9 @@ public partial class MultiHexMapObject : MapObject
         MapLevel mapLevel;
         MapField mapField;
         Span<sbyte> terrainAndOverlay = stackalloc sbyte[2];
-        HexNumberWalkData walk = default;
         mapLevel = Owner.Owner;
         count = GetTerrainCount();
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

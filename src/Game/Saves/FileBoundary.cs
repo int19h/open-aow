@@ -54,17 +54,9 @@ public static class FileBoundary
 
         try
         {
-            if (prepared.Result is { } result)
-            {
-                return GameBoundary.ReadTree(result, use: profile);
-            }
-
-            if (prepared.Image is { } image)
-            {
-                return GameBoundary.ReadImageTree(image, use: profile);
-            }
-
-            return null;
+            return prepared.Result is { } result
+                ? GameBoundary.ReadTree(result, use: profile)
+                : prepared.Image is { } image ? GameBoundary.ReadImageTree(image, use: profile) : null;
         }
         catch (ConversionException error)
         {
@@ -313,20 +305,11 @@ public static class FileBoundary
     // bytes are size, the HSS identifier, the short-string name from $container.header.Name and
     // zeros. An HSM's 16 bytes are size, the HSM magic, the reserved word and the root class id.
     // Neither form is a parse of the file bytes.
-    private static byte[] ListingHeaderFromDocument(JsonObject document, GameProfile profile)
-    {
-        if (profile.Profile is ScenarioSetProfile)
-        {
-            return ScenarioSetHeader(document);
-        }
-
-        if (profile.Profile is HsmProfile)
-        {
-            return HsmHeader(document);
-        }
-
-        return [];
-    }
+    private static byte[] ListingHeaderFromDocument(JsonObject document, GameProfile profile) => profile.Profile is ScenarioSetProfile
+        ? ScenarioSetHeader(document)
+        : profile.Profile is HsmProfile
+        ? HsmHeader(document)
+        : [];
 
     private static byte[] ScenarioSetHeader(JsonObject document)
     {
@@ -410,12 +393,7 @@ public static class FileBoundary
         }
 
         DocumentKind? kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
-        if (kind is null || IsEmailExchange(directory + fileName))
-        {
-            return fileName;
-        }
-
-        return RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
+        return kind is null || IsEmailExchange(directory + fileName) ? fileName : RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
     }
 
     /// <summary>
@@ -466,7 +444,7 @@ public static class FileBoundary
     {
         List<string> originals = FindNames(directory + "*" + kind.OriginalExtension);
         List<string> owns = FindNames(directory + "*" + kind.OwnExtension);
-        List<string> result = new();
+        List<string> result = [];
         foreach (string name in originals)
         {
             string own = RtlUnit.ChangeFileExt(name, kind.OwnExtension);
@@ -485,7 +463,7 @@ public static class FileBoundary
 
     private static List<string> FindNames(string mask)
     {
-        List<string> names = new();
+        List<string> names = [];
         foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16))
         {
             names.Add(entry.Name);

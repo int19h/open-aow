@@ -44,13 +44,7 @@ public partial class TokenExecutor : IDisposable
 
     public event NotifyEvent<object> OnSyncError;
 
-    internal void RaiseSyncError(object sender)
-    {
-        if (OnSyncError != null)
-        {
-            OnSyncError(sender);
-        }
-    }
+    internal void RaiseSyncError(object sender) => OnSyncError?.Invoke(sender);
 
     internal bool HasSyncErrorHandlers => OnSyncError != null;
 
@@ -82,10 +76,7 @@ public partial class TokenExecutor : IDisposable
     {
         ExecuteResult result = default;
         _executing = true;
-        if (OnExecuteTokenEvent != null)
-        {
-            OnExecuteTokenEvent(tokenEvent);
-        }
+        OnExecuteTokenEvent?.Invoke(tokenEvent);
 
         try
         {
@@ -108,7 +99,7 @@ public partial class TokenExecutor : IDisposable
         TokenManager = manager;
         // A construction test passes no manager.
         Events = new TokenEventList(null) { Holder = manager?.Owner };
-        TacticalBattleList = new List<TokenControl>();
+        TacticalBattleList = [];
         OnEventsExecutedStore = new();
         OnActivateTacticalBattleStore = new();
         SystemEvents = new TokenEventList(null) { Holder = manager?.Owner };
@@ -186,16 +177,7 @@ public partial class TokenExecutor : IDisposable
     // NetworkE.pas:1444
     public TokenEvent GetExecutingTokenEvent()
     {
-        TokenEvent result;
-        if (_state.Contains(TokenExecutorState.Executing) && Events.Count != 0)
-        {
-            result = Events[0];
-        }
-        else
-        {
-            result = null;
-        }
-
+        TokenEvent result = _state.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
         return result;
     }
 

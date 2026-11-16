@@ -43,14 +43,9 @@ public partial class UnitEnchantment : Enchantment
         if (StrategicMap.Current != null)
         {
             source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-            if (source != null)
-            {
-                result = GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source);
-            }
-            else
-            {
-                result = GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
-            }
+            result = source != null
+                ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
+                : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
         else
         {
@@ -66,14 +61,7 @@ public partial class UnitEnchantment : Enchantment
         string result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (source != null)
-        {
-            result = source.GetName();
-        }
-        else
-        {
-            result = "";
-        }
+        result = source != null ? source.GetName() : "";
 
         return result;
     }
@@ -84,14 +72,9 @@ public partial class UnitEnchantment : Enchantment
         int result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (source != null)
-        {
-            result = ((UnitEnchantmentAbility)GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId)).GetAIUpkeepPriority(source);
-        }
-        else
-        {
-            result = 0;
-        }
+        result = source != null
+            ? ((UnitEnchantmentAbility)GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId)).GetAIUpkeepPriority(source)
+            : 0;
 
         return result;
     }
@@ -100,12 +83,7 @@ public partial class UnitEnchantment : Enchantment
     public override MapCoordinate GetLocation()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (source != null)
-        {
-            return source.GetLocation();
-        }
-
-        return MapCoordinate.None;
+        return source != null ? source.GetLocation() : MapCoordinate.None;
     }
 
     // AoWAb.PAS:874
@@ -114,14 +92,7 @@ public partial class UnitEnchantment : Enchantment
         bool result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (source != null)
-        {
-            result = source.RemoveAbility(EnchantmentAbilityId);
-        }
-        else
-        {
-            result = false;
-        }
+        result = source != null && source.RemoveAbility(EnchantmentAbilityId);
 
         return result;
     }

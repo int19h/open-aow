@@ -285,10 +285,10 @@ public partial class SendEmailGameDialog : ILayoutModule
         exitBtn.Priority = 99999;
         exitBtn.WinLeft = 203;
         exitBtn.WinTop = 3;
-        exitBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        exitBtn.LayoutToolTipText =
+        [
             "Exit email game without sending."
-        };
+        ];
         exitBtn.CaptureInput = true;
         exitBtn.Alignment.AlignWidth = AlignWidth.Right;
         exitBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -321,10 +321,10 @@ public partial class SendEmailGameDialog : ILayoutModule
         EmailAddressEdit.Priority = 0;
         EmailAddressEdit.WinLeft = 1;
         EmailAddressEdit.WinTop = 0;
-        EmailAddressEdit.LayoutToolTipText = new LayoutStrings()
-        {
+        EmailAddressEdit.LayoutToolTipText =
+        [
             "Next players' Email address"
-        };
+        ];
         EmailAddressEdit.CaptureInput = true;
         EmailAddressEdit.Alignment.AlignWidth = AlignWidth.Both;
         EmailAddressEdit.Alignment.AlignHeight = AlignHeight.Top;
@@ -380,10 +380,10 @@ public partial class SendEmailGameDialog : ILayoutModule
         ManualCheckBox.Priority = 99999;
         ManualCheckBox.WinLeft = 20;
         ManualCheckBox.WinTop = 15;
-        ManualCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        ManualCheckBox.LayoutToolTipText =
+        [
             "An Email program will need to be used"
-        };
+        ];
         ManualCheckBox.CaptureInput = true;
         ManualCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         ManualCheckBox.Alignment.AlignHeight = AlignHeight.Top;
@@ -415,10 +415,10 @@ public partial class SendEmailGameDialog : ILayoutModule
         AutomatedCheckBox.Priority = 99999;
         AutomatedCheckBox.WinLeft = 20;
         AutomatedCheckBox.WinTop = 41;
-        AutomatedCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        AutomatedCheckBox.LayoutToolTipText =
+        [
             "Age of Wonders sends the game"
-        };
+        ];
         AutomatedCheckBox.CaptureInput = true;
         AutomatedCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         AutomatedCheckBox.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -628,10 +628,10 @@ public partial class SendEmailGameDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 345;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;

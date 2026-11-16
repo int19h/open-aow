@@ -63,12 +63,10 @@ public partial class FountainOfLife : CityEnchantmentSpell
         int deltaX;
         int vy;
         int offset;
-        int cy = default;
-        int cx = default;
         int vx;
         int t;
         int deltaY;
-        HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out cx, out cy);
+        HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out int cx, out int cy);
         cx = cx + 10 - X;
         cy = cy - Y + 10;
         // { Original resets the process-wide random seed for every draw. }

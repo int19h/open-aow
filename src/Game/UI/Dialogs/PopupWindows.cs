@@ -96,13 +96,7 @@ public partial class PopupWindows : UIModule
     }
 
     // AOWDialogWin.pas:73, action 6: the seated player gives up the battle.
-    internal static void SurrenderCombat()
-    {
-        if (CombatMap.Current != null)
-        {
-            CombatMap.Current.Surrender(CombatMap.Current.SeatedCombatPlayer);
-        }
-    }
+    internal static void SurrenderCombat() => CombatMap.Current?.Surrender(CombatMap.Current.SeatedCombatPlayer);
 
     // AOWDialogWin.pas:73, action 4: the seated player gives up the game.
     private static void SurrenderEmpire() => StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Surrender();
@@ -189,10 +183,7 @@ public partial class PopupWindows : UIModule
     {
         dialog.SetBookClosedHandler(RtlUnit.RebindDelegate<NotifyEvent<object>>(done));
         dialog.BookContext = eventValue;
-        if (dialog.BookContext != null)
-        {
-            dialog.BookContext.AddRef();
-        }
+        dialog.BookContext?.AddRef();
         dialog.LeftPageLabel.Text = StrategicMap.Current.MapName;
         dialog.LeftPageMemo.Items.Clear();
         dialog.LeftPageMemo.Items.AddStrings((StringCollection)(object)StrategicMap.Current.Description);
@@ -281,10 +272,7 @@ public partial class PopupWindows : UIModule
         dialog.CancelButton.Visible = false;
         dialog.NextButton.Visible = false;
         dialog.Book.Visible = true;
-        if (dialog.Book.BackSurface != null)
-        {
-            dialog.Book.BackSurface.Clear(dialog.Book.MaskColor);
-        }
+        dialog.Book.BackSurface?.Clear(dialog.Book.MaskColor);
         dialog.UI.General.Manager.OverlayPriority = 49;
     }
 }

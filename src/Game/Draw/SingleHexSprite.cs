@@ -16,17 +16,7 @@ public partial class SingleHexSprite : HexSprite
     private byte _status;
 
     // HXSPRITE.PAS:640
-    public override void SetVisible(bool value)
-    {
-        if (value)
-        {
-            _status = (byte)(_status | 1);
-        }
-        else
-        {
-            _status = (byte)(_status & 254);
-        }
-    }
+    public override void SetVisible(bool value) => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
 
     // HXSPRITE.PAS:646
     public override bool GetVisible() => (_status & 1) != 0;
@@ -38,24 +28,12 @@ public partial class SingleHexSprite : HexSprite
     public override bool GetEditMode() => (_status & 2) != 0;
 
     // HXSPRITE.PAS:665
-    public override void SetEditMode(bool value)
-    {
-        if (value)
-        {
-            _status = (byte)(_status | 2);
-        }
-        else
-        {
-            _status = (byte)(_status & 253);
-        }
-    }
+    public override void SetEditMode(bool value) => _status = value ? (byte)(_status | 2) : (byte)(_status & 253);
 
     // HXSPRITE.PAS:713
     public override int GetShowPriority()
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         return (GetLevel() << 26) + ((pixelY + 32) << 13) + pixelX + 16;
     }
 
@@ -70,9 +48,7 @@ public partial class SingleHexSprite : HexSprite
     // HXSPRITE.PAS:749
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        int hexX = default;
-        int hexY = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
         return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 

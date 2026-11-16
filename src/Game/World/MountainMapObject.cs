@@ -50,14 +50,9 @@ public partial class MountainMapObject : Hexes.Terrain
                 {
                     mapField = mapContainer.GetField(x, y, hexLevel);
                     hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-                    if (hexSprite != null && hexSprite.EngineClass.ClassId == 131432)
-                    {
-                        valid = ValidMountainOverlap(mapField, list.Overlay[i]);
-                    }
-                    else
-                    {
-                        valid = hexSprite == null || hexSprite.GetLevel() < 10;
-                    }
+                    valid = hexSprite != null && hexSprite.EngineClass.ClassId == 131432
+                        ? ValidMountainOverlap(mapField, list.Overlay[i])
+                        : hexSprite == null || hexSprite.GetLevel() < 10;
                 }
             }
 

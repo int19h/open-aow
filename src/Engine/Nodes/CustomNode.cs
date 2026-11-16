@@ -173,10 +173,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null)
-                    {
-                        c.MessageProc(ref message, this);
-                    }
+                    c?.MessageProc(ref message, this);
                 }
             }
             else
@@ -258,14 +255,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        if (found)
-        {
-            result = c;
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? c : null;
 
         return result;
     }
@@ -287,14 +277,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        if (found)
-        {
-            result = c;
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? c : null;
 
         return result;
     }

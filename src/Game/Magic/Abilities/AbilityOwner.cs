@@ -51,10 +51,7 @@ public partial class AbilityOwner : CustomAbilityList
             for (int i = 0; i < ids.Count; i++)
             {
                 AbilityData data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
-                if (previous != null)
-                {
-                    previous.Next = data;
-                }
+                previous?.Next = data;
 
                 previous = data;
                 AbilityData ??= data;

@@ -24,14 +24,9 @@ public partial class BattleEffectSprite
         int j = default;
         void SelectSequence(int number)
         {
-            if (AbilityIndex == 52)
-            {
-                sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number];
-            }
-            else
-            {
-                sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
-            }
+            sequence = AbilityIndex == 52
+                ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number]
+                : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
         }
 
         void SelectFrame()

@@ -179,10 +179,10 @@ public partial class CombatScanner : ILayoutModule
         sMinIcon.Priority = 1000;
         sMinIcon.WinLeft = 130;
         sMinIcon.WinTop = 1;
-        sMinIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        sMinIcon.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         sMinIcon.CaptureInput = true;
         sMinIcon.Alignment.AlignWidth = AlignWidth.Right;
         sMinIcon.Alignment.AlignHeight = AlignHeight.Top;

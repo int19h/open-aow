@@ -672,14 +672,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         AIMoveExecutorUnit unitEntry;
         armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
         index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, (byte)MoveControl.Settings.Selection);
-        if (index != -1)
-        {
-            army = armies.GetArmies(index);
-        }
-        else
-        {
-            army = null;
-        }
+        army = index != -1 ? armies.GetArmies(index) : null;
 
         if (army != null && MoveControl.Settings.MovePoints != -1)
         {
@@ -730,14 +723,9 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 {
                     unitEntry = army.GetUnits(i);
                     AIMoveExecutorUnit units = army.GetUnits(i);
-                    if (units.Location == Executor.Transporter.Location)
-                    {
-                        unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Transporting;
-                    }
-                    else
-                    {
-                        unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Boarding;
-                    }
+                    unitEntry.TransportStatus = units.Location == Executor.Transporter.Location
+                        ? AIMoveExecutorTransportStatus.Transporting
+                        : AIMoveExecutorTransportStatus.Boarding;
 
                     unitEntry.BoardingPoint = MoveControl.Settings.BoardingPoint;
                     unitEntry.ArrivalPoint = new PathStep(Location: MoveControl.Settings.ArrivalPoint, MoveCost: 0);

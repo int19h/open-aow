@@ -31,13 +31,12 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1428
     public override bool Deactivate(byte player)
     {
-        EngineMessage message = default;
         base.Deactivate(player);
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
-        EngineMessage.InitializeMessage(out message, 537002240, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537002240, this);
         StrategicMap.Current.SendMessage(ref message, this);
         return true;
     }

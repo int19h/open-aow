@@ -39,16 +39,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     // ILTer.pas:131
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result;
-        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
-        {
-            result = GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, _terrainType) == info.MapField.TerrainType;
-        }
-        else
-        {
-            result = true;
-        }
-
+        bool result = Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, _terrainType) == info.MapField.TerrainType;
         return result;
     }
 
@@ -89,9 +80,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     // ILTer.pas:170
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         if (Resource.ImageSequenceList == null)
         {
             Resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetY, lockedSurface);
@@ -131,14 +120,13 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         bool canPlaceHere;
         int count;
         sbyte terrainType;
-        HexNumberWalkData walk = default;
         sbyte overlay;
         HexSprite hexSprite;
         TerrainList terrainList;
         canPlaceHere = true;
         count = Resource.TerrainList.Count;
         _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
             terrainType = GetTerrain(walk.HexNumber);
@@ -207,14 +195,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         {
             index = GetTerrainTypeImage(terrainType);
             sequences = Resource.ImageSequenceList;
-            if (sequences == null)
-            {
-                result = Resource.ImageLibrary.ImageExist(index);
-            }
-            else
-            {
-                result = sequences.GetImageSequence(index) != null;
-            }
+            result = sequences == null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) != null;
         }
         else
         {

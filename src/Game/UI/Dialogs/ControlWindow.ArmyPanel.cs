@@ -15,12 +15,12 @@ public partial class ControlWindow
 
     public void UpdateArmy()
     {
-        CheckBox[] checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
-        Frame[] emptyFrames = new[] { EmptySlot1Frame, EmptySlot2Frame, EmptySlot3Frame, EmptySlot4Frame, EmptySlot5Frame, EmptySlot6Frame, EmptySlot7Frame, EmptySlot8Frame };
-        Frame[] emptyChecks = new[] { EmptyCheck1Frame, EmptyCheck2Frame, EmptyCheck3Frame, EmptyCheck4Frame, EmptyCheck5Frame, EmptyCheck6Frame, EmptyCheck7Frame, EmptyCheck8Frame };
-        Frame[] frames = new[] { Unit1Frame, Unit2Frame, Unit3Frame, Unit4Frame, Unit5Frame, Unit6Frame, Unit7Frame, Unit8Frame };
-        Image[] icons = new[] { Unit1MovesIcon, Unit2MovesIcon, Unit3MovesIcon, Unit4MovesIcon, Unit5MovesIcon, Unit6MovesIcon, Unit7MovesIcon, Unit8MovesIcon };
-        Gauge[] gauges = new[] { Unit1Gauge, Unit2Gauge, Unit3Gauge, Unit4Gauge, Unit5Gauge, Unit6Gauge, Unit7Gauge, Unit8Gauge };
+        CheckBox[] checks = [Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox];
+        Frame[] emptyFrames = [EmptySlot1Frame, EmptySlot2Frame, EmptySlot3Frame, EmptySlot4Frame, EmptySlot5Frame, EmptySlot6Frame, EmptySlot7Frame, EmptySlot8Frame];
+        Frame[] emptyChecks = [EmptyCheck1Frame, EmptyCheck2Frame, EmptyCheck3Frame, EmptyCheck4Frame, EmptyCheck5Frame, EmptyCheck6Frame, EmptyCheck7Frame, EmptyCheck8Frame];
+        Frame[] frames = [Unit1Frame, Unit2Frame, Unit3Frame, Unit4Frame, Unit5Frame, Unit6Frame, Unit7Frame, Unit8Frame];
+        Image[] icons = [Unit1MovesIcon, Unit2MovesIcon, Unit3MovesIcon, Unit4MovesIcon, Unit5MovesIcon, Unit6MovesIcon, Unit7MovesIcon, Unit8MovesIcon];
+        Gauge[] gauges = [Unit1Gauge, Unit2Gauge, Unit3Gauge, Unit4Gauge, Unit5Gauge, Unit6Gauge, Unit7Gauge, Unit8Gauge];
         for (int i = 0; i < 8; i++)
         {
             checks[i].Checked = false;

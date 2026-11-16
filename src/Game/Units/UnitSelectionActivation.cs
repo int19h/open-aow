@@ -34,17 +34,11 @@ public partial class UnitSelectionActivation : AbilityActivation
         old = UnitSelector;
         if (old != value)
         {
-            if (old != null)
-            {
-                old.Release();
-            }
+            old?.Release();
 
             old = value;
             UnitSelector = old;
-            if (old != null)
-            {
-                old.AddRef();
-            }
+            old?.AddRef();
         }
     }
 

@@ -22,16 +22,7 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
     // PlayerC.PAS:1896
     public RaceResource GetRaceResource(int index)
     {
-        RaceResource result;
-        if (index < GetCount() && index >= 0)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        RaceResource result = index < GetCount() && index >= 0 ? this[index] : null;
         return result;
     }
 

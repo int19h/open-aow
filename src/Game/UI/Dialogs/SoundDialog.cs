@@ -420,37 +420,14 @@ public partial class SoundDialog : UIModule
 
     private static Set<SoundSystemStatusElement> SoundSystemStatus()
     {
-        if (AudioHost.SoundSystem != null)
-        {
-            return AudioHost.SoundSystem.Status;
-        }
-        return Set<SoundSystemStatusElement>.Of(Array.Empty<SoundSystemStatusElement>());
+        return AudioHost.SoundSystem != null
+            ? AudioHost.SoundSystem.Status
+            : Set<SoundSystemStatusElement>.Of(Array.Empty<SoundSystemStatusElement>());
     }
 
-    private static bool SetMusicEnabled(bool value)
-    {
-        if (AudioHost.SoundSystem != null)
-        {
-            return AudioHost.SoundSystem.SetMusicEnabled(value);
-        }
-        return false;
-    }
+    private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetMusicEnabled(value);
 
-    private static bool SetSfxEnabled(bool value)
-    {
-        if (AudioHost.SoundSystem != null)
-        {
-            return AudioHost.SoundSystem.SetSfxEnabled(value);
-        }
-        return false;
-    }
+    private static bool SetSfxEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSfxEnabled(value);
 
-    private static bool SetSoundSettings(in SoundSettings settings)
-    {
-        if (AudioHost.SoundSystem != null)
-        {
-            return AudioHost.SoundSystem.SetSoundSettings(in settings);
-        }
-        return false;
-    }
+    private static bool SetSoundSettings(in SoundSettings settings) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSoundSettings(in settings);
 }

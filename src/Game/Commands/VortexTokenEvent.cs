@@ -94,21 +94,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                         troopObject = army.Army.Units.GetUnit(i);
                         if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
                         {
-                            if (troopObject.GetAbilityEnabled(2))
-                            {
-                                damage = 7;
-                            }
-                            else
-                            {
-                                if (troopObject.GetAbilityEnabled(23))
-                                {
-                                    damage = 10;
-                                }
-                                else
-                                {
-                                    damage = 0;
-                                }
-                            }
+                            damage = troopObject.GetAbilityEnabled(2) ? 7 : troopObject.GetAbilityEnabled(23) ? 10 : 0;
 
                             damage = troopObject.ExecuteDamageRole(8, damage, Set<DamageType>.Of(DamageType.Physical));
                             if (damage > troopObject.GetHitPoints())
@@ -184,21 +170,9 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     xShift = 16;
                     double pi = Math.PI;
                     angle = (float)((double)(-(direction + _angle) * pi) / 180);
-                    if (GetEngine().AnimationDetail == 0)
-                    {
-                        count = 1;
-                    }
-                    else
-                    {
-                        if (GetEngine().AnimationDetail == 1)
-                        {
-                            count = (int)(((uint)(200 - i)) >> 5);
-                        }
-                        else
-                        {
-                            count = (int)(((uint)(200 - i)) >> 4);
-                        }
-                    }
+                    count = GetEngine().AnimationDetail == 0
+                        ? 1
+                        : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
 
                     for (int j = count; j >= 0; j--)
                     {

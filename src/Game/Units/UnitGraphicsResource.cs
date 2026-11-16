@@ -133,20 +133,7 @@ public partial class UnitGraphicsResource : EngineResource
     {
         LibraryImage result;
         AddRef();
-        if (Sequences.GetImageSequence(2) != null)
-        {
-            result = Sequences.GetImageSequence(2).GetPreviewImage();
-        }
-        else
-        {
-            result = null;
-        }
-
-        if (result == null)
-        {
-            result = Sequences.GetPreviewImage();
-        }
-
+        result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
         Release();
         return result;
     }
@@ -200,14 +187,7 @@ public partial class UnitGraphicsResource : EngineResource
     {
         LibraryImage result;
         AddRef();
-        if (_faceImageLibrary != null)
-        {
-            result = _faceImageLibrary.GetSafe(_faceIndex);
-        }
-        else
-        {
-            result = null;
-        }
+        result = _faceImageLibrary?.GetSafe(_faceIndex);
 
         Release();
         return result;

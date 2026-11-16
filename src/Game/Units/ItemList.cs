@@ -114,10 +114,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
     protected override void OnChange()
     {
         base.OnChange();
-        if (OnChanged != null)
-        {
-            OnChanged(this);
-        }
+        OnChanged?.Invoke(this);
     }
 
     // Army.PAS:4587
@@ -147,14 +144,9 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
     // Army.PAS:4636
     public new void UnlockChanged() => base.UnlockChanged();
 
-    public static int CompareItemNames(Item item1, Item item2)
-    {
-        if (item1 != null && item2 != null)
-        {
-            return RtlUnit.CompareText(item1.OwnerName, item2.OwnerName);
-        }
-        return 0;
-    }
+    public static int CompareItemNames(Item item1, Item item2) => item1 != null && item2 != null
+        ? RtlUnit.CompareText(item1.OwnerName, item2.OwnerName)
+        : 0;
 
     // intf_P2_04.inc:118
 

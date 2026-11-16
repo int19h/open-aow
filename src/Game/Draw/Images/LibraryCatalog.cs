@@ -21,14 +21,7 @@ internal static class LibraryCatalog
             i += 1;
         }
 
-        if (found)
-        {
-            result = ImageLibraries.LibraryImageClasses[i - 1];
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? ImageLibraries.LibraryImageClasses[i - 1] : null;
 
         return result;
     }

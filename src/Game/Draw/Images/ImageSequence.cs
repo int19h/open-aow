@@ -59,10 +59,7 @@ public partial class ImageSequence : IDisposable
     {
         _frameTable?.Dispose();
         ReleaseImageLibrary();
-        if (_next != null)
-        {
-            _next.Dispose();
-        }
+        _next?.Dispose();
     }
 
     // ImageLib.pas:8567
@@ -167,10 +164,7 @@ public partial class ImageSequence : IDisposable
                     break;
                 case SequenceMode.None:
                     image = _imageLibrary.GetSafe(_imageIndex);
-                    if (image != null)
-                    {
-                        image.GetVisualDimensions(out R);
-                    }
+                    image?.GetVisualDimensions(out R);
 
                     break;
             }
@@ -288,14 +282,7 @@ public partial class ImageSequence : IDisposable
                             _lastFrame = frame;
                         }
 
-                        if (_frameTable.Count != 0)
-                        {
-                            result = _frameTable.List[(_imageIndex + offset) % _frameTable.Count];
-                        }
-                        else
-                        {
-                            result = -1;
-                        }
+                        result = _frameTable.Count != 0 ? _frameTable.List[(_imageIndex + offset) % _frameTable.Count] : -1;
 
                         break;
                     case SequenceMode.Random:
@@ -337,14 +324,7 @@ public partial class ImageSequence : IDisposable
                 {
                     case SequenceMode.FrameTable:
                         result = frame / (_sequenceSpeed + 1);
-                        if (result < _frameTable.Count)
-                        {
-                            result = _frameTable.List[result];
-                        }
-                        else
-                        {
-                            result = -1;
-                        }
+                        result = result < _frameTable.Count ? _frameTable.List[result] : -1;
 
                         break;
                     case SequenceMode.Up:
@@ -390,14 +370,9 @@ public partial class ImageSequence : IDisposable
             ReleaseImageLibrary();
         }
 
-        if (!IsEmpty(_imageLibraryName))
-        {
-            _imageLibrary = _owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
-        }
-        else
-        {
-            _imageLibrary = _owner.ImageLibrary;
-        }
+        _imageLibrary = !IsEmpty(_imageLibraryName)
+            ? _owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName)
+            : _owner.ImageLibrary;
     }
 
     // ImageLib.pas:8812
@@ -472,7 +447,7 @@ public partial class ImageSequence : IDisposable
     /// <summary>The layers of this chain as <see cref="SaveToStream"/> writes them.</summary>
     internal List<SequenceLayer> SaveLayers()
     {
-        List<SequenceLayer> layers = new();
+        List<SequenceLayer> layers = [];
         for (ImageSequence sequence = this; sequence != null; sequence = sequence._next)
         {
             FrameTable frames = null;

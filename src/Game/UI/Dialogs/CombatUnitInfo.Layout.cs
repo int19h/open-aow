@@ -94,10 +94,10 @@ public partial class CombatUnitInfo : ILayoutModule
         min.Priority = 0;
         min.WinLeft = 117;
         min.WinTop = 1;
-        min.LayoutToolTipText = new LayoutStrings()
-        {
+        min.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         min.CaptureInput = true;
         min.Alignment.AlignWidth = AlignWidth.Right;
         min.Alignment.AlignHeight = AlignHeight.Top;
@@ -128,10 +128,10 @@ public partial class CombatUnitInfo : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 131;
         close.WinTop = 1;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -185,10 +185,10 @@ public partial class CombatUnitInfo : ILayoutModule
         uAttackIcon.Priority = 0;
         uAttackIcon.WinLeft = 10;
         uAttackIcon.WinTop = 1;
-        uAttackIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uAttackIcon.LayoutToolTipText =
+        [
             "Attack is the ability of a unit to hit a target with a melee strike."
-        };
+        ];
         uAttackIcon.CaptureInput = false;
         uAttackIcon.Alignment.AlignWidth = AlignWidth.Left;
         uAttackIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -217,10 +217,10 @@ public partial class CombatUnitInfo : ILayoutModule
         uDefenseIcon.Priority = 0;
         uDefenseIcon.WinLeft = 10;
         uDefenseIcon.WinTop = 18;
-        uDefenseIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uDefenseIcon.LayoutToolTipText =
+        [
             "Defense is the ability of a unit to avoid being hit by physical attacks."
-        };
+        ];
         uDefenseIcon.CaptureInput = false;
         uDefenseIcon.Alignment.AlignWidth = AlignWidth.Left;
         uDefenseIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -249,10 +249,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitMovesIcon.Priority = 0;
         UnitMovesIcon.WinLeft = 6;
         UnitMovesIcon.WinTop = 35;
-        UnitMovesIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitMovesIcon.LayoutToolTipText =
+        [
             "Moves are the range a unit can move in a turn (Current/Maximum)."
-        };
+        ];
         UnitMovesIcon.CaptureInput = false;
         UnitMovesIcon.Alignment.AlignWidth = AlignWidth.Left;
         UnitMovesIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -281,10 +281,10 @@ public partial class CombatUnitInfo : ILayoutModule
         uDamageIcon.Priority = 0;
         uDamageIcon.WinLeft = 74;
         uDamageIcon.WinTop = 1;
-        uDamageIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uDamageIcon.LayoutToolTipText =
+        [
             "Damage is the maximum strength of a unit's melee attack."
-        };
+        ];
         uDamageIcon.CaptureInput = false;
         uDamageIcon.Alignment.AlignWidth = AlignWidth.Left;
         uDamageIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -313,10 +313,10 @@ public partial class CombatUnitInfo : ILayoutModule
         uResistanceIcon.Priority = 0;
         uResistanceIcon.WinLeft = 74;
         uResistanceIcon.WinTop = 18;
-        uResistanceIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uResistanceIcon.LayoutToolTipText =
+        [
             "Resistance is the ability of a unit to repel non-physical attacks."
-        };
+        ];
         uResistanceIcon.CaptureInput = false;
         uResistanceIcon.Alignment.AlignWidth = AlignWidth.Left;
         uResistanceIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -345,10 +345,10 @@ public partial class CombatUnitInfo : ILayoutModule
         uHitsIcon.Priority = 0;
         uHitsIcon.WinLeft = 74;
         uHitsIcon.WinTop = 35;
-        uHitsIcon.LayoutToolTipText = new LayoutStrings()
-        {
+        uHitsIcon.LayoutToolTipText =
+        [
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-        };
+        ];
         uHitsIcon.CaptureInput = false;
         uHitsIcon.Alignment.AlignWidth = AlignWidth.Left;
         uHitsIcon.Alignment.AlignHeight = AlignHeight.Top;
@@ -377,10 +377,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitAttackLabel.Priority = 0;
         UnitAttackLabel.WinLeft = 18;
         UnitAttackLabel.WinTop = 6;
-        UnitAttackLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitAttackLabel.LayoutToolTipText =
+        [
             "Attack is the ability of a unit to hit a target with a melee strike."
-        };
+        ];
         UnitAttackLabel.CaptureInput = true;
         UnitAttackLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitAttackLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -403,10 +403,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitDefenseLabel.Priority = 0;
         UnitDefenseLabel.WinLeft = 10;
         UnitDefenseLabel.WinTop = 23;
-        UnitDefenseLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitDefenseLabel.LayoutToolTipText =
+        [
             "Defense is the ability of a unit to avoid being hit by physical attacks."
-        };
+        ];
         UnitDefenseLabel.CaptureInput = true;
         UnitDefenseLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitDefenseLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -429,10 +429,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitMovesLabel.Priority = 0;
         UnitMovesLabel.WinLeft = 4;
         UnitMovesLabel.WinTop = 40;
-        UnitMovesLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitMovesLabel.LayoutToolTipText =
+        [
             "Moves are the range a unit can move in a turn (Current/Maximum)."
-        };
+        ];
         UnitMovesLabel.CaptureInput = true;
         UnitMovesLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitMovesLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -455,10 +455,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitDamageLabel.Priority = 0;
         UnitDamageLabel.WinLeft = 15;
         UnitDamageLabel.WinTop = 6;
-        UnitDamageLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitDamageLabel.LayoutToolTipText =
+        [
             "Damage is the maximum strength of a unit's melee attack."
-        };
+        ];
         UnitDamageLabel.CaptureInput = true;
         UnitDamageLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitDamageLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -481,10 +481,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitResistanceLabel.Priority = 0;
         UnitResistanceLabel.WinLeft = 15;
         UnitResistanceLabel.WinTop = 23;
-        UnitResistanceLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitResistanceLabel.LayoutToolTipText =
+        [
             "Resistance is the ability of a unit to repel non-physical attacks."
-        };
+        ];
         UnitResistanceLabel.CaptureInput = true;
         UnitResistanceLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitResistanceLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -507,10 +507,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitHitsLabel.Priority = 0;
         UnitHitsLabel.WinLeft = 1;
         UnitHitsLabel.WinTop = 40;
-        UnitHitsLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitHitsLabel.LayoutToolTipText =
+        [
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
-        };
+        ];
         UnitHitsLabel.CaptureInput = true;
         UnitHitsLabel.Alignment.AlignWidth = AlignWidth.Center;
         UnitHitsLabel.Alignment.AlignHeight = AlignHeight.Top;
@@ -1081,10 +1081,10 @@ public partial class CombatUnitInfo : ILayoutModule
         targetMessage.Masked = false;
         targetMessage.WinWidth = 140;
         targetMessage.WinHeight = 38;
-        targetMessage.LayoutItems = new LayoutStrings()
-        {
+        targetMessage.LayoutItems =
+        [
             "No Target Unit Selected"
-        };
+        ];
         targetMessage.BorderWidth = 5;
         targetMessage.BorderHeight = 2;
         targetMessage.TextColor = 9415072;
@@ -1103,10 +1103,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitHitsGauge.Priority = 20;
         UnitHitsGauge.WinLeft = 1;
         UnitHitsGauge.WinTop = 53;
-        UnitHitsGauge.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitHitsGauge.LayoutToolTipText =
+        [
             "Hitpoints are the amount of damage a unit can withstand before dying."
-        };
+        ];
         UnitHitsGauge.CaptureInput = false;
         UnitHitsGauge.Alignment.AlignWidth = AlignWidth.Left;
         UnitHitsGauge.Alignment.AlignHeight = AlignHeight.Top;
@@ -1136,10 +1136,10 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitManaGauge.Priority = 20;
         UnitManaGauge.WinLeft = 1;
         UnitManaGauge.WinTop = 0;
-        UnitManaGauge.LayoutToolTipText = new LayoutStrings()
-        {
+        UnitManaGauge.LayoutToolTipText =
+        [
             "Channeling is the amount of mana the Hero can pull from their Leader's pool."
-        };
+        ];
         UnitManaGauge.CaptureInput = false;
         UnitManaGauge.Alignment.AlignWidth = AlignWidth.Left;
         UnitManaGauge.Alignment.AlignHeight = AlignHeight.Top;
@@ -1632,10 +1632,10 @@ public partial class CombatUnitInfo : ILayoutModule
         center.Priority = 0;
         center.WinLeft = 103;
         center.WinTop = 1;
-        center.LayoutToolTipText = new LayoutStrings()
-        {
+        center.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         center.CaptureInput = true;
         center.Alignment.AlignWidth = AlignWidth.Right;
         center.Alignment.AlignHeight = AlignHeight.Top;

@@ -111,10 +111,10 @@ public partial class CombatChoice : ILayoutModule
         FightButton.Priority = 1000;
         FightButton.WinLeft = 57;
         FightButton.WinTop = 313;
-        FightButton.LayoutToolTipText = new LayoutStrings()
-        {
+        FightButton.LayoutToolTipText =
+        [
             "Starts battle in selected mode"
-        };
+        ];
         FightButton.CaptureInput = true;
         FightButton.Alignment.AlignWidth = AlignWidth.Left;
         FightButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -146,10 +146,10 @@ public partial class CombatChoice : ILayoutModule
         CancelButton.Priority = 1000;
         CancelButton.WinLeft = 234;
         CancelButton.WinTop = 313;
-        CancelButton.LayoutToolTipText = new LayoutStrings()
-        {
+        CancelButton.LayoutToolTipText =
+        [
             "Cancels the attack"
-        };
+        ];
         CancelButton.CaptureInput = true;
         CancelButton.Alignment.AlignWidth = AlignWidth.Right;
         CancelButton.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -365,10 +365,10 @@ public partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.Priority = 0;
         TacticalCombatCheckBox.WinLeft = 65;
         TacticalCombatCheckBox.WinTop = 197;
-        TacticalCombatCheckBox.LayoutToolTipText = new LayoutStrings()
-        {
+        TacticalCombatCheckBox.LayoutToolTipText =
+        [
             "Select tactical (manual) battle resolvement."
-        };
+        ];
         TacticalCombatCheckBox.CaptureInput = true;
         TacticalCombatCheckBox.Alignment.AlignWidth = AlignWidth.Left;
         TacticalCombatCheckBox.Alignment.AlignHeight = AlignHeight.None;
@@ -402,10 +402,10 @@ public partial class CombatChoice : ILayoutModule
         fCchk.Priority = 0;
         fCchk.WinLeft = 261;
         fCchk.WinTop = 199;
-        fCchk.LayoutToolTipText = new LayoutStrings()
-        {
+        fCchk.LayoutToolTipText =
+        [
             "Select automatic (fast) battle resolvement."
-        };
+        ];
         fCchk.CaptureInput = true;
         fCchk.Alignment.AlignWidth = AlignWidth.Right;
         fCchk.Alignment.AlignHeight = AlignHeight.None;

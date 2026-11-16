@@ -237,14 +237,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             if (CanMoveNext())
             {
                 SetupNextMove();
-                if (!Animating())
-                {
-                    result = ExecuteMove();
-                }
-                else
-                {
-                    result = MoveStatus.Moving;
-                }
+                result = !Animating() ? ExecuteMove() : MoveStatus.Moving;
             }
             else
             {
@@ -270,14 +263,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                     ArmyHexSprite.PlayMoveSfx();
                 }
 
-                if (!Animating())
-                {
-                    result = ExecuteMove();
-                }
-                else
-                {
-                    result = MoveStatus.Moving;
-                }
+                result = !Animating() ? ExecuteMove() : MoveStatus.Moving;
             }
             else
             {

@@ -17,7 +17,7 @@ public partial class AbilityControl : EngineObject
     {
         AbilityType kind;
 
-        Abilities = new List<Ability>();
+        Abilities = [];
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
             kind = (AbilityType)kindOrdinal;

@@ -49,16 +49,9 @@ public partial class StructureTokenEvent : TokenEvent
     // Structur.PAS:3077
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        if (tokenEvent.ExecuteCount != 0 || Validate())
-        {
-            result = ((Structure)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent);
-        }
-        else
-        {
-            result = ExecuteResult.DoneHalt;
-        }
-
+        ExecuteResult result = tokenEvent.ExecuteCount != 0 || Validate()
+            ? ((Structure)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent)
+            : ExecuteResult.DoneHalt;
         return result;
     }
 
@@ -70,14 +63,7 @@ public partial class StructureTokenEvent : TokenEvent
         MapField mapField;
         mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         structure = (Structure)mapField.FindOwnedChild(_structureClassId);
-        if (structure != null && structure.EngineClass.ClassId == _structureClassId)
-        {
-            result = mapField.GetPlayer() == Player;
-        }
-        else
-        {
-            result = false;
-        }
+        result = structure != null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
 
         return result;
     }

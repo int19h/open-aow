@@ -146,14 +146,7 @@ public partial class UnitSpellCaster : SpellCaster
         bool result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
-        if (source == null || (((byte)source.UnitStatus.Image) & 16) != 0)
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = source != null && (((byte)source.UnitStatus.Image) & 16) == 0;
 
         return result;
     }

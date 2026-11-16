@@ -294,16 +294,7 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:3742
     public override bool ValidateSelection(MapField field)
     {
-        bool result;
-        if (MoveSettingsList.Count > 1)
-        {
-            result = ValidMultiMoveSelection(field);
-        }
-        else
-        {
-            result = base.ValidateSelection(field);
-        }
-
+        bool result = MoveSettingsList.Count > 1 ? ValidMultiMoveSelection(field) : base.ValidateSelection(field);
         if (_mode == SelectedArmyMode.BuildRoads)
         {
             if (field.GetPlayer() != -1 && field.GetPlayer() != GetArmyHexSprite().Army.Player)
@@ -454,32 +445,14 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:3600
     public ArmyHexSprite GetArmyHexSprite()
     {
-        ArmyHexSprite result;
-        if (CurrentMove != -1)
-        {
-            result = (ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject;
-        }
-        else
-        {
-            result = null;
-        }
-
+        ArmyHexSprite result = CurrentMove != -1 ? (ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
         return result;
     }
 
     // Army.PAS:3607
     public byte GetSelection()
     {
-        byte result;
-        if (CurrentMove != -1)
-        {
-            result = (byte)MoveSettingsList.GetMoveSettings(CurrentMove).Selection;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        byte result = CurrentMove != -1 ? (byte)MoveSettingsList.GetMoveSettings(CurrentMove).Selection : (byte)0;
         return result;
     }
 
@@ -583,10 +556,6 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:3685
     public void RectangleSelectEvent(GameMapMouse sender)
     {
-        int x1 = default;
-        int y1 = default;
-        int x2 = default;
-        int y2 = default;
         int pixelX = default;
         int pixelY = default;
         ArmyHSList armies;
@@ -596,8 +565,8 @@ public partial class SelectedArmy : MoveSelector
         armies = new ArmyHSList(null) { Holder = Creator.CreationHolder() };
         r = sender.SelectionRectangle;
         level = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
-        HexGeometry.PixelToHex(r.Left, r.Top, out x1, out y1);
-        HexGeometry.PixelToHex(r.Right, r.Bottom, out x2, out y2);
+        HexGeometry.PixelToHex(r.Left, r.Top, out int x1, out int y1);
+        HexGeometry.PixelToHex(r.Right, r.Bottom, out int x2, out int y2);
         for (int x = x1 - 1, last = x2 + 1; x <= last; x++)
         {
             for (int y = y1 - 1, lastY = y2 + 1; y <= lastY; y++)
@@ -893,19 +862,14 @@ public partial class SelectedArmy : MoveSelector
 
         MapField field = map.MapContainer.GetField(mouse.HexX, mouse.HexY, map.ViewMapLevel);
         bool visible = !map.FogEnabled || field.FogCount != 0;
-        if (CurrentMove != -1 && (!map.ExplorationEnabled || field.GetExplored(map.SeatedPlayer)) && visible)
-        {
-            mouse.CursorMode = field.GetMoveAction(GetArmyHexSprite().Army.Player) switch
+        mouse.CursorMode = CurrentMove != -1 && (!map.ExplorationEnabled || field.GetExplored(map.SeatedPlayer)) && visible
+            ? (field.GetMoveAction(GetArmyHexSprite().Army.Player) switch
             {
                 MoveAction.Attack => 258,
                 MoveAction.Negotiate => 259,
                 _ => 256
-            };
-        }
-        else
-        {
-            mouse.CursorMode = MoveSettingsList.Count <= 1 ? 256 : 0;
-        }
+            })
+            : MoveSettingsList.Count <= 1 ? 256 : 0;
 
         if (mouse.CursorMode != 256)
         {
@@ -1001,10 +965,7 @@ public partial class SelectedArmy : MoveSelector
                 flag = false;
             }
             multiMoveTokenEvent.Release();
-            if (movePath != null)
-            {
-                movePath.Dispose();
-            }
+            movePath?.Dispose();
         }
         else
         {

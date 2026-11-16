@@ -106,17 +106,7 @@ public partial class MultiWindow : UIModule
         throw new NotImplementedException();
 
     // AOWMultiWin.pas:157
-    public void GamesLBChange()
-    {
-        if (GamesList.Selected > -1)
-        {
-            JoinButton.Visible = true;
-        }
-        else
-        {
-            JoinButton.Visible = false;
-        }
-    }
+    public void GamesLBChange() => JoinButton.Visible = GamesList.Selected > -1;
 
     // AOWMultiWin.pas:163
     public void BackBtnClick() =>

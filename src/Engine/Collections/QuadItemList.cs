@@ -18,16 +18,7 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5538
     internal QuadInteger Get(int index)
     {
-        QuadInteger result;
-        if (index < 0 || index >= _count)
-        {
-            result = _default;
-        }
-        else
-        {
-            result = _list[index];
-        }
-
+        QuadInteger result = index < 0 || index >= _count ? _default : _list[index];
         return result;
     }
 
@@ -86,23 +77,7 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5546
     protected internal virtual void Grow()
     {
-        int delta;
-        if (_capacity > 64)
-        {
-            delta = _capacity / 4;
-        }
-        else
-        {
-            if (_capacity > 8)
-            {
-                delta = 16;
-            }
-            else
-            {
-                delta = 4;
-            }
-        }
-
+        int delta = _capacity > 64 ? _capacity / 4 : _capacity > 8 ? 16 : 4;
         SetCapacity(_capacity + delta);
     }
 

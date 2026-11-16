@@ -38,11 +38,8 @@ public partial class DisjunctionDialog : UIModule
     public void ClearCaster()
     {
         UI.General.Manager.OverlayPriority = 0;
-        if (_caster != null)
-        {
-            _caster.Release();
-            _caster = null;
-        }
+        _caster?.Release();
+        _caster = null;
     }
 
     // AoWDisjunctionDlg.pas:189
@@ -100,14 +97,7 @@ public partial class DisjunctionDialog : UIModule
     // AoWDisjunctionDlg.pas:222
     public void UpdateChance()
     {
-        if (_caster.GetEnoughMana())
-        {
-            DisjunctionManaLabel.TextColor = 12632256;
-        }
-        else
-        {
-            DisjunctionManaLabel.TextColor = 255;
-        }
+        DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? 12632256 : 255;
 
         Spell spell = GamePack.Current.SpellControl.GetSpell(51);
         int mana = _caster.GetMana();
@@ -165,10 +155,7 @@ public partial class DisjunctionDialog : UIModule
     // AoWDisjunctionDlg.pas:262
     public void Execute(DisjunctionSpellCaster caster)
     {
-        if (_caster != null)
-        {
-            _caster.Release();
-        }
+        _caster?.Release();
 
         _caster = caster;
         _caster.AddRef();
@@ -222,14 +209,7 @@ public partial class DisjunctionDialog : UIModule
     public void SortEnchantmentClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_sortOrder == 0)
-        {
-            _sortOrder = 1;
-        }
-        else
-        {
-            _sortOrder = 0;
-        }
+        _sortOrder = _sortOrder == 0 ? 1 : 0;
 
         SortEnchantments();
     }
@@ -238,14 +218,7 @@ public partial class DisjunctionDialog : UIModule
     public void SortClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_sortOrder == 2)
-        {
-            _sortOrder = 3;
-        }
-        else
-        {
-            _sortOrder = 2;
-        }
+        _sortOrder = _sortOrder == 2 ? 3 : 2;
 
         SortEnchantments();
     }
@@ -265,16 +238,13 @@ public partial class DisjunctionDialog : UIModule
     // AoWDisjunctionDlg.pas:148
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        LockedSurface mapSurfaceDescription = default;
         Rect r;
         int w;
         int h;
         r = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         w = r.Right - r.Left;
         h = r.Bottom - r.Top;
-        HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
+        HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
         if (x < 16)
@@ -287,7 +257,7 @@ public partial class DisjunctionDialog : UIModule
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
         StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

@@ -38,23 +38,9 @@ public static class ImageLibraryMethods
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
-        {
-            clipRight = lockedSurface.ClipRectangle.Right;
-        }
-        else
-        {
-            clipRight = area.Left + area.Width;
-        }
+        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
-        {
-            clipBottom = lockedSurface.ClipRectangle.Bottom;
-        }
-        else
-        {
-            clipBottom = area.Top + area.Height;
-        }
+        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;

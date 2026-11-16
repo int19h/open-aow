@@ -300,14 +300,7 @@ public partial class Campaign : EngineObject
     // Diplomacy.pas:2432
     public virtual void RestartScenario()
     {
-        if (CompletedScenarios.Count != 0)
-        {
-            CurrentScenarioId = CompletedScenarios[CompletedScenarios.Count - 1];
-        }
-        else
-        {
-            CurrentScenarioId = 0;
-        }
+        CurrentScenarioId = CompletedScenarios.Count != 0 ? CompletedScenarios[CompletedScenarios.Count - 1] : 0;
 
         ScenarioStarted = false;
         Stream.Clear();

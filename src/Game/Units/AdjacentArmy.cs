@@ -33,21 +33,9 @@ public partial class AdjacentArmy : EngineObject
         if (Moves != 0)
         {
             points = Path.GetMovePoints();
-            if (points > MovePoints)
-            {
-                result = (float)((double)((double)(points - MovePoints) / Moves) + 1);
-            }
-            else
-            {
-                if (points != 0)
-                {
-                    result = (float)((double)points / MovePoints);
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
+            result = points > MovePoints
+                ? (float)((double)((double)(points - MovePoints) / Moves) + 1)
+                : points != 0 ? (float)((double)points / MovePoints) : 0;
         }
         else
         {

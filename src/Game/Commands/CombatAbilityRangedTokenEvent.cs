@@ -87,14 +87,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             _unit.UnitHexSprite.Unselect();
                             _unit.UnitHexSprite.SelectedAbility = AbilityId;
                             _unit.UnitHexSprite.SelectedSpell = SpellId;
-                            if (AbilityId == 52)
-                            {
-                                _effectType = TacticalTables.SpellTypes[SpellId];
-                            }
-                            else
-                            {
-                                _effectType = TacticalTables.AbilityTypes[AbilityId];
-                            }
+                            _effectType = AbilityId == 52 ? TacticalTables.SpellTypes[SpellId] : TacticalTables.AbilityTypes[AbilityId];
 
                             if (AbilityId == 52)
                             {
@@ -555,28 +548,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                     {
                                                                         i = 0;
                                                                         RandSeed = StrategicMap.Current.Random(16777215);
-                                                                        if (AbilityId == 52)
-                                                                        {
-                                                                            effect.CombatAction = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false);
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            if (AbilityId == 47)
-                                                                            {
-                                                                                effect.CombatAction = ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target);
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                if (AbilityId == 60)
-                                                                                {
-                                                                                    effect.CombatAction = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    effect.CombatAction = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
-                                                                                }
-                                                                            }
-                                                                        }
+                                                                        effect.CombatAction = AbilityId == 52
+                                                                            ? GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false)
+                                                                            : AbilityId == 47
+                                                                                ? ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target)
+                                                                                : AbilityId == 60
+                                                                                    ? ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target)
+                                                                                    : ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
 
                                                                         if (effect.CombatAction is DamageCombatAction)
                                                                         {
@@ -909,7 +887,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             int distance;
             List<int> weights;
             used = new DelphiList<TacticalBattleUnit>();
-            weights = new List<int>();
+            weights = [];
             total = 0;
             i2 = 0;
             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
@@ -975,21 +953,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     sweep = (float)((double)19 - sweep);
                 }
 
-                if (y2 == y1)
-                {
-                    a = 0;
-                }
-                else
-                {
-                    if (x2 == x1)
-                    {
-                        a = (float)(Math.PI / 2);
-                    }
-                    else
-                    {
-                        a = (float)Math.Atan((double)Math.Abs(x2 - x1) / Math.Abs(y2 - y1));
-                    }
-                }
+                a = y2 == y1 ? 0 : x2 == x1 ? (float)(Math.PI / 2) : (float)Math.Atan((double)Math.Abs(x2 - x1) / Math.Abs(y2 - y1));
 
                 if (y2 == y1 || x2 == x1)
                 {
@@ -1003,23 +967,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 }
 
                 radius = (float)Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
-                if (x2 >= x1)
-                {
-                    deltaX = Round((double)Math.Sin(angle) * radius) - x2 + x1;
-                }
-                else
-                {
-                    deltaX = x1 - x2 - Round((double)Math.Sin(angle) * radius);
-                }
+                deltaX = x2 >= x1 ? Round((double)Math.Sin(angle) * radius) - x2 + x1 : x1 - x2 - Round((double)Math.Sin(angle) * radius);
 
-                if (y2 >= y1)
-                {
-                    deltaY = Round((double)Math.Cos(angle) * radius) - y2 + y1;
-                }
-                else
-                {
-                    deltaY = y1 - y2 - Round((double)Math.Cos(angle) * radius);
-                }
+                deltaY = y2 >= y1 ? Round((double)Math.Cos(angle) * radius) - y2 + y1 : y1 - y2 - Round((double)Math.Cos(angle) * radius);
 
                 sbyte hexX = _unit.UnitHexSprite.HexX;
                 sbyte hexY3 = _unit.UnitHexSprite.HexY;
@@ -1219,14 +1169,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.ScreenNESW:
                 point = new Point3D();
-                if (Random(100) < 50)
-                {
-                    point.X = 0;
-                }
-                else
-                {
-                    point.X = 1;
-                }
+                point.X = Random(100) < 50 ? 0 : 1;
 
                 effect.Path.Add(point);
                 if (_strikeIndex == 9)
@@ -1397,14 +1340,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.ScreenSwarm:
                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
-                if (hexSprite == null)
-                {
-                    target = null;
-                }
-                else
-                {
-                    target = hexSprite.Unit;
-                }
+                target = hexSprite?.Unit;
 
                 deltaX = TargetX;
                 deltaY = TargetY;
@@ -1516,14 +1452,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     {
                         Point3D path = effect.Path[obstacle.PathIndex];
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, out j, out k);
-                        if (effect.EffectType == BattleEffectType.Breath)
-                        {
-                            hitObject = null;
-                        }
-                        else
-                        {
-                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484);
-                        }
+                        hitObject = effect.EffectType == BattleEffectType.Breath
+                            ? null
+                            : (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484);
 
                         if (hitObject == null)
                         {

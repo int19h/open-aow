@@ -21,14 +21,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
         int result;
         CombatMap combatMap;
         combatMap = StrategicMap.Current.CombatMap;
-        if (combatMap != null)
-        {
-            result = combatMap.Mouse.GetCursor();
-        }
-        else
-        {
-            result = base.GetCursor();
-        }
+        result = combatMap != null ? combatMap.Mouse.GetCursor() : base.GetCursor();
 
         return result;
     }

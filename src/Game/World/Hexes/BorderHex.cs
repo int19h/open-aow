@@ -44,9 +44,7 @@ public partial class BorderHex : AbstractBorderHexagon
     // BorderHx.pas:64
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         ((MapObject)this).Resource.ImageLibrary[0].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
     }
 

@@ -102,14 +102,7 @@ public partial class Teleport : Structure
     // Teleport.pas:115
     public override void SetRazed(bool value)
     {
-        if (value)
-        {
-            State = State + Set<StateElement>.Of(StateElement.Razed);
-        }
-        else
-        {
-            State = State - Set<StateElement>.Of(StateElement.Razed);
-        }
+        State = value ? State + Set<StateElement>.Of(StateElement.Razed) : State - Set<StateElement>.Of(StateElement.Razed);
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
     }

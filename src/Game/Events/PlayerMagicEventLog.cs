@@ -57,14 +57,9 @@ public partial class PlayerMagicEventLog : EventLog
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:
-                if (StrategicMap.Current.SeatedPlayer == Player)
-                {
-                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName]);
-                }
-                else
-                {
-                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
-                }
+                result = StrategicMap.Current.SeatedPlayer == Player
+                    ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName])
+                    : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
 
                 break;
         }
@@ -83,21 +78,9 @@ public partial class PlayerMagicEventLog : EventLog
                 show = trigger == ExecuteTrigger.User;
                 break;
             case EventMode.SpellResearched:
-                if (trigger != ExecuteTrigger.User)
-                {
-                    if (StrategicMap.Current.PlayMode == PlayMode.Turn)
-                    {
-                        show = GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
-                    }
-                    else
-                    {
-                        show = GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
-                    }
-                }
-                else
-                {
-                    show = true;
-                }
+                show = trigger == ExecuteTrigger.User || (StrategicMap.Current.PlayMode == PlayMode.Turn
+                        ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)
+                        : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched));
 
                 break;
             case EventMode.StartResearch:
@@ -108,14 +91,7 @@ public partial class PlayerMagicEventLog : EventLog
                 break;
         }
 
-        if (show)
-        {
-            result = base.Execute(mode, trigger, done);
-        }
-        else
-        {
-            result = false;
-        }
+        result = show && base.Execute(mode, trigger, done);
 
         return result;
     }

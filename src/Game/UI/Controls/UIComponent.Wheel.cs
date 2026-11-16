@@ -16,7 +16,7 @@ public partial class UIComponent
         public Button Forward { get; set; }
     }
 
-    private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = new();
+    private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = [];
 
     internal static bool PointInside(int X, int Y, int left, int top, int width, int height) =>
         X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;

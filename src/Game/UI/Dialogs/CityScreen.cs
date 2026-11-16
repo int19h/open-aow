@@ -326,14 +326,7 @@ public partial class CityScreen : UIModule
                 result = 43;
                 break;
             case CityAction.Fortify:
-                if (_city.WallType == 0)
-                {
-                    result = 41;
-                }
-                else
-                {
-                    result = 42;
-                }
+                result = _city.WallType == 0 ? 41 : 42;
 
                 break;
             case CityAction.Migrate:
@@ -490,14 +483,7 @@ public partial class CityScreen : UIModule
                 string cityFortify = UI.Engine.TranslateResourceString(s_cityFortifyText);
                 UpgradeMemo.Items.Text = cityFortify;
                 UpgradePanel.Visible = true;
-                if (_city.WallType == 0)
-                {
-                    UpgradePicture.CurrentImage = 21;
-                }
-                else
-                {
-                    UpgradePicture.CurrentImage = 22;
-                }
+                UpgradePicture.CurrentImage = _city.WallType == 0 ? 21 : 22;
 
                 if (_city.FortifyCost() > 0)
                 {
@@ -1168,10 +1154,7 @@ public partial class CityScreen : UIModule
             {
                 UI.Graphics.CityWindow[5].Show(r.Left + 2, r.Top + 2, lockedSurface);
                 info.Direction = 5;
-                if (u != null)
-                {
-                    u.Show(r.Left - 4, r.Top, lockedSurface, info);
-                }
+                u?.Show(r.Left - 4, r.Top, lockedSurface, info);
 
                 BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
                 UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
@@ -1179,16 +1162,10 @@ public partial class CityScreen : UIModule
             else
             {
                 UI.Graphics.CityWindow[4].Show(r.Left + 2, r.Top + 2, lockedSurface);
-                if (u != null)
-                {
-                    u.Show(r.Left - 4, r.Top, lockedSurface, info);
-                }
+                u?.Show(r.Left - 4, r.Top, lockedSurface, info);
             }
 
-            if (u != null)
-            {
-                u.Release();
-            }
+            u?.Release();
         }
         else
         {
@@ -1199,14 +1176,7 @@ public partial class CityScreen : UIModule
     // AoWCityScreen.pas:508
     public void SortMigrationRacesClick()
     {
-        if (_migrationSort == 2)
-        {
-            _migrationSort = 3;
-        }
-        else
-        {
-            _migrationSort = 2;
-        }
+        _migrationSort = _migrationSort == 2 ? 3 : 2;
 
         SortMigration();
     }
@@ -1214,14 +1184,7 @@ public partial class CityScreen : UIModule
     // AoWCityScreen.pas:515
     public void SortMigrationTurnsClick()
     {
-        if (_migrationSort == 0)
-        {
-            _migrationSort = 1;
-        }
-        else
-        {
-            _migrationSort = 0;
-        }
+        _migrationSort = _migrationSort == 0 ? 1 : 0;
 
         SortMigration();
     }
@@ -1229,14 +1192,7 @@ public partial class CityScreen : UIModule
     // AoWCityScreen.pas:522
     public void SortMigrationRelationClick()
     {
-        if (_migrationSort == 4)
-        {
-            _migrationSort = 5;
-        }
-        else
-        {
-            _migrationSort = 4;
-        }
+        _migrationSort = _migrationSort == 4 ? 5 : 4;
 
         SortMigration();
     }
@@ -1328,14 +1284,7 @@ public partial class CityScreen : UIModule
         }
         else
         {
-            if (_mode == 2)
-            {
-                sender.Selected = _queueIndex;
-            }
-            else
-            {
-                sender.Selected = -1;
-            }
+            sender.Selected = _mode == 2 ? _queueIndex : -1;
         }
     }
 
@@ -1460,10 +1409,7 @@ public partial class CityScreen : UIModule
     {
         CombatMap preview;
         preview = _preview;
-        if (preview != null)
-        {
-            preview.NewFrame();
-        }
+        preview?.NewFrame();
 
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }

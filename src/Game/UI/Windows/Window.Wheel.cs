@@ -21,17 +21,7 @@ public partial class Window
         }
 
         UIComponent child = TopWheelChild(X, Y);
-        if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
-        {
-            return true;
-        }
-
-        if (TurnPages(steps))
-        {
-            return true;
-        }
-
-        return ScrollOwnedBar(steps);
+        return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || TurnPages(steps) || ScrollOwnedBar(steps);
     }
 
     private bool TurnPages(int steps)

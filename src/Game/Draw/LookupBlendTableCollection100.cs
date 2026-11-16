@@ -53,14 +53,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
                         break;
                 }
 
-                if (count != 1)
-                {
-                    v = (float)((double)i / (count - 1));
-                }
-                else
-                {
-                    v = (float)0.5;
-                }
+                v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
                 proc(t, v);
                 _tables.Add(t);

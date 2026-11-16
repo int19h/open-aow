@@ -42,10 +42,8 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        int x = default;
-        int y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 15;
         pixelYSurface = y - pixelYSurface - 25;
         if (SequenceIndex > -1)

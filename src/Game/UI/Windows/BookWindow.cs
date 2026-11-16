@@ -47,10 +47,7 @@ public partial class BookWindow : Window
             if (!PageTurn.UpdateScene())
             {
                 Animating = false;
-                if (OnAnimationDone != null)
-                {
-                    OnAnimationDone(this);
-                }
+                OnAnimationDone?.Invoke(this);
             }
         }
 
@@ -103,10 +100,7 @@ public partial class BookWindow : Window
             {
                 SurfaceValid = false;
                 Animating = false;
-                if (OnAnimationDone != null)
-                {
-                    OnAnimationDone(this);
-                }
+                OnAnimationDone?.Invoke(this);
             }
         }
     }

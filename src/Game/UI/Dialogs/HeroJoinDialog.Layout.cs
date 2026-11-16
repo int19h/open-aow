@@ -568,10 +568,10 @@ public partial class HeroJoinDialog : ILayoutModule
         JoinMemo.Masked = true;
         JoinMemo.WinWidth = 330;
         JoinMemo.WinHeight = 210;
-        JoinMemo.LayoutItems = new LayoutStrings()
-        {
+        JoinMemo.LayoutItems =
+        [
             "#########################"
-        };
+        ];
         JoinMemo.BorderWidth = 0;
         JoinMemo.BorderHeight = 8;
         JoinMemo.TextColor = 13827061;

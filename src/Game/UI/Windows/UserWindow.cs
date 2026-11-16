@@ -20,10 +20,7 @@ public partial class UserWindow : Window
     {
         bool handled;
         handled = false;
-        if (OnCustomDrawSurface != null)
-        {
-            OnCustomDrawSurface(surface, out handled);
-        }
+        OnCustomDrawSurface?.Invoke(surface, out handled);
 
         if (!handled)
         {

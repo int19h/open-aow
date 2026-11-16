@@ -177,9 +177,9 @@ public partial class CombatMap : GameMap
         Players = new TacticalBattlePlayerList();
         UnitSelection = new CombatUnitSelectionControl(this);
         ((GameMapMouse)Mouse).RectangleSelected += UnitSelection.RectangleSelectEvent;
-        Effects = new List<BattleEffectSprite>();
-        Walls = new List<World.Terrain.CityWall>();
-        FleeLocations = new List<FleeLocation>();
+        Effects = [];
+        Walls = [];
+        FleeLocations = [];
         AI = new BattleAI(this);
         Mouse.SetCapture(this);
         Mouse.OnMove += MouseMoveEvent;
@@ -364,11 +364,10 @@ public partial class CombatMap : GameMap
     public override ItemList GetHeroItemsOnGround(Hero hero)
     {
         ItemHexSprite hexSprite;
-        sbyte x = default;
         sbyte y = default;
         sbyte l = default;
         ItemList result = null;
-        GetUnitLocation(hero, out x, ref y, ref l);
+        GetUnitLocation(hero, out sbyte x, ref y, ref l);
         if (x > -1)
         {
             hexSprite = (ItemHexSprite)MapContainer.GetField(x, y, l).FindOwnedChild(131697);
@@ -428,7 +427,6 @@ public partial class CombatMap : GameMap
     public void NewTurn(sbyte player)
     {
         TacticalBattleUnit u;
-        EngineMessage message = default;
         CurrentCombatPlayer = player;
         if (player == 0)
         {
@@ -492,7 +490,7 @@ public partial class CombatMap : GameMap
         }
 
         AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
-        EngineMessage.InitializeMessage(out message, 537006081, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, 537006081, this);
         SendMessage(ref message, this);
         if (ExplorationEnabled)
         {
@@ -571,14 +569,7 @@ public partial class CombatMap : GameMap
         }
 
         TacticalBattleUnit result = U;
-        if (forward)
-        {
-            step = 1;
-        }
-        else
-        {
-            step = -1;
-        }
+        step = forward ? 1 : -1;
 
         index = 0;
         i = 0;
@@ -611,14 +602,7 @@ public partial class CombatMap : GameMap
 
         if (result == U)
         {
-            if (forward)
-            {
-                index = 0;
-            }
-            else
-            {
-                index = Combat.CombatData.GetCount() - 1;
-            }
+            index = forward ? 0 : Combat.CombatData.GetCount() - 1;
 
             while (index != start && index > -1 && index < Combat.CombatData.GetCount())
             {
@@ -759,16 +743,9 @@ public partial class CombatMap : GameMap
 
     private TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
-        TacticalBattleEndTurnTokenEvent result;
-        if (player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player))
-        {
-            result = new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() };
-        }
-        else
-        {
-            result = null;
-        }
-
+        TacticalBattleEndTurnTokenEvent result = player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player)
+            ? new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() }
+            : null;
         return result;
     }
 

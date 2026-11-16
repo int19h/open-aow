@@ -13,7 +13,7 @@ public partial class BlendTableList : IDisposable
     internal BlendTable GetTables(int index) => _list[index];
 
     // GFXE.pas:9629
-    public BlendTableList() => _list = new List<BlendTable>();
+    public BlendTableList() => _list = [];
 
     // GFXE.pas:9635
     public virtual void Dispose()

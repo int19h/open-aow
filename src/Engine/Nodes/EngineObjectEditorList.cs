@@ -7,7 +7,7 @@ namespace Aow.Engine.Nodes;
 //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
 public partial class EngineObjectEditorList
 {
-    private readonly List<EditorClass> _list = new();
+    private readonly List<EditorClass> _list = [];
 
     public int Count => _list.Count;
     public EditorClass this[int index] => _list[index];
@@ -36,14 +36,7 @@ public partial class EngineObjectEditorList
             i += 1;
         }
 
-        if (i != Count)
-        {
-            result = _list[i];
-        }
-        else
-        {
-            result = null;
-        }
+        result = i != Count ? _list[i] : null;
 
         return result;
     }

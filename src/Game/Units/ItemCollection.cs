@@ -50,16 +50,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     // Army.PAS:4587
     public Item GetItem(int index)
     {
-        Item result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
+        Item result = index >= 0 && index < Count ? this[index] : null;
         return result;
     }
 

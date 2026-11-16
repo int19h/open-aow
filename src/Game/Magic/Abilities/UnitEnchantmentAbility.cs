@@ -80,21 +80,11 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
-            if (data.Enchantment.Source <= 0)
-            {
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
-            }
-            else
-            {
-                if (source != null && source.Player == data.Enchantment.Source)
-                {
-                    result = AbilityRules.TranslateResourceString(GetEngine(), s_manaText);
-                }
-                else
-                {
-                    result = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
-                }
-            }
+            result = data.Enchantment.Source <= 0
+                ? AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText)
+                : source != null && source.Player == data.Enchantment.Source
+                    ? AbilityRules.TranslateResourceString(GetEngine(), s_manaText)
+                    : StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
         }
         else
         {
@@ -241,14 +231,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         byte result;
         UnitEnchantmentAbilityData data;
         data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        if (data != null)
-        {
-            result = (byte)data.EnchantmentDuration;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = data != null ? (byte)data.EnchantmentDuration : (byte)0;
 
         return result;
     }

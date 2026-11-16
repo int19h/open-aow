@@ -13,7 +13,7 @@ public partial class DisplayModeList : IDisposable
     internal int GetCount() => _list.Count;
 
     // GFXE.pas:12611
-    public DisplayModeList() => _list = new List<DisplayModeItem>();
+    public DisplayModeList() => _list = [];
 
     // GFXE.pas:12617
     public virtual void Dispose()

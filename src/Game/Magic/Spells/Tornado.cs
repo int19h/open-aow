@@ -90,8 +90,6 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1823
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
-        MovePointTable table = default;
-        HexNumberWalkData walk = default;
         MapLevel mapLevel;
         MapField mapField;
         DelphiList<MapField> locations;
@@ -99,10 +97,10 @@ public partial class Tornado : GlobalTargetSpell
         int index;
         int x;
         locations = new DelphiList<MapField>();
-        army.Army.CreateMovePointTable(selection, out table);
+        army.Army.CreateMovePointTable(selection, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
         mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 15)
         {

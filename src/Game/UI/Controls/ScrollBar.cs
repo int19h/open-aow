@@ -113,26 +113,12 @@ public partial class ScrollBar : Control
             _thumbStrip = _thumbStrip.CheckImageLibrary(_thumbImageIndex, 3, this);
         }
 
-        if (_thumbImage != null)
-        {
-            ThumbStyle = ScrollBarThumbStyle.Icon;
-        }
-        else
-        {
-            ThumbStyle = ScrollBarThumbStyle.Bar;
-        }
+        ThumbStyle = _thumbImage != null ? ScrollBarThumbStyle.Icon : ScrollBarThumbStyle.Bar;
 
         if (_imageLibraryImageIncrement != null && _imageLibraryIDecrement != null)
         {
             Valid = true;
-            if (_imageLibraryTileBack != null && (_thumbImage != null || _thumbStrip != null))
-            {
-                ScrollType = Style.Scroll;
-            }
-            else
-            {
-                ScrollType = Style.IncrementDecrement;
-            }
+            ScrollType = _imageLibraryTileBack != null && (_thumbImage != null || _thumbStrip != null) ? Style.Scroll : Style.IncrementDecrement;
         }
         else
         {

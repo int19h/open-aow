@@ -22,16 +22,7 @@ public partial class ImmunityAbility : EnhancementAbility
     // PassiveAb.pas:1440
     public override Set<MoveType> GetMoveTypes(AbilityOwner owner)
     {
-        Set<MoveType> result;
-        if (ImmunityTypes.Contains(DamageType.Fire))
-        {
-            result = Set<MoveType>.Of(MoveType.LavaCrossing);
-        }
-        else
-        {
-            result = Set<MoveType>.Of();
-        }
-
+        Set<MoveType> result = ImmunityTypes.Contains(DamageType.Fire) ? Set<MoveType>.Of(MoveType.LavaCrossing) : Set<MoveType>.Of();
         return result;
     }
 

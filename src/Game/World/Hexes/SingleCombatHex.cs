@@ -19,10 +19,8 @@ public partial class SingleCombatHex : AbstractHexagon
     // SingleCombatHex.pas:47
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y = y - pixelYSurface;
         sequence = base.Resource.ImageSequenceList.GetImageSequence(0);

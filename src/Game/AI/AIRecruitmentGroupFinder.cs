@@ -53,16 +53,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:2061
     public override bool Process()
     {
-        bool result;
-        if (_selector.Status == AIMoveTargetSelectorStatus.Searching)
-        {
-            result = _selector.Process();
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = _selector.Status == AIMoveTargetSelectorStatus.Searching && _selector.Process();
         if (!result)
         {
             Done();

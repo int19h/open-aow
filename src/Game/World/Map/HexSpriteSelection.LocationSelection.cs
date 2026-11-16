@@ -8,11 +8,9 @@ public partial class HexSpriteSelection
     public bool CanSelectLocation(int pixelX, int pixelY, int lHitPoints)
     {
         bool result;
-        int hexX = default;
-        int hexY = default;
         MapField mapField;
         int i;
-        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
         if (hexX >= 0 && Owner.MapContainer.Width > hexX && Owner.MapContainer.Height > hexY && hexY >= 0)
         {
             mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
@@ -35,12 +33,10 @@ public partial class HexSpriteSelection
     public void SelectLocation(int pixelX, int pixelY, int lHitPoints)
     {
         int n;
-        int hexX = default;
-        int hexY = default;
         MapField mapField;
         HexSprite hexSprite;
         int i;
-        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
         mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
         i = FindLocationHexSpriteIndex(mapField) - 1;
         hexSprite = null;

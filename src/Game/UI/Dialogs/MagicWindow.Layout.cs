@@ -134,13 +134,13 @@ public partial class MagicWindow : ILayoutModule
         headerTab.Alignment.TopOffset = 19;
         headerTab.Alignment.BottomOffset = 0;
         headerTab.Masked = true;
-        headerTab.LayoutItems = new LayoutStrings()
-        {
+        headerTab.LayoutItems =
+        [
             "MAIN",
             "SPELLS",
             "GLOBAL",
             "POWER"
-        };
+        ];
         headerTab.BorderHeight = 6;
         headerTab.OnChange += _ => HeaderTabChange();
         headerTab.Selected = 0;
@@ -1009,10 +1009,10 @@ public partial class MagicWindow : ILayoutModule
         researchBtn.Priority = 100;
         researchBtn.WinLeft = 10;
         researchBtn.WinTop = 86;
-        researchBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        researchBtn.LayoutToolTipText =
+        [
             "Opens the spell research book."
-        };
+        ];
         researchBtn.CaptureInput = true;
         researchBtn.Alignment.AlignWidth = AlignWidth.Both;
         researchBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1169,10 +1169,10 @@ public partial class MagicWindow : ILayoutModule
         minimize.Priority = 0;
         minimize.WinLeft = 421;
         minimize.WinTop = 1;
-        minimize.LayoutToolTipText = new LayoutStrings()
-        {
+        minimize.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         minimize.CaptureInput = true;
         minimize.Alignment.AlignWidth = AlignWidth.Right;
         minimize.Alignment.AlignHeight = AlignHeight.Top;
@@ -1203,10 +1203,10 @@ public partial class MagicWindow : ILayoutModule
         changePowerBut.Priority = 100;
         changePowerBut.WinLeft = 10;
         changePowerBut.WinTop = 86;
-        changePowerBut.LayoutToolTipText = new LayoutStrings()
-        {
+        changePowerBut.LayoutToolTipText =
+        [
             "Sets the division of power between mana generation and spell research"
-        };
+        ];
         changePowerBut.CaptureInput = true;
         changePowerBut.Alignment.AlignWidth = AlignWidth.Both;
         changePowerBut.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -1834,10 +1834,10 @@ public partial class MagicWindow : ILayoutModule
         help.Priority = 0;
         help.WinLeft = 405;
         help.WinTop = 1;
-        help.LayoutToolTipText = new LayoutStrings()
-        {
+        help.LayoutToolTipText =
+        [
             "Displays Help for this window."
-        };
+        ];
         help.CaptureInput = true;
         help.Alignment.AlignWidth = AlignWidth.Right;
         help.Alignment.AlignHeight = AlignHeight.Top;

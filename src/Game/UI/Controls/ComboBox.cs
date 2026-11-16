@@ -271,10 +271,7 @@ public partial class ComboBox : Control
                             LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                             LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                             LibraryImage imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
-                            if (OnDrawItem != null)
-                            {
-                                OnDrawItem(this);
-                            }
+                            OnDrawItem?.Invoke(this);
                         }
                     }
 
@@ -321,15 +318,9 @@ public partial class ComboBox : Control
 
                         _open = false;
                         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-                        if (_verticalScrollBar != null)
-                        {
-                            _verticalScrollBar.Visible = false;
-                        }
+                        _verticalScrollBar?.Visible = false;
 
-                        if (OnClose != null)
-                        {
-                            OnClose(this);
-                        }
+                        OnClose?.Invoke(this);
                     }
                     else
                     {
@@ -386,10 +377,7 @@ public partial class ComboBox : Control
                             _verticalScrollBar.Drawn = false;
                         }
 
-                        if (OnOpen != null)
-                        {
-                            OnOpen(this);
-                        }
+                        OnOpen?.Invoke(this);
                     }
                 }
                 else
@@ -403,15 +391,9 @@ public partial class ComboBox : Control
 
                         _open = false;
                         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-                        if (_verticalScrollBar != null)
-                        {
-                            _verticalScrollBar.Visible = false;
-                        }
+                        _verticalScrollBar?.Visible = false;
 
-                        if (OnClose != null)
-                        {
-                            OnClose(this);
-                        }
+                        OnClose?.Invoke(this);
                     }
                 }
             }
@@ -435,15 +417,9 @@ public partial class ComboBox : Control
 
                     _open = false;
                     SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-                    if (_verticalScrollBar != null)
-                    {
-                        _verticalScrollBar.Visible = false;
-                    }
+                    _verticalScrollBar?.Visible = false;
 
-                    if (OnClose != null)
-                    {
-                        OnClose(this);
-                    }
+                    OnClose?.Invoke(this);
                 }
             }
         }
@@ -494,18 +470,12 @@ public partial class ComboBox : Control
                         _open = false;
                         Redraw = false;
                         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-                        if (_verticalScrollBar != null)
-                        {
-                            _verticalScrollBar.Visible = false;
-                        }
+                        _verticalScrollBar?.Visible = false;
 
                         Handled = true;
                         RaiseChange(this);
 
-                        if (OnClose != null)
-                        {
-                            OnClose(this);
-                        }
+                        OnClose?.Invoke(this);
                     }
                 }
                 else
@@ -513,15 +483,9 @@ public partial class ComboBox : Control
                     _open = false;
                     Redraw = false;
                     SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-                    if (_verticalScrollBar != null)
-                    {
-                        _verticalScrollBar.Visible = false;
-                    }
+                    _verticalScrollBar?.Visible = false;
 
-                    if (OnClose != null)
-                    {
-                        OnClose(this);
-                    }
+                    OnClose?.Invoke(this);
                 }
             }
         }
@@ -562,10 +526,7 @@ public partial class ComboBox : Control
         if (_open && oldItem != _hoverItem)
         {
             Drawn = false;
-            if (_verticalScrollBar != null)
-            {
-                _verticalScrollBar.Drawn = false;
-            }
+            _verticalScrollBar?.Drawn = false;
         }
     }
 
@@ -675,10 +636,7 @@ public partial class ComboBox : Control
     public void SetVScroll(VerticalScrollBar value)
     {
         _verticalScrollBar = value;
-        if (value != null)
-        {
-            value.Priority = Priority;
-        }
+        value?.Priority = Priority;
 
         Sized = false;
     }

@@ -88,15 +88,9 @@ public partial class ArenaDialog : UIModule
         eventValue = _event;
         OnClose = null;
         _event = null;
-        if (notify != null)
-        {
-            notify(eventValue);
-        }
+        notify?.Invoke(eventValue);
 
-        if (eventValue != null)
-        {
-            eventValue.Release();
-        }
+        eventValue?.Release();
     }
 
     // AoWArenaDlg.pas:152
@@ -109,9 +103,8 @@ public partial class ArenaDialog : UIModule
     // AoWArenaDlg.pas:158
     public void SelectBtnClick()
     {
-        string reason = "";
         UI.General.PlayButtonSound(0);
-        if (_event.Train(out reason))
+        if (_event.Train(out string reason))
         {
             Window.Visible = false;
         }
@@ -156,14 +149,7 @@ public partial class ArenaDialog : UIModule
 
         if (_event.Selection != 0)
         {
-            if (_event.CanTrain(ref reason))
-            {
-                SelectionInfoLabel.TextColor = 0;
-            }
-            else
-            {
-                SelectionInfoLabel.TextColor = 149;
-            }
+            SelectionInfoLabel.TextColor = _event.CanTrain(ref reason) ? 0 : 149;
 
             string selectionInfo = _event.GetSelectionInfo();
             SelectionInfoLabel.Text = selectionInfo;
@@ -183,9 +169,6 @@ public partial class ArenaDialog : UIModule
     // AoWArenaDlg.pas:206
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        LockedSurface mapSurfaceDescription = default;
         Rect r;
         int w;
         int h;
@@ -193,7 +176,7 @@ public partial class ArenaDialog : UIModule
         w = r.Right - r.Left;
         h = r.Bottom - r.Top;
         sbyte hexY = _event.Arena.GetHexY();
-        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out x, out y);
+        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
         if (x < 16)
@@ -206,7 +189,7 @@ public partial class ArenaDialog : UIModule
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
         sbyte hexLevel = _event.Arena.GetHexLevel();
         StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();

@@ -61,16 +61,7 @@ public partial class SampleData : IDisposable
 
     public static Sample CreateSample(SampleData sampleData)
     {
-        Sample result;
-        if (AudioHost.SoundSystem != null)
-        {
-            result = AudioHost.SoundSystem.SampleClass().CreateInstance(sampleData);
-        }
-        else
-        {
-            result = null;
-        }
-
+        Sample result = AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
         return result;
     }
 

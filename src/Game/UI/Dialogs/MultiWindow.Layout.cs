@@ -121,10 +121,10 @@ public partial class MultiWindow : ILayoutModule
         JoinButton.Priority = 100;
         JoinButton.WinLeft = 0;
         JoinButton.WinTop = 206;
-        JoinButton.LayoutToolTipText = new LayoutStrings()
-        {
+        JoinButton.LayoutToolTipText =
+        [
             "Joins the selected game."
-        };
+        ];
         JoinButton.CaptureInput = true;
         JoinButton.Alignment.AlignWidth = AlignWidth.Center;
         JoinButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -243,10 +243,10 @@ public partial class MultiWindow : ILayoutModule
         TcpButton.Priority = 19;
         TcpButton.WinLeft = 0;
         TcpButton.WinTop = 86;
-        TcpButton.LayoutToolTipText = new LayoutStrings()
-        {
+        TcpButton.LayoutToolTipText =
+        [
             "Play a game using the TCP (Internet) protocol."
-        };
+        ];
         TcpButton.CaptureInput = true;
         TcpButton.Alignment.AlignWidth = AlignWidth.Center;
         TcpButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -278,10 +278,10 @@ public partial class MultiWindow : ILayoutModule
         IpxButton.Priority = 19;
         IpxButton.WinLeft = 0;
         IpxButton.WinTop = 126;
-        IpxButton.LayoutToolTipText = new LayoutStrings()
-        {
+        IpxButton.LayoutToolTipText =
+        [
             "Play a game using the IPX (LAN) protocol."
-        };
+        ];
         IpxButton.CaptureInput = true;
         IpxButton.Alignment.AlignWidth = AlignWidth.Center;
         IpxButton.Alignment.AlignHeight = AlignHeight.Top;
@@ -313,10 +313,10 @@ public partial class MultiWindow : ILayoutModule
         singleBtn.Priority = 19;
         singleBtn.WinLeft = 0;
         singleBtn.WinTop = 46;
-        singleBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        singleBtn.LayoutToolTipText =
+        [
             "Play a game on only this computer."
-        };
+        ];
         singleBtn.CaptureInput = true;
         singleBtn.Alignment.AlignWidth = AlignWidth.Center;
         singleBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -348,10 +348,10 @@ public partial class MultiWindow : ILayoutModule
         emailBtn.Priority = 19;
         emailBtn.WinLeft = 0;
         emailBtn.WinTop = 166;
-        emailBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        emailBtn.LayoutToolTipText =
+        [
             "Play a game through email."
-        };
+        ];
         emailBtn.CaptureInput = true;
         emailBtn.Alignment.AlignWidth = AlignWidth.Center;
         emailBtn.Alignment.AlignHeight = AlignHeight.Top;
@@ -457,10 +457,10 @@ public partial class MultiWindow : ILayoutModule
         address.Priority = 100;
         address.WinLeft = 53;
         address.WinTop = 150;
-        address.LayoutToolTipText = new LayoutStrings()
-        {
+        address.LayoutToolTipText =
+        [
             "The IP Address of the host computer."
-        };
+        ];
         address.CaptureInput = true;
         address.Alignment.AlignWidth = AlignWidth.Center;
         address.Alignment.AlignHeight = AlignHeight.Top;
@@ -515,10 +515,10 @@ public partial class MultiWindow : ILayoutModule
         host.Priority = 100;
         host.WinLeft = 0;
         host.WinTop = 106;
-        host.LayoutToolTipText = new LayoutStrings()
-        {
+        host.LayoutToolTipText =
+        [
             "Starts a new TCP/IP game."
-        };
+        ];
         host.CaptureInput = true;
         host.Alignment.AlignWidth = AlignWidth.Center;
         host.Alignment.AlignHeight = AlignHeight.Top;
@@ -550,10 +550,10 @@ public partial class MultiWindow : ILayoutModule
         find.Priority = 100;
         find.WinLeft = 0;
         find.WinTop = 206;
-        find.LayoutToolTipText = new LayoutStrings()
-        {
+        find.LayoutToolTipText =
+        [
             "Searches for games at the given IP Address."
-        };
+        ];
         find.CaptureInput = true;
         find.Alignment.AlignWidth = AlignWidth.Center;
         find.Alignment.AlignHeight = AlignHeight.Top;
@@ -641,10 +641,10 @@ public partial class MultiWindow : ILayoutModule
         IPAddressEdit.Priority = 0;
         IPAddressEdit.WinLeft = 0;
         IPAddressEdit.WinTop = 166;
-        IPAddressEdit.LayoutToolTipText = new LayoutStrings()
-        {
+        IPAddressEdit.LayoutToolTipText =
+        [
             "The IP Address of the host computer."
-        };
+        ];
         IPAddressEdit.CaptureInput = true;
         IPAddressEdit.Alignment.AlignWidth = AlignWidth.Center;
         IPAddressEdit.Alignment.AlignHeight = AlignHeight.Top;
@@ -704,10 +704,10 @@ public partial class MultiWindow : ILayoutModule
         lanFind.Priority = 100;
         lanFind.WinLeft = 0;
         lanFind.WinTop = 146;
-        lanFind.LayoutToolTipText = new LayoutStrings()
-        {
+        lanFind.LayoutToolTipText =
+        [
             "Searches for IPX games on the LAN."
-        };
+        ];
         lanFind.CaptureInput = true;
         lanFind.Alignment.AlignWidth = AlignWidth.Center;
         lanFind.Alignment.AlignHeight = AlignHeight.Top;
@@ -895,10 +895,10 @@ public partial class MultiWindow : ILayoutModule
         messageMemo.Masked = false;
         messageMemo.WinWidth = 146;
         messageMemo.WinHeight = 185;
-        messageMemo.LayoutItems = new LayoutStrings()
-        {
+        messageMemo.LayoutItems =
+        [
             "Connecting...."
-        };
+        ];
         messageMemo.BorderWidth = 0;
         messageMemo.BorderHeight = 0;
         messageMemo.TextColor = 0;
@@ -1027,10 +1027,10 @@ public partial class MultiWindow : ILayoutModule
         lanHost.Priority = 100;
         lanHost.WinLeft = 0;
         lanHost.WinTop = 106;
-        lanHost.LayoutToolTipText = new LayoutStrings()
-        {
+        lanHost.LayoutToolTipText =
+        [
             "Starts a new LAN/IPX game."
-        };
+        ];
         lanHost.CaptureInput = true;
         lanHost.Alignment.AlignWidth = AlignWidth.Center;
         lanHost.Alignment.AlignHeight = AlignHeight.Top;
@@ -1245,10 +1245,10 @@ public partial class MultiWindow : ILayoutModule
         heatNetBtn.Priority = 19;
         heatNetBtn.WinLeft = 46;
         heatNetBtn.WinTop = 205;
-        heatNetBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        heatNetBtn.LayoutToolTipText =
+        [
             "Start a HeatNet game."
-        };
+        ];
         heatNetBtn.CaptureInput = true;
         heatNetBtn.Alignment.AlignWidth = AlignWidth.Center;
         heatNetBtn.Alignment.AlignHeight = AlignHeight.Top;

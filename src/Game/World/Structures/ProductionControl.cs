@@ -75,46 +75,18 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:261
     public virtual int CancelProductionReturnGold()
     {
-        int result;
-        if (Status == ProductionControlStatus.Producing)
-        {
-            if (Settings.TurnsTotal != 0)
-            {
-                result = Round((double)(Settings.TurnsLeft * Settings.Gold) / Settings.TurnsTotal);
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = Status == ProductionControlStatus.Producing
+            ? Settings.TurnsTotal != 0 ? Round((double)(Settings.TurnsLeft * Settings.Gold) / Settings.TurnsTotal) : 0
+            : 0;
         return result;
     }
 
     // Structur.PAS:270
     public virtual int CancelProductionReturnMana()
     {
-        int result;
-        if (Status == ProductionControlStatus.Producing)
-        {
-            if (Settings.TurnsTotal != 0)
-            {
-                result = Round((double)(Settings.TurnsLeft * Settings.Mana) / Settings.TurnsTotal);
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = Status == ProductionControlStatus.Producing
+            ? Settings.TurnsTotal != 0 ? Round((double)(Settings.TurnsLeft * Settings.Mana) / Settings.TurnsTotal) : 0
+            : 0;
         return result;
     }
 
@@ -358,10 +330,7 @@ public partial class ProductionControl : EngineObject
     {
         if (UpdateCount == 0)
         {
-            if (OnChange != null)
-            {
-                OnChange(this);
-            }
+            OnChange?.Invoke(this);
         }
     }
 
@@ -675,10 +644,7 @@ public partial class ProductionControl : EngineObject
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
             group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
-            if (group != null)
-            {
-                group.Productions.Add(this, Settings.Unit);
-            }
+            group?.Productions.Add(this, Settings.Unit);
         }
     }
 
@@ -689,10 +655,7 @@ public partial class ProductionControl : EngineObject
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
             group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
-            if (group != null)
-            {
-                group.Productions.DeleteUnit(Settings.Unit);
-            }
+            group?.Productions.DeleteUnit(Settings.Unit);
 
             Settings.GroupId = 0;
         }
@@ -704,10 +667,7 @@ public partial class ProductionControl : EngineObject
         AIGroup group;
         sbyte player = GetPlayer();
         group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
-        if (group != null)
-        {
-            group.UnitProduced(this, troop);
-        }
+        group?.UnitProduced(this, troop);
     }
 
     // Structur.PAS:693
@@ -788,14 +748,7 @@ public partial class ProductionControl : EngineObject
         {
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 4;
-            if (value)
-            {
-                eventValue.Index = 1;
-            }
-            else
-            {
-                eventValue.Index = 0;
-            }
+            eventValue.Index = value ? 1 : 0;
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
@@ -885,14 +838,7 @@ public partial class ProductionControl : EngineObject
                 result += 1;
             }
 
-            if (StrategicMap.Current.Random(2) == 1)
-            {
-                result = 0;
-            }
-            else
-            {
-                result = StrategicMap.Current.Random(result + 1);
-            }
+            result = StrategicMap.Current.Random(2) == 1 ? 0 : StrategicMap.Current.Random(result + 1);
 
             result = productions[result].First;
         }

@@ -79,14 +79,7 @@ public partial class Picture16
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
                 xStep = RtlUnit.Round((double)65535 / xScale);
-                if (sx != 0)
-                {
-                    xPosition = RtlUnit.Round((double)((double)sx / xScale) * 65535);
-                }
-                else
-                {
-                    xPosition = 0;
-                }
+                xPosition = sx != 0 ? RtlUnit.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 for (int i = 0; i <= w - 1; i++)
                 {
@@ -101,14 +94,7 @@ public partial class Picture16
                 }
 
                 yStep = RtlUnit.Round((double)65535 / yScale);
-                if (sy != 0)
-                {
-                    yPosition = RtlUnit.Round((double)((double)sy / yScale) * 65535);
-                }
-                else
-                {
-                    yPosition = 0;
-                }
+                yPosition = sy != 0 ? RtlUnit.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {
@@ -249,14 +235,7 @@ public partial class Picture16
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
                 xStep = RtlUnit.Round((double)65535 / xScale);
-                if (sx != 0)
-                {
-                    xPosition = RtlUnit.Round((double)((double)sx / xScale) * 65535);
-                }
-                else
-                {
-                    xPosition = 0;
-                }
+                xPosition = sx != 0 ? RtlUnit.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 for (int i = 0; i <= w - 1; i++)
                 {
@@ -271,14 +250,7 @@ public partial class Picture16
                 }
 
                 yStep = RtlUnit.Round((double)65535 / yScale);
-                if (sy != 0)
-                {
-                    yPosition = RtlUnit.Round((double)((double)sy / yScale) * 65535);
-                }
-                else
-                {
-                    yPosition = 0;
-                }
+                yPosition = sy != 0 ? RtlUnit.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {

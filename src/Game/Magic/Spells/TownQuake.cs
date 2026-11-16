@@ -78,14 +78,7 @@ public partial class TownQuake : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        if (!result || targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
 
         return result;
     }

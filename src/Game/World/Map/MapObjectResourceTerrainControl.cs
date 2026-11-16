@@ -45,7 +45,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     // HSEngine.pas:4489
     public MapObjectResourceTerrainControl(CustomNode owner) : base(owner)
     {
-        _resources = new List<DelphiList<MapObjectResource>>();
+        _resources = [];
         _mapObjectClass = typeof(MapObject);
         _tries = 5;
     }

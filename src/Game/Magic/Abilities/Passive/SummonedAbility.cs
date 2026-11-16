@@ -67,32 +67,14 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     // (PrdPlace.pas:336, SummonSpells.pas:258), which works there because they read only the unit argument.
     public static int GetDefaultManaUpkeep(Troop troop)
     {
-        int result;
-        if (troop is Unit)
-        {
-            result = (troop.GetUnitLevel() + 1) * 2;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = troop is Unit ? (troop.GetUnitLevel() + 1) * 2 : 0;
         return result;
     }
 
     // PassiveAb.pas:1115
     public static int GetDefaultDispelResistance(Troop troop)
     {
-        int result;
-        if (troop is Unit)
-        {
-            result = troop.GetUnitLevel() + 3;
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = troop is Unit ? troop.GetUnitLevel() + 3 : 0;
         return result;
     }
 

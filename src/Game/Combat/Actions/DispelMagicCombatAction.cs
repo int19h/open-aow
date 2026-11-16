@@ -55,10 +55,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
             for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
                 enchantment = enchantments.FindId(EnchantmentIds[i]);
-                if (enchantment != null)
-                {
-                    enchantment.Dispel();
-                }
+                enchantment?.Dispel();
             }
 
             if (wasSummoned && !targetUnit.Troop.GetAbilityEnabled(155))

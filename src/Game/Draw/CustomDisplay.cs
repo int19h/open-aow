@@ -250,14 +250,7 @@ public partial class CustomDisplay : Component
     public virtual void SetFrameRate(int value)
     {
         _frameRate = value;
-        if (_frameRate != 0)
-        {
-            FrameTime = Round((double)1000 / _frameRate);
-        }
-        else
-        {
-            FrameTime = 0;
-        }
+        FrameTime = _frameRate != 0 ? Round((double)1000 / _frameRate) : 0;
     }
 
     // DisplayC.pas:1492
@@ -277,29 +270,14 @@ public partial class CustomDisplay : Component
             }
         }
 
-        if (OnResizeBackSurface != null)
-        {
-            OnResizeBackSurface(_activeDisplayController, width, height);
-        }
+        OnResizeBackSurface?.Invoke(_activeDisplayController, width, height);
     }
 
     // DisplayC.pas:1486
-    public virtual void SurfaceDataLost(int surfaceType)
-    {
-        if (OnSurfaceDataLost != null)
-        {
-            OnSurfaceDataLost(_activeDisplayController, surfaceType);
-        }
-    }
+    public virtual void SurfaceDataLost(int surfaceType) => OnSurfaceDataLost?.Invoke(_activeDisplayController, surfaceType);
 
     // DisplayC.pas:1469
-    public virtual void GetMousePosition(ref int X, ref int Y)
-    {
-        if (_activeDisplayController != null)
-        {
-            _activeDisplayController.GetMousePosition(ref X, ref Y);
-        }
-    }
+    public virtual void GetMousePosition(ref int X, ref int Y) => _activeDisplayController?.GetMousePosition(ref X, ref Y);
 
     // DisplayC.pas:1630
     public virtual int ExecuteBlitSurfaceEvent()
@@ -310,10 +288,7 @@ public partial class CustomDisplay : Component
             result = 0;
             if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
-                if (OnBlitSurface != null)
-                {
-                    OnBlitSurface(this);
-                }
+                OnBlitSurface?.Invoke(this);
 
                 if (_bufferingScheme != BufferingScheme.Single)
                 {
@@ -349,10 +324,7 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1653
     public void Hide()
     {
-        if (OnHide != null)
-        {
-            OnHide(this);
-        }
+        OnHide?.Invoke(this);
 
         if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
@@ -368,25 +340,13 @@ public partial class CustomDisplay : Component
             _activeDisplayController.Show();
         }
 
-        if (OnShow != null)
-        {
-            OnShow(this);
-        }
+        OnShow?.Invoke(this);
     }
 
     // DisplayC.pas:1669
     public int SupportDisplayController(DisplayController displayController)
     {
-        int result;
-        if (displayController != null)
-        {
-            result = displayController.SupportDisplayMode(this);
-        }
-        else
-        {
-            result = DisplayCodes.DCERR_NOTSUPPORTED;
-        }
-
+        int result = displayController != null ? displayController.SupportDisplayMode(this) : DisplayCodes.DCERR_NOTSUPPORTED;
         return result;
     }
 
@@ -395,10 +355,7 @@ public partial class CustomDisplay : Component
     {
         if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            if (OnDeactivateDisplayController != null)
-            {
-                OnDeactivateDisplayController(this, _activeDisplayController);
-            }
+            OnDeactivateDisplayController?.Invoke(this, _activeDisplayController);
 
             _activeDisplayController.Deactivate();
             _activeDisplayController = null;

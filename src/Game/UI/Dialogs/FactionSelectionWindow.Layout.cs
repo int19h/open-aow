@@ -121,8 +121,8 @@ public partial class FactionSelectionWindow : ILayoutModule
         LightTextMemo.Masked = false;
         LightTextMemo.WinWidth = 288;
         LightTextMemo.WinHeight = 260;
-        LightTextMemo.LayoutItems = new LayoutStrings()
-        {
+        LightTextMemo.LayoutItems =
+        [
             "· Preserve harmony over the earth and its inhabitants.",
             "",
             "· Accept the Humans and their presence.",
@@ -131,7 +131,7 @@ public partial class FactionSelectionWindow : ILayoutModule
             "",
             "· Avoid bloodshed and conflict when possible.",
             ""
-        };
+        ];
         LightTextMemo.BorderWidth = 20;
         LightTextMemo.BorderHeight = 20;
         LightTextMemo.TextColor = 16777215;
@@ -377,8 +377,8 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkTextMemo.Masked = false;
         DarkTextMemo.WinWidth = 288;
         DarkTextMemo.WinHeight = 260;
-        DarkTextMemo.LayoutItems = new LayoutStrings()
-        {
+        DarkTextMemo.LayoutItems =
+        [
             "· Rid the world of both the Humans and Keepers.",
             "",
             "· Rebuild the Elven Court in the Valley of Storms.",
@@ -388,7 +388,7 @@ public partial class FactionSelectionWindow : ILayoutModule
             "· Restore order under their own law and power.",
             "",
             ""
-        };
+        ];
         DarkTextMemo.BorderWidth = 20;
         DarkTextMemo.BorderHeight = 20;
         DarkTextMemo.TextColor = 16777215;

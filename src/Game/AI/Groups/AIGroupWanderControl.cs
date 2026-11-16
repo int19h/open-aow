@@ -72,14 +72,9 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     AIGroup group = control.Group;
                     // { Original reloads the current control. }
-                    if (group.TargetMode == 1 && _control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && _control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location))
-                    {
-                        State = 2;
-                    }
-                    else
-                    {
-                        State = 1;
-                    }
+                    State = group.TargetMode == 1 && _control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && _control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location)
+                        ? 2
+                        : 1;
                 }
 
                 result = false;

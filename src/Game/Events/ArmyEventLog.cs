@@ -73,16 +73,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:174
     public override int GetLeftIcon()
     {
-        int result;
-        if (ArmyView.Player > 0)
-        {
-            result = StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace;
-        }
-        else
-        {
-            result = 12;
-        }
-
+        int result = ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
         return result;
     }
 

@@ -35,7 +35,7 @@ public partial class MoveTokenEvent : TokenEvent
     {
         base.PersistFields(persister);
         bool present = persister.Has("Path");
-        List<int> items = new(Path.Count);
+        List<int> items = [with(Path.Count)];
         for (int index = 0; index < Path.Count; index++)
         {
             items.Add(PathStepImage.From(Path[index]).ToInt32());
@@ -115,14 +115,7 @@ public partial class MoveTokenEvent : TokenEvent
             }
             else
             {
-                if (_status == MoveStatus.Finished)
-                {
-                    result = ExecuteResult.Done;
-                }
-                else
-                {
-                    result = ExecuteResult.Retry;
-                }
+                result = _status == MoveStatus.Finished ? ExecuteResult.Done : ExecuteResult.Retry;
             }
         }
 
@@ -135,23 +128,7 @@ public partial class MoveTokenEvent : TokenEvent
     // MoveT.PAS:2019
     public virtual MoveStatus ProcessMove()
     {
-        MoveStatus result;
-        if (MoveIndex == 1)
-        {
-            result = LastMove();
-        }
-        else
-        {
-            if (MoveIndex > 1 && MoveIndex < Path.Count)
-            {
-                result = DefaultMove();
-            }
-            else
-            {
-                result = MoveStatus.Done;
-            }
-        }
-
+        MoveStatus result = MoveIndex == 1 ? LastMove() : MoveIndex > 1 && MoveIndex < Path.Count ? DefaultMove() : MoveStatus.Done;
         return result;
     }
 
@@ -166,14 +143,7 @@ public partial class MoveTokenEvent : TokenEvent
     {
         MoveStatus result;
         MoveIndex -= 1;
-        if (MoveIndex == 0)
-        {
-            result = MoveStatus.Done;
-        }
-        else
-        {
-            result = MoveStatus.Moving;
-        }
+        result = MoveIndex == 0 ? MoveStatus.Done : MoveStatus.Moving;
 
         return result;
     }

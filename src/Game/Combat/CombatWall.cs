@@ -71,23 +71,7 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1693
     public override int GetTargetStrength()
     {
-        int result;
-        if (!_locked)
-        {
-            if (!Combat.CombatData.WallBreached)
-            {
-                result = 10;
-            }
-            else
-            {
-                result = 1;
-            }
-        }
-        else
-        {
-            result = 0;
-        }
-
+        int result = !_locked ? !Combat.CombatData.WallBreached ? 10 : 1 : 0;
         return result;
     }
 
@@ -110,16 +94,7 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1740
     public override sbyte GetHits()
     {
-        sbyte result;
-        if (_wallType == 2)
-        {
-            result = 10;
-        }
-        else
-        {
-            result = 5;
-        }
-
+        sbyte result = _wallType == 2 ? (sbyte)10 : (sbyte)5;
         return result;
     }
 

@@ -220,10 +220,10 @@ public partial class ChatWindow : ILayoutModule
         min.Priority = 0;
         min.WinLeft = 421;
         min.WinTop = 1;
-        min.LayoutToolTipText = new LayoutStrings()
-        {
+        min.LayoutToolTipText =
+        [
             "Minimizes the window."
-        };
+        ];
         min.CaptureInput = true;
         min.Alignment.AlignWidth = AlignWidth.Right;
         min.Alignment.AlignHeight = AlignHeight.Top;

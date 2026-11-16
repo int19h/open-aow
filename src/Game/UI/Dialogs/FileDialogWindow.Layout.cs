@@ -332,10 +332,10 @@ public partial class FileDialogWindow : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 345;
         close.WinTop = 4;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -366,10 +366,10 @@ public partial class FileDialogWindow : ILayoutModule
         upDirBtn.Priority = 900;
         upDirBtn.WinLeft = 278;
         upDirBtn.WinTop = 20;
-        upDirBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        upDirBtn.LayoutToolTipText =
+        [
             "Backs up one directory level."
-        };
+        ];
         upDirBtn.CaptureInput = true;
         upDirBtn.Alignment.AlignWidth = AlignWidth.Right;
         upDirBtn.Alignment.AlignHeight = AlignHeight.Bottom;
@@ -516,10 +516,10 @@ public partial class FileDialogWindow : ILayoutModule
         lPlayersI.Priority = 0;
         lPlayersI.WinLeft = -5;
         lPlayersI.WinTop = -12;
-        lPlayersI.LayoutToolTipText = new LayoutStrings()
-        {
+        lPlayersI.LayoutToolTipText =
+        [
             "Number of players"
-        };
+        ];
         lPlayersI.CaptureInput = true;
         lPlayersI.Alignment.AlignWidth = AlignWidth.Left;
         lPlayersI.Alignment.AlignHeight = AlignHeight.Top;
@@ -575,10 +575,10 @@ public partial class FileDialogWindow : ILayoutModule
         lSizeI.Priority = 0;
         lSizeI.WinLeft = -5;
         lSizeI.WinTop = -12;
-        lSizeI.LayoutToolTipText = new LayoutStrings()
-        {
+        lSizeI.LayoutToolTipText =
+        [
             "Map Size"
-        };
+        ];
         lSizeI.CaptureInput = true;
         lSizeI.Alignment.AlignWidth = AlignWidth.Left;
         lSizeI.Alignment.AlignHeight = AlignHeight.Top;
@@ -607,10 +607,10 @@ public partial class FileDialogWindow : ILayoutModule
         lTownsI.Priority = 0;
         lTownsI.WinLeft = -5;
         lTownsI.WinTop = -12;
-        lTownsI.LayoutToolTipText = new LayoutStrings()
-        {
+        lTownsI.LayoutToolTipText =
+        [
             "Number of Towns"
-        };
+        ];
         lTownsI.CaptureInput = true;
         lTownsI.Alignment.AlignWidth = AlignWidth.Left;
         lTownsI.Alignment.AlignHeight = AlignHeight.Top;
@@ -639,10 +639,10 @@ public partial class FileDialogWindow : ILayoutModule
         lTurnsI.Priority = 0;
         lTurnsI.WinLeft = -8;
         lTurnsI.WinTop = -12;
-        lTurnsI.LayoutToolTipText = new LayoutStrings()
-        {
+        lTurnsI.LayoutToolTipText =
+        [
             "Current Turn"
-        };
+        ];
         lTurnsI.CaptureInput = true;
         lTurnsI.Alignment.AlignWidth = AlignWidth.Left;
         lTurnsI.Alignment.AlignHeight = AlignHeight.Top;
@@ -671,10 +671,10 @@ public partial class FileDialogWindow : ILayoutModule
         SavedPlayersLabel.Priority = 10;
         SavedPlayersLabel.WinLeft = 46;
         SavedPlayersLabel.WinTop = 13;
-        SavedPlayersLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        SavedPlayersLabel.LayoutToolTipText =
+        [
             "Number of players"
-        };
+        ];
         SavedPlayersLabel.CaptureInput = true;
         SavedPlayersLabel.Alignment.AlignWidth = AlignWidth.Left;
         SavedPlayersLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -698,10 +698,10 @@ public partial class FileDialogWindow : ILayoutModule
         SavedSizeLabel.Priority = 10;
         SavedSizeLabel.WinLeft = 46;
         SavedSizeLabel.WinTop = 13;
-        SavedSizeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        SavedSizeLabel.LayoutToolTipText =
+        [
             "Map Size"
-        };
+        ];
         SavedSizeLabel.CaptureInput = true;
         SavedSizeLabel.Alignment.AlignWidth = AlignWidth.Left;
         SavedSizeLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -725,10 +725,10 @@ public partial class FileDialogWindow : ILayoutModule
         SavedTownsLabel.Priority = 10;
         SavedTownsLabel.WinLeft = 49;
         SavedTownsLabel.WinTop = 13;
-        SavedTownsLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        SavedTownsLabel.LayoutToolTipText =
+        [
             "Number of Towns"
-        };
+        ];
         SavedTownsLabel.CaptureInput = true;
         SavedTownsLabel.Alignment.AlignWidth = AlignWidth.Left;
         SavedTownsLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -752,10 +752,10 @@ public partial class FileDialogWindow : ILayoutModule
         SavedTurnsLabel.Priority = 10;
         SavedTurnsLabel.WinLeft = 45;
         SavedTurnsLabel.WinTop = 13;
-        SavedTurnsLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        SavedTurnsLabel.LayoutToolTipText =
+        [
             "Current Turn"
-        };
+        ];
         SavedTurnsLabel.CaptureInput = true;
         SavedTurnsLabel.Alignment.AlignWidth = AlignWidth.Left;
         SavedTurnsLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -890,10 +890,10 @@ public partial class FileDialogWindow : ILayoutModule
         sPlayersI.Priority = 0;
         sPlayersI.WinLeft = 0;
         sPlayersI.WinTop = -10;
-        sPlayersI.LayoutToolTipText = new LayoutStrings()
-        {
+        sPlayersI.LayoutToolTipText =
+        [
             "Number of players"
-        };
+        ];
         sPlayersI.CaptureInput = true;
         sPlayersI.Alignment.AlignWidth = AlignWidth.Left;
         sPlayersI.Alignment.AlignHeight = AlignHeight.Top;
@@ -949,10 +949,10 @@ public partial class FileDialogWindow : ILayoutModule
         sSizeI.Priority = 0;
         sSizeI.WinLeft = 0;
         sSizeI.WinTop = -11;
-        sSizeI.LayoutToolTipText = new LayoutStrings()
-        {
+        sSizeI.LayoutToolTipText =
+        [
             "Map Size"
-        };
+        ];
         sSizeI.CaptureInput = true;
         sSizeI.Alignment.AlignWidth = AlignWidth.Left;
         sSizeI.Alignment.AlignHeight = AlignHeight.Top;
@@ -981,10 +981,10 @@ public partial class FileDialogWindow : ILayoutModule
         sTownsI.Priority = 0;
         sTownsI.WinLeft = 0;
         sTownsI.WinTop = -9;
-        sTownsI.LayoutToolTipText = new LayoutStrings()
-        {
+        sTownsI.LayoutToolTipText =
+        [
             "Number of Towns"
-        };
+        ];
         sTownsI.CaptureInput = true;
         sTownsI.Alignment.AlignWidth = AlignWidth.Left;
         sTownsI.Alignment.AlignHeight = AlignHeight.Top;
@@ -1013,10 +1013,10 @@ public partial class FileDialogWindow : ILayoutModule
         ScenarioPlayersLabel.Priority = 0;
         ScenarioPlayersLabel.WinLeft = 61;
         ScenarioPlayersLabel.WinTop = 13;
-        ScenarioPlayersLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ScenarioPlayersLabel.LayoutToolTipText =
+        [
             "Number of players"
-        };
+        ];
         ScenarioPlayersLabel.CaptureInput = true;
         ScenarioPlayersLabel.Alignment.AlignWidth = AlignWidth.Left;
         ScenarioPlayersLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -1040,10 +1040,10 @@ public partial class FileDialogWindow : ILayoutModule
         ScenarioSizeLabel.Priority = 0;
         ScenarioSizeLabel.WinLeft = 63;
         ScenarioSizeLabel.WinTop = 13;
-        ScenarioSizeLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ScenarioSizeLabel.LayoutToolTipText =
+        [
             "Map Size"
-        };
+        ];
         ScenarioSizeLabel.CaptureInput = true;
         ScenarioSizeLabel.Alignment.AlignWidth = AlignWidth.Left;
         ScenarioSizeLabel.Alignment.AlignHeight = AlignHeight.Center;
@@ -1067,10 +1067,10 @@ public partial class FileDialogWindow : ILayoutModule
         ScenarioTownsLabel.Priority = 0;
         ScenarioTownsLabel.WinLeft = 61;
         ScenarioTownsLabel.WinTop = 13;
-        ScenarioTownsLabel.LayoutToolTipText = new LayoutStrings()
-        {
+        ScenarioTownsLabel.LayoutToolTipText =
+        [
             "Number of Towns"
-        };
+        ];
         ScenarioTownsLabel.CaptureInput = true;
         ScenarioTownsLabel.Alignment.AlignWidth = AlignWidth.Left;
         ScenarioTownsLabel.Alignment.AlignHeight = AlignHeight.Center;

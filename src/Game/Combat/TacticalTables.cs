@@ -34,25 +34,11 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        if (X / 2 * 2 == X)
-                        {
-                            result = 3;
-                        }
-                        else
-                        {
-                            result = 2;
-                        }
+                        result = X / 2 * 2 == X ? (ushort)3 : (ushort)2;
 
                         break;
                     case 1:
-                        if (X / 2 * 2 == X)
-                        {
-                            result = 5;
-                        }
-                        else
-                        {
-                            result = 6;
-                        }
+                        result = X / 2 * 2 == X ? (ushort)5 : (ushort)6;
 
                         break;
                 }
@@ -188,14 +174,6 @@ internal static class TacticalTables
         int hexX = default;
         int hexY = default;
         int steps;
-        int x = default;
-        int y = default;
-        int lastX = default;
-        int lastY = default;
-        int startX = default;
-        int startY = default;
-        int endX = default;
-        int endY = default;
         Point3D point;
         float height;
         RangedObstacle obstacle;
@@ -203,8 +181,8 @@ internal static class TacticalTables
         CityWall wall;
         path.Clear();
         obstacles.Clear();
-        HexGeometry.HexToPixel(x1, y1, out x, out y);
-        HexGeometry.HexToPixel(x2, y2, out lastX, out lastY);
+        HexGeometry.HexToPixel(x1, y1, out int x, out int y);
+        HexGeometry.HexToPixel(x2, y2, out int lastX, out int lastY);
         x += 13;
         y += 13;
         lastX = lastX + 13 + offsetX;
@@ -225,21 +203,7 @@ internal static class TacticalTables
             point.X = ((lastX - x) * i / steps) + x;
             point.Y = ((lastY - y) * i / steps) + y;
             b = steps / 2;
-            if (i > b)
-            {
-                a = steps - i + 1;
-            }
-            else
-            {
-                if (i == b)
-                {
-                    a = i;
-                }
-                else
-                {
-                    a = i + 1;
-                }
-            }
+            a = i > b ? steps - i + 1 : i == b ? i : i + 1;
 
             if (arc == 0)
             {
@@ -257,10 +221,10 @@ internal static class TacticalTables
         lastX = 0;
         lastY = 0;
         point = path[0];
-        HexGeometry.PixelToHex(point.X, point.Y, out startX, out startY);
+        HexGeometry.PixelToHex(point.X, point.Y, out int startX, out int startY);
         int count = path.Count;
         point = path[count - 1];
-        HexGeometry.PixelToHex(point.X, point.Y, out endX, out endY);
+        HexGeometry.PixelToHex(point.X, point.Y, out int endX, out int endY);
         i = 0;
         int last = path.Count - 1;
         for (; i <= last; i += 1)
@@ -283,14 +247,9 @@ internal static class TacticalTables
                     else
                     {
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
-                        if (!includeUnits)
-                        {
-                            unitHexSprite = null;
-                        }
-                        else
-                        {
-                            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
-                        }
+                        unitHexSprite = !includeUnits
+                            ? null
+                            : (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
 
                         wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229508);
                         if (wall == null && side == CombatSideIndex.Attacker)
@@ -341,12 +300,7 @@ internal static class TacticalTables
                                             while (wall == null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
-                                                wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508);
-                                                if (wall == null)
-                                                {
-                                                    wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
-                                                }
-
+                                                wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 b += 1;
                                             }
 

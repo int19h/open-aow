@@ -57,7 +57,6 @@ public partial class Storm : Animation
     public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, ref MapCoordinate target, out StormDamageInfo info)
     {
         StormDamageInfo candidate;
-        HexNumberWalkData walk = default;
         MapLevel level;
         ArmyHexSprite armyHexSprite;
         level = StrategicMap.Current.MapContainer.MapLevels[L];
@@ -65,7 +64,7 @@ public partial class Storm : Animation
         bool result = false;
         info = default;
         candidate = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= range)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

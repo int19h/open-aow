@@ -57,14 +57,7 @@ public static class PixelFormats
         ImageFileClass c;
         string extractFileExt = ExtractFileExt(fileName);
         c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        if (c != null)
-        {
-            result = c.CreateSurface(fileName);
-        }
-        else
-        {
-            result = null;
-        }
+        result = c?.CreateSurface(fileName);
 
         return result;
     }
@@ -156,17 +149,9 @@ public static class PixelFormats
         return result;
     }
 
-    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId)
-    {
-        if (pixelFormatId == pfRGB565 || pixelFormatId == pfRGB555)
-        {
-            GraphicsState.ForcedPixelFormatId = pixelFormatId;
-        }
-        else
-        {
-            GraphicsState.ForcedPixelFormatId = 0;
-        }
-    }
+    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId == pfRGB565 || pixelFormatId == pfRGB555
+        ? pixelFormatId
+        : 0;
 
     internal static int GetOptimalPixelFormatId(int bitCount) =>
         /* TODO: Implement Forms.Width in the platform or editor service. */
@@ -174,7 +159,7 @@ public static class PixelFormats
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
-        List<(int Width, int Height)> sizes = new();
+        List<(int Width, int Height)> sizes = [];
         for (int scale = 8; scale >= 1; scale--)
         {
             (int, int) size = (desktopWidth / scale, desktopHeight / scale);

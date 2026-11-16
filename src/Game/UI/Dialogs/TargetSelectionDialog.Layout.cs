@@ -91,10 +91,10 @@ public partial class TargetSelectionDialog : ILayoutModule
         close.Priority = 0;
         close.WinLeft = 181;
         close.WinTop = 2;
-        close.LayoutToolTipText = new LayoutStrings()
-        {
+        close.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         close.CaptureInput = true;
         close.Alignment.AlignWidth = AlignWidth.Right;
         close.Alignment.AlignHeight = AlignHeight.Top;
@@ -223,10 +223,10 @@ public partial class TargetSelectionDialog : ILayoutModule
         DefaultMemo.Masked = true;
         DefaultMemo.WinWidth = 114;
         DefaultMemo.WinHeight = 150;
-        DefaultMemo.LayoutItems = new LayoutStrings()
-        {
+        DefaultMemo.LayoutItems =
+        [
             "##########"
-        };
+        ];
         DefaultMemo.BorderWidth = 3;
         DefaultMemo.BorderHeight = 0;
         DefaultMemo.TextColor = 9236989;

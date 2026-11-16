@@ -106,14 +106,7 @@ public partial class EnterArenaEventLog : EventLog
             }
         }
 
-        if (total != 0)
-        {
-            result = Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]);
-        }
-        else
-        {
-            result = "";
-        }
+        result = total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]) : "";
 
         return result;
     }

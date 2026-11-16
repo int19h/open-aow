@@ -140,25 +140,11 @@ public partial class Sign : Structure
                 index = structure.ImageIndex;
                 offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
                 animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
-                if (index < ImageSequenceList.Count)
-                {
-                    sequence = ImageSequenceList.List[index];
-                }
-                else
-                {
-                    sequence = null;
-                }
+                sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
                 while (sequence != null)
                 {
-                    if (animate)
-                    {
-                        image = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
-                    }
-                    else
-                    {
-                        image = sequence.GetUnloopedFrameIndex(0);
-                    }
+                    image = animate ? sequence.GetFrameIndex(StrategicMap.Current.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
 
                     if (image != -1)
                     {

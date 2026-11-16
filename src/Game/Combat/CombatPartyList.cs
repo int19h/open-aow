@@ -56,16 +56,7 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
     // Combat2.pas:96
     public CombatParty GetParty(byte position)
     {
-        CombatParty result;
-        if (position < Count)
-        {
-            result = this[position];
-        }
-        else
-        {
-            result = null;
-        }
-
+        CombatParty result = position < Count ? this[position] : null;
         return result;
     }
 

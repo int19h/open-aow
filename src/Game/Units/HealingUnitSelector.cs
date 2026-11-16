@@ -20,12 +20,7 @@ public partial class HealingUnitSelector : UnitSelector
     public override bool CanSelectUnit(Troop troop)
     {
         UnitType unitType = troop.GetUnitType();
-        if (!(Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && troop.GetHits() != troop.GetHitPoints()))
-        {
-            return false;
-        }
-
-        return true;
+        return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && troop.GetHits() != troop.GetHitPoints();
     }
 
     // AoWAb.PAS:3904

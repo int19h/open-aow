@@ -397,10 +397,10 @@ public partial class CityJoinDialog : ILayoutModule
         closeBtn.Priority = 0;
         closeBtn.WinLeft = 418;
         closeBtn.WinTop = 4;
-        closeBtn.LayoutToolTipText = new LayoutStrings()
-        {
+        closeBtn.LayoutToolTipText =
+        [
             "Closes the window."
-        };
+        ];
         closeBtn.CaptureInput = true;
         closeBtn.Alignment.AlignWidth = AlignWidth.None;
         closeBtn.Alignment.AlignHeight = AlignHeight.None;

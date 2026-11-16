@@ -252,16 +252,7 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:413
     public virtual sbyte GetRace()
     {
-        sbyte result;
-        if (Player > 0)
-        {
-            result = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-        }
-        else
-        {
-            result = -1;
-        }
-
+        sbyte result = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
         return result;
     }
 
@@ -309,10 +300,7 @@ public partial class PlayerCropStructure : PlayerStructure
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
                 crop = (Crop)mapLevel.GetField(x, y).FindOwnedChild(131946);
-                if (crop != null)
-                {
-                    crop.UpdateSettings();
-                }
+                crop?.UpdateSettings();
             }
         }
     }
@@ -448,10 +436,7 @@ public partial class PlayerCropStructure : PlayerStructure
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
                 crop = (Crop)mapLevel.GetField(x, y).FindChild(131946);
-                if (crop != null)
-                {
-                    crop.SetCropOwner(this);
-                }
+                crop?.SetCropOwner(this);
             }
         }
     }

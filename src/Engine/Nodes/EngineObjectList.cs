@@ -23,14 +23,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
             i += 1;
         }
 
-        if (found)
-        {
-            result = List[i - 1];
-        }
-        else
-        {
-            result = null;
-        }
+        result = found ? List[i - 1] : null;
 
         return result;
     }
@@ -49,14 +42,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
             i += 1;
         }
 
-        if (found)
-        {
-            result = i - 1;
-        }
-        else
-        {
-            result = -1;
-        }
+        result = found ? i - 1 : -1;
 
         return result;
     }

@@ -27,10 +27,7 @@ public partial class ConstructDialog : UIModule
     // AoWConstructDlg.pas:117
     public void Execute(AbilityActivation request)
     {
-        if (_request != null)
-        {
-            _request.Release();
-        }
+        _request?.Release();
 
         _request = request;
         _request.AddRef();
@@ -41,11 +38,8 @@ public partial class ConstructDialog : UIModule
     // AoWConstructDlg.pas:108
     public void Finish()
     {
-        if (_request != null)
-        {
-            _request.Release();
-            _request = null;
-        }
+        _request?.Release();
+        _request = null;
     }
 
     // AoWConstructDlg.pas:142

@@ -45,17 +45,13 @@ public sealed partial record DeclareWar : DiplomaticProposal
 
     public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        if (player == action.Source && Relation(action.Source, action.Target) != DiplomaticRelation.War)
-        {
-            return RaceModifier(modifier: Relation(action.Source, action.Target) == DiplomaticRelation.Alliance ? -60 : -20, other: action.Target, race: race);
-        }
-
-        if (player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race)
-        {
-            return -20;
-        }
-
-        return 0;
+        return player == action.Source && Relation(action.Source, action.Target) != DiplomaticRelation.War
+? RaceModifier(modifier: Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
+                ? -60
+                : -20, other: action.Target, race: race)
+            : player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race
+            ? -20
+            : 0;
     }
 
     private static readonly string s_warDeclaredText = "War declared";

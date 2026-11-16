@@ -199,16 +199,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5184
     public override bool CanTouchUnit(Troop source, Troop target)
     {
-        bool result;
-        if (base.CanTouchUnit(source, target))
-        {
-            result = target.GetUnitType() != UnitType.Machine;
-        }
-        else
-        {
-            result = false;
-        }
-
+        bool result = base.CanTouchUnit(source, target) && target.GetUnitType() != UnitType.Machine;
         return result;
     }
 
@@ -294,10 +285,7 @@ public partial class CommandAbility : TouchAbility
             if (source != null)
             {
                 sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
-                if (sourceData != null)
-                {
-                    sourceData.CommandedUnits.Remove(target.Id);
-                }
+                sourceData?.CommandedUnits.Remove(target.Id);
             }
         }
     }
