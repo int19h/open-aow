@@ -211,7 +211,7 @@ public partial class CityTargetSpell : Spell
             x = coordinate59.X;
             y = coordinate59.Y;
             l = coordinate59.MapLevel;
-            found = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
+            found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             result = targetCity != found;
         }
 
@@ -251,7 +251,7 @@ public partial class CityTargetSpell : Spell
             valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
-                targetCity = (City)field.FindNoneTransparentHexSprite(typeof(City));
+                targetCity = field.FindNoneTransparentHexSprite<City>();
                 valid = targetCity != null && ValidTargetCity(source, targetCity);
             }
         }

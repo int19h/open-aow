@@ -130,9 +130,9 @@ public partial class CombatMapEvents : UIModule
             UI.CombatUnitInfo.NoTargetPanel.Visible = hexSprite == null;
             if (hexSprite != null)
             {
-                if (hexSprite is TacticalBattleUnitHexSprite)
+                if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
                 {
-                    u = ((TacticalBattleUnitHexSprite)hexSprite).Unit.Troop;
+                    u = unitHexSprite.Unit.Troop;
                     string name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
                     sbyte hitPoints = u.GetHitPoints();
@@ -181,9 +181,9 @@ public partial class CombatMapEvents : UIModule
     // aowTCMapEvents.pas:210
     public void TCMapSelected(HexSprite hexSprite)
     {
-        if (hexSprite is TacticalBattleUnitHexSprite)
+        if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
         {
-            UI.General.CombatUnit = (TacticalBattleUnitHexSprite)hexSprite;
+            UI.General.CombatUnit = unitHexSprite;
             RefreshCombatUnit(UI.CombatUnitInfo);
         }
     }

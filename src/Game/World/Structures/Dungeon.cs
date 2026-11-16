@@ -157,11 +157,11 @@ public partial class Dungeon : ExplorationSite
             _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
         }
 
-        collection = ((Resource)base.Resource).PrisonerCollections.GetRandomCollection();
+        collection = GetResource<Resource>().PrisonerCollections.GetRandomCollection();
         if (collection != -1)
         {
             list = new UnitIndexList();
-            collections = ((Resource)base.Resource).PrisonerCollections;
+            collections = GetResource<Resource>().PrisonerCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 list.Add(collections.GetU(collection, i));

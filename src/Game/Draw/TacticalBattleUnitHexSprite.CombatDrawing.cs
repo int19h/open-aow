@@ -54,7 +54,7 @@ public partial class TacticalBattleUnitHexSprite
 
             if (Unit.GetAbilityEnabled(36))
             {
-                wall = (CityWall)Owner.FindOwnedChild(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
+                wall = Owner.FindOwnedChild<CityWall>(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
                 if (MoveStep == -1)
                 {
                     if (wall != null && wall.HitPoints > 0)
@@ -66,7 +66,7 @@ public partial class TacticalBattleUnitHexSprite
                 {
                     sbyte yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, Direction, ref hexX, ref hexY);
-                    nextWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
+                    nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                     int moveSteps = GetMoveSteps();
                     if (MoveStep < moveSteps / 2)
                     {

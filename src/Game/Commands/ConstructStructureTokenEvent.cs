@@ -78,7 +78,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                 bool locked = troop.Owner is not IHeroHolder;
                 owner = locked ? troop.OwnerUnits.Holder : null;
                 using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
-                structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, x, y, l);
+                structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
                 if (structure != null)
                 {
                     control.GetInfo(troop, out text, out gold, out days);

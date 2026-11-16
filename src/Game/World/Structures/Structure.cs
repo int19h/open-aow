@@ -48,6 +48,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
     public new const int ClassId = 131914;
 
+    public override StructureResource Resource => GetResource<StructureResource>();
+
     public int StructureId { get; set; }
 
     public int UpdateCount { get; private set; }
@@ -67,7 +69,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             DestroyShadow();
         }
 
-        if (Owner != null && Status.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)Resource).TerrainBound)
+        if (Owner != null && Status.Contains(MapObjectStatusElement.ResourceLinked) && Resource.TerrainBound)
         {
             Owner.DestroyChildren(131334);
         }
@@ -151,14 +153,14 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1287
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => ((StructureResource)Resource).TerrainBound || base.CanChangeTerrain(info);
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainBound || base.CanChangeTerrain(info);
 
     // Structur.PAS:1297
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
         if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            if (((StructureResource)Resource).TerrainBound)
+            if (Resource.TerrainBound)
             {
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(TerrainType);
@@ -174,7 +176,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        ((StructureResource)Resource).Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
+        Resource.Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
     }
 
     // Structur.PAS:1092
@@ -245,7 +247,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                             {
                                 if (message.MessageId == 4401)
                                 {
-                                    if (((StructureResource)Resource).ConnectRoads)
+                                    if (Resource.ConnectRoads)
                                     {
                                         MapFieldMessageParameters param = message.Param;
                                         param[1] = 1;
@@ -256,7 +258,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                                 {
                                     if (message.MessageId == 4386)
                                     {
-                                        message.Result = ((StructureResource)Resource).ScannerIcon;
+                                        message.Result = Resource.ScannerIcon;
                                     }
                                     else
                                     {
@@ -305,7 +307,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         base.Activate();
         StrategicMap.Current.StructureControl.Register(this);
-        if (StrategicMap.Current.ShowUnitShadows && ((StructureResource)Resource).CastsShadow && !GetEditMode())
+        if (StrategicMap.Current.ShowUnitShadows && Resource.CastsShadow && !GetEditMode())
         {
             CreateShadow();
         }
@@ -364,8 +366,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1308
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result = ((StructureResource)Resource).TerrainBound
-            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType)
+        bool result = Resource.TerrainBound
+            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, Resource.FlagType)
             : base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         return result;
     }
@@ -377,9 +379,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         ImageLibraryTerrainMapObject pad;
         if (GetEditMode() || CanPlace(mapContainer, hexX, hexY, hexLevel))
         {
-            if (((StructureResource)Resource).TerrainBound)
+            if (Resource.TerrainBound)
             {
-                pad = !GetEditMode() ? GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)Resource).FlagType) : null;
+                pad = !GetEditMode() ? GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, Resource.FlagType) : null;
 
                 if (pad != null || GetEditMode())
                 {
@@ -409,7 +411,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1292
-    public override bool ValidTerrainType(int terrainType) => (((StructureResource)Resource).TerrainBound && GamePack.Current.PadControl.TerrainTypes[terrainType]) || base.ValidTerrainType(terrainType);
+    public override bool ValidTerrainType(int terrainType) => (Resource.TerrainBound && GamePack.Current.PadControl.TerrainTypes[terrainType]) || base.ValidTerrainType(terrainType);
 
     // Structur.PAS:1053
     public override int GetTerrainTypeImage(int terrainType)
@@ -467,7 +469,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1174
-    public virtual StringCollection GetDescription() => ((StructureResource)Resource).Description;
+    public virtual StringCollection GetDescription() => Resource.Description;
 
     // Structur.PAS:1164
     public virtual string GetName() => EditName();
@@ -481,7 +483,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual bool GetRazed() => false;
 
     // Structur.PAS:1336
-    public virtual bool GetRazeable() => ((StructureResource)Resource).Razeable;
+    public virtual bool GetRazeable() => Resource.Razeable;
 
     // Structur.PAS:1844
     public virtual bool RazeWithoutConfirmation(sbyte player)
@@ -613,9 +615,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1200
     public virtual void PlaySelectSample()
     {
-        if (!GetRazed() && !IsEmpty(((StructureResource)Resource).SelectSfx))
+        if (!GetRazed() && !IsEmpty(Resource.SelectSfx))
         {
-            AudioPlayback.PlaySample(((StructureResource)Resource).SelectSfx);
+            AudioPlayback.PlaySample(Resource.SelectSfx);
         }
     }
 
@@ -722,17 +724,17 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         sbyte hexX = GetHexX();
         sbyte hexY = GetHexY();
         RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY;
-        collection = ((StructureResource)Resource).Defenders.GetRandomCollection();
+        collection = Resource.Defenders.GetRandomCollection();
         if (collection != -1)
         {
             indexes = new UnitIndexList();
-            UnitIndexListCollection unitIndexListCollection = ((StructureResource)Resource).Defenders;
+            UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
             for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 indexes.Add(unitIndexListCollection.GetU(collection, i));
             }
 
-            Int32List.FillWithRandomUnits(indexes, units.Units, 4, ((StructureResource)Resource).RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(indexes, units.Units, 4, Resource.RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             while (units.Count > 8)
             {
                 units.DeleteUnit(units.GetUnit(units.Count - 1));
@@ -982,8 +984,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1430
     public virtual void GetRebuildInfo(out int cost, out int time)
     {
-        cost = ((StructureResource)Resource).RebuildGold;
-        time = ((StructureResource)Resource).RebuildDays;
+        cost = Resource.RebuildGold;
+        time = Resource.RebuildDays;
     }
 
     // Structur.PAS:1439

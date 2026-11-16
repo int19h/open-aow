@@ -43,7 +43,7 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
         ImageSequenceAnimation animation = default;
         level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
-        resource = (HolyGround.Resource)GamePack.Current.MapObjectResourceList.FindChild(131988);
+        resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(131988);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

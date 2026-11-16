@@ -137,7 +137,7 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4087
     public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        if (owner is Troop && ((Troop)owner).Player == player)
+        if (owner is Troop troop && troop.Player == player)
         {
             SetEnabled(owner, true);
         }

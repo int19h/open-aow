@@ -14,13 +14,12 @@ public partial class TerrainMapObject
         for (int i = 0; i < resources.Count; i++)
         {
             MapObjectResource child = resources[i];
-            if (child.EngineClass.ClassId != Resource.EngineClass.ClassId)
+            if (child is not TerrainMapObjectResource resource || resource.EngineClass.ClassId != Resource.EngineClass.ClassId)
             {
                 continue;
             }
 
-            TerrainMapObjectResource resource = (TerrainMapObjectResource)child;
-            if (resource.DecorationType == ((TerrainMapObjectResource)Resource).DecorationType &&
+            if (resource.DecorationType == Resource.DecorationType &&
                 resource.TerrainType == terrainType && resource != Resource &&
                 resource.TerrainList.CompareTerrain(Resource.TerrainList,
                     Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
@@ -40,12 +39,11 @@ public partial class TerrainMapObject
         for (int i = 0; i < resources.Count; i++)
         {
             MapObjectResource child = resources[i];
-            if (child.EngineClass.ClassId != Resource.EngineClass.ClassId)
+            if (child is not TerrainMapObjectResource resource || resource.EngineClass.ClassId != Resource.EngineClass.ClassId)
             {
                 continue;
             }
 
-            TerrainMapObjectResource resource = (TerrainMapObjectResource)child;
             if (decorationType != -1 && resource.DecorationType != decorationType)
             {
                 continue;

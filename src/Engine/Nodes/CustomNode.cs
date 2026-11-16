@@ -260,6 +260,9 @@ public abstract partial class CustomNode : EngineObject, IOwner
         return result;
     }
 
+    // The class id selects the child. A child of another class throws, the same way the call site did.
+    public T FindChild<T>(int classId) where T : EngineObject => (T)FindChild(classId);
+
     // Engine.pas:2744
     public virtual EngineObject FindOwnedChild(int classId)
     {
