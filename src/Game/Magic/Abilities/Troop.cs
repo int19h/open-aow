@@ -1778,7 +1778,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (ExpandAbility(53))
             {
-                data = GamePack.Current.AbilityControl.GetAbility<DurationAbility>(53).GetData(this);
+                data = GetAbilityData<DurationAbilityData>(53);
                 data.Source = 1;
                 data.Duration = 0;
             }
@@ -1819,7 +1819,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (ExpandAbility(93))
             {
-                data = GamePack.Current.AbilityControl.GetAbility<DurationAbility>(93).GetData(this);
+                data = GetAbilityData<DurationAbilityData>(93);
                 data.Source = 1;
             }
         }
@@ -1836,7 +1836,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 if (GetAbilityEnabled(93))
                 {
-                    if (GamePack.Current.AbilityControl.GetAbility<DurationAbility>(93).GetData(this).Source == 1)
+                    if (GetAbilityData<DurationAbilityData>(93).Source == 1)
                     {
                         RemoveAbility(93);
                     }
@@ -1948,7 +1948,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void ValidateCrusader()
     {
         DurationAbilityData data;
-        data = GamePack.Current.AbilityControl.GetAbility<DurationAbility>(101).GetData(this);
+        data = GetAbilityData<DurationAbilityData>(101);
         if (data != null)
         {
             if (data.Duration <= 0)
@@ -2187,7 +2187,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // The producer ExecuteLifeMasteryFearRole writes the source marker on duration data.
     public void ResetLifeMasteryFear()
     {
-        if (GetAbilityEnabled(53) && GamePack.Current.AbilityControl.GetAbility<DurationAbility>(53).GetData(this).Source == 1)
+        if (GetAbilityEnabled(53) && GetAbilityData<DurationAbilityData>(53).Source == 1)
         {
             RemoveAbility(53);
         }
@@ -2254,7 +2254,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
         if (active.Contains(DamageType.Lightning) && ExpandAbility(92))
         {
-            DurationAbilityData data = GamePack.Current.AbilityControl.GetAbility<DurationAbility>(92).GetData(this);
+            DurationAbilityData data = GetAbilityData<DurationAbilityData>(92);
             data?.PlayerIndex = combat.CombatData.CurrentPlayer;
 
             result += Set<DamageType>.Of(DamageType.Lightning);
