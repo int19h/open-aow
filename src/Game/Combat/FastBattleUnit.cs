@@ -470,7 +470,7 @@ public partial class FastBattleUnit : CombatUnit
     }
 
     // AIGroup.pas:6803
-    public bool CanCastWallSiegeSpell() => Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility(52).CanCastBreachWallSpell(Troop);
+    public bool CanCastWallSiegeSpell() => Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop);
 
     // AIGroup.pas:6809
     public void UpdateWallSiegeObjectRegistration()

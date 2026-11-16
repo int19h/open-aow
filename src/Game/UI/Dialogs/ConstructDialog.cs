@@ -55,7 +55,7 @@ public partial class ConstructDialog : UIModule
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        ConstructionControlList controls = GamePack.Current.AbilityControl.GetAbility(125).GetConstructionControls();
+        ConstructionControlList controls = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls;
         for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
             control = controls.GetConstructionControl(i);

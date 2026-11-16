@@ -28,12 +28,12 @@ public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
+                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
             }
 
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
+                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
             GamePack.Current.AbilityControl.GetAbility(131).Expand(target.Troop);

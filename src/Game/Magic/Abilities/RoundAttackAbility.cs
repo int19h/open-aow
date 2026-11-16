@@ -107,7 +107,7 @@ public partial class RoundAttackAbility : TouchAbility
             int unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, defender);
             damageValues.TargetDamage = unitStrikeDamageValueLocal;
             damageValues.TargetCost = 0;
-            Set<DamageType> damageTypes = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(attacker);
+            Set<DamageType> damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes - immunityTypes;
         }
@@ -132,7 +132,7 @@ public partial class RoundAttackAbility : TouchAbility
             damage = troop.GetDamage();
 
             strength = AbilityRules.LimitedDamage(attack, damage, 1) * 3;
-            types = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(owner);
+            types = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(owner);
         }
     }
 
@@ -227,7 +227,7 @@ public partial class RoundAttackAbility : TouchAbility
             info.Attack = attack;
             sbyte damage = source.GetDamage();
             info.Damage = damage;
-            Set<DamageType> damageTypes = GamePack.Current.AbilityControl.GetAbility(21).GetDamageTypes(source);
+            Set<DamageType> damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(source);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
             info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);

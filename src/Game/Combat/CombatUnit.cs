@@ -696,7 +696,7 @@ public partial class CombatUnit : CombatObject
         if (u != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
-            if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility(52).CanCastBreachWallSpell(Troop))
+            if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
             {
                 WallCombatFeaturesValue = WallCombatFeaturesValue + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
             }
@@ -802,7 +802,7 @@ public partial class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[i]))
             {
-                data = Troop.GetAbilityData<CommandAbilityData>(CombatAbilityTables.CommandingPriorityAbilityIds[i]);
+                data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
                 if (data != null)
                 {
                     result += data.CommandingTargetPriority(Combat);
@@ -822,7 +822,7 @@ public partial class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[i]))
             {
-                data = Troop.GetAbilityData<CommandAbilityData>(CombatAbilityTables.CommandingStrengthAbilityIds[i]);
+                data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
                 if (data != null)
                 {
                     result += data.CommandingTargetStrength(Combat);

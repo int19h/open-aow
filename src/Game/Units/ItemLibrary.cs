@@ -47,8 +47,8 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     // Army.PAS:4909
     public override int AddChild(EngineObject child)
     {
-        // AddChild receives an engine object. The cast names the item the library id is written
-        // on. Another class throws. Null fails at the id read, as it did before.
+        // AddChild receives an engine object. The library holds only items. Another class throws,
+        // and null fails at the LibraryId read.
         Item item = (Item)child;
         // { Original checks the world item ID, not the library ID. }
         if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) != null)

@@ -269,7 +269,7 @@ public partial class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3628
-    public override void SetEnabled(AbilityOwner owner, bool enabled)
+    public void SetEnabled(AbilityOwner owner, bool enabled)
     {
         HealingAbilityData data;
         data = GetData(owner);
@@ -295,7 +295,7 @@ public partial class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3680
-    public override HealingCombatAction CreateHealingCombatAction(CombatObject source, CombatObject target)
+    public HealingCombatAction CreateHealingCombatAction(CombatObject source, CombatObject target)
     {
         HealingCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(source.Id, target.Id);
@@ -303,7 +303,7 @@ public partial class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3760
-    public override bool HealUnit(Troop troop)
+    public bool HealUnit(Troop troop)
     {
         int hitPoints;
         bool result = false;

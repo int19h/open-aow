@@ -204,14 +204,14 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5110
-    public override void Command(CombatUnit source, CombatUnit target)
+    public virtual void Command(CombatUnit source, CombatUnit target)
     {
         CommandedAbilityData targetData;
         CommandAbilityData sourceData;
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        targetData = GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
+        targetData = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -231,7 +231,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5259
-    public override CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
+    public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
         CommandCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: !(target.Troop is Leader) && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
@@ -240,7 +240,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5157
-    public override void ResetCommandedUnits(CombatUnit source)
+    public virtual void ResetCommandedUnits(CombatUnit source)
     {
         Troop troopOwner;
         CommandAbilityData data;
@@ -264,7 +264,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5135
-    public override void Uncommand(CombatUnit target)
+    public virtual void Uncommand(CombatUnit target)
     {
         Troop troopOwner;
         CommandedAbilityData data;
@@ -273,7 +273,7 @@ public partial class CommandAbility : TouchAbility
         troopOwner = target.Troop;
         if (troopOwner.GetAbilityEnabled(CommandedAbilityId))
         {
-            data = troopOwner.GetAbilityData<CommandedAbilityData>(CommandedAbilityId);
+            data = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
             // { Original reads Data before checking it for nil. }
             source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
             if (data != null)
