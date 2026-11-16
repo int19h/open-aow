@@ -30,7 +30,7 @@ public partial class PossessedAbility : PossessAbility
     {
         PossessedAbilityData data;
         bool result = false;
-        data = (PossessedAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
@@ -47,7 +47,7 @@ public partial class PossessedAbility : PossessAbility
     {
         PossessedAbilityData data;
         bool result = true;
-        data = (PossessedAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data != null)
         {
             SetAbility(owner, AbilityId, 0);
@@ -71,7 +71,7 @@ public partial class PossessedAbility : PossessAbility
             combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
             newUnit = new Unit(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
-            data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
+            data = GetData(combatUnit.Troop);
             if (data != null)
             {
                 newUnit.SetExperience(data.SourceExperience);
@@ -90,6 +90,8 @@ public partial class PossessedAbility : PossessAbility
 
     // AoWAb.PAS:2592
     public override EngineClass AbilityDataClass() => s_possessedDataClass;
+
+    public PossessedAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<PossessedAbilityData>(AbilityId);
 
     private static readonly EngineClass s_possessedDataClass = EngineClass.Of<PossessedAbilityData>();
     private static readonly string s_possessedText = "Possessed";

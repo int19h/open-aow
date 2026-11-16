@@ -50,7 +50,7 @@ public partial class DispelMagicAbility : TouchAbility
         {
             if (owner.GetAbilitySetAt(60))
             {
-                data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+                data = GetData(owner);
                 result = data != null ? data.Level : 1;
             }
             else
@@ -73,7 +73,7 @@ public partial class DispelMagicAbility : TouchAbility
         bool result = owner.GetAbilitySetAt(AbilityId);
         if (result)
         {
-            data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+            data = GetData(owner);
             result = data == null || data.Enabled;
         }
 
@@ -201,7 +201,7 @@ public partial class DispelMagicAbility : TouchAbility
     {
         DispelMagicAbilityData data;
         bool result = false;
-        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
@@ -233,7 +233,7 @@ public partial class DispelMagicAbility : TouchAbility
     {
         DispelMagicAbilityData data;
         bool result = true;
-        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data != null)
         {
             if (data.Level == 1)
@@ -351,7 +351,7 @@ public partial class DispelMagicAbility : TouchAbility
     public void SetEnabled(AbilityOwner owner, bool enabled)
     {
         DispelMagicAbilityData data;
-        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        data = GetData(owner);
         if (data == null)
         {
             data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
@@ -405,6 +405,8 @@ public partial class DispelMagicAbility : TouchAbility
 
     // AoWAb.PAS:4092
     public override EngineClass AbilityDataClass() => s_dispelMagicDataClass;
+
+    public DispelMagicAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<DispelMagicAbilityData>(AbilityId);
 
     private static readonly EngineClass s_dispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
 
