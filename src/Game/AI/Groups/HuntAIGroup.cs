@@ -37,7 +37,7 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     }
 
     // AIGroup.pas:1457
-    public bool HuntingPlayer(sbyte player)
+    public override bool HuntingPlayer(sbyte player)
     {
         int i;
         Troop troop;

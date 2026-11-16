@@ -23,7 +23,7 @@ public partial class Arena : Structure
     public new const int ClassId = 133276;
 
     // Arena.pas:212
-    public override StructureTokenEvent CreateTokenEvent() => new ArenaTokenEvent(null) { Holder = CreationHolder() };
+    public override ArenaTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // Arena.pas:135
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
@@ -33,11 +33,13 @@ public partial class Arena : Structure
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1)
         {
-            if (CanTrainUnits((sbyte)tokenEvent.Param, ((ArenaTokenEvent)tokenEvent).UnitIds, ref errorText))
+            // Arena.CreateTokenEvent constructs ArenaTokenEvent for Arena actions.
+            ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
+            if (CanTrainUnits((sbyte)tokenEvent.Param, arenaTokenEvent.UnitIds, ref errorText))
             {
-                for (int i = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; i <= last; i++)
+                for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
-                    int unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[i];
+                    int unitId = arenaTokenEvent.UnitIds[i];
                     troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop != null)
                     {
@@ -50,7 +52,6 @@ public partial class Arena : Structure
 
                 if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
                 {
-                    ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
                         string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
@@ -180,7 +181,7 @@ public partial class Arena : Structure
         errorText = "";
         if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            tokenEvent = (ArenaTokenEvent)CreateTokenEvent();
+            tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
             tokenEvent.Param = player;

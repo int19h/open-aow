@@ -32,7 +32,7 @@ public partial class Anarchy : CityTargetSpell
     }
 
     // CitySpells.pas:875
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result = default;
         City targetCity = default;
@@ -40,7 +40,7 @@ public partial class Anarchy : CityTargetSpell
         ImageSequenceAnimation a = default;
         if (executeCount == 0)
         {
-            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            targetCity = eventValue.GetSelectedCity();
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log.Player = source.Player;
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
@@ -70,7 +70,7 @@ public partial class Anarchy : CityTargetSpell
         {
             if (executeCount == 50)
             {
-                targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+                targetCity = eventValue.GetSelectedCity();
                 targetCity.ExecuteAnarchy();
                 CastingDone(source, eventValue.EventMana);
                 result = false;

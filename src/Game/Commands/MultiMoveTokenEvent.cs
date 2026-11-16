@@ -54,7 +54,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
             {
                 i -= 1;
                 // { The original retains only the final validation result. }
-                valid = ((MoveTokenEvent)events[i]).Validate();
+                valid = events[i].Validate();
             }
         }
         else

@@ -6,8 +6,8 @@ namespace Aow.Game.AI;
 public partial class AIBudgetList : OwningNode, IChildList<AIBudget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AIBudget, so the cast never fails.
-    public AIBudget this[int index] => (AIBudget)GetChild(index);
+    // AcceptsChild admits only an AIBudget.
+    public AIBudget this[int index] => GetChild<AIBudget>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIBudget;
 

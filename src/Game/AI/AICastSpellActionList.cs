@@ -7,8 +7,8 @@ namespace Aow.Game.AI;
 public partial class AICastSpellActionList : OwningNode, IChildList<AICastSpellAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an AICastSpellAction, so the cast never fails.
-    public AICastSpellAction this[int index] => (AICastSpellAction)GetChild(index);
+    // AcceptsChild admits only an AICastSpellAction.
+    public AICastSpellAction this[int index] => GetChild<AICastSpellAction>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AICastSpellAction;
 

@@ -22,8 +22,8 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     public int Count => _list.GetCount();
 
     // The location in slot index, read as the original reads the list, without a range check.
-    // The list admits only production locations, so the cast never fails.
-    public AIGroupProductionLocation this[int index] => (AIGroupProductionLocation)_list.GetChild(index);
+    // The list admits only production locations.
+    public AIGroupProductionLocation this[int index] => _list.GetChild<AIGroupProductionLocation>(index);
 
     public IEnumerator<AIGroupProductionLocation> GetEnumerator()
     {

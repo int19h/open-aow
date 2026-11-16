@@ -60,7 +60,6 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         ArmyEventLog log = default;
         ImageSequenceAnimation animation = default;
         ArmyHexSprite placed = default;
-        AIGroup group = default;
         if (value == 0)
         {
             _angle = 0;
@@ -194,9 +193,9 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         if (owner == 0)
                         {
                             sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
-                            group = StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+                            HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
                             group.AddUnits(movedUnits.Units);
-                            ((HuntAIGroup)group).TargetUnitIds.Add(source.UnitId);
+                            group.TargetUnitIds.Add(source.UnitId);
                             group.Release();
                         }
 

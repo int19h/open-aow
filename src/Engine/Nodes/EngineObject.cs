@@ -219,6 +219,9 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
 
     public CustomNode Owner { get => _owner; set => SetOwner(value); }
 
+    // AcceptsOwner admits only T, so the cast never fails.
+    protected T GetOwner<T>() where T : CustomNode => (T)_owner;
+
     IOwner IOwned.Owner => _owner;
 
     protected internal void SetOwnerWithoutNotify(CustomNode value)

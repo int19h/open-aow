@@ -26,11 +26,11 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
 
     // CitySpells.pas:576
-    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+    protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
         City targetCity;
         CityEnchantment enchantment;
-        targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+        targetCity = eventValue.GetSelectedCity();
         enchantment = new CityEnchantment(null) { Holder = CreationHolder() };
         enchantment.CityEnchantmentId = EnchantmentId;
         enchantment.EnchantmentManaUpkeep = ManaUpkeep;

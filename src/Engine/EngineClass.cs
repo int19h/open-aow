@@ -38,8 +38,9 @@ public sealed class EngineClass
         _ => throw new InvalidOperationException("Unknown creation delegate of " + Type.Name),
     };
 
-    // The descriptor selects the object. An object of another class throws, the same way the call site did.
-    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject => (T)CreateInstance(owner, holder: holder);
+    // The caller supplies the class's base type, so the cast preserves the single runtime check.
+    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject =>
+        (T)CreateInstance(owner, holder: holder);
 
     public override string ToString() => StorageKey;
 

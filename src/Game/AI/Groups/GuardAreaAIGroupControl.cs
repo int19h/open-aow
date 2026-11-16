@@ -15,6 +15,8 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     public GuardAreaAIGroupControl(CustomNode owner) : base(owner)
     { }
 
+    public new GuardAreaAIGroup Group => GetGroup<GuardAreaAIGroup>();
+
     // IndependentAG.pas:189
     public override void MoveExecutorDone(object sender)
     {
@@ -37,7 +39,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
             case 2:
                 if (MoveExecutor.Status == AIMoveExecutorStatus.Failed)
                 {
-                    ((GuardAreaAIGroup)Group).GuardLocation = MapCoordinate.None;
+                    Group.GuardLocation = MapCoordinate.None;
                     Done();
                 }
                 else
@@ -77,15 +79,15 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                if (((GuardAreaAIGroup)Group).GuardLocation.X == -1)
+                if (Group.GuardLocation.X == -1)
                 {
-                    ((GuardAreaAIGroup)Group).GuardLocation = Location;
+                    Group.GuardLocation = Location;
                 }
 
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 {
-                    finder.Selector.SourceLocation = ((GuardAreaAIGroup)Group).GuardLocation;
+                    finder.Selector.SourceLocation = Group.GuardLocation;
                     AITargetInfo targetInfo = finder.Selector.TargetInfo;
                     targetInfo.Mode = AITargetMode.GuardArea;
                     finder.Selector.TargetInfo = targetInfo;
@@ -101,7 +103,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 Targets.Validate();
                 if (Targets.Count != 0)
                 {
-                    if (Army.Moves(Selection) != Army.MovePoints(Selection) || ((GuardAreaAIGroup)Group).GuardLocation != Location)
+                    if (Army.Moves(Selection) != Army.MovePoints(Selection) || Group.GuardLocation != Location)
                     {
                         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                         settings.Player = Army.Player;
@@ -144,13 +146,13 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
 
                 break;
             case 2:
-                if (((GuardAreaAIGroup)Group).GuardLocation != Location)
+                if (Group.GuardLocation != Location)
                 {
-                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation);
+                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
                     if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();
-                        GuardAreaAIGroup guardAreaAIGroup = (GuardAreaAIGroup)Group;
+                        GuardAreaAIGroup guardAreaAIGroup = Group;
                         ExecuteME(guardAreaAIGroup.GuardLocation.X, guardAreaAIGroup.GuardLocation.Y, guardAreaAIGroup.GuardLocation.MapLevel);
                     }
                     else

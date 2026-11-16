@@ -221,6 +221,12 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:346
     public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
+    // CityTargetSpell.CreateTokenEvent constructs CityTargetSpellTokenEvent.
+    public sealed override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) =>
+        ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
+
+    protected virtual bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount) => false;
+
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
     {
