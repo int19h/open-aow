@@ -60,7 +60,7 @@ public sealed class UIConstructionTests
 
     private static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)
@@ -295,12 +295,9 @@ public sealed class UIConstructionTests
             }
 
             MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
-            if (factory is not null)
-            {
-                return (Component)factory.Invoke(null, [owner])!;
-            }
-
-            throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
+            return factory is not null
+                ? (Component)factory.Invoke(null, [owner])!
+                : throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
@@ -318,7 +315,7 @@ public sealed class UIConstructionTests
         {
             using Fixture fixture = new();
             ComponentOwner? owner = owned == 0 ? null : new ComponentOwner();
-            List<string> states = new();
+            List<string> states = [];
             Component? value = null;
             try
             {

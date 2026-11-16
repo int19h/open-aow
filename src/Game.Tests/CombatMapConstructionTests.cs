@@ -24,12 +24,7 @@ public sealed class CombatMapConstructionTests
         {
             base.AddChild(child);
             PublishedAtInsertion.Add(ReferenceEquals(CombatMap.Current, child));
-            if (reject)
-            {
-                throw new InvalidDataException("owner rejects after insertion");
-            }
-
-            return Members.Count - 1;
+            return reject ? throw new InvalidDataException("owner rejects after insertion") : Members.Count - 1;
         }
 
         public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
@@ -41,7 +36,7 @@ public sealed class CombatMapConstructionTests
     public void RoutesStateOwnerPublicationOffsetsAndFixtureFailuresMatchBaseCommit()
     {
         CombatMap previous = CombatMap.Current;
-        JsonObject actual = new();
+        JsonObject actual = [];
         bool plain = EngineClassCreation.OwnerConstructor(typeof(CombatMap)) is not null;
         try
         {

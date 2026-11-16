@@ -36,7 +36,7 @@ public sealed class ImageLibraryTruncationTests
         MemoryStream stream = new();
         ImageLibrary library = new(null!);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {

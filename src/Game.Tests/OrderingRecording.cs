@@ -30,17 +30,11 @@ internal static class OrderingRecording
     {
         try
         {
-            if (EngineClassCreation.OwnerConstructor(type) is { } ctor)
-            {
-                return (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner));
-            }
-
-            if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]) is { } factory)
-            {
-                return (EngineObject)factory.Invoke(null, [owner])!;
-            }
-
-            throw new InvalidOperationException(type.FullName + " has no public construction entry.");
+            return EngineClassCreation.OwnerConstructor(type) is { } ctor
+                ? (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner))
+                : type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]) is { } factory
+                ? (EngineObject)factory.Invoke(null, [owner])!
+                : throw new InvalidOperationException(type.FullName + " has no public construction entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
@@ -112,7 +106,7 @@ internal static class OrderingRecording
 
     internal static string Snapshot(object value)
     {
-        Dictionary<object, string> visited = new(ReferenceEqualityComparer.Instance);
+        Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
         object? State(object? item, string path)
         {
             if (item is null)

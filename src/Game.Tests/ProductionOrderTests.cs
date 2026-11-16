@@ -216,20 +216,17 @@ public sealed class ProductionOrderTests
     // City.pas:2503, 2539, 2575: the sequence of row Row, null where the race image shows.
     private static int? OldSequence(CityAction action, byte wallType, int row)
     {
-        if (action is CityAction.None or CityAction.Trade or CityAction.Produce)
-        {
-            return null;
-        }
-
-        return action switch
-        {
-            CityAction.Fortify => wallType switch { 0 => 30 + row, 1 => 48 + row, _ => -1 },
-            CityAction.Upgrade => 33 + row,
-            CityAction.Migrate => 39 + row,
-            CityAction.Raze => 51 + row,
-            CityAction.Loot => 45 + row,
-            _ => -1,
-        };
+        return action is CityAction.None or CityAction.Trade or CityAction.Produce
+            ? null
+            : action switch
+            {
+                CityAction.Fortify => wallType switch { 0 => 30 + row, 1 => 48 + row, _ => -1 },
+                CityAction.Upgrade => 33 + row,
+                CityAction.Migrate => 39 + row,
+                CityAction.Raze => 51 + row,
+                CityAction.Loot => 45 + row,
+                _ => -1,
+            };
     }
 
     // AoWRealm.pas, the activity column.

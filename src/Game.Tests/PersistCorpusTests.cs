@@ -114,7 +114,7 @@ public sealed class PersistCorpusTests
         {
             FormatSchema schema = FormatSchema.Current;
             EnginePersistableFactory factory = new(EngineFixture.Engine);
-            Dictionary<string, int> counts = new(StringComparer.Ordinal);
+            Dictionary<string, int> counts = [with(StringComparer.Ordinal)];
             foreach (string relative in Files())
             {
                 string path = Path.Combine(Root, relative);
@@ -146,7 +146,7 @@ public sealed class PersistCorpusTests
                 ImportResult imported = GameFiles.Import(bytes[4..^4], profile, "pfs", relative);
                 Walk((JsonObject)imported.Document["root"]!, schema.Get(rootClass), engine, relative, schema, factory, counts);
             }
-            SortedSet<string> printed = new(StringComparer.Ordinal);
+            SortedSet<string> printed = [with(StringComparer.Ordinal)];
             foreach (KeyValuePair<string, int> pair in counts)
             {
                 if (pair.Value > 0)
@@ -208,7 +208,7 @@ public sealed class PersistCorpusTests
     private static EngineClass[] Enlist()
     {
         Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
-        Dictionary<int, EngineClass> added = new();
+        Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space)
@@ -455,8 +455,8 @@ public sealed class PersistCorpusTests
     // the converter's document of that image, and that document read back writes the same image.
     // The read keeps every value: the converter's document of the stored image less its $layout
     // parts equals the document of the canonical image.
-    private static readonly Dictionary<string, (int Levels, long Fields, long Sprites)> s_levels = new(StringComparer.Ordinal);
-    private static readonly Dictionary<string, int> s_levelBlocks = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, (int Levels, long Fields, long Sprites)> s_levels = [with(StringComparer.Ordinal)];
+    private static readonly Dictionary<string, int> s_levelBlocks = [with(StringComparer.Ordinal)];
 
     private static bool IsMapLevel(SchemaClass classValue) => classValue.Properties.Any(prop => prop.Codec is MapFieldsCodec);
 
@@ -551,9 +551,9 @@ public sealed class PersistCorpusTests
 
     // An instance is proved only when the write and both reads finish. A refusal anywhere in the
     // closure blocks it. The label is the refusing class, or the direct-path diagnostic when no class is named.
-    private static readonly Dictionary<string, int> s_proved = new(StringComparer.Ordinal);
-    private static readonly Dictionary<string, (int Count, string Reason)> s_blocked = new(StringComparer.Ordinal);
-    private static readonly Dictionary<string, int> s_refusers = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, int> s_proved = [with(StringComparer.Ordinal)];
+    private static readonly Dictionary<string, (int Count, string Reason)> s_blocked = [with(StringComparer.Ordinal)];
+    private static readonly Dictionary<string, int> s_refusers = [with(StringComparer.Ordinal)];
 
     private static void Block(string className, string label)
     {
@@ -599,7 +599,7 @@ public sealed class PersistCorpusTests
 
     private static Dictionary<string, Type> BuildEngineTypes()
     {
-        Dictionary<string, Type> types = new();
+        Dictionary<string, Type> types = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)

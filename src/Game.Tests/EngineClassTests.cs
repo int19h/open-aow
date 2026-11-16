@@ -46,7 +46,7 @@ public sealed class EngineClassTests
     [Fact]
     public void RegistrationFollowsInheritance()
     {
-        HashSet<EngineClass> seen = new();
+        HashSet<EngineClass> seen = [];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
             Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType!)), engineClass.StorageKey);
@@ -65,7 +65,7 @@ public sealed class EngineClassTests
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
         using GameEngine engine = new(null!);
-        List<GameEngine> engines = new() { engine };
+        List<GameEngine> engines = [engine];
         // The full engine of the fixture, when a test of the engine collection built it.
         if (EngineFixture.Engine is { } full)
         {
@@ -89,7 +89,7 @@ public sealed class EngineClassTests
 
     private static List<EngineClass> ProductRegistered(GameEngine engine)
     {
-        List<EngineClass> result = new();
+        List<EngineClass> result = [];
         for (int i = 0; i < engine.EngineClasses.Count; i++)
         {
             EngineClass engineClass = engine.EngineClasses[i];

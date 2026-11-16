@@ -53,9 +53,9 @@ public sealed class GraphicsArrayTests
             Assert.Equal((2, 2), (node.Count, node.Capacity));
             node.Insert(1, images[2]);
             Assert.Equal((3, 3), (node.Count, node.Capacity));
-            Assert.Equal(new LibraryImage[] { images[0], images[2], images[1] }, node.Images);
+            Assert.Equal([images[0], images[2], images[1]], node.Images);
             node.Insert(0, images[3]);
-            Assert.Equal(new LibraryImage[] { images[3], images[0], images[2], images[1] }, node.Images);
+            Assert.Equal([images[3], images[0], images[2], images[1]], node.Images);
             node.Delete(1);
             Assert.Equal(3, node.Count);
             Assert.Equal(new LibraryImage[] { images[3], images[2], images[1] }, node.Images.Take(3));

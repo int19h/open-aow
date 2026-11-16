@@ -311,7 +311,7 @@ public sealed class ControlStyleConstructionTests
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        List<LibraryImageClass>? classes = imageClassesInitialized ? new List<LibraryImageClass>() : null;
+        List<LibraryImageClass>? classes = imageClassesInitialized ? [] : null;
         Directory.CreateDirectory(directory);
         try
         {

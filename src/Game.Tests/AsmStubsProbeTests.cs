@@ -156,7 +156,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> EngineFillLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         int[] ints = new int[12];
         ushort[] words = new ushort[12];
         DoubleItemList.DoubleItem[] doubles = new DoubleItemList.DoubleItem[12];
@@ -210,7 +210,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> BitListAccessLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         BitList bits = new();
         for (int j = 0; j <= 1; j++)
         {
@@ -276,7 +276,7 @@ public sealed class AsmStubsProbeTests
     // header and the bits of the raised count.
     private static List<string> BitListStreamLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         int[] sizes = [1, 3, 13, 31, 32, 33];
         foreach (int count in sizes)
         {
@@ -298,7 +298,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> ExploredLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         MapField field = new(null!) { Holder = EngineFixture.Engine };
         for (int j = 0; j < s_values.Length; j++)
         {
@@ -331,7 +331,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> RazedLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         Mine mine = new(null!) { Holder = EngineFixture.Engine };
         Teleport teleport = new(null!) { Holder = EngineFixture.Engine };
         for (int i = 0; i <= 255; i++)
@@ -347,7 +347,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> AbilityLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         CustomAbilityList abilities = new(null!) { Holder = EngineFixture.Engine };
         Troop troop = new(null!) { Holder = EngineFixture.Engine };
         abilities.SetAbilityCount(0);
@@ -384,7 +384,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> GraphicsLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         int[] ints = new int[12];
         ushort[] words = new ushort[12];
         QuadItemList.QuadInteger[] quads = new QuadItemList.QuadInteger[12];
@@ -432,7 +432,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> HexLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         byte[] small = new byte[12];
         for (int i = -65; i <= 65; i++)
         {
@@ -441,9 +441,7 @@ public sealed class AsmStubsProbeTests
                 string tag = Decrement(i) + "_" + Decrement(j);
                 AddNumber(lines, "HSEngine.HXtoV_" + tag, HexGeometry.HexToV(i, j));
                 AddNumber(lines, "HSEngine.HXtoH_" + tag, HexGeometry.HexToH(i, j));
-                int x = 0;
-                int y = 0;
-                HexGeometry.HVtoHex(i, j, out x, out y);
+                HexGeometry.HVtoHex(i, j, out int x, out int y);
                 AddNumber(lines, "HSEngine.HVtoHX_X_" + tag, x);
                 AddNumber(lines, "HSEngine.HVtoHX_Y_" + tag, y);
                 HexGeometry.PixelToHex(i, j, out x, out y);
@@ -466,9 +464,7 @@ public sealed class AsmStubsProbeTests
         {
             AddNumber(lines, "HSEngine.HXtoV_extreme_" + Decrement(i), HexGeometry.HexToV(s_values[i], -1));
             AddNumber(lines, "HSEngine.HXtoH_extreme_" + Decrement(i), HexGeometry.HexToH(s_values[i], 0));
-            int x = 0;
-            int y = 0;
-            HexGeometry.PixelToHex(s_values[i], s_values[i], out x, out y);
+            HexGeometry.PixelToHex(s_values[i], s_values[i], out int x, out int y);
             AddNumber(lines, "HSEngine.HPtoHX_extreme_X_" + Decrement(i), x);
             AddNumber(lines, "HSEngine.HPtoHX_extreme_Y_" + Decrement(i), y);
         }
@@ -478,7 +474,7 @@ public sealed class AsmStubsProbeTests
 
     private static List<string> WalkLines()
     {
-        List<string> lines = new();
+        List<string> lines = [];
         for (int a = -1; a <= 1; a++)
         {
             for (int b = -1; b <= 1; b++)

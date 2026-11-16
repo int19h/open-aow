@@ -28,7 +28,7 @@ internal static class ConstructionSnapshot
 
     private static JsonNode? Entry(JsonObject recording, string key)
     {
-        HashSet<string> seen = new(StringComparer.Ordinal);
+        HashSet<string> seen = [with(StringComparer.Ordinal)];
         while (recording[key] is JsonObject { Count: 1 } entry && entry["$sameAs"] is { } reference)
         {
             Assert.True(seen.Add(key), "Snapshot reference cycle: " + key);
@@ -57,8 +57,8 @@ internal static class ConstructionSnapshot
                 recording[key]![member] = value?.DeepClone();
             }
             Directory.CreateDirectory(target);
-            JsonObject sorted = new();
-            Dictionary<string, string> shared = new(StringComparer.Ordinal);
+            JsonObject sorted = [];
+            Dictionary<string, string> shared = [with(StringComparer.Ordinal)];
             foreach (string entryKey in Keys(name))
             {
                 JsonNode? entryValue = Entry(recording, entryKey);
@@ -108,17 +108,11 @@ internal static class ConstructionSnapshot
             try { return new JsonObject { ["$jsonText"] = Expand(JsonNode.Parse(text)) }; }
             catch (JsonException) { }
         }
-        if (text.Contains('\n'))
-        {
-            return new JsonObject { ["$lines"] = new JsonArray(text.Split('\n').Select(Readable).ToArray()) };
-        }
-
-        if (text.StartsWith("success:", StringComparison.Ordinal))
-        {
-            return new JsonObject { ["$prefix"] = "success:", ["$value"] = Readable(text[8..]) };
-        }
-
-        return JsonValue.Create(text);
+        return text.Contains('\n')
+            ? new JsonObject { ["$lines"] = new JsonArray(text.Split('\n').Select(Readable).ToArray()) }
+            : text.StartsWith("success:", StringComparison.Ordinal)
+            ? new JsonObject { ["$prefix"] = "success:", ["$value"] = Readable(text[8..]) }
+            : JsonValue.Create(text);
     }
 
     private static JsonNode? Expand(JsonNode? node) => node switch

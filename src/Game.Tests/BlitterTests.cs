@@ -282,7 +282,7 @@ public sealed class BlitterTests
     [Fact]
     public void CopiesPinTheirBytes()
     {
-        List<string> results = new();
+        List<string> results = [];
         foreach ((string name, Rectangle call) in s_copies)
         {
             Recorder recorder = new(name);
@@ -328,7 +328,7 @@ public sealed class BlitterTests
     public void CopiesWithinOneBlockPinTheOrderOfWrites()
     {
         int[] shifts = [-160 + 2, -33, -9, -8, -4, -3, -1, 0, 1, 2, 3, 4, 5, 7, 8, 9, 16, 24, 31, 32, 33, 159, 160, 163];
-        List<string> results = new();
+        List<string> results = [];
         foreach ((string name, Rectangle call) in s_copies)
         {
             Recorder recorder = new(name + "-overlap");
@@ -361,7 +361,7 @@ public sealed class BlitterTests
     [Fact]
     public void ForwardShiftRepeatsBytesAsTheOriginal()
     {
-        List<string> results = new();
+        List<string> results = [];
         foreach ((string name, Rectangle call) in s_copies)
         {
             byte[] memory = new byte[48];
@@ -379,7 +379,7 @@ public sealed class BlitterTests
     [Fact]
     public void PixelRoutinesPinTheirBytes()
     {
-        List<string> results = new();
+        List<string> results = [];
         foreach ((string name, int size, Rectangle call) in s_pixels)
         {
             Recorder recorder = new(name);
@@ -476,7 +476,7 @@ public sealed class BlitterTests
     [Fact]
     public void StretchesPinTheirBytes()
     {
-        List<string> results = new();
+        List<string> results = [];
         foreach ((string name, Action<Area, int[], int[], Area, int, int> call) in s_stretches)
         {
             Recorder recorder = new(name);
@@ -509,10 +509,10 @@ public sealed class BlitterTests
     // row padded to 4 bytes.
     private static byte[] Rle16(int width, int height, Random random)
     {
-        List<byte> data = new();
+        List<byte> data = [];
         for (int y = 0; y < height; y++)
         {
-            List<ushort> words = new();
+            List<ushort> words = [];
             for (int x = 0; x < width;)
             {
                 if (random.Next(3) == 0)
@@ -540,7 +540,7 @@ public sealed class BlitterTests
     // runs (the key 255 and the run length in pixels).
     private static byte[] Rle08(int width, int height, Random random)
     {
-        List<byte> data = new();
+        List<byte> data = [];
         for (int y = 0; y < height; y++)
         {
             data.AddRange([0xAA, 0xBB, 0xCC, 0xDD]);
@@ -631,7 +631,7 @@ public sealed class BlitterTests
     [Fact]
     public void SpritesPinTheirBytes()
     {
-        List<string> results = new();
+        List<string> results = [];
         RunSprites(s_sprites16, Rle16, 2, results);
         RunSprites(s_masks, Mask, 2, results);
         RunSprites(s_sprites08, Rle08, 2, results);

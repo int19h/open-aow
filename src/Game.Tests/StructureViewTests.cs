@@ -116,168 +116,60 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // AoWInfoWin.pas:616 ShowStructureInfo.
     private static string OldInfoPanel(Structure structure, sbyte seated)
     {
-        if (structure.GetBuilding())
-        {
-            return "Building";
-        }
-
-        if (structure.GetRazed())
-        {
-            return "Razed";
-        }
-
-        if (structure is PlayerStructure)
-        {
-            if (((PlayerStructure)structure).Player == seated || EngineFixture.Engine.Debug)
-            {
-                if (structure is City)
-                {
-                    return ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City";
-                }
-
-                if (structure is ProductionPlace)
-                {
-                    return ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
-                }
-
-                if (structure is Mine)
-                {
-                    return "Mine";
-                }
-
-                if (structure is PowerNode)
-                {
-                    return "PowerNode";
-                }
-
-                if (structure is Farm)
-                {
-                    return "Farm";
-                }
-
-                if (structure is Tower)
-                {
-                    return "WatchTower";
-                }
-
-                if (structure is Altar)
-                {
-                    return "Altar";
-                }
-
-                return "Generic";
-            }
-            if (structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode))
-            {
-                return "WarCity";
-            }
-
-            return "OtherPlayer";
-        }
-        if (structure is Sign)
-        {
-            return "Sign";
-        }
-
-        if (structure is Cave)
-        {
-            return "Cave";
-        }
-
-        if (structure is Teleport)
-        {
-            return "Teleport";
-        }
-
-        if (structure is ExplorationSite)
-        {
-            return "ExplorationSite";
-        }
-
-        if (structure is WizardsTower)
-        {
-            return "WizardsTower";
-        }
-
-        if (structure is Arena)
-        {
-            return "Arena";
-        }
-
-        return "Generic";
+        return structure.GetBuilding()
+            ? "Building"
+            : structure.GetRazed()
+            ? "Razed"
+            : structure is PlayerStructure
+            ? ((PlayerStructure)structure).Player == seated || EngineFixture.Engine.Debug
+                ? structure is City
+                    ? ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City"
+                    : structure is ProductionPlace
+                    ? ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome"
+                    : structure is Mine
+                    ? "Mine"
+                    : structure is PowerNode
+                    ? "PowerNode"
+                    : structure is Farm ? "Farm" : structure is Tower ? "WatchTower" : structure is Altar ? "Altar" : "Generic"
+                : structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "OtherPlayer"
+            : structure is Sign
+            ? "Sign"
+            : structure is Cave
+            ? "Cave"
+            : structure is Teleport
+            ? "Teleport"
+            : structure is ExplorationSite
+            ? "ExplorationSite"
+            : structure is WizardsTower ? "WizardsTower" : structure is Arena ? "Arena" : "Generic";
     }
 
     // AoWInfoWin.pas:190 MainBtnClick, the structure branch. The altar arm runs with targeting
     // under way, so it cancels the targeting.
     private static string OldInfoButton(Structure structure)
     {
-        if (structure is City)
-        {
-            return "CityScreen";
-        }
-
-        if (structure is ProductionPlace)
-        {
-            return "ProductionScreen";
-        }
-
-        if (structure is Cave)
-        {
-            return "Action(Cave)";
-        }
-
-        if (structure is Teleport)
-        {
-            return "Action(Teleport)";
-        }
-
-        if (structure is ExplorationSite)
-        {
-            return "Action(ExplorationSite)";
-        }
-
-        if (structure is WizardsTower)
-        {
-            return "Action(WizardsTower)";
-        }
-
-        if (structure is Arena)
-        {
-            return "Action(Arena)";
-        }
-
-        if (structure is Altar)
-        {
-            return "Action(Altar)";
-        }
-
-        return "None";
+        return structure is City
+            ? "CityScreen"
+            : structure is ProductionPlace
+            ? "ProductionScreen"
+            : structure is Cave
+            ? "Action(Cave)"
+            : structure is Teleport
+            ? "Action(Teleport)"
+            : structure is ExplorationSite
+            ? "Action(ExplorationSite)"
+            : structure is WizardsTower
+            ? "Action(WizardsTower)"
+            : structure is Arena ? "Action(Arena)" : structure is Altar ? "Action(Altar)" : "None";
     }
 
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
     private static string OldDoubleClick(Structure structure, sbyte seated)
     {
-        if (structure is City && ((City)structure).Player == seated)
-        {
-            return "CityScreen";
-        }
-
-        if (structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated)
-        {
-            return "ProductionScreen";
-        }
-
-        if (structure is WizardsTower)
-        {
-            return "Action(WizardsTower)";
-        }
-
-        if (structure is Arena)
-        {
-            return "Action(Arena)";
-        }
-
-        return "None";
+        return structure is City && ((City)structure).Player == seated
+            ? "CityScreen"
+            : structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated
+            ? "ProductionScreen"
+            : structure is WizardsTower ? "Action(WizardsTower)" : structure is Arena ? "Action(Arena)" : "None";
     }
 
     // AoWTC.pas:4156 TRndTacHsm.RandomMap, the class id switch for a structure. The bridge arm
@@ -408,13 +300,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void InfoPanelMatchesTheOldCascade()
     {
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         StringBuilder table = new();
         using Scene scene = new();
         foreach (Type type in StructureTypes())
         {
             (Structure structure, ArmyOwner _) = scene.Create(type);
-            List<string> row = new();
+            List<string> row = [];
             foreach (State state in States(type))
             {
                 Apply(structure, state);
@@ -442,7 +334,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void InfoButtonMatchesTheOldCascade()
     {
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         using Scene scene = new();
         foreach (Type type in StructureTypes())
         {
@@ -483,7 +375,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void DoubleClickMatchesTheOldCascade()
     {
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         using Scene scene = new();
         foreach (Type type in StructureTypes())
         {
@@ -521,7 +413,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     public void CombatMapNameMatchesTheOldSwitch()
     {
         int[][] neighbors = [[], [2, 5], [1, 2, 3, 4, 5, 6], [6]];
-        List<string> mismatches = new();
+        List<string> mismatches = [];
         int previousSeed = Runtime.RandSeed;
         using Scene scene = new();
         try
@@ -529,7 +421,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (Type type in StructureTypes())
             {
                 (Structure structure, ArmyOwner _) = scene.Create(type);
-                SortedSet<string> names = new(StringComparer.Ordinal);
+                SortedSet<string> names = [with(StringComparer.Ordinal)];
                 foreach (bool siteCombat in new[] { false, true })
                 {
                     foreach (bool randomTerrain in new[] { false, true })

@@ -35,7 +35,7 @@ public sealed class StaticStringTableTests
         Runtime.InstallHost(host);
         NullSoundSystem.Install();
         Startup.InitializeAll();
-        List<string> nulls = new();
+        List<string> nulls = [];
         int tables = 0;
         foreach (Type type in typeof(Startup).Assembly.GetTypes())
         {

@@ -30,7 +30,7 @@ public sealed class CombatUnitSelectionConstructionTests
     [Fact]
     public void StateVirtualSettingsLinkCountOffsetsAndFailureMatchBaseCommit()
     {
-        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = [with(StringComparer.Ordinal)];
         for (int fail = 0; fail < 2; fail++)
         {
             using OrderingRecording.Fixture fixture = new();

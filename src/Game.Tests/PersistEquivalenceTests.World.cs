@@ -301,7 +301,7 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> WorldClasses()
     {
-        SortedSet<string> names = new(StringComparer.Ordinal);
+        SortedSet<string> names = [with(StringComparer.Ordinal)];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
             Type type = engineClass.Type;
@@ -327,11 +327,7 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        TheoryData<string> data = new();
-        foreach (string name in names)
-        {
-            data.Add(name);
-        }
+        TheoryData<string> data = [.. names];
 
         return data;
     }

@@ -26,8 +26,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         string[] files = InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
-        List<Entry> entries = new();
-        SortedDictionary<string, int> classes = new(StringComparer.Ordinal);
+        List<Entry> entries = [];
+        SortedDictionary<string, int> classes = [with(StringComparer.Ordinal)];
         WithImageClasses(() =>
         {
             foreach (string file in files)
@@ -95,7 +95,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         string[] files = InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
-        List<Entry> entries = new();
+        List<Entry> entries = [];
         WithImageClasses(() =>
         {
             int seen = 0;
@@ -162,13 +162,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             }
 
             int key565 = 0xF81F, key24 = 0xF800F8;
-            (string Name, LockedSurface SD, int Key)[] sources = new (string Name, LockedSurface SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
-            Rect[] rects = new[] { new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
-            Func<LibraryImage>[] grabbers = new Func<LibraryImage>[]
-            {
+            (string Name, LockedSurface SD, int Key)[] sources = [("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24)];
+            Rect[] rects = [new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1))];
+            Func<LibraryImage>[] grabbers =
+            [
                 () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
-            };
+            ];
             foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
             {
                 foreach (Rect rectangle in rects)
@@ -255,7 +255,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     [Fact]
     public void PixelReadersReadEveryFormatAsRecorded()
     {
-        List<Entry> entries = new();
+        List<Entry> entries = [];
         Palette palette = new();
         for (int i = 0; i < 256; i++)
         {
@@ -343,7 +343,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     [Fact]
     public void BlendTablesHoldTheirBytesAsRecorded()
     {
-        List<Entry> entries = new();
+        List<Entry> entries = [];
         WithImageClasses(() =>
         {
             foreach ((string? name, LookupBlendTableCollection100? collection) in new[] { ("alpha", GraphicsState.AlphaBlendTable), ("intensity", GraphicsState.IntensityBlendTable),
@@ -550,7 +550,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         (LookupBlendTableCollection100 AlphaBlendTable, LookupBlendTableCollection100 IntensityBlendTable, LookupBlendTableCollection100 BrightenBlendTable, LookupBlendTableCollection100 ShadowBlendTable, LookupBlendTableCollection100 LinearAlphaBlendTable) previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
         (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         try
         {
             GraphicsState.InitializeBlendTables(5, 31);

@@ -36,7 +36,7 @@ public sealed class ImageClassTests
         using Stream baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageClassSnapshot.json")!;
         Baseline[] baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         ImageLibrary source = new(null!);
         ImageLibrary loaded = new(null!);
         MemoryStream stream = new();
@@ -140,7 +140,7 @@ public sealed class ImageClassTests
         ImageLibrary library = new(null!);
         DataSurface surface = new(2, 3, PixelFormats.pfRGB555, null!);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
+        ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         LockedSurface lockedSurface = default;
         Assert.Equal(0, surface.Lock(ref lockedSurface));

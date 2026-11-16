@@ -184,7 +184,7 @@ public sealed class OfflineStubTests
         MultiWindow window = NewGameWindow(ui);
         ScenarioSetup setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.ScenarioSetupPanel.Visible = false;
-        List<string> messages = new();
+        List<string> messages = [];
         Runtime.MessageHandler = messages.Add;
         window.Execute("");
         window.TCPBtnClick();

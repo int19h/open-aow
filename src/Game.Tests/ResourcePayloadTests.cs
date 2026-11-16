@@ -248,7 +248,7 @@ public sealed class ResourcePayloadTests
     // The stored image index of every layer, in entry and layer order.
     private static List<int> Indices(ImageSequenceList list)
     {
-        List<int> indices = new();
+        List<int> indices = [];
         for (int i = 0; i < list.Count; i++)
         {
             for (ImageSequence sequence = list.GetImageSequence(i); sequence != null; sequence = sequence.Next)

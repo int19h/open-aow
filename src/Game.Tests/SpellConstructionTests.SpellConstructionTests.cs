@@ -154,12 +154,9 @@ public sealed partial class SpellConstructionTests
         {
             try
             {
-                if (EngineClassCreation.OwnerConstructor(type) is { } constructor)
-                {
-                    return (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner));
-                }
-
-                return (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
+                return EngineClassCreation.OwnerConstructor(type) is { } constructor
+                    ? (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner))
+                    : (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
                     [typeof(CustomNode)])!.Invoke(null, [owner])!;
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -206,7 +203,7 @@ public sealed partial class SpellConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         using Fixture fixture = new();
         SpellOwner owner = new();
-        List<EngineObject> allocated = new();
+        List<EngineObject> allocated = [];
         try
         {
             foreach (bool owned in new[] { false, true })

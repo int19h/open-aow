@@ -38,7 +38,7 @@ public sealed class StartupOrderTests
 
     private static (StartupUnit[] Units, List<string> Calls) Recording()
     {
-        List<string> calls = new();
+        List<string> calls = [];
         StartupUnit[] units = Startup.Units.Select(u => new StartupUnit(u.Name,
             u.Initialize is null ? null! : () => calls.Add("I " + u.Name),
             u.Finalize is null ? null! : () => calls.Add("F " + u.Name))).ToArray();
@@ -96,7 +96,7 @@ public sealed class StartupOrderTests
     [Fact]
     public void FailingInitializationStopsTheRun()
     {
-        List<string> calls = new();
+        List<string> calls = [];
         StartupUnit[] units = [new("A", () => calls.Add("A"), null!), new("B", () => throw new InvalidOperationException("B"), null!),
             new("C", () => calls.Add("C"), null!)];
         bool[] state = new bool[units.Length];
@@ -108,7 +108,7 @@ public sealed class StartupOrderTests
     [Fact]
     public void FailingFinalizationFinalizesTheRestAndRethrowsTheLastFailure()
     {
-        List<string> calls = new();
+        List<string> calls = [];
         StartupUnit[] units = [new("A", null!, () => throw new InvalidOperationException("A")), new("B", null!, () => calls.Add("B")),
             new("C", null!, () => throw new InvalidOperationException("C")), new("D", null!, () => calls.Add("D"))];
         bool[] state = [true, true, true, true];
