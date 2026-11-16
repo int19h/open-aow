@@ -541,17 +541,11 @@ public sealed class TreeTests : FormatsTest
 
         public IPersistable Create(string className)
         {
-            if (NameTable.Names(typeof(Inner), className))
-            {
-                return new Inner();
-            }
-
-            if (NameTable.Names(typeof(Sample), className))
-            {
-                return new Sample();
-            }
-
-            throw new InvalidOperationException("The test factory has no class " + className + ".");
+            return NameTable.Names(typeof(Inner), className)
+                ? new Inner()
+                : NameTable.Names(typeof(Sample), className)
+                ? (IPersistable)new Sample()
+                : throw new InvalidOperationException("The test factory has no class " + className + ".");
         }
     }
 }

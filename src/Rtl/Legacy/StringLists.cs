@@ -401,16 +401,7 @@ public class StringList : StringCollection
     }
 
     // CLASSES.PAS TStringList.IndexOf.
-    public override int IndexOf(string value)
-    {
-        if (!Sorted)
-        {
-            return base.IndexOf(value);
-        }
-
-        int index = 0;
-        return Find(value, out index) ? index : -1;
-    }
+    public override int IndexOf(string value) => !Sorted ? base.IndexOf(value) : Find(value, out int index) ? index : -1;
 
     // CLASSES.PAS TStringList.Sort and QuickSort.
     public void Sort() { if (Sorted || count <= 1) { return; } Changing(); QuickSort(0, count - 1); Changed(); }

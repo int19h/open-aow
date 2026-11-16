@@ -64,12 +64,9 @@ internal sealed partial class MapFieldsCodec
             fields[i] = ImageTree.ReadBody(context, position + 4, position + 4 + length, fieldClass, frame.Path.Item(y).Item(x), null, null);
             position += 4 + length;
         }
-        if (position != end)
-        {
-            throw context.Fail(Codes.Dimensions, $"The field stream holds more than {width} by {height} fields.", position, frame.Path);
-        }
-
-        return new GridNode(width, height, fields);
+        return position != end
+            ? throw context.Fail(Codes.Dimensions, $"The field stream holds more than {width} by {height} fields.", position, frame.Path)
+            : (TreeValue)new GridNode(width, height, fields);
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -209,12 +206,9 @@ internal sealed partial class CampaignMapCodec
         }
 
         int length = context.Int32(size.Start);
-        if (length <= 0 || length != bytes.End - bytes.Start)
-        {
-            throw context.Fail(Codes.Corrupt, $"The campaign map size {length} differs from its {bytes.End - bytes.Start} stored bytes.", size.Start, frame.Path);
-        }
-
-        return new NestedDocumentNode(Nested.Name, context.Data.AsSpan(bytes.Start, length).ToArray());
+        return length <= 0 || length != bytes.End - bytes.Start
+            ? throw context.Fail(Codes.Corrupt, $"The campaign map size {length} differs from its {bytes.End - bytes.Start} stored bytes.", size.Start, frame.Path)
+            : (TreeValue)new NestedDocumentNode(Nested.Name, context.Data.AsSpan(bytes.Start, length).ToArray());
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -282,40 +276,16 @@ internal sealed partial class CampaignMapCodec
 
     private static byte[] Image(TreeValue value, Func<string, string, ConversionException> fail)
     {
-        if (value is not NestedDocumentNode node)
-        {
-            throw fail(Codes.Type, "Map is a nested document.");
-        }
-
-        if (node.Profile != Nested.Name)
-        {
-            throw fail(Codes.Profile, "A campaign map has profile world-hsm.");
-        }
-
-        if (node.Image.Length == 0)
-        {
-            throw fail(Codes.Corrupt, "A stored campaign map is not empty.");
-        }
-
-        return node.Image;
+        return value is not NestedDocumentNode node
+            ? throw fail(Codes.Type, "Map is a nested document.")
+            : node.Profile != Nested.Name
+            ? throw fail(Codes.Profile, "A campaign map has profile world-hsm.")
+            : node.Image.Length == 0 ? throw fail(Codes.Corrupt, "A stored campaign map is not empty.") : node.Image;
     }
 
     // CFS and HSM images stay on the import path. Anything else that parses as an own document
     // is the map document a campaign save stores when the image cannot carry the map.
-    private static bool IsOwnDocument(byte[] image)
-    {
-        if (Cfs.HasMagic(image))
-        {
-            return false;
-        }
-
-        if (image.Length >= 8 && image.AsSpan(4, 4).SequenceEqual(HsmProfile.Magic))
-        {
-            return false;
-        }
-
-        return GameFiles.IsGzip(image) || GameFiles.IsJsonCandidate(image);
-    }
+    private static bool IsOwnDocument(byte[] image) => !Cfs.HasMagic(image) && (image.Length < 8 || !image.AsSpan(4, 4).SequenceEqual(HsmProfile.Magic)) && (GameFiles.IsGzip(image) || GameFiles.IsJsonCandidate(image));
 
     private static JsonObject NestedOwnDocument(byte[] image, DocumentSite site)
     {

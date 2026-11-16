@@ -16,24 +16,18 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     internal CatalogRecordCodec(RecordTypeInfo pinned) : this(pinned.Name, pinned.Size) => _known = pinned;
 
     private RecordTypeInfo? _known;
-    private readonly Dictionary<string, PropertyCodec> _codecs = new();
+    private readonly Dictionary<string, PropertyCodec> _codecs = [];
 
     internal override bool AcceptsDocumentArray(int version) => version >= 3 && Info(null, "").BareSet;
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         RecordTypeInfo info = Info(context.File, site.Path.ToString());
-        if (end - start != info.Size)
-        {
-            throw Mismatch(context, start, site, "A record of " + info.Size + " bytes is stored in " + (end - start) + " bytes.");
-        }
-
-        if (info.BareSet)
-        {
-            return FieldCodec(info.Fields[0]).Decode(context, start, end, site);
-        }
-
-        return Document(info, context.Data.AsSpan(start, info.Size), context, site);
+        return end - start != info.Size
+            ? throw Mismatch(context, start, site, "A record of " + info.Size + " bytes is stored in " + (end - start) + " bytes.")
+            : info.BareSet
+            ? FieldCodec(info.Fields[0]).Decode(context, start, end, site)
+            : Document(info, context.Data.AsSpan(start, info.Size), context, site);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -62,7 +56,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         JsonObject json = new();
-        HashSet<string> seen = new();
+        HashSet<string> seen = [];
         int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
         bool residue = false;
         foreach (RecordFieldInfo field in info.Fields)
@@ -180,12 +174,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         PropertyCodec codec = FieldCodec(field);
         byte[] copy = bytes.ToArray();
         JsonValue value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
-        if (field.OmitsDocument(value))
-        {
-            return null;
-        }
-
-        return value;
+        return field.OmitsDocument(value) ? null : value;
     }
 
     private byte[] Pack(RecordTypeInfo info, JsonValue value, EncodeContext context, ValueSite parent)
@@ -371,12 +360,9 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         byte[] bytes = HexText.Decode(hex);
-        if (bytes.Length != info.ResidueLength)
-        {
-            throw site.Fail(Codes.Range, "$reserved holds the record residue.", value: Text(bytes.Length), constraint: info.ResidueLength + " bytes");
-        }
-
-        return bytes;
+        return bytes.Length != info.ResidueLength
+            ? throw site.Fail(Codes.Range, "$reserved holds the record residue.", value: Text(bytes.Length), constraint: info.ResidueLength + " bytes")
+            : bytes;
     }
 
     private static byte[] ResidueBytes(string hex, RecordTypeInfo info, EncodeContext context, DocumentNodePath path)
@@ -387,12 +373,9 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         byte[] bytes = HexText.Decode(hex);
-        if (bytes.Length != info.ResidueLength)
-        {
-            throw context.Fail(Codes.Range, "$reserved holds the record residue.", null, path.Member("$reserved"), Text(bytes.Length), info.ResidueLength + " bytes");
-        }
-
-        return bytes;
+        return bytes.Length != info.ResidueLength
+            ? throw context.Fail(Codes.Range, "$reserved holds the record residue.", null, path.Member("$reserved"), Text(bytes.Length), info.ResidueLength + " bytes")
+            : bytes;
     }
 
     internal static byte[] Gather(ReadOnlySpan<byte> image, RecordTypeInfo info)
@@ -507,12 +490,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             array.Add(new JsonInteger(index));
         }
 
-        if (residue == 0)
-        {
-            return array;
-        }
-
-        return new JsonObject().Add("values", array).Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
+        return residue == 0 ? array : new JsonObject().Add("values", array).Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
     }
 
     internal static byte[] Pack(int count, JsonValue value, EncodeContext context, DocumentNodePath path, string name)
@@ -546,23 +524,17 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     internal static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DecodeContext context, DocumentNodePath path)
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
-        if (count < 0 || bytes.Length != length)
-        {
-            throw context.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", 0, path, Text(bytes.Length), length + " bytes");
-        }
-
-        return Split(count, bytes);
+        return count < 0 || bytes.Length != length
+            ? throw context.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", 0, path, Text(bytes.Length), length + " bytes")
+            : Split(count, bytes);
     }
 
     private static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DocumentSite site)
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
-        if (count < 0 || bytes.Length != length)
-        {
-            throw site.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", value: Text(bytes.Length), constraint: length + " bytes");
-        }
-
-        return Split(count, bytes);
+        return count < 0 || bytes.Length != length
+            ? throw site.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", value: Text(bytes.Length), constraint: length + " bytes")
+            : Split(count, bytes);
     }
 
     private static (int[] Indices, byte Residue) Split(int count, ReadOnlySpan<byte> bytes)
@@ -574,7 +546,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             residue = (byte)(bytes[^1] & (byte)(0xFF << used));
         }
 
-        List<int> indices = new();
+        List<int> indices = [];
         for (int i = 0; i < count; i++)
         {
             if ((bytes[i >> 3] & (1 << (i & 7))) != 0)
@@ -634,12 +606,9 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
         byte residue = HexText.Decode(hex.Value)[0];
         int used = count & 7;
-        if (used == 0 || (residue & (byte)~(0xFF << used)) != 0)
-        {
-            throw context.Fail(Codes.Range, "$reserved keeps only the bits past the count.", reserved, path);
-        }
-
-        return residue;
+        return used == 0 || (residue & (byte)~(0xFF << used)) != 0
+            ? throw context.Fail(Codes.Range, "$reserved keeps only the bits past the count.", reserved, path)
+            : residue;
     }
 
     /// <summary>Set bit indices: ascending, each once, each below the count.</summary>
@@ -683,48 +652,28 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
     private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, DecodeContext context, DocumentNodePath path)
     {
-        if (owner?[name] is JsonInteger json)
-        {
-            if (json.Value < 0 || json.Value > int.MaxValue)
-            {
-                throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(json.Value));
-            }
-
-            return (int)json.Value;
-        }
-        if (parent?.Find(name) is IntegerNode node)
-        {
-            if (node.Value < 0 || node.Value > int.MaxValue)
-            {
-                throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(node.Value));
-            }
-
-            return (int)node.Value;
-        }
-        return 0;
+        return owner?[name] is JsonInteger json
+            ? json.Value < 0 || json.Value > int.MaxValue
+                ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(json.Value))
+                : (int)json.Value
+            : parent?.Find(name) is IntegerNode node
+            ? node.Value < 0 || node.Value > int.MaxValue
+                ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(node.Value))
+                : (int)node.Value
+            : 0;
     }
 
     private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, EncodeContext context, DocumentNodePath path)
     {
-        if (owner?[name] is JsonInteger json)
-        {
-            if (json.Value < 0 || json.Value > int.MaxValue)
-            {
-                throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", json, path, Text(json.Value));
-            }
-
-            return (int)json.Value;
-        }
-        if (parent?.Find(name) is IntegerNode node)
-        {
-            if (node.Value < 0 || node.Value > int.MaxValue)
-            {
-                throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", null, path, Text(node.Value));
-            }
-
-            return (int)node.Value;
-        }
-        return 0;
+        return owner?[name] is JsonInteger json
+            ? json.Value < 0 || json.Value > int.MaxValue
+                ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", json, path, Text(json.Value))
+                : (int)json.Value
+            : parent?.Find(name) is IntegerNode node
+            ? node.Value < 0 || node.Value > int.MaxValue
+                ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", null, path, Text(node.Value))
+                : (int)node.Value
+            : 0;
     }
 
     private static ConversionException FrameFail(EncodeContext context, ImageFrame frame, string code, string message) =>
@@ -739,57 +688,33 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
 {
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        if (end - start != 1)
-        {
-            throw Mismatch(context, start, site, "A raw boolean is stored in " + (end - start) + " bytes.");
-        }
-
-        return Value(context.Data[start]);
+        return end - start != 1
+            ? throw Mismatch(context, start, site, "A raw boolean is stored in " + (end - start) + " bytes.")
+            : Value(context.Data[start]);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Byte(ByteOf(context, value, site.Path, site.Property?.Name ?? "The value"));
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is BooleanNode bit)
-        {
-            return new JsonBoolean(bit.Value);
-        }
-
-        if (value is IntegerNode { Width: 1, Signed: false } number)
-        {
-            if (number.Value is < 0 or > 255)
-            {
-                throw site.Fail(Codes.Range, (site.Property?.Name ?? "The value") + " is outside its storage range.", value: Text(number.Value), constraint: "0 to 255");
-            }
-
-            return new JsonInteger(number.Value);
-        }
-        throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.");
+        return value is BooleanNode bit
+            ? new JsonBoolean(bit.Value)
+            : value is IntegerNode { Width: 1, Signed: false } number
+            ? number.Value is < 0 or > 255
+                ? throw site.Fail(Codes.Range, (site.Property?.Name ?? "The value") + " is outside its storage range.", value: Text(number.Value), constraint: "0 to 255")
+                : (JsonValue)new JsonInteger(number.Value)
+            : throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.");
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        if (value is JsonBoolean bit)
-        {
-            return new BooleanNode(bit.Value);
-        }
-
-        if (value is JsonInteger number)
-        {
-            if (number.Value is < 0 or > 255)
-            {
-                throw site.Fail(Codes.Range, (site.Property?.Name ?? "The value") + " is outside its storage range.", value, Text(number.Value), "0 to 255");
-            }
-
-            if (number.Value is 0 or 1)
-            {
-                return new BooleanNode(number.Value != 0);
-            }
-
-            return new IntegerNode(1, false, number.Value);
-        }
-        throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.", value);
+        return value is JsonBoolean bit
+            ? new BooleanNode(bit.Value)
+            : value is JsonInteger number
+            ? number.Value is < 0 or > 255
+                ? throw site.Fail(Codes.Range, (site.Property?.Name ?? "The value") + " is outside its storage range.", value, Text(number.Value), "0 to 255")
+                : number.Value is 0 or 1 ? new BooleanNode(number.Value != 0) : new IntegerNode(1, false, number.Value)
+            : throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.", value);
     }
 
     /// <summary>The document value of a raw boolean byte: false, true, or the integer of any other byte.</summary>

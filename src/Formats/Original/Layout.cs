@@ -273,28 +273,19 @@ internal sealed class LayoutReader
 
     private static byte[] Bytes(EncodeContext context, JsonValue? value, DocumentNodePath path)
     {
-        if (value is not JsonString s || !IsHex(s.Value))
-        {
-            throw context.Fail(Codes.Layout, "A layout part needs bytes as lowercase hexadecimal digits of even length.", value, path);
-        }
-
-        if (s.Value.Length / 2 > context.Limits.DecompressedBytes)
-        {
-            throw context.Fail(Codes.Limit, "A layout part is too large.", value, path);
-        }
-
-        return Convert.FromHexString(s.Value);
+        return value is not JsonString s || !IsHex(s.Value)
+            ? throw context.Fail(Codes.Layout, "A layout part needs bytes as lowercase hexadecimal digits of even length.", value, path)
+            : s.Value.Length / 2 > context.Limits.DecompressedBytes
+            ? throw context.Fail(Codes.Limit, "A layout part is too large.", value, path)
+            : Convert.FromHexString(s.Value);
     }
 
     private static int Int32(EncodeContext context, JsonValue? value, DocumentNodePath path, long min, long max)
     {
-        if (value is not JsonInteger n || n.Value < min || n.Value > max)
-        {
-            throw context.Fail(Codes.Layout, "A layout part has an integer out of bounds.", value, path,
-                value is JsonInteger k ? k.Value.ToString(CultureInfo.InvariantCulture) : null, $"{min} to {max}");
-        }
-
-        return (int)n.Value;
+        return value is not JsonInteger n || n.Value < min || n.Value > max
+            ? throw context.Fail(Codes.Layout, "A layout part has an integer out of bounds.", value, path,
+                value is JsonInteger k ? k.Value.ToString(CultureInfo.InvariantCulture) : null, $"{min} to {max}")
+            : (int)n.Value;
     }
 
     private void ReadPart(EncodeContext context, JsonValue item, DocumentNodePath path)
@@ -313,7 +304,7 @@ internal sealed class LayoutReader
                 {
                     allowed = ["category", "property", "entries", "longMarker"];
                     JsonArray list = part["entries"] as JsonArray ?? throw context.Fail(Codes.Layout, "A table part needs entries.", part, path);
-                    List<TableEntry> entries = new();
+                    List<TableEntry> entries = [];
                     for (int i = 0; i < list.Items.Count; i++)
                     {
                         JsonArray? e = list.Items[i] as JsonArray;

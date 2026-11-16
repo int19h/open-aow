@@ -28,9 +28,9 @@ internal sealed class FrameFixture
     internal static DateTime FileStampUtc(DateTime localTime, TimeSpan offset) =>
         new DateTimeOffset(DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified), offset).UtcDateTime;
 
-    private readonly Dictionary<string, string> _defaults = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, string> _values = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, object> _settings = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string> _defaults = [with(StringComparer.Ordinal)];
+    private readonly Dictionary<string, string> _values = [with(StringComparer.Ordinal)];
+    private readonly Dictionary<string, object> _settings = [with(StringComparer.OrdinalIgnoreCase)];
     private static readonly HashSet<string> s_booleans = ["Skip Intro", "Debug Mode", "Allow Resolution Switches", "Music Enabled", "Sound Effects Enabled", "Shadows Enabled", "Surface In VMem"];
 
     public static int Run(string path, string name, string gameRoot, string output, int? frameLimit = null)
@@ -60,7 +60,7 @@ internal sealed class FrameFixture
             throw new InvalidDataException("Checkpoints require sorted earlier frames on the after-combat clock");
         }
 
-        HashSet<int> capturedCheckpoints = new();
+        HashSet<int> capturedCheckpoints = [];
         Snapshot[] snapshots = fixture._values.TryGetValue("snapshots", out string? snapshotText)
             ? JsonSerializer.Deserialize<Snapshot[]>(Regex.Replace(snapshotText, @"(\w+)\s*=", "\"$1\":"), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })! : [];
         if (snapshots.Length > 8 || snapshots.Any(s => !Regex.IsMatch(s.Name, "^[a-z0-9-]+$") || s.Day < 1 || s.Frame < 1 ||
@@ -70,7 +70,7 @@ internal sealed class FrameFixture
             throw new InvalidDataException("Snapshots require distinct safe names and matching day-clock inputs");
         }
 
-        HashSet<string> capturedSnapshots = new();
+        HashSet<string> capturedSnapshots = [];
         Snapshot? pendingSnapshot = null;
         (int X, int Y) size = fixture.Pair("size");
         (int X, int Y) mouse = fixture.Pair("mouse");
@@ -190,18 +190,13 @@ internal sealed class FrameFixture
             bool AtTarget()
             {
                 ObserveDay();
-                if (applied != clicks.Count)
-                {
-                    return false;
-                }
-
-                return afterCombatCapture ? AfterCombatFrame() == frame :
+                return applied == clicks.Count && (afterCombatCapture ? AfterCombatFrame() == frame :
                 combatCapture ? StrategicMap.Current?.CombatMap?.Frame == frame :
                 titleCapture ? StrategicMap.Current is null && display.Frame - titleOrigin == frame :
                 dayCapture ? StrategicMap.Current?.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
                 !worldCapture && (scene == "title" || presentationClock) ? display.Frame == frame :
                 tactical ? tacticalReady && StrategicMap.Current.CombatMap.Frame == frame :
-                StrategicMap.Current is { } map && map.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
+                StrategicMap.Current is { } map && map.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame);
             }
             display.CaptureWhen = () =>
             {
@@ -369,7 +364,7 @@ internal sealed class FrameFixture
             ArmyHexSprite? selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
             if (StrategicMap.Current is { } world)
             {
-                List<object> heroes = new();
+                List<object> heroes = [];
                 for (int i = 0; i < world.HeroControl.GetCount(); i++)
                 {
                     Hero hero = world.HeroControl.GetHero(i);
@@ -400,8 +395,8 @@ internal sealed class FrameFixture
                     new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 if (name.StartsWith("paths-", StringComparison.Ordinal))
                 {
-                    List<object> players = new();
-                    List<object> cities = new();
+                    List<object> players = [];
+                    List<object> cities = [];
                     for (int playerIndex = 0; playerIndex < world.Players.GetCount(); playerIndex++)
                     {
                         Player player = world.Players.GetPlayers(playerIndex);
@@ -427,14 +422,13 @@ internal sealed class FrameFixture
             if (StrategicMap.Current?.CombatMap is CombatMap combatMap)
             {
                 HexSpriteMapViewer viewer = form.UI.MapWindow.MapViewer;
-                List<object> units = new();
+                List<object> units = [];
                 CombatData data = combatMap.Combat.CombatData;
                 for (int i = 0; i < data.GetCount(); i++)
                 {
                     if (data.GetObjects(i) is TacticalBattleUnit unit && unit.UnitHexSprite is { } sprite)
                     {
-                        int x = 0, y = 0;
-                        HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), out x, out y);
+                        HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), out int x, out int y);
                         units.Add(new
                         {
                             FID = unit.Id,
@@ -559,7 +553,7 @@ internal sealed class FrameFixture
         FrameFixture result = new();
         string section = "";
         Dictionary<string, string>? current = null;
-        List<Dictionary<string, string>> fixtures = new();
+        List<Dictionary<string, string>> fixtures = [];
         foreach (string raw in File.ReadLines(path))
         {
             string line = raw.Trim();
@@ -568,7 +562,7 @@ internal sealed class FrameFixture
                 continue;
             }
 
-            if (line == "[[fixture]]") { section = "fixture"; current = new(StringComparer.Ordinal); fixtures.Add(current); continue; }
+            if (line == "[[fixture]]") { section = "fixture"; current = [with(StringComparer.Ordinal)]; fixtures.Add(current); continue; }
             if (line.StartsWith('[')) { section = line.Trim('[', ']'); continue; }
             int equals = line.IndexOf('=');
             if (equals < 0)

@@ -73,12 +73,9 @@ internal sealed class CoordinateCodec : PropertyCodec
 
             parsed[i] = (name, (int)id.Value);
         }
-        if (source["id"] is not JsonInteger property || (int)property.Value != parsed[0].Id)
-        {
-            throw new InvalidOperationException(path + " coordinate id is the id of X.");
-        }
-
-        return new CoordinateCodec((int)width.Value, parsed);
+        return source["id"] is not JsonInteger property || (int)property.Value != parsed[0].Id
+            ? throw new InvalidOperationException(path + " coordinate id is the id of X.")
+            : new CoordinateCodec((int)width.Value, parsed);
     }
 
     internal override bool StoresImage(TreeValue value) => value is not RecordNode node || node.Members.Count != 0;
@@ -303,12 +300,9 @@ internal sealed class CoordinateCodec : PropertyCodec
 
     private long Require(TreeValue found, string name, Func<string, ConversionException> mismatch)
     {
-        if (found is not IntegerNode integer || integer.Width != _width || integer.Signed != _signed)
-        {
-            throw mismatch(name + " is an integer.");
-        }
-
-        return integer.Value;
+        return found is not IntegerNode integer || integer.Width != _width || integer.Signed != _signed
+            ? throw mismatch(name + " is an integer.")
+            : integer.Value;
     }
 
     private void CheckRange(long number, string name, Func<long, ConversionException> fail)

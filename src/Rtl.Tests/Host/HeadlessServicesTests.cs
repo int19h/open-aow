@@ -62,7 +62,7 @@ public sealed class HeadlessServicesTests
     {
         Registry registry = new();
         registry.OpenKey("General", true);
-        registry.WriteBinaryData("Movement Speed", new byte[] { 2, 7, 9 }, 2);
+        registry.WriteBinaryData("Movement Speed", [2, 7, 9], 2);
         byte[] result = [0xff, 0xff, 0xff, 0xff];
         Assert.Equal(2, registry.ReadBinaryData("Movement Speed", result, result.Length));
         Assert.Equal(new byte[] { 2, 7, 0xff, 0xff }, result);

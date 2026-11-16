@@ -14,8 +14,8 @@ namespace Aow.Formats.Schema;
 /// </summary>
 public sealed class FormatSchema
 {
-    private readonly Dictionary<string, SchemaClass> _classes = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, Dictionary<int, SchemaClass>> _engines = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, SchemaClass> _classes = [with(StringComparer.Ordinal)];
+    private readonly Dictionary<string, Dictionary<int, SchemaClass>> _engines = [with(StringComparer.Ordinal)];
     private readonly List<string> _ambiguities = [];
     private readonly List<(string Engine, int Id)> _ambiguous = [];
 
@@ -150,12 +150,7 @@ public sealed class FormatSchema
         }
 
         string? resolved = NameTable.ResolveStored(className);
-        if (resolved is null || resolved == className || !_legacyShapes.TryGetValue((context, resolved), out shape))
-        {
-            return null;
-        }
-
-        return shape;
+        return resolved is null || resolved == className || !_legacyShapes.TryGetValue((context, resolved), out shape) ? null : shape;
     }
 
     // The stored context names the class with its current name or with the Delphi name.
@@ -197,12 +192,7 @@ public sealed class FormatSchema
         }
         // A current schema answers a Delphi name. A version 1 or 2 schema answers the current name.
         string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-        if (delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found))
-        {
-            return found;
-        }
-
-        return null;
+        return delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found) ? found : null;
     }
 
     public SchemaClass Get(string name) =>
@@ -229,12 +219,9 @@ public static class FormatVersions
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         JsonObject current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
-        if (current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion })
-        {
-            throw new InvalidOperationException("versions.json does not pin the current version.");
-        }
-
-        return current;
+        return current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion }
+            ? throw new InvalidOperationException("versions.json does not pin the current version.")
+            : current;
     });
 
     public static IReadOnlyList<string> UnitMappings => Names("unitMappings");
@@ -251,7 +238,7 @@ public sealed class SchemaClass
     private readonly List<SchemaProperty> _own = [];
     private List<SchemaProperty> _effective = [];
     private readonly Dictionary<int, SchemaProperty> _byId = [];
-    private readonly Dictionary<string, SchemaProperty> _byName = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, SchemaProperty> _byName = [with(StringComparer.Ordinal)];
     private readonly List<SchemaProperty> _dynamic = [];
     private readonly string? _parentName;
     private bool _completed;
@@ -365,8 +352,8 @@ public sealed class SchemaClass
 
         _completed = true;
         Parent?.Complete();
-        List<SchemaProperty> readWrite = new();
-        List<SchemaProperty> children = new();
+        List<SchemaProperty> readWrite = [];
+        List<SchemaProperty> children = [];
         bool keepChildren = true;
         for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
@@ -376,7 +363,7 @@ public sealed class SchemaClass
             }
         }
         // Walk the chain base first, stopping at the first class whose ReadWrite skips its base.
-        List<SchemaClass> chain = new();
+        List<SchemaClass> chain = [];
         for (SchemaClass? c = this; c is not null; c = c.Parent)
         {
             chain.Add(c);
@@ -422,7 +409,7 @@ public sealed class SchemaClass
         if (_source["order"] is JsonArray order)
         {
             Dictionary<string, SchemaProperty> named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
-            List<SchemaProperty> ordered = new();
+            List<SchemaProperty> ordered = [];
             foreach (JsonValue item in order.Items)
             {
                 string n = ((JsonString)item).Value;
@@ -521,7 +508,7 @@ public sealed class SchemaProperty
 
     private static int[] ImageIdList(int? id, int? dataId, PropertyCodec codec)
     {
-        List<int> ids = new();
+        List<int> ids = [];
         if (id is int own)
         {
             ids.Add(own);

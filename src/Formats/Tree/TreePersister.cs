@@ -225,17 +225,11 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return fallback;
-            }
-
-            if (found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed)
-            {
-                throw Type(name, "a " + typeName);
-            }
-
-            return (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
+            return found is null
+                ? fallback
+                : found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed
+                ? throw Type(name, "a " + typeName)
+                : (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
         }
         Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
         return value;
@@ -253,17 +247,11 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return value;
-            }
-
-            if (found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width)
-            {
-                throw Type(name, "a set of " + typeName);
-            }
-
-            return Rtl.Set<E>.FromMask(node.Mask);
+            return found is null
+                ? value
+                : found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width
+                ? throw Type(name, "a set of " + typeName)
+                : Rtl.Set<E>.FromMask(node.Mask);
         }
         Span<byte> image = stackalloc byte[width];
         value.CopyImageTo(image);
@@ -439,20 +427,11 @@ internal sealed class MemberPersister : IPersister
                 return value;
             }
 
-            byte loaded;
-            if (found is BooleanNode node)
-            {
-                loaded = node.Value ? (byte)1 : (byte)0;
-            }
-            else if (found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255)
-            {
-                loaded = (byte)number.Value;
-            }
-            else
-            {
-                throw Type(name, "a boolean");
-            }
-
+            byte loaded = found is BooleanNode node
+                ? node.Value ? (byte)1 : (byte)0
+                : found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255
+                    ? (byte)number.Value
+                    : throw Type(name, "a boolean");
             return Unsafe.As<byte, bool>(ref loaded);
         }
         byte stored = Unsafe.As<bool, byte>(ref value);
@@ -525,7 +504,7 @@ internal sealed class MemberPersister : IPersister
             return;
         }
 
-        List<int> indices = new();
+        List<int> indices = [];
         for (int i = 0; i < count; i++)
         {
             if ((bits[i >> 3] & (1 << (i & 7))) != 0)
@@ -576,7 +555,7 @@ internal sealed class MemberPersister : IPersister
             throw TreeErrors.Fail(Codes.Range, name + " of " + value.Count.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bits holds " + ((value.Count + 7L) >> 3).ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", _path.Member(name));
         }
 
-        List<int> indices = new();
+        List<int> indices = [];
         for (int i = 0; i < value.Count; i++)
         {
             if ((value.Bits[i >> 3] & (1 << (i & 7))) != 0)
@@ -594,17 +573,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return value;
-            }
-
-            if (found is not SingleNode node)
-            {
-                throw Type(name, "a single");
-            }
-
-            return node.Value;
+            return found is null ? value : found is not SingleNode node ? throw Type(name, "a single") : node.Value;
         }
         Store(name, new SingleNode(BitConverter.SingleToInt32Bits(value)));
         return value;
@@ -615,17 +584,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return null;
-            }
-
-            if (found is not BytesNode node)
-            {
-                throw Type(name, "bytes");
-            }
-
-            return node.Data;
+            return found is null ? null : found is not BytesNode node ? throw Type(name, "bytes") : node.Data;
         }
         Store(name, new BytesNode(data));
         return data;
@@ -709,20 +668,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            ObjectNode nested;
-            if (found is null)
-            {
-                nested = new ObjectNode(null, null);
-            }
-            else if (found is ObjectNode node)
-            {
-                nested = node;
-            }
-            else
-            {
-                throw Type(name, "an object");
-            }
-
+            ObjectNode nested = found is null ? new ObjectNode(null, null) : found is ObjectNode node ? node : throw Type(name, "an object");
             MemberPersister child = new(nested, true, Factory, _path.Member(name), _errors, preview: Preview);
             // rwEObject wraps the main visit and leaves the caller's instance in place.
             try
@@ -749,17 +695,11 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null || found is NullNode)
-            {
-                return null;
-            }
-
-            if (found is not ObjectNode node || node.ClassName is not string className)
-            {
-                throw Type(name, "a created object");
-            }
-
-            return Create(node, className, _path.Member(name));
+            return found is null || found is NullNode
+                ? null
+                : found is not ObjectNode node || node.ClassName is not string className
+                ? throw Type(name, "a created object")
+                : Create(node, className, _path.Member(name));
         }
         if (objectValue is null)
         {
@@ -775,12 +715,9 @@ internal sealed class MemberPersister : IPersister
     public T? Created<T>(string name, T? objectValue) where T : class, IPersistable
     {
         IPersistable? box = Created(name, (IPersistable?)objectValue);
-        if (box is not null && box is not T)
-        {
-            throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name);
-        }
-
-        return (T?)box;
+        return box is not null && box is not T
+            ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name)
+            : (T?)box;
     }
 
     public IPersistable? CreatedSlot(string name, int slot, IPersistable? objectValue)
@@ -791,7 +728,7 @@ internal sealed class MemberPersister : IPersister
             throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
-        _slotMembers ??= new Dictionary<string, SlotListNode?>(StringComparer.Ordinal);
+        _slotMembers ??= [with(StringComparer.Ordinal)];
         if (Loading)
         {
             if (!_slotMembers.TryGetValue(name, out SlotListNode? stored))
@@ -806,17 +743,11 @@ internal sealed class MemberPersister : IPersister
                 _slotMembers[name] = stored;
             }
             TreeValue? value = stored?.Find(slot);
-            if (value is null || value is NullNode)
-            {
-                return null;
-            }
-
-            if (value is not ObjectNode node || node.ClassName is not string className)
-            {
-                throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a created object.", at);
-            }
-
-            return Create(node, className, at);
+            return value is null || value is NullNode
+                ? null
+                : value is not ObjectNode node || node.ClassName is not string className
+                ? throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a created object.", at)
+                : Create(node, className, at);
         }
         if (!_slotMembers.TryGetValue(name, out SlotListNode? list) || list is null)
         {
@@ -843,12 +774,9 @@ internal sealed class MemberPersister : IPersister
     public T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable
     {
         IPersistable? box = CreatedSlot(name, slot, (IPersistable?)objectValue);
-        if (box is not null && box is not T)
-        {
-            throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name);
-        }
-
-        return (T?)box;
+        return box is not null && box is not T
+            ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name)
+            : (T?)box;
     }
 
     public void ObjectSlot(string name, int slot, IPersistable objectValue)
@@ -859,7 +787,7 @@ internal sealed class MemberPersister : IPersister
             throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
-        _slotMembers ??= new Dictionary<string, SlotListNode?>(StringComparer.Ordinal);
+        _slotMembers ??= [with(StringComparer.Ordinal)];
         if (Loading)
         {
             if (!_slotMembers.TryGetValue(name, out SlotListNode? stored))
@@ -995,20 +923,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            IReadOnlyList<ObjectNode> list;
-            if (found is null)
-            {
-                list = [];
-            }
-            else if (found is ChildListNode node)
-            {
-                list = node.Children;
-            }
-            else
-            {
-                throw Type(name, "children");
-            }
-
+            IReadOnlyList<ObjectNode> list = found is null ? [] : found is ChildListNode node ? node.Children : throw Type(name, "children");
             foreach (ObjectNode child in list)
             {
                 if (child.ClassName is not string className || child.Slot is not int slot)
@@ -1041,7 +956,7 @@ internal sealed class MemberPersister : IPersister
             }
             return;
         }
-        List<ObjectNode> written = new();
+        List<ObjectNode> written = [];
         for (int i = 0; i < children.Count; i++)
         {
             if (!children.IsStored(i))
@@ -1202,17 +1117,11 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return [];
-            }
-
-            if (found is not NestedDocumentNode node || node.Profile != profile)
-            {
-                throw Type(name, "a nested " + profile + " document");
-            }
-
-            return node.Image;
+            return found is null
+                ? []
+                : found is not NestedDocumentNode node || node.Profile != profile
+                ? throw Type(name, "a nested " + profile + " document")
+                : node.Image;
         }
         if (image.Length != 0)
         {
@@ -1227,26 +1136,13 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return fallback;
-            }
-
-            if (found is ReferenceNode reference)
-            {
-                if (reference.Domain != domain)
-                {
-                    throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", _path.Member(name), value: reference.Domain, constraint: domain);
-                }
-
-                return reference.Key;
-            }
-            if (found is IntegerNode integer && integer.Width == 4 && integer.Signed)
-            {
-                return (int)integer.Value;
-            }
-
-            throw Type(name, "a reference");
+            return found is null
+                ? fallback
+                : found is ReferenceNode reference
+                ? reference.Domain != domain
+                    ? throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", _path.Member(name), value: reference.Domain, constraint: domain)
+                    : reference.Key
+                : found is IntegerNode integer && integer.Width == 4 && integer.Signed ? (int)integer.Value : throw Type(name, "a reference");
         }
         if (key != fallback)
         {
@@ -1261,20 +1157,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            RecordNode record;
-            if (found is null)
-            {
-                record = new RecordNode();
-            }
-            else if (found is RecordNode node)
-            {
-                record = node;
-            }
-            else
-            {
-                throw Type(name, "a record");
-            }
-
+            RecordNode record = found is null ? new RecordNode() : found is RecordNode node ? node : throw Type(name, "a record");
             MemberPersister child = new(record, true, Factory, _path.Member(name), _errors, preview: Preview);
             body(child);
             child.Finish();
@@ -1330,22 +1213,11 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return fallback;
-            }
-
-            if (found is IntegerNode node && node.Width == width && node.Signed == signed)
-            {
-                return node.Value;
-            }
-
-            if (found is ReferenceNode reference && width == 4 && signed)
-            {
-                return reference.Key;
-            }
-
-            throw Type(name, "an integer");
+            return found is null
+                ? fallback
+                : found is IntegerNode node && node.Width == width && node.Signed == signed
+                ? node.Value
+                : found is ReferenceNode reference && width == 4 && signed ? reference.Key : throw Type(name, "an integer");
         }
         if (current != fallback)
         {
@@ -1370,13 +1242,10 @@ internal sealed class MemberPersister : IPersister
 
     private TreeValue? Take(string name)
     {
-        _consumed ??= new HashSet<string>(StringComparer.Ordinal);
-        if (!_consumed.Add(name))
-        {
-            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name));
-        }
-
-        return Find(name);
+        _consumed ??= [with(StringComparer.Ordinal)];
+        return !_consumed.Add(name)
+            ? throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name))
+            : Find(name);
     }
 
     private void Store(string name, TreeValue value)
@@ -1397,17 +1266,9 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            if (found is null)
-            {
-                return current;
-            }
-
-            if (found is IntegerNode node && node.Width == width && node.Signed == signed)
-            {
-                return node.Value;
-            }
-
-            throw Type(name, "an integer");
+            return found is null
+                ? current
+                : found is IntegerNode node && node.Width == width && node.Signed == signed ? node.Value : throw Type(name, "an integer");
         }
         Store(name, new IntegerNode(width, signed, current));
         return current;
@@ -1446,7 +1307,7 @@ internal sealed class MemberPersister : IPersister
 
     private static List<string> Split(string text)
     {
-        List<string> lines = new();
+        List<string> lines = [];
         int i = 0;
         while (i < text.Length && text[i] != '\0')
         {
@@ -1493,15 +1354,12 @@ internal sealed class ItemSlot : IItemSlot
         _preview = preview;
     }
 
-    public TreeValue Finish()
-    {
-        if (!_used)
-        {
-            throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", _path);
-        }
-
-        return _loading ? _loaded! : _stored!;
-    }
+    public TreeValue Finish() =>
+        !_used
+            ? throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", _path)
+            : _loading
+                ? _loaded!
+                : _stored!;
 
     public int Int32(int value) => (int)Integer(value, 4, true);
 
@@ -1520,12 +1378,7 @@ internal sealed class ItemSlot : IItemSlot
         Use();
         if (_loading)
         {
-            if (_loaded is not BooleanNode node)
-            {
-                throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", _path);
-            }
-
-            return node.Value;
+            return _loaded is not BooleanNode node ? throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", _path) : node.Value;
         }
         _stored = new BooleanNode(value);
         return value;
@@ -1536,12 +1389,7 @@ internal sealed class ItemSlot : IItemSlot
         Use();
         if (_loading)
         {
-            if (_loaded is not StringNode node)
-            {
-                throw TreeErrors.Fail(Codes.Type, "A list item is a string.", _path);
-            }
-
-            return node.Value;
+            return _loaded is not StringNode node ? throw TreeErrors.Fail(Codes.Type, "A list item is a string.", _path) : node.Value;
         }
         // A null item stores as empty and stays null in the list, as the ref call left it.
         _stored = new StringNode(value ?? "");
@@ -1623,12 +1471,9 @@ internal sealed class ItemSlot : IItemSlot
         Use();
         if (_loading)
         {
-            if (_loaded is not IntegerNode node || node.Width != width || node.Signed != signed)
-            {
-                throw TreeErrors.Fail(Codes.Type, "A list item is an integer.", _path);
-            }
-
-            return node.Value;
+            return _loaded is not IntegerNode node || node.Width != width || node.Signed != signed
+                ? throw TreeErrors.Fail(Codes.Type, "A list item is an integer.", _path)
+                : node.Value;
         }
         _stored = new IntegerNode(width, signed, current);
         return current;

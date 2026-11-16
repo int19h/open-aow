@@ -100,7 +100,7 @@ public static class DocumentValidation
 
             return new DocumentCheck(Findings: [diagnostic]);
         }
-        List<FormatDiagnostic> findings = new();
+        List<FormatDiagnostic> findings = [];
         ValidationContext context = new(document, profile, kind, file);
         foreach (IDocumentValidator validator in validators)
         {

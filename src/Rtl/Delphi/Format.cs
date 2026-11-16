@@ -82,12 +82,7 @@ public static partial class RtlUnit
         if (position < text.Length && text[position] == '*')
         {
             position++;
-            if (next < 0 || next >= args.Length)
-            {
-                return 0;
-            }
-
-            return args[next++] is int value ? value : 0;
+            return next < 0 || next >= args.Length ? 0 : args[next++] is int value ? value : 0;
         }
         int number = 0;
         while (position < text.Length && char.IsAsciiDigit(text[position]))

@@ -5,8 +5,8 @@ public sealed class GraphicsBoundaryTests
     [Fact]
     public void CharacterBufferConversionStopsAtZero()
     {
-        Assert.Equal("AB", RtlUnit.StrPasBuffer(new byte[] { 65, 66, 0, 67 }));
-        Assert.Equal("AB", RtlUnit.StrPasBuffer(new byte[] { 65, 66 }));
+        Assert.Equal("AB", RtlUnit.StrPasBuffer([65, 66, 0, 67]));
+        Assert.Equal("AB", RtlUnit.StrPasBuffer([65, 66]));
     }
 
     [Fact]

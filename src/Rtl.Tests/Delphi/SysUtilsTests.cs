@@ -147,9 +147,8 @@ public sealed class SysUtilsTests
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(2100, 1, 1)));
             int dos = DateTimeToFileDate(date + time);
             Assert.Equal(date + EncodeTime(12, 34, 56, 0), FileDateToDateTime(dos));
-            ushort yearWord = 0, monthWord = 0, dayWord = 0, hourWord = 0, minuteWord = 0, secondWord = 0, millisecondsWord = 0;
-            DecodeDate(date, out yearWord, out monthWord, out dayWord);
-            DecodeTime(time, out hourWord, out minuteWord, out secondWord, out millisecondsWord);
+            DecodeDate(date, out ushort yearWord, out ushort monthWord, out ushort dayWord);
+            DecodeTime(time, out ushort hourWord, out ushort minuteWord, out ushort secondWord, out ushort millisecondsWord);
             Assert.Equal((2024, 2, 29), (yearWord, monthWord, dayWord));
             Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));

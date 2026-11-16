@@ -183,16 +183,14 @@ public sealed class StringRoutineTests
             Assert.Equal(RtlUnit.NullTerminatedText(ansi), RtlUnit.NullTerminatedText(text));
             foreach (int length in new[] { -1, 0, text.Length })
             {
-                string value = "old";
-                RtlUnit.SetString(out value, pointer, length);
+                RtlUnit.SetString(out string value, pointer, length);
                 Assert.Equal(RtlUnit.SetString(pointer, length), value);
             }
         }
         Assert.Equal("", RtlUnit.FromPChar(default));
         foreach (int length in new[] { -1, 0, 3 })
         {
-            string value = "old";
-            RtlUnit.SetString(out value, default, length);
+            RtlUnit.SetString(out string value, default, length);
             Assert.Equal(RtlUnit.SetString(default, length), value);
         }
     }

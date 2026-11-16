@@ -125,12 +125,9 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         {
             OnThread();
             SDL_DisplayMode* mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(_window));
-            if (mode is null)
-            {
-                throw Error();
-            }
-
-            return ((int)(mode->w * mode->pixel_density), (int)(mode->h * mode->pixel_density));
+            return mode is null
+                ? throw Error()
+                : ((int Width, int Height))((int)(mode->w * mode->pixel_density), (int)(mode->h * mode->pixel_density));
         }
     }
 

@@ -49,7 +49,7 @@ public static class DocumentBackend
             throw site.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", value: "$slot");
         }
 
-        HashSet<string> seen = new(StringComparer.Ordinal);
+        HashSet<string> seen = [with(StringComparer.Ordinal)];
         foreach (SchemaProperty prop in classValue.Properties)
         {
             TreeValue? value = node.Find(prop.Name);
@@ -103,7 +103,7 @@ public static class DocumentBackend
         }
 
         site = site.WithOwner(document);
-        HashSet<string> seen = new(StringComparer.Ordinal);
+        HashSet<string> seen = [with(StringComparer.Ordinal)];
         foreach (JsonMember member in document.Members)
         {
             if (!seen.Add(member.Name))
@@ -112,7 +112,7 @@ public static class DocumentBackend
             }
         }
 
-        List<string> reserved = new(2);
+        List<string> reserved = [with(2)];
         if (created)
         {
             reserved.Add("$class");
@@ -181,32 +181,20 @@ public static class DocumentBackend
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {
         SchemaClass classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
-        if (site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue))
-        {
-            throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name);
-        }
-
-        if (family is not null && !classValue.InheritsFrom(family))
-        {
-            throw site.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", at, classValue.Name, family);
-        }
-
-        return classValue;
+        return site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue)
+            ? throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name)
+            : family is not null && !classValue.InheritsFrom(family)
+            ? throw site.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", at, classValue.Name, family)
+            : classValue;
     }
 
     private static string ClassName(JsonValue value, DocumentSite site)
     {
-        if (value is JsonNull)
-        {
-            throw site.ForName("$class").Fail(Codes.Type, "A stored nil object is null, not $class null.", value);
-        }
-
-        if (value is not JsonString name)
-        {
-            throw site.ForName("$class").Fail(Codes.Type, "$class is a class name.", value, value.KindName);
-        }
-
-        return name.Value;
+        return value is JsonNull
+            ? throw site.ForName("$class").Fail(Codes.Type, "A stored nil object is null, not $class null.", value)
+            : value is not JsonString name
+            ? throw site.ForName("$class").Fail(Codes.Type, "$class is a class name.", value, value.KindName)
+            : name.Value;
     }
 
     private static DocumentSite Site(FormatSchema schema, string engine, DocumentNodePath path, string? file = null) => new()

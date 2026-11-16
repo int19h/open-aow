@@ -208,8 +208,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         {
             int x = -1, y = -1;
             Display.GetMousePosition(ref x, ref y);
-            Rect rectangle = default;
-            GetCursorRectangle(x, y, out rectangle);
+            GetCursorRectangle(x, y, out Rect rectangle);
             FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
@@ -254,8 +253,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 return;
             }
 
-            Rect bounds = default;
-            image.GetVisualDimensions(out bounds);
+            image.GetVisualDimensions(out Rect bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
             bounds.Top += y + dy; bounds.Bottom += y + dy;
             RtlUnit.UnionRect(out _cursorBounds, _cursorBounds, bounds);

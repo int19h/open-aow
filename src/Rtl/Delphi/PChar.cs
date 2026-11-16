@@ -2,20 +2,12 @@ namespace Aow.Rtl;
 
 public static partial class RtlUnit
 {
-    public static string SetString(Ptr<byte> source, int length)
-    {
-        if (length <= 0)
-        {
-            return "";
-        }
-
-        if (source.IsNull)
-        {
-            return Resized("", length);
-        }
-
-        return Cp1252.Decode(source.Array!.AsSpan(source.Index, length).ToArray());
-    }
+    public static string SetString(Ptr<byte> source, int length) =>
+        length <= 0
+            ? ""
+            : source.IsNull
+                ? Resized("", length)
+                : Cp1252.Decode(source.Array!.AsSpan(source.Index, length).ToArray());
 
     public static int StrLen(Ptr<byte> value)
     {

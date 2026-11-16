@@ -119,11 +119,6 @@ public sealed class Options
                     break;
             }
         }
-        if (o.ExactLayout && o.AllowLossy)
-        {
-            throw new UsageException("--exact-layout conflicts with --allow-lossy.");
-        }
-
-        return o;
+        return o.ExactLayout && o.AllowLossy ? throw new UsageException("--exact-layout conflicts with --allow-lossy.") : o;
     }
 }

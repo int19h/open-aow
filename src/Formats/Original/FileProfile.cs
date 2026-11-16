@@ -138,12 +138,9 @@ public abstract class FileProfile
     {
         if (!RootHasClass)
         {
-            if (root.Find("$class") is { } m)
-            {
-                throw context.Fail(Codes.ReservedMember, $"The {Name} root has a fixed class and no $class.", m.Value, DocumentNodePath.Root.Member("$class"));
-            }
-
-            return context.Schema.Get(RootFamily);
+            return root.Find("$class") is { } m
+                ? throw context.Fail(Codes.ReservedMember, $"The {Name} root has a fixed class and no $class.", m.Value, DocumentNodePath.Root.Member("$class"))
+                : context.Schema.Get(RootFamily);
         }
         if (root["$class"] is not JsonString name)
         {
@@ -151,17 +148,11 @@ public abstract class FileProfile
         }
 
         SchemaClass classValue = context.Schema.Find(name.Value) ?? throw context.Fail(Codes.UnknownClass, $"Unknown class {name.Value}.", name, DocumentNodePath.Root.Member("$class"), name.Value);
-        if (classValue.Id is not int id || context.Schema.Resolve(Engine, id) != classValue)
-        {
-            throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {Engine} engine table.", name, DocumentNodePath.Root.Member("$class"), classValue.Name);
-        }
-
-        if (!classValue.InheritsFrom(RootFamily))
-        {
-            throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {RootFamily} root for profile {Name}.", name, DocumentNodePath.Root.Member("$class"), classValue.Name, RootFamily);
-        }
-
-        return classValue;
+        return classValue.Id is not int id || context.Schema.Resolve(Engine, id) != classValue
+            ? throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {Engine} engine table.", name, DocumentNodePath.Root.Member("$class"), classValue.Name)
+            : !classValue.InheritsFrom(RootFamily)
+            ? throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {RootFamily} root for profile {Name}.", name, DocumentNodePath.Root.Member("$class"), classValue.Name, RootFamily)
+            : classValue;
     }
 
     internal static void CheckContainer(EncodeContext context, JsonObject container, params string[] allowed)
@@ -272,12 +263,9 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             head = file[..Math.Min(file.Length, 16)];
         }
 
-        if (head.Length < 16 || !head.AsSpan(4, 4).SequenceEqual(Magic))
-        {
-            return null;
-        }
-
-        return BinaryPrimitives.ReadInt32LittleEndian(head.AsSpan(12, 4));
+        return head.Length < 16 || !head.AsSpan(4, 4).SequenceEqual(Magic)
+            ? null
+            : BinaryPrimitives.ReadInt32LittleEndian(head.AsSpan(12, 4));
     }
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)
@@ -559,12 +547,9 @@ public sealed class ScenarioSetProfile : FileProfile
         }
 
         int size = context.Int32(0);
-        if (size < HeaderSize || size > context.Data.Length - 4)
-        {
-            throw context.Fail(Codes.Corrupt, message: "The scenario set header size is outside the file.", offset: 0);
-        }
-
-        return (context.Schema.Get(RootFamily), ReadTop(context, start: size, end: context.Data.Length - 4, layout: new LayoutBuilder()), context.Data.Length - 4);
+        return size < HeaderSize || size > context.Data.Length - 4
+            ? throw context.Fail(Codes.Corrupt, message: "The scenario set header size is outside the file.", offset: 0)
+            : ((SchemaClass Class, int Start, int End))(context.Schema.Get(RootFamily), ReadTop(context, start: size, end: context.Data.Length - 4, layout: new LayoutBuilder()), context.Data.Length - 4);
     }
 
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)

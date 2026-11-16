@@ -48,12 +48,9 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
         }
 
         long id = slot.Value + slotBase;
-        if (slot.Value < 0 || id < property.DynamicMinimum!.Value || id > int.MaxValue)
-        {
-            throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", slot, path.Member("$slot"));
-        }
-
-        return (int)id;
+        return slot.Value < 0 || id < property.DynamicMinimum!.Value || id > int.MaxValue
+            ? throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", slot, path.Member("$slot"))
+            : (int)id;
     }
 
     internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
@@ -211,12 +208,9 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 
         if (property.SlotBase is not int b)
         {
-            if (objectValue.Find("$slot") is { } extra)
-            {
-                throw context.Fail(Codes.ReservedMember, $"Items of {property.Name} have no $slot.", extra.Value, path.Member("$slot"));
-            }
-
-            return property.DynamicMinimum!.Value + index;
+            return objectValue.Find("$slot") is { } extra
+                ? throw context.Fail(Codes.ReservedMember, $"Items of {property.Name} have no $slot.", extra.Value, path.Member("$slot"))
+                : property.DynamicMinimum!.Value + index;
         }
         if (objectValue["$slot"] is not JsonInteger slot)
         {
@@ -224,12 +218,9 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
         }
 
         long id = slot.Value + b;
-        if (slot.Value < 0 || id < property.DynamicMinimum!.Value || id > int.MaxValue)
-        {
-            throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", slot, path.Member("$slot"));
-        }
-
-        return (int)id;
+        return slot.Value < 0 || id < property.DynamicMinimum!.Value || id > int.MaxValue
+            ? throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", slot, path.Member("$slot"))
+            : (int)id;
     }
 
     internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
@@ -251,10 +242,10 @@ internal sealed partial class ChildrenCodec : PropertyCodec
         int length = end - db;
         int[] boundaries = table.Entries.Select(e => e.Offset).Append(length).Distinct().Order().ToArray();
         List<TableEntry> order = table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
-        HashSet<int> slots = new();
+        HashSet<int> slots = [];
         JsonArray array = new();
         int cursor = 0, k = 0;
-        List<(int, int)> gaps = new();
+        List<(int, int)> gaps = [];
         for (int i = 0; i < order.Count; i++)
         {
             TableEntry e = order[i];
@@ -307,7 +298,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
         }
 
         ObjectWriter writer = new();
-        Dictionary<int, JsonValue> slots = new();
+        Dictionary<int, JsonValue> slots = [];
         for (int k = 0; k < array.Items.Count; k++)
         {
             DocumentNodePath itemPath = site.Path.Item(k);
@@ -393,12 +384,9 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
             }
             rows.Add(row);
         }
-        if (at != end)
-        {
-            throw context.Fail(Codes.Dimensions, $"The field stream holds more than {width} by {height} fields.", at, site.Path);
-        }
-
-        return rows;
+        return at != end
+            ? throw context.Fail(Codes.Dimensions, $"The field stream holds more than {width} by {height} fields.", at, site.Path)
+            : (JsonValue)rows;
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)

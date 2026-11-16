@@ -9,7 +9,7 @@ public sealed class HostTests
     {
         int seed = RtlUnit.RandSeed;
         Action<RandomTraceEvent>? previous = RtlUnit.RandomTrace;
-        List<RandomTraceEvent> events = new();
+        List<RandomTraceEvent> events = [];
         try
         {
             RtlUnit.RandomTrace = events.Add;

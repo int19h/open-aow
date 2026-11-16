@@ -5,7 +5,7 @@ namespace Aow.Rtl.Localize;
 public static class LocalizationRuntime
 {
     public const string LanguageKey = "\\Software\\Triumph Studios\\Age of Wonders\\General\\Language";
-    private static readonly Dictionary<string, MldDictionary> s_dictionaries = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, MldDictionary> s_dictionaries = [with(StringComparer.OrdinalIgnoreCase)];
 
     public static string StartupDirectory { get; set; } = "";
 

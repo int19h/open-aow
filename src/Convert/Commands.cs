@@ -29,14 +29,11 @@ internal static class Commands
         }
 
         Classification c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
-        if (c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null)
-        {
-            throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
+        return c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null
+            ? throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
                 "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.")
-            { File = path });
-        }
-
-        return GameFiles.Import(bytes, c.Profile, c.Kind, path);
+            { File = path })
+            : GameFiles.Import(bytes, c.Profile, c.Kind, path);
     }
 
     internal static int ToOwn(Options o, TextWriter output, TextWriter errors)
@@ -155,7 +152,7 @@ internal static class Commands
 
     private static Dictionary<string, (string? Kind, string? Profile)> Manifest(string? path)
     {
-        Dictionary<string, (string?, string?)> result = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, (string?, string?)> result = [with(StringComparer.OrdinalIgnoreCase)];
         if (path is null)
         {
             return result;
@@ -235,7 +232,7 @@ internal static class Commands
         }
 
         int done = 0, failed = 0, skipped = 0;
-        Dictionary<string, string> sources = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string> sources = [with(StringComparer.OrdinalIgnoreCase)];
         foreach (string relative in Enumerate(o.Directory!))
         {
             string input = Path.Combine(o.Directory!, relative);
