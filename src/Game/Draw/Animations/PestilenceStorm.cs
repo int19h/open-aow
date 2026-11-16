@@ -69,7 +69,7 @@ public partial class PestilenceStorm : Storm
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect r = default;
-        _cloudResource = (PoisonCloud.Resource)GamePack.Current.MapObjectResourceList.FindChild(135744);
+        _cloudResource = GamePack.Current.MapObjectResourceList.FindChild<PoisonCloud.Resource>(135744);
         base.InitializeStorm(player, X, Y, L);
         r.Left = -80;
         r.Right = 96;

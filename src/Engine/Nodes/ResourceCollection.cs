@@ -51,6 +51,9 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
         return result;
     }
 
+    // The id selects the resource. A resource of another class throws, the same way the call site did.
+    public T FindResource<T>(int id) where T : EngineResource => (T)FindResource(id);
+
     // Engine.pas:8600
     public void ValidateResourceId(int index)
     {

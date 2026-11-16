@@ -76,7 +76,7 @@ public partial class CombatHex : AbstractHexagon
             pixelY = pixelY - pixelYSurface;
             images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
             images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
-            images = ((Resource)base.Resource).TransitionLibrary;
+            images = GetResource<Resource>().TransitionLibrary;
             for (int side = 1; side <= 3; side++)
             {
                 if (_transitions[side - 1] != 255)
@@ -199,7 +199,7 @@ public partial class CombatHex : AbstractHexagon
             if (imageIndex != -1)
             {
                 imageIndex = (Random(2) * 3) + (imageIndex * 6) + (side - 1);
-                _transitions[side - 1] = ((Resource)base.Resource).TransitionLibrary.GetSafe(imageIndex) != null ? (byte)imageIndex : (byte)255;
+                _transitions[side - 1] = GetResource<Resource>().TransitionLibrary.GetSafe(imageIndex) != null ? (byte)imageIndex : (byte)255;
             }
             else
             {

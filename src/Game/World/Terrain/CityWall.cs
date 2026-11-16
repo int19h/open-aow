@@ -283,7 +283,7 @@ public partial class CityWall : CombatImageLibraryTerrain
     }
 
     // CityWall.pas:130
-    public byte GetDirection() => ((Resource)base.Resource).Direction;
+    public byte GetDirection() => GetResource<Resource>().Direction;
 
     // CityWall.pas:197
     public new int GetDefense() => -2;

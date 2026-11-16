@@ -18,6 +18,8 @@ public partial class TerrainMapObject : MultiHexMapObject
     // Terrain.pas:65
     public new const int ClassId = 131430;
 
+    public override TerrainMapObjectResource Resource => GetResource<TerrainMapObjectResource>();
+
     // Terrain.pas:60
 
     // Terrain.pas:179
@@ -89,7 +91,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         {
             if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                message.Result = ((TerrainMapObjectResource)Resource).DecorationType;
+                message.Result = Resource.DecorationType;
             }
         }
     }
@@ -132,7 +134,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 if (resources[i] is TerrainMapObjectResource terrain)
                 {
                     r = terrain;
-                    found = r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.DecorationType == ((TerrainMapObjectResource)Resource).DecorationType && r.TerrainType == ((TerrainMapObjectResource)Resource).TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
+                    found = r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.DecorationType == Resource.DecorationType && r.TerrainType == Resource.TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -180,7 +182,7 @@ public partial class TerrainMapObject : MultiHexMapObject
             if (resources[i] is TerrainMapObjectResource terrain)
             {
                 r = terrain;
-                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == ((TerrainMapObjectResource)Resource).TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     candidates.Add(r);
                 }
