@@ -252,7 +252,7 @@ public partial class CampaignTransferSettings : EngineObject
                     }
                     else
                     {
-                        newUnit = (Troop)troop.Copy(GetEngine());
+                        newUnit = troop.Copy<Troop>(GetEngine());
                         newUnit.RemoveEnchantments();
                         newUnit.RemoveHandicaps();
                         units.AddUnit(newUnit);
@@ -604,7 +604,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = SelectedUnits.Count - 1; i >= 0; i--)
             {
                 int item = SelectedUnits[i];
-                troop = (Troop)Units.GetUnit(item).Copy(GetEngine());
+                troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
                 troop.UnitId = -1;
                 troop.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 troop.Release();

@@ -69,7 +69,7 @@ public partial class ArmyView : Army
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)army.Units.GetUnit(i).Copy(GetEngine());
+                troop = army.Units.GetUnit(i).Copy<Troop>(GetEngine());
                 troop.SetOwner(this);
                 troop.Release();
                 Troop unit = army.Units.GetUnit(i);

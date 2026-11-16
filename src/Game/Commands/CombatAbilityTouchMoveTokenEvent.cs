@@ -104,7 +104,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
                                 PathStep path = Path[0];
                                 PathStep path2 = Path[0];
-                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild(2228484);
+                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                 PreviousUnit = hexSprite?.Unit;
 
                                 if (PreviousUnit != null && AbilityId != 117)
@@ -121,7 +121,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         PathStep path3 = Path[0];
                                         PathStep path4 = Path[0];
-                                        _wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild(2229508);
+                                        _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(2229508);
                                         if (_wall == null)
                                         {
                                             PathStep path5 = Path[0];
@@ -249,7 +249,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                 i = ((TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6) + 1;
                                                 PathStep path = Path[1];
                                                 HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
-                                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild(2228484);
+                                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                                 if (hexSprite == null || hexSprite == Unit.UnitHexSprite)
                                                 {
                                                     PreviousUnit = null;

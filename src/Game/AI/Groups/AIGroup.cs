@@ -158,6 +158,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // Unit.PAS:2167
     public override int AddChild(EngineObject child)
     {
+        // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
         if (CanAddUnit((Troop)child))
         {

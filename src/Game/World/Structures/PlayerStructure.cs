@@ -32,6 +32,8 @@ public partial class PlayerStructure : Structure
 
     public new const int ClassId = 131916;
 
+    public override PlayerStructureResource Resource => GetResource<PlayerStructureResource>();
+
     public sbyte Player { get; set; }
     public byte ProductionPriority { get; private set; }
 
@@ -89,7 +91,7 @@ public partial class PlayerStructure : Structure
         pixelYSurface = pixelY - pixelYSurface;
         if (_flagId != 63 && (!StrategicMap.Current.FogEnabled || !Fogged))
         {
-            PlayerStructureResource playerStructureResource = (PlayerStructureResource)Resource;
+            PlayerStructureResource playerStructureResource = Resource;
             if (playerStructureResource.FlagType <= 1)
             {
                 GamePack.Current.FlagControl.ShowFlag(playerStructureResource.FlagX + pixelXSurface, playerStructureResource.FlagY + pixelYSurface, playerStructureResource.Engine.HexSpriteMap.Frame + pixelX, _flagId, lockedSurface);
@@ -100,7 +102,7 @@ public partial class PlayerStructure : Structure
             }
         }
 
-        ((StructureResource)Resource).Show(pixelXSurface, pixelYSurface, lockedSurface, this);
+        Resource.Show(pixelXSurface, pixelYSurface, lockedSurface, this);
     }
 
     // Structur.PAS:2370
@@ -156,7 +158,7 @@ public partial class PlayerStructure : Structure
         {
             if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !GetRazed())
             {
-                message.Result = Player == 0 ? ((PlayerStructureResource)Resource).Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : (Rtl.MsgArg)Player;
+                message.Result = Player == 0 ? Resource.Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : (Rtl.MsgArg)Player;
             }
         }
         else
@@ -255,7 +257,7 @@ public partial class PlayerStructure : Structure
     {
         int result = Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || GetBuilding())
             ? Player == 0
-                ? ((MoveControl)info.Sender).Player == Player || !((PlayerStructureResource)Resource).Claimed ? 1 : 0
+                ? ((MoveControl)info.Sender).Player == Player || !Resource.Claimed ? 1 : 0
                 : ((MoveControl)info.Sender).Player == Player || Player == -1 ? 1 : 0
             : 1;
         return result;
@@ -461,7 +463,7 @@ public partial class PlayerStructure : Structure
         _flagId = !Status.Contains(MapObjectStatusElement.EditMode)
             ? Player > 0
                 ? (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace
-                : ((PlayerStructureResource)Resource).Claimed ? (byte)32 : (byte)63
+                : Resource.Claimed ? (byte)32 : (byte)63
             : (byte)63;
     }
 
@@ -588,7 +590,7 @@ public partial class PlayerStructure : Structure
     public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         LocationTextEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log.Player = newPlayer;
@@ -603,7 +605,7 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2363
     public virtual MoveAction GetMoveAction(sbyte player, MoveAction action)
     {
-        MoveAction result = player != Player && !GetRazed() && (Player != 0 || ((PlayerStructureResource)Resource).Claimed)
+        MoveAction result = player != Player && !GetRazed() && (Player != 0 || Resource.Claimed)
             ? MoveAction.Attack
             : action;
         return result;

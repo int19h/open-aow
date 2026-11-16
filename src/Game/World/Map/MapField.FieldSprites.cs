@@ -483,6 +483,9 @@ public partial class MapField
         return null;
     }
 
+    // The type selects the sprite, the same test typeof used. Another class throws, and null stays null.
+    public T FindNoneTransparentHexSprite<T>() where T : HexSprite => (T)FindNoneTransparentHexSprite(typeof(T));
+
     public HexSprite FindNoneTransparentHexSpriteClassId(int classId)
     {
         for (int i = 0; i < StoredCount; i++)

@@ -1207,7 +1207,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 MapCoordinate item2 = locations[i];
                 MapCoordinate item3 = locations[i];
                 MapCoordinate item4 = locations[i];
-                structure = (Structure)StrategicMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite(typeof(Structure));
+                structure = StrategicMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite<Structure>();
                 log = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
                 log.Setup(hero, PlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
                 log.LocationName = structure != null

@@ -274,14 +274,14 @@ public partial class BattleAI : IDisposable
             {
                 for (int i = 0, last = path.Count - 1; i <= last; i++)
                 {
-                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i].Location.X, path.List[i].Location.Y].FindOwnedChild(2228484);
+                    hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i].Location.X, path.List[i].Location.Y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                     if (freeStrikes && (hexSprite == null || (hexSprite == unit.UnitHexSprite && i - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i - 1].Location.X, path.List[i - 1].Location.Y].FindOwnedChild(2228484) == null)))
                     {
                         j = 1;
                         for (; j <= 6; j += 1)
                         {
                             HexGeometry.CenterHexNumberToHex(path.List[i].Location.X, path.List[i].Location.Y, j, ref x, ref y);
-                            hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
+                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                             if (hexSprite != null && hexSprite.Unit != ignore && hexSprite.Unit.GetSide() != unit.GetSide() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == unit.GetAbilityEnabled(1))
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(CombatObject.StrikeDamageValue(hexSprite.Unit, unit), 0, hexSprite.Unit, unit);
@@ -296,7 +296,7 @@ public partial class BattleAI : IDisposable
                         {
                             PathStep pathY = path[i];
                             PathStep pathX = path[i];
-                            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y].FindOwnedChild(2229508);
+                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y].FindOwnedChild<CityWall>(2229508);
                             if (wall == null)
                             {
                                 PathStep pathLocal = path[i];
@@ -530,7 +530,7 @@ public partial class BattleAI : IDisposable
         TacticalBattleUnitHexSprite hexSprite;
         CityWall wall;
         AbilityDamageValues damageValue = default;
-        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
         if (hexSprite != null && hexSprite.Unit != ignore && (friendly || hexSprite.Unit.GetSide() != U.GetSide()))
         {
             if (ability == 52)
@@ -617,7 +617,7 @@ public partial class BattleAI : IDisposable
 
         if (hitWalls && CombatMap.Current.Combat.CombatData.WallType != 0)
         {
-            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
+            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
             if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall != null && wall != null && (ignore == null || !(ignore is CombatWall) || (ignore is CombatWall && ignoreWall != wall)))
             {
                 if (ability == 52)
@@ -1293,7 +1293,7 @@ public partial class BattleAI : IDisposable
                                                         {
                                                             PathStep path = pathStepList[i];
                                                             PathStep pathX = pathStepList[i];
-                                                            cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild(2229508);
+                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(2229508);
                                                             if (cityWall == null && _side == CombatSideIndex.Attacker)
                                                             {
                                                                 PathStep path2 = pathStepList[i];
@@ -1702,7 +1702,7 @@ public partial class BattleAI : IDisposable
                                                     {
                                                         PathStep path = pathStepList[i];
                                                         PathStep pathX = pathStepList[i];
-                                                        cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild(2229508);
+                                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(2229508);
                                                         if (cityWall == null && _side == CombatSideIndex.Attacker)
                                                         {
                                                             PathStep path2 = pathStepList[i];
@@ -2816,7 +2816,7 @@ public partial class BattleAI : IDisposable
                                             CombatMap.Current.MoveControl.ProcessMove(settings);
                                         }
 
-                                        cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) as CityWall;
+                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) as CityWall;
                                         if (settings.Path.Count == 2 && move.MoveType == BattleAIMoveType.MoveRanged && cityWall != null)
                                         {
                                             move.UnitHexSprite.Unit.MovePoints = 0;

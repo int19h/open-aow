@@ -21,7 +21,7 @@ public partial class Terrain : TerrainMapObject
         {
             try
             {
-                if (((TerrainMapObjectResource)base.Resource).DecorationType == 3)
+                if (base.Resource.DecorationType == 3)
                 {
                     ValidateDeadTreeRegrow();
                 }
@@ -41,7 +41,7 @@ public partial class Terrain : TerrainMapObject
         {
             if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                message.Result = ((Resource)base.Resource).MapFieldResponse;
+                message.Result = GetResource<Resource>().MapFieldResponse;
                 return;
             }
         }
@@ -66,7 +66,7 @@ public partial class Terrain : TerrainMapObject
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                r = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 1, 0);
+                r = FindCompatibleResource(base.Resource.TerrainType, 1, 0);
                 if (r != null)
                 {
                     oldOwner = Owner;
@@ -93,7 +93,7 @@ public partial class Terrain : TerrainMapObject
             return;
         }
 
-        TerrainMapObjectResource resource = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 3, 3);
+        TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, 3, 3);
         if (resource == null)
         {
             return;

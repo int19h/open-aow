@@ -58,12 +58,9 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         for (int j = 0, last = GamePack.Current.CombatResources.GetCount() - 1; j <= last; j++)
         {
-            if (GamePack.Current.CombatResources.Resources[j] is CombatTerrain.Resource)
+            if (GamePack.Current.CombatResources.Resources[j] is CombatTerrain.Resource combatTerrain)
             {
-                MapObjectResource mapObjectResource = GamePack.Current.CombatResources.Resources[j];
-                MapObjectResource mapObjectResource2 = GamePack.Current.CombatResources.Resources[j];
-                MapObjectResource mapObjectResource3 = GamePack.Current.CombatResources.Resources[j];
-                _resources[((sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19) + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
+                _resources[((sbyte)combatTerrain.TerrainType * 19) + combatTerrain.DecorationType].Add(combatTerrain);
             }
         }
 
@@ -149,7 +146,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         fileName = "TCMaps\\";
-        structure = (Structure)StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(Structure));
+        structure = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<Structure>();
         bridge = null;
         if (structure == null)
         {
@@ -1002,7 +999,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         {
             HexGeometry.CenterHexNumberToHex(x, y, hexNumber, ref hexX, ref hexY);
             slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
-            targetHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
+            targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             hexNumber += 1;
         }
         while (!(slot != 8 && targetHexSprite == null));

@@ -175,7 +175,7 @@ public partial class Ability : EngineObject
         {
             info = new AbilityActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
-            info.UnitId = owner is Troop ? ((Troop)owner).UnitId : 0;
+            info.UnitId = owner is Troop troop ? troop.UnitId : 0;
 
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
@@ -205,7 +205,7 @@ public partial class Ability : EngineObject
         {
             info = new AbilityActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
-            info.UnitId = owner is Troop ? ((Troop)owner).UnitId : 0;
+            info.UnitId = owner is Troop troop ? troop.UnitId : 0;
 
             StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             info.Release();

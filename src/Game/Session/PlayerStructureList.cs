@@ -10,8 +10,8 @@ namespace Aow.Game.Session;
 public partial class PlayerStructureList : ObservableEventList, IChildList<PlayerStructure>
 {
     // The structure in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a structure, so the cast never fails.
-    public PlayerStructure this[int index] => (PlayerStructure)GetChild(index);
+    // AcceptsChild admits only a player structure. Another class throws, the same way the cast did.
+    public PlayerStructure this[int index] => GetChild<PlayerStructure>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerStructure;
 

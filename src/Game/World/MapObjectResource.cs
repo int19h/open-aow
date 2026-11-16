@@ -229,6 +229,11 @@ public partial class MapObjectResource : EngineResource
         return result;
     }
 
+    // The resource's user class selects the map object. Another class throws, and null stays null.
+    public T PlaceResourceUser<T>(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+        where T : MapObject
+        => (T)PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
+
     // MAPOBJ.PAS:545
     public virtual void CalculateShowPriorityOffset(int dX, int dY, int level) => _showPriorityOffset = dX + (level << 26) + (dY << 13);
 
