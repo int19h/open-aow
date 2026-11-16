@@ -274,9 +274,9 @@ public partial class Spell : EngineObject
         {
             hero.CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
-            if (source.Combat is FastBattle)
+            if (source is FastBattleUnit fastUnit && source.Combat is FastBattle)
             {
-                ((FastBattleUnit)source).UpdateWallSiegeObjectRegistration();
+                fastUnit.UpdateWallSiegeObjectRegistration();
             }
         }
     }

@@ -10,7 +10,7 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
-    public UnitProduction this[int index] => (UnitProduction)GetChild(index);
+    public UnitProduction this[int index] => GetChild<UnitProduction>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is UnitProduction;
 

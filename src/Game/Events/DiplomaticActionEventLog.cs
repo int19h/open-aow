@@ -222,7 +222,7 @@ public partial class DiplomaticActionEventLog : EventLog
         {
             old?.Release();
 
-            Action = action != null ? (DiplomaticAction)action.Copy(GetEngine()) : null;
+            Action = action?.Copy<DiplomaticAction>(GetEngine());
         }
     }
 

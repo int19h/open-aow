@@ -84,9 +84,9 @@ public partial class StrikeAbility : AdjustableAbility
         round.Calculate(source, target);
         stop = false;
         i = 0;
-        if (source is FastBattleUnit)
+        if (source is FastBattleUnit fastUnit)
         {
-            ((FastBattleUnit)source).State = ((FastBattleUnit)source).State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
                 moveCombatAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };

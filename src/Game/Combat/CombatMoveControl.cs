@@ -23,7 +23,7 @@ public partial class CombatMoveControl : MoveControl
     {
         // An army sprite does not reach this override. Any other sprite is absent.
         UnitHexSprite = settings.ArmyHexSprite is TacticalBattleUnitHexSprite unit ? unit : null;
-        MoveFlags = ((CombatMoveControlSettings)settings).MoveFlags;
+        MoveFlags = settings switch { CombatMoveControlSettings combatSettings => combatSettings.MoveFlags, null => throw new NullReferenceException(), _ => throw new InvalidCastException() };
         base.ProcessMove(settings);
     }
 

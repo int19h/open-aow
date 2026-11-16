@@ -7,7 +7,7 @@ public partial class RemotePlayerList : OwningNode, IChildList<RemotePlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a RemotePlayer, so the cast never fails.
-    public RemotePlayer this[int index] => (RemotePlayer)GetChild(index);
+    public RemotePlayer this[int index] => GetChild<RemotePlayer>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is RemotePlayer;
 

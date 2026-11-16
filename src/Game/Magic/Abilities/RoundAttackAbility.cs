@@ -40,9 +40,9 @@ public partial class RoundAttackAbility : TouchAbility
         damageTypes = CombatObject.MeleeDamageTypes(source);
         target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        if (source is FastBattleUnit)
+        if (source is FastBattleUnit fastUnit)
         {
-            ((FastBattleUnit)source).RoundDistance = 0;
+            fastUnit.RoundDistance = 0;
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
                 moveAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };

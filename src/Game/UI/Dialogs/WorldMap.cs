@@ -81,7 +81,7 @@ public partial class WorldMap : UIModule
     public byte BookAction { get; set; }
 
     // AoWWorldMap.pas:152
-    public WorldMapCampaign GetCampaign() => (WorldMapCampaign)UI.Engine.Campaign;
+    public WorldMapCampaign GetCampaign() => UI.Engine.Campaign switch { null => null, WorldMapCampaign campaign => campaign, _ => throw new InvalidCastException() };
 
     // AoWWorldMap.pas:157
     public void UpdateCampaignState()

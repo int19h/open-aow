@@ -50,9 +50,9 @@ public partial class MapEvents : UIModule
             }
             else
             {
-                if (request is UnitSelectionActivation)
+                if (request is UnitSelectionActivation unitSelection)
                 {
-                    UI.UnitSelectionDialog.Execute((UnitSelectionActivation)request);
+                    UI.UnitSelectionDialog.Execute(unitSelection);
                 }
             }
         }
@@ -605,9 +605,9 @@ public partial class MapEvents : UIModule
     // aowMapEvents.pas:500
     public void TheMapCastSpell(SpellCaster caster)
     {
-        if (caster is UnitSpellCaster)
+        if (caster is UnitSpellCaster unitCaster)
         {
-            ShowUnitSpellCaster(UI.CastUnitSpellDialog, (UnitSpellCaster)caster);
+            ShowUnitSpellCaster(UI.CastUnitSpellDialog, unitCaster);
         }
         else
         {

@@ -195,7 +195,7 @@ public partial class CombatMap : GameMap
     {
         if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            SetCombat((TacticalBattle)StrategicMap.Current.Combat);
+            SetCombat(StrategicMap.Current.Combat switch { null => null, TacticalBattle battle => battle, _ => throw new InvalidCastException() });
         }
 
         base.MessageProc(ref message, sender);

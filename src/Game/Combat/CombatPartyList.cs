@@ -12,7 +12,7 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
-    public CombatParty this[int index] => (CombatParty)GetChild(index);
+    public CombatParty this[int index] => GetChild<CombatParty>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatParty;
 

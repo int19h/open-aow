@@ -653,7 +653,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (oldField != null)
         {
             army = Owner;
-            transported = army is Army && ((Army)army).Transporter(255) != null;
+            transported = army is Army armyValue && armyValue.Transporter(255) != null;
             if (!transported)
             {
                 if (oldField.HexLevel == 0)
@@ -719,7 +719,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 if (GetAlignment() != Alignment.None)
                 {
                     relation = AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment);
-                    if (relation == DiplomaticRelation.Unknown && this is Unit)
+                    if (relation == DiplomaticRelation.Unknown && this is Unit unit)
                     {
                         result = false;
                         i = StrategicMap.Current.Races.Count;
@@ -729,7 +729,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                             bool test = StrategicMap.Current.Races.GetRace(i).GetPlayerRelation(player) >= Status.Polite;
                             if (test)
                             {
-                                int unitResourceIndex = ((Unit)this).UnitResource.UnitResourceIndex();
+                                int unitResourceIndex = unit.UnitResource.UnitResourceIndex();
                                 test = GamePack.Current.RaceResources.GetRaceResource(i).UnitIndexes.IndexOf(unitResourceIndex) != -1;
                             }
 

@@ -123,7 +123,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         id = ArmyId;
         if (id != null)
         {
-            eventValue.ArmyId = (ArmyId)id.Copy(GetEngine());
+            eventValue.ArmyId = id.Copy<ArmyId>(GetEngine());
             eventValue.MovePoints = MovePoints;
         }
         else

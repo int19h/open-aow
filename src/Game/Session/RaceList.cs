@@ -15,7 +15,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Race, so the cast never fails.
-    public Race this[int index] => (Race)GetChild(index);
+    public Race this[int index] => GetChild<Race>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Race;
 

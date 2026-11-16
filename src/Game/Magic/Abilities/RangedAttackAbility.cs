@@ -113,7 +113,10 @@ public partial class RangedAttackAbility : AdjustableAbility
                 action.Release();
             }
 
-            ((FastBattleUnit)source).State = ((FastBattleUnit)source).State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            if (source is FastBattleUnit fastUnit)
+            {
+                fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            }
         }
 
         return true;

@@ -9,7 +9,7 @@ public partial class TurnInfo : OwningNode, IChildList<TurnInfoItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TurnInfoItem, so the cast never fails.
-    public TurnInfoItem this[int index] => (TurnInfoItem)GetChild(index);
+    public TurnInfoItem this[int index] => GetChild<TurnInfoItem>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is TurnInfoItem;
 

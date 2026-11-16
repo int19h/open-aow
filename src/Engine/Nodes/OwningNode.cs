@@ -322,6 +322,9 @@ public partial class OwningNode : CustomNode
     // The child in slot index, with the range check of TList.Get. GetChild reads the slot without it.
     public EngineObject GetChildInRange(int index) => _children[index];
 
+    // The index selects the child. A child of another class throws, the same way the call site did.
+    public T GetChildInRange<T>(int index) where T : EngineObject => (T)GetChildInRange(index);
+
     // The first slot that holds the child, or -1. FindChildIndex searches from the last slot.
     public int IndexOfChild(EngineObject child) => _children.IndexOf(child);
 

@@ -29,7 +29,7 @@ public partial class MoveWallCombatAction : CombatAction
     public override void Execute(Battle combat)
     {
         FastBattleUnit objectValue;
-        objectValue = (FastBattleUnit)combat.CombatData.FindId(CombatObjectId);
+        objectValue = combat.CombatData.FindId<FastBattleUnit>(CombatObjectId);
         if (InsideWall == 0)
         {
             objectValue.State = objectValue.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);

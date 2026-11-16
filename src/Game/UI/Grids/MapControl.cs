@@ -184,11 +184,11 @@ public partial class MapControl : Component
         StrategicMap.Current.CombatMapDestroyed += DeactivateCombatMap;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).GemsChanged += GemsChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).IncomeChanged += IncomeChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).UpkeepChanged += UpkeepChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).LogbookChanged += LogbookChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).MagicControl.Changed += PlayerMagicChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged += GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged += IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged += UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged += LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Changed += PlayerMagicChanged;
         }
     }
 
@@ -231,11 +231,11 @@ public partial class MapControl : Component
         StrategicMap.Current.CombatMapDestroyed -= DeactivateCombatMap;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).GemsChanged -= GemsChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).IncomeChanged -= IncomeChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).UpkeepChanged -= UpkeepChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).LogbookChanged -= LogbookChanged;
-            ((Player)(object)StrategicMap.Current.Players.GetPlayers(i)).MagicControl.Changed -= PlayerMagicChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged -= IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged -= UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged -= LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Changed -= PlayerMagicChanged;
         }
     }
 
@@ -434,8 +434,8 @@ public partial class MapControl : Component
         {
             if (OnEndTurn != null)
             {
-                object listed = StrategicMap.Current.Players.GetPlayers(player);
-                OnEndTurn(player, !((Player)listed).SingleProcessCycle);
+                Player listed = StrategicMap.Current.Players.GetPlayers(player);
+                OnEndTurn(player, !listed.SingleProcessCycle);
             }
         }
         catch
