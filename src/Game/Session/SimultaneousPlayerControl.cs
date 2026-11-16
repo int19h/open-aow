@@ -45,7 +45,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
     // PlayerC.PAS:1258
     public override void NewTurn(sbyte player)
     {
-        EventLog log;
+        ShowBookEventLog log;
         SpellList spells = default;
         if (player == StrategicMap.Current.SeatedPlayer)
         {
@@ -66,10 +66,10 @@ public partial class SimultaneousPlayerControl : PlayerControl
                         StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
-                            log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                            ((PlayerMagicEventLog)log).Mode = PlayerMagicEventLog.EventMode.StartResearch;
-                            StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
-                            log.Release();
+                            PlayerMagicEventLog research = new(null) { Holder = CreationHolder() };
+                            research.Mode = PlayerMagicEventLog.EventMode.StartResearch;
+                            StrategicMap.Current.TriggerExecuteEventLog(research, false, null);
+                            research.Release();
                         }
 
                         spells?.Dispose();

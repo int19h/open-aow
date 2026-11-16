@@ -46,18 +46,18 @@ public partial class GamePlayDialog : UIModule
     private string _newPassword = "";
 
     // AoWGamePlayDlg.pas:200
-    public void PasswordEntered(EventLog log)
+    public void PasswordEntered(PasswordEventLog log)
     {
         PasswordEventLog password = default;
-        if (((PasswordEventLog)log).PressedButton == PressedEventLogButton.Ok)
+        if (log.PressedButton == PressedEventLogButton.Ok)
         {
-            if (!IsEmpty(((PasswordEventLog)log).Password))
+            if (!IsEmpty(log.Password))
             {
-                _newPassword = ((PasswordEventLog)log).Password;
+                _newPassword = log.Password;
                 password = new PasswordEventLog(null, holder: UI.Engine);
                 password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
-                StrategicMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(password, true, PasswordConfirmed);
                 password.Release();
             }
             else
@@ -68,9 +68,9 @@ public partial class GamePlayDialog : UIModule
     }
 
     // AoWGamePlayDlg.pas:217
-    public void PasswordConfirmed(EventLog log)
+    public void PasswordConfirmed(PasswordEventLog log)
     {
-        if (((PasswordEventLog)log).Password == _newPassword)
+        if (log.Password == _newPassword)
         {
             string encode = AbilityRules.Encode(_newPassword, 0);
             PasswordEdit.Text = encode;
@@ -149,7 +149,7 @@ public partial class GamePlayDialog : UIModule
         {
             log = new PasswordEventLog(null, holder: UI.Engine);
             log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
-            StrategicMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, true, PasswordEntered);
             log.Release();
         }
     }

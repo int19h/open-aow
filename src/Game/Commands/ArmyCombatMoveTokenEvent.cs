@@ -198,12 +198,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     }
 
     // MoveT.PAS:2525
-    public void RequestCombatTypeCallback(EventLog log)
+    public void RequestCombatTypeCallback(CombatTypeRequestEventLog request)
     {
         CombatFlowControlTokenEvent flow;
-        CombatTypeRequestEventLog request;
         ArmyCombatMoveTokenEvent move;
-        request = (CombatTypeRequestEventLog)log;
         _combatType = request.CombatType;
         if (request.CreateNewMove)
         {
@@ -240,7 +238,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     if (move != null)
                     {
                         // { created combat move }
-                        move._combatType = ((CombatTypeRequestEventLog)log).CombatType;
+                        move._combatType = request.CombatType;
                         StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(move);
                         move.Release();
                     }
@@ -302,9 +300,9 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     }
 
     // MoveT.PAS:2594
-    public void ShowHotSeatPlayerCallback(EventLog log)
+    public void ShowHotSeatPlayerCallback(NewTurnEventLog log)
     {
-        StrategicMap.Current.SetSeatedPlayer(((NewTurnEventLog)log).TurnPlayer);
+        StrategicMap.Current.SetSeatedPlayer(log.TurnPlayer);
         if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
             _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
@@ -613,7 +611,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                     FinishMove();
                     ArmyHexSprite = null;
-                    StrategicMap.Current.TriggerExecuteEventLog(request, false, RequestCombatTypeCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
                 }
                 else
                 {
@@ -649,7 +647,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             log.Mode = NewTurnEventLogMode.Dialog;
             log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
-            StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
             log.Release();
         }
         else
@@ -662,7 +660,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
                 log.Release();
             }
         }
@@ -682,7 +680,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
 
-            StrategicMap.Current.TriggerExecuteEventLog(request, false, RequestCombatTypeCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
             request.Release();
         }
     }

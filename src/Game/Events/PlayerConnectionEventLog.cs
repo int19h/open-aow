@@ -29,7 +29,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         log = new SaveGameEventLog(null, holder: CreationHolder());
         log.DefaultName = "";
         log.Directory = GetEngine().StartupDirectory + "Save\\";
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
+        StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
         log.Release();
         return true;
     }
@@ -86,17 +86,17 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     }
 
     // PlayerC.PAS:1703
-    public void ExitSaveGameCallback(EventLog log)
+    public void ExitSaveGameCallback(SaveGameEventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             if (GetEngine().Campaign != null)
             {
-                GetEngine().SaveCampaign(((SaveGameEventLog)log).FileName);
+                GetEngine().SaveCampaign(log.FileName);
             }
             else
             {
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
             }
         }
         else

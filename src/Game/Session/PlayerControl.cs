@@ -379,7 +379,7 @@ public partial class PlayerControl : EngineObject
                     log.Message.Add(yourAboutToExitAMultiPlayerGame);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueExitingText);
                     log.Message.Add(translatedText);
-                    StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitNetworkGameCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitNetworkGameCallback);
                     log.Release();
                 }
                 else
@@ -433,7 +433,7 @@ public partial class PlayerControl : EngineObject
                                 }
                             }
 
-                            StrategicMap.Current.TriggerExecuteEventLog(log, false, SaveGameOnExitCallback);
+                            StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, SaveGameOnExitCallback);
                             log.Release();
                         }
                         else
@@ -594,17 +594,17 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:313
-    public void ExitSaveGameCallback(EventLog log)
+    public void ExitSaveGameCallback(SaveGameEventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             if (GetEngine().Campaign != null)
             {
-                GetEngine().SaveCampaign(((SaveGameEventLog)log).FileName);
+                GetEngine().SaveCampaign(log.FileName);
             }
             else
             {
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
             }
 
             StrategicMap.Current.ExecuteExitGame();
@@ -619,10 +619,10 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:326
-    public void SaveGameOnExitCallback(EventLog log)
+    public void SaveGameOnExitCallback(MessageEventLog log)
     {
         SaveGameEventLog saveLog = default;
-        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
+        if (log.PressedButton == PressedEventLogButton.Yes)
         {
             if ((GetEngine().Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign != null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
             {
@@ -641,7 +641,7 @@ public partial class PlayerControl : EngineObject
                 }
 
                 saveLog.Directory = GetEngine().StartupDirectory + "Save\\";
-                StrategicMap.Current.TriggerExecuteEventLog(saveLog, false, ExitSaveGameCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, ExitSaveGameCallback);
                 saveLog.Release();
             }
             else
@@ -666,7 +666,7 @@ public partial class PlayerControl : EngineObject
         }
         else
         {
-            if (((MessageEventLog)log).PressedButton == PressedEventLogButton.No)
+            if (log.PressedButton == PressedEventLogButton.No)
             {
                 StrategicMap.Current.ExecuteExitGame();
                 _exitCallback?.Invoke(_exitMode, true);
@@ -675,7 +675,7 @@ public partial class PlayerControl : EngineObject
             }
             else
             {
-                if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Cancel)
+                if (log.PressedButton == PressedEventLogButton.Cancel)
                 {
                     _exitCallback?.Invoke(_exitMode, false);
 
@@ -686,10 +686,10 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:372
-    public void ExitNetworkGameCallback(EventLog log)
+    public void ExitNetworkGameCallback(MessageEventLog log)
     {
         TerminatePlayerTokenEvent tokenEvent;
-        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
+        if (log.PressedButton == PressedEventLogButton.Yes)
         {
             if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
@@ -704,13 +704,13 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:471
-    public void PasswordTryAgainCallback(EventLog log)
+    public void PasswordTryAgainCallback(MessageEventLog log)
     {
         PasswordEventLog passwordLog = default;
-        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
+        if (log.PressedButton == PressedEventLogButton.Yes)
         {
             passwordLog = new PasswordEventLog(null, holder: CreationHolder());
-            StrategicMap.Current.TriggerExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
             passwordLog.Release();
         }
         else
@@ -720,12 +720,12 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:484
-    public void ValidatePasswordCallback(EventLog log)
+    public void ValidatePasswordCallback(PasswordEventLog log)
     {
         string password = "";
         MessageEventLog messageLog = default;
-        password = AbilityRules.Encode(((PasswordEventLog)log).Password, 0);
-        if (((PasswordEventLog)log).PressedButton != PressedEventLogButton.Ok || password != _password)
+        password = AbilityRules.Encode(log.Password, 0);
+        if (log.PressedButton != PressedEventLogButton.Ok || password != _password)
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
             messageLog.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
@@ -735,7 +735,7 @@ public partial class PlayerControl : EngineObject
             messageLog.Message.Add("");
             string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToTryAgainText);
             messageLog.Message.Add(translatedText);
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
             messageLog.Release();
         }
         else
@@ -755,7 +755,7 @@ public partial class PlayerControl : EngineObject
 
         _password = password;
         log = new PasswordEventLog(null, holder: CreationHolder());
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, ValidatePasswordCallback);
+        StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ValidatePasswordCallback);
         log.Release();
     }
 

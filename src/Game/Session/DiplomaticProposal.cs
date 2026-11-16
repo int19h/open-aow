@@ -181,14 +181,14 @@ public abstract partial record DiplomaticProposal
     // Drops the target's logbook entry of the answered proposal.
     protected static void RemoveTargetLog(DiplomaticAction action)
     {
-        DiplomaticActionEventLog log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId<DiplomaticActionEventLog>(action.EventLogId);
         log?.SetOwner(null);
     }
 
     // Moves the target's logbook entry, now holding the answer, to the source and shows it there.
     protected static void ReturnToSource(DiplomaticAction action)
     {
-        DiplomaticActionEventLog log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId<DiplomaticActionEventLog>(action.EventLogId);
         log.SetDiplomaticAction(action);
         StrategicMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
         ShowTo(log, action.Source);
@@ -221,7 +221,7 @@ public abstract partial record DiplomaticProposal
             Player players = StrategicMap.Current.Players.GetPlayers(i);
             if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
             {
-                EventLog eventLog = (EventLog)log.Copy(log.GetEngine());
+                EventLog eventLog = log.Copy<EventLog>(log.GetEngine());
                 players.EventLogbook.AddEvent(eventLog);
                 eventLog.Release();
             }

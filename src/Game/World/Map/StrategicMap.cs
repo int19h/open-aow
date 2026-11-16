@@ -1109,6 +1109,21 @@ public partial class StrategicMap : GameMap
         }
     }
 
+    // TriggerExecuteEventLog for a done callback that takes the log's own class. The compiler infers TLog
+    // from the log, so the callback and the log it is registered for have the same class.
+    public void TriggerTypedExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
+    {
+        ExecuteDoneEvent callback = null;
+        if (done != null)
+        {
+            // ClearExecuteEventLogBuffer passes the next queued log to the first callback
+            // (AoWHSMap.PAS:1931). A log of another kind throws on this cast, the same way the old cast did.
+            callback = stored => done((TLog)stored);
+        }
+
+        TriggerExecuteEventLog(log, immediate: immediate, done: callback);
+    }
+
     // AoWHSMap.PAS:1476
     public void SynchronizeBegin() => _synchronizeCount += 1;
 
@@ -1695,7 +1710,7 @@ public partial class StrategicMap : GameMap
             player = Current.Players.GetPlayers(i);
             if (i == eventValue.Player || player.GameOverStatus == GameOverStatus.None)
             {
-                log = (GameOverEventLog)eventValue.Copy(GetEngine());
+                log = eventValue.Copy<GameOverEventLog>(GetEngine());
                 if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
@@ -1720,13 +1735,16 @@ public partial class StrategicMap : GameMap
     {
         sbyte player;
         EventLog log;
+        GameOverEventLog stored;
         _gameOverLockCount -= 1;
         if (_gameOverLockCount == 0)
         {
             while (_executeEventLogBuffer.Count != 0)
             {
-                player = ((GameOverEventLog)_executeEventLogBuffer.GetEvents(0)).TargetPlayer;
-                log = (EventLog)_executeEventLogBuffer.GetEvents(0).Copy(GetEngine());
+                // ExecuteGameOverEvent stores only game over logs in this buffer.
+                stored = _executeEventLogBuffer.GetChild<GameOverEventLog>(0);
+                player = stored.TargetPlayer;
+                log = stored.Copy<EventLog>(GetEngine());
                 Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                 if (player == Current.SeatedPlayer)
                 {

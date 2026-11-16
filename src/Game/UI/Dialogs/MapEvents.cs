@@ -41,6 +41,11 @@ public partial class MapEvents : UIModule
     // original renderers.
     public static Catalog<EventView, Action<MapEvents, EventLog, bool, ExecuteDoneEvent>> EventRenderers { get; } = new("map event view");
 
+    // The view key names the kind. Another kind throws.
+    internal static void AddRenderer<TLog>(EventView view, Action<MapEvents, TLog, bool, ExecuteDoneEvent> render)
+        where TLog : EventLog
+        => EventRenderers.Add(view, value: (events, log, mode, done) => render(events, (TLog)log, mode, done));
+
     // aowMapEvents.pas:93
     public void TheMapActivateAbility(AbilityActivation request)
     {

@@ -149,7 +149,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 }
 
                 log.Directory = GetEngine().StartupDirectory + "EmailIn\\";
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitGameSaveAsCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitGameSaveAsCallback);
                 log.Release();
             }
             else
@@ -184,7 +184,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 }
 
                 saveLog.Directory = GetEngine().StartupDirectory + "EmailIn\\";
-                StrategicMap.Current.TriggerExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
                 saveLog.Release();
             }
             else
@@ -231,11 +231,11 @@ public partial class PbemPlayerControl : TurnPlayerControl
     public void TerminateEmailGameCallback(EventLog log) => TerminateEmailGame();
 
     // PlayerC.PAS:893
-    public void SendEmailGameAutomatedCallback(EventLog log)
+    public void SendEmailGameAutomatedCallback(SmtpEventLog log)
     {
         SendEmailGameEventLog sendLog = default;
-        DeleteFile(((SmtpEventLog)log).FileName);
-        if (!((SmtpEventLog)log).Success)
+        DeleteFile(log.FileName);
+        if (!log.Success)
         {
             sendLog = new SendEmailGameEventLog(null) { Holder = CreationHolder() };
             sendLog.Mode = 1;
@@ -250,16 +250,16 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:909
-    public void SendEmailGameManualCallback(EventLog log)
+    public void SendEmailGameManualCallback(SaveGameEventLog log)
     {
         bool failed = default;
         MessageEventLog messageLog = default;
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             try
             {
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [((SaveGameEventLog)log).FileName]);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [log.FileName]);
                 StrategicMap.Current.ShowMessage(format);
                 failed = false;
             }
@@ -276,7 +276,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         if (failed)
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
-            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [((SaveGameEventLog)log).FileName]);
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [log.FileName]);
             messageLog.Message.Text = format;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
             messageLog.Release();
@@ -284,7 +284,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         else
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
-            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameSuccessfullySavedText) + ".", [((SaveGameEventLog)log).FileName]);
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameSuccessfullySavedText) + ".", [log.FileName]);
             messageLog.Message.Text = format;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
             messageLog.Release();
@@ -312,17 +312,17 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1031
-    public void EndTurnGameSavedCallback(EventLog log)
+    public void EndTurnGameSavedCallback(SaveGameEventLog log)
     {
         bool failed = default;
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             try
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
                 StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [((SaveGameEventLog)log).FileName]);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [log.FileName]);
                 StrategicMap.Current.ShowMessage(format);
                 StrategicMap.Current.SynchronizeBegin();
                 base.EndTurn(StrategicMap.Current.CurrentPlayer);
@@ -331,7 +331,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             }
             catch
             {
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [log.FileName]);
                 StrategicMap.Current.ShowWarning(format);
                 failed = true;
             }
@@ -370,9 +370,9 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1111
-    public void ContinueRestartedGameCallback(EventLog log)
+    public void ContinueRestartedGameCallback(MessageEventLog log)
     {
-        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
+        if (log.PressedButton == PressedEventLogButton.Yes)
         {
             StrategicMap.Current.SynchronizeBegin();
             TriggerGameRestartedEvents(StrategicMap.Current.CurrentPlayer);
@@ -386,9 +386,9 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1123
-    public void ContinueTurnDoneGameCallback(EventLog log)
+    public void ContinueTurnDoneGameCallback(MessageEventLog log)
     {
-        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
+        if (log.PressedButton == PressedEventLogButton.Yes)
         {
             StrategicMap.Current.SynchronizeBegin();
             DefaultStartMap();
@@ -438,7 +438,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 log.Message.Add("");
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
                 log.Message.Add(translatedText);
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, ContinueRestartedGameCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueRestartedGameCallback);
                 log.Release();
             }
             else
@@ -454,7 +454,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                     log.Message.Add("");
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
                     log.Message.Add(translatedText);
-                    StrategicMap.Current.TriggerExecuteEventLog(log, false, ContinueTurnDoneGameCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueTurnDoneGameCallback);
                     log.Release();
                 }
                 else
@@ -466,18 +466,18 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1219
-    public void ExitGameSaveAsCallback(EventLog log)
+    public void ExitGameSaveAsCallback(SaveGameEventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)log).FileName))
+        if (!IsEmpty(log.FileName))
         {
             try
             {
-                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
                 StrategicMap.Current.ExecuteExitGame();
             }
             catch
             {
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [log.FileName]);
                 StrategicMap.Current.ShowWarning(format);
             }
         }
