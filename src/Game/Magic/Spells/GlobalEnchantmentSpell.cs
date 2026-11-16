@@ -23,7 +23,7 @@ public partial class GlobalEnchantmentSpell : Spell
     {
         if (executeCount == 0)
         {
-            // GlobalEnchantmentSpell.CreateTokenEvent constructs GlobalEnchantmentSpellTokenEvent.
+            // GlobalEnchantmentSpell.Activate constructs the GlobalEnchantmentSpellTokenEvent this spell executes.
             ((GlobalEnchantmentSpellTokenEvent)eventValue).Enchantment.Cast(source.Player);
         }
 

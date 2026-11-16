@@ -30,7 +30,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     {
         EngineResource resource;
         SmokeCloud cloud;
-        // SmokeCloudSpell.CreateTokenEvent constructs GlobalTargetSpellTokenEvent.
+        // SmokeCloudSpell.TargetSelected constructs the GlobalTargetSpellTokenEvent this spell executes.
         GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
         Troop sourceLocal = targetEvent.GetSource();
         StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2);
