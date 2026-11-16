@@ -2319,6 +2319,7 @@ public partial class StrategicMap : GameMap
                 player.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
             }
 
+            // The tactical profile loads a combat map, and the loader returns the game map it loads.
             CombatMap = (CombatMap)GetEngine().LoadHsmMap(FileBoundary.ReadName(GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
             CombatMapCreatedEventsStore.Raise(this);
         }
@@ -2342,6 +2343,7 @@ public partial class StrategicMap : GameMap
         Battle result;
         if (Combat == null)
         {
+            // The class id selects a battle class, and the factory returns the engine object it creates.
             result = (Battle)GetEngine().CreateEngineObject(classId, null);
             Combat = result;
             if (GameType == GameType.Tutorial && classId == 2228496)

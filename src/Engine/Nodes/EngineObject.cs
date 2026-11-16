@@ -219,7 +219,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
 
     // The owner, typed by the caller. AcceptsOwner admits only that owner class for a typed
     // owner, so the cast never fails there. A wrong owner throws the same way the call site did.
-    public T GetOwner<T>() where T : CustomNode => (T)Owner;
+    protected T GetOwner<T>() where T : CustomNode => (T)Owner;
 
     public CustomNode Owner { get => _owner; set => SetOwner(value); }
 

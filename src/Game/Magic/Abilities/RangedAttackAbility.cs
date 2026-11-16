@@ -113,10 +113,9 @@ public partial class RangedAttackAbility : AdjustableAbility
                 action.Release();
             }
 
-            if (source is FastBattleUnit fastUnit)
-            {
-                fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
-            }
+            // The only caller, FastBattleUnit.FastBattleExecute, passes that unit as the source.
+            FastBattleUnit fastUnit = (FastBattleUnit)source;
+            fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
         }
 
         return true;

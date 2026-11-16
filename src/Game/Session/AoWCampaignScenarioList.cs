@@ -17,9 +17,10 @@ public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignSc
     public AoWCampaignScenarioList(CustomNode owner) : base(owner)
     { }
 
-    // Diplomacy.pas:2214
+    // The caller holds the campaign kind, so the scenario is that kind. An out-of-range index returns null, as GetScenario does.
     public T GetScenario<T>(int index) where T : CampaignScenario => index >= 0 && index < Count ? GetChild<T>(index) : null;
 
+    // Diplomacy.pas:2214
     public CampaignScenario GetScenario(int index)
     {
         CampaignScenario result = index >= 0 && index < Count ? this[index] : null;

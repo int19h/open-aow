@@ -344,7 +344,8 @@ public partial class SetupControl : Component
         switch (package.MessageId)
         {
             case 1:
-                ConnectPlayer(package.Data switch { null => null, RemotePlayer player => player, _ => throw new InvalidCastException() });
+                // Message id 1 carries a remote player in Data.
+                ConnectPlayer((RemotePlayer)package.Data);
                 break;
             case 2:
                 if (GetHost())
@@ -356,7 +357,8 @@ public partial class SetupControl : Component
             case 3:
                 if (GetHost())
                 {
-                    UpdatePlayer(package.Data switch { null => null, RemotePlayer player => player, _ => throw new InvalidCastException() });
+                    // Message id 3 carries a remote player in Data.
+                    UpdatePlayer((RemotePlayer)package.Data);
                 }
 
                 break;

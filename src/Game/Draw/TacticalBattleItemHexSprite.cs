@@ -28,9 +28,7 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
             items = CombatMap.Current.Combat.Items switch
             {
                 PrisonersArmy prisoners => prisoners.Items,
-                ItemList itemList => itemList,
-                null => null,
-                _ => throw new InvalidCastException(),
+                var other => (ItemList)other,
             };
             for (int i = Items.GetCount() - 1; i >= 0; i--)
             {

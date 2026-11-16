@@ -432,6 +432,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public void LoadCampaign(string fileName, GameFileTree tree)
     {
         CloseCampaign();
+        // The tree stores a campaign class, and the reader returns the engine object it creates.
         Campaign = (Campaign)RetrieveFromTree(tree, progress: null);
         TranslateEngineObjectFromFile(Campaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         Campaign.FileName = fileName;
@@ -456,6 +457,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public void NewCampaign(int classId)
     {
         CloseCampaign();
+        // The class id selects a campaign class, and the factory returns the engine object it creates.
         Campaign = (Campaign)CreateEngineObject(classId, null);
     }
 

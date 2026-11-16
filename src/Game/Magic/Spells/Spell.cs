@@ -274,9 +274,10 @@ public partial class Spell : EngineObject
         {
             hero.CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
-            if (source is FastBattleUnit fastUnit && source.Combat is FastBattle)
+            if (source.Combat is FastBattle)
             {
-                fastUnit.UpdateWallSiegeObjectRegistration();
+                // A combat unit in a fast battle is a fast battle unit.
+                ((FastBattleUnit)source).UpdateWallSiegeObjectRegistration();
             }
         }
     }

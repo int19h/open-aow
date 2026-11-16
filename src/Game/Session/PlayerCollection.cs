@@ -41,8 +41,8 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1543
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        // Assign copies a player collection. A null source stays null and fails at the read, as the cast did.
-        PlayerCollection other = source switch { null => null, PlayerCollection collection => collection, _ => throw new InvalidCastException() };
+        // Assign copies a player collection, so the source is a player collection.
+        PlayerCollection other = (PlayerCollection)source;
         SetNumberOfPlayers(other.GetNumberOfPlayers());
         for (int i = 0, last = Count - 1; i <= last; i++)
         {

@@ -30,9 +30,8 @@ public partial class FastBattleUnit : CombatUnit
 
     public int RoundDistance { get; set; }
 
-    // FastBattle.CreateCombatUnit makes this unit, so its battle is a fast battle. A null battle
-    // stays null and fails at the read, as the cast did.
-    private FastBattle FastCombat => Combat switch { null => null, FastBattle battle => battle, _ => throw new InvalidCastException() };
+    // FastBattle.CreateCombatUnit makes this unit, so its battle is a fast battle.
+    private FastBattle FastCombat => (FastBattle)Combat;
 
     public Set<FastBattleUnitStateElement> State { get; set; }
 
