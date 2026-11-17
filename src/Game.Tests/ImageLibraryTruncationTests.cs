@@ -11,10 +11,10 @@ public sealed class ImageLibraryTruncationTests
     private static byte[] Header(float version, int indexEnd = 24)
     {
         byte[] bytes = new byte[24];
-        BitConverter.TryWriteBytes(bytes.AsSpan(8), version);
-        BitConverter.TryWriteBytes(bytes.AsSpan(12), 24);
-        BitConverter.TryWriteBytes(bytes.AsSpan(16), indexEnd);
-        BitConverter.TryWriteBytes(bytes.AsSpan(20), indexEnd);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(8), version);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(12), 24);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(16), indexEnd);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(20), indexEnd);
         return bytes;
     }
 
@@ -44,7 +44,7 @@ public sealed class ImageLibraryTruncationTests
             stream.Position = 0;
             Task load = Task.Run(() => library.LoadFromStream(stream));
             Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(s_hangTimeout), $"{name}: the load did not end within {s_hangTimeout}");
-            Assert.IsType<EndOfStreamException>(load.Exception?.InnerException);
+            _ = Assert.IsType<EndOfStreamException>(load.Exception?.InnerException);
             Assert.Equal(0, library.Count);
         }
         finally

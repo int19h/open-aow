@@ -83,7 +83,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 bool listed = s_unboundNames.ContainsKey((classValue.Name, property.Name));
                 if (listed)
                 {
-                    used.Add((classValue.Name, property.Name));
+                    _ = used.Add((classValue.Name, property.Name));
                 }
 
                 if (bound && listed)
@@ -362,11 +362,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                     {
                         if (member.Name == "record")
                         {
-                            records.Add(name);
+                            _ = records.Add(name);
                         }
                         else if (member.Name is "enum" or "set")
                         {
-                            enums.Add(name);
+                            _ = enums.Add(name);
                         }
                     }
                     Collect(member.Value, records, enums);

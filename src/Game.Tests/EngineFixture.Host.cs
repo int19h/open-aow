@@ -55,10 +55,10 @@ public sealed partial class EngineFixture
                 }
             }
 
-            Directory.CreateDirectory(_root);
+            _ = Directory.CreateDirectory(_root);
             foreach (string directory in new[] { "IMAGES", "SFX", "Dict" })
             {
-                Directory.CreateDirectory(Path.Combine(_root, directory));
+                _ = Directory.CreateDirectory(Path.Combine(_root, directory));
             }
 
             if (fault == "dictionary")
@@ -66,7 +66,7 @@ public sealed partial class EngineFixture
                 File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
             }
 
-            _files.SetCurrentDirectory(_root);
+            _ = _files.SetCurrentDirectory(_root);
             GamePack.Current = null;
             StrategicMap.Current = null;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";

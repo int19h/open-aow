@@ -151,19 +151,19 @@ public sealed class PersistCorpusTests
             {
                 if (pair.Value > 0)
                 {
-                    printed.Add(pair.Key);
+                    _ = printed.Add(pair.Key);
                 }
             }
 
             foreach (string name in s_watched)
             {
-                printed.Add(name);
+                _ = printed.Add(name);
             }
 
             foreach (string name in printed)
             {
-                s_proved.TryGetValue(name, out int ok);
-                s_blocked.TryGetValue(name, out (int Count, string Reason) held);
+                _ = s_proved.TryGetValue(name, out int ok);
+                _ = s_blocked.TryGetValue(name, out (int Count, string Reason) held);
                 string line = held.Count == 0
                     ? name + " " + ok
                     : name + " " + ok + " blocked " + held.Count + " " + held.Reason;
@@ -178,8 +178,8 @@ public sealed class PersistCorpusTests
             }
             foreach (string name in s_required)
             {
-                s_proved.TryGetValue(name, out int ok);
-                s_blocked.TryGetValue(name, out (int Count, string Reason) held);
+                _ = s_proved.TryGetValue(name, out int ok);
+                _ = s_blocked.TryGetValue(name, out (int Count, string Reason) held);
                 Assert.True(ok > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
             }
             PrintLevels();
@@ -251,11 +251,11 @@ public sealed class PersistCorpusTests
         }
         else if (classValue.Name != "MapField" && s_engineTypes.TryGetValue(classValue.Name, out Type type) && EngineObject.TreePersistenceRefusal(type) == null)
         {
-            counts.TryGetValue(classValue.Name, out int seen);
+            _ = counts.TryGetValue(classValue.Name, out int seen);
             counts[classValue.Name] = seen + 1;
             if (Prove(objectValue, classValue, engine, file, schema, factory))
             {
-                s_proved.TryGetValue(classValue.Name, out int ok);
+                _ = s_proved.TryGetValue(classValue.Name, out int ok);
                 s_proved[classValue.Name] = ok + 1;
             }
         }
@@ -473,7 +473,7 @@ public sealed class PersistCorpusTests
         }
         catch (ConversionException error) when (IsDirectRefusal(error))
         {
-            s_levelBlocks.TryGetValue(error.Diagnostic.Message, out int seen);
+            _ = s_levelBlocks.TryGetValue(error.Diagnostic.Message, out int seen);
             s_levelBlocks[error.Diagnostic.Message] = seen + 1;
             return;
         }
@@ -492,13 +492,13 @@ public sealed class PersistCorpusTests
             }
         }
 
-        s_levels.TryGetValue(classValue.Name, out (int Levels, long Fields, long Sprites) total);
+        _ = s_levels.TryGetValue(classValue.Name, out (int Levels, long Fields, long Sprites) total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
     }
 
     private static JsonObject WithoutLayout(JsonObject objectValue)
     {
-        objectValue.Members.RemoveAll(member => member.Name == "$layout");
+        _ = objectValue.Members.RemoveAll(member => member.Name == "$layout");
         foreach (JsonMember member in objectValue.Members)
         {
             WithoutLayout(member.Value);
@@ -511,7 +511,7 @@ public sealed class PersistCorpusTests
     {
         if (value is JsonObject nested)
         {
-            WithoutLayout(nested);
+            _ = WithoutLayout(nested);
         }
         else if (value is JsonArray array)
         {
@@ -566,7 +566,7 @@ public sealed class PersistCorpusTests
             s_blocked[className] = (1, label);
         }
 
-        s_refusers.TryGetValue(label, out int count);
+        _ = s_refusers.TryGetValue(label, out int count);
         s_refusers[label] = count + 1;
     }
 
@@ -607,11 +607,11 @@ public sealed class PersistCorpusTests
                 continue;
             }
 
-            types.TryAdd(engineClass.Type.Name, engineClass.Type);
+            _ = types.TryAdd(engineClass.Type.Name, engineClass.Type);
             // A pinned class keeps its schema name while Type.Name changes. Nested stored names stay out of this set.
             if (s_pinnedStored.Contains(engineClass.StorageKey))
             {
-                types.TryAdd(engineClass.StorageKey, engineClass.Type);
+                _ = types.TryAdd(engineClass.StorageKey, engineClass.Type);
             }
         }
         return types;

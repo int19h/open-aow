@@ -20,7 +20,7 @@ public sealed class MapObjectResourceCastTests
 
         TerrainMapObjectResource wrongResource = new(null!);
         structure.SetResource(wrongResource);
-        Assert.Throws<InvalidCastException>(() => structure.Resource);
+        _ = Assert.Throws<InvalidCastException>(() => structure.Resource);
     }
 
     [Fact]
@@ -50,12 +50,12 @@ public sealed class MapObjectResourceCastTests
         Assert.Null(list.FindResource<StructureResource>(60));
 
         StructureResource structureResource = new(null!) { ResourceId = 60 };
-        list.AddChild(structureResource);
+        _ = list.AddChild(structureResource);
         Assert.Same(structureResource, list.FindChild<StructureResource>(StructureResource.ClassId));
         Assert.Same(structureResource, list.FindResource<StructureResource>(60));
 
-        Assert.Throws<InvalidCastException>(() => list.FindChild<PlayerStructureResource>(StructureResource.ClassId));
-        Assert.Throws<InvalidCastException>(() => list.FindResource<PlayerStructureResource>(60));
+        _ = Assert.Throws<InvalidCastException>(() => list.FindChild<PlayerStructureResource>(StructureResource.ClassId));
+        _ = Assert.Throws<InvalidCastException>(() => list.FindResource<PlayerStructureResource>(60));
     }
 
     [Fact]

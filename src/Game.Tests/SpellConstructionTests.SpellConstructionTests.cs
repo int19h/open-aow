@@ -28,7 +28,7 @@ public sealed partial class SpellConstructionTests
         {
             Assert.True(EngineFixture.Forwards(child.Owner, this));
             Observations.Add(Snapshot(child));
-            base.AddChild(child);
+            _ = base.AddChild(child);
             return Members.Count - 1;
         }
 
@@ -36,7 +36,7 @@ public sealed partial class SpellConstructionTests
         {
             Removed.Add(child);
             int index = Members.IndexOf(child);
-            base.RemoveChild(child);
+            _ = base.RemoveChild(child);
             return index;
         }
     }
@@ -302,7 +302,7 @@ public sealed partial class SpellConstructionTests
         for (int route = 0; route < 4; route++)
         {
             NewCombatRoundCombatAction value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
-            Assert.IsType<NewCombatRoundCombatAction>(value);
+            _ = Assert.IsType<NewCombatRoundCombatAction>(value);
             Assert.Equal(1, value.RefCount);
             value.Dispose();
         }

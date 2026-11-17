@@ -45,7 +45,7 @@ public sealed class WallCrushingFastBattleTests
     private static (Battle Combat, Attacker Source, RecordingWall Wall) Build()
     {
         Battle combat = new(null) { Holder = EngineFixture.Engine };
-        combat.Status = combat.Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+        combat.Status += Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         OwningNode objects = combat.CombatData.CombatObjects;
         Attacker source = new(objects) { Combat = combat, Id = 1 };
         RecordingWall wall = new(objects) { Combat = combat };
@@ -94,7 +94,7 @@ public sealed class WallCrushingFastBattleTests
     {
         using Fixture fixture = new();
         (Battle? combat, Attacker? source, RecordingWall? wall) = Build();
-        wall.Status = wall.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        wall.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         Assert.True(ability.FastBattleExecuteCombatCommand(command: new FastBattleCommand(117) { Target = wall }, source: source));
         Assert.Empty(wall.Rolls);

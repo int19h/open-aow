@@ -25,7 +25,7 @@ public sealed class SurfaceRectangleTests
             }
         }
 
-        surface.Unlock();
+        _ = surface.Unlock();
         return surface;
     }
 
@@ -184,10 +184,10 @@ public sealed class SurfaceRectangleTests
         {
             LockedSurface full = default, part = default;
             Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref full));
-            source.Unlock();
+            _ = source.Unlock();
             Assert.Equal(0, full.DataIndex);
             Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref part, new Rect(1, 1, 4, 3)));
-            source.Unlock(part);
+            _ = source.Unlock(part);
             Assert.Same(full.Data, part.Data);
             Assert.Equal(full.Pitch + 2, part.DataIndex);
             Assert.Equal((3, 2), (part.Width, part.Height));

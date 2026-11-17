@@ -121,9 +121,9 @@ public sealed partial class PersistEquivalenceTests
     {
         Check("ArmyId", new ArmyId(null) { Holder = EngineFixture.Engine });
         ArmyId full = new(null) { Holder = EngineFixture.Engine, Player = -1, Location = new MapCoordinate(sbyte.MinValue, sbyte.MaxValue, 1) };
-        full.UnitIds.Add(int.MinValue);
-        full.UnitIds.Add(0);
-        full.UnitIds.Add(int.MaxValue);
+        _ = full.UnitIds.Add(int.MinValue);
+        _ = full.UnitIds.Add(0);
+        _ = full.UnitIds.Add(int.MaxValue);
         Check("ArmyId", full);
     }
 
@@ -170,7 +170,7 @@ public sealed partial class PersistEquivalenceTests
             using (HeroLibraryManager writer = new(null) { Holder = EngineFixture.Engine })
             {
                 writer.SystemLibrary.LibraryName = "System";
-                TreeWriter.Write(writer, Factory);
+                _ = TreeWriter.Write(writer, Factory);
                 Assert.Equal(heroBytes, File.ReadAllBytes(heroes));
             }
 

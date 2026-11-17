@@ -24,7 +24,7 @@ public sealed class MapNetSoundConstructionTests
         public override int AddChild(EngineObject child)
         {
             Assert.True(EngineFixture.Forwards(child.Owner, this));
-            base.AddChild(child);
+            _ = base.AddChild(child);
             return Members.Count - 1;
         }
     }
@@ -110,7 +110,7 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case GameMap map:
                 // Issue 200: the map is the game map, which makes the game mouse.
-                Assert.IsType<GameMapMouse>(map.Mouse);
+                _ = Assert.IsType<GameMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.HexSpriteMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Equal(0, map.HexSpriteChangedEventsStore.Count);
@@ -324,7 +324,7 @@ public sealed class MapNetSoundConstructionTests
         using TokenManager manager = new(null);
         TokenControl control = new(manager, 7);
         Assert.Same(control, manager.TokenExecutor.TacticalBattleList[0]);
-        Assert.Single(manager.TokenExecutor.TacticalBattleList);
+        _ = Assert.Single(manager.TokenExecutor.TacticalBattleList);
         control.Dispose();
         Assert.Empty(manager.TokenExecutor.TacticalBattleList);
     }

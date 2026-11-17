@@ -97,7 +97,7 @@ public sealed class EndTurnShortcutTests
                     : ConnectionMode.Global, index: i);
             }
 
-            Map.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+            _ = Map.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
             playerCommunicationControl.Release();
             Map.TokenManager.Initialize(Map.PlayerCommunicator);
             Window = new MapWindow(UI);

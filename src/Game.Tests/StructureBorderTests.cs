@@ -34,7 +34,7 @@ public sealed class StructureBorderTests
         }
         finally
         {
-            surface.Unlock();
+            _ = surface.Unlock();
             surface.Dispose();
         }
     }
@@ -43,10 +43,10 @@ public sealed class StructureBorderTests
     {
         Dib16Surface surface = new(1, 1, PixelFormats.pfRGB565);
         LockedSurface lockedSurface = default;
-        surface.Clear(color);
-        surface.Lock(ref lockedSurface);
+        _ = surface.Clear(color);
+        _ = surface.Lock(ref lockedSurface);
         int pixel = lockedSurface.View().UInt16(0);
-        surface.Unlock();
+        _ = surface.Unlock();
         surface.Dispose();
         return pixel;
     }
@@ -88,7 +88,7 @@ public sealed class StructureBorderTests
         }
         finally
         {
-            target.Unlock();
+            _ = target.Unlock();
             target.Dispose();
             library.Dispose();
             ImageLibraries.LibraryImageClasses.Clear();

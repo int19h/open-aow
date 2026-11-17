@@ -52,7 +52,7 @@ public sealed class GameSwitchTests
         {
             case "removed-referenced-child":
                 // root.CurrentPlayer names player slot 1. Slots 0 and 2 to 12 keep their numbers.
-                players.Items.Remove(Player(document, ((JsonInteger)root["CurrentPlayer"]!).Value));
+                _ = players.Items.Remove(Player(document, ((JsonInteger)root["CurrentPlayer"]!).Value));
                 break;
             case "unknown-class":
                 Replace(Player(document, 2), "$class", new JsonString("TNoSuchPlayer"));
@@ -74,10 +74,10 @@ public sealed class GameSwitchTests
                 Replace(root, "Day", new JsonInteger(1L << 40));
                 break;
             case "unknown-member":
-                root.Add("Dya", new JsonInteger(3));
+                _ = root.Add("Dya", new JsonInteger(3));
                 break;
             case "mistyped-reserved-member":
-                Player(document, 2).Add("$slott", new JsonInteger(2));
+                _ = Player(document, 2).Add("$slott", new JsonInteger(2));
                 break;
             case "missing-required-child":
                 Children(root).Items.Clear();
@@ -99,7 +99,7 @@ public sealed class GameSwitchTests
         JsonObject document = ShippedSave();
         Edit(document, edit);
         string directory = Path.Combine(EngineFixture.Root, "Save");
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         string file = Path.Combine(directory, edit + ".asg");
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
@@ -153,7 +153,7 @@ public sealed class GameSwitchTests
         Assert.True(loaded.Succeeded, loaded.Report.Error?.ToString());
         Assert.Equal(image, loaded.Bytes);
 
-        items.Add(new JsonInteger(7));
+        _ = items.Add(new JsonInteger(7));
         GameFileResult refused = GameBoundary.PrepareLoad(GameFiles.Write(campaign), "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
         Assert.Equal(Codes.Reference, refused.Report.Error!.Code);
         Assert.Equal("root.Map.root.TurnOrder.items[3]", refused.Report.Error.Path);
@@ -180,7 +180,7 @@ public sealed class GameSwitchTests
         // turn order loses it too.
         JsonObject document = ShippedSave();
         JsonObject root = Root(document);
-        Children((JsonObject)root["Players"]!).Items.Remove(Player(document, 12));
+        _ = Children((JsonObject)root["Players"]!).Items.Remove(Player(document, 12));
         ((JsonArray)((JsonObject)root["TurnOrder"]!)["items"]!).Items.RemoveAt(12);
         GameFileResult result = GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
@@ -248,7 +248,7 @@ public sealed class GameSwitchTests
         JsonArray groups = Groups(document);
         int index = groups.Items.FindIndex(g => ((JsonObject)g)["IndependentRelation"] is not null);
         Assert.True(index >= 0, "a stored AI group relation");
-        ((JsonObject)groups.Items[index]).Remove("IndependentRelation");
+        _ = ((JsonObject)groups.Items[index]).Remove("IndependentRelation");
         GameFileResult result = Prepare(document);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         JsonArray reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
@@ -263,7 +263,7 @@ public sealed class GameSwitchTests
     public void OriginalAndItsOwnDocumentGiveOneCrc()
     {
         string directory = Path.Combine(EngineFixture.Root, "Crc");
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         try
         {
             foreach ((string? source, GameProfile? profile) in new[] { (InstalledSave.Save, GameProfile.WorldMap), (Path.Combine(InstalledSave.Root, "Release", "Release.hss"), GameProfile.ScenarioSet) })

@@ -52,7 +52,7 @@ public sealed class ControlStyleConstructionTests
             }
             if (direct is ResourceEditSettings settings)
             {
-                settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
+                _ = settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
             }
 
             direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
@@ -95,7 +95,7 @@ public sealed class ControlStyleConstructionTests
         public override void SetOwner(CustomNode owner)
         {
             _calls++;
-            GetControlStyle();
+            _ = GetControlStyle();
             base.SetOwner(owner);
         }
     }
@@ -104,8 +104,8 @@ public sealed class ControlStyleConstructionTests
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
     {
         using FlagFixture fixture = new(loaded: true);
-        Assert.Throws<NullReferenceException>(() => FlagControl.Create(null));
-        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null, holder: EngineFixture.Engine));
+        _ = Assert.Throws<NullReferenceException>(() => FlagControl.Create(null));
+        _ = Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null, holder: EngineFixture.Engine));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -120,7 +120,7 @@ public sealed class ControlStyleConstructionTests
 
         public override int AddChild(EngineObject child) { Members.Add(child); return Members.Count - 1; }
 
-        public override int RemoveChild(EngineObject child) { int index = Members.IndexOf(child); Members.Remove(child); return index; }
+        public override int RemoveChild(EngineObject child) { int index = Members.IndexOf(child); _ = Members.Remove(child); return index; }
     }
 
     private sealed class FlagFixture : IDisposable
@@ -146,9 +146,9 @@ public sealed class ControlStyleConstructionTests
         {
             _ownsRoot = directory is null;
             _root = directory ?? Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            Directory.CreateDirectory(Path.Combine(_root, "IMAGES"));
-            Directory.CreateDirectory(Path.Combine(_root, "SFX"));
+            _ = Directory.CreateDirectory(_root);
+            _ = Directory.CreateDirectory(Path.Combine(_root, "IMAGES"));
+            _ = Directory.CreateDirectory(Path.Combine(_root, "SFX"));
             Files = new FlagFiles(_root);
             Runtime.Files = Files;
             EngineFixture.Engine.SetStartupDirectory(_root + Path.DirectorySeparatorChar);
@@ -279,7 +279,7 @@ public sealed class ControlStyleConstructionTests
         using FlagFixture fixture = new(loaded: true);
         Assert.Equal(0, fixture.Entry.RefCount);
         FlagControl control = CreateFlag(fixture.Owner, throughMeta);
-        Assert.IsType<FlagControl>(control);
+        _ = Assert.IsType<FlagControl>(control);
         Assert.Same(fixture.Owner, control.Owner);
         Assert.Same(fixture.Entry.ImageLibrary, control.Flags);
         Assert.Equal(1, fixture.Entry.RefCount);
@@ -312,7 +312,7 @@ public sealed class ControlStyleConstructionTests
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         List<LibraryImageClass>? classes = imageClassesInitialized ? [] : null;
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         try
         {
             // The version-4 index is truncated, so ReadBuffer fails before any image-class lookup.
@@ -321,7 +321,7 @@ public sealed class ControlStyleConstructionTests
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             ImageLibraries.LibraryImageClasses = classes!;
             using FlagFixture fixture = new(loaded: false, directory);
-            using (ImageLibrary library = new(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
+            using (ImageLibrary library = new(null!)) { _ = Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             fixture.Files.OpenedPaths.Clear();
             IOException error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);

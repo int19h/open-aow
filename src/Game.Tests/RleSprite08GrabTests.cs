@@ -31,7 +31,7 @@ public sealed class RleSprite08GrabTests
             grab.TransparentPixel = 0;
             grab.FileName = "grab.bmp";
             bool grabbed = image.GrabImage(lockedSurface, rectangle, grab);
-            surface.Unlock();
+            _ = surface.Unlock();
             return (image, grabbed);
         }
         finally
@@ -121,9 +121,9 @@ public sealed class RleSprite08GrabTests
         try
         {
             LockedSurface lockedSurface = default;
-            surface.Lock(ref lockedSurface);
+            _ = surface.Lock(ref lockedSurface);
             Assert.False(image.GrabImage(lockedSurface, new Rect(0, 0, 2, 2), grab));
-            surface.Unlock();
+            _ = surface.Unlock();
         }
         finally
         {
@@ -153,7 +153,7 @@ public sealed class RleSprite08GrabTests
             }
         }
 
-        surface.Unlock();
+        _ = surface.Unlock();
         return result;
     }
 }

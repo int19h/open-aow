@@ -40,11 +40,11 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             try
             {
                 LayoutSession session = new();
-                UI.Load(session, module: new UIGraphics());
-                UI.Load(session, module: new UIFonts());
-                UI.Load(session, module: new General(UI));
-                UI.Load(session, module: new TitleWindow(UI));
-                UI.Load(session, module: new UnitBanner(UI));
+                _ = UI.Load(session, module: new UIGraphics());
+                _ = UI.Load(session, module: new UIFonts());
+                _ = UI.Load(session, module: new General(UI));
+                _ = UI.Load(session, module: new TitleWindow(UI));
+                _ = UI.Load(session, module: new UnitBanner(UI));
                 Spell = UI.Load(session, module: new SpellBook(UI));
                 World = UI.Load(session, module: new WorldMap(UI));
                 Files = UI.Load(session, module: new FileDialogWindow(UI));
@@ -180,8 +180,8 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         dialog.DateList.Items.Clear();
         for (int i = 0; i < 8; i++)
         {
-            dialog.SaveList.Items.Add("save" + i);
-            dialog.DateList.Items.Add("date" + i);
+            _ = dialog.SaveList.Items.Add("save" + i);
+            _ = dialog.DateList.Items.Add("date" + i);
         }
 
         dialog.SaveScrollBar.SetPositionUnclamped(0);
@@ -212,7 +212,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         realm.CityNameList.Items.Clear();
         for (int i = 0; i < 12; i++)
         {
-            realm.CityNameList.Items.Add("city" + i);
+            _ = realm.CityNameList.Items.Add("city" + i);
         }
 
         realm.CityScrollBar.SetPositionUnclamped(0);
@@ -234,16 +234,16 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         string settingsDirectory = Path.Combine(directory, "settings");
         try
         {
-            Directory.CreateDirectory(root);
-            Directory.CreateDirectory(settingsDirectory);
-            Directory.CreateDirectory(Path.Combine(user, "one"));
+            _ = Directory.CreateDirectory(root);
+            _ = Directory.CreateDirectory(settingsDirectory);
+            _ = Directory.CreateDirectory(Path.Combine(user, "one"));
             string older = Path.Combine(user, "one", "aaa.asg");
             string newer = Path.Combine(user, "one", "zzz.asg");
             File.WriteAllBytes(older, [1]);
             File.WriteAllBytes(newer, [1]);
             File.SetLastWriteTimeUtc(older, new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
             File.SetLastWriteTimeUtc(newer, new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
-            Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
+            _ = Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();

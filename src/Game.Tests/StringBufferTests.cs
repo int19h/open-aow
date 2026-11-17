@@ -56,7 +56,7 @@ public sealed class StringBufferTests
     {
         using MemoryStream stream = Input(shape, 6, [0, 0x80, 0xFF]);
         string text = "seedtail";
-        Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
+        _ = Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
         Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
@@ -67,7 +67,7 @@ public sealed class StringBufferTests
     {
         using MemoryStream stream = Input(shape, -1, []);
         string text = "old";
-        Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
         Assert.Equal("old", text);
     }
 
@@ -101,7 +101,7 @@ public sealed class StringBufferTests
         stream.Write(input.ToArray());
         stream.Position = 0;
         string text = "seedtail";
-        Assert.Throws<IOException>(() => Read(shape, ref text, stream));
+        _ = Assert.Throws<IOException>(() => Read(shape, ref text, stream));
         Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
@@ -117,8 +117,8 @@ public sealed class StringBufferTests
         };
         memo.SetWinWidthWithoutInvalidate(28);
         memo.SetWinHeightWithoutInvalidate(30);
-        memo.Items.Add("#80FF00A B\0ignored");
-        memo.Items.Add("\u20AC \u00FF\u00FF\u00FF");
+        _ = memo.Items.Add("#80FF00A B\0ignored");
+        _ = memo.Items.Add("\u20AC \u00FF\u00FF\u00FF");
         memo.SetSize();
         Assert.Equal(3, memo.Lines.Count);
         Assert.Equal("A B", memo.Lines[0]);
@@ -135,7 +135,7 @@ public sealed class StringBufferTests
         HtmlMemo memo = new(null);
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);
-        memo.Items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
+        _ = memo.Items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.Changes.Count);
         HtmlMemo.ChangeInfo color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[1]);
@@ -156,7 +156,7 @@ public sealed class StringBufferTests
         };
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);
-        memo.Items.Add("<INT>text");
-        Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
+        _ = memo.Items.Add("<INT>text");
+        _ = Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
     }
 }

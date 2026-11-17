@@ -14,6 +14,6 @@ public sealed class EngineFixtureTests
         Assert.Equal(Path.Combine(EngineFixture.Root, "AoW.exe"), Runtime.Application.ExeName);
         Assert.Equal(EngineFixture.Root, EngineFixture.Engine.StartupDirectory.TrimEnd('\\', '/'));
         Assert.Same(EngineFixture.GameSet, GamePack.Current);
-        Assert.Throws<TrueException>(() => Runtime.Files.FileExists(Path.Combine(Path.GetTempPath(), "outside-fixture")));
+        _ = Assert.Throws<TrueException>(() => Runtime.Files.FileExists(Path.Combine(Path.GetTempPath(), "outside-fixture")));
     }
 }

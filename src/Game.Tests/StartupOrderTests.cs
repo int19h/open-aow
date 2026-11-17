@@ -100,7 +100,7 @@ public sealed class StartupOrderTests
         StartupUnit[] units = [new("A", () => calls.Add("A"), null!), new("B", () => throw new InvalidOperationException("B"), null!),
             new("C", () => calls.Add("C"), null!)];
         bool[] state = new bool[units.Length];
-        Assert.Throws<InvalidOperationException>(() => Startup.InitializeUnits(units, state, null!));
+        _ = Assert.Throws<InvalidOperationException>(() => Startup.InitializeUnits(units, state, null!));
         Assert.Equal(["A"], calls);
         Assert.Equal([true, false, false], state);
     }

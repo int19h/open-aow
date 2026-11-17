@@ -177,7 +177,7 @@ public sealed class UncheckedOwnerCastTests
         Assert.Equal(ExecuteResult.DoneHalt, token.Execute(null));
 
         token.UnitId = 99;
-        Assert.Throws<NullReferenceException>(() => token.Execute(null));
+        _ = Assert.Throws<NullReferenceException>(() => token.Execute(null));
         string shown = "";
         Action<string> saved = Runtime.MessageHandler;
         Runtime.MessageHandler = message => shown = message;
@@ -208,7 +208,7 @@ public sealed class UncheckedOwnerCastTests
             EnchantmentId = 7,
             EnchantmentType = GlobalEnchantmentType.Flood,
         };
-        scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);
+        _ = scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.SpellWard);
         DisjunctionSpellCaster caster = new(null) { Holder = EngineFixture.Engine, CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";

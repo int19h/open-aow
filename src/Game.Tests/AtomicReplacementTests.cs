@@ -22,8 +22,8 @@ public sealed class AtomicReplacementTests : IDisposable
 
     public AtomicReplacementTests()
     {
-        Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
-        Directory.CreateDirectory(Path.Combine(_directory, "user"));
+        _ = Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
+        _ = Directory.CreateDirectory(Path.Combine(_directory, "user"));
         FileBoundary.Log = _log.Add;
     }
 
@@ -50,7 +50,7 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         if (withOld)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(Old)!);
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(Old)!);
             File.WriteAllBytes(Old, HeroListImage());
         }
         LayeredFileSystem files = new(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
@@ -61,7 +61,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void OriginalUserSaveIsReplacedByItsDocument()
     {
-        Layers();
+        _ = Layers();
         using HeroLibrary list = HeroList("Replaced");
         FileBoundary.Save(Logical, GameProfile.HeroList, list);
         byte[] written = File.ReadAllBytes(Old);
@@ -80,7 +80,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void SerializationFailureKeepsTheOldFileAndWritesNothing()
     {
-        Layers();
+        _ = Layers();
         byte[] before = File.ReadAllBytes(Old);
         using HeroLibrary list = HeroList("\u4e00");
         GameFileErrorException error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, list));
@@ -95,7 +95,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failWrite: true);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.Equal(Codes.Output, Assert.Single(_log).Report.Error!.Code);
@@ -107,7 +107,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failReplace: true);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
@@ -115,7 +115,7 @@ public sealed class AtomicReplacementTests : IDisposable
     [Fact]
     public void ShippedFileIsShadowedNeverWritten()
     {
-        Layers(withOld: false);
+        _ = Layers(withOld: false);
         string shipped = Path.Combine(_directory, "root", "User", "list.ahl");
         File.WriteAllBytes(shipped, HeroListImage());
         Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
@@ -131,7 +131,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new NoReplaceFiles(layers);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }

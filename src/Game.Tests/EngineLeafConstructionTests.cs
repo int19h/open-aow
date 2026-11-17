@@ -23,7 +23,7 @@ public sealed class EngineLeafConstructionTests
             }
 
             ObservedBeforeLeafBody.Add(child);
-            base.AddChild(child);
+            _ = base.AddChild(child);
             return Members.Count - 1;
         }
     }

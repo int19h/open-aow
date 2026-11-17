@@ -123,8 +123,8 @@ public sealed class FileDialogSortTests
         FileDialogWindow? dialog = null;
         try
         {
-            Directory.CreateDirectory(root);
-            Directory.CreateDirectory(settingsDirectory);
+            _ = Directory.CreateDirectory(root);
+            _ = Directory.CreateDirectory(settingsDirectory);
             WriteTree(user);
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
@@ -168,9 +168,9 @@ public sealed class FileDialogSortTests
 
     private static void WriteTree(string user)
     {
-        Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
-        Directory.CreateDirectory(Path.Combine(user, "one", "beta"));
-        Directory.CreateDirectory(Path.Combine(user, "two", "gamma"));
+        _ = Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
+        _ = Directory.CreateDirectory(Path.Combine(user, "one", "beta"));
+        _ = Directory.CreateDirectory(Path.Combine(user, "two", "gamma"));
         Write("one", "aaa.asg", new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
         Write("one", "zzz.asg", new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
         Write("one", "note.txt", new DateTime(2002, 1, 1, 0, 0, 0, DateTimeKind.Utc));

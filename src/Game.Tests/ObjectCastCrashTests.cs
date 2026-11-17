@@ -194,11 +194,11 @@ public sealed class ObjectCastCrashTests
         try
         {
             MapObjectResourceList list = new(null) { Holder = EngineFixture.Engine };
-            list.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
+            _ = list.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
             TerrainMapObjectResource match = new(null) { Holder = EngineFixture.Engine };
             match.TerrainType = 4;
             match.DecorationType = 2;
-            list.AddChild(match);
+            _ = list.AddChild(match);
 
             TerrainMapObjectResource resource = new(null) { Holder = EngineFixture.Engine };
             resource.TerrainType = 4;
@@ -208,7 +208,7 @@ public sealed class ObjectCastCrashTests
             Assert.Same(match, finder.FindDecorationResource(2));
 
             MapObjectResourceList clearing = new(null) { Holder = EngineFixture.Engine };
-            clearing.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
+            _ = clearing.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
             TerrainMapObjectResource wide = new(null) { Holder = EngineFixture.Engine };
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);

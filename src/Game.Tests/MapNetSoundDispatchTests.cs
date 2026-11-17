@@ -38,8 +38,8 @@ public sealed class MapNetSoundDispatchTests
 
     static MapNetSoundDispatchTests()
     {
-        EngineClass.Register(MapField.ClassId, static owner => new SpecializedField(owner));
-        EngineClass.Register(MapLevel.ClassId, static owner => new SpecializedLevel(owner));
+        _ = EngineClass.Register(MapField.ClassId, static owner => new SpecializedField(owner));
+        _ = EngineClass.Register(MapLevel.ClassId, static owner => new SpecializedLevel(owner));
     }
 
     [Fact]
@@ -129,7 +129,7 @@ public sealed class MapNetSoundDispatchTests
         SampleData dynamic = memory ? meta.CreateInstance(Format, new byte[] { 128 }, 1) : meta.CreateInstance("dynamic");
         foreach (SampleData? value in new[] { direct, dynamic })
         {
-            Assert.IsType<SampleData>(value);
+            _ = Assert.IsType<SampleData>(value);
             Assert.Equal(1, value.RefCount);
             Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
             if (!memory)
@@ -140,8 +140,8 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(memory ? 0 : 2, AudioHost.SampleDataList.Count);
         Sample sample = Sample.Create(direct);
         Sample dynamicSample = Sample.Descriptor.CreateInstance(dynamic);
-        Assert.IsType<Sample>(sample);
-        Assert.IsType<Sample>(dynamicSample);
+        _ = Assert.IsType<Sample>(sample);
+        _ = Assert.IsType<Sample>(dynamicSample);
         Assert.Equal(2, direct.RefCount);
         Assert.Equal(2, dynamic.RefCount);
         Assert.Equal(2, AudioHost.SampleList.Count);
@@ -186,7 +186,7 @@ public sealed class MapNetSoundDispatchTests
         using SoundState state = new();
         SoundSystemClass meta = AudioHost.SoundSystems.Find(name);
         SoundSystem system = meta.CreateInstance();
-        Assert.IsType<SdlSoundSystem>(system);
+        _ = Assert.IsType<SdlSoundSystem>(system);
         Assert.Equal(1, system.RefCount);
         system.Dispose();
         Assert.True(AudioPlayback.InitializeSoundSystem(name,
@@ -216,7 +216,7 @@ public sealed class MapNetSoundDispatchTests
     {
         using SoundState state = new();
         SampleDataClass meta = SdlSoundSystem.SampleData;
-        Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, new byte[1], 1));
+        _ = Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, new byte[1], 1));
         Assert.Equal(0, AudioHost.SampleList.Count);
         Assert.Equal(0, AudioHost.SampleDataList.Count);
     }
@@ -228,7 +228,7 @@ public sealed class MapNetSoundDispatchTests
         AudioHost.SoundSystems.Clear();
         NullSoundSystem.Install();
         SoundSystem system = NullSoundSystem.Descriptor.CreateInstance();
-        Assert.IsType<NullSoundSystem>(system);
+        _ = Assert.IsType<NullSoundSystem>(system);
         Assert.Equal(1, system.RefCount);
         SampleData data = SampleData.Create("silent");
         Sample sample = NullSoundSystem.Samples.CreateInstance(data);

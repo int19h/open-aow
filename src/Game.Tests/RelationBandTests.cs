@@ -264,7 +264,7 @@ public sealed class RelationBandTests
         Assert.Equal(5, window.Race12Image.CurrentImage);
 
         scope.Map.SeatedPlayer = 0;
-        window.Players.Add(0);
+        _ = window.Players.Add(0);
         window.HighlightPlayer(0);
         Assert.Equal(0, window.SelectedIndex);
         Assert.True(window.Player1CheckBox.Checked);
@@ -276,7 +276,7 @@ public sealed class RelationBandTests
         window.Players.Clear();
         for (int i = 1; i <= 12; i++)
         {
-            window.Players.Add(i);
+            _ = window.Players.Add(i);
         }
 
         scope.Map.Players.SetNumberOfPlayers(1);
@@ -312,7 +312,7 @@ public sealed class RelationBandTests
         Assert.Equal(5, window.Race1Image.CurrentImage);
         Assert.Equal(5, window.Race12Image.CurrentImage);
 
-        window.Races.Add(7);
+        _ = window.Races.Add(7);
         window.HighlightRace(7);
         Assert.Equal(20, window.SelectedIndex);
         Assert.True(window.Race1CheckBox.Checked);
@@ -322,7 +322,7 @@ public sealed class RelationBandTests
         window.Races.Clear();
         for (int i = 0; i <= 11; i++)
         {
-            window.Races.Add(i);
+            _ = window.Races.Add(i);
         }
 
         window.HighlightRace(11);
