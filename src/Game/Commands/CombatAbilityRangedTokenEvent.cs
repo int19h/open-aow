@@ -1076,7 +1076,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     bool passed = condition && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 7;
                     if (passed)
                     {
-                        bool test = CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 9;
+                        bool test = CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType is not 0 and not 10 and not 9;
                         if (!test)
                         {
                             MapField fieldValue = CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k);

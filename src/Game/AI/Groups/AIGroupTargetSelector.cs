@@ -104,7 +104,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             if (GroupControl.Targets.IndexOfChild(_target) == -1)
             {
                 _target = null;
-                if (State > 0 && State < 10)
+                if (State is > 0 and < 10)
                 {
                     State = 0;
                 }

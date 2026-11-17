@@ -9,7 +9,7 @@ namespace Aow.Game.Units;
 /// transfer), or a hero library. A troop takes no other owner, so a read of its owner is one of
 /// these or empty.
 /// </summary>
-public union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUserList)
+public readonly union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUserList)
 {
     /// <summary>
     /// The owner a troop stores, read from the untyped owner. A troop admits only these kinds, so
@@ -27,5 +27,5 @@ public union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUserList)
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>
-    public CustomNode Node => (CustomNode)Value;
+    public readonly CustomNode Node => (CustomNode)Value;
 }

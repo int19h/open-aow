@@ -569,7 +569,7 @@ public partial class MapEvents : UIModule
 
         if (UI.RealmWindow.Window.Visible)
         {
-            if (UI.RealmWindow.HeaderTabs.Selected == 2 || UI.RealmWindow.HeaderTabs.Selected == 1)
+            if (UI.RealmWindow.HeaderTabs.Selected is 2 or 1)
             {
                 UI.RealmWindow.UpdateOverview();
             }
@@ -622,15 +622,15 @@ public partial class MapEvents : UIModule
         }
         else
         {
-            if (caster is DisjunctionSpellCaster)
+            if (caster is DisjunctionSpellCaster disjunctionCaster)
             {
-                UI.DisjunctionDialog.Execute((DisjunctionSpellCaster)caster);
+                UI.DisjunctionDialog.Execute(disjunctionCaster);
             }
             else
             {
-                if (caster is CosmeticSurgerySpellCaster)
+                if (caster is CosmeticSurgerySpellCaster cosmeticCaster)
                 {
-                    UI.DeformFaceDialog.Execute((CosmeticSurgerySpellCaster)caster);
+                    UI.DeformFaceDialog.Execute(cosmeticCaster);
                 }
             }
         }

@@ -762,7 +762,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                if (Action != SpriteAction.RoundAttack && Action != SpriteAction.RoundAttackHit)
+                if (Action is not SpriteAction.RoundAttack and not SpriteAction.RoundAttackHit)
                 {
                     ActionFrame = -1;
                 }

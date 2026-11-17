@@ -11,7 +11,7 @@ public partial class FileDialogWindow
     // sort buttons. Restoring date order there rewrites the map name the dialog already filled in.
     private void RestoreSortOrder()
     {
-        if (Mode != 0 && Mode != 1)
+        if (Mode is not 0 and not 1)
         {
             return;
         }

@@ -64,7 +64,7 @@ public partial class Int32List : Persistent
     // Engine.pas:3428
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -140,9 +140,8 @@ public partial class Int32List : Persistent
     // Engine.pas:3273
     public override void Assign(Persistent source)
     {
-        if (source is Int32List)
+        if (source is Int32List int32List)
         {
-            Int32List int32List = (Int32List)source;
             _count = int32List._count;
             SetCapacity(int32List._count);
             Array.Copy(int32List._list, 0, _list, 0, _count);

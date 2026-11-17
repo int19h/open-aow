@@ -58,7 +58,7 @@ public partial class SByteList : Persistent
     // Engine.pas:4110
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -89,9 +89,8 @@ public partial class SByteList : Persistent
     // Engine.pas:3955
     public override void Assign(Persistent source)
     {
-        if (source is SByteList)
+        if (source is SByteList sByteList)
         {
-            SByteList sByteList = (SByteList)source;
             _count = sByteList._count;
             SetCapacity(sByteList._count);
             Array.Copy(sByteList._list, 0, _list, 0, _count * 1);

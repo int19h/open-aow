@@ -125,7 +125,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             _tags[i] = (sbyte)combatTerrainTag;
         }
 
-        if (_terrain[0] == 0 || _terrain[0] == 9 || _terrain[0] == 10)
+        if (_terrain[0] is 0 or 9 or 10)
         {
             i = 1;
             for (; i <= 6; i += 1)
@@ -138,7 +138,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             i = 1;
             for (; i <= 6; i += 1)
             {
-                if (_terrain[i] == 0 || _terrain[i] == 15 || _terrain[i] == 10 || _terrain[i] == 9)
+                if (_terrain[i] is 0 or 15 or 10 or 9)
                 {
                     _terrain[i] = _terrain[0];
                 }
@@ -665,7 +665,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         else
                         {
                             CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = _terrain[i - 1];
-                            if (j > 0 && j < 19)
+                            if (j is > 0 and < 19)
                             {
                                 if (_resources[(_terrain[i - 1] * 19) + j].Count > 0)
                                 {
@@ -724,7 +724,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(i).Position) >> 4) == position)
                         {
                             units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
-                            u = units[units.Count - 1];
+                            u = units[^1];
                             u.PositionIndex = (byte)(u.Position & 15);
                             u.PositionGroup = (byte)(int)(((uint)u.Position) >> 4);
                             if (u.PositionGroup == 7)

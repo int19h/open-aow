@@ -633,7 +633,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
                 {
-                    _meetingPoint = settings.Path[settings.Path.Count - 2];
+                    _meetingPoint = settings.Path[^2];
                 }
 
                 i = 0;

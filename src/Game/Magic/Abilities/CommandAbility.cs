@@ -158,7 +158,7 @@ public partial class CommandAbility : TouchAbility
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         float probability;
-        if (CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && !(defenderUnit.Troop is Leader))
+        if (CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && defenderUnit.Troop is not Leader)
         {
             probability = CombatTouchRoleProbability(attackerUnit, defender);
             sbyte hitPoints = defender.GetHitPoints();
@@ -234,7 +234,7 @@ public partial class CommandAbility : TouchAbility
     public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
         CommandCombatAction result = new(null) { Holder = CreationHolder() };
-        result.Initialize(successful: !(target.Troop is Leader) && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
+        result.Initialize(successful: target.Troop is not Leader && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
         result.AbilityId = AbilityId;
         return result;
     }

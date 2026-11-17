@@ -158,7 +158,7 @@ public partial class ArmyInfoDialog : UIModule
     // AoWArmyInfoDlg.pas:166
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             Window.Visible = false;
         }

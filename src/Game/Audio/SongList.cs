@@ -72,7 +72,7 @@ public partial class SongList : EngineObject
     public void Search(string path, string ext)
     {
         string fullPath;
-        if (path[path.Length - 1] != 92)
+        if (path[^1] != 92)
         {
             path = path + "\\";
         }

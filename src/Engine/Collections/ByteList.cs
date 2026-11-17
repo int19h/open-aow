@@ -56,7 +56,7 @@ public partial class ByteList : Persistent
     // Engine.pas:3763
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -137,9 +137,8 @@ public partial class ByteList : Persistent
     // Engine.pas:3608
     public override void Assign(Persistent source)
     {
-        if (source is ByteList)
+        if (source is ByteList byteList)
         {
-            ByteList byteList = (ByteList)source;
             _count = byteList._count;
             SetCapacity(byteList._count);
             Array.Copy(byteList._list, 0, _list, 0, _count * 1);

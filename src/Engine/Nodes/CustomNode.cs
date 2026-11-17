@@ -226,9 +226,9 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i = 0;
             while (result == null && i < Count)
             {
-                if (Children[i] is CustomNode)
+                if (Children[i] is CustomNode child)
                 {
-                    result = ((CustomNode)Children[i]).FindChildInTree(classId);
+                    result = child.FindChildInTree(classId);
                 }
 
                 i += 1;

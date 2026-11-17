@@ -56,7 +56,7 @@ public partial class City
                 int index = offset + 1;
                 CityImage = images[images.ImageExist(index) ? index : 1];
             }
-            if (WallType != 0 && WallType != 3)
+            if (WallType is not 0 and not 3)
             {
                 int index = (WallType << 1) + offset;
                 if (!images.ImageExist(index))

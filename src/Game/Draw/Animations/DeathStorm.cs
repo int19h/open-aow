@@ -19,7 +19,7 @@ public partial class DeathStorm : BlastStorm
     // Storms.pas:502
     public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (terrainType != 0 && terrainType != 6)
+        if (terrainType is not 0 and not 6)
         {
             terrainType = 5;
         }

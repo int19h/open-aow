@@ -459,7 +459,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
             if (targetHexSprite == null || (targetHexSprite == unitHexSprite && !targets.Contains(CombatTargetTypeElement.Friend)))
             {
-                if (_cursorImage < 85 || _cursorImage > 88)
+                if (_cursorImage is < 85 or > 88)
                 {
                     _cursorImage = 85;
                 }
@@ -470,7 +470,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 {
                     if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())) && GamePack.Current.AbilityControl.GetAbility<TouchAbility>(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
                     {
-                        if (_cursorImage < 105 || _cursorImage > 107)
+                        if (_cursorImage is < 105 or > 107)
                         {
                             _cursorImage = 105;
                         }
@@ -484,7 +484,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 {
                     if ((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide()))
                     {
-                        if (_cursorImage < 80 || _cursorImage > 83)
+                        if (_cursorImage is < 80 or > 83)
                         {
                             _cursorImage = 80;
                         }
@@ -560,12 +560,12 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 wall = field.FindOwnedChild<CityWall>(2229508) ?? field.FindOwnedChild(2229510) as CityWall;
                 if (wall != null)
                 {
-                    if (!(wall is CityWallDoor) || unitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker)
+                    if (wall is not CityWallDoor || unitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker)
                     {
                         cost = -1;
                     }
 
-                    if (!(wall is CityWallDoor) && unitHexSprite.Unit.Troop.GetAbilityEnabled(36))
+                    if (wall is not CityWallDoor && unitHexSprite.Unit.Troop.GetAbilityEnabled(36))
                     {
                         cost = 1;
                     }
@@ -627,7 +627,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
         base.ShowMovePaths(surface);
         if (GetTacticalBattleUnitHexSprite() != null)
         {
-            if (GetTacticalBattleUnitHexSprite().SelectedAbility != 65 && GetTacticalBattleUnitHexSprite().SelectedAbility != 114)
+            if (GetTacticalBattleUnitHexSprite().SelectedAbility is not 65 and not 114)
             {
                 return;
             }

@@ -56,7 +56,7 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5244
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -87,9 +87,8 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5061
     public override void Assign(Persistent source)
     {
-        if (source is DoubleItemList)
+        if (source is DoubleItemList doubleItemList)
         {
-            DoubleItemList doubleItemList = (DoubleItemList)source;
             _count = doubleItemList._count;
             SetCapacity(doubleItemList._count);
             Array.Copy(doubleItemList._list, 0, _list, 0, _count);

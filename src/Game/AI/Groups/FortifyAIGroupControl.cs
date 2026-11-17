@@ -603,7 +603,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             while (i != 0 && excess > 0)
             {
                 i -= 1;
-                if (!(units.GetUnit(i) is Leader))
+                if (units.GetUnit(i) is not Leader)
                 {
                     excess -= units.GetUnit(i).GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     if (excess >= 0)

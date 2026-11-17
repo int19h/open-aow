@@ -175,7 +175,7 @@ public partial class GameEngine : OwningNode
             SetStartupDirectory(ExtractFilePath(RtlUnit.Application.ExeName));
         }
 
-        if (StartupDirectory[StartupDirectory.Length - 1] != 92)
+        if (StartupDirectory[^1] != 92)
         {
             SetStartupDirectory(StartupDirectory + "\\");
         }

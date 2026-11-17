@@ -80,7 +80,7 @@ public partial class TacticalBattleUnit : CombatUnit
 
                     sbyte hexY = UnitHexSprite.GetHexY();
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.GetHexX(), hexY, direction, ref x2, ref y2);
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 9)
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType is not 0 and not 9)
                     {
                         blood = new TacticalBattleBloodHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
                         blood.Activate();

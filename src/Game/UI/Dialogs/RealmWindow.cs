@@ -228,7 +228,7 @@ public partial class RealmWindow : UIModule
         for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
             place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
-            if (!(place is City))
+            if (place is not City)
             {
                 string editName = place.EditName();
                 PlaceNameList.Items.AddObject(editName, place);

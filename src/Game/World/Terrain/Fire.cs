@@ -124,7 +124,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             }
             else
             {
-                if (frame < -1000 || frame >= 0)
+                if (frame is < -1000 or >= 0)
                 {
                     _explosionFrame = 0;
                     base.Show(pixelXSurface, pixelYSurface, lockedSurface);

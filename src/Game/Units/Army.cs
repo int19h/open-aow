@@ -2964,7 +2964,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                                 sbyte hexY = offer.ArmyHexSprite.GetHexY();
                                 sbyte hexX = offer.ArmyHexSprite.GetHexX();
                                 direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
-                                if (direction > 0 && direction <= 6)
+                                if (direction is > 0 and <= 6)
                                 {
                                     locations.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                                     side = direction + 1;

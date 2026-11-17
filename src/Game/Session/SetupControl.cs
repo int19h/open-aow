@@ -1136,8 +1136,8 @@ public partial class SetupControl : Component
             if (!unique)
             {
                 // { Original reads the last character without guarding an empty name. }
-                result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[result.Length - 1]))
-                    ? Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[result.Length - 1]) + 1 - 48)
+                result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[^1]))
+                    ? Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[^1]) + 1 - 48)
                     : result + "1";
             }
             else

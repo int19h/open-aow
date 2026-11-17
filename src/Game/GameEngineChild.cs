@@ -8,7 +8,7 @@ namespace Aow.Game;
 /// A child of the engine: its control node, its sprite set or one of its maps. The engine takes
 /// no other child, so a read of a child slot is one of these or empty.
 /// </summary>
-public union GameEngineChild(ControlStyleNode, GamePack, GameMap)
+public readonly union GameEngineChild(ControlStyleNode, GamePack, GameMap)
 {
     /// <summary>
     /// The child an engine slot holds, read from the untyped storage. The engine admits only
@@ -24,5 +24,5 @@ public union GameEngineChild(ControlStyleNode, GamePack, GameMap)
     };
 
     /// <summary>The child as the engine object the untyped child list stores.</summary>
-    public EngineObject Node => (EngineObject)Value;
+    public readonly EngineObject Node => (EngineObject)Value;
 }

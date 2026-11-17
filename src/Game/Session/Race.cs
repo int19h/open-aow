@@ -191,7 +191,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     public void ResetDefaultRaceRelations()
     {
         DefaultRelations.Clear();
-        if (RaceIndex >= 0 && RaceIndex <= 11)
+        if (RaceIndex is >= 0 and <= 11)
         {
             for (int i = 0; i <= 11; i++)
             {

@@ -53,7 +53,7 @@ public partial class BitList : Persistent
     internal void SetCount(int newCount)
     {
         int oldCount;
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -168,9 +168,8 @@ public partial class BitList : Persistent
     // Engine.pas:4576
     public override void Assign(Persistent source)
     {
-        if (source is BitList)
+        if (source is BitList bitList)
         {
-            BitList bitList = (BitList)source;
             _count = bitList._count;
             SetCapacity(bitList._count);
             RtlUnit.Move(bitList.List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), List.Span.Slice(0, (int)(((uint)(_count + 31)) >> 5) * 4), (int)(((uint)(_count + 31)) >> 5) * 4);

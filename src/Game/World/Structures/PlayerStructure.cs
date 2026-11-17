@@ -560,7 +560,7 @@ public partial class PlayerStructure : Structure
     // { Original leaves the result unchanged for a razed structure. }
     public virtual void FinalizeCombat(Battle combat)
     {
-        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
+        if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             SetPlayer(combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player);
         }
@@ -572,7 +572,7 @@ public partial class PlayerStructure : Structure
         string result = "";
         if (!GetRazed())
         {
-            if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
+            if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
             {
                 string editName = EditName();
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);

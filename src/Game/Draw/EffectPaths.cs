@@ -209,7 +209,7 @@ internal static class EffectPaths
                 if (StrategicMap.Current.Random(100) < chance)
                 {
                     canBurn = false;
-                    if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 9 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 1 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 2 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 3)
+                    if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() is 9 or 1 or 2 or 3)
                     {
                         canBurn = true;
                     }

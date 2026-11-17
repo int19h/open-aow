@@ -360,14 +360,14 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            obstacle = obstacles[obstacles.Count - 1];
+                            obstacle = obstacles[^1];
                             if (steps == 2 && obstacle.Chance < a)
                             {
                                 obstacle.Chance = a;
                             }
                         }
 
-                        if (steps != 2 && steps != 4)
+                        if (steps is not 2 and not 4)
                         {
                             obstacle.Chance += a;
                         }

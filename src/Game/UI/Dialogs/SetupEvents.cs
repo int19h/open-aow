@@ -218,9 +218,9 @@ public partial class SetupEvents : UIModule
 
         if (StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {
-                ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).DataReceived(data, size, fromId);
+                remote.DataReceived(data, size, fromId);
             }
         }
     }

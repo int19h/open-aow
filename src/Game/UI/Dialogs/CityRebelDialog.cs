@@ -56,7 +56,7 @@ public partial class CityRebelDialog : UIModule
     // AoWCityRebelDlg.pas:77
     public void RebelWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             RebelWindow.Visible = false;
         }

@@ -17,7 +17,7 @@ public partial class OwningNode : CustomNode
 
     // The child slots. Every write of a child goes through AddChild, SetChild, InsertChild or the
     // members below, so the child check in CheckChild sees each child that enters.
-    private EngineObjectList _children;
+    private readonly EngineObjectList _children;
 
     // Engine.pas:2833
     public override void Clear()

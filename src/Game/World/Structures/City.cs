@@ -884,7 +884,7 @@ public partial class City : PlayerCropStructure
     // City.pas:2225
     public override void FinalizeCombat(Battle combat)
     {
-        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
+        if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             CombatData combatData = combat.CombatData;
             SetPlayer(combatData.Players.GetPlayers(combatData.AttackerPlayer).Player);
@@ -899,7 +899,7 @@ public partial class City : PlayerCropStructure
         string result = "";
         if (!GetRazed())
         {
-            if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
+            if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
             {
                 string cityBattleWon = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleWonFormat);
                 string name = GetName();

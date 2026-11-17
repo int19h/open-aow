@@ -577,7 +577,7 @@ public partial class Hero : Troop
         base.NewDay();
         if (StrategicMap.Current.Day == 1)
         {
-            if ((GetEngine().Campaign == null || StrategicMap.Current.Players.GetPlayers(Player) == null || StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human) && (!StrategicMap.Current.LeadersFixed || !(this is Leader)))
+            if ((GetEngine().Campaign == null || StrategicMap.Current.Players.GetPlayers(Player) == null || StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human) && (!StrategicMap.Current.LeadersFixed || this is not Leader))
             {
                 _usedSkillPoints = GetSkillPoints();
             }

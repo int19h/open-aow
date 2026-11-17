@@ -666,7 +666,7 @@ public partial class SelectedArmy : MoveSelector
                 armyHexSprite = (ArmyHexSprite)MoveSettingsList.GetMoveSettings(i).MoveObject;
                 if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    if (armyHexSprite.Army.Destination.X != -1 && armyHexSprite.Army.Destination.X != 0)
+                    if (armyHexSprite.Army.Destination.X is not -1 and not 0)
                     {
                         Army army = armyHexSprite.Army;
                         field = StrategicMap.Current.MapContainer.GetField(army.Destination.X, army.Destination.Y, army.Destination.MapLevel);

@@ -52,7 +52,7 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
     // HSEngine.pas:1778
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }

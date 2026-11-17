@@ -855,7 +855,7 @@ public partial class PlayerMagicControl : EngineObject
     // intf_P4_01.inc:135
     // Spells.PAS:2400. The original list held the order and upkeep with the enchantment address in
     // column C for a player enchantment or D for a global one. An entry holds the enchantment itself.
-    private struct UpkeepCandidate
+    private readonly struct UpkeepCandidate
     {
         public int Order { get; init; }
         public int Upkeep { get; init; }

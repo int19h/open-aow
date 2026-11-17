@@ -418,7 +418,7 @@ public partial class AIMoveExecutor : EngineObject
 
             if (Control == null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
             {
-                switch (ControlQueue[ControlQueue.Count - 1])
+                switch (ControlQueue[^1])
                 {
                     case 0:
                         ActivateMoveExecutorControl(() => new DefaultMoveExecutorControl(null) { Holder = CreationHolder() });

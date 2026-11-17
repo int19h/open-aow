@@ -1200,7 +1200,7 @@ public partial class WorldMap : UIModule
 
     private static void SelectCampaignPath(WorldMapCampaign campaign, int index)
     {
-        if (index >= 0 && index < 3)
+        if (index is >= 0 and < 3)
         {
             campaign.State = 2;
             campaign.Page = 0;

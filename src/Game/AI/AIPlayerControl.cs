@@ -258,7 +258,7 @@ public partial class AIPlayerControl : EngineObject
                     for (int j = group.Units.Count - 1; j >= 0; j--)
                     {
                         troop = group.Units.GetUnit(j);
-                        if (!(troop is Hero))
+                        if (troop is not Hero)
                         {
                             unitPriority = troop.GetMoves();
                             if (troop.GetMoveTypes().Contains(MoveType.Flying))

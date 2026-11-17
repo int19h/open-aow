@@ -66,14 +66,14 @@ public partial class TacticalBattle : Battle
             CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
-                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
+                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
                 {
                     PlayerCommunicationSettings playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
-                    ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
+                    remote.SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
                     PlayerCommunicationSettings playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
-                    ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
+                    remote.SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
         }

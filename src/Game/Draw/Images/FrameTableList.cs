@@ -67,7 +67,7 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9517
     protected internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > 134217727)
+        if (newCount is < 0 or > 134217727)
         {
             Error("List count out of bounds (%d)", newCount);
         }

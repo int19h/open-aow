@@ -275,7 +275,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     }
 
     // MoveT.PAS:2304
-    public virtual bool Animating() => ArmyHexSprite.GetMoveStatus() < 100 && ArmyHexSprite.GetMoveStatus() != -1;
+    public virtual bool Animating() => ArmyHexSprite.GetMoveStatus() is < 100 and not -1;
 
     // MoveT.PAS:2309
     public virtual void UpdateAnimation() => ArmyHexSprite.MoveNext();
@@ -375,7 +375,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 direction = GetHexDirection(MoveIndex + 1);
             }
 
-            if (direction > 0 && direction <= 6)
+            if (direction is > 0 and <= 6)
             {
                 ArmyHexSprite.SetDirection((byte)direction);
             }

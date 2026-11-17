@@ -149,7 +149,7 @@ public static class PixelFormats
         return result;
     }
 
-    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId == pfRGB565 || pixelFormatId == pfRGB555
+    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is pfRGB565 or pfRGB555
         ? pixelFormatId
         : 0;
 
@@ -197,7 +197,7 @@ public static class PixelFormats
 
     public static int ColorFillSurfaceDescription(Rect R, int color, in LockedSurface lockedSurface)
     {
-        if (lockedSurface.PixelFormatId != pfRGB555 && lockedSurface.PixelFormatId != pfARGB1555 && lockedSurface.PixelFormatId != pfRGB565)
+        if (lockedSurface.PixelFormatId is not pfRGB555 and not pfARGB1555 and not pfRGB565)
         {
             return GFXE_NOTSUPPORTED;
         }

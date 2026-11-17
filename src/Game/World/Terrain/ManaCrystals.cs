@@ -177,7 +177,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
     // { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
     //   Remaining inherited declaration constraints are documented at local ABI adapters. }
-    public struct CrystalAIInfo
+    public readonly struct CrystalAIInfo
     {
         public sbyte Player { get; init; }
         public sbyte OtherPlayer { get; init; }

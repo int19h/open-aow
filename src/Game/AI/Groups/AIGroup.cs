@@ -195,7 +195,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         Troop transporter;
         while (Units.Count != 0)
         {
-            DeleteUnit(Units[Units.Count - 1]);
+            DeleteUnit(Units[^1]);
         }
 
         transporter = Transporter;

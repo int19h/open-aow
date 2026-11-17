@@ -424,7 +424,7 @@ public partial class MoveControl : IDisposable
                 break;
         }
 
-        return Settings.Status != MoveControlSettingsStatus.Processed && Settings.Status != MoveControlSettingsStatus.Failed;
+        return Settings.Status is not MoveControlSettingsStatus.Processed and not MoveControlSettingsStatus.Failed;
     }
 
     // MoveT.PAS:1436

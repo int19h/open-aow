@@ -178,7 +178,7 @@ public partial class Mine : PlayerStructure
     // Mine.pas:178
     public override string GetCombatEventText(Battle combat)
     {
-        string result = combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders
+        string result = combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), s_mineBattleWonText)
             : "";
         return result;

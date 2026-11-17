@@ -189,7 +189,7 @@ public partial class TitleScene : UIModule
             }
         }
 
-        if (frame > 45 && frame < 130)
+        if (frame is > 45 and < 130)
         {
             switch (page)
             {

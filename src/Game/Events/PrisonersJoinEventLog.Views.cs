@@ -9,6 +9,6 @@ public partial class PrisonersJoinEventLog
     public override EventView View()
     {
         Troop troopObject = World.Map.StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
-        return troopObject != null && troopObject is Hero ? EventView.PrisonerHero : EventView.PrisonersJoin;
+        return troopObject is not null and Hero ? EventView.PrisonerHero : EventView.PrisonersJoin;
     }
 }

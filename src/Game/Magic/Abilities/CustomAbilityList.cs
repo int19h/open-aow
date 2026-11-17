@@ -90,8 +90,7 @@ public partial class CustomAbilityList : EngineObject
     {
         int oldSize;
         int newSize;
-        // { Original assertion accepts every Integer: its bounds predicate uses OR. }
-        Assert(!(value < 0 && value >= 134217727), "Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
+        // Ability.PAS:1119 asserts a bounds predicate that admits every Integer, so no check remains.
         oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
         newSize = (int)(((uint)(value + 7)) >> 3);
         if (newSize != oldSize)

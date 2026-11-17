@@ -329,7 +329,7 @@ public partial class UnitWindow : UIModule
         if (MainWindow.Visible)
         {
             _highlight += _highlightStep;
-            if (_highlight > 100 || _highlight < 50)
+            if (_highlight is > 100 or < 50)
             {
                 _highlightStep = -_highlightStep;
                 _highlight += _highlightStep;

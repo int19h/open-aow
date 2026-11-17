@@ -90,7 +90,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     SetHitPoints(HitPoints - executeDamageRole6);
                     break;
                 case 200722:
-                    if (message.Param[1].Int == 30 || message.Param[1].Int == 86)
+                    if (message.Param[1].Int is 30 or 86)
                     {
                         GamePack.Current.AbilityControl.GetAbility(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = StrategicMap.Current.Random(16777215);

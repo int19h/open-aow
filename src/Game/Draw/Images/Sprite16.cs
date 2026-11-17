@@ -432,7 +432,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface) => ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
 
     // ImageLib.pas:4548
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
 
     // ImageLib.pas:4561
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }

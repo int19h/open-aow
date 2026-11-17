@@ -270,7 +270,7 @@ public partial class FastBattleUnit : CombatUnit
         Troop troop;
         base.Initialize(combat);
         troop = Troop;
-        RoundDistance = troop is Leader || troop is Hero ? 8 : 4;
+        RoundDistance = troop is Leader or Hero ? 8 : 4;
     }
 
     // AIGroup.pas:6856

@@ -261,7 +261,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:3073
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
 
     // ImageLib.pas:3090
     // The sprites take their transparent color from TGrabInfo (declared Reserved in the core),

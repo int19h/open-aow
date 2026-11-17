@@ -17,7 +17,7 @@ public struct ShowInfo
     // original record: no code gives them a meaning, and they round trip unchanged.
     private ushort _unknownBytes;
 
-    private byte[] Image()
+    private readonly byte[] Image()
     {
         byte[] image = new byte[8];
         image[0] = (byte)ShowMode;
@@ -38,7 +38,7 @@ public struct ShowInfo
         return exact && count != 8 ? throw new EndOfStreamException("Stream read error") : count;
     }
 
-    public int WriteImage(Stream stream, bool exact)
+    public readonly int WriteImage(Stream stream, bool exact)
     {
         byte[] image = Image();
         stream.Write(image);

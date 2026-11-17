@@ -2155,7 +2155,7 @@ public partial class StrategicMap : GameMap
             case PlayMode.Turn:
                 if (ConnectionType == PlayerConnectionType.Email)
                 {
-                    if (!(PlayerControl is PbemPlayerControl))
+                    if (PlayerControl is not PbemPlayerControl)
                     {
                         PlayerControl?.Dispose();
                         PlayerControl = new PbemPlayerControl(null) { Holder = CreationHolder() };
@@ -2164,7 +2164,7 @@ public partial class StrategicMap : GameMap
                 else
                 {
                     // { Original tests TPBEMPlayerControl even in the non-email branch. }
-                    if (!(PlayerControl is PbemPlayerControl))
+                    if (PlayerControl is not PbemPlayerControl)
                     {
                         PlayerControl?.Dispose();
                         PlayerControl = new TurnPlayerControl(null) { Holder = CreationHolder() };
@@ -2173,7 +2173,7 @@ public partial class StrategicMap : GameMap
 
                 break;
             case PlayMode.Simultaneous:
-                if (!(PlayerControl is SimultaneousPlayerControl))
+                if (PlayerControl is not SimultaneousPlayerControl)
                 {
                     PlayerControl?.Dispose();
                 }
