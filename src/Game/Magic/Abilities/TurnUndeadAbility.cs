@@ -65,7 +65,7 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3374
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         TurnUndeadCombatAction action;
@@ -364,7 +364,13 @@ public partial class TurnUndeadAbility : TouchAbility
         return result;
     }
 
-    // AoWAb.PAS:3356
+    // AoWAb.PAS:3356. Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreateTurnUndeadCombatAction(source, target: target);
+    }
+
     public TurnUndeadCombatAction CreateTurnUndeadCombatAction(CombatObject source, CombatObject target)
     {
         TurnUndeadCombatAction action;

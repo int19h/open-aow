@@ -110,7 +110,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                     if (message.MessageId == 200707 && message.HexNumber == 0)
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(117).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                        spellDamage = GamePack.Current.SpellControl.GetSpell(117).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                         if (spellDamage.Damage > 0)
                         {
                             SetAction(SpriteAction.Hit);
@@ -124,7 +124,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                         if (message.MessageId == 200715 && message.HexNumber == 0)
                         {
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(113).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            spellDamage = GamePack.Current.SpellControl.GetSpell(113).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                             if (spellDamage.Damage > 0)
                             {
                                 SetAction(SpriteAction.Hit);
@@ -152,7 +152,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                 if (message.MessageId == 200723 && message.HexNumber == 0)
                                 {
                                     RandSeed = StrategicMap.Current.Random(16777215);
-                                    spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(message.Param[1].Int).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                    spellDamage = GamePack.Current.SpellControl.GetSpell(message.Param[1].Int).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                     if (spellDamage.Damage > 0)
                                     {
                                         SetAction(SpriteAction.Hit);
@@ -180,7 +180,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                         if (message.MessageId == 200709 && message.HexNumber == 0)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(104).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                            spellDamage = GamePack.Current.SpellControl.GetSpell(104).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                             if (spellDamage.Damage > 0)
                                             {
                                                 SetAction(SpriteAction.Hit);
@@ -194,7 +194,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                             if (message.MessageId == 200716 && message.HexNumber == 0)
                                             {
                                                 RandSeed = StrategicMap.Current.Random(16777215);
-                                                spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(120).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                spellDamage = GamePack.Current.SpellControl.GetSpell(120).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                                 if (spellDamage.Damage > 0)
                                                 {
                                                     SetAction(SpriteAction.Hit);
@@ -208,7 +208,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                 if (message.MessageId == 200710 && message.HexNumber == 0)
                                                 {
                                                     RandSeed = StrategicMap.Current.Random(16777215);
-                                                    spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(116).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                    spellDamage = GamePack.Current.SpellControl.GetSpell(116).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                                     if (spellDamage.Damage > 0)
                                                     {
                                                         SetAction(SpriteAction.Hit);
@@ -222,7 +222,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                     if (message.MessageId == 200717 && message.HexNumber == 0)
                                                     {
                                                         RandSeed = StrategicMap.Current.Random(16777215);
-                                                        spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(127).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                        spellDamage = GamePack.Current.SpellControl.GetSpell(127).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                                         if (spellDamage.Damage > 0)
                                                         {
                                                             SetAction(SpriteAction.Hit);
@@ -236,7 +236,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                         if (message.MessageId == 200718 && message.HexNumber == 0)
                                                         {
                                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(128).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                            spellDamage = GamePack.Current.SpellControl.GetSpell(128).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                                             if (spellDamage.Damage > 0)
                                                             {
                                                                 SetAction(SpriteAction.Hit);
@@ -276,7 +276,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                                             if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
                                                                             {
                                                                                 RandSeed = StrategicMap.Current.Random(16777215);
-                                                                                spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(112).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                                                spellDamage = GamePack.Current.SpellControl.GetSpell(112).CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                                                                                 if (spellDamage.Damage > 0)
                                                                                 {
                                                                                     SetAction(SpriteAction.Hit);

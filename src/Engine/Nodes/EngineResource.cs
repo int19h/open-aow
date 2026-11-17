@@ -67,6 +67,10 @@ public partial class EngineResource : EngineObject
         return result;
     }
 
+    // The caller names the user class ResourceUserClassId registers. Another class throws. A zero
+    // class id returns null, as CreateResourceUser does.
+    public T CreateResourceUser<T>() where T : EngineObject => (T)CreateResourceUser();
+
     // Engine.pas:8525
     public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {

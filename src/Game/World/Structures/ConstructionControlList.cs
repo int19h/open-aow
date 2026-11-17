@@ -39,6 +39,10 @@ public partial class ConstructionControlList : OwningNode, IChildList<Constructi
         return result;
     }
 
+    // The caller names the control registered at the id. Another class throws. A missing id returns
+    // null, as FindId does.
+    public T FindId<T>(int id) where T : ConstructionControl => (T)FindId(id);
+
     // Engine.pas:631
 
 }

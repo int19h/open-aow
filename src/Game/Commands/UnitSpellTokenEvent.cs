@@ -80,9 +80,9 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
                 {
-                    if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange != -1)
+                    if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange != -1)
                     {
-                        result = HexGeometry.DeltaHexToRadius(x, y, targetX, targetY) <= ((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
+                        result = HexGeometry.DeltaHexToRadius(x, y, targetX, targetY) <= GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange;
                     }
                 }
 
@@ -116,7 +116,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             {
                 target = _targetUnits.GetUnit(i);
                 target.AddRef();
-                if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, SpellData))
+                if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, EventMana, SpellData))
                 {
                     GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
                     target.Changed();

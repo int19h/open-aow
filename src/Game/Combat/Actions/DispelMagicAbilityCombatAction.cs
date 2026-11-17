@@ -14,6 +14,8 @@ public partial class DispelMagicAbilityCombatAction : DispelMagicCombatAction
     public DispelMagicAbilityCombatAction(CustomNode owner) : base(owner)
     { }
 
+    public override bool TouchSucceeded => EnchantmentIds.Count > 0;
+
     // AoWAb.PAS:4018
     public override void Execute(Battle combat)
     {

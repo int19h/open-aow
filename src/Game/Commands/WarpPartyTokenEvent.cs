@@ -54,7 +54,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         if (result)
         {
             ArmyId.RetrieveArmy(ref army, ref selection);
-            result = ((WarpParty)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
+            result = GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
         }
 
         return result;

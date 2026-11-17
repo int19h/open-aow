@@ -10,8 +10,8 @@ namespace Aow.Game.Commands;
 public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>, IOwnedSink<TokenEventReferenceList>
 {
     // A reference list holds the token event and owns it only while the list saves or loads it, and
-    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new TokenEventReferenceList Owner { get => (TokenEventReferenceList)base.Owner; set => SetOwner(value); }
+    // nothing else owns it. AcceptsOwner admits only that list, so the read never fails.
+    public new TokenEventReferenceList Owner { get => GetOwner<TokenEventReferenceList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is TokenEventReferenceList;
 

@@ -33,6 +33,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
     private Set<PathKind> _pathInvalid;
 
+    // CreateMoveControlSettings builds these settings, and the path writer reads them from here.
+    private CombatMoveControlSettings _combatMoveSettings;
+
     public CustomImageLibrary TargetImages { get; }
     public RangedPathHexSprite RangedPathHexSprite { get; }
 
@@ -321,8 +324,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
         moveSettings.PathMovePoints = 0;
         unitHexSprite = (TacticalBattleUnitHexSprite)moveSettings.MoveObject;
-        // CreateMoveControlSettings of this control makes combat move settings, so its settings are that class.
-        ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = GetTacticalBattleUnitHexSprite() != null && (GetTacticalBattleUnitHexSprite().SelectedAbility == 117 || GetTacticalBattleUnitHexSprite().SelectedAbility == 65)
+        _combatMoveSettings.MoveFlags = GetTacticalBattleUnitHexSprite() != null && (GetTacticalBattleUnitHexSprite().SelectedAbility == 117 || GetTacticalBattleUnitHexSprite().SelectedAbility == 65)
             ? Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing)
             : Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image);
 
@@ -587,7 +589,11 @@ public partial class CombatUnitSelectionControl : MoveSelector
     }
 
     // AoWTC.pas:2744
-    public override MoveControlSettings CreateMoveControlSettings() => new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
+    public override MoveControlSettings CreateMoveControlSettings()
+    {
+        _combatMoveSettings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
+        return _combatMoveSettings;
+    }
 
     // AoWTC.pas:2754
     public override void SetCurrentMove(int value)

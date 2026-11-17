@@ -199,7 +199,9 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         FileName = ExtractFileName(grabInfo.FileName);
         FileIndex = grabInfo.FileIndex;
         transparentColor = grabInfo.TransparentPixel;
-        if (!((GrabInfo)grabInfo).Inverse)
+        // CreateGrabInfo builds the nested grab info. Another grab info fails. Null stays null.
+        GrabInfo maskGrab = (GrabInfo)grabInfo;
+        if (!maskGrab.Inverse)
         {
             LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
         }
@@ -221,7 +223,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             offset = (y - minRectangle.Top) * _pitch;
             for (int x = minRectangle.Left, last = minRectangle.Right - 1; x <= last; x++)
             {
-                if (!((GrabInfo)grabInfo).Inverse)
+                if (!maskGrab.Inverse)
                 {
                     AddBit(GetPixelInfo(lockedSurface, x, y) != transparentColor);
                 }

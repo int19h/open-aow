@@ -5,6 +5,8 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
+using Aow.Game.World.Map;
+
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -23,7 +25,7 @@ public partial class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3058
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         EntangleCombatAction action;
@@ -134,7 +136,13 @@ public partial class EntangleAbility : TouchAbility
     // AoWAb.PAS:2984
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(94);
 
-    // AoWAb.PAS:2979
+    // AoWAb.PAS:2979. Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreateEntangleCombatAction(source, target: target);
+    }
+
     public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
     {
         EntangleCombatAction result = new(null) { Holder = CreationHolder() };

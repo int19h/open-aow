@@ -167,9 +167,6 @@ public partial class MapObjectResource : EngineResource
         return mapObject;
     }
 
-    // The resource's user class selects the map object. Another class throws, and null stays null.
-    public T CreateResourceUser<T>() where T : MapObject => (T)CreateResourceUser();
-
     // MAPOBJ.PAS:420
     public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {

@@ -39,10 +39,10 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
         }
 
-        resource = (EngineResource)((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild(135747);
+        resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
         if (resource != null)
         {
-            cloud = (SmokeCloud)resource.CreateResourceUser();
+            cloud = resource.CreateResourceUser<SmokeCloud>();
             cloud.Player = source.Player;
             cloud.TurnsRemaining = -1;
             cloud.Enchantment.PlayerIndex = source.Player;

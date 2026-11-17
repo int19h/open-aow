@@ -117,7 +117,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4262
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         DispelMagicAbilityCombatAction action;
@@ -387,7 +387,17 @@ public partial class DispelMagicAbility : TouchAbility
         return result;
     }
 
-    // AoWAb.PAS:4301
+    // AoWAb.PAS:4301. The ranged event already drew its random value.
+    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
+        CreateCombatAction(source, target: target);
+
+    // Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreateCombatAction(source, target: target);
+    }
+
     public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)
     {
         bool successful;

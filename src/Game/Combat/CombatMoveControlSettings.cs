@@ -14,6 +14,7 @@ public partial class CombatMoveControlSettings : MoveControlSettings
     { }
 
     public Set<CombatMoveModeElement> MoveFlags { get; set; }
+
     // intf_P5_01.inc:63
 
 }

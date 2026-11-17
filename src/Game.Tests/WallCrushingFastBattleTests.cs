@@ -29,7 +29,7 @@ public sealed class WallCrushingFastBattleTests
         }
     }
 
-    private sealed class Attacker(CustomNode owner) : CombatObject(owner);
+    private sealed class Attacker(CustomNode owner) : FastBattleUnit(owner);
 
     private sealed class RecordingWall(CustomNode owner) : CombatWall(owner)
     {

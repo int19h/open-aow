@@ -7,6 +7,8 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Units;
 
+using Aow.Game.World.Map;
+
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -25,7 +27,7 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2737
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         PossessCombatAction action;
@@ -157,7 +159,13 @@ public partial class PossessAbility : TouchAbility
         return result && !target.GetAbilityEnabled(106) && target.GetUnitType() != UnitType.Humanoid && target is not Leader;
     }
 
-    // AoWAb.PAS:2640
+    // AoWAb.PAS:2640. Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreatePossessCombatAction(source, target: target);
+    }
+
     public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
         PossessCombatAction result = new(null) { Holder = CreationHolder() };

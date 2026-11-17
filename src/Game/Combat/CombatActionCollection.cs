@@ -20,8 +20,8 @@ public readonly struct CombatActionCollection : IReadOnlyList<CombatAction>
     public int Count => _list.GetCount();
 
     // The action in slot index, read as the original reads the list, without a range check. The
-    // list admits only combat actions, so the cast never fails.
-    public CombatAction this[int index] => (CombatAction)_list.GetChild(index);
+    // list admits only combat actions, so the read never fails.
+    public CombatAction this[int index] => _list.GetChild<CombatAction>(index);
 
     public IEnumerator<CombatAction> GetEnumerator()
     {

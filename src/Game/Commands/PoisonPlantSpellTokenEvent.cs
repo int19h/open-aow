@@ -52,10 +52,10 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 mapField = level.GetField(walk.X, walk.Y);
-                if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(12)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(12).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
                 {
                     mapField.RestoreTerrain();
-                    plant = (PoisonPlant)resource.CreateResourceUser();
+                    plant = resource.CreateResourceUser<PoisonPlant>();
                     plant.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     plant.CasterPlayer = source.Player;
                     plant.OriginalOverlay = mapField.OverlayType;

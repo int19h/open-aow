@@ -25,6 +25,8 @@ public partial class PossessCombatAction : SingleTargetCombatAction
 
     public bool Successful { get; private set; }
 
+    public override bool TouchSucceeded => Successful;
+
     // AoWAb.PAS:2471
     public override void PersistFields(IPersister persister)
     {

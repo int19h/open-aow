@@ -7,8 +7,8 @@ namespace Aow.Game.Magic;
 public partial class EnchantmentList : OwningNode, IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an Enchantment, so the cast never fails.
-    public Enchantment this[int index] => (Enchantment)GetChild(index);
+    // AcceptsChild admits only an Enchantment, so the read never fails.
+    public Enchantment this[int index] => GetChild<Enchantment>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Enchantment;
 

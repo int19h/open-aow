@@ -71,13 +71,13 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
-            animation = (ImageSequenceAnimation)new Animation(null) { Holder = CreationHolder() };
-            _animation = animation;
-            animation.AnimationLevel = 27;
-            animation.SetShowHandler(ShowAnimation);
-            animation.AnimationMap = StrategicMap.Current;
-            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
-            animation.Activate();
+            // The original constructs a plain animation and stores it on the event. The later warp uses an image sequence.
+            _animation = new Animation(null) { Holder = CreationHolder() };
+            _animation.AnimationLevel = 27;
+            _animation.SetShowHandler(ShowAnimation);
+            _animation.AnimationMap = StrategicMap.Current;
+            _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            _animation.Activate();
         }
 
         if (value == 80)
@@ -140,7 +140,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     log.ArmyView.Setup(army.Army, selection);
                     EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: (sbyte)EventPlayerIndex, level: army.HexLevel, execute: true);
                     log.Release();
-                    location = ((Tornado)GamePack.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
+                    location = GamePack.Current.SpellControl.GetSpell<Tornado>(68).CalculateWarpLocation(army, selection);
                     if (location != MapCoordinate.None)
                     {
                         if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))

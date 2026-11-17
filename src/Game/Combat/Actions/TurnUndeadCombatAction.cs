@@ -62,6 +62,8 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
     // AoWAb.PAS:3084
     public bool GetSuccessful() => Damage != 0;
 
+    public override bool TouchSucceeded => GetSuccessful();
+
     // intf_P3_02.inc:38
 
 }

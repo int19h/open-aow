@@ -109,7 +109,7 @@ public partial class HighPrayer : CombatSpell
     }
 
     // CombatSpells.pas:1054
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         FastBattleHighPrayerCombatAction action;
         action = new FastBattleHighPrayerCombatAction(null) { Holder = CreationHolder() };

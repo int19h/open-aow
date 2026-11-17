@@ -21,6 +21,8 @@ public partial class CommandCombatAction : SingleTargetCombatAction
     public int AbilityId { get; set; }
     public bool Successful { get; private set; }
 
+    public override bool TouchSucceeded => Successful;
+
     // AoWAb.PAS:5044
     public override void PersistFields(IPersister persister)
     {

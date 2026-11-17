@@ -43,7 +43,7 @@ public partial class UpdateSignTokenEvent : TokenEvent
     {
         ExecuteResult result;
         Sign sign;
-        sign = (Sign)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(131330);
+        sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(131330);
         if (sign != null)
         {
             sign.SetText(Text);

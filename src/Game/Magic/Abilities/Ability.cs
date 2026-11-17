@@ -8,6 +8,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
 
 using Aow.Game.Draw;
 
@@ -145,8 +146,19 @@ public partial class Ability : EngineObject
     {
     }
 
-    // Ability.PAS:1574
-    public virtual bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => false;
+    // Ability.PAS:1574. The one caller, FastBattleUnit.FastBattleExecute, passes that unit.
+    public virtual bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command) => false;
+
+    // The ranged event asks every ability it does not name. Healing, dispel and the ranged attack
+    // family override this. The event's ability id names a ranged attack otherwise, and the type
+    // system does not carry that, so this cast stays. Another ability fails it, the same failure the
+    // old ranged attack lookup made.
+    public virtual CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
+        ((RangedAttackAbility)this).CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
+
+    // A touch ability builds its action here and draws its random value where the touch event drew it.
+    // Any other ability does nothing.
+    public virtual CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target) => null;
 
     // Ability.PAS:1582
     public virtual void NewDay(AbilityOwner owner)

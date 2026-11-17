@@ -228,6 +228,10 @@ public partial class Spell : EngineObject
     // Spells.PAS:158
     public virtual CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana) => default;
 
+    // The caller names the action this spell builds. Another action class throws. Null stays null.
+    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction =>
+        (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
+
     // Spells.PAS:178
     public virtual int GetCombatDamageValue(CombatObject source, CombatObject target) => 0;
 
@@ -253,7 +257,7 @@ public partial class Spell : EngineObject
     }
 
     // Spells.PAS:322
-    public virtual bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => false;
+    public virtual bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command) => false;
 
     // Spells.PAS:316
     public virtual void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values) => values = default;
@@ -274,10 +278,11 @@ public partial class Spell : EngineObject
         {
             hero.CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
-            if (source.Combat is FastBattle)
+            // Spells.PAS:198 tests the battle. A fast battle creates only fast battle units, and a
+            // plain battle also creates them (the replay viewer), so both tests stay.
+            if (source is FastBattleUnit { Combat: FastBattle } fastUnit)
             {
-                // A combat unit in a fast battle is a fast battle unit.
-                ((FastBattleUnit)source).UpdateWallSiegeObjectRegistration();
+                fastUnit.UpdateWallSiegeObjectRegistration();
             }
         }
     }

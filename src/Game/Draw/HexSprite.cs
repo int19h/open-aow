@@ -16,8 +16,8 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public HexSprite(CustomNode owner) : base(owner)
     { }
 
-    // The field the sprite stands on. AcceptsOwner admits only a field, so the cast never fails.
-    public new MapField Owner { get => (MapField)base.Owner; set => SetOwner(value); }
+    // The field the sprite stands on. AcceptsOwner admits only a field, so the read never fails.
+    public new MapField Owner { get => GetOwner<MapField>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapField;
 

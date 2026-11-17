@@ -46,13 +46,13 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
             }
 
-            animation = (ImageSequenceAnimation)new Animation(null) { Holder = CreationHolder() };
-            _animation = animation;
-            animation.AnimationLevel = 27;
-            animation.SetShowHandler(ShowAnimation);
-            animation.AnimationMap = StrategicMap.Current;
-            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
-            animation.Activate();
+            // The original constructs a plain animation and stores it on the event. The later shower uses an image sequence.
+            _animation = new Animation(null) { Holder = CreationHolder() };
+            _animation.AnimationLevel = 27;
+            _animation.SetShowHandler(ShowAnimation);
+            _animation.AnimationMap = StrategicMap.Current;
+            _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            _animation.Activate();
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 

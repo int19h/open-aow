@@ -18,6 +18,8 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
 
     public bool Successful { get; private set; }
 
+    public override bool TouchSucceeded => Successful;
+
     // AoWAb.PAS:3400
     public override void PersistFields(IPersister persister)
     {

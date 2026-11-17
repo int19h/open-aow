@@ -96,7 +96,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4787
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         int penalty;
@@ -113,13 +113,14 @@ public partial class RangedAttackAbility : AdjustableAbility
                 action.Release();
             }
 
-            // The only caller, FastBattleUnit.FastBattleExecute, passes that unit as the source.
-            FastBattleUnit fastUnit = (FastBattleUnit)source;
-            fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            source.State = source.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
         }
 
         return true;
     }
+
+    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
+        CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
 
     // AoWAb.PAS:4708
     public override int GetDamageValue(Troop attacker, Troop defender)

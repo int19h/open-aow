@@ -74,7 +74,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                         enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(GamePack.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
                         enchantment.SetSource(source.Player);
-                        enchantment.DispelResistance = (sbyte)((SummonSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(u);
+                        enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
                         group = source.Group;
                         group?.AddUnit(u);
                     }

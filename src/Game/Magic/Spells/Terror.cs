@@ -100,7 +100,7 @@ public partial class Terror : CombatSpell
     }
 
     // CombatSpells.pas:1815
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         FastBattleTerrorCombatAction action;
         action = new FastBattleTerrorCombatAction(null) { Holder = CreationHolder() };

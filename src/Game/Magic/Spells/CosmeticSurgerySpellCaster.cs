@@ -30,7 +30,7 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
         Troop target;
         UnitSpellTokenEvent eventValue;
         string reason = "";
-        ((UnitSpell)GamePack.Current.SpellControl.GetSpell(59)).ResetTargetSelection();
+        GamePack.Current.SpellControl.GetSpell<UnitSpell>(59).ResetTargetSelection();
         source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
         if (source != null && target != null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())

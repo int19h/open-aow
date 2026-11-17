@@ -37,7 +37,7 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
         base.Process(source, value);
         if (value == 0)
         {
-            _storm = ((StormSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
+            _storm = GamePack.Current.SpellControl.GetSpell<StormSpell>(EventSpellId).CreateStorm();
             _storm.InitializeStorm(source.Player, Location.X, Location.Y, Location.MapLevel);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
