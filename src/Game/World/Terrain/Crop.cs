@@ -175,7 +175,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                found = (PlayerCropStructure)mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite(typeof(PlayerCropStructure));
+                found = mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite<PlayerCropStructure>();
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

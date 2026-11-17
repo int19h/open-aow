@@ -641,7 +641,8 @@ public partial class ProductionPlace : PlayerStructure
         ProductionControl.UnitProductions.Clear();
         if (GetMagicSphere() == MagicSphere.None)
         {
-            r = (ProductionPlaceResource)Resource;
+            // Unit lists live on the production resource. Another resource throws, as the old cast did.
+            r = GetResource<ProductionPlaceResource>();
             for (int i = 0, last = r.Units.Count - 1; i <= last; i++)
             {
                 int unit = r.Units[i];

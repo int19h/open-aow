@@ -52,14 +52,13 @@ public partial class PlayerStructureResource : StructureResource
     public override int ResourceUserClassId() => 131916;
 
     // Structur.PAS:2473
-    public override MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override PlayerStructure PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapObject result = base.PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
+        // The user class is a player structure (131916) or one of its kinds. Another class throws.
+        PlayerStructure result = PlaceCreatedUser<PlayerStructure>(hexSpriteMap, hexX, hexY, hexLevel);
         if (result != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            // PlaceResourceUser returns the map object the resource class builds. This resource's
-            // user is a player structure (class id 131916). Another class throws.
-            ((PlayerStructure)result).SetPlayer(StrategicMap.Current.EditorPlayer);
+            result.SetPlayer(StrategicMap.Current.EditorPlayer);
         }
 
         return result;

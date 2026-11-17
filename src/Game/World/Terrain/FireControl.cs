@@ -47,7 +47,7 @@ public partial class FireControl : IDisposable
         resource = GetRandomFireResource(fireType);
         if (resource != null)
         {
-            fire = (Fire)resource.CreateResourceUser();
+            fire = resource.CreateResourceUser<Fire>();
             fire.Player = StrategicMap.Current.CurrentPlayer;
             if (!StrategicMap.Current.PlaceHex(fire, X, Y, L))
             {

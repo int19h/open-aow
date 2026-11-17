@@ -33,26 +33,27 @@ public partial class IsometricHexResource : AbstractHexagonResource
     {
         MapField mapField;
         mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
-        MapObject result = (MapObject)mapField.FindOwnedHexSprite(typeof(IsometricHex));
-        if (result != null)
+        // The lookup finds only IsometricHex, including a hex that derives from it.
+        IsometricHex found = mapField.FindOwnedHexSprite<IsometricHex>();
+        MapObject result = found;
+        if (found != null)
         {
-            if (result.GetTerrain(0) != TerrainList.GetTerrain(0))
+            if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
-                result.SetResource(this);
+                found.SetResource(this);
                 mapField.UpdateTerrainType();
-                // The lookup finds only IsometricHex, so the cast never fails.
-                ((AbstractHexagon)result).UpdateTransitions();
+                found.UpdateTransitions();
             }
             else
             {
-                result.SetResource(this);
+                found.SetResource(this);
             }
 
             map.InvalidateStaticScene(hexX, hexY, hexLevel);
         }
         else
         {
-            result = (MapObject)CreateResourceUser();
+            result = CreateResourceUser();
             if (!map.PlaceHex(result, hexX, hexY, hexLevel))
             {
                 result?.Dispose();

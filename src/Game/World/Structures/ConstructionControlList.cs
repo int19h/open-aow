@@ -8,7 +8,7 @@ public partial class ConstructionControlList : OwningNode, IChildList<Constructi
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ConstructionControl, so the cast never fails.
-    public ConstructionControl this[int index] => (ConstructionControl)GetChild(index);
+    public ConstructionControl this[int index] => GetChild<ConstructionControl>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is ConstructionControl;
 

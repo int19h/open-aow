@@ -1131,8 +1131,8 @@ public partial class City : PlayerCropStructure
         Enchantments = Set<CityEnchantmentId>.Of();
         for (int i = _enchantmentList.Count - 1; i >= 0; i--)
         {
-            GlobalEnchantment enchantment = _enchantmentList.GetEnchantments(i);
-            Enchantments = Enchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment).CityEnchantmentId);
+            CityEnchantment enchantment = _enchantmentList.GetChild<CityEnchantment>(i);
+            Enchantments = Enchantments + Set<CityEnchantmentId>.Of(enchantment.CityEnchantmentId);
         }
     }
 

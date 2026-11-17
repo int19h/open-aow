@@ -42,7 +42,7 @@ public partial class Cave : Structure
             {
                 if (oldEntrance == CaveEntrance.Up)
                 {
-                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild(131966);
+                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild<Cave>(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
@@ -50,7 +50,7 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild(131966);
+                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild<Cave>(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
@@ -148,10 +148,10 @@ public partial class Cave : Structure
             {
                 if (Entrance == CaveEntrance.Down)
                 {
-                    up = (Cave)mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild(131966);
+                    up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(131966);
                     if (up == null)
                     {
-                        up = (Cave)base.Resource.CreateResourceUser();
+                        up = base.Resource.CreateResourceUser<Cave>();
                         up.Entrance = CaveEntrance.Up;
                         result = up.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel + 1));
                     }
@@ -172,10 +172,10 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    down = (Cave)mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild(131966);
+                    down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(131966);
                     if (down == null)
                     {
-                        down = (Cave)base.Resource.CreateResourceUser();
+                        down = base.Resource.CreateResourceUser<Cave>();
                         down.Entrance = CaveEntrance.Down;
                         result = down.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel - 1));
                     }

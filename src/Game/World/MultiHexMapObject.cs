@@ -112,7 +112,9 @@ public partial class MultiHexMapObject : MapObject
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         if (Resource.ImageSequenceList == null)
         {
-            Resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)Resource).ImageOffsetY, lockedSurface);
+            // The offsets live on the multi-hex resource. Another resource throws, as the old cast did.
+            MultiHexMapObjectResource placed = GetResource<MultiHexMapObjectResource>();
+            Resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface + placed.ImageOffsetX, pixelY - pixelYSurface + placed.ImageOffsetY, lockedSurface);
         }
         else
         {

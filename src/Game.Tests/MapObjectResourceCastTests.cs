@@ -57,4 +57,12 @@ public sealed class MapObjectResourceCastTests
         Assert.Throws<InvalidCastException>(() => list.FindChild<PlayerStructureResource>(StructureResource.ClassId));
         Assert.Throws<InvalidCastException>(() => list.FindResource<PlayerStructureResource>(60));
     }
+
+    [Fact]
+    public void CreateResourceUserWithoutAUserClassStaysNull()
+    {
+        MapObjectResource resource = new(null);
+        Assert.Null(resource.CreateResourceUser());
+        Assert.Null(resource.CreateResourceUser<MapObject>());
+    }
 }

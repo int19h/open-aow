@@ -7,7 +7,7 @@ public partial class IncomeSourceList : OwningNode, IChildList<IncomeSource>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an IncomeSource, so the cast never fails.
-    public IncomeSource this[int index] => (IncomeSource)GetChild(index);
+    public IncomeSource this[int index] => GetChild<IncomeSource>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is IncomeSource;
 

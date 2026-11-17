@@ -33,10 +33,12 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
         {
             if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                if (message.Param[0].Int < ((CombatImageLibraryTerrainResource)Resource).Defense)
+                // Defense lives on the combat resource. Another resource throws, as the old cast did.
+                CombatImageLibraryTerrainResource combatResource = GetResource<CombatImageLibraryTerrainResource>();
+                if (message.Param[0].Int < combatResource.Defense)
                 {
                     MapFieldMessageParameters param = message.Param;
-                    param[0] = ((CombatImageLibraryTerrainResource)Resource).Defense;
+                    param[0] = combatResource.Defense;
                     message.Param = param;
                 }
             }
@@ -86,10 +88,10 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     }
 
     // CombatILTer.pas:87
-    public sbyte GetDefense() => ((CombatImageLibraryTerrainResource)Resource).Defense;
+    public sbyte GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
 
     // CombatILTer.pas:90
-    public sbyte GetBurnValue() => ((CombatImageLibraryTerrainResource)Resource).BurnValue;
+    public sbyte GetBurnValue() => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()
