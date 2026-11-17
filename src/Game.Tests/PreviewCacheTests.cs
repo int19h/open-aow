@@ -129,7 +129,7 @@ public sealed class PreviewCacheTests : IDisposable
     {
         PreviewCache cache = new(100);
         GameFileReport report = new() { Operation = "preview", Profile = GameProfile.HeroList };
-        PreviewKey Key(string name) => new("root", name, "hero-list", 1, name);
+        static PreviewKey Key(string name) => new("root", name, "hero-list", 1, name);
         cache.Add(Key("a"), new PreviewEntry(new byte[40], report));
         cache.Add(Key("b"), new PreviewEntry(new byte[40], report));
         cache.Add(Key("c"), new PreviewEntry(new byte[40], report));

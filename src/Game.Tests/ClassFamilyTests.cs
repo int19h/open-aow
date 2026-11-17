@@ -79,7 +79,7 @@ public sealed class ClassFamilyTests
         // the base statics are abstract and the default
         Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
         Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
-        using EndTurnAIPlayerAction instance = new(null!) { Holder = EngineFixture.Engine };
+        using EndTurnAIPlayerAction instance = new(null) { Holder = EngineFixture.Engine };
         Assert.Same(endTurn, instance.ActionClass);
         Assert.Same(instance.ActionClass, instance.ActionClass);
     }
@@ -125,7 +125,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void ActionManagerRegistersSortsAndUnregistersDescriptors()
     {
-        using AIPlayerActionManager manager = new(null!) { Holder = EngineFixture.Engine };
+        using AIPlayerActionManager manager = new(null) { Holder = EngineFixture.Engine };
         AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>()];
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
@@ -155,7 +155,7 @@ public sealed class ClassFamilyTests
         Assert.Equal(GroupBehavior.Hunt, hunt.Behavior);
         Assert.Equal(GroupBehavior.None, AIGroup.Behavior);
         Assert.Equal(GroupBehavior.Defensive, AIGroupClass.Of<DefenderAIGroup>().Behavior);
-        using AIGroupManager manager = new(null!) { Holder = EngineFixture.Engine };
+        using AIGroupManager manager = new(null) { Holder = EngineFixture.Engine };
         AIGroupClass[] classes = [hunt, AIGroupClass.Of<DefenderAIGroup>()];
         manager.RegisterAIGroupClasses(classes);
         manager.RegisterAIGroupClasses(classes);
@@ -168,7 +168,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        using GameEngine engine = new(null!);
+        using GameEngine engine = new(null);
         EditorClass mapObjectEditor = EditorClass.Of<MapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(MapObjectEditor)));
         Assert.Same(EngineClass.Of<MapObjectEditor>(), mapObjectEditor.Class);

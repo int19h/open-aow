@@ -41,7 +41,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 ArmyQueries++;
             }
 
-            return null!;
+            return null;
         }
     }
 
@@ -51,7 +51,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             $"{(Owned ? "owned" : "other")}{(Debug ? ",debug" : "")}{(Building ? ",building" : "")}{(Razed ? ",razed" : "")}{(War ? ",war" : "")}";
     }
 
-    private static bool Razeable(Type type) => type.GetMethod(nameof(Structure.GetRazed))!.DeclaringType != typeof(Structure);
+    private static bool Razeable(Type type) => type.GetMethod(nameof(Structure.GetRazed)).DeclaringType != typeof(Structure);
 
     private static IEnumerable<State> States(Type type)
     {
@@ -120,18 +120,18 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             ? "Building"
             : structure.GetRazed()
             ? "Razed"
-            : structure is PlayerStructure
-            ? ((PlayerStructure)structure).Player == seated || EngineFixture.Engine.Debug
-                ? structure is City
-                    ? ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City"
-                    : structure is ProductionPlace
-                    ? ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome"
+            : structure is PlayerStructure playerStructure
+            ? playerStructure.Player == seated || EngineFixture.Engine.Debug
+                ? structure is City city
+                    ? city.Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City"
+                    : structure is ProductionPlace productionPlace
+                    ? productionPlace.GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome"
                     : structure is Mine
                     ? "Mine"
                     : structure is PowerNode
                     ? "PowerNode"
                     : structure is Farm ? "Farm" : structure is Tower ? "WatchTower" : structure is Altar ? "Altar" : "Generic"
-                : structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "OtherPlayer"
+                : structure is City otherCity && otherCity.Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "OtherPlayer"
             : structure is Sign
             ? "Sign"
             : structure is Cave
@@ -165,9 +165,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
     private static string OldDoubleClick(Structure structure, sbyte seated)
     {
-        return structure is City && ((City)structure).Player == seated
+        return structure is City city && city.Player == seated
             ? "CityScreen"
-            : structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated
+            : structure is ProductionPlace productionPlace && productionPlace.CanDoubleClick() && ((PlayerStructure)structure).Player == seated
             ? "ProductionScreen"
             : structure is WizardsTower ? "Action(WizardsTower)" : structure is Arena ? "Action(Arena)" : "None";
     }
@@ -255,7 +255,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
             Map.SeatedPlayer = Viewer;
             StrategicMap.Current = Map;
         }
@@ -281,7 +281,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         }
     }
 
-    private static string Declaring(Type type, string method) => type.GetMethod(method)!.DeclaringType!.Name;
+    private static string Declaring(Type type, string method) => type.GetMethod(method).DeclaringType.Name;
 
     private static string Observed(StructureView view, Type type, string method, ArmyOwner owner, int queries, bool cancelled) =>
         view != StructureView.None ? view.Name
@@ -486,11 +486,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         StringBuilder resolved = new();
         foreach (Type type in StructureTypes())
         {
-            Type declaring = type.GetMethod(nameof(Structure.CombatMapName))!.DeclaringType!;
+            Type declaring = type.GetMethod(nameof(Structure.CombatMapName)).DeclaringType;
             Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
             MethodInfo owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
             resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
-                (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType!.Name})") + ", " +
+                (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType.Name})") + ", " +
                 $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +
                 $"CombatMapName {declaring.Name}");
         }

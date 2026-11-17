@@ -12,7 +12,7 @@ public sealed class StableOrderTests
     [Fact]
     public void TextControlKeepsEqualItemsInInsertionOrder()
     {
-        using TextControl control = new(null!) { Holder = EngineFixture.Engine };
+        using TextControl control = new(null) { Holder = EngineFixture.Engine };
         TextControlItem high = Item(control, 2, "high");
         TextControlItem low = Item(control, 1, "low");
         TextControlItem tied = Item(control, 1, "tied");
@@ -25,7 +25,7 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
-        using ItemList list = new(null!) { Holder = EngineFixture.Engine };
+        using ItemList list = new(null) { Holder = EngineFixture.Engine };
         Item high = new(list) { OwnerName = "m" };
         Item low = new(list) { OwnerName = "a" };
         Item tied = new(list) { OwnerName = "a" };
@@ -38,7 +38,7 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
-        using ItemList list = new(null!) { Holder = EngineFixture.Engine };
+        using ItemList list = new(null) { Holder = EngineFixture.Engine };
         Item high = new(list) { ItemType = ItemType.Scroll };
         Item low = new(list) { ItemType = ItemType.Head };
         Item tied = new(list) { ItemType = ItemType.Head };
@@ -51,10 +51,10 @@ public sealed class StableOrderTests
     [Fact]
     public void ReflectingPoolsKeepInsertionOrder()
     {
-        using PlayerStructureList pools = new(null!) { Holder = EngineFixture.Engine };
-        ReflectingPool first = new(null!) { Holder = EngineFixture.Engine };
-        ReflectingPool second = new(null!) { Holder = EngineFixture.Engine };
-        ReflectingPool third = new(null!) { Holder = EngineFixture.Engine };
+        using PlayerStructureList pools = new(null) { Holder = EngineFixture.Engine };
+        ReflectingPool first = new(null) { Holder = EngineFixture.Engine };
+        ReflectingPool second = new(null) { Holder = EngineFixture.Engine };
+        ReflectingPool third = new(null) { Holder = EngineFixture.Engine };
         pools.AddChild(first);
         pools.AddChild(second);
         pools.AddChild(third);

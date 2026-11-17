@@ -62,10 +62,10 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AHeroListRoundTripsThroughTheGame()
     {
         UseLayers();
-        using HeroLibrary saved = new(null!) { Holder = Engine, LibraryName = "Heroes of the test" };
+        using HeroLibrary saved = new(null) { Holder = Engine, LibraryName = "Heroes of the test" };
         string file = Path.Combine(Folder, "test.oahl");
         Engine.WriteToFile(file, objectValue: saved, progress: null, profile: GameProfile.HeroList);
-        using HeroLibrary loaded = new(null!) { Holder = Engine };
+        using HeroLibrary loaded = new(null) { Holder = Engine };
         Engine.ReadFromFile(file, objectValue: loaded, progress: null, profile: GameProfile.HeroList);
         Assert.Equal("Heroes of the test", loaded.LibraryName);
         Assert.Equal(Image(saved), Image(loaded));
@@ -76,12 +76,12 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AnItemListRoundTripsThroughTheGame()
     {
         UseLayers();
-        using ItemLibrary saved = new(null!) { Holder = Engine, Name = "Items of the test" };
-        new Item(null!) { Holder = Engine, ItemId = 1, Name = "Sword", Attack = -2, LibraryId = 3 }.SetOwner(saved);
-        new Item(null!) { Holder = Engine, ItemId = 2, Name = "Shield", LibraryId = 4 }.SetOwner(saved);
+        using ItemLibrary saved = new(null) { Holder = Engine, Name = "Items of the test" };
+        new Item(null) { Holder = Engine, ItemId = 1, Name = "Sword", Attack = -2, LibraryId = 3 }.SetOwner(saved);
+        new Item(null) { Holder = Engine, ItemId = 2, Name = "Shield", LibraryId = 4 }.SetOwner(saved);
         string file = Path.Combine(Folder, "test.oail");
         Engine.WriteToFile(file, objectValue: saved, progress: null, profile: GameProfile.ItemList);
-        using ItemLibrary loaded = new(null!) { Holder = Engine };
+        using ItemLibrary loaded = new(null) { Holder = Engine };
         Engine.ReadFromFile(file, objectValue: loaded, progress: null, profile: GameProfile.ItemList);
         Assert.Equal(2, loaded.Items.Count);
         Assert.Equal(Image(saved), Image(loaded));
@@ -99,7 +99,7 @@ public sealed class GamePathRoundTripTests : IDisposable
         string file = Path.Combine(Folder, "Release.ohss");
         Engine.SaveHss(file, progress: null, profile: GameProfile.ScenarioSet);
         JsonObject document = GameFiles.Read(ReadBack(file)).Document;
-        Assert.Equal("scenario-set", ((JsonString)((JsonObject)document["$container"]!)["profile"]!).Value);
+        Assert.Equal("scenario-set", ((JsonString)((JsonObject)document["$container"])["profile"]).Value);
         Engine.LoadHss(file, edit: false, progress: null, profile: GameProfile.ScenarioSet);
         Assert.Same(set, Engine.HexSpriteSet);
         Assert.Equal(before, Image(set));
@@ -150,12 +150,12 @@ public sealed class GamePathRoundTripTests : IDisposable
         GameMap previous = Engine.HexSpriteMap;
         try
         {
-            Engine.LoadHsm(source, edit: true, progress: null!, profile: GameProfile.TacticalMap);
+            Engine.LoadHsm(source, edit: true, progress: null, profile: GameProfile.TacticalMap);
             Assert.True(Engine.HexSpriteMap is CombatMap, FileBoundary.LastFailure?.ToString());
-            Engine.SaveHsm(file, progress: null!, profile: GameProfile.TacticalMap);
+            Engine.SaveHsm(file, progress: null, profile: GameProfile.TacticalMap);
             Assert.Equal(constructed, ReadBack(file));
-            Engine.LoadHsm(file, edit: true, progress: null!, profile: GameProfile.TacticalMap);
-            SavesTheSameDocumentAgain(file, () => Engine.SaveHsm(file, progress: null!, profile: GameProfile.TacticalMap));
+            Engine.LoadHsm(file, edit: true, progress: null, profile: GameProfile.TacticalMap);
+            SavesTheSameDocumentAgain(file, () => Engine.SaveHsm(file, progress: null, profile: GameProfile.TacticalMap));
         }
         finally
         {

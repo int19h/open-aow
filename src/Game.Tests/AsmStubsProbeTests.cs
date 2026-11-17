@@ -299,7 +299,7 @@ public sealed class AsmStubsProbeTests
     private static List<string> ExploredLines()
     {
         List<string> lines = [];
-        MapField field = new(null!) { Holder = EngineFixture.Engine };
+        MapField field = new(null) { Holder = EngineFixture.Engine };
         for (int j = 0; j < s_values.Length; j++)
         {
             field.FieldFlags = s_values[j];
@@ -332,8 +332,8 @@ public sealed class AsmStubsProbeTests
     private static List<string> RazedLines()
     {
         List<string> lines = [];
-        Mine mine = new(null!) { Holder = EngineFixture.Engine };
-        Teleport teleport = new(null!) { Holder = EngineFixture.Engine };
+        Mine mine = new(null) { Holder = EngineFixture.Engine };
+        Teleport teleport = new(null) { Holder = EngineFixture.Engine };
         for (int i = 0; i <= 255; i++)
         {
             mine.State = (byte)i;
@@ -348,8 +348,8 @@ public sealed class AsmStubsProbeTests
     private static List<string> AbilityLines()
     {
         List<string> lines = [];
-        CustomAbilityList abilities = new(null!) { Holder = EngineFixture.Engine };
-        Troop troop = new(null!) { Holder = EngineFixture.Engine };
+        CustomAbilityList abilities = new(null) { Holder = EngineFixture.Engine };
+        Troop troop = new(null) { Holder = EngineFixture.Engine };
         abilities.SetAbilityCount(0);
         for (int i = 1; i < s_indices.Length; i++)
         {

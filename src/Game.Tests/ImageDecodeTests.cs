@@ -238,7 +238,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             LibraryImage.WriteImageToStream(image, stream);
             hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
             stream.Position = 0;
-            LibraryImage copy = ImageStreams.ReadImageFromStream(stream, null!);
+            LibraryImage copy = ImageStreams.ReadImageFromStream(stream, null);
             try { Pin(copy, hash); }
             finally { copy.Dispose(); }
         }
@@ -269,7 +269,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + (w % 3);
-                    DataSurface surface = new(w, h, format, format == PixelFormats.pfPAL8 ? palette : null!);
+                    DataSurface surface = new(w, h, format, format == PixelFormats.pfPAL8 ? palette : null);
                     Fnv hash = new();
                     try
                     {
@@ -313,7 +313,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 }
                             }
                             RectangleList? list = null;
-                            hash.Add(Read(() => { list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null!); return 0; }));
+                            hash.Add(Read(() => { list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null); return 0; }));
                             hash.Add(list?.Count ?? -1);
                             if (list is not null)
                             {

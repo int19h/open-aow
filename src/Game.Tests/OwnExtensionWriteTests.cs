@@ -22,7 +22,7 @@ public sealed class OwnExtensionWriteTests
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         GameEngine engine = EngineFixture.Engine;
-        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null, holder: EngineFixture.Engine);
         GameMap previousMap = engine.HexSpriteMap;
         Action<FileLogRecord>? previousLog = FileBoundary.Log;
         engine.SetHexSpriteMapWithoutCurrentMap(map);
@@ -36,7 +36,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.SetHexSpriteMapWithoutCurrentMap(previousMap);
-            StrategicMap.Current = null!;
+            StrategicMap.Current = null;
             foreach (string file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save")))
             {
                 File.Delete(file);
@@ -47,7 +47,7 @@ public sealed class OwnExtensionWriteTests
     [Fact]
     public void TheAutosaveWritesTheOwnExtension() => Run((_, _) =>
     {
-        new PlayerControl(null!) { Holder = EngineFixture.Engine }.AutoSave();
+        new PlayerControl(null) { Holder = EngineFixture.Engine }.AutoSave();
         FileLogRecord write = Assert.Single(_log);
         Assert.Equal("write", write.Report.Operation);
         Assert.Equal(Save("autosave.oasg"), write.Path, ignoreCase: true);
@@ -62,7 +62,7 @@ public sealed class OwnExtensionWriteTests
         try
         {
             Assert.False(Runtime.WritesOwnExtensions);
-            new PlayerControl(null!) { Holder = EngineFixture.Engine }.AutoSave();
+            new PlayerControl(null) { Holder = EngineFixture.Engine }.AutoSave();
             Assert.Equal(Save("autosave.asg"), Assert.Single(_log).Path, ignoreCase: true);
             Assert.Equal(Save("Foo.asg"), FileBoundary.WriteName(Save("Foo.asg")));
             Assert.Equal(".acg", FileBoundary.WriteExtension(DocumentKind.CampaignSave));
@@ -90,7 +90,7 @@ public sealed class OwnExtensionWriteTests
     {
         byte[] original = [1, 2, 3];
         File.WriteAllBytes(Save("Foo.asg"), original);
-        Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null!, GameProfile.WorldMap));
+        Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null, GameProfile.WorldMap));
         FileLogRecord write = Assert.Single(_log);
         Assert.Equal(Save("Foo.oasg"), write.Path, ignoreCase: true);
         Assert.Equal(original, File.ReadAllBytes(Save("Foo.asg")));

@@ -100,8 +100,8 @@ public sealed class MapNetSoundDispatchTests
             AudioHost.SampleList = new SampleList();
             AudioHost.SampleDataList = new SampleDataList();
             AudioHost.SoundSystems = new SoundSystemList();
-            AudioHost.SoundSystem = null!;
-            AudioHost.SongPlayer = null!;
+            AudioHost.SoundSystem = null;
+            AudioHost.SongPlayer = null;
             SdlSoundSystem.Install(mute: true, audioOutput: false);
         }
 

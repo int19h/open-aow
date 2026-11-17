@@ -132,7 +132,7 @@ public sealed class StringBufferTests
     [Fact]
     public void HtmlWalkKeepsTagOffsetsAndNulTermination()
     {
-        HtmlMemo memo = new(null!);
+        HtmlMemo memo = new(null);
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);
         memo.Items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");

@@ -40,7 +40,7 @@ public sealed class SmallClassTargetTests
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
         List<string> log = [];
-        using AIMoveExecutor executor = new(null!) { Holder = EngineFixture.Engine };
+        using AIMoveExecutor executor = new(null) { Holder = EngineFixture.Engine };
         executor.ActivateMoveExecutorControl(() => new TrackedControl(log));
         log.Clear();
         executor.ActivateMoveExecutorControl(() =>
@@ -56,7 +56,7 @@ public sealed class SmallClassTargetTests
         Assert.Throws<InvalidDataException>(() => executor.ActivateMoveExecutorControl(() => throw new InvalidDataException("control")));
         Assert.Equal(["deactivate", "destroy"], log);
         Assert.Null(executor.Control);
-        executor.ActivateMoveExecutorControl(null!);
+        executor.ActivateMoveExecutorControl(null);
         Assert.Equal(["deactivate", "destroy"], log);
     }
 }

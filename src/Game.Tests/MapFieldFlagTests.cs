@@ -18,7 +18,7 @@ public sealed class MapFieldFlagTests
     [Fact]
     public void TheFogCountIsByteTwoOfTheFlags()
     {
-        MapField field = new(null!) { FieldFlags = unchecked((int)0xA5C3_0F1E) };
+        MapField field = new(null) { FieldFlags = unchecked((int)0xA5C3_0F1E) };
         Assert.Equal(ByteOf(field.FieldFlags, index: 2), field.FogCount);
         Assert.Equal(0xC3, field.FogCount);
         for (int value = 0; value <= 255; value++)
@@ -46,7 +46,7 @@ public sealed class MapFieldFlagTests
         Assert.Equal(unchecked((int)0xFFFFF000), ~MapField.ExploredFlags);
         for (int player = 1; player <= 12; player++)
         {
-            MapField field = new(null!);
+            MapField field = new(null);
             field.SetExplored(player, value: true);
             Assert.Equal(MapField.ExploredFlag(player), field.FieldFlags);
             Assert.Equal(field.FieldFlags, field.FieldFlags & MapField.ExploredFlags);

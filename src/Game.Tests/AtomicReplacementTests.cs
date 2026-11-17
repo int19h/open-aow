@@ -40,7 +40,7 @@ public sealed class AtomicReplacementTests : IDisposable
         + (name.Length == 0 ? "" : "\"LibraryName\": \"" + name + "\"") + "}}"));
 
     /// <summary>A hero list the game saves through the tree.</summary>
-    private static HeroLibrary HeroList(string name = "") => new(null!) { Holder = EngineFixture.Engine, LibraryName = name };
+    private static HeroLibrary HeroList(string name = "") => new(null) { Holder = EngineFixture.Engine, LibraryName = name };
 
     private string Old => Path.Combine(_directory, "user", "User", "list.ahl");
     private string Logical => Path.Combine(_directory, "root", "User", "list.ahl");

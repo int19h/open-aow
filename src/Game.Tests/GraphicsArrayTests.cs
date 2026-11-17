@@ -44,8 +44,8 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void ImageNodeShiftsItsImages()
     {
-        ImageNode node = new(null!);
-        ImageNode[] images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null!)).ToArray();
+        ImageNode node = new(null);
+        ImageNode[] images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null)).ToArray();
         try
         {
             node.Add(images[0]);
@@ -157,7 +157,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         DisplayController displayController = new(owner);
         Matrix matrix = new(4, 4);
         foreach ((int x, int y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) })

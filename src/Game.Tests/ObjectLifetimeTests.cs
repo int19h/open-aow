@@ -58,7 +58,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        using OwningNode owner = new(null!) { Holder = EngineFixture.Engine };
+        using OwningNode owner = new(null) { Holder = EngineFixture.Engine };
         CombatObject attacker = new(owner);
         CombatObject target = new(owner);
         attacker.AddTarget(target, 5, 0, 2);
@@ -70,7 +70,7 @@ public sealed class ObjectLifetimeTests
         attacker.AddTarget(target, 3, 0, 1);
         (WeakReference, WeakReference) result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
-        target.SetOwner(null!);
+        target.SetOwner(null);
         Assert.Equal(0, owner.Count);
         return result;
     }
@@ -101,7 +101,7 @@ public sealed class ObjectLifetimeTests
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
         SpellControl control = GamePack.Current.SpellControl;
-        EarthMastery spell = new(null!, holder: EngineFixture.Engine);
+        EarthMastery spell = new(null, holder: EngineFixture.Engine);
         WeakReference particle;
         control.RegisterSpell(spell);
         try

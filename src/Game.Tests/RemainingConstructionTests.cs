@@ -37,15 +37,15 @@ public sealed class RemainingConstructionTests
     {
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly ImageLibraryManager _manager = new(null);
         private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
             GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
-            StrategicMap.Current = null!;
-            GamePack.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null;
+            GamePack.Current.UnitGraphicsResources = null;
             Runtime.RandSeed = 123456789;
         }
 

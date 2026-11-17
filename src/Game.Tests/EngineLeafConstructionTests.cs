@@ -30,7 +30,7 @@ public sealed class EngineLeafConstructionTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         return engine;
     }
 

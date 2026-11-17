@@ -23,7 +23,7 @@ public sealed class StreamReadTests
     [Fact]
     public void ShortImageDataThrows()
     {
-        using LibraryImage image = new(null!);
+        using LibraryImage image = new(null);
         using MemoryStream stream = new();
         Assert.Throws<EndOfStreamException>(() => image.ReadImageData(stream));
     }

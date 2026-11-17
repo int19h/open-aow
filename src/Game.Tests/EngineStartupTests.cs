@@ -274,7 +274,7 @@ public sealed class EngineStartupTests
         ["DictionaryLanguage"] = engine.Dictionary.Reader.Language,
         ["Demo"] = engine.Demo,
         ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
-        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EngineClasses.Count).Select(i => engine.EngineClasses[i]!.ClassId)),
+        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EngineClasses.Count).Select(i => engine.EngineClasses[i].ClassId)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),
         ["Globals"] = fixture.State()
     };

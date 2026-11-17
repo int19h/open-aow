@@ -27,14 +27,14 @@ public sealed partial class EngineFixture : IDisposable
         }
 
         GamePack.Current = GameSet;
-        StrategicMap.Current = null!;
+        StrategicMap.Current = null;
     }
 
     public EngineFixture()
     {
         Runtime.InstallHost(_host);
         s_services = _host;
-        Engine = GameEngine.Create(null!);
+        Engine = GameEngine.Create(null);
         GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
         {
@@ -66,7 +66,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         // A recording owner stands outside the engine's tree. Its members reach the fixture's
         // engine through it, as the nodes of a real owner reach theirs.
-        internal Owner() : base(null!) => Holder = Engine;
+        internal Owner() : base(null) => Holder = Engine;
 
         internal List<EngineObject> Members { get; } = [];
         internal int Removals { get; private set; }
@@ -280,7 +280,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         private readonly Owner _recorder;
 
-        public MapOwner(Owner recorder) : base(null!) => _recorder = recorder;
+        public MapOwner(Owner recorder) : base(null) => _recorder = recorder;
 
         public Owner Recorder => _recorder;
 

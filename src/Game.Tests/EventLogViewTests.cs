@@ -67,9 +67,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             return "DiplomaticAction";
         }
 
-        if (eventValue is NegotiateRequestEventLog)
+        if (eventValue is NegotiateRequestEventLog negotiateRequestEventLog)
         {
-            NegotiateRequestEventLog negotiateRequestEventLog = (NegotiateRequestEventLog)eventValue;
             if (negotiateRequestEventLog.Object == NegotiateObject.City)
             {
                 return "CityNegotiation";
@@ -106,9 +105,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             return "InformationBook";
         }
 
-        if (eventValue is PlayerMagicEventLog)
+        if (eventValue is PlayerMagicEventLog playerMagicEventLog)
         {
-            switch (((PlayerMagicEventLog)eventValue).Mode)
+            switch (playerMagicEventLog.Mode)
             {
                 case PlayerMagicEventLog.EventMode.SpellResearched: return "SpellResearched";
                 case PlayerMagicEventLog.EventMode.OutOfMana: return "OutOfMana";
@@ -126,15 +125,14 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             return "HeroJoin";
         }
 
-        if (eventValue is ArmyInfoEventLog)
+        if (eventValue is ArmyInfoEventLog armyInfoEventLog)
         {
-            ArmyInfoEventLog armyInfoEventLog = (ArmyInfoEventLog)eventValue;
             return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
         }
-        if (eventValue is PrisonersJoinEventLog)
+        if (eventValue is PrisonersJoinEventLog prisonersJoinEventLog)
         {
-            Troop troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
-            return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
+            Troop troopObject = StrategicMap.Current.UnitControl.FindUnit(prisonersJoinEventLog.FirstUnitId);
+            return troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         return eventValue is EnterWizardsTowerEventLog
             ? "WizardsTower"
@@ -224,10 +222,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         private readonly bool _joins;
 
-        internal JoiningHero(bool joins) : base(null!)
+        internal JoiningHero(bool joins) : base(null)
         {
             _joins = joins;
-            HeroResource = new HeroResource(null!) { Holder = EngineFixture.Engine, HeroType = HeroType.Hero };
+            HeroResource = new HeroResource(null) { Holder = EngineFixture.Engine, HeroType = HeroType.Hero };
         }
 
         public override bool CanJoin(sbyte player) => _joins;
@@ -295,8 +293,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         else if (typeof(PrisonersJoinEventLog).IsAssignableFrom(type))
         {
             yield return new State("prisoner=absent", (e, s) => s.Prisoner(e, null));
-            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, new Unit(null!) { Holder = EngineFixture.Engine }));
-            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, new Hero(null!) { Holder = EngineFixture.Engine }));
+            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, new Unit(null) { Holder = EngineFixture.Engine }));
+            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, new Hero(null) { Holder = EngineFixture.Engine }));
         }
         else
         {
@@ -317,13 +315,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            _map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            _map = new StrategicMap(null, holder: EngineFixture.Engine);
             _map.SeatedPlayer = Seated;
-            _map.UnitControl = new UnitControl(null!) { Holder = EngineFixture.Engine };
+            _map.UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine };
             _units = [with(UnitFinds)];
-            _units.Add(key: -1, value: new Unit(null!) { Holder = EngineFixture.Engine });
+            _units.Add(key: -1, value: new Unit(null) { Holder = EngineFixture.Engine });
             _map.UnitControl.UnitTable = _units;
-            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(1, 1);
             _map.MapContainer = container;
@@ -333,7 +331,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal EventLog Create(Type type)
         {
-            EventLog log = (EventLog)EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
+            EventLog log = (EventLog)EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);
             Assert.IsType(type, log);
             _created.Add(log);
             return log;
@@ -363,7 +361,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             ArmyInfoEventLog info = (ArmyInfoEventLog)log;
             if (info.ArmyView.Units.Count == 0)
             {
-                info.ArmyView.AddChild(new Unit(null!) { Holder = EngineFixture.Engine });
+                info.ArmyView.AddChild(new Unit(null) { Holder = EngineFixture.Engine });
                 info.ArmyView.AddChild(new JoiningHero(false));
             }
             info.Selection = selection;
@@ -516,7 +514,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     public void TheScreenAcknowledgesUserEventsAndSkipsNone()
     {
         using Scene scene = new();
-        MapEvents screen = new(null!);
+        MapEvents screen = new(null);
         List<EventLog> done = [];
         EventLog user = scene.Create(typeof(UserEventLog));
         screen.TheMapExecuteEventLog(user, true, done.Add);

@@ -46,9 +46,9 @@ internal static class OrderingRecording
     internal static EngineObject Create(Type type, CustomNode? owner, int route, GameEngine engine) => route switch
     {
         0 => Direct(type, owner),
-        1 => EngineClass.Of(type).CreateInstance(owner!, holder: EngineFixture.Engine),
-        2 => EngineClass.Of(type).CreateInstance(owner!, holder: EngineFixture.Engine),
-        _ => engine.CreateEngineObject(EngineClass.Of(type).ClassId, owner!)
+        1 => EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine),
+        2 => EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine),
+        _ => engine.CreateEngineObject(EngineClass.Of(type).ClassId, owner)
     };
 
     internal sealed class Fixture : IDisposable
@@ -61,7 +61,7 @@ internal static class OrderingRecording
         private readonly GamePack _set = GamePack.Current;
         private readonly StrategicMap _map = StrategicMap.Current;
 
-        internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
+        internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null);
         internal GameEngine Engine { get; }
 
         internal Fixture(Type? type = null)
@@ -70,19 +70,19 @@ internal static class OrderingRecording
             GamePack value = EngineFixture.CreateGameSet(Manager);
             if (type == typeof(ArmyHexSprite))
             {
-                value.UnitGraphicsResources = new UnitGFXResourceList(null!) { Holder = EngineFixture.Engine };
+                value.UnitGraphicsResources = new UnitGFXResourceList(null) { Holder = EngineFixture.Engine };
             }
 
             GamePack.Current = value;
-            StrategicMap.Current = null!;
+            StrategicMap.Current = null;
             if (type != typeof(ArmyHexSprite))
             {
-                GamePack.Current.UnitGraphicsResources = null!;
+                GamePack.Current.UnitGraphicsResources = null;
             }
 
             Runtime.RandSeed = 123456789;
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
-            Engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
+            Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             foreach (EngineClass? descriptor in EngineClass.All.Where(x => x.Type == type))
             {

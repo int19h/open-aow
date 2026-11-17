@@ -81,7 +81,7 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Components))]
     public void ComponentsKeepDefaultsAndOwnership(Type type, Func<Component, Component> create)
     {
-        Component owner = new(null!);
+        Component owner = new(null);
         Component value = create(owner);
         Assert.Equal(type, value.GetType());
         Assert.Same(owner, value.Owner);
@@ -125,7 +125,7 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Components))]
     public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<Component, Component> create)
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         Component value = create(owner);
         Assert.IsType(type, value);
         Assert.Same(owner, value.Owner);
@@ -142,11 +142,11 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(palette, "_palette"));
         PaletteManager manager = new();
         Assert.NotNull(Field(manager, "Palettes"));
-        ImageLibraryManager imageLibraryManager = new(null!);
+        ImageLibraryManager imageLibraryManager = new(null);
         ImageLibraryManagerList list = new(imageLibraryManager);
         Assert.Same(imageLibraryManager, Field(list, "_owner"));
         Assert.NotNull(Field(list, "HashTable"));
-        ImageSequenceList sequences = new(imageLibraryManager, null!);
+        ImageSequenceList sequences = new(imageLibraryManager, null);
         Assert.Same(imageLibraryManager, Field(sequences, "_imageLibraryManager"));
         Assert.Equal(0, sequences.Count);
         ImageSequence sequence = new(sequences);
@@ -219,7 +219,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PlainDisplayInitializesFrameRateAndOwner()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         CustomDisplay display = new(owner);
         Assert.Same(owner, display.Owner);
         Assert.Equal(1, owner.ComponentCount);
@@ -242,7 +242,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void ImageLibraryLayoutFlagsRunOnce()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         LayoutSession session = new();
         ImageLibrary library = new(owner);
         session.BeginRead(library);
