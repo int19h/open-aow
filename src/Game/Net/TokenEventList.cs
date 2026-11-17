@@ -31,6 +31,7 @@ public partial class TokenEventList : EngineObject
     public override void Assign(EngineObject source, GameEngine engine)
     {
         List.Clear();
+        // Assign's source is EngineObject. This override copies a token event list, and the cast stays.
         AddEvents((TokenEventList)source);
     }
 

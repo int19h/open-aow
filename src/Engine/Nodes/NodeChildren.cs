@@ -22,6 +22,7 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
 
     public bool KeepIndex => node.GetControlStyle().Contains(EngineServices.KeepIndex);
 
+    // IChildCollection takes IPersistable. A child of this node is an engine object, and the cast stays.
     public void Attach(IPersistable child) => ((EngineObject)child).SetOwnerWithoutNotify(node);
 
     public void Place(int slot, IPersistable child)

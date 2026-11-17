@@ -8,7 +8,7 @@ public partial class SubMoveList : OwningNode, IChildList<PathFindingStep>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PathFindingStep, so the cast never fails.
-    public PathFindingStep this[int index] => (PathFindingStep)GetChild(index);
+    public PathFindingStep this[int index] => GetChild<PathFindingStep>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PathFindingStep;
 

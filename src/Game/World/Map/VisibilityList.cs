@@ -14,14 +14,14 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
 
     // The sprite in slot index, read from the sorted items as the original reads them.
     // AcceptsChild admits only a sprite, so the cast never fails.
-    public HexSprite this[int index] => (HexSprite)Items[index].Child;
+    public HexSprite this[int index] => GetChild<HexSprite>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is HexSprite;
 
     int IChildSink<HexSprite>.AddChild(HexSprite child) => AddChild(child);
 
     // The map the list belongs to. AcceptsOwner admits only a map, so the cast never fails.
-    public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
+    public new GameMap Owner { get => GetOwner<GameMap>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 

@@ -89,7 +89,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         {
             int random = Random(count);
             r = list.List[random];
-            result = (MapObject)r.CreateResourceUser();
+            result = r.CreateResourceUser();
         }
         else
         {
@@ -112,7 +112,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         {
             r = null;
             mapField = container.GetField(X, Y, L);
-            mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
+            mapObject = mapField.FindOwnedHexSprite<MapObject>(_mapObjectClass);
             if (mapObject != null)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
@@ -149,7 +149,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         {
             r = null;
             mapField = container.GetField(X, Y, L);
-            mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
+            mapObject = mapField.FindOwnedHexSprite<MapObject>(_mapObjectClass);
             if (mapObject != null && mapObject.Resource.EngineClass.ClassId == classId)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);

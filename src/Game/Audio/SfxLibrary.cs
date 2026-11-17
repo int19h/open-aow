@@ -8,8 +8,8 @@ namespace Aow.Game.Audio;
 public partial class SfxLibrary : OwningNode, IChildList<SfxSequence>
 {
     // The sequence in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a SfxSequence, so the cast never fails.
-    public SfxSequence this[int index] => (SfxSequence)GetChild(index);
+    // AcceptsChild admits only a SfxSequence, so the read never fails.
+    public SfxSequence this[int index] => GetChild<SfxSequence>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is SfxSequence;
 

@@ -62,6 +62,19 @@ public sealed class EngineClass
     public static EngineClass Register<T>(int classId, Func<CustomNode, EngineObject, T> create)
         where T : EngineObject => Add(typeof(T), classId, create);
 
+    // The constructor takes an owner that is an engine object outside the custom node parameter.
+    // The factory checks that class. A wrong owner throws, and a null owner stays null.
+    public static EngineClass RegisterFor<T, TOwner>(int classId, Func<TOwner, T> create)
+        where T : EngineObject
+        where TOwner : EngineObject
+        => Register(classId, create: owner => create(AdaptOwner<TOwner>(owner)));
+
+    private static TOwner AdaptOwner<TOwner>(CustomNode owner) where TOwner : EngineObject
+    {
+        EngineObject value = owner;
+        return (TOwner)value;
+    }
+
     private static EngineClass Add(Type type, int classId, Delegate create)
     {
         ArgumentNullException.ThrowIfNull(create);

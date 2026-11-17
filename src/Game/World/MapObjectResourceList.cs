@@ -11,7 +11,7 @@ public partial class MapObjectResourceList : ResourceCollection, IChildList<MapO
 {
     // The map object resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a MapObjectResource, so the cast never fails.
-    public new MapObjectResource this[int index] => (MapObjectResource)GetChild(index);
+    public new MapObjectResource this[int index] => GetChild<MapObjectResource>(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is MapObjectResource;
 
