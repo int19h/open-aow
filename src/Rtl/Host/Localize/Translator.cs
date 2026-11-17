@@ -35,7 +35,7 @@ public static class TranslatorProperties
                 strings.Clear();
                 foreach (string value in values)
                 {
-                    strings.Add(value);
+                    _ = strings.Add(value);
                 }
             }
             finally { strings.EndUpdate(); }

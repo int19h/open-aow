@@ -151,7 +151,7 @@ internal partial class StringsCodec
         StringBuilder builder = new();
         foreach (string line in lines)
         {
-            builder.Append(line).Append("\r\n");
+            _ = builder.Append(line).Append("\r\n");
         }
 
         return builder.ToString();
@@ -178,7 +178,7 @@ internal sealed partial class StringsWithValuesCodec
         JsonArray objects = new();
         foreach (int item in node.Objects)
         {
-            objects.Add(new JsonInteger(item));
+            _ = objects.Add(new JsonInteger(item));
         }
         // The converter stores an array only when the block rule reproduces the bytes. A line that
         // holds CR, LF or NUL stays $text, the same choice Decode makes for the engine image.
@@ -191,7 +191,7 @@ internal sealed partial class StringsWithValuesCodec
         JsonArray array = new();
         foreach (string line in canonical)
         {
-            array.Add(new JsonString(line));
+            _ = array.Add(new JsonString(line));
         }
 
         return new JsonObject().Add("lines", array).Add("objects", objects);
@@ -378,7 +378,7 @@ internal sealed partial class FixedObjectCodec
                 throw at.Mismatch("An item of " + name + " is a fixed object at its slot.");
             }
 
-            array.Add(DocumentBackend.WriteObject(objectNode, classValue, at, created: false, slotted: true));
+            _ = array.Add(DocumentBackend.WriteObject(objectNode, classValue, at, created: false, slotted: true));
         }
         return array;
     }
@@ -555,18 +555,11 @@ internal sealed partial class CreatedObjectCodec
                 throw at.Fail(Codes.Slot, $"Slot {slot} of {name} is declared twice.");
             }
 
-            if (item is NullNode)
-            {
-                array.Add(new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(slot)));
-            }
-            else if (item is ObjectNode { ClassName: string className } objectNode && objectNode.Slot == slot)
-            {
-                array.Add(DocumentBackend.WriteObject(objectNode, DocumentBackend.RequireClass(at, className, Family, null), at, created: true, slotted: true));
-            }
-            else
-            {
-                throw at.Mismatch($"An item of {name} is a created object or null at its slot.");
-            }
+            _ = item is NullNode
+                ? array.Add(new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(slot)))
+                : item is ObjectNode { ClassName: string className } objectNode && objectNode.Slot == slot
+                    ? array.Add(DocumentBackend.WriteObject(objectNode, DocumentBackend.RequireClass(at, className, Family, null), at, created: true, slotted: true))
+                    : throw at.Mismatch($"An item of {name} is a created object or null at its slot.");
         }
         return array;
     }
@@ -705,18 +698,11 @@ internal sealed partial class CreatedObjectCodec
         for (int i = 0; i < node.Items.Count; i++)
         {
             DocumentSite at = site.At(site.Path.Item(i), element: false);
-            if (node.Items[i] is NullNode)
-            {
-                array.Add(new JsonObject().Add("$class", new JsonNull()));
-            }
-            else if (node.Items[i] is ObjectNode { ClassName: string className, Slot: null } objectNode)
-            {
-                array.Add(DocumentBackend.WriteObject(objectNode, Shape(at, DocumentBackend.RequireClass(at, className, LegacyFamily(at, className), null)), at, created: true, slotted: false));
-            }
-            else
-            {
-                throw at.Mismatch($"An item of {name} is a created object without a slot, or null.");
-            }
+            _ = node.Items[i] is NullNode
+                ? array.Add(new JsonObject().Add("$class", new JsonNull()))
+                : node.Items[i] is ObjectNode { ClassName: string className, Slot: null } objectNode
+                    ? array.Add(DocumentBackend.WriteObject(objectNode, Shape(at, DocumentBackend.RequireClass(at, className, LegacyFamily(at, className), null)), at, created: true, slotted: false))
+                    : throw at.Mismatch($"An item of {name} is a created object without a slot, or null.");
         }
         return array;
     }
@@ -963,7 +949,7 @@ internal sealed partial class ChildrenCodec
                 throw item.Fail(Codes.MissingMember, "A child needs a class.");
             }
 
-            array.Add(DocumentBackend.WriteObject(classValue: DocumentBackend.RequireClass(item, name, null, null), node: child, site: item, created: true, slotted: true));
+            _ = array.Add(DocumentBackend.WriteObject(classValue: DocumentBackend.RequireClass(item, name, null, null), node: child, site: item, created: true, slotted: true));
         }
         return array;
     }
@@ -1050,7 +1036,7 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
         for (int i = 0; i < node.Items.Count; i++)
         {
             DocumentSite item = site.At(site.Path.Item(i), true);
-            array.Add(element.WriteTree(node.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value."));
+            _ = array.Add(element.WriteTree(node.Items[i], item) ?? throw item.Fail(Codes.MissingMember, "A list item stores one value."));
         }
         return array;
     }
@@ -1129,12 +1115,12 @@ internal sealed class RecordCodec : PropertyCodec
             JsonValue? written = codec.WriteTree(site: site.At(site.Path.Member(name), false), value: field);
             if (written is not null)
             {
-                json.Add(name, written);
+                _ = json.Add(name, written);
             }
 
-            seen.Add(name);
+            _ = seen.Add(name);
         }
-        foreach ((string? name, TreeValue _) in node.Members)
+        foreach ((string? name, _) in node.Members)
         {
             if (!seen.Contains(name))
             {

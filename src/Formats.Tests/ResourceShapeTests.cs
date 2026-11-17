@@ -169,7 +169,7 @@ public sealed class ResourceShapeTests : FormatsTest
         JsonObject owner = new();
         JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Builder = builder });
         Assert.Equal(SequencesText, Compact(value));
-        owner.Add("ImageSequenceList", value);
+        _ = owner.Add("ImageSequenceList", value);
         builder.Attach(owner, "world-hsm", new LayoutCounts());
         EncodeContext encode = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
         LayoutReader reader = LayoutReader.Read(encode, owner, DocumentNodePath.Root)!;

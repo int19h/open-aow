@@ -453,7 +453,7 @@ public sealed class RecordShapeTests : FormatsTest
         JsonArray array = new();
         foreach (int index in indices)
         {
-            array.Add(new JsonInteger(index));
+            _ = array.Add(new JsonInteger(index));
         }
 
         return new JsonObject().Add("AbCount", new JsonInteger(count)).Add("Bits", array);

@@ -209,7 +209,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
         object[] box = [ReadBytes(image, ElementWidth, ElementSigned)];
-        typeof(EnumRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
+        _ = typeof(EnumRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, Name, box]);
         if (persister.Loading)
@@ -243,7 +243,7 @@ internal sealed class SetRecordField : RecordFieldInfo
     internal void TransferNamed(IPersister persister, string name, Span<byte> image)
     {
         object[] box = [image.ToArray()];
-        typeof(SetRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
+        _ = typeof(SetRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, name, box]);
         if (persister.Loading)

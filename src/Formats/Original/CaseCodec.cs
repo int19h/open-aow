@@ -110,12 +110,12 @@ internal static class CaseCodec
         HashSet<string> used = [with(StringComparer.Ordinal)];
         if (chosen.Key is not null)
         {
-            used.Add(mapping.Discriminator);
+            _ = used.Add(mapping.Discriminator);
         }
 
         foreach ((string? field, string? member) in chosen.Fields)
         {
-            used.Add(member);
+            _ = used.Add(member);
             if (stored.TryGetValue(member, out JsonValue? value))
             {
                 fields.Add(new JsonMember(field, value));
@@ -126,7 +126,7 @@ internal static class CaseCodec
         {
             if (!used.Contains(member) && stored.TryGetValue(member, out JsonValue? value))
             {
-                residue.Add(member, value);
+                _ = residue.Add(member, value);
             }
         }
 

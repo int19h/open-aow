@@ -47,7 +47,7 @@ public sealed class NameTableTests : FormatsTest
             }
             else
             {
-                Assert.Throws<InvalidOperationException>(() => NameTable.Find(engineClass.StorageKey));
+                _ = Assert.Throws<InvalidOperationException>(() => NameTable.Find(engineClass.StorageKey));
             }
         }
 

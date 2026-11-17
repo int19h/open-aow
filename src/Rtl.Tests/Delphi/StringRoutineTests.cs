@@ -88,12 +88,12 @@ public sealed class StringRoutineTests
             }
             foreach (int index in new[] { int.MinValue, -1, 0, text.Length + 1, int.MaxValue })
             {
-                Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(text, index, 'X'));
+                _ = Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(text, index, 'X'));
             }
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.Resized(text, -1));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.Resized(text, -1));
             string invalid = text;
-            Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.SetLength(ref invalid, -1));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.SetLength(ref invalid, -1));
             Assert.Equal(text, invalid);
         }
         string original = "abc";
@@ -208,7 +208,7 @@ public sealed class StringRoutineTests
         Assert.Equal(0, RtlUnit.Pos("x", null));
         Assert.Equal(0, RtlUnit.AnsiPos(null, null));
         Assert.Equal("\0\0", RtlUnit.Resized(null, 2));
-        Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
         string value = null!;
         RtlUnit.Delete(ref value, 1, 3);
         Assert.Equal("", value);
@@ -233,7 +233,7 @@ public sealed class StringRoutineTests
         }
         Assert.Equal("''", RtlUnit.QuotedStr(null));
         Assert.Equal(91, RtlUnit.StrToIntDef(null, 91));
-        Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
+        _ = Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
         Assert.Equal("", RtlUnit.Format(null));
         Assert.Equal("", RtlUnit.Format("%s", (string?)null));
     }

@@ -176,7 +176,7 @@ internal sealed partial class SetCodec : PropertyCodec
                 continue;
             }
 
-            array.Add(type.ByValue.TryGetValue(bit, out string? name) ? new JsonString(name) : new JsonInteger(bit));
+            _ = array.Add(type.ByValue.TryGetValue(bit, out string? name) ? new JsonString(name) : new JsonInteger(bit));
         }
         return array;
     }
@@ -279,7 +279,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
         JsonArray array = new();
         for (int i = 0; i < Count; i++)
         {
-            array.Add(new JsonInteger(IntegerBytes.Read(context.Data.AsSpan(start + (i * Width), Width), Width, Signed)));
+            _ = array.Add(new JsonInteger(IntegerBytes.Read(context.Data.AsSpan(start + (i * Width), Width), Width, Signed)));
         }
 
         return array;
@@ -316,7 +316,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
             }
 
             Check(site.Context, integer.Value, item.Path, site.Property?.Name ?? "The value");
-            array.Add(new JsonInteger(integer.Value));
+            _ = array.Add(new JsonInteger(integer.Value));
         }
         return array;
     }

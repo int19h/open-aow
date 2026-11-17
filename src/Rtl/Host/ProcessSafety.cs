@@ -11,7 +11,7 @@ public static class ProcessSafety
     {
         if (OperatingSystem.IsWindows())
         {
-            SetErrorMode(0x8003);
+            _ = SetErrorMode(0x8003);
         }
     }
 

@@ -58,7 +58,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
 
         if (Directory.Exists(path)) { RejectLink(path); return; }
-        Directory.CreateDirectory(path);
+        _ = Directory.CreateDirectory(path);
     }
 
     private void Snapshot(string directory, string relative)

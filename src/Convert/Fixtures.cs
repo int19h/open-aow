@@ -117,7 +117,7 @@ public static partial class Fixtures
         JsonMember? member = objectValue.Find(name);
         if (member is null)
         {
-            objectValue.Add(name, value);
+            _ = objectValue.Add(name, value);
         }
         else
         {

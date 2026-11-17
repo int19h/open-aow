@@ -52,7 +52,7 @@ public static class SafeOutput
     {
         string full = Path.GetFullPath(output);
         string directory = Path.GetDirectoryName(full) ?? ".";
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         string temporary = Path.Combine(directory, "." + Path.GetFileName(full) + "." + Guid.NewGuid().ToString("N") + ".tmp");
         try
         {

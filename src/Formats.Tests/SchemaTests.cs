@@ -102,7 +102,7 @@ public sealed class SchemaTests : FormatsTest
     public void TheValleyLegacyShapeAppliesOnlyToSprites()
     {
         (string Rule, SchemaClass Shape)? shape = Schema.LegacyShape("TMapField.HexSpriteList", "TFlagMessageEventResource");
-        Assert.NotNull(shape);
+        _ = Assert.NotNull(shape);
         Assert.Equal("LEGACY_VALLEY01_SPRITE", shape.Value.Rule);
         Assert.Equal(["ResourceId", "LegacyHexX", "LegacyHexY", "UnknownProperty10", "UnknownProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
         Assert.Null(Schema.LegacyShape("TECustomNode.Children", "TFlagMessageEventResource"));

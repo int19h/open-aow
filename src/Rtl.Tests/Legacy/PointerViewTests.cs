@@ -12,7 +12,7 @@ public sealed class PointerViewTests
         Ptr<byte> pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
         Assert.Equal("A\u00E9", RtlUnit.StrPas(pointer));
-        Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
+        _ = Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
     }
 
     [StoredLayout]
@@ -34,7 +34,7 @@ public sealed class PointerViewTests
         Ptr<byte> bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();
         Assert.Equal(4, bytes.ByteIndex);
         Assert.Equal(pair.StorageIdentity, bytes.StorageIdentity);
-        Assert.Throws<InvalidCastException>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
+        _ = Assert.Throws<InvalidCastException>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
     }
 
     [Fact]
@@ -51,21 +51,21 @@ public sealed class PointerViewTests
         Ptr<int>.Copy(words, words + 1, 2);
         Assert.Equal((int[])[17, 17, 23, 0], words.AsSpan(4).ToArray());
         DelphiList<PtrBox<int>> list = new();
-        list.Add(new PtrBox<int>(words + 1));
+        _ = list.Add(new PtrBox<int>(words + 1));
         Assert.Equal(0, list.IndexOf(new PtrBox<int>(records.Reinterpret<int>(4))));
         Assert.Equal(-1, list.IndexOf(new PtrBox<int>(words)));
-        Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(new PtrBox<int>(words)));
-        Assert.Throws<ArgumentOutOfRangeException>(() => words.AsSpan(5));
-        Assert.Throws<IndexOutOfRangeException>(() => words[4]);
-        Assert.Throws<IndexOutOfRangeException>(() => words[-1]);
+        _ = Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(new PtrBox<int>(words)));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => words.AsSpan(5));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => words[4]);
+        _ = Assert.Throws<IndexOutOfRangeException>(() => words[-1]);
     }
 
     [Fact]
     public void ViewsRejectManagedReinterpretationAndKeepNil()
     {
         Assert.True(default(Ptr<int>).Reinterpret<byte>().IsNull);
-        Assert.Throws<InvalidCastException>(() => Ptr<string>.Alloc(1).Reinterpret<int>());
-        Assert.Throws<InvalidCastException>(() => Ptr<int>.Alloc(1).Reinterpret<string>());
+        _ = Assert.Throws<InvalidCastException>(() => Ptr<string>.Alloc(1).Reinterpret<int>());
+        _ = Assert.Throws<InvalidCastException>(() => Ptr<int>.Alloc(1).Reinterpret<string>());
     }
 
     [Fact]

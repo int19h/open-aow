@@ -57,7 +57,7 @@ public sealed class JsonSettingsStore : ISettingsStore
         object stored = Clone(value);
         _ = Encode(key, stored);
         Dictionary<string, object> next = new(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
-        Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
+        _ = Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
         string temporary = _path + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {

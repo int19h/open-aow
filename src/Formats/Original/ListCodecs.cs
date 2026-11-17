@@ -91,7 +91,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
                 throw site.At(site.Path.Member("items").Item(i), element: true).Fail(Codes.Range, "A list value is outside its storage range.", value: Text(item), constraint: $"{Min} to {Max}");
             }
 
-            array.Add(Value(item, decoding, site.Path.Member("items").Item(i)));
+            _ = array.Add(Value(item, decoding, site.Path.Member("items").Item(i)));
         }
         return new JsonObject().Add("default", Value(node.Default, decoding, site.Path.Member("default"))).Add("items", array);
     }
@@ -145,7 +145,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         JsonArray array = new();
         for (int i = 0; i < items.Count; i++)
         {
-            array.Add(Value(items[i], context, site.Path.Member("items").Item(i)));
+            _ = array.Add(Value(items[i], context, site.Path.Member("items").Item(i)));
         }
 
         return new JsonObject().Add("default", Value(defense, context, site.Path.Member("default"))).Add("items", array);
@@ -413,21 +413,21 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             JsonArray group = new();
             for (int k = from; k < last; k++)
             {
-                group.Add(new JsonInteger(items[k]));
+                _ = group.Add(new JsonInteger(items[k]));
             }
 
-            array.Add(group);
+            _ = array.Add(group);
         }
         JsonObject document = new();
         if (defense != Empty)
         {
-            document.Add("default", new JsonInteger(defense));
+            _ = document.Add("default", new JsonInteger(defense));
         }
 
-        document.Add("groups", array);
+        _ = document.Add("groups", array);
         if (items.Count != groups * Size)
         {
-            document.Add("count", new JsonInteger(items.Count));
+            _ = document.Add("count", new JsonInteger(items.Count));
         }
 
         return document;
@@ -558,13 +558,13 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         JsonArray bits = new();
         foreach (int index in node.Indices)
         {
-            bits.Add(new JsonInteger(index));
+            _ = bits.Add(new JsonInteger(index));
         }
 
         JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
         if (node.Residue != 0)
         {
-            document.Add("$reserved", new JsonString(LayoutResidue.Hex([node.Residue])));
+            _ = document.Add("$reserved", new JsonString(LayoutResidue.Hex([node.Residue])));
         }
 
         return document;
@@ -625,13 +625,13 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         JsonArray bits = new();
         foreach (int index in set)
         {
-            bits.Add(new JsonInteger(index));
+            _ = bits.Add(new JsonInteger(index));
         }
 
         JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(context.Data[start])).Add("count", new JsonInteger(count)).Add("bits", bits);
         if (residue != 0)
         {
-            document.Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
+            _ = document.Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
         }
 
         return document;

@@ -57,7 +57,7 @@ public sealed class BinaryDictionaryTests
                 writer.Write((ushort)5);
             }
             IvBinaryDictionary dictionary = new() { FileName = path };
-            Assert.Throws<InvalidDataException>(dictionary.Open);
+            _ = Assert.Throws<InvalidDataException>(dictionary.Open);
         }
         finally { File.Delete(path); }
     }

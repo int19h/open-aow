@@ -229,7 +229,7 @@ internal sealed partial class RecordTypeInfo
 
             FieldInfo image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
                 ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
-            consumed.Add(image);
+            _ = consumed.Add(image);
             int offset = image.GetCustomAttribute<FieldOffsetAttribute>()!.Value;
             int fieldSize = FieldSize(image);
             int storage = SetStorage(property.PropertyType);

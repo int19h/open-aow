@@ -32,7 +32,7 @@ internal static class PacingVerification
             noGroupControl = GC.TryStartNoGCRegion(16 * 1024 * 1024);
             display.Host = host;
             display.EventSink = host;
-            display.ActivateDisplayController(controller);
+            _ = display.ActivateDisplayController(controller);
             display.SetUpdate((_, _, _) =>
             {
                 if (times.Count == 300)
@@ -78,7 +78,7 @@ internal static class PacingVerification
         double slow = times[300];
         double[] following = times.Skip(301).ToArray();
         bool equal = regular.Concat(following).All(t => Math.Abs(t - 33) <= 1) && slow >= 70;
-        Directory.CreateDirectory(output);
+        _ = Directory.CreateDirectory(output);
         File.WriteAllText(Path.Combine(output, "pacing.json"), JsonSerializer.Serialize(new
         {
             equal,

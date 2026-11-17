@@ -76,18 +76,18 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             JsonValue? written = FieldCodec(field).WriteTree(found, at);
             if (written is not null && !field.OmitsDocument(written))
             {
-                json.Add(field.Name, written);
+                _ = json.Add(field.Name, written);
             }
 
-            seen.Add(field.Name);
+            _ = seen.Add(field.Name);
         }
         if (!residue && node.Find("$reserved") is not null)
         {
             AddResidue(node, json, site);
         }
 
-        seen.Add("$reserved");
-        foreach ((string? name, TreeValue _) in node.Members)
+        _ = seen.Add("$reserved");
+        foreach ((string? name, _) in node.Members)
         {
             if (!seen.Contains(name))
             {
@@ -158,7 +158,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             JsonValue? value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
             if (value is not null)
             {
-                json.Add(field.Name, value);
+                _ = json.Add(field.Name, value);
             }
         }
         if (!residue)
@@ -246,7 +246,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             return;
         }
 
-        json.Add("$reserved", new JsonString(LayoutResidue.Hex(bytes.Data)));
+        _ = json.Add("$reserved", new JsonString(LayoutResidue.Hex(bytes.Data)));
     }
 
     private static void AddResidue(ReadOnlySpan<byte> image, RecordTypeInfo info, JsonObject json)
@@ -262,7 +262,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             return;
         }
 
-        json.Add("$reserved", new JsonString(LayoutResidue.Hex(residue)));
+        _ = json.Add("$reserved", new JsonString(LayoutResidue.Hex(residue)));
     }
 
     private PropertyCodec FieldCodec(RecordFieldInfo field)
@@ -465,7 +465,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         }
 
         JsonValue json = Document(node.Indices, node.Residue);
-        Pack(node.Count, json, site.Context, site.Path, site.Property?.Name ?? "The value");
+        _ = Pack(node.Count, json, site.Context, site.Path, site.Property?.Name ?? "The value");
         return json;
     }
 
@@ -487,7 +487,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         JsonArray array = new();
         foreach (int index in indices)
         {
-            array.Add(new JsonInteger(index));
+            _ = array.Add(new JsonInteger(index));
         }
 
         return residue == 0 ? array : new JsonObject().Add("values", array).Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));

@@ -16,8 +16,8 @@ public sealed class SystemTests
         foreach (double value in new[] { double.NaN, double.PositiveInfinity, double.NegativeInfinity, 2147483648.0, -2147483649.0 })
         {
             // SYSTEM.PAS:1776 and :1787 use FISTP dword with invalid operation unmasked.
-            Assert.Throws<ArithmeticException>(() => Round(value));
-            Assert.Throws<ArithmeticException>(() => Trunc(value));
+            _ = Assert.Throws<ArithmeticException>(() => Round(value));
+            _ = Assert.Throws<ArithmeticException>(() => Trunc(value));
         }
         Assert.Equal(0, Round(-0.5));
         Assert.Equal(0, Trunc(-0.9));
@@ -36,7 +36,7 @@ public sealed class SystemTests
         Assert.Equal(0, Sqr(65536));
         Assert.Equal(6.25, Sqr(-2.5));
         Assert.Equal(3, Sqrt(9));
-        Assert.Throws<ArithmeticException>(() => Sqrt(-1));
+        _ = Assert.Throws<ArithmeticException>(() => Sqrt(-1));
         Assert.Equal(0, Sin(0));
         Assert.Equal(1, Cos(0));
         Assert.Equal(Math.PI / 4, ArcTan(1));
@@ -53,24 +53,24 @@ public sealed class SystemTests
         // SYSTEM.PAS:1709 and :1750 return zero at the x87 trigonometric range limit.
         // MATH.PAS:639 selects IntPower only for integer exponents up to MaxInt.
         // A DCC32 check in src/.build-env/math_edges.pas confirms these boundary results.
-        Assert.Throws<ArithmeticException>(() => Sqrt(-1));
-        Assert.Throws<DivideByZeroException>(() => Ln(0));
-        Assert.Throws<ArithmeticException>(() => Ln(-1));
+        _ = Assert.Throws<ArithmeticException>(() => Sqrt(-1));
+        _ = Assert.Throws<DivideByZeroException>(() => Ln(0));
+        _ = Assert.Throws<ArithmeticException>(() => Ln(-1));
         Assert.Equal(0, Sin(9223372036854775808.0));
         Assert.Equal(0, Cos(9223372036854775808.0));
         Assert.Equal(0, Sin(-1e30));
         Assert.Equal(0, Cos(-1e30));
-        Assert.Throws<OverflowException>(() => Exp(1000));
-        Assert.Throws<OverflowException>(() => Exp(12000));
-        Assert.Throws<ArithmeticException>(() => Power(-2, 0.5));
-        Assert.Throws<DivideByZeroException>(() => Power(0, -1));
-        Assert.Throws<ArithmeticException>(() => Power(-1, 2147483648.0));
-        Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
-        Assert.Throws<ArithmeticException>(() => Sin(double.PositiveInfinity));
-        Assert.Throws<ArithmeticException>(() => Cos(double.NegativeInfinity));
-        Assert.Throws<ArithmeticException>(() => Exp(double.PositiveInfinity));
-        Assert.Throws<OverflowException>(() => Sqr(double.MaxValue));
-        Assert.Throws<OverflowException>(() => Power(double.MaxValue, 2));
+        _ = Assert.Throws<OverflowException>(() => Exp(1000));
+        _ = Assert.Throws<OverflowException>(() => Exp(12000));
+        _ = Assert.Throws<ArithmeticException>(() => Power(-2, 0.5));
+        _ = Assert.Throws<DivideByZeroException>(() => Power(0, -1));
+        _ = Assert.Throws<ArithmeticException>(() => Power(-1, 2147483648.0));
+        _ = Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
+        _ = Assert.Throws<ArithmeticException>(() => Sin(double.PositiveInfinity));
+        _ = Assert.Throws<ArithmeticException>(() => Cos(double.NegativeInfinity));
+        _ = Assert.Throws<ArithmeticException>(() => Exp(double.PositiveInfinity));
+        _ = Assert.Throws<OverflowException>(() => Sqr(double.MaxValue));
+        _ = Assert.Throws<OverflowException>(() => Power(double.MaxValue, 2));
         Assert.Equal(0, Exp(-1000));
         Assert.Equal(-8, Power(-2, 3));
         Assert.Equal(2, Power(4, 0.5), 12);
@@ -191,8 +191,8 @@ public sealed class SystemTests
         Span<byte> bytes = Bytes.Of(ref record.Value);
         Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 0, 0, 0 }, bytes.ToArray());
         Assert.Equal(4, Bytes.Of(ref record.Value, 4).Length);
-        Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, 9).ToArray());
-        Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, -1).ToArray());
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, 9).ToArray());
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, -1).ToArray());
         FillChar(bytes, 2, 0x80);
         Assert.Equal(0x04038080, record.Value.Value);
         PackedRecord other = new();
@@ -205,9 +205,9 @@ public sealed class SystemTests
         Move([], [], -1);
         FillChar([], 0, 1);
         Assert.True(CompareMem([], [], 0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], new byte[1], 2));
-        Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], 2, 0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], 2));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], new byte[1], 2));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], 2, 0));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], 2));
         Dispose(out record);
         Assert.True(record.IsNull);
         FreeMem(out pointer);
@@ -223,7 +223,7 @@ public sealed class SystemTests
         object objectValue = new();
         Assert.Same(objectValue, As<object>(objectValue));
         Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(objectValue)).Message);
-        Assert.Throws<AbortException>(Abort);
+        _ = Assert.Throws<AbortException>(Abort);
         Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);
         Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, "broken", "unit.pas", 42)).Message);
@@ -241,11 +241,11 @@ public sealed class SystemTests
         Assert.Equal("-0007", Format("%.4d", -7));
         Assert.Equal("4294967295", Format("%u", -1));
         Assert.Equal("A", Format("%s", (byte)65));
-        Assert.Throws<FormatException>(() => Format("%s", 1));
-        Assert.Throws<FormatException>(() => Format("%d", true));
-        Assert.Throws<FormatException>(() => Format("%d"));
+        _ = Assert.Throws<FormatException>(() => Format("%s", 1));
+        _ = Assert.Throws<FormatException>(() => Format("%d", true));
+        _ = Assert.Throws<FormatException>(() => Format("%d"));
         Assert.Equal("", Format("%"));
-        Assert.Throws<FormatException>(() => Format("%f", 1.25));
+        _ = Assert.Throws<FormatException>(() => Format("%f", 1.25));
         Assert.Equal("x", Format("%*s", true, "x"));
     }
 
@@ -263,6 +263,6 @@ public sealed class SystemTests
         Assert.Equal("", ParamStr(3));
         SetCommandLine("game.exe");
         Assert.Equal(0, ParamCount());
-        Assert.Throws<ArgumentException>(() => SetCommandLine());
+        _ = Assert.Throws<ArgumentException>(() => SetCommandLine());
     }
 }

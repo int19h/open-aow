@@ -396,7 +396,7 @@ public static class NameTable
                     {
                         if (i + 1 < normalized.Length && normalized[i + 1] == '"')
                         {
-                            field.Append('"');
+                            _ = field.Append('"');
                             i++;
                         }
                         else
@@ -406,7 +406,7 @@ public static class NameTable
                     }
                     else
                     {
-                        field.Append(c);
+                        _ = field.Append(c);
                     }
 
                     begin = false;
@@ -432,7 +432,7 @@ public static class NameTable
                 if (c == ',')
                 {
                     fields.Add(field.ToString());
-                    field.Clear();
+                    _ = field.Clear();
                     begin = false;
                     continue;
                 }
@@ -444,13 +444,13 @@ public static class NameTable
                     }
 
                     fields.Add(field.ToString());
-                    field.Clear();
+                    _ = field.Clear();
                     records.Add(fields.ToArray());
                     fields.Clear();
                     begin = true;
                     continue;
                 }
-                field.Append(c);
+                _ = field.Append(c);
                 begin = false;
             }
             if (quoted)
@@ -561,7 +561,7 @@ public static class NameTable
                     continue;
                 }
 
-                names.Add(row.Current);
+                _ = names.Add(row.Current);
             }
             Dictionary<string, string?> ownerOf = [];
             foreach (string name in names)
@@ -596,7 +596,7 @@ public static class NameTable
                 }
 
                 stored[row.Current] = row.Stored;
-                pinned.Add(row.Current);
+                _ = pinned.Add(row.Current);
             }
             Dictionary<string, List<string>> groups = [];
             foreach (KeyValuePair<string, string> pair in stored)
@@ -618,7 +618,7 @@ public static class NameTable
                 HashSet<string> delphis = [];
                 foreach (string member in group.Value)
                 {
-                    delphis.Add(delphiOf[member]);
+                    _ = delphis.Add(delphiOf[member]);
                 }
 
                 if (delphis.Count < 2)
@@ -634,7 +634,7 @@ public static class NameTable
                     }
 
                     stored[member] = Qualify(member, group.Key, stored, names);
-                    pinned.Add(member);
+                    _ = pinned.Add(member);
                 }
             }
             bool changed = true;

@@ -37,7 +37,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
 
             _initialized = true;
             _handle = GCHandle.Alloc(this);
-            SDL_SetHint("SDL_AUDIO_DEVICE_SAMPLE_FRAMES", Math.Max(1, settings.SampleRate / 20).ToString(System.Globalization.CultureInfo.InvariantCulture));
+            _ = SDL_SetHint("SDL_AUDIO_DEVICE_SAMPLE_FRAMES", Math.Max(1, settings.SampleRate / 20).ToString(System.Globalization.CultureInfo.InvariantCulture));
             SDL_AudioSpec spec = new()
             {
                 freq = settings.SampleRate,

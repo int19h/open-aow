@@ -499,7 +499,7 @@ internal sealed partial class CatalogRecordCodec
                 WriteResidue(node, bytes, info, context, frame);
                 residue = true;
             }
-            seen.Add(field.Name);
+            _ = seen.Add(field.Name);
             TreeValue? found = node.Find(field.Name);
             if (found is null || field.OmitsImage(found))
             {
@@ -521,8 +521,8 @@ internal sealed partial class CatalogRecordCodec
             WriteResidue(node, bytes, info, context, frame);
         }
 
-        seen.Add("$reserved");
-        foreach ((string? memberName, TreeValue _) in node.Members)
+        _ = seen.Add("$reserved");
+        foreach ((string? memberName, _) in node.Members)
         {
             if (!seen.Contains(memberName))
             {

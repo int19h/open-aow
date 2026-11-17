@@ -6,7 +6,7 @@ internal sealed class ProbeDirectory : IDisposable
 
     internal string Root { get; } = Path.Combine(AppContext.BaseDirectory, "probe-temp", Guid.NewGuid().ToString("N"));
 
-    internal ProbeDirectory() { Directory.CreateDirectory(Root); Directory.SetCurrentDirectory(Root); }
+    internal ProbeDirectory() { _ = Directory.CreateDirectory(Root); Directory.SetCurrentDirectory(Root); }
 
     public void Dispose()
     {

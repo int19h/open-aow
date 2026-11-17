@@ -473,7 +473,7 @@ internal partial class StringsCodec : PropertyCodec
         JsonArray array = new();
         foreach (string line in lines)
         {
-            array.Add(new JsonString(line));
+            _ = array.Add(new JsonString(line));
         }
 
         return array;
@@ -561,7 +561,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
         JsonArray objects = new();
         for (int i = 0; i < count; i++)
         {
-            objects.Add(new JsonInteger(context.Int32(after + (4 * i))));
+            _ = objects.Add(new JsonInteger(context.Int32(after + (4 * i))));
         }
 
         List<string>? lines = Lines(text);
@@ -573,7 +573,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
         JsonArray array = new();
         foreach (string line in lines)
         {
-            array.Add(new JsonString(line));
+            _ = array.Add(new JsonString(line));
         }
 
         return new JsonObject().Add("lines", array).Add("objects", objects);

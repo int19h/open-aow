@@ -66,7 +66,7 @@ public static class ExceptionCensus
         int index = KindOf(e.Exception);
         if (index >= 0)
         {
-            Interlocked.Increment(ref s_counts[index]);
+            _ = Interlocked.Increment(ref s_counts[index]);
         }
     }
 
@@ -117,7 +117,7 @@ public static class ExceptionCensus
     /// <summary>Appends a line under an exclusive share, so that parallel hosts never interleave their lines.</summary>
     public static void Append(string file, string line)
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(file))!);
+        _ = Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(file))!);
         byte[] bytes = Encoding.UTF8.GetBytes(line + "\n");
         for (int attempt = 0; ; attempt++)
         {

@@ -78,9 +78,9 @@ public sealed unsafe class TrackerSong : IDisposable
         }
     }
 
-    public int Order { get { Check(); return GetOrder(_module); } set { Check(); SetOrder(_module, value, 0); } }
+    public int Order { get { Check(); return GetOrder(_module); } set { Check(); _ = SetOrder(_module, value, 0); } }
 
-    public void SetLoop(bool loop) { Check(); SetRepeat(_module, loop ? -1 : 0); }
+    public void SetLoop(bool loop) { Check(); _ = SetRepeat(_module, loop ? -1 : 0); }
 
     public int Render(int rate, Span<float> stereo)
     {

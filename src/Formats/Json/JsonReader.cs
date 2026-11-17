@@ -323,14 +323,14 @@ public sealed class JsonReader
                 _position++;
                 switch (e)
                 {
-                    case '"': builder.Append('"'); break;
-                    case '\\': builder.Append('\\'); break;
-                    case '/': builder.Append('/'); break;
-                    case 'b': builder.Append('\b'); break;
-                    case 'f': builder.Append('\f'); break;
-                    case 'n': builder.Append('\n'); break;
-                    case 'r': builder.Append('\r'); break;
-                    case 't': builder.Append('\t'); break;
+                    case '"': _ = builder.Append('"'); break;
+                    case '\\': _ = builder.Append('\\'); break;
+                    case '/': _ = builder.Append('/'); break;
+                    case 'b': _ = builder.Append('\b'); break;
+                    case 'f': _ = builder.Append('\f'); break;
+                    case 'n': _ = builder.Append('\n'); break;
+                    case 'r': _ = builder.Append('\r'); break;
+                    case 't': _ = builder.Append('\t'); break;
                     case 'u':
                         if (_position + 4 > _text.Length || !int.TryParse(_text.AsSpan(_position, 4), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out int code))
                         {
@@ -338,7 +338,7 @@ public sealed class JsonReader
                             throw Error(Codes.Syntax, "A \\u escape needs four hexadecimal digits.");
                         }
                         _position += 4;
-                        builder.Append((char)code);
+                        _ = builder.Append((char)code);
                         break;
                     default:
                         _position -= 2;
@@ -347,7 +347,7 @@ public sealed class JsonReader
             }
             else
             {
-                builder.Append(c);
+                _ = builder.Append(c);
                 _position++;
             }
             if (builder.Length > _limits.StringBytes)

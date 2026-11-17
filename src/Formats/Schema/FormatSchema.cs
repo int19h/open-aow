@@ -88,7 +88,7 @@ public sealed class FormatSchema
             c.Link(this);
         }
 
-        foreach ((string _, SchemaClass? c) in _legacyShapes.Values)
+        foreach ((_, SchemaClass? c) in _legacyShapes.Values)
         {
             c.Complete();
         }
@@ -122,7 +122,7 @@ public sealed class FormatSchema
         // An _ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
         foreach ((string? engine, int id) in _ambiguous)
         {
-            _engines[engine].Remove(id);
+            _ = _engines[engine].Remove(id);
         }
     }
 
@@ -381,7 +381,7 @@ public sealed class SchemaClass
                 // never writes it for this class (THuntAG id 30, TAoWTerrainResource id 20).
                 // A coordinate shadows on any of its three ids, and a subclass id that matches
                 // any of those three drops the whole coordinate.
-                readWrite.RemoveAll(q => SharesImageId(q, p));
+                _ = readWrite.RemoveAll(q => SharesImageId(q, p));
                 (p.IsChildrenPhase ? children : readWrite).Add(p);
             }
         }

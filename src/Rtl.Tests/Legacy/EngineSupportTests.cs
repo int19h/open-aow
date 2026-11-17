@@ -29,7 +29,7 @@ public sealed class EngineSupportTests
         NotifyEvent<object> cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
-        Assert.Throws<InvalidCastException>(() => cast(new object()));
+        _ = Assert.Throws<InvalidCastException>(() => cast(new object()));
         EventDone nullable = value => Assert.Null(value);
         R.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
         Assert.Null(R.RebindDelegate<NotifyEvent<object>>(null));
@@ -47,7 +47,7 @@ public sealed class EngineSupportTests
     public void BufferHelpersPreservePhysicalAndStringBytes()
     {
         Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
-        Assert.Throws<ArgumentOutOfRangeException>(() => R.ValueBytes(1, 5));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => R.ValueBytes(1, 5));
         Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode("\0\u00E9\u00FF").ToArray());
         byte[] bytes = new byte[3];
         R.FillBytes(bytes, -1);
@@ -108,7 +108,7 @@ public sealed class EngineSupportTests
         Assert.Equal("abcd", shared);
         Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
-        Assert.Throws<EndOfStreamException>(() => R.ReadString(stream, ref value, 0, 4, true));
+        _ = Assert.Throws<EndOfStreamException>(() => R.ReadString(stream, ref value, 0, 4, true));
         Assert.Equal((byte)0, Cp1252.Byte(value[0])); Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
 

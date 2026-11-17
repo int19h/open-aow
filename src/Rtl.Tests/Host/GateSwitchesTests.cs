@@ -14,7 +14,7 @@ public sealed class GateSwitchesTests
         Assert.True(GateSwitches.InvariantGlobalization);
         Assert.Null(GateSwitches.CultureError("test"));
         Assert.Equal("", CultureInfo.CurrentCulture.Name);
-        Assert.Throws<CultureNotFoundException>(() => CultureInfo.GetCultureInfo("de-DE"));
+        _ = Assert.Throws<CultureNotFoundException>(() => CultureInfo.GetCultureInfo("de-DE"));
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public sealed class GateSwitchesTests
             Assert.Equal([1L, 2, 3, 4, 5, 0], first.RootElement.GetProperty("counts").EnumerateObject().Select(p => p.Value.GetInt64()));
             using JsonDocument second = JsonDocument.Parse(lines[1]);
             Assert.Equal(7, second.RootElement.GetProperty("counts").GetProperty("NullStringException").GetInt64());
-            Assert.Throws<ArgumentException>(() => ExceptionCensus.Line("Game", [], [0]));
+            _ = Assert.Throws<ArgumentException>(() => ExceptionCensus.Line("Game", [], [0]));
         }
         finally
         {

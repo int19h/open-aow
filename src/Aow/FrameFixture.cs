@@ -78,7 +78,7 @@ internal sealed class FrameFixture
         DateTime? fileStampUtc = fixture._fileLocalTime is null ? null :
             FileStampUtc(DateTime.Parse(fixture._fileLocalTime, CultureInfo.InvariantCulture), DateTimeOffset.Now.Offset);
         HeadlessDisplayHost display = new(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
-        Directory.CreateDirectory(output);
+        _ = Directory.CreateDirectory(output);
         using FrameDiagnostics? diagnostics = FrameDiagnostics.Start(output);
         using StreamWriter trace = new(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
         void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new StackTrace(1, true));
@@ -229,7 +229,7 @@ internal sealed class FrameFixture
                     diagnostics?.Snapshot(snapshot.Name, ui: form.UI);
                     StrategicMap.Current.PlayerControl.AutoSave();
                     File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
-                    capturedSnapshots.Add(snapshot.Name);
+                    _ = capturedSnapshots.Add(snapshot.Name);
                     pendingSnapshot = null;
                 }
                 if (display.Frame % 100 == 0)
@@ -640,7 +640,7 @@ internal sealed class FrameFixture
             GameRoot = Path.GetFullPath(root);
             if (saveDirectory is not null)
             {
-                Directory.CreateDirectory(Path.Combine(user, saveDirectory));
+                _ = Directory.CreateDirectory(Path.Combine(user, saveDirectory));
             }
 
             Files = new LayeredFileSystem(GameRoot, user, saveDirectory is null ? [] : [saveDirectory]);

@@ -95,17 +95,17 @@ public sealed class SysUtilsTests
         Assert.Equal("abc", Format("%:s", "abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" })
         {
-            Assert.Throws<FormatException>(() => Format(kind, 1.25));
+            _ = Assert.Throws<FormatException>(() => Format(kind, 1.25));
         }
 
         foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) })
         {
-            Assert.Throws<FormatException>(() => Format("%s", argument));
+            _ = Assert.Throws<FormatException>(() => Format("%s", argument));
         }
 
-        Assert.Throws<FormatException>(() => Format("%p", 1));
-        Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
-        Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));
+        _ = Assert.Throws<FormatException>(() => Format("%p", 1));
+        _ = Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
+        _ = Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));
     }
 
     private sealed class FixedClock : IClock
@@ -151,11 +151,11 @@ public sealed class SysUtilsTests
             DecodeTime(time, out ushort hourWord, out ushort minuteWord, out ushort secondWord, out ushort millisecondsWord);
             Assert.Equal((2024, 2, 29), (yearWord, monthWord, dayWord));
             Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
-            Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
-            Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
+            _ = Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
+            _ = Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
             foreach ((int h, int m, int s, int milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) })
             {
-                Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
+                _ = Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
             }
         }
         finally { Clock = saved; }

@@ -16,7 +16,7 @@ public sealed class HeadlessServicesTests
         using ProbeDirectory directory = new();
         PhysicalFileSystem files = new();
         string processDirectory = Directory.GetCurrentDirectory();
-        Directory.CreateDirectory("child");
+        _ = Directory.CreateDirectory("child");
         Assert.True(files.SetCurrentDirectory("child"));
         Assert.Equal(Path.Combine(directory.Root, "child"), files.CurrentDirectory);
         Assert.Equal(processDirectory, Directory.GetCurrentDirectory());
@@ -37,14 +37,14 @@ public sealed class HeadlessServicesTests
         registry.WriteBool("Enabled", true);
         registry.WriteString("Name", "English");
         registry.CloseKey();
-        registry.OpenKey("general", false);
+        _ = registry.OpenKey("general", false);
         Assert.Equal(1, registry.ReadInteger("language"));
         Assert.True(registry.ReadBool("enabled"));
         Assert.Equal("English", registry.ReadString("name"));
-        registry.OpenKey("Other", false);
+        _ = registry.OpenKey("Other", false);
         Assert.False(registry.ValueExists("Language"));
         Registry separate = new();
-        separate.OpenKey("General", false);
+        _ = separate.OpenKey("General", false);
         Assert.False(separate.ValueExists("Language"));
     }
 
@@ -52,7 +52,7 @@ public sealed class HeadlessServicesTests
     public void MissingStringValueReadsAsEmpty()
     {
         Registry registry = new();
-        registry.OpenKey("General", false);
+        _ = registry.OpenKey("General", false);
         Assert.False(registry.ValueExists("Absent Name"));
         Assert.Equal("", registry.ReadString("Absent Name"));
     }
@@ -61,7 +61,7 @@ public sealed class HeadlessServicesTests
     public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
     {
         Registry registry = new();
-        registry.OpenKey("General", true);
+        _ = registry.OpenKey("General", true);
         registry.WriteBinaryData("Movement Speed", [2, 7, 9], 2);
         byte[] result = [0xff, 0xff, 0xff, 0xff];
         Assert.Equal(2, registry.ReadBinaryData("Movement Speed", result, result.Length));

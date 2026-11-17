@@ -154,7 +154,7 @@ internal static class ObjectImage
                 {
                     Slot s = list[k];
                     ValueSite site = new() { Property = prop, Id = s.Entry.Id, Path = memberPath.Item(k), Owner = target, Builder = builder };
-                    array.Add(prop.Codec.DecodeElement(context, s.Start, s.End, site));
+                    _ = array.Add(prop.Codec.DecodeElement(context, s.Start, s.End, site));
                 }
                 value = array;
             }

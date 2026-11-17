@@ -95,7 +95,7 @@ public static partial class Fixtures
         yield return new("unknown", "unknown JSON member", () =>
         {
             JsonObject d = Import(Game(HeroList), "hero-list", "hero-list");
-            Root(d).Add("Bogus", new JsonInteger(1));
+            _ = Root(d).Add("Bogus", new JsonInteger(1));
             return Expect(Codes.UnknownMember, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("unknown", "unknown $class in JSON", () =>
@@ -289,7 +289,7 @@ public static partial class Fixtures
         yield return new("layout", "--exact-layout refuses a stale layout", () =>
         {
             JsonObject d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
-            Root(d).Remove("NextLibraryId");
+            _ = Root(d).Remove("NextLibraryId");
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d)), new ExportOptions { ExactLayout = true }), Located);
         });
         yield return new("layout", "a part that does not fit is an error, not a cleanup", () =>
@@ -437,7 +437,7 @@ public static partial class Fixtures
             JsonObject item = Copy(Envelope("hero-list", "hero-list", Object(items.Items[k])));
             JsonObject objectValue = Object(item["root"]);
             Set(objectValue, "$slot", new JsonInteger(k));
-            children.Add(objectValue);
+            _ = children.Add(objectValue);
         }
         return OwnRoundTrip(Envelope(root: new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastId", new JsonInteger(items.Items.Count)).Add("Children", children), kind: "item-list", profile: "item-list"));
     }

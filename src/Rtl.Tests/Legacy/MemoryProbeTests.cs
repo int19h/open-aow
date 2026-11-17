@@ -36,7 +36,7 @@ public sealed class MemoryProbeTests
         probe.Fact("same_box", Ord(ReferenceEquals(list[0], list[2])));
         probe.Fact("find_box", list.IndexOf(IntToObject(17)));
         list.Insert(1, IntToObject(int.MinValue));
-        list.Add(IntToObject(int.MaxValue));
+        _ = list.Add(IntToObject(int.MaxValue));
         probe.Fact("minimum", ObjectToInt(list[1]));
         probe.Fact("maximum", ObjectToInt(list[4]));
         if (ObjectToInt(list[0]) < 30)

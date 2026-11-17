@@ -88,7 +88,7 @@ public static class DocumentValidation
                     }
                 }
             }
-            DocumentBackend.Read(body, classValue: classValue, schema: schema, engine: profile.Engine, file: file);
+            _ = DocumentBackend.Read(body, classValue: classValue, schema: schema, engine: profile.Engine, file: file);
         }
         catch (ConversionException error)
         {

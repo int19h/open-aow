@@ -28,7 +28,7 @@ public static class DocumentBackend
                 throw site.Fail(Codes.MissingMember, "A created object needs a class.");
             }
 
-            json.Add("$class", new JsonString(className));
+            _ = json.Add("$class", new JsonString(className));
         }
         else if (node.ClassName is not null)
         {
@@ -42,7 +42,7 @@ public static class DocumentBackend
                 throw site.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.");
             }
 
-            json.Add("$slot", new JsonInteger(slot));
+            _ = json.Add("$slot", new JsonInteger(slot));
         }
         else if (node.Slot is not null)
         {
@@ -61,8 +61,8 @@ public static class DocumentBackend
             DocumentSite member = site.For(prop, parent: node, ownerClass: classValue);
             if (prop.IsDynamic)
             {
-                json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
-                seen.Add(prop.Name);
+                _ = json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
+                _ = seen.Add(prop.Name);
                 continue;
             }
             if (site.Schema.Version >= 2 && value is ListNode && !prop.Codec.AcceptsList(site.Schema.Version))
@@ -73,12 +73,12 @@ public static class DocumentBackend
             JsonValue? written = prop.Codec.WriteTree(value, member);
             if (written is not null)
             {
-                json.Add(prop.Name, written);
+                _ = json.Add(prop.Name, written);
             }
 
-            seen.Add(prop.Name);
+            _ = seen.Add(prop.Name);
         }
-        foreach ((string? name, TreeValue _) in node.Members)
+        foreach ((string? name, _) in node.Members)
         {
             if (!seen.Contains(name))
             {

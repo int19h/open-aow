@@ -72,7 +72,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     [Fact]
     public void ACensusAloneHasNoLayoutPin()
     {
-        Write("actual");
+        _ = Write("actual");
         (CensusFacts? census, Expectation? expectation) = Expectation.Load(Path.Combine(_directory, "census.json"));
         Assert.Null(expectation);
         Assert.Empty(census.Rows);

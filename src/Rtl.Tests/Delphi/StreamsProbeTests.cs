@@ -77,7 +77,7 @@ public sealed class StreamsProbeTests
             State(tag + "_after_readbuffer", s);
             if (tag == "memory")
             {
-                Xunit.Assert.Throws<IOException>(() => s.Seek(-1, SeekOrigin.Begin));
+                _ = Xunit.Assert.Throws<IOException>(() => s.Seek(-1, SeekOrigin.Begin));
                 Xunit.Assert.Equal(10L, s.Position);
                 Xunit.Assert.Equal(10L, s.Length);
                 p.Fact(tag + "_seek_negative", -1);
