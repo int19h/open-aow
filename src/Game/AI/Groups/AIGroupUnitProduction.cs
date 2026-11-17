@@ -10,6 +10,8 @@ namespace Aow.Game.AI.Groups;
 // research
 public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitProductionList>, IOwnedSink<AIGroupUnitProductionList>
 {
+    public AIGroupUnitProduction(CustomNode owner) : base(owner) => _refCount = 1;
+
     // A reference list holds the production and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
     public new AIGroupUnitProductionList Owner { get => GetOwner<AIGroupUnitProductionList>(); set => SetOwner(value); }
@@ -17,9 +19,6 @@ public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitPro
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupUnitProductionList;
 
     void IOwnedSink<AIGroupUnitProductionList>.SetOwner(AIGroupUnitProductionList owner) => SetOwner(owner);
-
-    // AIGroup.pas:2389
-    public AIGroupUnitProduction(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

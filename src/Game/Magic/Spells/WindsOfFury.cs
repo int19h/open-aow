@@ -34,8 +34,11 @@ public partial class WindsOfFury : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
-        action.SpellId = SpellId;
+        action = new CombatSpellCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SpellId = SpellId
+        };
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
             action.Generate(source, target, (sbyte)(CombatInfo.Attack + 2), CombatInfo.Damage, CombatInfo.DamageTypes);

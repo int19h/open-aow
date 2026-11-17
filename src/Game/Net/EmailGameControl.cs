@@ -133,12 +133,15 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2564
     public EmailGame CreateEmailGame(string name, string emailAddress)
     {
-        EmailGame result = new(null) { Holder = CreationHolder() };
-        result.EmailAddress = emailAddress;
-        result.UniqueLocalId = CreateUniqueLocalId();
-        result.UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
-        result.SecurityId = GenerateSecurityId();
-        result.Name = name;
+        EmailGame result = new(null)
+        {
+            Holder = CreationHolder(),
+            EmailAddress = emailAddress,
+            UniqueLocalId = CreateUniqueLocalId(),
+            UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1,
+            SecurityId = GenerateSecurityId(),
+            Name = name
+        };
         result.SetOwner(_games);
         Save();
         return result;

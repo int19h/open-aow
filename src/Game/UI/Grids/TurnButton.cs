@@ -13,10 +13,9 @@ namespace Aow.Game.UI.Grids;
 // change event, checked, animation frame
 public partial class TurnButton : Control
 {
+    public TurnButton(Component owner) : base(owner) => _frameOffset = 11;
+
     private ImageLibrary _imageLibrary;
-    private int _currentPlayer;
-    private int _lastPlayer;
-    private bool _animating;
     private int _animationPhase;
     private int _frameOffset;
     [Published]
@@ -26,9 +25,6 @@ public partial class TurnButton : Control
 
     public bool ButtonChecked { get; set; }
     public int AnimationFrame { get; set; }
-
-    // TurnButton.pas:54
-    public TurnButton(Component owner) : base(owner) => _frameOffset = 11;
 
     // TurnButton.pas:60
     public override void Validate()
@@ -58,12 +54,12 @@ public partial class TurnButton : Control
             switch (_animationPhase)
             {
                 case 0:
-                    if (_lastPlayer != _currentPlayer)
+                    if (LastPlayer != CurrentPlayer)
                     {
-                        AnimationFrame = _lastPlayer * 7;
+                        AnimationFrame = LastPlayer * 7;
                         _frameOffset = 11;
                         _animationPhase = 1;
-                        _animating = true;
+                        Animating = true;
                         Drawn = false;
                     }
 
@@ -71,7 +67,7 @@ public partial class TurnButton : Control
                 case 1:
                     AnimationFrame += 1;
                     Drawn = false;
-                    if ((_lastPlayer * 7) + 5 < AnimationFrame)
+                    if ((LastPlayer * 7) + 5 < AnimationFrame)
                     {
                         AnimationFrame = 0;
                         _animationPhase = 2;
@@ -85,7 +81,7 @@ public partial class TurnButton : Control
                     if (AnimationFrame > 10)
                     {
                         _animationPhase = 3;
-                        AnimationFrame = (_currentPlayer * 7) + 5;
+                        AnimationFrame = (CurrentPlayer * 7) + 5;
                         _frameOffset = 11;
                     }
 
@@ -93,13 +89,13 @@ public partial class TurnButton : Control
                 case 3:
                     AnimationFrame -= 1;
                     Drawn = false;
-                    if (_currentPlayer * 7 > AnimationFrame)
+                    if (CurrentPlayer * 7 > AnimationFrame)
                     {
-                        AnimationFrame = _currentPlayer * 7;
+                        AnimationFrame = CurrentPlayer * 7;
                         _animationPhase = 0;
                         _frameOffset = 11;
-                        _lastPlayer = _currentPlayer;
-                        _animating = false;
+                        LastPlayer = CurrentPlayer;
+                        Animating = false;
                         OnAnimationDone?.Invoke(this);
                     }
 
@@ -117,9 +113,9 @@ public partial class TurnButton : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                if (!_animating && ButtonChecked)
+                if (!Animating && ButtonChecked)
                 {
-                    _imageLibrary[_frameOffset + (_currentPlayer * 7) + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
+                    _imageLibrary[_frameOffset + (CurrentPlayer * 7) + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }
                 else
                 {
@@ -180,13 +176,13 @@ public partial class TurnButton : Control
     public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }
 
     [Published]
-    public int CurrentPlayer { get => _currentPlayer; set => _currentPlayer = value; }
+    public int CurrentPlayer { get; set; }
 
     [Published]
-    public int LastPlayer { get => _lastPlayer; set => _lastPlayer = value; }
+    public int LastPlayer { get; set; }
 
     [Published]
-    public bool Animating { get => _animating; set => _animating = value; }
+    public bool Animating { get; set; }
 
     [Published]
     public override bool Checked { get => ButtonChecked; set => ButtonChecked = value; }

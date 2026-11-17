@@ -13,7 +13,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // faction, state, page
-public partial class WorldMapCampaign : Campaign
+public partial class WorldMapCampaign(CustomNode owner) : Campaign(owner)
 {
     // AoWVideoDlg.pas:334
     public new const int ClassId = 2248704;
@@ -28,11 +28,6 @@ public partial class WorldMapCampaign : Campaign
     {
         base.PersistFields(persister);
         Faction = persister.Int32("Faction", value: Faction);
-    }
-
-    // AoWVideoDlg.pas:324
-    public WorldMapCampaign(CustomNode owner) : base(owner)
-    {
     }
 
     // AoWVideoDlg.pas:348

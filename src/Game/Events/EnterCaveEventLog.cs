@@ -7,11 +7,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Events;
 
 // Cave
-public partial class EnterCaveEventLog : MessageEventLog
+public partial class EnterCaveEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public EnterCaveEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
-    { }
-
     public Cave Cave { get; set; }
 
     // Cave.pas:442

@@ -9,10 +9,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class DispelMagicAbilityUnitSelector : UnitSelector
+public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
-    public DispelMagicAbilityUnitSelector(EngineObject creator) : base(creator)
-    { }
 
     // AoWAb.PAS:4403
     public override bool CanSelectUnit(Troop troop) => troop.CanDispelEnchantment(Player);
@@ -43,11 +41,14 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
 
             if (target != null)
             {
-                eventValue = new DispelMagicAbilityTokenEvent(null) { Holder = Creator.CreationHolder() };
-                eventValue.SourceId = source.UnitId;
-                eventValue.SourcePlayer = (byte)source.Player;
-                eventValue.TargetId = target.UnitId;
-                eventValue.TargetPlayer = (byte)target.Player;
+                eventValue = new DispelMagicAbilityTokenEvent(null)
+                {
+                    Holder = Creator.CreationHolder(),
+                    SourceId = source.UnitId,
+                    SourcePlayer = (byte)source.Player,
+                    TargetId = target.UnitId,
+                    TargetPlayer = (byte)target.Player
+                };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 result = true;

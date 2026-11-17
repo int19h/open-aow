@@ -646,8 +646,11 @@ public partial class StrategicMap : GameMap
         TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
         TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
         TokenManager.OnMessage += OnTokenManagerMessage;
-        PlayerCommunicator = new PlayerCommunicator(null) { Holder = CreationHolder() };
-        PlayerCommunicator.Engine = GetEngine();
+        PlayerCommunicator = new PlayerCommunicator(null)
+        {
+            Holder = CreationHolder(),
+            Engine = GetEngine()
+        };
         ConnectionType = PlayerConnectionType.Local;
         AIExecutor = new AIExecutor(null) { Holder = CreationHolder() };
         AIGroupManager = new AIGroupManager(null) { Holder = CreationHolder() };
@@ -1162,8 +1165,11 @@ public partial class StrategicMap : GameMap
         SaveGameTokenEvent eventValue;
         if (Current.SeatedPlayer != -1)
         {
-            eventValue = new SaveGameTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.FileName = ExpandFileName(fileName);
+            eventValue = new SaveGameTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                FileName = ExpandFileName(fileName)
+            };
             Current.TokenManager.GetTokenControl(Current.SeatedPlayer).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;
@@ -2420,11 +2426,14 @@ public partial class StrategicMap : GameMap
             if (RequestCombatType && Combat.EngineClass.ClassId != 131760 && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 LockExecuteEventLog();
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = CurrentPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = CurrentPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText)
+                };
                 TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
                 _ = log.Release();
                 UnlockGameOverEvent();
@@ -2705,10 +2714,13 @@ public partial class StrategicMap : GameMap
         EndTurnTokenEvent eventValue;
         if (!Current.Players.GetPlayers(player).GetBusy() && Current.Players.GetPlayers(player).SingleProcessCycle)
         {
-            eventValue = new EndTurnTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.Player = player;
-            eventValue.Day = Current.Day;
-            eventValue.Mode = EndTurnTokenEventMode.CancelEndTurn;
+            eventValue = new EndTurnTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = player,
+                Day = Current.Day,
+                Mode = EndTurnTokenEventMode.CancelEndTurn
+            };
             Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;
@@ -2729,7 +2741,6 @@ public partial class StrategicMap : GameMap
     // allied victory. . points. gold. mana. next scenario
     public partial class MapCampaignSettings : EngineObject
     {
-        // Diplomacy.pas:1716
         public MapCampaignSettings(CustomNode owner) : base(owner)
         {
             TransferPointsMax = 1000;

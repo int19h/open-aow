@@ -16,11 +16,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // Unit. UnitGraphics. Frame. OffsetX. OffsetY. SequenceIndex. SequenceFrame
-public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
+public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public TacticalBattleCorpseHexSprite(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 2228488;
 
     public TacticalBattleUnit Unit { get; set; }

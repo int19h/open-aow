@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // activation request
-public partial class ConstructDialog : UIModule
+public partial class ConstructDialog(UIContext ui) : UIModule(ui)
 {
-    public ConstructDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public ListBox<ConstructionControl> ConstructionList { get; private set; }
     public ListBox ConstructionCostList { get; private set; }

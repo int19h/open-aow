@@ -17,19 +17,14 @@ namespace Aow.Game.UI.Controls;
 // FBorderHeight when it is up), ButtonType (btText: drawn from _imageLibraryButton, btIcon: from
 // _imageLibraryIcon. set by Validate), _imageLibraryButton, _imageLibraryIcon, _imageLibraryIndexUp, _imageLibraryIndexDown, _imageLibraryIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-public partial class BaseButton : Control
+public partial class BaseButton(Component owner) : Control(owner)
 {
-    public BaseButton(Component owner) : base(owner)
-    { }
-
-    private int _borderHeightSelected;
     private UIComponentButtonType _buttonType;
     private InterfaceImageLibrary _imageLibraryButton;
     private InterfaceImageLibrary _imageLibraryIcon;
     private int _imageLibraryIndexUp;
     private int _imageLibraryIndexDown;
     private int _imageLibraryIndexLit;
-    private Menu _popupMenu;
 
     public bool Lit { get; protected set; }
 
@@ -146,7 +141,7 @@ public partial class BaseButton : Control
                     {
                         base.Font.Color = SelectedColor;
                         int textWidth = base.Font.GetTextWidth(base.Text);
-                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + _borderHeightSelected, base.Text, lockedSurface);
+                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + BorderHeightSelected, base.Text, lockedSurface);
                     }
                 }
                 else
@@ -255,7 +250,7 @@ public partial class BaseButton : Control
     }
 
     [Published]
-    public int BorderHeightSelected { get => _borderHeightSelected; set => _borderHeightSelected = value; }
+    public int BorderHeightSelected { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
@@ -273,7 +268,7 @@ public partial class BaseButton : Control
     public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
     [Published]
-    public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
+    public Menu PopupMenu { get; set; }
 
     [Published]
     public override string Text { get => base.Text; set => SetGText(value); }

@@ -11,11 +11,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FactionSelectionWindow : UIModule
+public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
 {
-    public FactionSelectionWindow(UIContext ui) : base(ui)
-    { }
-
     public Panel FactionPanel { get; private set; }
     public Label TopLabel { get; private set; }
     public Panel LightPanel { get; private set; }

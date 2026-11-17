@@ -13,11 +13,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
+public partial class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public FireBarrierTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135940;
 
     // GlobalTargetSpells.pas:873

@@ -9,15 +9,12 @@ namespace Aow.Game.Draw.Images;
 // an opaque 8 bit picture (ClassID 1). FPitch (of the rows: a multiple of 4 below 32 pixels, of
 // 8 from 32 on), FBuffer (the rows from its first byte. The original's FBits, FBuffer aligned to
 // 8 bytes, is FBuffer itself in the port)
-public partial class Picture08 : Image08, ILibraryImageClass
+public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 1;
     static string ILibraryImageClass.Name => "Picture (08bpp)";
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Picture08(owner);
-
-    public Picture08(CustomImageLibrary owner) : base(owner)
-    { }
 
     private int _pitch;
     private byte[] _buffer;

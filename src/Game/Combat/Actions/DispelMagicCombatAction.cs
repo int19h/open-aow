@@ -16,8 +16,6 @@ namespace Aow.Game.Combat.Actions;
 // (dispelled enchantment IDs)
 public partial class DispelMagicCombatAction : SingleTargetCombatAction
 {
-
-    // AoWAb.PAS:3936
     public DispelMagicCombatAction(CustomNode owner) : base(owner) => EnchantmentIds = new Int32List();
 
     public Int32List EnchantmentIds { get; }

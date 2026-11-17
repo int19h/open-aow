@@ -5,11 +5,9 @@ using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
 
-public sealed class ProbeFactAttribute : FactAttribute
+public sealed class ProbeFactAttribute(string name) : FactAttribute
 {
-    public ProbeFactAttribute(string name) => Recording = name;
-
-    public string Recording { get; }
+    public string Recording { get; } = name;
 }
 
 internal sealed class ProbeLines(string name)

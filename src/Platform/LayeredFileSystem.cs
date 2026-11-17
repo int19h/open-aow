@@ -6,7 +6,6 @@ namespace Aow.Platform;
 /// <summary>The install is a snapshot. All mutations target the user layer.</summary>
 public sealed class LayeredFileSystem : IFileSystem
 {
-    private readonly string _root, _user;
     private readonly Dictionary<string, string> _rootTree = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly Dictionary<string, string[]> _userListings = [with(StringComparer.OrdinalIgnoreCase)];
     private string _current = "";
@@ -15,29 +14,29 @@ public sealed class LayeredFileSystem : IFileSystem
     public LayeredFileSystem(string gameRoot, string userDirectory, IEnumerable<string>? userOnlyDirectories = null)
     {
         _userOnly = userOnlyDirectories?.Select(p => p.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar)).ToArray() ?? [];
-        _root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
-        _user = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
-        if (!Directory.Exists(_root))
+        GameRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
+        UserDirectory = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
+        if (!Directory.Exists(GameRoot))
         {
-            throw new DirectoryNotFoundException(_root);
+            throw new DirectoryNotFoundException(GameRoot);
         }
 
-        RejectLink(_root);
-        if (!Same(_root, _user) && (Within(_root, _user) || Within(_user, _root)))
+        RejectLink(GameRoot);
+        if (!Same(GameRoot, UserDirectory) && (Within(GameRoot, UserDirectory) || Within(UserDirectory, GameRoot)))
         {
             throw new ArgumentException("The two layers must be separate directories or the same directory.");
         }
 
-        Snapshot(_root, "");
-        EnsureDirectory(_user);
+        Snapshot(GameRoot, "");
+        EnsureDirectory(UserDirectory);
     }
 
-    public string GameRoot => _root;
-    public string UserDirectory => _user;
-    public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(_root)![..2] : "C:";
+    public string GameRoot { get; }
+    public string UserDirectory { get; }
+    public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(GameRoot)![..2] : "C:";
     public string CurrentDirectory => PublicPath(_current);
 
-    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(_root, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
+    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(GameRoot, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
     private static bool Same(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     private static bool Within(string parent, string child) => child.StartsWith(Path.TrimEndingDirectorySeparator(parent) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 
@@ -92,22 +91,22 @@ public sealed class LayeredFileSystem : IFileSystem
     private string Relative(string path)
     {
         path = path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
-        if (Same(path, _root))
+        if (Same(path, GameRoot))
         {
             return "";
         }
 
-        if (Within(_root, path))
+        if (Within(GameRoot, path))
         {
-            path = path[(_root.Length + 1)..];
+            path = path[(GameRoot.Length + 1)..];
         }
-        else if (Same(path, _user))
+        else if (Same(path, UserDirectory))
         {
             return "";
         }
-        else if (Within(_user, path))
+        else if (Within(UserDirectory, path))
         {
-            path = path[(_user.Length + 1)..];
+            path = path[(UserDirectory.Length + 1)..];
         }
         else if (path.Length >= 2 && path[1] == ':')
         {
@@ -188,7 +187,7 @@ public sealed class LayeredFileSystem : IFileSystem
 
     private string? UserLocation(string relative)
     {
-        string location = _user;
+        string location = UserDirectory;
         foreach (string part in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             if (!Directory.Exists(location))
@@ -225,12 +224,12 @@ public sealed class LayeredFileSystem : IFileSystem
                 return null;
             }
         }
-        return UserLocation(relative) ?? (Same(_root, _user) ? null : _rootTree.GetValueOrDefault(relative));
+        return UserLocation(relative) ?? (Same(GameRoot, UserDirectory) ? null : _rootTree.GetValueOrDefault(relative));
     }
 
     private string WriteLocation(string relative)
     {
-        string location = _user;
+        string location = UserDirectory;
         foreach (string part in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             string? match = Directory.Exists(location) ? Directory.EnumerateFileSystemEntries(location).Order(StringComparer.Ordinal).FirstOrDefault(e => Same(Path.GetFileName(e), part)) : null;
@@ -314,7 +313,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public string Layer(string path)
     {
         string? found = ReadLocation(Relative(path));
-        return found is null ? "none" : Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
+        return found is null ? "none" : Same(GameRoot, UserDirectory) ? "single" : Within(UserDirectory, found) || Same(UserDirectory, found) ? "user" : "root";
     }
 
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Mutate(() => EnsureDirectory(WriteLocation(Relative(path))));
@@ -343,7 +342,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
 
         Dictionary<string, string> merged = [with(StringComparer.OrdinalIgnoreCase)];
-        foreach (KeyValuePair<string, string> pair in Same(_root, _user) ? [] : _rootTree)
+        foreach (KeyValuePair<string, string> pair in Same(GameRoot, UserDirectory) ? [] : _rootTree)
         {
             if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative))
             {

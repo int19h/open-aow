@@ -15,14 +15,10 @@ namespace Aow.Game.World.Terrain;
 // _imageIndex, _terrainType
 public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
 {
-
-    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner) => _terrainType = -1;
+    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner) => TerrainType = -1;
 
     // ILTer.pas:79
     public new const int ClassId = 131462;
-
-    private int _imageIndex;
-    private sbyte _terrainType;
 
     // ILTer.pas:164
     public override sbyte GetTerrain(int index)
@@ -30,7 +26,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         sbyte result = Resource.TerrainList.GetTerrain(index);
         if (result >= 0)
         {
-            result = _terrainType;
+            result = TerrainType;
         }
 
         return result;
@@ -39,7 +35,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     // ILTer.pas:131
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result = Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, _terrainType) == info.MapField.TerrainType;
+        bool result = Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
         return result;
     }
 
@@ -50,8 +46,8 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -67,8 +63,8 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -85,11 +81,11 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         {
             // The offsets live on the multi-hex resource. Another resource throws, as the old cast did.
             MultiHexMapObjectResource placed = GetResource<MultiHexMapObjectResource>();
-            Resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + placed.ImageOffsetX, pixelY - pixelYSurface + placed.ImageOffsetY, lockedSurface);
+            Resource.ImageLibrary[ImageIndex].Show(pixelX - pixelXSurface + placed.ImageOffsetX, pixelY - pixelYSurface + placed.ImageOffsetY, lockedSurface);
         }
         else
         {
-            Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, _imageIndex, (uint)(pixelX + pixelY));
+            Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, ImageIndex, (uint)(pixelX + pixelY));
         }
     }
 
@@ -99,7 +95,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            _terrainType = GetValidTerrainType(Owner.Owner, StoredHexX, StoredHexY);
+            TerrainType = GetValidTerrainType(Owner.Owner, StoredHexX, StoredHexY);
         }
 
         return result;
@@ -112,8 +108,8 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        _terrainType = GetValidTerrainType(Owner.Owner, StoredHexX, StoredHexY);
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        TerrainType = GetValidTerrainType(Owner.Owner, StoredHexX, StoredHexY);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // ILTer.pas:196
@@ -127,7 +123,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         TerrainList terrainList;
         canPlaceHere = true;
         count = Resource.TerrainList.Count;
-        _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
+        TerrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
@@ -150,7 +146,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
             {
                 if (terrainList.GetTerrain(i) >= 0)
                 {
-                    terrainList.SetTerrain(i, _terrainType);
+                    terrainList.SetTerrain(i, TerrainType);
                 }
             }
 
@@ -168,11 +164,11 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         if (result)
         {
             result = false;
-            _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
-            if (_terrainType >= 0)
+            TerrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
+            if (TerrainType >= 0)
             {
-                _imageIndex = GetTerrainTypeImage(_terrainType);
-                if (_imageIndex != -1)
+                ImageIndex = GetTerrainTypeImage(TerrainType);
+                if (ImageIndex != -1)
                 {
                     if (!GetEditMode())
                     {
@@ -243,8 +239,8 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         return result;
     }
 
-    public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
-    public sbyte TerrainType { get => _terrainType; protected set => _terrainType = value; }
+    public int ImageIndex { get; set; }
+    public sbyte TerrainType { get; protected set; }
 
     // ILTer.pas:20
 

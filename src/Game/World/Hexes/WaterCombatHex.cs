@@ -5,10 +5,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class WaterCombatHex : WaterHex
+public partial class WaterCombatHex(CustomNode owner) : WaterHex(owner)
 {
-    public WaterCombatHex(CustomNode owner) : base(owner)
-    { }
 
     // CombatHex.pas:219
     public new const int ClassId = 2229655;
@@ -16,10 +14,8 @@ public partial class WaterCombatHex : WaterHex
     // CombatHex.pas:216
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
-    public new partial class Resource : WaterHex.Resource
+    public new partial class Resource(CustomNode owner) : WaterHex.Resource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CombatHex.pas:222
         public new const int ClassId = 2229656;

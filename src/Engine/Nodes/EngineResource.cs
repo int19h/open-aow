@@ -10,39 +10,31 @@ namespace Aow.Engine.Nodes;
 
 // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
-public partial class EngineResource : EngineObject
+public partial class EngineResource(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 1024;
-
-    public EngineResource(CustomNode owner) : base(owner)
-    { }
-
-    private CustomNode _resourceList;
-    private int _resourceId;
-    private int _editId;
-    private int _editIndex;
 
     // Engine.pas:8513
     public override void SetOwner(CustomNode owner)
     {
         base.SetOwner(owner);
-        _resourceList = owner;
+        ResourceList = owner;
     }
 
     // Engine.pas:8542
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _resourceId = persister.Int32("ResourceId", _resourceId);
-        _editId = persister.Int32("EditId", _editId);
-        _editIndex = persister.Int32("EditIndex", _editIndex);
+        ResourceId = persister.Int32("ResourceId", ResourceId);
+        EditId = persister.Int32("EditId", EditId);
+        EditIndex = persister.Int32("EditIndex", EditIndex);
     }
 
     // Engine.pas:8519
     public override void SetArrayOwner(CustomNode owner, int index)
     {
         base.SetArrayOwner(owner, index);
-        _resourceList = owner;
+        ResourceList = owner;
     }
 
     // Engine.pas:8533
@@ -78,10 +70,10 @@ public partial class EngineResource : EngineObject
         LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref r);
     }
 
-    public CustomNode ResourceList { get => _resourceList; set => _resourceList = value; }
-    public int EditId { get => _editId; set => _editId = value; }
-    public int EditIndex { get => _editIndex; set => _editIndex = value; }
-    public int ResourceId { get => _resourceId; set => _resourceId = value; }
+    public CustomNode ResourceList { get; set; }
+    public int EditId { get; set; }
+    public int EditIndex { get; set; }
+    public int ResourceId { get; set; }
     public LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
     // Engine.pas:8508

@@ -11,15 +11,10 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // wall siege object count
-public partial class FastBattle : Battle
+public partial class FastBattle(CustomNode owner) : Battle(owner)
 {
     // AIGroup.pas:7128
     public new const int ClassId = 131760;
-
-    // AIGroup.pas:7118
-    public FastBattle(CustomNode owner) : base(owner)
-    {
-    }
 
     public int WallSiegeObjectCount { get; set; }
 

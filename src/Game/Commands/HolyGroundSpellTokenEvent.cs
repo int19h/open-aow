@@ -15,10 +15,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
+public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public HolyGroundSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // HolyG.pas:282
     public new const int ClassId = 135942;

@@ -46,8 +46,10 @@ public partial class FlagMessageEvent : FlagEvent
         FlagMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new FlagMessageEventLog(null, holder: CreationHolder());
-            log.HelpFileName = _helpFileName;
+            log = new FlagMessageEventLog(null, holder: CreationHolder())
+            {
+                HelpFileName = _helpFileName
+            };
             string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
@@ -57,10 +59,8 @@ public partial class FlagMessageEvent : FlagEvent
         return true;
     }
 
-    public new partial class Resource : FlagEventResource
+    public new partial class Resource(CustomNode owner) : FlagEventResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // FlagEvents.pas:218
         public new const int ClassId = 132462;

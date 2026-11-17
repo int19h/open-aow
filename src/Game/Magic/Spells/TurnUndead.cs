@@ -37,10 +37,13 @@ public partial class TurnUndead : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         TurnUndeadSpellCombatAction action;
-        action = new TurnUndeadSpellCombatAction(null) { Holder = CreationHolder() };
-        action.SpellId = SpellId;
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
+        action = new TurnUndeadSpellCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SpellId = SpellId,
+            SourceId = source.Id,
+            TargetId = target.Id
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

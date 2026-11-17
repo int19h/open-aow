@@ -18,11 +18,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. army event. frame. visible unit indices
-public partial class ArmyEventDialog : UIModule
+public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
 {
-    public ArmyEventDialog(UIContext ui) : base(ui)
-    { }
-
     public Window ArmyEventWindow { get; private set; }
     public Panel UnitPanel { get; private set; }
     public Label EventTextLabel { get; private set; }

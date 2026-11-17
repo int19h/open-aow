@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // reference children
-public partial class MoveTargetList : ReferenceNode, IChildList<MoveTarget>
+public partial class MoveTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<MoveTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveTarget, so the cast never fails.
@@ -16,9 +16,6 @@ public partial class MoveTargetList : ReferenceNode, IChildList<MoveTarget>
     protected sealed override bool AcceptsChild(EngineObject child) => child is MoveTarget;
 
     int IChildSink<MoveTarget>.AddChild(MoveTarget child) => AddChild(child);
-
-    public MoveTargetList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The targets of this list, in their stored order.</summary>
     public MoveTargetCollection Targets => new(this);
@@ -33,11 +30,14 @@ public partial class MoveTargetList : ReferenceNode, IChildList<MoveTarget>
     public void AddTarget(MapCoordinate location, int movePoints, int transporterId, in AITargetData data)
     {
         MoveTarget target;
-        target = new MoveTarget(null) { Holder = CreationHolder() };
-        target.Location = location;
-        target.MovePoints = movePoints;
-        target.TransporterId = transporterId;
-        target.Data = data;
+        target = new MoveTarget(null)
+        {
+            Holder = CreationHolder(),
+            Location = location,
+            MovePoints = movePoints,
+            TransporterId = transporterId,
+            Data = data
+        };
         _ = AddChild(target);
         _ = target.Release();
     }

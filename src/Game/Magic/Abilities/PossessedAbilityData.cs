@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (source experience)
-public partial class PossessedAbilityData : AbilityData
+public partial class PossessedAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131797;
-
-    public PossessedAbilityData(CustomNode owner) : base(owner)
-    { }
 
     public int SourceExperience { get; set; }
 

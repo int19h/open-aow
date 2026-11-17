@@ -10,10 +10,9 @@ namespace Aow.Game.World.Map;
 // ID, Text, Name
 public partial class TextControlItem : EngineObject
 {
-    public new const int ClassId = 131738;
-
-    // Structur.PAS:4394
     public TextControlItem(CustomNode owner) : base(owner) => Text = new StringList();
+
+    public new const int ClassId = 131738;
 
     public int Id { get; set; }
 

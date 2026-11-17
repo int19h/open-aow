@@ -8,7 +8,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.World.Map;
 
 // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
@@ -27,18 +27,13 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
 
     // HSEngine.pas:3208
     public new const int ClassId = 65795;
-
-    private int _width;
-    private int _height;
-    private int _levelCount;
-    private GameMap _map;
     private GameEngine _engine;
 
     // HSEngine.pas:3167
     public override void SetOwner(CustomNode owner)
     {
         base.SetOwner(owner);
-        _map = Owner;
+        Map = Owner;
     }
 
     // HSEngine.pas:3203. Before the activation message or a load the map reaches the engine as any node does.
@@ -53,20 +48,20 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         base.PersistFields(persister);
         if (persister.Loading)
         {
-            _map = Owner;
+            Map = Owner;
             _engine = PersistSupport.Engine(persister);
-            _map.MapContainer = this;
+            Map.MapContainer = this;
         }
 
-        w = (byte)_width;
+        w = (byte)Width;
         w = persister.Byte("Width", value: w);
-        _width = w;
-        h = (byte)_height;
+        Width = w;
+        h = (byte)Height;
         h = persister.Byte("Height", value: h);
-        _height = h;
-        l = (byte)_levelCount;
+        Height = h;
+        l = (byte)LevelCount;
         l = persister.Byte("LevelCount", value: l);
-        _levelCount = l;
+        LevelCount = l;
     }
 
     // HSEngine.pas:3197
@@ -85,18 +80,13 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         }
     }
 
-    // HSEngine.pas:3162
-    public MapContainer(CustomNode owner) : base(owner)
-    {
-    }
-
     // HSEngine.pas:3241
     public override void Clear()
     {
         base.Clear();
-        _width = 0;
-        _height = 0;
-        _levelCount = 0;
+        Width = 0;
+        Height = 0;
+        LevelCount = 0;
     }
 
     // HSEngine.pas:3213
@@ -122,7 +112,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         {
             this[index].DestroyHexSprite();
             this[index]?.Dispose();
-            _levelCount -= 1;
+            LevelCount -= 1;
         }
     }
 
@@ -136,10 +126,10 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
         if (levelClass != null)
         {
             level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
-            level.HexLevel = _levelCount;
+            level.HexLevel = LevelCount;
             _engine.ActivateEngineObject(level);
-            level.CreateMapFieldList(_width, _height);
-            _levelCount += 1;
+            level.CreateMapFieldList(Width, Height);
+            LevelCount += 1;
             result = true;
         }
         else
@@ -167,9 +157,9 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
                 level.New(settings);
             }
 
-            _width = settings.Width;
-            _height = settings.Height;
-            _levelCount = settings.Levels;
+            Width = settings.Width;
+            Height = settings.Height;
+            LevelCount = settings.Levels;
         }
         catch
         {
@@ -181,7 +171,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
     // HSEngine.pas:3323
     public virtual void UpdateTerrain()
     {
-        for (int i = 0, last = _levelCount - 1; i <= last; i++)
+        for (int i = 0, last = LevelCount - 1; i <= last; i++)
         {
             this[i].UpdateTerrain();
         }
@@ -193,7 +183,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
     // HSEngine.pas:3331
     public void Loaded()
     {
-        for (int i = 0, last = _levelCount - 1; i <= last; i++)
+        for (int i = 0, last = LevelCount - 1; i <= last; i++)
         {
             this[i].Loaded();
         }
@@ -202,16 +192,16 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
     // HSEngine.pas:3339
     public void Activate()
     {
-        for (int i = 0, last = _levelCount - 1; i <= last; i++)
+        for (int i = 0, last = LevelCount - 1; i <= last; i++)
         {
             this[i].Activate();
         }
     }
 
-    public int Width { get => _width; internal set => _width = value; }
-    public int Height { get => _height; internal set => _height = value; }
-    public int LevelCount { get => _levelCount; internal set => _levelCount = value; }
-    public GameMap Map { get => _map; internal set => _map = value; }
+    public int Width { get; internal set; }
+    public int Height { get; internal set; }
+    public int LevelCount { get; internal set; }
+    public GameMap Map { get; internal set; }
 
     public sealed class MapLevelsAccessor(MapContainer target)
     {

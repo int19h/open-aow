@@ -9,7 +9,6 @@ namespace Aow.Game.Units;
 // location, moves, current move points, path
 public partial class AdjacentArmy : EngineObject
 {
-    // AIGroup.pas:5045
     public AdjacentArmy(CustomNode owner) : base(owner) => Path = new MovePath();
 
     public MapCoordinate Location { get; set; }

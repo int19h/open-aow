@@ -16,12 +16,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // library name, image index, item type, library, references, hidden
-public partial class ItemGraphics : EngineResource
+public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131689;
-
-    public ItemGraphics(CustomNode owner) : base(owner)
-    { }
 
     public string ImageLibraryName { get; set; } = "";
     public int ImageIndex { get; set; }

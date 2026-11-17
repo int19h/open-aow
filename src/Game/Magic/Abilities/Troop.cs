@@ -2154,9 +2154,12 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         DisbandUnitTokenEvent eventValue;
         if (CanDisband(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            eventValue = new DisbandUnitTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.UnitId = UnitId;
-            eventValue.Player = Player;
+            eventValue = new DisbandUnitTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                UnitId = UnitId,
+                Player = Player
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;

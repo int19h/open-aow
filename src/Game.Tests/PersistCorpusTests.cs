@@ -20,7 +20,7 @@ namespace Aow.Game.Tests;
 /// <summary>Every tree-persistable instance in the installed corpus matches the converter after an engine rewrite.</summary>
 [Collection("Engine")]
 [EngineState]
-public sealed class PersistCorpusTests
+public sealed class PersistCorpusTests(ITestOutputHelper output)
 {
     private static readonly string[] s_patterns =
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
@@ -80,19 +80,19 @@ public sealed class PersistCorpusTests
         "DiplomaticActionList", "PlayerList", "EResourceList",
     ];
 
-    private readonly ITestOutputHelper _output;
+    private readonly ITestOutputHelper _output = output;
 
     // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
     private static StrategicMap? s_reaper;
-
-    public PersistCorpusTests(ITestOutputHelper output) => _output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap map = new(null, holder: EngineFixture.Engine);
-        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        StrategicMap map = new(null, holder: EngineFixture.Engine)
+        {
+            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+        };
         s_reaper = map;
         // A player's write reads the current map (its seat, its connection type and the view
         // center), so the walk runs with the destroying map current.

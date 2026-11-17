@@ -10,14 +10,11 @@ public partial class SampleData : IDisposable
 {
     public static SampleDataClass Descriptor { get; } = new("SampleData", Create, Create);
 
-    private readonly string _name = "";
-    private int _refCount;
-
     // Sound.pas:674
     protected SampleData(ConstructionContext context, string name)
     {
         context.Capture(this);
-        _name = name;
+        Name = name;
         _ = AudioHost.SampleDataList.Add(this);
         AddRef();
     }
@@ -27,28 +24,28 @@ public partial class SampleData : IDisposable
     protected SampleData(ConstructionContext context, in WaveFormat format, object data, int size)
     {
         context.Capture(this);
-        _name = "";
+        Name = "";
         AddRef();
     }
 
     // Sound.pas:696
     public virtual void Release()
     {
-        _refCount -= 1;
-        if (_refCount == 0)
+        RefCount -= 1;
+        if (RefCount == 0)
         {
             Dispose();
         }
     }
 
     // Sound.pas:703
-    public virtual void AddRef() => _refCount += 1;
+    public virtual void AddRef() => RefCount += 1;
 
     // Sound.pas:690
     public virtual void Dispose() => AudioHost.SampleDataList.Remove(this);
 
-    public string Name => _name;
-    public int RefCount => _refCount;
+    public string Name { get; } = "";
+    public int RefCount { get; private set; }
 
     // Sound.pas:60
     public static SampleData Create(string name) =>

@@ -8,7 +8,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Audio;
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public partial class SfxSequence : OwningNode, IChildList<Sfx>
+public partial class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the read never fails.
@@ -20,16 +20,11 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
 
     public new const int ClassId = 2162690;
 
-    public SfxSequence(CustomNode owner) : base(owner)
-    { }
-
-    private int _id;
-
     // Sound.pas:1057
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _id = persister.Int32("Id", value: _id);
+        Id = persister.Int32("Id", value: Id);
     }
 
     // Sound.pas:1052
@@ -49,6 +44,6 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
         return result;
     }
 
-    public int Id { get => _id; set => _id = value; }
+    public int Id { get; set; }
 
 }

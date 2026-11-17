@@ -10,11 +10,9 @@ namespace Aow.Game.Tests;
 // pass a layout slot from the binding instead of the control tag.
 [Collection("Engine")]
 [EngineState]
-public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
+public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<TypedEventTests.Host>
 {
-    private readonly Host _host;
-
-    public TypedEventTests(Host host) => _host = host;
+    private readonly Host _host = host;
 
     [Fact]
     public void LayoutSlotReachesTheSharedHandler()

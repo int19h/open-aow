@@ -8,6 +8,8 @@ namespace Aow.Game.Net;
 // FPackageDataList. The control of a game on one system: what is sent is received again
 public partial class LocalPlayerCommunicationControl : PlayerCommunicationControl
 {
+    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
+
     internal PackageDataList PackageDataList { get; }
 
     // NetworkE.pas:709
@@ -42,9 +44,6 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
         PackageDataList.Add(stream);
         return true;
     }
-
-    // NetworkE.pas:697
-    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
 
     // NetworkE.pas:703
     public override void Dispose()

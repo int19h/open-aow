@@ -9,11 +9,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Events;
 
 // structure
-public partial class RazeStructureEventLog : MessageEventLog
+public partial class RazeStructureEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public RazeStructureEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
-    { }
-
     public Structure Structure { get; set; }
 
     // Structur.PAS:3086

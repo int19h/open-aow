@@ -11,10 +11,8 @@ namespace Aow.Game.Draw.Images;
 //   rectangle given as (Left, Top, Width, Height) in a TRect, clipped to the surface's clip rectangle,
 //   which they narrow while drawing and restore. }
 // no fields or virtual methods of its own
-public partial class InterfaceImageLibrary : ImageLibrary
+public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
 {
-    public InterfaceImageLibrary(Component owner) : base(owner)
-    { }
 
     // AOWInterfaceImgLib.pas:34
     // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a

@@ -10,10 +10,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
+public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public WatcherTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalTargetSpells.pas:1476
     public new const int ClassId = 135963;

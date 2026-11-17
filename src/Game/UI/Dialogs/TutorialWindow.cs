@@ -8,11 +8,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event
-public partial class TutorialWindow : UIModule
+public partial class TutorialWindow(UIContext ui) : UIModule(ui)
 {
-    public TutorialWindow(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Memo MessageMemo { get; private set; }
     public Memo HeaderMemo { get; private set; }

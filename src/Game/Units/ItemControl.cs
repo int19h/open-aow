@@ -16,7 +16,6 @@ namespace Aow.Game.Units;
 // items, change events, update lock, item change events, last ID, status
 public partial class ItemControl : EngineObject
 {
-    // Army.PAS:4639
     public ItemControl(CustomNode owner) : base(owner)
     {
         _items = [];

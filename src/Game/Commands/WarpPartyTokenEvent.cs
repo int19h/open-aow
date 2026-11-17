@@ -14,6 +14,8 @@ namespace Aow.Game.Commands;
 // army ID, packed destination
 public partial class WarpPartyTokenEvent : SpellTokenEvent
 {
+    public WarpPartyTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
+
     // GlobalSpells.pas:564
     public new const int ClassId = 135948;
 
@@ -41,9 +43,6 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         (WarpLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
-
-    // GlobalSpells.pas:552
-    public WarpPartyTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalSpells.pas:576
     public override bool Validate(Hero source)

@@ -20,7 +20,6 @@ namespace Aow.Game.Events;
 // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
 public partial class JoinEventLog : EventLog
 {
-    // Diplomacy.pas:1
     public JoinEventLog(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();

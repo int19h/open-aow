@@ -315,9 +315,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            _map = new StrategicMap(null, holder: EngineFixture.Engine);
-            _map.SeatedPlayer = Seated;
-            _map.UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine };
+            _map = new StrategicMap(null, holder: EngineFixture.Engine)
+            {
+                SeatedPlayer = Seated,
+                UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine }
+            };
             _units = [with(UnitFinds)];
             _units.Add(key: -1, value: new Unit(null) { Holder = EngineFixture.Engine });
             _map.UnitControl.UnitTable = _units;

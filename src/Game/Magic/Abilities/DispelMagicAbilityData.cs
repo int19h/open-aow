@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (enabled, level)
-public partial class DispelMagicAbilityData : AbilityData
+public partial class DispelMagicAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131789;
-
-    public DispelMagicAbilityData(CustomNode owner) : base(owner)
-    { }
 
     public bool Enabled { get; set; }
     public byte Level { get; set; }

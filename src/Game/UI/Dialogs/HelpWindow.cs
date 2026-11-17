@@ -9,11 +9,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, help event
-public partial class HelpWindow : UIModule
+public partial class HelpWindow(UIContext ui) : UIModule(ui)
 {
-    public HelpWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public VerticalScrollBar HelpScrollBar { get; private set; }
     public Memo HeaderMemo { get; private set; }

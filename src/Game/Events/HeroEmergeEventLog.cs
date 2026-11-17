@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Events;
 
 // UnitId. _emergeDay. Text. Mode. LocationName
-public partial class HeroEmergeEventLog : EventLog
+public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
 {
-    public HeroEmergeEventLog(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131832;
 
     public int UnitId { get; set; }
@@ -120,8 +117,11 @@ public partial class HeroEmergeEventLog : EventLog
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
-            result = new HeroJoinEventLog(null) { Holder = CreationHolder() };
-            result.JoinIndex = Id;
+            result = new HeroJoinEventLog(null)
+            {
+                Holder = CreationHolder(),
+                JoinIndex = Id
+            };
             switch (_mode)
             {
                 case HeroJoinMode.Emerged:

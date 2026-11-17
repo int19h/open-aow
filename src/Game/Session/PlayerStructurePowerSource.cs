@@ -8,11 +8,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
 
-public partial class PlayerStructurePowerSource : PowerSource
+public partial class PlayerStructurePowerSource(CustomNode owner) : PowerSource(owner)
 {
-    public PlayerStructurePowerSource(CustomNode owner) : base(owner)
-    { }
-
     private PlayerStructure _structure;
 
     // Structur.PAS:2509

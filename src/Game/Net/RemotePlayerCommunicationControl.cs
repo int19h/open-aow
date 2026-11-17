@@ -10,6 +10,8 @@ namespace Aow.Game.Net;
 // sends through OnSendData and hands what arrives to DataReceived
 public partial class RemotePlayerCommunicationControl : PlayerCommunicationControl
 {
+    public RemotePlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
+
     private int _localSystemId;
 
     internal PackageDataList PackageDataList { get; }
@@ -87,9 +89,6 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
 
         return result;
     }
-
-    // NetworkE.pas:759
-    public RemotePlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
 
     // NetworkE.pas:765
     public override void Dispose()

@@ -8,10 +8,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TowerConstructionControl : StructureConstructionControl
+public partial class TowerConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
-    public TowerConstructionControl(CustomNode owner) : base(owner)
-    { }
 
     // Tower.pas:139
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)

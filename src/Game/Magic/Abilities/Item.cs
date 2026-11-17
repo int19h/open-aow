@@ -26,6 +26,14 @@ namespace Aow.Game.Magic.Abilities;
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
 public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
+    public Item(CustomNode owner) : base(owner)
+    {
+        _itemGraphicsIndex = -1;
+        _description = new StringList();
+        LibraryId = -1;
+        RefCount = 1;
+    }
+
     public new const int ClassId = 131688;
 
     // An item lies in an item list, a hero's inventory, the items a hero wears or an item
@@ -36,15 +44,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     ItemOwner IOwned<ItemOwner>.Owner => ItemOwner.Of(Owner);
 
     void IOwnedSink<ItemOwner>.SetOwner(ItemOwner owner) => SetOwner(owner.Node);
-
-    // Army.PAS:4211
-    public Item(CustomNode owner) : base(owner)
-    {
-        _itemGraphicsIndex = -1;
-        _description = new StringList();
-        LibraryId = -1;
-        RefCount = 1;
-    }
 
     public int ItemId { get; set; }
     public string OwnerName { get; set; } = "";
@@ -279,9 +278,12 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         ItemTokenEvent eventValue;
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
-            eventValue = new ItemTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.ItemId = ItemId;
-            eventValue.HeroId = hero.UnitId;
+            eventValue = new ItemTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                ItemId = ItemId,
+                HeroId = hero.UnitId
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;

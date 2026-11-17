@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AICastSpellActionList : OwningNode, IChildList<AICastSpellAction>
+public partial class AICastSpellActionList(CustomNode owner) : OwningNode(owner), IChildList<AICastSpellAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AICastSpellAction.
@@ -13,9 +13,6 @@ public partial class AICastSpellActionList : OwningNode, IChildList<AICastSpellA
     protected sealed override bool AcceptsChild(EngineObject child) => child is AICastSpellAction;
 
     int IChildSink<AICastSpellAction>.AddChild(AICastSpellAction child) => AddChild(child);
-
-    public AICastSpellActionList(CustomNode owner) : base(owner)
-    { }
 
     // Spells.PAS:1535
     // inherited children

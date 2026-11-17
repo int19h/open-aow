@@ -10,13 +10,9 @@ namespace Aow.Game.UI.Controls;
 //   to the control. }
 // Fields: FAnimate, FAnimFrameDelay, FFrameCount (updates left until the next image),
 // _animationStart, _currentImage, _animationEnd, _imageLibrary
-public partial class Image : Control
+public partial class Image(Component owner) : Control(owner)
 {
-    public Image(Component owner) : base(owner)
-    { }
-
     private bool _animate;
-    private int _animationFrameDelay;
     private int _frameCount;
     private int _animationStart;
     private int _currentImage;
@@ -50,7 +46,7 @@ public partial class Image : Control
             }
             else
             {
-                _frameCount = _animationFrameDelay;
+                _frameCount = AnimationFrameDelay;
                 i = _currentImage + 1;
                 if (i > _animationEnd)
                 {
@@ -166,7 +162,7 @@ public partial class Image : Control
     public bool Animate { get => _animate; set => SetAnimation(value); }
 
     [Published]
-    public int AnimationFrameDelay { get => _animationFrameDelay; set => _animationFrameDelay = value; }
+    public int AnimationFrameDelay { get; set; }
 
     public new event NotifyEvent<Image> OnChange
     {

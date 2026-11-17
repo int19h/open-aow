@@ -90,9 +90,12 @@ public partial class TownQuake : CityTargetSpell
         bool damaged;
         int damage;
         Troop troop;
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText);
-        log.Player = source.Player;
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText),
+            Player = source.Player
+        };
         string townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
         _ = log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;

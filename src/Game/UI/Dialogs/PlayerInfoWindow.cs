@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PlayerInfoWindow : UIModule
+public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
 {
-    public PlayerInfoWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public ListBox EventList { get; private set; }
     public Label OfTheLabel { get; private set; }

@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecutorUnit>
+public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorUnit>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorUnit.
@@ -16,9 +16,6 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorUnit;
 
     int IChildSink<AIMoveExecutorUnit>.AddChild(AIMoveExecutorUnit child) => AddChild(child);
-
-    public AIMoveExecutorUnitList(CustomNode owner) : base(owner)
-    { }
 
     // AIGroup.pas:4328
     public AIMoveExecutorUnit GetUnits(int index) => this[index];

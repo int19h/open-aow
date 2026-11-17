@@ -6,10 +6,8 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P2. }
-public partial class UnitResourceAbilityOwner : AbilityOwner
+public partial class UnitResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
 {
-    public UnitResourceAbilityOwner(CustomNode owner) : base(owner)
-    { }
 
     // Army.PAS:6125
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);

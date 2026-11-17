@@ -158,9 +158,9 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(GamePack), "_imageLibraryManager").SetValue(Owner, _manager);
-                Field(typeof(ImageLibraryManager), "_searchPath").SetValue(_manager, "9.3b-2-missing/");
-                ImageLibraryManagerList disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
+                Field(typeof(GamePack), "ImageLibraryManager").SetValue(Owner, _manager);
+                Field(typeof(ImageLibraryManager), "SearchPath").SetValue(_manager, "9.3b-2-missing/");
+                ImageLibraryManagerList disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "DiskList").GetValue(_manager)!;
                 if (directory is null)
                 {
                     Entry = disk.AddImageLibraryFile("Flags.ILB");
@@ -172,7 +172,7 @@ public sealed class ControlStyleConstructionTests
                 }
                 if (loaded)
                 {
-                    Field(typeof(ImageLibraryManagerObject), "_imageLibrary").SetValue(Entry, new ImageLibrary(null!));
+                    Field(typeof(ImageLibraryManagerObject), "ImageLibrary").SetValue(Entry, new ImageLibrary(null!));
                 }
 
                 GamePack.Current = Owner;

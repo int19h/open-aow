@@ -7,11 +7,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Windows;
 
 // extended drawing event
-public partial class UserWindow : Window
+public partial class UserWindow(Component owner) : Window(owner)
 {
-    public UserWindow(Component owner) : base(owner)
-    { }
-
     [Published]
     public event DrawSurfaceExEvent OnCustomDrawSurface;
 

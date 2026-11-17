@@ -9,12 +9,9 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TurnUndeadCombatAction : DamageCombatAction
+public partial class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131769;
-
-    public TurnUndeadCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // AoWAb.PAS:3088
     public override void Execute(Battle combat)

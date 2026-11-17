@@ -6,11 +6,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
 
-public partial class PlayerStructureIncomeSource : IncomeSource
+public partial class PlayerStructureIncomeSource(CustomNode owner) : IncomeSource(owner)
 {
-    public PlayerStructureIncomeSource(CustomNode owner) : base(owner)
-    { }
-
     private PlayerStructure _structure;
 
     // Structur.PAS:2486

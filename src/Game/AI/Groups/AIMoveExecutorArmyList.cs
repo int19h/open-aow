@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // armies
-public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecutorArmy>
+public partial class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorArmy.
@@ -18,9 +18,6 @@ public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecu
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorArmy;
 
     int IChildSink<AIMoveExecutorArmy>.AddChild(AIMoveExecutorArmy child) => AddChild(child);
-
-    public AIMoveExecutorArmyList(CustomNode owner) : base(owner)
-    { }
 
     // AIGroup.pas:4642
     public AIMoveExecutorArmy GetArmies(int index) => this[index];

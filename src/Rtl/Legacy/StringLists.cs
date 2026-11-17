@@ -267,7 +267,6 @@ public class StringList : StringCollection
 
     private StringItem[] items = [];
     private int count;
-    private bool sorted;
 
     public override int Count => count;
     // CLASSES.PAS TStringList.SetCapacity.
@@ -326,7 +325,7 @@ public class StringList : StringCollection
     protected override void PutObject(int index, object? value) { Check(index); Changing(); items[index].Object = value; Changed(); }
 
     // CLASSES.PAS TStringList.SetSorted.
-    public bool Sorted { get => sorted; set { if (sorted == value) { return; } if (value) { Sort(); } sorted = value; } }
+    public bool Sorted { get; set { if (field == value) { return; } if (value) { Sort(); } field = value; } }
 
     // CLASSES.PAS TStringList.Grow.
     private void Grow() => Capacity += Capacity > 64 ? Capacity / 4 : Capacity > 8 ? 16 : 4;

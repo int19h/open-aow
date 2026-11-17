@@ -4,7 +4,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
-public partial class SubMoveList : OwningNode, IChildList<PathFindingStep>
+public partial class SubMoveList(CustomNode owner) : OwningNode(owner), IChildList<PathFindingStep>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PathFindingStep, so the cast never fails.
@@ -13,9 +13,6 @@ public partial class SubMoveList : OwningNode, IChildList<PathFindingStep>
     protected sealed override bool AcceptsChild(EngineObject child) => child is PathFindingStep;
 
     int IChildSink<PathFindingStep>.AddChild(PathFindingStep child) => AddChild(child);
-
-    public SubMoveList(CustomNode owner) : base(owner)
-    { }
 
     // MoveT.PAS:39
     public PathFindingStep GetSubMove(int index) => this[index];

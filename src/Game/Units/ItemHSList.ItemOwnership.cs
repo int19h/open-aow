@@ -6,7 +6,7 @@ namespace Aow.Game.Units;
 
 public partial class ItemHSList
 {
-    internal ItemHexSprite Sprite { get; set; }
+    internal ItemHexSprite Sprite { get; set; } = null!;
 
     public override GameEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 

@@ -7,13 +7,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
+public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1162
     public new const int ClassId = 131787;
-
-    public MindDecayCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:1168
     public override void Execute(Battle combat)

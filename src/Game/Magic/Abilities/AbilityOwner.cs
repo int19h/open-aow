@@ -18,15 +18,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Magic.Abilities;
 
 // (AbilityData,)
-public partial class AbilityOwner : CustomAbilityList
+public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 {
-
-    // Ability.PAS:1663
-    public AbilityOwner(CustomNode owner) : base(owner)
-    {
-
-    }
-
     public AbilityData AbilityData { get; set; }
 
     // Ability.PAS:1762

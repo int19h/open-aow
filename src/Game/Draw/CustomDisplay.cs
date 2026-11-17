@@ -39,14 +39,10 @@ public partial class CustomDisplay : Component
 
     internal int FrameTime { get; private set; }
 
-    private int _currentFrameRate;
-
-    public int CurrentFrameRate { get => _currentFrameRate; internal set => _currentFrameRate = value; }
+    public int CurrentFrameRate { get; internal set; }
     public Set<DisplayStatusElement> Status { get; private set; }
 
-    private Set<OptionsElement> _options;
     private UpdateFrameMode _updateFrameMode;
-    private BackSurfaceControlMode _backSurfaceControlMode;
     private BufferingScheme _bufferingScheme;
     private int _backSurfaceWidth;
     private int _backSurfaceHeight;
@@ -56,14 +52,11 @@ public partial class CustomDisplay : Component
     // direct frame blit
     private int _pauseCount;
     private bool _mouseAboveSurface;
-    private DisplayController _primaryDisplayController;
-    private DisplayController _secondaryDisplayController;
-    private DisplayController _activeDisplayController;
 
     // DisplayC.pas:1397
     internal void SetBufferingScheme(BufferingScheme value)
     {
-        if (_activeDisplayController == null)
+        if (ActiveDisplayController == null)
         {
             _bufferingScheme = value;
         }
@@ -92,7 +85,7 @@ public partial class CustomDisplay : Component
         if (!Status.Contains(DisplayStatusElement.FrameLoopActive))
         {
             _updateFrameMode = value;
-            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && _options.Contains(OptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
+            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && Options.Contains(OptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
             {
                 StartUpdateFrameLoop();
             }
@@ -230,13 +223,13 @@ public partial class CustomDisplay : Component
         switch (index)
         {
             case -1:
-                result = _activeDisplayController;
+                result = ActiveDisplayController;
                 break;
             case 0:
-                result = _primaryDisplayController;
+                result = PrimaryDisplayController;
                 break;
             case 1:
-                result = _secondaryDisplayController;
+                result = SecondaryDisplayController;
                 break;
             default:
                 result = null;
@@ -258,11 +251,11 @@ public partial class CustomDisplay : Component
     {
         _backSurfaceWidth = width;
         _backSurfaceHeight = height;
-        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && _activeDisplayController != null && _bufferingScheme != BufferingScheme.Single)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && ActiveDisplayController != null && _bufferingScheme != BufferingScheme.Single)
         {
-            if (_activeDisplayController.GetSurface(1).Width != width || _activeDisplayController.GetSurface(1).Height != height)
+            if (ActiveDisplayController.GetSurface(1).Width != width || ActiveDisplayController.GetSurface(1).Height != height)
             {
-                _ = _activeDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
+                _ = ActiveDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
                 for (int i = 1, last = (int)_bufferingScheme; i <= last; i++)
                 {
                     SurfaceDataLost(i);
@@ -270,14 +263,14 @@ public partial class CustomDisplay : Component
             }
         }
 
-        OnResizeBackSurface?.Invoke(_activeDisplayController, width, height);
+        OnResizeBackSurface?.Invoke(ActiveDisplayController, width, height);
     }
 
     // DisplayC.pas:1486
-    public virtual void SurfaceDataLost(int surfaceType) => OnSurfaceDataLost?.Invoke(_activeDisplayController, surfaceType);
+    public virtual void SurfaceDataLost(int surfaceType) => OnSurfaceDataLost?.Invoke(ActiveDisplayController, surfaceType);
 
     // DisplayC.pas:1469
-    public virtual void GetMousePosition(ref int X, ref int Y) => _activeDisplayController?.GetMousePosition(ref X, ref Y);
+    public virtual void GetMousePosition(ref int X, ref int Y) => ActiveDisplayController?.GetMousePosition(ref X, ref Y);
 
     // DisplayC.pas:1630
     public virtual int ExecuteBlitSurfaceEvent()
@@ -286,29 +279,29 @@ public partial class CustomDisplay : Component
         try
         {
             result = 0;
-            if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
+            if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
                 OnBlitSurface?.Invoke(this);
 
                 if (_bufferingScheme != BufferingScheme.Single)
                 {
-                    switch (_backSurfaceControlMode)
+                    switch (BackSurfaceControlMode)
                     {
                         case BackSurfaceControlMode.PageFlipping:
-                            result = _activeDisplayController.FlipSurface(SurfaceIndex);
+                            result = ActiveDisplayController.FlipSurface(SurfaceIndex);
                             break;
                         case BackSurfaceControlMode.BlitSurface:
-                            result = _activeDisplayController.BlitSurface(SurfaceIndex);
+                            result = ActiveDisplayController.BlitSurface(SurfaceIndex);
                             break;
                         case BackSurfaceControlMode.BlitInvalidatedSurface:
-                            result = _activeDisplayController.BlitInvalidatedSurface(SurfaceIndex);
+                            result = ActiveDisplayController.BlitInvalidatedSurface(SurfaceIndex);
                             break;
                     }
                 }
 
-                if (_options.Contains(OptionsElement.ShowFrameRate))
+                if (Options.Contains(OptionsElement.ShowFrameRate))
                 {
-                    _activeDisplayController.ShowFrameRate();
+                    ActiveDisplayController.ShowFrameRate();
                 }
             }
         }
@@ -326,18 +319,18 @@ public partial class CustomDisplay : Component
     {
         OnHide?.Invoke(this);
 
-        if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (ActiveDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            _ = _activeDisplayController.Hide();
+            _ = ActiveDisplayController.Hide();
         }
     }
 
     // DisplayC.pas:1661
     public void Show()
     {
-        if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (ActiveDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            _ = _activeDisplayController.Show();
+            _ = ActiveDisplayController.Show();
         }
 
         OnShow?.Invoke(this);
@@ -353,27 +346,27 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1755
     public int DeactivateDisplayController()
     {
-        if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
+        if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            OnDeactivateDisplayController?.Invoke(this, _activeDisplayController);
+            OnDeactivateDisplayController?.Invoke(this, ActiveDisplayController);
 
-            _ = _activeDisplayController.Deactivate();
-            _activeDisplayController = null;
+            _ = ActiveDisplayController.Deactivate();
+            ActiveDisplayController = null;
         }
 
         return 0;
     }
 
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public DisplayController ActiveDisplayController => _activeDisplayController;
-    protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
+    public DisplayController ActiveDisplayController { get; private set; }
+    protected internal Set<OptionsElement> Options { get; set; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
-    protected internal BackSurfaceControlMode BackSurfaceControlMode { get => _backSurfaceControlMode; set => _backSurfaceControlMode = value; }
+    protected internal BackSurfaceControlMode BackSurfaceControlMode { get; set; }
     protected internal int BackSurfaceWidth { get => _backSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => _backSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => _frameRate; set => SetFrameRate(value); }
-    protected internal DisplayController PrimaryDisplayController { get => _primaryDisplayController; set => _primaryDisplayController = value; }
-    protected internal DisplayController SecondaryDisplayController { get => _secondaryDisplayController; set => _secondaryDisplayController = value; }
+    protected internal DisplayController PrimaryDisplayController { get; set; }
+    protected internal DisplayController SecondaryDisplayController { get; set; }
     protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
 
     private const int DCERR_ACTIVATEFAILED = -2147414014;

@@ -8,11 +8,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class GameOverTokenEvent : TokenEvent
+public partial class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public GameOverTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135441;
 
     public sbyte Player { get; set; }

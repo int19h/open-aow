@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // retained unit spell caster
-public partial class CastUnitSpellDialog : UIModule
+public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 {
-    public CastUnitSpellDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
     public Panel TopPanel { get; private set; }

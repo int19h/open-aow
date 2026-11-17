@@ -173,10 +173,10 @@ public sealed class EngineLeafConstructionTests
                     break;
                 case PropertyTable table:
                     Assert.Empty(Field<Array>(table, "_items")); Assert.Empty(Field<Array>(table, "_stack"));
-                    Assert.Equal(0, Field<int>(table, "_count")); Assert.Equal(0, Field<int>(table, "_capacity"));
+                    Assert.Equal(0, Field<int>(table, "Count")); Assert.Equal(0, Field<int>(table, "_capacity"));
                     Assert.Equal(0, Field<int>(table, "_nextIndex")); Assert.Equal(0, Field<int>(table, "_maxId"));
                     Assert.Equal(0, Field<int>(table, "_stackCount")); Assert.Equal(0, Field<int>(table, "_stackCapacity"));
-                    Assert.Equal(0, Field<int>(table, "_first"));
+                    Assert.Equal(0, Field<int>(table, "First"));
                     break;
                 case QuadItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

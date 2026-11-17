@@ -11,12 +11,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class EntangleCombatAction : SingleTargetCombatAction
+public partial class EntangleCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131774;
-
-    public EntangleCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public bool Successful { get; private set; }
 

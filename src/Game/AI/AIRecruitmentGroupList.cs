@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI;
 
 // children
-public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecruitmentGroup>
+public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(owner), IChildList<AIRecruitmentGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIRecruitmentGroup, so the cast never fails.
@@ -18,9 +18,6 @@ public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecrui
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIRecruitmentGroup;
 
     int IChildSink<AIRecruitmentGroup>.AddChild(AIRecruitmentGroup child) => AddChild(child);
-
-    public AIRecruitmentGroupList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The recruitment groups of this list, in their stored order.</summary>
     public AIRecruitmentGroupCollection Groups => new(this);

@@ -9,13 +9,10 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // inherited source ID, target ID, mana, success, spell ID
-public partial class AnimateDeadCombatAction : ExclusiveCombatSpellCombatAction
+public partial class AnimateDeadCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:2021
     public new const int ClassId = 131782;
-
-    public AnimateDeadCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:2024
     public override void Execute(Battle combat)

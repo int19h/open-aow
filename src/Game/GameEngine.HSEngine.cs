@@ -24,11 +24,7 @@ namespace Aow.Game;
 // compressed). the event lists are told when a map or a set is loaded or closed
 public partial class GameEngine : OwningNode
 {
-    private Set<HexSpriteEngineStatusElement> _status;
-    private GamePack _hexSpriteSet;
     private GameMap _hexSpriteMap;
-    private string _hexSpriteSetSearchPath = "";
-    private string _hssFileName = "";
 
     internal EventStore<GameMap> OnHsmLoadedStore { get; set; }
 
@@ -86,7 +82,7 @@ public partial class GameEngine : OwningNode
             SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, owner: this));
             string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             if (edit)
             {
                 _hexSpriteMap.Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
@@ -106,7 +102,7 @@ public partial class GameEngine : OwningNode
                 SetHexSpriteMap(null);
             }
 
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -144,7 +140,7 @@ public partial class GameEngine : OwningNode
         {
             result = CreateEngineObject<GameMap>(tree.ClassId, owner: this);
             result.FileName = ExpandFileName(fileName);
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
             {
                 ReadTree(tree, objectValue: result, progress: null, preview: true);
@@ -155,7 +151,7 @@ public partial class GameEngine : OwningNode
                 result = null;
             }
 
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -176,14 +172,14 @@ public partial class GameEngine : OwningNode
     {
         if (_hexSpriteMap != null)
         {
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
             {
                 FileBoundary.Save(fileName, profile: profile, root: _hexSpriteMap, progress: progress);
             }
             finally
             {
-                _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+                Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             }
         }
     }
@@ -192,8 +188,8 @@ public partial class GameEngine : OwningNode
     public virtual void CloseHss()
     {
         _onHssCloseStore.Raise(this);
-        _hexSpriteSet.Clear();
-        _hssFileName = "noname.hss";
+        HexSpriteSet.Clear();
+        HssFileName = "noname.hss";
     }
 
     // HSEngine.pas:4967
@@ -251,21 +247,21 @@ public partial class GameEngine : OwningNode
     {
         EngineMessage message = default;
         GameFileTree tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
-        _hexSpriteSet.Clear();
-        _hssFileName = ExpandFileName(fileName);
-        _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
+        HexSpriteSet.Clear();
+        HssFileName = ExpandFileName(fileName);
+        Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
         try
         {
-            ReadTree(tree, objectValue: _hexSpriteSet, progress: progress);
-            ActivateEngineObject(_hexSpriteSet);
+            ReadTree(tree, objectValue: HexSpriteSet, progress: progress);
+            ActivateEngineObject(HexSpriteSet);
             EngineMessage.InitializeMessage(out message, 65556, this);
-            _hexSpriteSet.MessageProc(ref message, this);
+            HexSpriteSet.MessageProc(ref message, this);
             ControlNode.MessageProc(ref message, this);
             _onHssLoadedStore.Raise(this);
         }
         finally
         {
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
         }
     }
 
@@ -275,18 +271,18 @@ public partial class GameEngine : OwningNode
     public void SaveHss(string fileName, ProgressEvent progress, GameProfile profile)
     {
         HssHeader header = default;
-        if (_hexSpriteSet != null)
+        if (HexSpriteSet != null)
         {
-            header.Name = _hexSpriteSet.Name;
-            _hssFileName = ExpandFileName(fileName);
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
+            header.Name = HexSpriteSet.Name;
+            HssFileName = ExpandFileName(fileName);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
             try
             {
-                FileBoundary.Save(_hssFileName, profile: profile, root: _hexSpriteSet, progress: progress, headerName: header.Name);
+                FileBoundary.Save(HssFileName, profile: profile, root: HexSpriteSet, progress: progress, headerName: header.Name);
             }
             finally
             {
-                _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
+                Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
             }
         }
     }
@@ -312,7 +308,7 @@ public partial class GameEngine : OwningNode
             _hexSpriteMap.Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
             string expandFileName = ExpandFileName(fileName);
             _hexSpriteMap.FileName = expandFileName;
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
             {
                 ReadTree(tree, objectValue: _hexSpriteMap, progress: null);
@@ -323,7 +319,7 @@ public partial class GameEngine : OwningNode
                 SetHexSpriteMap(null);
             }
 
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -346,7 +342,7 @@ public partial class GameEngine : OwningNode
         {
             result = CreateEngineObject<GameMap>(tree.ClassId, owner: null);
             result.FileName = fullName;
-            _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             if (edit)
             {
                 result.Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
@@ -366,7 +362,7 @@ public partial class GameEngine : OwningNode
                 result = null;
             }
 
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -404,7 +400,7 @@ public partial class GameEngine : OwningNode
                     ? ReadOwnMap(payload)
                     : GameBoundary.ReadImageTree(payload, use: GameProfile.WorldMap);
                 SetHexSpriteMap(CreateEngineObject<GameMap>(tree.ClassId, owner: this));
-                _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+                Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                 if (edit)
                 {
                     _hexSpriteMap.Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
@@ -424,7 +420,7 @@ public partial class GameEngine : OwningNode
                     SetHexSpriteMap(null);
                 }
 
-                _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+                Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             }
             finally
             {
@@ -447,7 +443,7 @@ public partial class GameEngine : OwningNode
             return;
         }
 
-        _status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+        Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
         try
         {
             ObjectNode tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
@@ -482,7 +478,7 @@ public partial class GameEngine : OwningNode
         }
         finally
         {
-            _status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
+            Status -= Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
         }
     }
 
@@ -505,14 +501,14 @@ public partial class GameEngine : OwningNode
     {
         EngineMessage message = default;
         fileName = FileBoundary.ReadName(fileName);
-        if (_hexSpriteSet == null || CompareText(fileName, _hssFileName) != 0)
+        if (HexSpriteSet == null || CompareText(fileName, HssFileName) != 0)
         {
             LoadHss(fileName, false, progress, GameProfile.ScenarioSet);
         }
         else
         {
             EngineMessage.InitializeMessage(out message, 65557, this);
-            _hexSpriteSet.MessageProc(ref message, this);
+            HexSpriteSet.MessageProc(ref message, this);
         }
     }
 
@@ -532,14 +528,14 @@ public partial class GameEngine : OwningNode
         return _hexSpriteMap;
     }
 
-    public Set<HexSpriteEngineStatusElement> Status => _status;
-    public GamePack HexSpriteSet => _hexSpriteSet;
+    public Set<HexSpriteEngineStatusElement> Status { get; private set; }
+    public GamePack HexSpriteSet { get; private set; }
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
 
     internal void SetHexSpriteMapWithoutCurrentMap(GameMap value) => _hexSpriteMap = value;
 
-    public string HexSpriteSetSearchPath { get => _hexSpriteSetSearchPath; set => _hexSpriteSetSearchPath = value; }
-    public string HssFileName => _hssFileName;
+    public string HexSpriteSetSearchPath { get; set; } = "";
+    public string HssFileName { get; private set; } = "";
 
     public event NotifyEvent<GameMap> OnHsmLoaded
     {

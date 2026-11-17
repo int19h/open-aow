@@ -9,11 +9,8 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class FleeLocation : MapObject
+public partial class FleeLocation(CustomNode owner) : MapObject(owner)
 {
-    public FleeLocation(CustomNode owner) : base(owner)
-    {
-    }
 
     // FleeLoc.pas:76
     public new const int ClassId = 2229544;
@@ -127,10 +124,8 @@ public partial class FleeLocation : MapObject
         }
     }
 
-    public new partial class Resource : MapObjectResource
+    public new partial class Resource(CustomNode owner) : MapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // FleeLoc.pas:163
         public new const int ClassId = 2229545;

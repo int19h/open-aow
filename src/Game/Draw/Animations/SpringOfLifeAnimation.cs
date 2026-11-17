@@ -5,10 +5,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class SpringOfLifeAnimation : Animation
+public partial class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
 {
-    public SpringOfLifeAnimation(CustomNode owner) : base(owner)
-    { }
 
     // Spring.pas:64
     public override void NewFrame()

@@ -11,6 +11,8 @@ namespace Aow.Game.Draw;
 // (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
 public partial class DisplayController : Component
 {
+    public DisplayController(Component owner) : base(owner) => _inverseMatrix = new Matrix(4, 4);
+
     // DisplayC.pas:554
     public virtual Surface GetSurface(int index) => null;
 
@@ -141,8 +143,6 @@ public partial class DisplayController : Component
     internal Rect PrimarySurfaceRegion { get; private set; }
 
     private Matrix _inverseMatrix;
-
-    public DisplayController(Component owner) : base(owner) => _inverseMatrix = new Matrix(4, 4);
 
     // DisplayC.pas:1031
     public override void Dispose()

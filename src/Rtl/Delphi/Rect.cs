@@ -1,20 +1,12 @@
 namespace Aow.Rtl;
 
 // A rectangle (Delphi TRect). RectImage is its stored record.
-public struct Rect
+public struct Rect(int left, int top, int right, int bottom)
 {
-    public Rect(int left, int top, int right, int bottom)
-    {
-        Left = left;
-        Top = top;
-        Right = right;
-        Bottom = bottom;
-    }
-
-    public int Left { get; set; }
-    public int Top { get; set; }
-    public int Right { get; set; }
-    public int Bottom { get; set; }
+    public int Left { get; set; } = left;
+    public int Top { get; set; } = top;
+    public int Right { get; set; } = right;
+    public int Bottom { get; set; } = bottom;
 }
 
 public static partial class RtlUnit

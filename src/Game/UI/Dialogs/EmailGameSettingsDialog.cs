@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // editable email address list. setup control
-public partial class EmailGameSettingsDialog : UIModule
+public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
 {
-    public EmailGameSettingsDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Edit LocalEmailAddressEdit { get; private set; }
     public Edit EmailAddressEdit1 { get; private set; }

@@ -17,7 +17,6 @@ namespace Aow.Game.UI.Controls;
 // list of shown message IDs
 public partial class TutorialControl : EngineObject
 {
-    // AoWHSMap.PAS:1
     public TutorialControl(CustomNode owner) : base(owner) => _shownMessages = new Int32List();
 
     private readonly Int32List _shownMessages;

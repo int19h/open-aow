@@ -5,12 +5,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Units;
 
 // unit index, researched
-public partial class UnitProduction : EngineObject
+public partial class UnitProduction(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131737;
-
-    public UnitProduction(CustomNode owner) : base(owner)
-    { }
 
     public int UnitIndex { get; set; }
     public bool Researched { get; set; }

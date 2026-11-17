@@ -10,10 +10,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // Inherited single-hexagon sprite layout
-public partial class TacticalBattleOozeHexSprite : SingleHexSprite
+public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public TacticalBattleOozeHexSprite(CustomNode owner) : base(owner)
-    { }
 
     // AoWTC.pas:4092
     public new const int ClassId = 2228489;

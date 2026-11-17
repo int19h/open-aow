@@ -11,11 +11,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Commands;
 
 // save filename
-public partial class SaveGameTokenEvent : TokenEvent
+public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public SaveGameTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135444;
 
     public string FileName { get; set; } = "";

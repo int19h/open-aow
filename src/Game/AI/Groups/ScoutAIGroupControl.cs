@@ -10,10 +10,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class ScoutAIGroupControl : AIGroupControl
+public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public ScoutAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // IndependentAG.pas:671
     public override void MoveExecutorDone(object sender)

@@ -9,11 +9,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CampaignSettingsDialog : UIModule
+public partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
 {
-    public CampaignSettingsDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public ComboBox DifficultyLevelComboBox { get; private set; }
     public ComboBox TurnModeComboBox { get; private set; }

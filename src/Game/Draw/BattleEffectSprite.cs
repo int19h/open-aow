@@ -18,7 +18,6 @@ namespace Aow.Game.Draw;
 // Target. EffectType
 public partial class BattleEffectSprite : FixedVisibleHexSprite
 {
-
     public BattleEffectSprite(CustomNode owner) : base(owner)
     {
         Path = new Point3DList();

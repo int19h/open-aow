@@ -5,10 +5,8 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Events;
 
 // text
-public partial class TextEventLog : EventLog
+public partial class TextEventLog(CustomNode owner) : EventLog(owner)
 {
-    public TextEventLog(CustomNode owner) : base(owner)
-    { }
 
     // EventLog.pas:713
     public new const int ClassId = 131809;

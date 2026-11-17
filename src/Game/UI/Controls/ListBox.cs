@@ -34,10 +34,9 @@ public partial class ListBox : Control
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTextureNormal;
     private InterfaceImageLibrary _imageLibraryTextureSelected;
-    private int _itemHeight;
+
     [Published]
     public event NotifyEvent<ListBox> OnDoubleClick;
-    private TextAlignment _textAlign;
 
     public int FirstShownItem { get; private set; }
 
@@ -45,7 +44,6 @@ public partial class ListBox : Control
     private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexTNormal;
     private int _imageLibraryIndexTSelected;
-    private Menu _popupMenu;
     private int _drawItem;
     private Rect _drawItemRectangle;
 
@@ -62,7 +60,7 @@ public partial class ListBox : Control
         _items = items;
         _items.OnChange = OnChangeText;
         VisibleRows = 3;
-        _itemHeight = 10;
+        ItemHeight = 10;
     }
 
     // AoWListBox.pas:116
@@ -105,9 +103,9 @@ public partial class ListBox : Control
     // AoWListBox.pas:143
     public override void SetSize()
     {
-        if (_itemHeight < 1)
+        if (ItemHeight < 1)
         {
-            _itemHeight = 10;
+            ItemHeight = 10;
         }
 
         switch (_textOnly)
@@ -133,12 +131,12 @@ public partial class ListBox : Control
 
                 LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                VisibleRows = (WinHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / _itemHeight;
+                VisibleRows = (WinHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / ItemHeight;
                 _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
                 Masked = false;
                 break;
             case 1:
-                VisibleRows = WinHeight / _itemHeight;
+                VisibleRows = WinHeight / ItemHeight;
                 _scrollWidth = 0;
                 Masked = true;
                 break;
@@ -302,7 +300,7 @@ public partial class ListBox : Control
                     if (FirstShownItem + i < count)
                     {
                         _drawItem = FirstShownItem + i;
-                        _drawItemRectangle = new Rect(l, (_itemHeight * i) + t, l + w, ((i + 1) * _itemHeight) + t);
+                        _drawItemRectangle = new Rect(l, (ItemHeight * i) + t, l + w, ((i + 1) * ItemHeight) + t);
                         if (_drawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -315,7 +313,7 @@ public partial class ListBox : Control
                             base.Font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
-                                SizedRectangle rectangle = new(l, (_itemHeight * i) + t, w, _itemHeight);
+                                SizedRectangle rectangle = new(l, (ItemHeight * i) + t, w, ItemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }
@@ -324,23 +322,23 @@ public partial class ListBox : Control
                             base.Font.Color = Color;
                         }
 
-                        switch (_textAlign)
+                        switch (TextAlign)
                         {
                             case TextAlignment.Left:
                                 string item = _items[FirstShownItem + i];
-                                base.Font.SetText(BorderWidth + l, BorderHeight + t + (_itemHeight * i), item, lockedSurface);
+                                base.Font.SetText(BorderWidth + l, BorderHeight + t + (ItemHeight * i), item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 string item2 = _items[FirstShownItem + i];
                                 int textWidth = base.Font.GetTextWidth(item2);
                                 string item3 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + (_itemHeight * i), item3, lockedSurface);
+                                base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + (ItemHeight * i), item3, lockedSurface);
                                 break;
                             default:
                                 string item4 = _items[FirstShownItem + i];
                                 int fontTextWidth = base.Font.GetTextWidth(item4);
                                 string item5 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + (w / 2) - (fontTextWidth / 2), BorderHeight + t + (_itemHeight * i), item5, lockedSurface);
+                                base.Font.SetText(l + (w / 2) - (fontTextWidth / 2), BorderHeight + t + (ItemHeight * i), item5, lockedSurface);
                                 break;
                         }
 
@@ -373,11 +371,11 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                i = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
+                i = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
             {
-                i = ((Y - Window.WinTop - WinTop) / _itemHeight) + FirstShownItem;
+                i = ((Y - Window.WinTop - WinTop) / ItemHeight) + FirstShownItem;
             }
 
             if (_items.Count > i)
@@ -394,40 +392,40 @@ public partial class ListBox : Control
                     OnDoubleClick(this);
                 }
 
-                if (_selected > -1 && button == MouseButton.Right && _popupMenu != null)
+                if (_selected > -1 && button == MouseButton.Right && PopupMenu != null)
                 {
-                    _popupMenu.SetPopupOwner(this);
-                    _popupMenu.WinLeft = X;
-                    _popupMenu.WinTop = Y;
-                    if (_popupMenu.WindowManager != null)
+                    PopupMenu.SetPopupOwner(this);
+                    PopupMenu.WinLeft = X;
+                    PopupMenu.WinTop = Y;
+                    if (PopupMenu.WindowManager != null)
                     {
-                        if (_popupMenu.Hidden)
+                        if (PopupMenu.Hidden)
                         {
-                            if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
+                            if (PopupMenu.MenuLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                             {
-                                _popupMenu.WinLeft = X - _popupMenu.WinWidth;
+                                PopupMenu.WinLeft = X - PopupMenu.WinWidth;
                             }
 
-                            if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
+                            if (PopupMenu.MenuTop + PopupMenu.WinHeight > PopupMenu.WindowManager.WinHeight)
                             {
-                                _popupMenu.WinTop = Y - _popupMenu.WinHeight;
+                                PopupMenu.WinTop = Y - PopupMenu.WinHeight;
                             }
                         }
                         else
                         {
-                            if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
+                            if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                             {
-                                _popupMenu.WinLeft = X - _popupMenu.WinWidth;
+                                PopupMenu.WinLeft = X - PopupMenu.WinWidth;
                             }
 
-                            if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
+                            if (PopupMenu.WinTop + PopupMenu.WinHeight > PopupMenu.WindowManager.WinHeight)
                             {
-                                _popupMenu.WinTop = Y - _popupMenu.WinHeight;
+                                PopupMenu.WinTop = Y - PopupMenu.WinHeight;
                             }
                         }
                     }
 
-                    _popupMenu.Visible = true;
+                    PopupMenu.Visible = true;
                 }
             }
 
@@ -462,11 +460,11 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                HoverItem = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
+                HoverItem = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
             {
-                HoverItem = ((Y - Window.WinTop - WinTop) / _itemHeight) + FirstShownItem;
+                HoverItem = ((Y - Window.WinTop - WinTop) / ItemHeight) + FirstShownItem;
             }
 
             RaiseMouseMove(this, shift, X, Y);
@@ -620,13 +618,13 @@ public partial class ListBox : Control
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
     [Published]
-    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
+    public int ItemHeight { get; set; }
 
     [Published]
-    public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
+    public Menu PopupMenu { get; set; }
 
     [Published]
-    public TextAlignment TextAlign { get => _textAlign; set => _textAlign = value; }
+    public TextAlignment TextAlign { get; set; }
 
     public new event NotifyEvent<ListBox> OnChange
     {

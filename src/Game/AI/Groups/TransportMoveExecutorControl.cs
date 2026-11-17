@@ -12,10 +12,8 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // meeting point
-public partial class TransportMoveExecutorControl : AIMoveExecutorControl
+public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
 {
-    public TransportMoveExecutorControl(CustomNode owner) : base(owner)
-    { }
 
     // A path step with its cost, copied to the units' arrival points (see AIMoveExecutorUnit).
     private PathStep _meetingPoint;

@@ -8,10 +8,8 @@ namespace Aow.Game.UI.Controls;
 
 // the vertical scroll bar, the decrement button at the top and the increment button at the
 // bottom
-public partial class VerticalScrollBar : ScrollBar
+public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
 {
-    public VerticalScrollBar(Component owner) : base(owner)
-    { }
 
     // AoWVScroll.pas:408
     // { SetSize takes the width from the images and sizes the track and the tab: the tab of a line is

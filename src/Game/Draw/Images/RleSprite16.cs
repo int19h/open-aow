@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Images;
 // TSprite16). The data is FSpriteHeight rows. a row is a word with its size in bytes (the
 // header included), a zero word, then pixels and skips (the color key and the size of the skip
 // in bytes), padded with the color key to a dword
-public partial class RleSprite16 : Image16, ILibraryImageClass
+public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 17;
     static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
@@ -26,11 +26,6 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     private int _spriteY;
     private int _spriteWidth;
     private int _spriteHeight;
-
-    // ImageLib.pas:2881
-    public RleSprite16(CustomImageLibrary owner) : base(owner)
-    {
-    }
 
     // ImageLib.pas:2896
     public override void SetXshift(int value)

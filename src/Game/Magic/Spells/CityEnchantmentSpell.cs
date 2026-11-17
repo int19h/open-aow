@@ -16,14 +16,13 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
 public partial class CityEnchantmentSpell : CityTargetSpell
 {
+    public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
+
     public CityEnchantmentId EnchantmentId { get; protected set; }
     public int EnchantmentSpellId { get; protected set; }
     public int AIPriority { get; protected set; }
     public int AIBudget { get; protected set; }
     public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
-
-    // CitySpells.pas:554
-    public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
 
     // CitySpells.pas:576
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
@@ -31,9 +30,12 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         City targetCity;
         CityEnchantment enchantment;
         targetCity = eventValue.GetSelectedCity();
-        enchantment = new CityEnchantment(null) { Holder = CreationHolder() };
-        enchantment.CityEnchantmentId = EnchantmentId;
-        enchantment.EnchantmentManaUpkeep = ManaUpkeep;
+        enchantment = new CityEnchantment(null)
+        {
+            Holder = CreationHolder(),
+            CityEnchantmentId = EnchantmentId,
+            EnchantmentManaUpkeep = ManaUpkeep
+        };
         MapCoordinate mapCoordinate = targetCity.Owner.GetMapCoordinate();
         enchantment.EnchantmentLocation = mapCoordinate;
         enchantment.DispelMana = EnchantmentSpellId;

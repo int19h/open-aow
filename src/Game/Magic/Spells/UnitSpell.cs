@@ -168,10 +168,13 @@ public partial class UnitSpell : Spell
         UnitSpellCombatAction action;
         if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            action = new UnitSpellCombatAction(null) { Holder = CreationHolder() };
-            action.SpellId = SpellId;
-            action.SourceId = source.Id;
-            action.TargetId = target.Id;
+            action = new UnitSpellCombatAction(null)
+            {
+                Holder = CreationHolder(),
+                SpellId = SpellId,
+                SourceId = source.Id,
+                TargetId = target.Id
+            };
             if (chargeMana)
             {
                 action.Mana = BaseManaCost;
@@ -284,19 +287,15 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1400
     public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
     {
-        UnitSpellCombatAction result;
-        if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
-        {
-            result = new UnitSpellCombatAction(null) { Holder = CreationHolder() };
-            result.SpellId = SpellId;
-            result.SourceId = source.Id;
-            result.TargetId = target.Id;
-        }
-        else
-        {
-            result = null;
-        }
-
+        UnitSpellCombatAction result = SpellControlTypes.Contains(SpellControlTypeElement.Combat)
+            ? new UnitSpellCombatAction(null)
+            {
+                Holder = CreationHolder(),
+                SpellId = SpellId,
+                SourceId = source.Id,
+                TargetId = target.Id
+            }
+            : null;
         return result;
     }
 

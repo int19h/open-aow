@@ -11,11 +11,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class ArmyDefaultMoveTokenEvent : MoveArmyTokenEvent
+public partial class ArmyDefaultMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
-    public ArmyDefaultMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135428;
 
     // MoveT.PAS:2394

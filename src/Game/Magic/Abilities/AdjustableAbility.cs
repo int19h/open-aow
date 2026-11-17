@@ -4,13 +4,8 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability type)
-public partial class AdjustableAbility : Ability
+public partial class AdjustableAbility(CustomNode owner) : Ability(owner)
 {
-
-    public AdjustableAbility(CustomNode owner) : base(owner)
-    {
-    }
-
     public AbilityType AbilityType { get; protected set; }
 
     // AoWAb.PAS:1

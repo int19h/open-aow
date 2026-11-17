@@ -39,8 +39,11 @@ public partial class CombatSpell : Spell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
-        action.SpellId = SpellId;
+        action = new CombatSpellCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SpellId = SpellId
+        };
         action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         if (chargeMana && source is CombatUnit sourceUnit)
         {
@@ -141,11 +144,13 @@ public partial class CombatSpell : Spell
                     FastBattleGetDamageValues(wallSituation: commands.Source.Combat.GetWallSituation(commands.Source, target), source: commands.Source, target: target, values: ref values);
                     if (values.SourceDamage != 0)
                     {
-                        command = new FastBattleSpellCommand(52, creator: this);
-                        command.Target = commands.TargetSide.GetObjects(i);
-                        command.MoveCost = 1;
-                        command.SpellId = SpellId;
-                        command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
+                        command = new FastBattleSpellCommand(52, creator: this)
+                        {
+                            Target = commands.TargetSide.GetObjects(i),
+                            MoveCost = 1,
+                            SpellId = SpellId,
+                            ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target)
+                        };
                         commands.Add(command);
                     }
                 }

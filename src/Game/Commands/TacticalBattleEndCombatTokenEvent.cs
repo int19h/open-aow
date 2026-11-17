@@ -7,10 +7,8 @@ using Aow.Game.Net;
 
 namespace Aow.Game.Commands;
 
-public partial class TacticalBattleEndCombatTokenEvent : TokenEvent
+public partial class TacticalBattleEndCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public TacticalBattleEndCombatTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:158
     public new const int ClassId = 2236421;

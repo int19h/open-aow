@@ -18,10 +18,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWall : CombatImageLibraryTerrain
+public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
-    public CityWall(CustomNode owner) : base(owner)
-    { }
 
     // CityWall.pas:78
     public new const int ClassId = 2229508;
@@ -401,10 +399,8 @@ public partial class CityWall : CombatImageLibraryTerrain
 
     private static ReadOnlySpan<int> WallIsIndex => [30, 0];
 
-    public new partial class Resource : CombatImageLibraryTerrainResource
+    public new partial class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CityWall.pas:366
         public new const int ClassId = 2229509;

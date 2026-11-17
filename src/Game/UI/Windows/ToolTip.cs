@@ -19,10 +19,6 @@ public partial class ToolTip : GenericWindow
     private readonly StringList _items;
     [Published]
     public event NotifyEvent<ToolTip> OnDrawItem;
-    private bool _toolTipStatic;
-    private int _toolTipDelay;
-    private int _showDuration;
-    private int _itemHeight;
 
     public Rect ControlRectangle { get; set; }
 
@@ -32,10 +28,12 @@ public partial class ToolTip : GenericWindow
     public ToolTip(Component owner) : base(owner)
     {
         _lines = new StringList();
-        _items = new StringList();
-        _items.OnChange = OnChangeText;
-        _showDuration = 100;
-        _itemHeight = 10;
+        _items = new StringList
+        {
+            OnChange = OnChangeText
+        };
+        ShowDuration = 100;
+        ItemHeight = 10;
     }
 
     // AOWToolTip.pas:72
@@ -180,7 +178,7 @@ public partial class ToolTip : GenericWindow
             LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
             LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             int count = _lines.Count;
-            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * _itemHeight));
+            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * ItemHeight));
             string line6 = _lines[0];
             w = base.Font.GetTextWidth(line6);
             LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
@@ -327,7 +325,7 @@ public partial class ToolTip : GenericWindow
                             string line = _lines[i];
                             LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
                             LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (_itemHeight * i), line, lockedSurface);
+                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (ItemHeight * i), line, lockedSurface);
                             LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
@@ -370,16 +368,16 @@ public partial class ToolTip : GenericWindow
     public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public bool ToolTipStatic { get => _toolTipStatic; set => _toolTipStatic = value; }
+    public bool ToolTipStatic { get; set; }
 
     [Published]
-    public int ToolTipDelay { get => _toolTipDelay; set => _toolTipDelay = value; }
+    public int ToolTipDelay { get; set; }
 
     [Published]
-    public int ShowDuration { get => _showDuration; set => _showDuration = value; }
+    public int ShowDuration { get; set; }
 
     [Published]
-    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
+    public int ItemHeight { get; set; }
 
     public new event NotifyEvent<ToolTip> OnChange
     {

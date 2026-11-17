@@ -14,11 +14,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class HuntAIGroupControl : AIGroupControl
+public partial class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public HuntAIGroupControl(CustomNode owner) : base(owner)
-    { }
-
     public new HuntAIGroup Group => GetGroup<HuntAIGroup>();
 
     // AIGroup.pas:1479

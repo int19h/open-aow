@@ -16,12 +16,9 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (possession succeeded)
-public partial class PossessCombatAction : SingleTargetCombatAction
+public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131765;
-
-    public PossessCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public bool Successful { get; private set; }
 

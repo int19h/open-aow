@@ -5,7 +5,6 @@ namespace Aow.Game.Magic.Abilities;
 
 public partial class AbilityActivation : EngineObject
 {
-    // Ability.PAS:920
     public AbilityActivation(CustomNode owner) : base(owner) => _references = 1;
 
     private int _references;

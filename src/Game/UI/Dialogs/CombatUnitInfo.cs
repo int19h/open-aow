@@ -13,11 +13,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // components
-public partial class CombatUnitInfo : UIModule
+public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
 {
-    public CombatUnitInfo(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public Image UnitMovesIcon { get; private set; }
     public Label UnitAttackLabel { get; private set; }

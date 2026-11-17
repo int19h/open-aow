@@ -5,10 +5,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class Shipyard : ProductionPlace
+public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
 {
-    public Shipyard(CustomNode owner) : base(owner)
-    { }
 
     // Shipyard.pas:49
     public new const int ClassId = 132286;

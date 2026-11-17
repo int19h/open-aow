@@ -649,10 +649,13 @@ public static class AbilityRules
     internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes, GameEngine engine)
     {
         EnhancementAbility ability;
-        ability = new EnhancementAbility(null) { Holder = engine };
-        ability.AbilityId = id;
-        ability.AbilityName = name;
-        ability.SelectionTypes = selectionTypes;
+        ability = new EnhancementAbility(null)
+        {
+            Holder = engine,
+            AbilityId = id,
+            AbilityName = name,
+            SelectionTypes = selectionTypes
+        };
         return ability;
     }
 
@@ -681,10 +684,13 @@ public static class AbilityRules
     internal static bool EndPlayerTurn(sbyte player, GameEngine engine)
     {
         EndTurnTokenEvent eventValue;
-        eventValue = new EndTurnTokenEvent(null) { Holder = engine };
-        eventValue.Player = player;
-        eventValue.Day = StrategicMap.Current.Day;
-        eventValue.Mode = EndTurnTokenEventMode.EndTurn;
+        eventValue = new EndTurnTokenEvent(null)
+        {
+            Holder = engine,
+            Player = player,
+            Day = StrategicMap.Current.Day,
+            Mode = EndTurnTokenEventMode.EndTurn
+        };
         StrategicMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

@@ -14,11 +14,8 @@ namespace Aow.Game.UI.Windows;
 //   windows above it and to its owner. }
 // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
 // OnShow, OnHide
-public partial class BaseWindow : WindowControl
+public partial class BaseWindow(Component owner) : WindowControl(owner)
 {
-    public BaseWindow(Component owner) : base(owner)
-    { }
-
     public object Buffer { get; }
 
     [Published]

@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // caster, sort order, map location
-public partial class DisjunctionDialog : UIModule
+public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
 {
-    public DisjunctionDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label DisjunctionChanceLabel { get; private set; }
     public Label DisjunctionManaLabel { get; private set; }

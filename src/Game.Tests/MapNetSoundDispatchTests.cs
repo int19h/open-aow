@@ -54,8 +54,11 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void DynamicFieldsKeepTheirExactTypeAndCoordinates()
     {
-        SpecializedLevel level = new(null!) { Holder = EngineFixture.Engine };
-        level.HexLevel = 2;
+        SpecializedLevel level = new(null!)
+        {
+            Holder = EngineFixture.Engine,
+            HexLevel = 2
+        };
         level.CreateMapFieldList(3, 2);
         Assert.Equal(6, level.Fields.Length);
         for (int y = 0; y < 2; y++)

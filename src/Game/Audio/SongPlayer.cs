@@ -8,11 +8,8 @@ namespace Aow.Game.Audio;
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
 {
-    private string _currentSong = "";
-    private Set<StatusElement> _status;
     private readonly StringList _songs;
-    private readonly StringList _songNames;
-    private int _currentIndex;
+
     public event NotifyEvent<SongPlayer> OnSongChange;
 
     internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => OnSongChange = handler;
@@ -26,13 +23,13 @@ public partial class SongPlayer : IDisposable
     // Sound.pas:875
     internal void SongsChanged(object sender)
     {
-        _songNames.Clear();
+        SongNames.Clear();
         for (int i = _songs.Count - 1; i >= 0; i--)
         {
             try
             {
                 string songName = AudioPlayback.GetSongName(_songs[i]);
-                _songNames.Insert(0, songName);
+                SongNames.Insert(0, songName);
             }
             catch
             {
@@ -40,24 +37,24 @@ public partial class SongPlayer : IDisposable
             }
         }
 
-        if (_status.Contains(StatusElement.Playing))
+        if (Status.Contains(StatusElement.Playing))
         {
             if (_songs.Count != 0)
             {
-                if (_currentIndex != -1)
+                if (CurrentIndex != -1)
                 {
                     int count = _songs.Count;
-                    if (_currentIndex >= count || _songs[_currentIndex] != _currentSong)
+                    if (CurrentIndex >= count || _songs[CurrentIndex] != CurrentSong)
                     {
-                        _currentIndex = _songs.IndexOf(_currentSong);
-                        if (_currentIndex == -1)
+                        CurrentIndex = _songs.IndexOf(CurrentSong);
+                        if (CurrentIndex == -1)
                         {
-                            _currentSong = "";
+                            CurrentSong = "";
                         }
                     }
                 }
 
-                if (_currentIndex == -1 && !_status.Contains(StatusElement.Paused))
+                if (CurrentIndex == -1 && !Status.Contains(StatusElement.Paused))
                 {
                     _ = Play(0);
                 }
@@ -66,8 +63,8 @@ public partial class SongPlayer : IDisposable
             {
                 _ = (AudioHost.SoundSystem?.StopSong());
 
-                _currentIndex = -1;
-                _currentSong = "";
+                CurrentIndex = -1;
+                CurrentSong = "";
             }
         }
     }
@@ -75,39 +72,41 @@ public partial class SongPlayer : IDisposable
     // Sound.pas:854
     public SongPlayer()
     {
-        _songs = new StringList();
-        _songs.OnChange = SongsChanged;
-        _songNames = new StringList();
-        _currentIndex = -1;
+        _songs = new StringList
+        {
+            OnChange = SongsChanged
+        };
+        SongNames = new StringList();
+        CurrentIndex = -1;
     }
 
     // Sound.pas:863
     public virtual void Dispose()
     {
         _songs?.Dispose();
-        _songNames?.Dispose();
+        SongNames?.Dispose();
     }
 
     // Sound.pas:909
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (AudioHost.SoundSystem != null && _status.Contains(StatusElement.Playing) && !_status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
+        if (AudioHost.SoundSystem != null && Status.Contains(StatusElement.Playing) && !Status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
-            _currentIndex += 1;
-            if (_songs.Count <= _currentIndex)
+            CurrentIndex += 1;
+            if (_songs.Count <= CurrentIndex)
             {
-                _currentIndex = 0;
+                CurrentIndex = 0;
             }
 
             int count = _songs.Count;
-            if (_currentIndex < count)
+            if (CurrentIndex < count)
             {
-                _ = Play(_currentIndex);
+                _ = Play(CurrentIndex);
             }
             else
             {
-                _currentIndex = -1;
+                CurrentIndex = -1;
             }
         }
     }
@@ -118,19 +117,19 @@ public partial class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            _status += Set<StatusElement>.Of(StatusElement.Playing);
+            Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, false);
             if (result)
             {
-                _currentIndex = index;
-                _currentSong = _songs[index];
+                CurrentIndex = index;
+                CurrentSong = _songs[index];
                 OnSongChange?.Invoke(this);
             }
             else
             {
-                _currentSong = "";
-                _currentIndex = -1;
+                CurrentSong = "";
+                CurrentIndex = -1;
             }
         }
         else
@@ -147,19 +146,19 @@ public partial class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            _status += Set<StatusElement>.Of(StatusElement.Playing);
+            Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, 2, 0, false);
             if (result)
             {
-                _currentIndex = index;
-                _currentSong = _songs[index];
+                CurrentIndex = index;
+                CurrentSong = _songs[index];
                 OnSongChange?.Invoke(this);
             }
             else
             {
-                _currentSong = "";
-                _currentIndex = -1;
+                CurrentSong = "";
+                CurrentIndex = -1;
             }
         }
         else
@@ -178,7 +177,7 @@ public partial class SongPlayer : IDisposable
         {
             result = stopMusic && AudioHost.SoundSystem.StopSong();
 
-            _status -= Set<StatusElement>.Of(StatusElement.Playing);
+            Status -= Set<StatusElement>.Of(StatusElement.Playing);
         }
         else
         {
@@ -199,7 +198,7 @@ public partial class SongPlayer : IDisposable
             }
 
             _backup = AudioPlayback.BackupSongStatus();
-            _status += Set<StatusElement>.Of(StatusElement.Paused);
+            Status += Set<StatusElement>.Of(StatusElement.Paused);
             if (stopMusic)
             {
                 _ = AudioHost.SoundSystem.StopSong();
@@ -218,22 +217,22 @@ public partial class SongPlayer : IDisposable
         {
             if (_backup != null)
             {
-                _currentIndex = _songs.IndexOf(_backup.FileName);
-                _ = _currentIndex == -1 ? Play(0) : SongStatus.RestoreSongStatus(_backup);
+                CurrentIndex = _songs.IndexOf(_backup.FileName);
+                _ = CurrentIndex == -1 ? Play(0) : SongStatus.RestoreSongStatus(_backup);
                 _backup = null;
             }
 
-            _status -= Set<StatusElement>.Of(StatusElement.Paused);
+            Status -= Set<StatusElement>.Of(StatusElement.Paused);
         }
 
         return true;
     }
 
-    public string CurrentSong => _currentSong;
-    public Set<StatusElement> Status => _status;
+    public string CurrentSong { get; private set; } = "";
+    public Set<StatusElement> Status { get; private set; }
     public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames => _songNames;
-    public int CurrentIndex => _currentIndex;
+    public StringList SongNames { get; }
+    public int CurrentIndex { get; private set; }
 
     public enum StatusElement : byte
     {

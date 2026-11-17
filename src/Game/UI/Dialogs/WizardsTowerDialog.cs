@@ -17,11 +17,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. tower-entry event
-public partial class WizardsTowerDialog : UIModule
+public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 {
-    public WizardsTowerDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label SpellNameLabel { get; private set; }
     public Label SpellClassLabel { get; private set; }

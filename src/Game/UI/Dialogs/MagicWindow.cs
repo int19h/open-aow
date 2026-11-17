@@ -22,11 +22,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // enchantment sort, global sort, power sort
-public partial class MagicWindow : UIModule
+public partial class MagicWindow(UIContext ui) : UIModule(ui)
 {
-    public MagicWindow(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label ResearchPointsLabel { get; private set; }
     public ListBox<Enchantment> EnchantmentList { get; private set; }

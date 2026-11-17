@@ -9,18 +9,17 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2413
     public UnitIndexListCollection()
     {
-        _units = new UnitIndexList();
+        Units = new UnitIndexList();
         _collectionSize = 8;
     }
 
     private readonly int _collectionSize;
-    private readonly UnitIndexList _units;
 
     /// <summary>The flat list the collection cuts into groups, which its stream stores.</summary>
-    internal UnitIndexList Units => _units;
+    internal UnitIndexList Units { get; }
 
     // Unit.PAS:2419
-    public virtual void Dispose() => _units?.Dispose();
+    public virtual void Dispose() => Units?.Dispose();
 
     // Unit.PAS:2432
     public int GetCollectionCount(int index)
@@ -30,12 +29,12 @@ public partial class UnitIndexListCollection : IDisposable
         int result = 0;
         i = index * _collectionSize;
         last = _collectionSize + i;
-        if (last > _units.Count)
+        if (last > Units.Count)
         {
-            last = _units.Count;
+            last = Units.Count;
         }
 
-        while (i < last && _units[i] != -1)
+        while (i < last && Units[i] != -1)
         {
             i += 1;
             result += 1;
@@ -45,10 +44,10 @@ public partial class UnitIndexListCollection : IDisposable
     }
 
     // Unit.PAS:2446
-    public int GetCount() => (_units.Count + (_collectionSize - 1)) / _collectionSize;
+    public int GetCount() => (Units.Count + (_collectionSize - 1)) / _collectionSize;
 
     // Unit.PAS:2450
-    public int GetU(int collection, int index) => _units[index + (collection * _collectionSize)];
+    public int GetU(int collection, int index) => Units[index + (collection * _collectionSize)];
 
     // Unit.PAS:2454
     public bool AddUnit(int collection, int unitIndex)
@@ -58,7 +57,7 @@ public partial class UnitIndexListCollection : IDisposable
         n = GetCollectionCount(collection);
         if (n < _collectionSize)
         {
-            _units[n + (collection * _collectionSize)] = unitIndex;
+            Units[n + (collection * _collectionSize)] = unitIndex;
             result = true;
         }
         else
@@ -80,8 +79,8 @@ public partial class UnitIndexListCollection : IDisposable
         {
             offset = collection * _collectionSize;
             unitIndex = offset + index;
-            _units.Delete(unitIndex);
-            _units.Insert(offset + n - 1, -1);
+            Units.Delete(unitIndex);
+            Units.Insert(offset + n - 1, -1);
         }
     }
 

@@ -15,10 +15,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatAbilityRangedTokenEvent : TokenEvent
+public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public CombatAbilityRangedTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:917
     public new const int ClassId = 2236419;
@@ -1025,9 +1023,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         break;
                 }
 
-                point = new Point3D();
-                point.X = x2 + 16;
-                point.Y = y2 + 16;
+                point = new Point3D
+                {
+                    X = x2 + 16,
+                    Y = y2 + 16
+                };
                 effect.Path.Add(point);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
@@ -1038,9 +1038,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.Winds:
                 HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
-                point = new Point3D();
-                point.X = x2 + 16;
-                point.Y = y2 + 16;
+                point = new Point3D
+                {
+                    X = x2 + 16,
+                    Y = y2 + 16
+                };
                 effect.Path.Add(point);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
@@ -1164,8 +1166,10 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:
-                point = new Point3D();
-                point.X = Random(100) < 50 ? 0 : 1;
+                point = new Point3D
+                {
+                    X = Random(100) < 50 ? 0 : 1
+                };
 
                 effect.Path.Add(point);
                 if (_strikeIndex == 9)
@@ -1270,9 +1274,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = k;
                         for (; j <= last; j += 1)
                         {
-                            point = new Point3D();
-                            point.X = effect.Path[j].X;
-                            point.Y = effect.Path[j].Y;
+                            point = new Point3D
+                            {
+                                X = effect.Path[j].X,
+                                Y = effect.Path[j].Y
+                            };
                             effect.Path.Add(point);
                         }
                     }
@@ -1324,9 +1330,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = k;
                         for (; j <= last; j += 1)
                         {
-                            point = new Point3D();
-                            point.X = point3DList[j].X;
-                            point.Y = point3DList[j].Y;
+                            point = new Point3D
+                            {
+                                X = point3DList[j].X,
+                                Y = point3DList[j].Y
+                            };
                             effect.Path.Add(point);
                         }
                     }
@@ -1354,9 +1362,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                 }
 
-                point = new Point3D();
-                point.X = x2;
-                point.Y = y2;
+                point = new Point3D
+                {
+                    X = x2,
+                    Y = y2
+                };
                 effect.Path.Add(point);
                 int random13 = Random(360);
                 int random14 = Random(20);
@@ -1376,9 +1386,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = k;
                         for (; j <= last; j += 1)
                         {
-                            point = new Point3D();
-                            point.X = effect.Path[j].X;
-                            point.Y = effect.Path[j].Y;
+                            point = new Point3D
+                            {
+                                X = effect.Path[j].X,
+                                Y = effect.Path[j].Y
+                            };
                             effect.Path.Add(point);
                         }
                     }
@@ -1534,9 +1546,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY, out x1, out y1);
                             while (extraEffect.Path.Count < effect.Path.Count)
                             {
-                                point = new Point3D();
-                                point.X = x1 + 16;
-                                point.Y = y1;
+                                point = new Point3D
+                                {
+                                    X = x1 + 16,
+                                    Y = y1
+                                };
                                 extraEffect.Path.Add(point);
                             }
 

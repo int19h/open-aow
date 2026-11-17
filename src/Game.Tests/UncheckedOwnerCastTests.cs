@@ -86,8 +86,11 @@ public sealed class UncheckedOwnerCastTests
         Assert.False(ability.Remove(new Item(null!) { Holder = EngineFixture.Engine }));
 
         RecordingUnit unit = new();
-        DurationAbilityData data = new(null!) { Holder = EngineFixture.Engine };
-        data.AbilityId = (ushort)ability.AbilityId;
+        DurationAbilityData data = new(null!)
+        {
+            Holder = EngineFixture.Engine,
+            AbilityId = (ushort)ability.AbilityId
+        };
         unit.AddAbilityData(data);
         Assert.True(ability.Remove(unit));
         Assert.Equal(1, unit.KilledCount);

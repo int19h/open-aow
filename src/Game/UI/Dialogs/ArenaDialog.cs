@@ -16,11 +16,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // arena event. completion callback
-public partial class ArenaDialog : UIModule
+public partial class ArenaDialog(UIContext ui) : UIModule(ui)
 {
-    public ArenaDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
     public CheckBox Unit1CheckBox { get; private set; }

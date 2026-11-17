@@ -8,20 +8,17 @@ namespace Aow.Game.World.Hexes;
 // _decorationType (-1 none), _terrainType. persisted as ids $12 and $11
 public partial class TerrainMapObjectResource : MultiHexMapObjectResource
 {
-    public TerrainMapObjectResource(CustomNode owner) : base(owner) => _decorationType = -1;
+    public TerrainMapObjectResource(CustomNode owner) : base(owner) => DecorationType = -1;
 
     // Terrain.pas:327
     public new const int ClassId = 131431;
-
-    private sbyte _decorationType;
-    private byte _terrainType;
 
     // Terrain.pas:310
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _terrainType = persister.Byte("TerrainType", value: _terrainType);
-        _decorationType = PersistSupport.UnsignedByte(persister, name: "DecorationType", value: _decorationType);
+        TerrainType = persister.Byte("TerrainType", value: TerrainType);
+        DecorationType = PersistSupport.UnsignedByte(persister, name: "DecorationType", value: DecorationType);
     }
 
     // Terrain.pas:299
@@ -29,8 +26,8 @@ public partial class TerrainMapObjectResource : MultiHexMapObjectResource
     // Terrain.pas:322
     public override int ResourceUserClassId() => 131430;
 
-    public sbyte DecorationType { get => _decorationType; set => _decorationType = value; }
-    public byte TerrainType { get => _terrainType; set => _terrainType = value; }
+    public sbyte DecorationType { get; set; }
+    public byte TerrainType { get; set; }
 
     // Terrain.pas:42
 

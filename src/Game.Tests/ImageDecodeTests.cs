@@ -493,7 +493,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         Type type = image.GetType();
         const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         FieldInfo? field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, fields)).FirstOrDefault(f => f is not null);
-        FieldInfo? pitch = MemberNames.Field(type, "_pitch", fields);
+        FieldInfo? pitch = MemberNames.Field(type, "Pitch", fields) ?? MemberNames.Field(type, "_pitch", fields);
         hash.Add(pitch is null ? -1 : (int)pitch.GetValue(image)!);
         byte[]? bytes = field?.GetValue(image) switch
         {

@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignScenario>
+public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.
@@ -13,9 +13,6 @@ public partial class AoWCampaignScenarioList : OwningNode, IChildList<CampaignSc
     protected sealed override bool AcceptsChild(EngineObject child) => child is CampaignScenario;
 
     int IChildSink<CampaignScenario>.AddChild(CampaignScenario child) => AddChild(child);
-
-    public AoWCampaignScenarioList(CustomNode owner) : base(owner)
-    { }
 
     // The caller holds the campaign kind, so the scenario is that kind. An out-of-range index returns null, as GetScenario does.
     public T GetScenario<T>(int index) where T : CampaignScenario => index >= 0 && index < Count ? GetChild<T>(index) : null;

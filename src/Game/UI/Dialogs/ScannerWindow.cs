@@ -7,11 +7,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ScannerWindow : UIModule
+public partial class ScannerWindow(UIContext ui) : UIModule(ui)
 {
-    public ScannerWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public TabPanel ScannerTabs { get; private set; }
     public CheckBox BuildingCheckBox { get; private set; }

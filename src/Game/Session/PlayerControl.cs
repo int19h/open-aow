@@ -25,7 +25,6 @@ namespace Aow.Game.Session;
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
 public partial class PlayerControl : EngineObject
 {
-    // PlayerC.PAS:1
     public PlayerControl(CustomNode owner) : base(owner) => _disconnectedPlayers = new DoubleItemList();
 
     private ExitGameCallBack _exitCallback;
@@ -66,8 +65,11 @@ public partial class PlayerControl : EngineObject
         StrategicMap.Current.LockRelationsChanged();
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            log = new NewDayEventLog(null) { Holder = CreationHolder() };
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_newDayFormat), [StrategicMap.Current.Day]);
+            log = new NewDayEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_newDayFormat), [StrategicMap.Current.Day])
+            };
             if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
             {
                 string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
@@ -115,10 +117,12 @@ public partial class PlayerControl : EngineObject
 
         if (StrategicMap.Current.DayLimit == StrategicMap.Current.Day)
         {
-            messageLog = new MessageEventLog(null, holder: CreationHolder());
-            messageLog.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.InfoText);
-            messageLog.Buttons = MessageEventLogButtons.Ok;
-            messageLog.Layout = MessageEventLogLayout.Normal;
+            messageLog = new MessageEventLog(null, holder: CreationHolder())
+            {
+                Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.InfoText),
+                Buttons = MessageEventLogButtons.Ok,
+                Layout = MessageEventLogLayout.Normal
+            };
             string turnLimitReached = AbilityRules.TranslateResourceString(GetEngine(), s_turnLimitReachedText);
             messageLog.Message.Text = turnLimitReached;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, null);
@@ -371,10 +375,12 @@ public partial class PlayerControl : EngineObject
                 {
                     _exitMode = mode;
                     _exitCallback = done;
-                    log = new MessageEventLog(null, holder: CreationHolder());
-                    log.Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText);
-                    log.Buttons = MessageEventLogButtons.YesNoCancel;
-                    log.Layout = MessageEventLogLayout.Normal;
+                    log = new MessageEventLog(null, holder: CreationHolder())
+                    {
+                        Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText),
+                        Buttons = MessageEventLogButtons.YesNoCancel,
+                        Layout = MessageEventLogLayout.Normal
+                    };
                     string yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(GetEngine(), s_yourAboutToExitMultiPlayerGameText);
                     _ = log.Message.Add(yourAboutToExitAMultiPlayerGame);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueExitingText);
@@ -384,10 +390,12 @@ public partial class PlayerControl : EngineObject
                 }
                 else
                 {
-                    log = new MessageEventLog(null, holder: CreationHolder());
-                    log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText);
-                    log.Buttons = MessageEventLogButtons.Ok;
-                    log.Layout = MessageEventLogLayout.Normal;
+                    log = new MessageEventLog(null, holder: CreationHolder())
+                    {
+                        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText),
+                        Buttons = MessageEventLogButtons.Ok,
+                        Layout = MessageEventLogLayout.Normal
+                    };
                     string pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(GetEngine(), s_pleaseWaitTillItIsYourTurnText);
                     _ = log.Message.Add(pleaseWaitTillItIsYourTurn);
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
@@ -404,9 +412,11 @@ public partial class PlayerControl : EngineObject
                         {
                             _exitMode = mode;
                             _exitCallback = done;
-                            log = new MessageEventLog(null, holder: CreationHolder());
-                            log.Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText);
-                            log.Buttons = MessageEventLogButtons.YesNoCancel;
+                            log = new MessageEventLog(null, holder: CreationHolder())
+                            {
+                                Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText),
+                                Buttons = MessageEventLogButtons.YesNoCancel
+                            };
                             if (GetEngine().Campaign == null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
@@ -690,10 +700,13 @@ public partial class PlayerControl : EngineObject
         {
             if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
-                tokenEvent = new TerminatePlayerTokenEvent(null) { Holder = CreationHolder() };
-                tokenEvent.Player = StrategicMap.Current.SeatedPlayer;
-                tokenEvent.ExitCallback = _exitCallback;
-                tokenEvent.ExitMode = _exitMode;
+                tokenEvent = new TerminatePlayerTokenEvent(null)
+                {
+                    Holder = CreationHolder(),
+                    Player = StrategicMap.Current.SeatedPlayer,
+                    ExitCallback = _exitCallback,
+                    ExitMode = _exitMode
+                };
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
             }
@@ -724,9 +737,11 @@ public partial class PlayerControl : EngineObject
         password = AbilityRules.Encode(log.Password, 0);
         if (log.PressedButton != PressedEventLogButton.Ok || password != _password)
         {
-            messageLog = new MessageEventLog(null, holder: CreationHolder());
-            messageLog.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
-            messageLog.Buttons = MessageEventLogButtons.YesNo;
+            messageLog = new MessageEventLog(null, holder: CreationHolder())
+            {
+                Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText),
+                Buttons = MessageEventLogButtons.YesNo
+            };
             string passwordFailed = AbilityRules.TranslateResourceString(GetEngine(), s_passwordFailedText);
             messageLog.Message.Text = passwordFailed;
             _ = messageLog.Message.Add("");

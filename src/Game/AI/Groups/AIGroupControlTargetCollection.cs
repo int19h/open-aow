@@ -11,18 +11,16 @@ namespace Aow.Game.AI.Groups;
 /// </summary>
 public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupControlTarget>
 {
-    private readonly AIGroupControlTargetList _list;
-
-    internal AIGroupControlTargetCollection(AIGroupControlTargetList list) => _list = list;
+    internal AIGroupControlTargetCollection(AIGroupControlTargetList list) => Holder = list;
 
     /// <summary>The list that holds the targets.</summary>
-    public AIGroupControlTargetList Holder => _list;
+    public AIGroupControlTargetList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The target in slot index, read as the original reads the list, without a range check. The
     // list admits only control targets.
-    public AIGroupControlTarget this[int index] => _list.GetChild<AIGroupControlTarget>(index);
+    public AIGroupControlTarget this[int index] => Holder.GetChild<AIGroupControlTarget>(index);
 
     public IEnumerator<AIGroupControlTarget> GetEnumerator()
     {
@@ -42,10 +40,10 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     }
 
     // AIGroup.pas:696
-    public void SortOnPriority() => _list.SortChildren<AIGroupControlTarget>(ComparePriority);
+    public void SortOnPriority() => Holder.SortChildren<AIGroupControlTarget>(ComparePriority);
 
     // AIGroup.pas:706
-    public void SortOnDataB() => _list.SortChildren<AIGroupControlTarget>(CompareDataB);
+    public void SortOnDataB() => Holder.SortChildren<AIGroupControlTarget>(CompareDataB);
 
     // AIGroup.pas:739
     public int IndexOfMapCoordinate(MapCoordinate location)

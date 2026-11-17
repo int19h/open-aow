@@ -45,8 +45,11 @@ public partial class AirMastery : GlobalEnchantmentSpell
         y = coordinate50.Y;
         l = coordinate50.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        animation = new Animation(null) { Holder = CreationHolder() };
-        animation.AnimationLevel = 28;
+        animation = new Animation(null)
+        {
+            Holder = CreationHolder(),
+            AnimationLevel = 28
+        };
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);

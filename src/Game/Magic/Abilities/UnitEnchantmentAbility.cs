@@ -141,9 +141,12 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
             }
 
-            data = new UnitEnchantmentAbilityData(null) { Holder = CreationHolder() };
-            data.EnchantmentAbilityId = (ushort)AbilityId;
-            data.EnchantmentDuration = GetTotalDuration();
+            data = new UnitEnchantmentAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                EnchantmentAbilityId = (ushort)AbilityId,
+                EnchantmentDuration = GetTotalDuration()
+            };
             enchantment = CreateEnchantment();
             data.Enchantment = enchantment;
             enchantment.EnchantmentAbilityId = AbilityId;

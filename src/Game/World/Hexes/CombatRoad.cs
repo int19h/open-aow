@@ -9,10 +9,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatRoad : AbstractRoad
+public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
 {
-    public CombatRoad(CustomNode owner) : base(owner)
-    { }
 
     // CombatRoad.pas:51
     public new const int ClassId = 2229506;
@@ -132,10 +130,8 @@ public partial class CombatRoad : AbstractRoad
         }
     }
 
-    public new partial class Resource : AbstractRoadResource
+    public new partial class Resource(CustomNode owner) : AbstractRoadResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CombatRoad.pas:133
         public new const int ClassId = 2229507;

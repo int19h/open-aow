@@ -23,11 +23,8 @@ namespace Aow.Game.UI.Dialogs;
 
 // preview settings. abilities. active ability count. selected indices. unit list. selected
 // unit. combat sprite
-public partial class General : UIModule
+public partial class General(UIContext ui) : UIModule(ui)
 {
-    public General(UIContext ui) : base(ui)
-    { }
-
     public WindowManager Manager { get; set; }
     public ToolTip ToolTip { get; private set; }
 
@@ -377,8 +374,10 @@ public partial class General : UIModule
         {
             if (SelectedUnit.GetAbilityEnabled(i))
             {
-                a = new CombatAbilityRef();
-                a.Ability = i;
+                a = new CombatAbilityRef
+                {
+                    Ability = i
+                };
                 if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(i).GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
                     Abilities.Insert(ActiveAbilityCount, a);

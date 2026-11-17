@@ -9,18 +9,11 @@ namespace Aow.Game.Draw.Images;
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
 // FHashTable (the objects by name), FOwner
-public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObject>
+public partial class ImageLibraryManagerList(ImageLibraryManager owner) : StringList<ImageLibraryManagerObject>
 {
-    internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; }
+    internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; } = [with(AnsiCompareComparer.Instance)];
 
-    private readonly ImageLibraryManager _owner;
-
-    // ImageLib.pas:8093
-    public ImageLibraryManagerList(ImageLibraryManager owner)
-    {
-        _owner = owner;
-        HashTable = [with(AnsiCompareComparer.Instance)];
-    }
+    private readonly ImageLibraryManager _owner = owner;
 
     // ImageLib.pas:8102
     // { Original bug: the inherited destructor does not call Clear, so the TILManagerObjects and
@@ -63,8 +56,10 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
         string s;
         ImageLibraryManagerObject objectValue;
         s = UpperCase(name);
-        objectValue = new ImageLibraryManagerObject();
-        objectValue.ImageLibrary = imageLibrary;
+        objectValue = new ImageLibraryManagerObject
+        {
+            ImageLibrary = imageLibrary
+        };
         _ = AddObject(s, objectValue);
         _ = HashTable.Remove(s);
         return objectValue;
@@ -109,8 +104,10 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
             objectValue.RefCount += 1;
             if (objectValue.ImageLibrary == null)
             {
-                objectValue.ImageLibrary = new ImageLibrary(null);
-                objectValue.ImageLibrary.LoadOnDemand = true;
+                objectValue.ImageLibrary = new ImageLibrary(null)
+                {
+                    LoadOnDemand = true
+                };
                 try
                 {
                     objectValue.ImageLibrary.LoadFromFile(_owner.SearchPath + fileName);

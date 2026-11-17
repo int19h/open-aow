@@ -14,6 +14,8 @@ namespace Aow.Game.Draw;
 // X/Y/layer unexplored hexagons, animation frame
 public partial class BirdsViewHexSprite : FixedVisibleHexSprite
 {
+    public BirdsViewHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
+
     private sbyte _x;
     private sbyte _y;
     private sbyte _layer;
@@ -26,9 +28,6 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         _hexes?.Dispose();
         base.Dispose();
     }
-
-    // GlobalSpells.pas:406
-    public BirdsViewHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
 
     // GlobalSpells.pas:418
     public override int GetShowPriority() => 2013265920;

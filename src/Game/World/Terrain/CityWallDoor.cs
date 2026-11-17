@@ -11,10 +11,8 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWallDoor : CityWall
+public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
 {
-    public CityWallDoor(CustomNode owner) : base(owner)
-    { }
 
     // CityWall.pas:381
     public new const int ClassId = 2229510;
@@ -102,10 +100,8 @@ public partial class CityWallDoor : CityWall
         return result;
     }
 
-    public new partial class Resource : CityWall.Resource
+    public new partial class Resource(CustomNode owner) : CityWall.Resource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CityWall.pas:451
         public new const int ClassId = 2229511;

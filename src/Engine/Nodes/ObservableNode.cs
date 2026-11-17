@@ -12,19 +12,18 @@ namespace Aow.Engine.Nodes;
 // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
 public partial class ObservableNode : CustomNode
 {
-    // Engine.pas:7246
-    public new const int ClassId = 265;
-
     public ObservableNode(CustomNode owner) : base(owner)
     {
         _children = new EngineObjectList();
-        _updateCount = 0;
+        UpdateCount = 0;
     }
+
+    // Engine.pas:7246
+    public new const int ClassId = 265;
 
     // The child slots. Every write of a child goes through AddChild, SetChild or the members
     // below, so the child check in CheckChild sees each child that enters.
     private EngineObjectList _children;
-    private int _updateCount;
 
     // Engine.pas:7212
     public override void Dispose()
@@ -77,7 +76,7 @@ public partial class ObservableNode : CustomNode
             i -= 1;
         }
 
-        if (_updateCount == 0)
+        if (UpdateCount == 0)
         {
             Emit(ObservableChange.Reset());
         }
@@ -97,7 +96,7 @@ public partial class ObservableNode : CustomNode
         }
 
         _children[index] = child;
-        if (_updateCount == 0)
+        if (UpdateCount == 0)
         {
             Emit(ObservableChange.Replaced(index, item: child, previous: previous));
         }
@@ -111,10 +110,10 @@ public partial class ObservableNode : CustomNode
     }
 
     // Engine.pas:7270
-    public void LockChanged() => _updateCount += 1;
+    public void LockChanged() => UpdateCount += 1;
 
     // Engine.pas:7275
-    public void UnlockChanged() => _updateCount -= 1;
+    public void UnlockChanged() => UpdateCount -= 1;
 
     // Engine.pas:7280
     // Subclasses react in OnChange. Emit runs that reaction and then raises CollectionChanged,
@@ -152,7 +151,7 @@ public partial class ObservableNode : CustomNode
     // Engine.pas:7284
     public UpdateBatch BeginUpdate()
     {
-        _updateCount += 1;
+        UpdateCount += 1;
         return new UpdateBatch(this);
     }
 
@@ -827,9 +826,9 @@ public partial class ObservableNode : CustomNode
     // }
     public void EndUpdate()
     {
-        Assert(_updateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
-        _updateCount -= 1;
-        if (_updateCount == 0)
+        Assert(UpdateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             Emit(ObservableChange.Reset());
         }
@@ -998,7 +997,7 @@ public partial class ObservableNode : CustomNode
             result = _children.Remove(child);
         }
 
-        if (_updateCount == 0)
+        if (UpdateCount == 0)
         {
             Emit(ObservableChange.Removed(result, item: child));
         }
@@ -1011,7 +1010,7 @@ public partial class ObservableNode : CustomNode
     {
         CheckChild(child);
         _ = _children.Add(child);
-        if (_updateCount == 0)
+        if (UpdateCount == 0)
         {
             Emit(ObservableChange.Added(_children.Count - 1, item: child));
         }
@@ -1053,7 +1052,7 @@ public partial class ObservableNode : CustomNode
         return result;
     }
 
-    public int UpdateCount => _updateCount;
+    public int UpdateCount { get; private set; }
 
     // The child in slot index, with the range check of TList.Get. GetChild reads the slot without it.
     public EngineObject GetChildInRange(int index) => _children[index];

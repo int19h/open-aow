@@ -15,11 +15,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
+public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
-    public ArmyNegotiateMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135430;
 
     // MoveT.PAS:2400
@@ -129,11 +126,14 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         {
             if (player == StrategicMap.Current.SeatedPlayer)
             {
-                NegotiateRequestEventLog negotiateRequestEventLog = new(null) { Holder = armyHexSprite };
-                negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
-                negotiateRequestEventLog.MovePoints = movePoints;
-                negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
-                negotiateRequestEventLog.Player = (sbyte)(byte)player;
+                NegotiateRequestEventLog negotiateRequestEventLog = new(null)
+                {
+                    Holder = armyHexSprite,
+                    ArmyId = armyHexSprite.Army.CreateId(selection),
+                    MovePoints = movePoints,
+                    Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),
+                    Player = (sbyte)(byte)player
+                };
                 message.MessageId = 4366;
                 MapFieldMessageParameters param = message.Param;
                 param[0] = new MsgArg(negotiateRequestEventLog);
@@ -152,11 +152,14 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         }
         else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
         {
-            NegotiateRequestEventLog negotiateRequestEventLog = new(null) { Holder = armyHexSprite };
-            negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
-            negotiateRequestEventLog.MovePoints = movePoints;
-            negotiateRequestEventLog.Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L));
-            negotiateRequestEventLog.Player = (sbyte)(byte)player;
+            NegotiateRequestEventLog negotiateRequestEventLog = new(null)
+            {
+                Holder = armyHexSprite,
+                ArmyId = armyHexSprite.Army.CreateId(selection),
+                MovePoints = movePoints,
+                Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),
+                Player = (sbyte)(byte)player
+            };
             message.MessageId = 4366;
             MapFieldMessageParameters param3 = message.Param;
             param3[0] = new MsgArg(negotiateRequestEventLog);

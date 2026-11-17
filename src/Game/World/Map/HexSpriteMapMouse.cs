@@ -23,11 +23,6 @@ public partial class HexSpriteMapMouse : IDisposable
         Reset();
     }
 
-    private GameMap _hexSpriteMap;
-    private int _x;
-    private int _y;
-    private MouseButton _button;
-
     internal EventStore<HexSpriteMapMouse> OnUpStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> ButtonUp
@@ -71,10 +66,6 @@ public partial class HexSpriteMapMouse : IDisposable
     private object _capture;
     private Set<StatusElement> _status;
     private int _cursor;
-    private int _cursorMode;
-    private bool _ignoreDown;
-    private Set<ShiftState> _shift;
-    private bool _cursorVisible;
 
     // HSEngine.pas:3475
 
@@ -100,18 +91,18 @@ public partial class HexSpriteMapMouse : IDisposable
         bool result = true;
         if (_capture == null && GetHexX() != -1)
         {
-            if (_button == MouseButton.Left)
+            if (Button == MouseButton.Left)
             {
                 int pixelY = GetPixelY();
                 int pixelX = GetPixelX();
-                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap.ViewMapLevel);
+                HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, HexSpriteMap.ViewMapLevel);
                 result = false;
             }
             else
             {
-                if (_button == MouseButton.Right && !_hexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+                if (Button == MouseButton.Right && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    _hexSpriteMap.Selection.UnselectLocation();
+                    HexSpriteMap.Selection.UnselectLocation();
                     result = false;
                 }
             }
@@ -133,21 +124,21 @@ public partial class HexSpriteMapMouse : IDisposable
     // { Down and Up set FX twice when the position is outside (an original slip for FY). }
     public virtual void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!_ignoreDown)
+        if (!IgnoreDown)
         {
             if (X >= 0 && Y >= 0)
             {
-                _x = X;
-                _y = Y;
+                this.X = X;
+                this.Y = Y;
             }
             else
             {
-                _x = -2147483648;
-                _x = -2147483648;
+                this.X = -2147483648;
+                this.X = -2147483648;
             }
 
-            _button = button;
-            _shift = shift;
+            Button = button;
+            Shift = shift;
             if (MouseDown())
             {
                 OnDownStore.Raise(this);
@@ -155,7 +146,7 @@ public partial class HexSpriteMapMouse : IDisposable
         }
         else
         {
-            _ignoreDown = false;
+            IgnoreDown = false;
         }
     }
 
@@ -164,17 +155,17 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         if (X >= 0 && Y >= 0)
         {
-            _x = X;
-            _y = Y;
+            this.X = X;
+            this.Y = Y;
         }
         else
         {
-            _x = -2147483648;
-            _x = -2147483648;
+            this.X = -2147483648;
+            this.X = -2147483648;
         }
 
-        _button = button;
-        _shift = shift;
+        Button = button;
+        Shift = shift;
         if (MouseUp())
         {
             OnUpStore.Raise(this);
@@ -186,15 +177,15 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
         // GetXhp and GetYhp still test the map coordinates.
-        if (X >= 0 && Y >= 0 && X <= Math.Max(_hexSpriteMap.GetMaxPixelX(), _hexSpriteMap.ViewWidth) && Y <= Math.Max(_hexSpriteMap.GetMaxPixelY(), _hexSpriteMap.ViewHeight))
+        if (X >= 0 && Y >= 0 && X <= Math.Max(HexSpriteMap.GetMaxPixelX(), HexSpriteMap.ViewWidth) && Y <= Math.Max(HexSpriteMap.GetMaxPixelY(), HexSpriteMap.ViewHeight))
         {
-            _x = X;
-            _y = Y;
+            this.X = X;
+            this.Y = Y;
         }
         else
         {
-            _x = -2147483648;
-            _y = -2147483648;
+            this.X = -2147483648;
+            this.Y = -2147483648;
         }
 
         if (MouseMove())
@@ -218,9 +209,9 @@ public partial class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3496
     public void Reset()
     {
-        _x = -2147483648;
-        _y = -2147483648;
-        _shift = Set<ShiftState>.Of();
+        X = -2147483648;
+        Y = -2147483648;
+        Shift = Set<ShiftState>.Of();
         _cursor = 0;
         SetCapture(null);
     }
@@ -229,10 +220,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetPixelX()
     {
         int result;
-        if (_x != -2147483648)
+        if (X != -2147483648)
         {
-            result = _hexSpriteMap.ViewPixelX + _x;
-            if (result > _hexSpriteMap.GetMaxPixelX() || result < 0)
+            result = HexSpriteMap.ViewPixelX + X;
+            if (result > HexSpriteMap.GetMaxPixelX() || result < 0)
             {
                 result = -2147483648;
             }
@@ -249,10 +240,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetPixelY()
     {
         int result;
-        if (_y != -2147483648)
+        if (Y != -2147483648)
         {
-            result = _hexSpriteMap.ViewPixelY + _y;
-            if (result > _hexSpriteMap.GetMaxPixelY() || result < 0)
+            result = HexSpriteMap.ViewPixelY + Y;
+            if (result > HexSpriteMap.GetMaxPixelY() || result < 0)
             {
                 result = -2147483648;
             }
@@ -270,10 +261,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetHexX()
     {
         int result;
-        if (_x != -2147483648)
+        if (X != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out _);
-            if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
+            HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, 0, out result, out _);
+            if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
             }
@@ -290,10 +281,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetHexY()
     {
         int result;
-        if (_y != -2147483648)
+        if (Y != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out _, out result);
-            if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
+            HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, HexSpriteMap.ViewPixelY + Y, out _, out result);
+            if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
             }
@@ -323,15 +314,15 @@ public partial class HexSpriteMapMouse : IDisposable
         }
     }
 
-    public GameMap HexSpriteMap { get => _hexSpriteMap; internal set => _hexSpriteMap = value; }
-    public int X => _x;
-    public int Y => _y;
+    public GameMap HexSpriteMap { get; internal set; }
+    public int X { get; private set; }
+    public int Y { get; private set; }
     public int PixelX => GetPixelX();
     public int PixelY => GetPixelY();
     public int HexX => GetHexX();
     public int HexY => GetHexY();
-    public MouseButton Button => _button;
-    public Set<ShiftState> Shift => _shift;
+    public MouseButton Button { get; private set; }
+    public Set<ShiftState> Shift { get; private set; }
 
     public event NotifyEvent<HexSpriteMapMouse> OnUp
     {
@@ -365,9 +356,9 @@ public partial class HexSpriteMapMouse : IDisposable
 
     public object Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public int CursorMode { get => _cursorMode; set => _cursorMode = value; }
-    public bool IgnoreDown { get => _ignoreDown; set => _ignoreDown = value; }
-    public bool CursorVisible { get => _cursorVisible; set => _cursorVisible = value; }
+    public int CursorMode { get; set; }
+    public bool IgnoreDown { get; set; }
+    public bool CursorVisible { get; set; }
 
     public enum StatusElement : byte
     {

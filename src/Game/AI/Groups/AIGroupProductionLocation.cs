@@ -11,6 +11,8 @@ namespace Aow.Game.AI.Groups;
 // references, production control, location, moves, transporter, path strength
 public partial class AIGroupProductionLocation : EngineObject, IOwned<AIGroupProductionLocationList>, IOwnedSink<AIGroupProductionLocationList>
 {
+    public AIGroupProductionLocation(CustomNode owner) : base(owner) => _refCount = 1;
+
     // A reference list holds the location and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
     public new AIGroupProductionLocationList Owner { get => GetOwner<AIGroupProductionLocationList>(); set => SetOwner(value); }
@@ -18,9 +20,6 @@ public partial class AIGroupProductionLocation : EngineObject, IOwned<AIGroupPro
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupProductionLocationList;
 
     void IOwnedSink<AIGroupProductionLocationList>.SetOwner(AIGroupProductionLocationList owner) => SetOwner(owner);
-
-    // AIGroup.pas:887
-    public AIGroupProductionLocation(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

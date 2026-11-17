@@ -19,6 +19,8 @@ namespace Aow.Game.Commands;
 // angle, animation, selected army identity
 public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
 {
+    public VortexTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
+
     // GlobalTargetSpells.pas:1905
     public new const int ClassId = 135973;
 
@@ -40,9 +42,6 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         base.PersistFields(persister);
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
-
-    // GlobalTargetSpells.pas:1893
-    public VortexTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalTargetSpells.pas:1991
     public override bool Process(Troop source, int value)
@@ -79,9 +78,12 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         {
             if (ArmyId != null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
-                log = new ArmyEventLog(null) { Holder = CreationHolder() };
-                log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText);
-                log.Player = source.Player;
+                log = new ArmyEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText),
+                    Player = source.Player
+                };
                 string vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
                 _ = log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;

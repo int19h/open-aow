@@ -147,8 +147,10 @@ public partial class ItemLibraryManager : EngineObject
 
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
-            result = new ItemLibrary(Libraries);
-            result.Name = libraryName;
+            result = new ItemLibrary(Libraries)
+            {
+                Name = libraryName
+            };
             // { Original creates in Release while reading and deleting from User. }
             result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.ItemList));
         }

@@ -10,11 +10,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitGraphicsResourceIndex
-public partial class TroopResource : EngineResource
+public partial class TroopResource(CustomNode owner) : EngineResource(owner)
 {
-    public TroopResource(CustomNode owner) : base(owner)
-    { }
-
     public int UnitGraphicsResourceIndex { get; private set; }
 
     // UnitRes.PAS:37

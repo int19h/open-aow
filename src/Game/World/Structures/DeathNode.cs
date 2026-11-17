@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class DeathNode : ProductionPlace
+public partial class DeathNode(CustomNode owner) : ProductionPlace(owner)
 {
-    public DeathNode(CustomNode owner) : base(owner)
-    { }
 
     // DeathNode.pas:37
     public new const int ClassId = 132270;

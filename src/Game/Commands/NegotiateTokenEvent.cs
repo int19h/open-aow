@@ -18,6 +18,14 @@ namespace Aow.Game.Commands;
 // Result, EventLogID, Data1/Data2
 public partial class NegotiateTokenEvent : TokenEvent
 {
+    public NegotiateTokenEvent(CustomNode owner) : base(owner)
+    {
+        ArmyId = null;
+        Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
+        EventLogId = -1;
+        _ownerPlayer = 0;
+    }
+
     // Diplomacy.pas:133
     public new const int ClassId = 135431;
 
@@ -72,15 +80,6 @@ public partial class NegotiateTokenEvent : TokenEvent
         Result = persister.Enum("Result", value: Result);
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
         EventLogId = persister.Int32("EventLogId", value: EventLogId, fallback: -1);
-    }
-
-    // Diplomacy.pas:115
-    public NegotiateTokenEvent(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-        Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
-        EventLogId = -1;
-        _ownerPlayer = 0;
     }
 
     // Diplomacy.pas:247

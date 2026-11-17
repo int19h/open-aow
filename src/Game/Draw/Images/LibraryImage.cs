@@ -18,15 +18,12 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new(owner);
 
-    private LibraryImageClass _imageClass;
-
-    public LibraryImageClass ImageClass => _imageClass ??= LibraryImageClass.Of(GetType());
+    public LibraryImageClass ImageClass => field ??= LibraryImageClass.Of(GetType());
 
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
     private CustomImageLibrary _owner;
-    private bool _dataLoaded;
     private int _dataPosition;
     private int _dataSize;
     private bool _reloadingEnabled;
@@ -46,7 +43,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1613
     public virtual void SetOwner(CustomImageLibrary owner)
     {
-        if (owner != _owner && _owner != null && !_dataLoaded)
+        if (owner != _owner && _owner != null && !DataLoaded)
         {
             SetReloadingEnabled(false);
         }
@@ -58,7 +55,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual void SetLoadMode(LoadMode value)
     {
         _loadMode = value;
-        if (_loadMode == LoadMode.LoadAlways && !_dataLoaded)
+        if (_loadMode == LoadMode.LoadAlways && !DataLoaded)
         {
             LoadDiscardableImageData();
         }
@@ -76,7 +73,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1656
     public virtual void SetReloadingEnabled(bool value)
     {
-        if (!value && !_dataLoaded)
+        if (!value && !DataLoaded)
         {
             LoadDiscardableImageData();
         }
@@ -167,7 +164,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1747
-    public virtual void ReadDiscardableImageData(Stream stream) => _dataLoaded = true;
+    public virtual void ReadDiscardableImageData(Stream stream) => DataLoaded = true;
 
     // ImageLib.pas:1752
     public virtual void WriteDiscardableImageData(Stream stream)
@@ -175,20 +172,20 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1756
-    public virtual void ReleaseDiscardableImageData() => _dataLoaded = false;
+    public virtual void ReleaseDiscardableImageData() => DataLoaded = false;
 
     // ImageLib.pas:1761
     public virtual void LoadDiscardableImageData()
     {
         Stream stream;
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             stream = new FastLoadFileStream(_owner.LoadedFileName);
             try
             {
                 _ = stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
                 ReadDiscardableImageData(stream);
-                _dataLoaded = true;
+                DataLoaded = true;
             }
             finally
             {
@@ -205,7 +202,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _dataPosition = (int)dataStream.Position;
         WriteImageData(stream);
         _dataPosition = p;
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(dataStream);
@@ -260,7 +257,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _version = ClassVersion();
         ReleaseDiscardableImageData();
         _dataSize = 0;
-        _dataLoaded = false;
+        DataLoaded = false;
         _dataPosition = -1;
         _dataSize = 0;
         _reloadingEnabled = false;
@@ -328,7 +325,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _dataPosition = -1;
         WriteImageData(stream);
         _dataPosition = p;
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(stream);
@@ -569,7 +566,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     protected void SetOwnerWithoutReloadCheck(CustomImageLibrary value) => _owner = value;
 
-    public bool DataLoaded { get => _dataLoaded; protected set => _dataLoaded = value; }
+    public bool DataLoaded { get; protected set; }
     public int DataPosition => _dataPosition;
     public int DataSize { get => _dataSize; protected set => _dataSize = value; }
     public bool ReloadingEnabled { get => _reloadingEnabled; set => SetReloadingEnabled(value); }

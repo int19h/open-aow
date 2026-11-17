@@ -15,8 +15,6 @@ namespace Aow.Game.Magic.Spells;
 // (registered-spell list)
 public partial class SpellControl : EngineObject
 {
-
-    // Spells.PAS:577
     public SpellControl(CustomNode owner) : base(owner) => RegisteredSpells = [];
 
     public List<Spell> RegisteredSpells { get; init; }

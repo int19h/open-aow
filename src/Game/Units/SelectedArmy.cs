@@ -28,7 +28,6 @@ namespace Aow.Game.Units;
 // mode, road builder ID, selected graphics references, ignore next mouse-down
 public partial class SelectedArmy : MoveSelector
 {
-    // Army.PAS:3567
     public SelectedArmy(EngineObject creator) : base(creator) => _selectedUnitGraphics = new Int32List();
 
     private SelectedArmyMode _mode;
@@ -917,8 +916,11 @@ public partial class SelectedArmy : MoveSelector
         if (flag2)
         {
             movePath = new MovePath();
-            multiMoveTokenEvent = new MultiMoveTokenEvent(null) { Holder = moves };
-            multiMoveTokenEvent.Simultaneous = false;
+            multiMoveTokenEvent = new MultiMoveTokenEvent(null)
+            {
+                Holder = moves,
+                Simultaneous = false
+            };
             moves.CalculateMovePositions(ValidateMultiArmyMove);
             int i = 0;
             for (int number = moves.Count - 1; i <= number; i++)

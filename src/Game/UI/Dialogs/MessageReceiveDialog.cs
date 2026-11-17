@@ -9,11 +9,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event
-public partial class MessageReceiveDialog : UIModule
+public partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
 {
-    public MessageReceiveDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Memo MessageMemo { get; private set; }
     public Image LeftShield { get; private set; }

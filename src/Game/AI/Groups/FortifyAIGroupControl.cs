@@ -289,9 +289,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                 if (city != null && city.GetActiveAction() == CityAction.Migrate)
                 {
-                    defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
-                    defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
-                    defense.CustomState = 19;
+                    defense = new AIGroupDefenseControl(null)
+                    {
+                        Holder = CreationHolder(),
+                        DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom,
+                        CustomState = 19
+                    };
                     ActivatePlugin(defense);
                     _ = defense.Release();
                 }
@@ -355,9 +358,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                     if (city != null && city.GetActiveAction() == CityAction.Migrate)
                     {
-                        defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
-                        defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
-                        defense.CustomState = 19;
+                        defense = new AIGroupDefenseControl(null)
+                        {
+                            Holder = CreationHolder(),
+                            DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom,
+                            CustomState = 19
+                        };
                         ActivatePlugin(defense);
                         _ = defense.Release();
                     }
@@ -497,8 +503,11 @@ public partial class FortifyAIGroupControl : AIGroupControl
         MapFieldMessage message = default;
         BattleFieldQuery query = new();
         _ = query.Info;
-        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
-        settings.Player = Group.Player;
+        settings = new MoveControlSettings(null)
+        {
+            Holder = CreationHolder(),
+            Player = Group.Player
+        };
         settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
         settings.SetSourcePosition(location);
         settings.MovePointsMax = radius;

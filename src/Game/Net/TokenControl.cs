@@ -7,10 +7,7 @@ namespace Aow.Game.Net;
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
 public partial class TokenControl : IDisposable
 {
-    private readonly TokenEventList _events;
     private readonly TokenManager _tokenManager;
-    private readonly int _player;
-    private bool _active;
 
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
@@ -20,28 +17,28 @@ public partial class TokenControl : IDisposable
         if (tokenEvent.TokenCounter != -1)
         {
             i = 0;
-            while (i != _events.Count && _events[i].TokenCounter < tokenEvent.TokenCounter)
+            while (i != Events.Count && Events[i].TokenCounter < tokenEvent.TokenCounter)
             {
                 i += 1;
             }
 
-            if (i < _events.Count)
+            if (i < Events.Count)
             {
-                if (_events[i].TokenCounter == tokenEvent.TokenCounter)
+                if (Events[i].TokenCounter == tokenEvent.TokenCounter)
                 {
                     throw new InvalidOperationException("Double TokenCounter defined");
                 }
 
-                _events.Insert(i, tokenEvent);
+                Events.Insert(i, tokenEvent);
             }
             else
             {
-                _events.Add(tokenEvent);
+                Events.Add(tokenEvent);
             }
         }
         else
         {
-            _events.Add(tokenEvent);
+            Events.Add(tokenEvent);
         }
     }
 
@@ -55,7 +52,7 @@ public partial class TokenControl : IDisposable
         TokenEvent tokenEvent;
         if (Global() || Local())
         {
-            if (_events.Count != 0 || !executor.HoldTacticalBattle)
+            if (Events.Count != 0 || !executor.HoldTacticalBattle)
             {
                 if (Local())
                 {
@@ -64,21 +61,21 @@ public partial class TokenControl : IDisposable
                         SyncTokenEvent syncEvent = new(null) { Holder = _tokenManager.Owner };
                         int syncValue = executor.GetSyncValue();
                         syncEvent.SyncValue = syncValue;
-                        _events.Insert(0, syncEvent);
+                        Events.Insert(0, syncEvent);
                         _ = syncEvent.Release();
                     }
 
                     tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };
-                    _events.Add(tokenEvent);
+                    Events.Add(tokenEvent);
                     _ = tokenEvent.Release();
                 }
 
-                for (int i = 0, last = _events.Count - 1; i <= last; i++)
+                for (int i = 0, last = Events.Count - 1; i <= last; i++)
                 {
-                    executor.PrefetchTokenEvent(_events[i]);
+                    executor.PrefetchTokenEvent(Events[i]);
                 }
 
-                _events.Clear();
+                Events.Clear();
                 result = true;
             }
             else
@@ -95,12 +92,12 @@ public partial class TokenControl : IDisposable
                 {
                     for (int i = 0; i <= n - 1; i++)
                     {
-                        executor.PrefetchTokenEvent(_events[i]);
+                        executor.PrefetchTokenEvent(Events[i]);
                     }
 
                     for (int i = n - 1; i >= 0; i--)
                     {
-                        _events.Delete(i);
+                        Events.Delete(i);
                     }
 
                     result = true;
@@ -125,7 +122,7 @@ public partial class TokenControl : IDisposable
     {
         if (Local() && !Global() && events.Count != 0)
         {
-            _tokenManager.TokenPackageDistributor.SendTokenEvents(_player, NetworkSession.AllPlayers, events);
+            _tokenManager.TokenPackageDistributor.SendTokenEvents(Player, NetworkSession.AllPlayers, events);
         }
     }
 
@@ -133,10 +130,10 @@ public partial class TokenControl : IDisposable
     public TokenControl(TokenManager manager, int player)
     {
         // A construction test passes no manager.
-        _events = new TokenEventList(null) { Holder = manager?.Owner };
+        Events = new TokenEventList(null) { Holder = manager?.Owner };
         _tokenManager = manager;
-        _player = player;
-        _active = true;
+        Player = player;
+        Active = true;
         if (_tokenManager != null && _tokenManager.TokenExecutor != null)
         {
             _tokenManager.TokenExecutor.AddTacticalBattle(this);
@@ -174,37 +171,37 @@ public partial class TokenControl : IDisposable
             _tokenManager.TokenExecutor.RemoveTacticalBattle(this);
         }
 
-        _events?.Dispose();
+        Events?.Dispose();
     }
 
     // NetworkE.pas:1223
-    public void ClearEvents() => _events.Clear();
+    public void ClearEvents() => Events.Clear();
 
     // NetworkE.pas:1228
-    public TokenEvent GetEvent(int index) => _events[index];
+    public TokenEvent GetEvent(int index) => Events[index];
 
     // NetworkE.pas:1233
-    public int GetCount() => _events.Count;
+    public int GetCount() => Events.Count;
 
     // NetworkE.pas:1246
     public bool Local()
     {
         PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Local;
+        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
         PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Global;
+        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
         PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(_player).ConnectionMode == ConnectionMode.Remote;
+        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Remote;
     }
 
     // NetworkE.pas:1266
@@ -221,10 +218,10 @@ public partial class TokenControl : IDisposable
             i = 0;
             inOrder = true;
             passToken = false;
-            while (inOrder && !passToken && i < _events.Count)
+            while (inOrder && !passToken && i < Events.Count)
             {
-                inOrder = _events[i].TokenCounter == executor.TokenCounter + i;
-                passToken = _events[i].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
+                inOrder = Events[i].TokenCounter == executor.TokenCounter + i;
+                passToken = Events[i].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
                 i += 1;
             }
 
@@ -232,15 +229,15 @@ public partial class TokenControl : IDisposable
         }
         else
         {
-            result = _events.Count;
+            result = Events.Count;
         }
 
         return result;
     }
 
-    public TokenEventList Events => _events;
-    public int Player => _player;
-    public bool Active { get => _active; set => _active = value; }
+    public TokenEventList Events { get; }
+    public int Player { get; }
+    public bool Active { get; set; }
     public int Count => GetCount();
 
 }

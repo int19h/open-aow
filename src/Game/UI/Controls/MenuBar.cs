@@ -17,7 +17,6 @@ namespace Aow.Game.UI.Controls;
 public partial class MenuBar : Control
 {
     private readonly StringList _items;
-    private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _lastSelected;
     private int _imageLibraryIndexUp;
@@ -30,10 +29,12 @@ public partial class MenuBar : Control
     // AOWMenuBar.pas:65
     public MenuBar(Component owner) : base(owner)
     {
-        _items = new StringList();
-        _items.OnChange = OnChangeText;
+        _items = new StringList
+        {
+            OnChange = OnChangeText
+        };
         Menus = [];
-        _selected = -1;
+        Selected = -1;
     }
 
     // AOWMenuBar.pas:74
@@ -121,7 +122,7 @@ public partial class MenuBar : Control
                 Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = _items.Count - 1; i <= last; i++)
                 {
-                    if (i != _selected)
+                    if (i != Selected)
                     {
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
@@ -175,9 +176,9 @@ public partial class MenuBar : Control
             {
                 int count = _items.Count;
                 int i = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
-                if (i == _selected)
+                if (i == Selected)
                 {
-                    _selected = -1;
+                    Selected = -1;
                     RaiseChange(this);
 
                     Drawn = false;
@@ -186,14 +187,14 @@ public partial class MenuBar : Control
                 {
                     if (!_ignoreClickOnLastSelected || (i > -1 && i != _lastSelected))
                     {
-                        _selected = i;
+                        Selected = i;
                         _lastSelected = i;
                         i = 0;
                         int last = Menus.Count - 1;
                         for (; i <= last; i += 1)
                         {
                             Menu component = Menus[i];
-                            if (component.OwnerItem == _selected)
+                            if (component.OwnerItem == Selected)
                             {
                                 component.SetVisible(true);
                             }
@@ -210,9 +211,9 @@ public partial class MenuBar : Control
         }
         else
         {
-            if (_selected > -1)
+            if (Selected > -1)
             {
-                _selected = -1;
+                Selected = -1;
                 Drawn = false;
             }
         }
@@ -291,7 +292,7 @@ public partial class MenuBar : Control
     public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public int Selected { get => _selected; set => _selected = value; }
+    public int Selected { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }

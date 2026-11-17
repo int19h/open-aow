@@ -5,10 +5,8 @@ using Aow.Game.Draw.Images;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class ImageLibraryTerrainMapObjectResource : MultiHexMapObjectResource
+public partial class ImageLibraryTerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResource(owner)
 {
-    public ImageLibraryTerrainMapObjectResource(CustomNode owner) : base(owner)
-    { }
 
     // ILTer.pas:269
     public new const int ClassId = 131463;

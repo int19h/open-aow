@@ -5,13 +5,10 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPlayer : EngineObject
+public partial class CombatPlayer(CustomNode owner) : EngineObject(owner)
 {
     // Combat2.pas:115
     public new const int ClassId = 131744;
-
-    public CombatPlayer(CustomNode owner) : base(owner)
-    { }
 
     public sbyte Player { get; set; }
     public byte IndependentRelation { get; set; }

@@ -14,10 +14,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.AI;
 
-public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public ResearchSpellAIPlayerAction(CustomNode owner) : base(owner)
-    { }
 
     // Spells.PAS:1504
     public override bool Process()

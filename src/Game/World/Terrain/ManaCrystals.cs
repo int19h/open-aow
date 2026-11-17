@@ -164,9 +164,12 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
-        log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-        log.Player = (sbyte)(byte)armyHexSprite.Army.Player;
-        log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
+        log = new LocationTextEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = (sbyte)(byte)armyHexSprite.Army.Player,
+            Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)])
+        };
         log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
@@ -184,10 +187,8 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         public byte Kind { get; init; }
     }
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // ManaCrystals.pas:168
         public new const int ClassId = 132031;

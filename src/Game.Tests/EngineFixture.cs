@@ -57,7 +57,7 @@ public sealed partial class EngineFixture : IDisposable
     internal static GamePack CreateGameSet(ImageLibraryManager manager)
     {
         GamePack value = GamePack.Create(null!, holder: Engine);
-        typeof(GamePack).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
+        MemberNames.Field(typeof(GamePack), "ImageLibraryManager")!.SetValue(value, manager);
         return value;
     }
 
@@ -278,15 +278,13 @@ public sealed partial class EngineFixture : IDisposable
     // children, and forwarding starts once the map is built.
     internal sealed class MapOwner : GameMap, IForwarder
     {
-        private readonly Owner _recorder;
+        public MapOwner(Owner recorder) : base(null) => Recorder = recorder;
 
-        public MapOwner(Owner recorder) : base(null) => _recorder = recorder;
+        public Owner Recorder { get; }
 
-        public Owner Recorder => _recorder;
+        public override int AddChild(EngineObject child) => Recorder is null ? base.AddChild(child) : Recorder.AddChild(child);
 
-        public override int AddChild(EngineObject child) => _recorder is null ? base.AddChild(child) : _recorder.AddChild(child);
-
-        public override int RemoveChild(EngineObject child) => _recorder is null ? base.RemoveChild(child) : _recorder.RemoveChild(child);
+        public override int RemoveChild(EngineObject child) => Recorder is null ? base.RemoveChild(child) : Recorder.RemoveChild(child);
     }
 
     // The owner a construction test passes for the type: the recorder itself, or an owner of the

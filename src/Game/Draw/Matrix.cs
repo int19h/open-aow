@@ -10,16 +10,13 @@ public partial class Matrix : IDisposable
 {
     internal byte[] Data { get; private set; }
 
-    private readonly byte _width;
-    private readonly byte _height;
-
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
     public Matrix(byte width, byte height)
     {
-        _width = width;
-        _height = height;
-        Data = _width * _height == 0 ? null : new byte[_width * _height];
+        Width = width;
+        Height = height;
+        Data = Width * Height == 0 ? null : new byte[Width * Height];
     }
 
     // DisplayC.pas:3155
@@ -30,9 +27,9 @@ public partial class Matrix : IDisposable
     public int GetValue(byte X, byte Y)
     {
         int result;
-        if (X < _width && Y < _height)
+        if (X < Width && Y < Height)
         {
-            result = Data[X + (Y * _width)];
+            result = Data[X + (Y * Width)];
             if (result > 2)
             {
                 result = 2;
@@ -49,13 +46,13 @@ public partial class Matrix : IDisposable
     // DisplayC.pas:3178
     public void SetValue(byte X, byte Y, byte value)
     {
-        if (X < _width && Y < _height)
+        if (X < Width && Y < Height)
         {
-            Data[X + (Y * _width)] = value;
+            Data[X + (Y * Width)] = value;
         }
     }
 
-    public byte Width => _width;
-    public byte Height => _height;
+    public byte Width { get; }
+    public byte Height { get; }
 
 }

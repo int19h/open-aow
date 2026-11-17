@@ -56,8 +56,13 @@ public sealed partial class PersistEquivalenceTests
         {
             SchemaClass classValue = s_schema.Get("Hero");
             Check("Hero", new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Plain", Player = 2, LibraryId = 4 });
-            Hero updating = new(null) { Holder = EngineFixture.Engine, HeroName = "Updating", Player = 2 };
-            updating.Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+            Hero updating = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                HeroName = "Updating",
+                Player = 2,
+                Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary)
+            };
             JsonObject written = DocumentBackend.Write(TreeWriter.Write(updating, Factory), classValue, s_schema, "game");
             Assert.Null(written.Find("Inventory"));
             Assert.Null(written.Find("HeroItems"));
@@ -86,8 +91,12 @@ public sealed partial class PersistEquivalenceTests
 
         static Hero Updating(sbyte player)
         {
-            Hero hero = new(null) { Holder = EngineFixture.Engine, Player = player };
-            hero.Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+            Hero hero = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                Player = player,
+                Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary)
+            };
             return hero;
         }
     }

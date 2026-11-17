@@ -4,10 +4,6 @@ namespace Aow.Game.World;
 
 // HSEngine.EMapObjectResourceMissing: TMapObject.ReadWrite raises it when the resource id read
 // from the stream is not in the resource list
-public partial class MapObjectResourceMissingException : Exception
+public partial class MapObjectResourceMissingException(string message) : Exception(message)
 {
-    // SysUtils.pas:174
-    public MapObjectResourceMissingException(string message) : base(message)
-    {
-    }
 }

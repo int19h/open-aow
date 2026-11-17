@@ -19,7 +19,7 @@ public partial class ImageLibraryFont
         foreach (char c in text)
         {
             LibraryImage image = GetSafe(Cp1252.Byte(c));
-            width += (image?.Width ?? 5) + _characterDistance;
+            width += (image?.Width ?? 5) + CharacterDistance;
         }
         return width;
     }
@@ -36,7 +36,7 @@ public partial class ImageLibraryFont
             LibraryImage image = GetSafe(Cp1252.Byte(c));
             image?.Show(x, y, lockedSurface);
 
-            x += (image?.Width ?? 5) + _characterDistance;
+            x += (image?.Width ?? 5) + CharacterDistance;
         }
     }
 

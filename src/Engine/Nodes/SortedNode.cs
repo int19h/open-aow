@@ -5,12 +5,10 @@ namespace Aow.Engine.Nodes;
 
 public partial class SortedNode : CustomNode
 {
-    // Engine.pas:1478
-    public new const int ClassId = 260;
-
     public SortedNode(CustomNode owner) : base(owner) => Items = [];
 
-    private bool _sorted;
+    // Engine.pas:1478
+    public new const int ClassId = 260;
 
     protected internal int StoredCount { get; set; }
 
@@ -105,7 +103,7 @@ public partial class SortedNode : CustomNode
             Grow();
         }
 
-        if (_sorted)
+        if (Sorted)
         {
             i = StoredCount;
             while (i > 0 && sortValue > Items[i - 1].SortValue)
@@ -147,15 +145,15 @@ public partial class SortedNode : CustomNode
     // Engine.pas:1596
     public virtual void Sort()
     {
-        if (!_sorted && StoredCount > 0)
+        if (!Sorted && StoredCount > 0)
         {
             SortItems(Items, 0, StoredCount - 1);
         }
 
-        _sorted = true;
+        Sorted = true;
     }
 
-    public bool Sorted { get => _sorted; protected internal set => _sorted = value; }
+    public bool Sorted { get; protected internal set; }
 
     private static void SortItems(Span<SortItem> sortList, int L, int R)
     {

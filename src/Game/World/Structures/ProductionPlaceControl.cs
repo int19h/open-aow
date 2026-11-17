@@ -15,11 +15,8 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // production place
-public partial class ProductionPlaceControl : ProductionControl
+public partial class ProductionPlaceControl(CustomNode owner) : ProductionControl(owner)
 {
-    public ProductionPlaceControl(CustomNode owner) : base(owner)
-    { }
-
     public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
@@ -48,8 +45,11 @@ public partial class ProductionPlaceControl : ProductionControl
             enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);
         }
 
-        log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-        log.Player = productionPlace.Player;
+        log = new ProductionPlaceEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = productionPlace.Player
+        };
         string name = Settings.Unit.GetName();
         string fProductionPlaceName = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
@@ -66,8 +66,11 @@ public partial class ProductionPlaceControl : ProductionControl
         ProductionPlaceEventLog log;
         base.UnitResearched();
         ProductionPlace productionPlace = ProductionPlace;
-        log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-        log.Player = productionPlace.Player;
+        log = new ProductionPlaceEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = productionPlace.Player
+        };
         UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = ProductionPlace.GetName();

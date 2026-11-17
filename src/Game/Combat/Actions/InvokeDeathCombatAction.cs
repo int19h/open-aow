@@ -9,12 +9,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class InvokeDeathCombatAction : SingleTargetCombatAction
+public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131780;
-
-    public InvokeDeathCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public bool Successful { get; private set; }
 

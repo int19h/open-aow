@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
+public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public CombatImageLibraryTerrain(CustomNode owner) : base(owner)
-    { }
 
     // CombatILTer.pas:105
     public new const int ClassId = 2228534;
@@ -120,8 +118,11 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatImageLibraryTerrainShadow(null) { Holder = CreationHolder() };
-                _shadow.Terrain = this;
+                _shadow = new CombatImageLibraryTerrainShadow(null)
+                {
+                    Holder = CreationHolder(),
+                    Terrain = this
+                };
             }
         }
     }

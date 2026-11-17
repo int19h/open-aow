@@ -16,6 +16,12 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexTexture, _dockable
 public partial class WindowControl : UIComponent
 {
+    public WindowControl(Component owner) : base(owner)
+    {
+        OldCursor = -2;
+        WindowCursor = -2;
+    }
+
     [Published]
     public bool Modal { get; set; }
 
@@ -134,13 +140,6 @@ public partial class WindowControl : UIComponent
 
     [Published]
     public bool Dockable { get; set; }
-
-    // AoWWinControl.pas:103
-    public WindowControl(Component owner) : base(owner)
-    {
-        OldCursor = -2;
-        WindowCursor = -2;
-    }
 
     // AoWWinControl.pas:110
     public override void Dispose()

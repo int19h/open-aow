@@ -9,7 +9,6 @@ namespace Aow.Game.Events;
 // location
 public partial class LocationTextEventLog : TextEventLog
 {
-    // EventLog.pas:725
     public LocationTextEventLog(CustomNode owner) : base(owner) => Location = new MapCoordinate(-1, -1, -1);
 
     // EventLog.pas:728

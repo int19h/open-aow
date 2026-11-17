@@ -35,10 +35,13 @@ public partial class Entangle : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         EntangleSpellCombatAction action;
-        action = new EntangleSpellCombatAction(null) { Holder = CreationHolder() };
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
-        action.SpellId = SpellId;
+        action = new EntangleSpellCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SourceId = source.Id,
+            TargetId = target.Id,
+            SpellId = SpellId
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

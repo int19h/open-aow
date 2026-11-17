@@ -9,11 +9,8 @@ using Aow.Game.UI.Windows;
 namespace Aow.Game.UI.Dialogs;
 
 // completion event, retained message event
-public partial class MessageDialog : UIModule
+public partial class MessageDialog(UIContext ui) : UIModule(ui)
 {
-    public MessageDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label TitleLabel { get; private set; }
     public Panel YesNoPanel { get; private set; }

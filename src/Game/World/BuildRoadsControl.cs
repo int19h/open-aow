@@ -9,12 +9,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World;
 
-public partial class BuildRoadsControl : ConstructionControl
+public partial class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
 {
-    // AoWAb.PAS:5446
-    public BuildRoadsControl(CustomNode owner) : base(owner)
-    {
-    }
 
     // AoWAb.PAS:5458
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)

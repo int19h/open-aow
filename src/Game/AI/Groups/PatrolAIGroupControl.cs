@@ -11,13 +11,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PatrolAIGroupControl : AIGroupControl
+public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
     // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
     public const int HexDirectionSlotCount = 7;
-
-    public PatrolAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     public new PatrolAIGroup Group => GetGroup<PatrolAIGroup>();
 
@@ -85,8 +82,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     Group.PatrolStrength = StrengthMax;
                 }
 
-                defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
-                defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
+                defense = new AIGroupDefenseControl(null)
+                {
+                    Holder = CreationHolder(),
+                    DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait
+                };
                 ActivatePlugin(defense);
                 _ = defense.Release();
                 State = 1;
@@ -166,8 +166,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 7:
-                settings = new MoveControlSettings(null) { Holder = CreationHolder() };
-                settings.Player = Group.Player;
+                settings = new MoveControlSettings(null)
+                {
+                    Holder = CreationHolder(),
+                    Player = Group.Player
+                };
                 settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
                 settings.SetSourcePosition(Location);
                 settings.SetDestinationPosition(Group.PatrolFrom);
@@ -213,8 +216,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
             group.PatrolFrom = Location;
         }
 
-        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
-        settings.Player = group.Player;
+        settings = new MoveControlSettings(null)
+        {
+            Holder = CreationHolder(),
+            Player = group.Player
+        };
         settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
         settings.SetSourcePosition(group.PatrolFrom);
         settings.MovePointsMax = 48;

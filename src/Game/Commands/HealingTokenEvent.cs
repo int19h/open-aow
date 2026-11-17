@@ -10,11 +10,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (unit IDs, players)
-public partial class HealingTokenEvent : TokenEvent
+public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public HealingTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131826;
 
     public int SourceId { get; set; }

@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SynchronizeDialog : UIModule
+public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
 {
-    public SynchronizeDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Image LeftShield { get; private set; }
     public Label PlayerNameLabel { get; private set; }

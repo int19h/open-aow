@@ -4,12 +4,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Layout;
 
-public class LayoutVideoPlayer : VideoPlayer
+public class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
 {
-    public LayoutVideoPlayer(Component owner) : base(owner)
-    {
-    }
-
     public VideoPlayerLoopMode LoopMode { get; set; }
 
     // Nothing in the port raises OnStreamSound. The bound handler is kept.

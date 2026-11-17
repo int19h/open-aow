@@ -20,7 +20,15 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexDecrementDown, _imageLibraryIndexBack, _thumbImageIndex
 public partial class ScrollBar : Control
 {
-    private bool _vanishWhenFull;
+    public ScrollBar(Rtl.Component owner) : base(owner)
+    {
+        _smallChange = 1;
+        _largeChange = 1;
+        _max = 1;
+        _numberVisible = 1;
+        Delay = 20;
+    }
+
     private InterfaceImageLibrary _imageLibraryImageIncrement;
     private InterfaceImageLibrary _imageLibraryIDecrement;
     private InterfaceImageLibrary _imageLibraryTileBack;
@@ -41,8 +49,6 @@ public partial class ScrollBar : Control
     public byte HeldUpdateCount { get; protected set; }
     public byte HeldPart { get; protected set; }
 
-    private byte _delay;
-
     public int TrackClickTarget { get; protected set; }
 
     private int _numberVisible;
@@ -56,16 +62,6 @@ public partial class ScrollBar : Control
     private int _imageLibraryIndexDecrementDown;
     private int _imageLibraryIndexBack;
     private int _thumbImageIndex;
-
-    // AoWVScroll.pas:130
-    public ScrollBar(Rtl.Component owner) : base(owner)
-    {
-        _smallChange = 1;
-        _largeChange = 1;
-        _max = 1;
-        _numberVisible = 1;
-        _delay = 20;
-    }
 
     // AoWVScroll.pas:251
     // { Validate checks the image libraries and picks the kind of scroll bar: both buttons with a
@@ -140,7 +136,7 @@ public partial class ScrollBar : Control
     {
         if (Visible && HeldUpdateCount > 0)
         {
-            if (HeldUpdateCount < _delay)
+            if (HeldUpdateCount < Delay)
             {
                 HeldUpdateCount = (byte)(HeldUpdateCount + 1);
             }
@@ -396,7 +392,7 @@ public partial class ScrollBar : Control
 
     [Published]
     [DefaultValue(20)]
-    public byte Delay { get => _delay; set => _delay = value; }
+    public byte Delay { get; set; }
 
     [Published]
     public int Min { get => _min; set => SetFMin(value); }
@@ -427,7 +423,7 @@ public partial class ScrollBar : Control
     protected internal void SetNumberVisibleUnclamped(int value) => _numberVisible = value;
 
     [Published]
-    public bool VanishWhenFull { get => _vanishWhenFull; set => _vanishWhenFull = value; }
+    public bool VanishWhenFull { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryImageIncrement { get => _imageLibraryImageIncrement; set => SetImageLibraryIncrement(value); }

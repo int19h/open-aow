@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // all fields are form components, power allocation slider
-public partial class PowerDialog : UIModule
+public partial class PowerDialog(UIContext ui) : UIModule(ui)
 {
-    public PowerDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label NetManaLabel { get; private set; }
     public Label ResearchLeftLabel { get; private set; }

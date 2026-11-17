@@ -7,11 +7,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class TerminateCombatTokenEvent : TokenEvent
+public partial class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-
-    public TerminateCombatTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:149
     public new const int ClassId = 2236422;

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<DiplomaticRelationHistoryItem>
+public partial class DiplomaticRelationHistoryList(CustomNode owner) : OwningNode(owner), IChildList<DiplomaticRelationHistoryItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.
@@ -14,9 +14,6 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     int IChildSink<DiplomaticRelationHistoryItem>.AddChild(DiplomaticRelationHistoryItem child) => AddChild(child);
 
     public new const int ClassId = 131355;
-
-    public DiplomaticRelationHistoryList(CustomNode owner) : base(owner)
-    { }
 
     // Player.PAS:45
     public DiplomaticRelationHistoryItem GetItems(int index) => GetChildInRange<DiplomaticRelationHistoryItem>(index);
@@ -46,9 +43,11 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     // Player.PAS:69
     public void Add(DiplomaticRelation relation, int day)
     {
-        DiplomaticRelationHistoryItem diplomaticRelationHistoryItem = new(this);
-        diplomaticRelationHistoryItem.Day = day;
-        diplomaticRelationHistoryItem.Relation = relation;
+        _ = new DiplomaticRelationHistoryItem(this)
+        {
+            Day = day,
+            Relation = relation
+        };
     }
 
     // Engine.pas:631

@@ -11,11 +11,8 @@ namespace Aow.Game.World;
 // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }
 // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
-public partial class Bridge : AbstractRoad
+public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
 {
-    public Bridge(CustomNode owner) : base(owner)
-    {
-    }
 
     // Bridge.pas:48
     public new const int ClassId = 131444;

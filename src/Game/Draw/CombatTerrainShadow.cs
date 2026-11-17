@@ -6,11 +6,8 @@ using Aow.Game.World.Hexes;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatTerrainShadow : HexSprite
+public partial class CombatTerrainShadow(CustomNode owner) : HexSprite(owner)
 {
-    public CombatTerrainShadow(CustomNode owner) : base(owner)
-    { }
-
     public CombatTerrain Terrain { get; set; }
 
     // CombatTerrain.pas:72

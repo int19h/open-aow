@@ -17,10 +17,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class FireStorm : Storm
+public partial class FireStorm(CustomNode owner) : Storm(owner)
 {
-    public FireStorm(CustomNode owner) : base(owner)
-    { }
 
     // Storms.pas:517
     public new const int ClassId = 135742;

@@ -58,12 +58,12 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyHexSprite.MoveSteps": 0,
           "ArmyHexSprite._unitIndex": 0,
@@ -151,12 +151,12 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyHexSprite.MoveSteps": 0,
           "ArmyHexSprite._unitIndex": 0,

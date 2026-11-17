@@ -5,10 +5,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
+public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
-    public CombatFixedImageLibraryTerrain(CustomNode owner) : base(owner)
-    { }
 
     // CombatILTer.pas:191
     public new const int ClassId = 2228536;
@@ -68,10 +66,8 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     // CombatILTer.pas:194
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -1;
 
-    public new partial class Resource : CombatImageLibraryTerrainResource
+    public new partial class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CombatILTer.pas:227
         public new const int ClassId = 2228537;

@@ -35,18 +35,18 @@ public partial class GameMap : OwningNode
 
     public GameMap(CustomNode owner) : base(owner)
     {
-        _mouse = CreateMouse();
-        _mouse.HexSpriteMap = this;
-        _selection = new HexSpriteSelection(this);
-        _selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _staticVisibleHexSprite = new VisibilityList(this);
-        _staticVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _dynamicVisibleHexSprite = new VisibilityList(this);
-        _dynamicVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _staticFixedVisibleHexSprite = new VisibilityList(this);
-        _staticFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _dynamicFixedVisibleHexSprite = new VisibilityList(this);
-        _dynamicFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        Mouse = CreateMouse();
+        Mouse.HexSpriteMap = this;
+        Selection = new HexSpriteSelection(this);
+        Selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        StaticVisibleHexSprite = new VisibilityList(this);
+        StaticVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        DynamicVisibleHexSprite = new VisibilityList(this);
+        DynamicVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        StaticFixedVisibleHexSprite = new VisibilityList(this);
+        StaticFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        DynamicFixedVisibleHexSprite = new VisibilityList(this);
+        DynamicFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         HexSpriteChangedEventsStore = new();
         TerrainChangedEventsStore = new();
         ViewPortChangedEventsStore = new();
@@ -67,20 +67,7 @@ public partial class GameMap : OwningNode
         FPS = 30;
     }
 
-    private readonly GameMapMouse _mouse;
-    private MapContainer _mapContainer;
-    private GameEngine _engine;
-    private readonly HexSpriteSelection _selection;
-    private readonly VisibilityList _staticVisibleHexSprite;
-    private readonly VisibilityList _dynamicVisibleHexSprite;
-    private readonly VisibilityList _staticFixedVisibleHexSprite;
-    private readonly VisibilityList _dynamicFixedVisibleHexSprite;
-    private bool _staticSceneInvalid;
-    private bool _dynamicSceneInvalid;
-    private int _version;
     private string _hssFileName = "";
-    private Set<HexSpriteMapStatusElement> _status;
-    private int _frame;
 
     internal EventStore<TerrainChangedNotification> TerrainChangedEventsStore { get; }
 
@@ -150,17 +137,6 @@ public partial class GameMap : OwningNode
         remove => HexSpriteChangedEventsStore.Remove(value);
     }
 
-    private string _fileName = "";
-    private int _viewPixelX;
-    private int _viewPixelY;
-    private int _viewMapLevel;
-    private int _viewWidth;
-    private int _viewHeight;
-    private int _viewHexX;
-    private int _viewHexY;
-    private int _viewWidthHex;
-    private int _viewHeightHex;
-
     // AoWHSMap.PAS:383 around HSMAP.PAS:37.
     public override void Dispose()
     {
@@ -171,17 +147,17 @@ public partial class GameMap : OwningNode
         _frontHexSelector?.Dispose();
         _scannerIconsChangedEventsStore.Clear();
         LockTerrainChangedEvent();
-        _status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-        _selection.OnSelectStore.Clear();
-        _selection.OnDeselectStore.Clear();
-        _selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _selection.UnselectAll();
+        Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        Selection.OnSelectStore.Clear();
+        Selection.OnDeselectStore.Clear();
+        Selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        Selection.UnselectAll();
         DestroyEventsStore.Raise(this);
         HexSpriteChangedEventsStore.Clear();
-        _staticVisibleHexSprite.QuickClear();
-        _dynamicVisibleHexSprite.QuickClear();
-        _staticFixedVisibleHexSprite.QuickClear();
-        _dynamicFixedVisibleHexSprite.QuickClear();
+        StaticVisibleHexSprite.QuickClear();
+        DynamicVisibleHexSprite.QuickClear();
+        StaticFixedVisibleHexSprite.QuickClear();
+        DynamicFixedVisibleHexSprite.QuickClear();
         EngineMessage.InitializeMessage(out EngineMessage message, 536936471, this);
         SendMessage(ref message, this);
         NewFrameEventsStore.Clear();
@@ -190,7 +166,7 @@ public partial class GameMap : OwningNode
         TerrainChangedEventsStore.Clear();
         ViewPortChangedEventsStore.Clear();
         NewFrameEventsStore.Clear();
-        _mouse?.Dispose();
+        Mouse?.Dispose();
         DestroyEventsStore.Clear();
         UnlockTerrainChangedEvent();
 
@@ -209,7 +185,7 @@ public partial class GameMap : OwningNode
         base.PersistFields(persister);
         if (persister.Loading && persister.Preview)
         {
-            _status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
+            Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
         }
 
         // The original leaves the file name out of a text stream. Under the translate stream's mode
@@ -226,19 +202,19 @@ public partial class GameMap : OwningNode
             engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: PersistSupport.Progress(persister));
         }
 
-        _version = PersistSupport.UnsignedByte(persister, name: "Version", value: (sbyte)_version);
-        _viewPixelX = persister.Int32("ViewPixelX", value: _viewPixelX);
-        _viewPixelY = persister.Int32("ViewPixelY", value: _viewPixelY);
-        _viewMapLevel = persister.Int32("ViewMapLevel", value: _viewMapLevel);
+        Version = PersistSupport.UnsignedByte(persister, name: "Version", value: (sbyte)Version);
+        ViewPixelX = persister.Int32("ViewPixelX", value: ViewPixelX);
+        ViewPixelY = persister.Int32("ViewPixelY", value: ViewPixelY);
+        ViewMapLevel = persister.Int32("ViewMapLevel", value: ViewMapLevel);
     }
 
     // HSMAP.PAS:261
     public override void MainPersist(IPersister persister)
     {
         base.MainPersist(persister);
-        if (!_status.Contains(HexSpriteMapStatusElement.PreviewMode) && persister.Loading)
+        if (!Status.Contains(HexSpriteMapStatusElement.PreviewMode) && persister.Loading)
         {
-            _mapContainer.Loaded();
+            MapContainer.Loaded();
         }
     }
 
@@ -273,11 +249,11 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:81
     public override void Clear()
     {
-        _staticVisibleHexSprite.QuickClear();
-        _dynamicVisibleHexSprite.QuickClear();
-        _selection.QuickClear();
+        StaticVisibleHexSprite.QuickClear();
+        DynamicVisibleHexSprite.QuickClear();
+        Selection.QuickClear();
         base.Clear();
-        _mapContainer = null;
+        MapContainer = null;
         ClearViewPort();
     }
 
@@ -286,13 +262,13 @@ public partial class GameMap : OwningNode
     {
         if (message.MessageId == 536870920)
         {
-            _engine = message.Payload.As<GameEngine>();
+            Engine = message.Payload.As<GameEngine>();
         }
 
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            _mouse.Reset();
+            Mouse.Reset();
         }
     }
 
@@ -316,7 +292,7 @@ public partial class GameMap : OwningNode
         TerrainChangedNotification.TerrainChangedInfo info = notification.Info;
         info.Rectangle = R;
         info.Level = L;
-        MapLevel mapLevel = _mapContainer.GetMapLevel(L);
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
         TerrainChangedEventsStore.Raise(notification);
@@ -330,28 +306,28 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:705
     public virtual void DrawStaticHexSprite(ref LockedSurface lockedSurface)
     {
-        if (_staticSceneInvalid)
+        if (StaticSceneInvalid)
         {
             throw new InvalidOperationException("Static scene is invalid, call UpdateStaticScene!");
         }
 
-        for (int i = _staticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
+        for (int i = StaticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
-            _staticVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
+            StaticVisibleHexSprite[i].Show(ViewPixelX, ViewPixelY, lockedSurface);
         }
     }
 
     // HSMAP.PAS:725
     public virtual void DrawDynamicHexSprite(ref LockedSurface lockedSurface)
     {
-        if (_dynamicSceneInvalid)
+        if (DynamicSceneInvalid)
         {
             throw new InvalidOperationException("Dynamic scene is invalid, call UpdateDynamicScene!");
         }
 
-        for (int i = _dynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
+        for (int i = DynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
-            _dynamicVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
+            DynamicVisibleHexSprite[i].Show(ViewPixelX, ViewPixelY, lockedSurface);
         }
     }
 
@@ -368,9 +344,9 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:273
     public virtual void FillLevelWithResource(int L, MapObjectResource resource)
     {
-        for (int y = 0, last = _mapContainer.Height - 1; y <= last; y++)
+        for (int y = 0, last = MapContainer.Height - 1; y <= last; y++)
         {
-            for (int x = 0, lastX = _mapContainer.Width - 1; x <= lastX; x++)
+            for (int x = 0, lastX = MapContainer.Width - 1; x <= lastX; x++)
             {
                 _ = resource.PlaceResourceUser(this, (sbyte)x, (sbyte)y, (sbyte)L);
             }
@@ -378,35 +354,35 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:96
-    public virtual bool AddMapLevel() => _mapContainer.AddLevel(65794);
+    public virtual bool AddMapLevel() => MapContainer.AddLevel(65794);
 
     // HSMAP.PAS:101
     public virtual void Activate()
     {
-        if (_status.Contains(HexSpriteMapStatusElement.Activated))
+        if (Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             throw new InvalidOperationException("HSMap already activated");
         }
 
-        _status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
+        Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
     }
 
     // HSMAP.PAS:108
     public virtual void Deactivate()
     {
-        if (!_status.Contains(HexSpriteMapStatusElement.Activated))
+        if (!Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             throw new InvalidOperationException("HSMap wasn't activated");
         }
 
-        _status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
+        Status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
     }
 
     // HSMAP.PAS:128
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (OnCenterView != null && hexLevel < _mapContainer.LevelCount)
+        if (OnCenterView != null && hexLevel < MapContainer.LevelCount)
         {
             OnViewLevel(hexLevel);
         }
@@ -421,14 +397,14 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:579
     public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
     {
-        HexGeometry.PixelToHex(_viewPixelX + (int)(((uint)_viewWidth) >> 1), _viewPixelY + (int)(((uint)_viewHeight) >> 1), out hexX, out hexY);
-        hexLevel = _viewMapLevel;
+        HexGeometry.PixelToHex(ViewPixelX + (int)(((uint)ViewWidth) >> 1), ViewPixelY + (int)(((uint)ViewHeight) >> 1), out hexX, out hexY);
+        hexLevel = ViewMapLevel;
     }
 
     // HSMAP.PAS:134
     public virtual void MakeVisible(int hexX, int hexY, int hexLevel, int radius)
     {
-        if (_viewMapLevel != hexLevel || hexX - radius < _viewHexX || hexX + radius >= _viewHexX + _viewWidthHex || hexY - radius < _viewHexY || hexY + radius >= _viewHexY + _viewHeightHex)
+        if (ViewMapLevel != hexLevel || hexX - radius < ViewHexX || hexX + radius >= ViewHexX + ViewWidthHex || hexY - radius < ViewHexY || hexY + radius >= ViewHexY + ViewHeightHex)
         {
             CenterViewTo(hexX, hexY, hexLevel);
         }
@@ -442,10 +418,10 @@ public partial class GameMap : OwningNode
         try
         {
             SetHssFileName(settings.HssFileName);
-            _engine.InitializeHexSpriteSet(settings.HssFileName, null);
-            _mapContainer = _engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
-            _engine.ActivateEngineObject(_mapContainer);
-            _mapContainer.New(settings);
+            Engine.InitializeHexSpriteSet(settings.HssFileName, null);
+            MapContainer = Engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
+            Engine.ActivateEngineObject(MapContainer);
+            MapContainer.New(settings);
             result = true;
             InitializeNewMap();
             Activate();
@@ -471,7 +447,7 @@ public partial class GameMap : OwningNode
         MapLevel mapLevel;
         LockTerrainChangedEvent();
         list = new SByteList();
-        mapLevel = _mapContainer.GetMapLevel(L);
+        mapLevel = MapContainer.GetMapLevel(L);
         count = 0;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= radius)
@@ -568,7 +544,7 @@ public partial class GameMap : OwningNode
             orgList = new SByteList();
             newList = new SByteList();
             changed = new BitList();
-            mapLevel = _mapContainer.GetMapLevel(L);
+            mapLevel = MapContainer.GetMapLevel(L);
             count = 0;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
             while (walk.Radius <= radius)
@@ -716,24 +692,24 @@ public partial class GameMap : OwningNode
         int maxY;
         MapLevel mapLevel;
         ResetVisibleStaticHexSprite();
-        maxX = _viewHexX + _viewWidthHex - 1;
-        maxY = _viewHexY + _viewHeightHex - 1;
-        mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
-        for (int x = _viewHexX; x <= maxX; x++)
+        maxX = ViewHexX + ViewWidthHex - 1;
+        maxY = ViewHexY + ViewHeightHex - 1;
+        mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
+        for (int x = ViewHexX; x <= maxX; x++)
         {
-            for (int y = maxY, last = _viewHexY; y >= last; y--)
+            for (int y = maxY, last = ViewHexY; y >= last; y--)
             {
-                mapLevel.GetField(x, y).CopyStaticVisibleHexSprite(_staticVisibleHexSprite);
+                mapLevel.GetField(x, y).CopyStaticVisibleHexSprite(StaticVisibleHexSprite);
             }
         }
 
-        for (int x = 0, last = _staticFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
+        for (int x = 0, last = StaticFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
         {
-            _staticFixedVisibleHexSprite[x].MakeVisible(_staticVisibleHexSprite);
+            StaticFixedVisibleHexSprite[x].MakeVisible(StaticVisibleHexSprite);
         }
 
-        _staticVisibleHexSprite.Sort();
-        _staticSceneInvalid = false;
+        StaticVisibleHexSprite.Sort();
+        StaticSceneInvalid = false;
     }
 
     // AoWHSMap.PAS:833 shows the explored fields only.
@@ -786,24 +762,24 @@ public partial class GameMap : OwningNode
         int maxY;
         MapLevel mapLevel;
         ResetVisibleDynamicHexSprite();
-        maxX = _viewHexX + _viewWidthHex - 1;
-        maxY = _viewHexY + _viewHeightHex - 1;
-        mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
-        for (int x = _viewHexX; x <= maxX; x++)
+        maxX = ViewHexX + ViewWidthHex - 1;
+        maxY = ViewHexY + ViewHeightHex - 1;
+        mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
+        for (int x = ViewHexX; x <= maxX; x++)
         {
-            for (int y = maxY, last = _viewHexY; y >= last; y--)
+            for (int y = maxY, last = ViewHexY; y >= last; y--)
             {
-                mapLevel.GetField(x, y).CopyDynamicVisibleHexSprite(_dynamicVisibleHexSprite);
+                mapLevel.GetField(x, y).CopyDynamicVisibleHexSprite(DynamicVisibleHexSprite);
             }
         }
 
-        for (int x = 0, last = _dynamicFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
+        for (int x = 0, last = DynamicFixedVisibleHexSprite.StoredCount - 1; x <= last; x++)
         {
-            _dynamicFixedVisibleHexSprite[x].MakeVisible(_dynamicVisibleHexSprite);
+            DynamicFixedVisibleHexSprite[x].MakeVisible(DynamicVisibleHexSprite);
         }
 
-        _dynamicVisibleHexSprite.Sort();
-        _dynamicSceneInvalid = false;
+        DynamicVisibleHexSprite.Sort();
+        DynamicSceneInvalid = false;
     }
 
     // HSMAP.PAS:719
@@ -823,10 +799,10 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:752, then AoWHSMap.PAS:861.
     public virtual void NewFrame()
     {
-        _frame += 1;
-        if (_frame > 1048575)
+        Frame += 1;
+        if (Frame > 1048575)
         {
-            _frame = 0;
+            Frame = 0;
         }
 
         NewFrameEventsStore.Raise(this);
@@ -839,7 +815,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:91
-    public void RemoveMapLevel(int index) => _mapContainer.RemoveLevel(index);
+    public void RemoveMapLevel(int index) => MapContainer.RemoveLevel(index);
 
     // HSMAP.PAS:151
     public void NotifyTerrainChanged(in Rect R, sbyte L)
@@ -855,7 +831,7 @@ public partial class GameMap : OwningNode
     {
         MapLevel mapLevel;
         Rect r = default;
-        mapLevel = _mapContainer.GetMapLevel(L);
+        mapLevel = MapContainer.GetMapLevel(L);
         r.Left = X - radius;
         if (r.Left < 0)
         {
@@ -898,15 +874,15 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:198
-    public void SetModified() => _status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
+    public void SetModified() => Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
 
     // HSMAP.PAS:203
-    public void ResetModified() => _status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
+    public void ResetModified() => Status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
 
     // HSMAP.PAS:208
     public int GetMaxPixelX()
     {
-        HexGeometry.HexToPixel(_mapContainer.Width - 1, _mapContainer.Height - 1, out int x, out _);
+        HexGeometry.HexToPixel(MapContainer.Width - 1, MapContainer.Height - 1, out int x, out _);
 
         x += 40;
         return x;
@@ -916,13 +892,13 @@ public partial class GameMap : OwningNode
     public int GetMaxPixelY()
     {
         int y;
-        if (_mapContainer.Height > 1)
+        if (MapContainer.Height > 1)
         {
-            HexGeometry.HexToPixel(1, _mapContainer.Height - 1, out _, out y);
+            HexGeometry.HexToPixel(1, MapContainer.Height - 1, out _, out y);
         }
         else
         {
-            HexGeometry.HexToPixel(0, _mapContainer.Height - 1, out _, out y);
+            HexGeometry.HexToPixel(0, MapContainer.Height - 1, out _, out y);
         }
 
         y += 32;
@@ -933,7 +909,7 @@ public partial class GameMap : OwningNode
     public void SetHssFileName(string fileName)
     {
         string expandFileName = ExpandFileName(fileName);
-        _hssFileName = ExtractRelativePath(_engine.StartupDirectory, expandFileName);
+        _hssFileName = ExtractRelativePath(Engine.StartupDirectory, expandFileName);
     }
 
     // HSMAP.PAS:459
@@ -943,7 +919,7 @@ public partial class GameMap : OwningNode
         MapFieldMessage message = default;
         Rect r = default;
         LockTerrainChangedEvent();
-        mapLevel = _mapContainer.GetMapLevel(L);
+        mapLevel = MapContainer.GetMapLevel(L);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         message.MessageId = 16;
         while (walk.Radius <= radius)
@@ -993,11 +969,11 @@ public partial class GameMap : OwningNode
     public bool PlaceHex(HexSprite hexSprite, int hexX, int hexY, int L)
     {
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
-        return hexSprite.MainPlace(_mapContainer, pixelX, pixelY, L);
+        return hexSprite.MainPlace(MapContainer, pixelX, pixelY, L);
     }
 
     // HSMAP.PAS:569
-    public bool Place(HexSprite hexSprite, int pixelX, int pixelY, int L) => hexSprite.MainPlace(_mapContainer, pixelX, pixelY, L);
+    public bool Place(HexSprite hexSprite, int pixelX, int pixelY, int L) => hexSprite.MainPlace(MapContainer, pixelX, pixelY, L);
 
     // HSMAP.PAS:574
     public void Remove(HexSprite hexSprite) => hexSprite.MainRemove();
@@ -1006,24 +982,24 @@ public partial class GameMap : OwningNode
     public bool SetViewPort(int pixelX, int pixelY, int lHitPoints, int width, int height)
     {
         bool result;
-        if (pixelX != _viewPixelX || pixelY != _viewPixelY || lHitPoints != _viewMapLevel || width != _viewWidth || height != _viewHeight)
+        if (pixelX != ViewPixelX || pixelY != ViewPixelY || lHitPoints != ViewMapLevel || width != ViewWidth || height != ViewHeight)
         {
             ClearViewPort();
-            _viewMapLevel = lHitPoints;
-            _viewPixelX = pixelX;
-            _viewWidth = width;
-            _viewPixelY = pixelY;
-            _viewHeight = height;
-            HexGeometry.PixelToHex(_viewPixelX - 8, _viewPixelY - 16, out int x1, out int y1);
-            HexGeometry.PixelToHex(_viewPixelX + width - 1 + 8, _viewPixelY + height - 1 + 16, out int x2, out int y2);
-            if (x2 >= _mapContainer.Width)
+            ViewMapLevel = lHitPoints;
+            ViewPixelX = pixelX;
+            ViewWidth = width;
+            ViewPixelY = pixelY;
+            ViewHeight = height;
+            HexGeometry.PixelToHex(ViewPixelX - 8, ViewPixelY - 16, out int x1, out int y1);
+            HexGeometry.PixelToHex(ViewPixelX + width - 1 + 8, ViewPixelY + height - 1 + 16, out int x2, out int y2);
+            if (x2 >= MapContainer.Width)
             {
-                x2 = _mapContainer.Width - 1;
+                x2 = MapContainer.Width - 1;
             }
 
-            if (y2 >= _mapContainer.Height)
+            if (y2 >= MapContainer.Height)
             {
-                y2 = _mapContainer.Height - 1;
+                y2 = MapContainer.Height - 1;
             }
 
             if (x1 < 0)
@@ -1036,10 +1012,10 @@ public partial class GameMap : OwningNode
                 y1 = 0;
             }
 
-            _viewWidthHex = x2 - x1 + 1;
-            _viewHeightHex = y2 - y1 + 1;
-            _viewHexX = x1;
-            _viewHexY = y1;
+            ViewWidthHex = x2 - x1 + 1;
+            ViewHeightHex = y2 - y1 + 1;
+            ViewHexX = x1;
+            ViewHexY = y1;
             result = true;
             ViewPortChangedEventsStore.Raise(this);
         }
@@ -1056,18 +1032,18 @@ public partial class GameMap : OwningNode
     {
         ResetVisibleStaticHexSprite();
         ResetVisibleDynamicHexSprite();
-        _staticSceneInvalid = true;
-        _dynamicSceneInvalid = true;
-        _viewPixelX = -1;
-        _viewPixelY = -1;
-        _viewMapLevel = -1;
-        _viewWidth = 0;
-        _viewHeight = 0;
+        StaticSceneInvalid = true;
+        DynamicSceneInvalid = true;
+        ViewPixelX = -1;
+        ViewPixelY = -1;
+        ViewMapLevel = -1;
+        ViewWidth = 0;
+        ViewHeight = 0;
     }
 
     // HSMAP.PAS:633
     // { Viewing accepts one row below the view port, InvalidateStaticScene does not. }
-    public bool Viewing(int hexX, int hexY, int hexLevel) => hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY <= _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel;
+    public bool Viewing(int hexX, int hexY, int hexLevel) => hexX >= ViewHexX && hexX < ViewHexX + ViewWidthHex && hexY >= ViewHexY && hexY <= ViewHexY + ViewHeightHex && hexLevel == ViewMapLevel;
 
     // HSMAP.PAS:640
     // { The message names ResetVisibleDynamicHS (original slip). }
@@ -1075,13 +1051,13 @@ public partial class GameMap : OwningNode
     {
         try
         {
-            for (int i = _staticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
+            for (int i = StaticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
             {
-                _staticVisibleHexSprite[i].SetVisible(false);
+                StaticVisibleHexSprite[i].SetVisible(false);
             }
 
-            _staticVisibleHexSprite.QuickClear();
-            _staticVisibleHexSprite.Sorted = false;
+            StaticVisibleHexSprite.QuickClear();
+            StaticVisibleHexSprite.Sorted = false;
         }
         catch
         {
@@ -1092,39 +1068,39 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:654
     public void ResetVisibleDynamicHexSprite()
     {
-        for (int i = _dynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
+        for (int i = DynamicVisibleHexSprite.StoredCount - 1; i >= 0; i--)
         {
             try
             {
-                _dynamicVisibleHexSprite[i].SetVisible(false);
+                DynamicVisibleHexSprite[i].SetVisible(false);
             }
             catch
             {
-                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + _dynamicVisibleHexSprite.Items[i].Child.GetType().Name + ")");
+                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + DynamicVisibleHexSprite.Items[i].Child.GetType().Name + ")");
             }
         }
 
-        _dynamicVisibleHexSprite.QuickClear();
-        _dynamicVisibleHexSprite.Sorted = false;
+        DynamicVisibleHexSprite.QuickClear();
+        DynamicVisibleHexSprite.Sorted = false;
     }
 
     // HSMAP.PAS:745
-    public void InvalidateStaticScene(int hexX, int hexY, int hexLevel) => _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel);
+    public void InvalidateStaticScene(int hexX, int hexY, int hexLevel) => StaticSceneInvalid = StaticSceneInvalid || (hexX >= ViewHexX && hexX < ViewHexX + ViewWidthHex && hexY >= ViewHexY && hexY < ViewHexY + ViewHeightHex && hexLevel == ViewMapLevel);
 
-    public GameMapMouse Mouse => _mouse;
-    public MapContainer MapContainer { get => _mapContainer; internal set => _mapContainer = value; }
-    public GameEngine Engine => _engine;
-    public HexSpriteSelection Selection => _selection;
-    public VisibilityList StaticVisibleHexSprite => _staticVisibleHexSprite;
-    public VisibilityList DynamicVisibleHexSprite => _dynamicVisibleHexSprite;
-    public VisibilityList StaticFixedVisibleHexSprite => _staticFixedVisibleHexSprite;
-    public VisibilityList DynamicFixedVisibleHexSprite => _dynamicFixedVisibleHexSprite;
-    public bool StaticSceneInvalid { get => _staticSceneInvalid; set => _staticSceneInvalid = value; }
-    public bool DynamicSceneInvalid { get => _dynamicSceneInvalid; set => _dynamicSceneInvalid = value; }
-    public int Version { get => _version; set => _version = value; }
+    public GameMapMouse Mouse { get; }
+    public MapContainer MapContainer { get; internal set; }
+    public GameEngine Engine { get; private set; }
+    public HexSpriteSelection Selection { get; }
+    public VisibilityList StaticVisibleHexSprite { get; }
+    public VisibilityList DynamicVisibleHexSprite { get; }
+    public VisibilityList StaticFixedVisibleHexSprite { get; }
+    public VisibilityList DynamicFixedVisibleHexSprite { get; }
+    public bool StaticSceneInvalid { get; set; }
+    public bool DynamicSceneInvalid { get; set; }
+    public int Version { get; set; }
     public string HssFileName { get => _hssFileName; set => SetHssFileName(value); }
-    public Set<HexSpriteMapStatusElement> Status { get => _status; set => _status = value; }
-    public int Frame => _frame;
+    public Set<HexSpriteMapStatusElement> Status { get; set; }
+    public int Frame { get; private set; }
 
     public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
     {
@@ -1156,16 +1132,16 @@ public partial class GameMap : OwningNode
         remove => HexSpriteChangedEventsStore.Remove(value);
     }
 
-    public string FileName { get => _fileName; set => _fileName = value; }
-    public int ViewPixelX { get => _viewPixelX; protected set => _viewPixelX = value; }
-    public int ViewPixelY { get => _viewPixelY; protected set => _viewPixelY = value; }
-    public int ViewMapLevel { get => _viewMapLevel; protected set => _viewMapLevel = value; }
-    public int ViewWidth => _viewWidth;
-    public int ViewHeight => _viewHeight;
-    public int ViewHexX => _viewHexX;
-    public int ViewHexY => _viewHexY;
-    public int ViewWidthHex => _viewWidthHex;
-    public int ViewHeightHex => _viewHeightHex;
+    public string FileName { get; set; } = "";
+    public int ViewPixelX { get; protected set; }
+    public int ViewPixelY { get; protected set; }
+    public int ViewMapLevel { get; protected set; }
+    public int ViewWidth { get; private set; }
+    public int ViewHeight { get; private set; }
+    public int ViewHexX { get; private set; }
+    public int ViewHexY { get; private set; }
+    public int ViewWidthHex { get; private set; }
+    public int ViewHeightHex { get; private set; }
     public int MaxPixelX => GetMaxPixelX();
     public int MaxPixelY => GetMaxPixelY();
 

@@ -10,10 +10,8 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.Commands;
 
-public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
+public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public LevelTerrainTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalTargetSpells.pas:940
     public new const int ClassId = 135945;

@@ -24,11 +24,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // city, preview, view, action, production, queue, mode, migrations, sort, images
-public partial class CityScreen : UIModule
+public partial class CityScreen(UIContext ui) : UIModule(ui)
 {
-    public CityScreen(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
     public ListBox UnitAbilitiesList { get; private set; }

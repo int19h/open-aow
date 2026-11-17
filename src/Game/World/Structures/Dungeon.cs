@@ -116,13 +116,16 @@ public partial class Dungeon : ExplorationSite
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
             army = Owner.GetArmyHexSprite();
-            log = new PrisonersJoinEventLog(null) { Holder = CreationHolder() };
-            log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
-            log.Player = army.Army.Player;
-            log.Selection = 255;
-            log.Gold = 0;
-            log.JoinMode = JoinMode.Default;
-            log.FirstUnitId = Prisoners.Units.GetUnit(0).UnitId;
+            log = new PrisonersJoinEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel()),
+                Player = army.Army.Player,
+                Selection = 255,
+                Gold = 0,
+                JoinMode = JoinMode.Default,
+                FirstUnitId = Prisoners.Units.GetUnit(0).UnitId
+            };
             for (int i = 0, last = Prisoners.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = Prisoners.Units.GetUnit(i);
@@ -179,8 +182,11 @@ public partial class Dungeon : ExplorationSite
         ArmyInfoEventLog armyLog;
         Hero hero;
         ArmyHexSprite army;
-        locationLog = new LocationTextEventLog(null) { Holder = CreationHolder() };
-        locationLog.Player = GetPlayer();
+        locationLog = new LocationTextEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = GetPlayer()
+        };
         string name = GetName();
         locationLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
         locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());

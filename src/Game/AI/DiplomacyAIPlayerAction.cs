@@ -16,13 +16,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.AI;
 
-public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    // Diplomacy.pas:1540
-    public DiplomacyAIPlayerAction(CustomNode owner) : base(owner)
-    {
-    }
-
     private sbyte _nextPlayer;
 
     // Diplomacy.pas:1549

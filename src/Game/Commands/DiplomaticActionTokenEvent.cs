@@ -8,10 +8,8 @@ using Aow.Game.Session;
 namespace Aow.Game.Commands;
 
 // Operation, Action
-public partial class DiplomaticActionTokenEvent : TokenEvent
+public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public DiplomaticActionTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // Diplomacy.pas:1125
     public new const int ClassId = 135432;

@@ -7,12 +7,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Events;
 
 // tower
-public partial class EnterWizardsTowerEventLog : EventLog
+public partial class EnterWizardsTowerEventLog(CustomNode owner) : EventLog(owner)
 {
-    // WizardsTower.pas:70
-    public EnterWizardsTowerEventLog(CustomNode owner) : base(owner)
-    { }
-
     public WizardsTower Tower { get; set; }
 
 }

@@ -351,8 +351,10 @@ internal static class TacticalTables
                     {
                         if (x != lastX || y != lastY)
                         {
-                            obstacle = new RangedObstacle();
-                            obstacle.PathIndex = i;
+                            obstacle = new RangedObstacle
+                            {
+                                PathIndex = i
+                            };
                             _ = obstacles.Add(obstacle);
                             lastX = x;
                             lastY = y;

@@ -7,7 +7,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
-public partial class PlayerStructureList : ObservableEventList, IChildList<PlayerStructure>
+public partial class PlayerStructureList(CustomNode owner) : ObservableEventList(owner), IChildList<PlayerStructure>
 {
     // The structure in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a player structure. Another class throws, the same way the cast did.
@@ -16,9 +16,6 @@ public partial class PlayerStructureList : ObservableEventList, IChildList<Playe
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerStructure;
 
     int IChildSink<PlayerStructure>.AddChild(PlayerStructure child) => AddChild(child);
-
-    public PlayerStructureList(CustomNode owner) : base(owner)
-    { }
 
     public Player Player { get; set; }
 

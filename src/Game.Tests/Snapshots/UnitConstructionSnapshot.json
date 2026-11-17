@@ -20,12 +20,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -47,12 +47,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -141,12 +141,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -168,12 +168,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -262,12 +262,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -289,12 +289,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -604,12 +604,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -631,12 +631,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -675,9 +675,9 @@
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "Troop.Group": null,
@@ -733,12 +733,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -760,12 +760,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -804,9 +804,9 @@
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "Troop.Group": null,
@@ -862,12 +862,12 @@
             "HeroItems.Hero": "$ref:$",
             "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -889,12 +889,12 @@
             "HeroInventory.Hero": "$ref:$",
             "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -933,9 +933,9 @@
           "Leader.SpherePicksMax": 5,
           "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "Troop.Group": null,

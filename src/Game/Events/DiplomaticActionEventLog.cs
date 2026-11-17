@@ -13,10 +13,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // Action
-public partial class DiplomaticActionEventLog : EventLog
+public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner)
 {
-    public DiplomaticActionEventLog(CustomNode owner) : base(owner)
-    { }
 
     // Diplomacy.pas:1199
     public new const int ClassId = 131347;

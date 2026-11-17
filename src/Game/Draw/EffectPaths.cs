@@ -51,9 +51,11 @@ internal static class EffectPaths
                     break;
             }
 
-            xYZ = new Point3D();
-            xYZ.X = Round((double)Math.Sin(radiusLocal) * r) + x;
-            xYZ.Y = Round((double)Math.Cos(radiusLocal) * r) + y;
+            xYZ = new Point3D
+            {
+                X = Round((double)Math.Sin(radiusLocal) * r) + x,
+                Y = Round((double)Math.Cos(radiusLocal) * r) + y
+            };
             list.Add(xYZ);
             switch (direction)
             {
@@ -137,10 +139,12 @@ internal static class EffectPaths
         {
             while ((double)z >= 0)
             {
-                xYZ = new Point3D();
-                xYZ.X = Round(effect);
-                xYZ.Y = Round(fy);
-                xYZ.Z = Round(z);
+                xYZ = new Point3D
+                {
+                    X = Round(effect),
+                    Y = Round(fy),
+                    Z = Round(z)
+                };
                 list.Add(xYZ);
                 effect = (float)((double)effect + deltaX);
                 fy = (float)((double)fy + deltaY);

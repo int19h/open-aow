@@ -2,10 +2,6 @@
 
 namespace Aow.Engine;
 
-public partial class DoublePriorityIdException : Exception
+public partial class DoublePriorityIdException(string message) : Exception(message)
 {
-    // SysUtils.pas:174
-    public DoublePriorityIdException(string message) : base(message)
-    {
-    }
 }

@@ -9,6 +9,8 @@ namespace Aow.Game.World.Movement;
 // references, target data, location, move points, transporter ID, path
 public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSink<MoveTargetList>
 {
+    public MoveTarget(CustomNode owner) : base(owner) => _refCount = 1;
+
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new MoveTargetList Owner { get => GetOwner<MoveTargetList>(); set => SetOwner(value); }
@@ -16,9 +18,6 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MoveTargetList;
 
     void IOwnedSink<MoveTargetList>.SetOwner(MoveTargetList owner) => SetOwner(owner);
-
-    // AIGroup.pas:4215
-    public MoveTarget(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

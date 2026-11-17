@@ -7,11 +7,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControl : EngineObject
+public partial class ConstructionControl(CustomNode owner) : EngineObject(owner)
 {
-
-    public ConstructionControl(CustomNode owner) : base(owner)
-    { }
 
     // AoWAb.PAS:5494
     public virtual void GetInfo(Troop troop, out string text, out int gold, out int days)

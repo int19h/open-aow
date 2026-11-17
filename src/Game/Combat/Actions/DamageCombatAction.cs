@@ -17,14 +17,10 @@ namespace Aow.Game.Combat.Actions;
 
 // FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are stored as unaligned
 // packed records (PackedDamageTypes)
-public partial class DamageCombatAction : SingleTargetCombatAction
+public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     // Combat2.pas:774
     public new const int ClassId = 131761;
-
-    public DamageCombatAction(CustomNode owner) : base(owner)
-    {
-    }
 
     public byte Damage { get; set; }
     public Set<DamageType> DamageTypes { get; set; }

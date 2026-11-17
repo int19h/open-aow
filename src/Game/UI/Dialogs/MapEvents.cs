@@ -21,10 +21,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // map control
-public partial class MapEvents : UIModule
+public partial class MapEvents(UIContext ui) : UIModule(ui)
 {
-    public MapEvents(UIContext ui) : base(ui)
-    { }
 
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
     // the original renderers.

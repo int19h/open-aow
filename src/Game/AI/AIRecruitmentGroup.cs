@@ -9,6 +9,8 @@ namespace Aow.Game.AI;
 // references, location, group, moves, transporter, path strength
 public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
 {
+    public AIRecruitmentGroup(CustomNode owner) : base(owner) => _refCount = 1;
+
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
     public new AIRecruitmentGroupList Owner { get => GetOwner<AIRecruitmentGroupList>(); set => SetOwner(value); }
@@ -16,9 +18,6 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIRecruitmentGroupList;
 
     void IOwnedSink<AIRecruitmentGroupList>.SetOwner(AIRecruitmentGroupList owner) => SetOwner(owner);
-
-    // AIGroup.pas:750
-    public AIRecruitmentGroup(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

@@ -228,10 +228,12 @@ internal static class Program
             }
 
             map.UpdateFPS(animationFps);
-            HexSpriteMapViewer viewer = new(null);
-            viewer.HexSpriteMap = map;
-            viewer.SceneWidth = viewportWidth;
-            viewer.SceneHeight = viewportHeight;
+            HexSpriteMapViewer viewer = new(null)
+            {
+                HexSpriteMap = map,
+                SceneWidth = viewportWidth,
+                SceneHeight = viewportHeight
+            };
             viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel);
             TacticalInput.Install(map, viewer);
             Stopwatch watchdog = Stopwatch.StartNew();

@@ -9,8 +9,6 @@ public partial class SoundSystem : IDisposable
 {
     protected internal int RefCount { get; private set; }
 
-    private Set<SoundSystemStatusElement> _status;
-
     // Sound.pas:115
     protected internal virtual SampleClass SampleClass() => throw AbstractErrorException.Create("Abstract Error");
 
@@ -109,13 +107,13 @@ public partial class SoundSystem : IDisposable
     // Sound.pas:1158
     public virtual void Dispose()
     {
-        if (_status.Contains(SoundSystemStatusElement.Activated))
+        if (Status.Contains(SoundSystemStatusElement.Activated))
         {
             _ = Deactivate();
         }
     }
 
-    public Set<SoundSystemStatusElement> Status { get => _status; protected set => _status = value; }
+    public Set<SoundSystemStatusElement> Status { get; protected set; }
     public int MusicVolume => GetMusicVolume();
     public int SfxVolume => GetSfxVolume();
     public bool PlayingSong => GetPlayingSong();

@@ -49,9 +49,7 @@ public interface IFileSystem
 
 public sealed class PhysicalFileSystem : IFileSystem
 {
-    private string? _currentDirectory;
-
-    public string CurrentDirectory => _currentDirectory ?? Directory.GetCurrentDirectory();
+    public string CurrentDirectory { get => field ?? Directory.GetCurrentDirectory(); private set; }
 
     public bool SetCurrentDirectory(string path)
     {
@@ -61,7 +59,7 @@ public sealed class PhysicalFileSystem : IFileSystem
             return false;
         }
 
-        _currentDirectory = resolved;
+        CurrentDirectory = resolved;
         return true;
     }
 

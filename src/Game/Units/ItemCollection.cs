@@ -17,25 +17,24 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct ItemCollection : IReadOnlyList<Item>
 {
-    private readonly ObservableNode _holder;
 
     // Each holder admits only items (AcceptsChild), so every slot holds an item or is empty.
-    internal ItemCollection(ItemList holder) => _holder = holder;
+    internal ItemCollection(ItemList holder) => Holder = holder;
 
-    internal ItemCollection(HeroInventory holder) => _holder = holder;
+    internal ItemCollection(HeroInventory holder) => Holder = holder;
 
-    internal ItemCollection(HeroItems holder) => _holder = holder;
+    internal ItemCollection(HeroItems holder) => Holder = holder;
 
-    internal ItemCollection(ItemLibrary holder) => _holder = holder;
+    internal ItemCollection(ItemLibrary holder) => Holder = holder;
 
     /// <summary>The list, inventory, worn items or library that holds the items.</summary>
-    public ObservableNode Holder => _holder;
+    public ObservableNode Holder { get; }
 
-    public int Count => _holder.GetCount();
+    public int Count => Holder.GetCount();
 
     // The item in slot index, read as the original reads the list, without a range check. The
     // holder admits only items. Another class throws, as the cast did. Null stays null.
-    public Item this[int index] => _holder.GetChild<Item>(index);
+    public Item this[int index] => Holder.GetChild<Item>(index);
 
     public IEnumerator<Item> GetEnumerator()
     {
@@ -77,10 +76,10 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     public void Update() => SortOnType();
 
     // Army.PAS:4609
-    public void SortOnName() => _holder.SortChildrenStable<Item>(ItemList.CompareItemNames);
+    public void SortOnName() => Holder.SortChildrenStable<Item>(ItemList.CompareItemNames);
 
     // Army.PAS:4619
-    public void SortOnType() => _holder.SortChildrenStable<Item>(CompareItemTypes);
+    public void SortOnType() => Holder.SortChildrenStable<Item>(CompareItemTypes);
 
     // Army.PAS:4622
     public void RegisterItems()

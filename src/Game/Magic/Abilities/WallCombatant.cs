@@ -10,11 +10,8 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // WallType. HitPoints. Hits
-public partial class WallCombatant : Troop
+public partial class WallCombatant(CustomNode owner) : Troop(owner)
 {
-    public WallCombatant(CustomNode owner) : base(owner)
-    { }
-
     private WallType _wallType;
 
     public sbyte HitPoints { get; set; }

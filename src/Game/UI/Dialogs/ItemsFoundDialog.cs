@@ -16,11 +16,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // item offset, completion event, item event
-public partial class ItemsFoundDialog : UIModule
+public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
 {
-    public ItemsFoundDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label TitleLabel { get; private set; }
     public Panel PickupPanel { get; private set; }
@@ -109,8 +106,10 @@ public partial class ItemsFoundDialog : UIModule
             UI.UnitWindow.UnitTabs.Selected = 2;
             if (StrategicMap.Current.GameType == GameType.Tutorial)
             {
-                eventValue = new TutorialMessageEventLog(null, holder: UI.Engine);
-                eventValue.HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText);
+                eventValue = new TutorialMessageEventLog(null, holder: UI.Engine)
+                {
+                    HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText)
+                };
                 if (StrategicMap.Current.TextControl.FindId(55) != null)
                 {
                     TextControlItem id = StrategicMap.Current.TextControl.FindId(55);

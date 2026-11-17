@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
-public partial class SetupPackage : EngineObject
+public partial class SetupPackage(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:254
     public new const int ClassId = 131681;
@@ -37,10 +37,4 @@ public partial class SetupPackage : EngineObject
         Param1 = persister.Int32("Param1", value: Param1);
         Data = persister.Created("Data", objectValue: Data);
     }
-
-    // AoWSetup.pas:242
-    public SetupPackage(CustomNode owner) : base(owner)
-    {
-    }
-
 }

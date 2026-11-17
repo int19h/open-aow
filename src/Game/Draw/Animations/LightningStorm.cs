@@ -17,11 +17,8 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // storm image library
-public partial class LightningStorm : Storm
+public partial class LightningStorm(CustomNode owner) : Storm(owner)
 {
-    public LightningStorm(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135739;
 
     private CustomImageLibrary _stormImages;

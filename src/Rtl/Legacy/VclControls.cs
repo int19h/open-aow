@@ -8,12 +8,10 @@ public class PopupMenu
 {
 }
 
-public class DataModule : Component
+public class DataModule(Component? owner) : Component(owner)
 {
-    public DataModule(Component? owner) : base(owner) { }
 }
 
-public class VideoPlayer : Component
+public class VideoPlayer(Component? owner = null) : Component(owner)
 {
-    public VideoPlayer(Component? owner = null) : base(owner) { }
 }

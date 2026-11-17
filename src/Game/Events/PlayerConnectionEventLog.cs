@@ -14,11 +14,8 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P1. }
 // reason, disconnected player
-public partial class PlayerConnectionEventLog : MessageEventLog
+public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
-    { }
-
     private byte _reason;
     private sbyte _disconnectedPlayer;
 
@@ -26,9 +23,11 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     public override bool Yes()
     {
         SaveGameEventLog log = default;
-        log = new SaveGameEventLog(null, holder: CreationHolder());
-        log.DefaultName = "";
-        log.Directory = GetEngine().StartupDirectory + "Save\\";
+        log = new SaveGameEventLog(null, holder: CreationHolder())
+        {
+            DefaultName = "",
+            Directory = GetEngine().StartupDirectory + "Save\\"
+        };
         StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
         _ = log.Release();
         return true;

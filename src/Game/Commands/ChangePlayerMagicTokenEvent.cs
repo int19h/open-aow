@@ -8,11 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (mode, player, values)
-public partial class ChangePlayerMagicTokenEvent : TokenEvent
+public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public ChangePlayerMagicTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135445;
 
     public ChangePlayerMagicTokenEventMode Mode { get; set; }

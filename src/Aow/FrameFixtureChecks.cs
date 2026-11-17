@@ -84,8 +84,10 @@ internal static class FrameFixtureChecks
             _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
             _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
             _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
-            StrategicMap.Current = new StrategicMap(null, holder: startup.Engine);
-            StrategicMap.Current.Players = players;
+            StrategicMap.Current = new StrategicMap(null, holder: startup.Engine)
+            {
+                Players = players
+            };
             TaskBar bar = new(ui)
             {
                 PlayerIndicatorFrame = new(null) { Aligned = true },

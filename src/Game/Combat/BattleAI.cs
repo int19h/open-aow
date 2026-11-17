@@ -17,16 +17,16 @@ namespace Aow.Game.Combat;
 
 // Side. Units. Allies. Enemies. Moves. Walls. CurrentMove. UnitIndex. UnitLimit. MinMoves.
 // HeroMoves. NormalUnits. IgnoreWalls. Flee. Status
-public partial class BattleAI : IDisposable
+public partial class BattleAI(EngineObject creator) : IDisposable
 {
     private CombatSideIndex _side;
 
     // The collect step admits only tactical battle units, so the element casts never fail.
-    private readonly List<TacticalBattleUnit> _units;
-    private readonly List<TacticalBattleUnit> _allies;
-    private readonly List<TacticalBattleUnit> _enemies;
-    private readonly List<BattleAIMove> _moves;
-    private readonly List<CityWall> _walls;
+    private readonly List<TacticalBattleUnit> _units = [];
+    private readonly List<TacticalBattleUnit> _allies = [];
+    private readonly List<TacticalBattleUnit> _enemies = [];
+    private readonly List<BattleAIMove> _moves = [];
+    private readonly List<CityWall> _walls = [];
     private int _currentMove;
     private int _unitIndex;
     private int _unitLimit;
@@ -53,19 +53,8 @@ public partial class BattleAI : IDisposable
         _moves?.Clear();
     }
 
-    // AoWTC.pas:752
-    public BattleAI(EngineObject creator)
-    {
-        Creator = creator;
-        _units = [];
-        _allies = [];
-        _enemies = [];
-        _moves = [];
-        _walls = [];
-    }
-
     // The node that created this battle AI. It and the nodes it creates reach the engine through it.
-    public EngineObject Creator { get; }
+    public EngineObject Creator { get; } = creator;
 
     // AoWTC.pas:774
     public void Reset()
@@ -84,15 +73,17 @@ public partial class BattleAI : IDisposable
     public void CreateMove(BattleAIMoveType moveType, int x, int y, int value, int ability, int spell, TacticalBattleUnit unit, CombatObject target)
     {
         BattleAIMove m;
-        m = new BattleAIMove();
-        m.UnitHexSprite = unit.UnitHexSprite;
-        m.Target = target;
-        m.MoveType = moveType;
-        m.Ability = (short)ability;
-        m.Spell = (short)spell;
-        m.X = (ushort)x;
-        m.Y = (ushort)y;
-        m.Value = value;
+        m = new BattleAIMove
+        {
+            UnitHexSprite = unit.UnitHexSprite,
+            Target = target,
+            MoveType = moveType,
+            Ability = (short)ability,
+            Spell = (short)spell,
+            X = (ushort)x,
+            Y = (ushort)y,
+            Value = value
+        };
         _moves.Add(m);
     }
 

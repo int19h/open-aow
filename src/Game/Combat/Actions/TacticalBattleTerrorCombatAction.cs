@@ -10,14 +10,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // source ID, target ID, casting mana, success
-public partial class TacticalBattleTerrorCombatAction : CombatAction
+public partial class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // CombatSpells.pas:1707
     public new const int ClassId = 131785;
-
-    public TacticalBattleTerrorCombatAction(CustomNode owner) : base(owner)
-    { }
-
     private byte _sourceId;
     private byte _targetId;
 

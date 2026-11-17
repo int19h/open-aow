@@ -54,16 +54,28 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         _incomeChangedEventsStore = new();
         _gemsChangedEventsStore = new();
         _upkeepChangedEventsStore = new();
-        Structures = new PlayerStructureList(null) { Holder = CreationHolder() };
-        Structures.Player = this;
+        Structures = new PlayerStructureList(null)
+        {
+            Holder = CreationHolder(),
+            Player = this
+        };
         _armies = new ArmyList(null) { Holder = CreationHolder() };
-        AIControl = new AIPlayerControl(null) { Holder = CreationHolder() };
-        AIControl.Player = this;
-        AIBudget = new AIBudgetManager(null) { Holder = CreationHolder() };
-        AIBudget.Player = this;
+        AIControl = new AIPlayerControl(null)
+        {
+            Holder = CreationHolder(),
+            Player = this
+        };
+        AIBudget = new AIBudgetManager(null)
+        {
+            Holder = CreationHolder(),
+            Player = this
+        };
         AIGroups = new AIGroupList(null) { Holder = CreationHolder() };
-        MagicControl = new PlayerMagicControl(null) { Holder = CreationHolder() };
-        MagicControl.Player = this;
+        MagicControl = new PlayerMagicControl(null)
+        {
+            Holder = CreationHolder(),
+            Player = this
+        };
         Statistics = new PlayerStatistics(null) { Holder = CreationHolder() };
         _armies.Player = this;
         _armies.Events += ArmiesChanged;
@@ -75,18 +87,25 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         EventLogbook = new EventLogbook(null) { Holder = CreationHolder() };
         EventLogbook.OnChanged += LogbookChangedEvent;
         _logbookChangedEventsStore = new();
-        DiplomaticRelations = new PlayerDiplomaticRelations(null) { Holder = CreationHolder() };
-        DiplomaticRelations.Player = this;
+        DiplomaticRelations = new PlayerDiplomaticRelations(null)
+        {
+            Holder = CreationHolder(),
+            Player = this
+        };
         LegacyNewRelations = new DiplomaticRelationList();
         ProductionControls = new ProductionControlList();
         _incomeSources = new IncomeSourceList(null) { Holder = CreationHolder() };
         LeaderSetup = new Leader(null) { Holder = CreationHolder() };
         Status = PlayerStatus.Idle;
         GameOverStatus = GameOverStatus.None;
-        FirstDaySeen = new Int32List();
-        FirstDaySeen.Default = -1;
-        _lastDaySeen = new Int32List();
-        _lastDaySeen.Default = -1;
+        FirstDaySeen = new Int32List
+        {
+            Default = -1
+        };
+        _lastDaySeen = new Int32List
+        {
+            Default = -1
+        };
         _victoryLocations = new PlayerStructureList(null) { Holder = CreationHolder() };
         KnownStructures = new PlayerStructureList(null) { Holder = CreationHolder() };
         _messages = new StringList();
@@ -699,8 +718,11 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 StrategicMap.Current.Players.Update();
             }
 
-            eventValue = new GameOverEventLog(null) { Holder = CreationHolder() };
-            eventValue.Player = PlayerIndex;
+            eventValue = new GameOverEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = PlayerIndex
+            };
             if (value == GameOverStatus.Lost)
             {
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[PlayerRace]);
@@ -732,9 +754,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null) { Holder = CreationHolder() };
-            tokenEvent.Player = PlayerIndex;
-            tokenEvent.GameOverStatus = GameOverStatus.Lost;
+            tokenEvent = new GameOverTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = PlayerIndex,
+                GameOverStatus = GameOverStatus.Lost
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             result = true;
@@ -754,9 +779,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null) { Holder = CreationHolder() };
-            tokenEvent.Player = PlayerIndex;
-            tokenEvent.GameOverStatus = GameOverStatus.Won;
+            tokenEvent = new GameOverTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = PlayerIndex,
+                GameOverStatus = GameOverStatus.Won
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             result = true;
@@ -1578,11 +1606,14 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         DiplomaticAction result;
         if (StrategicMap.Current.Players.GetPlayers(target).Status == PlayerStatus.Playing)
         {
-            result = new DiplomaticAction(null) { Holder = CreationHolder() };
-            result.Source = PlayerIndex;
-            result.Target = target;
-            result.OtherPlayer = other;
-            result.Proposal = proposal;
+            result = new DiplomaticAction(null)
+            {
+                Holder = CreationHolder(),
+                Source = PlayerIndex,
+                Target = target,
+                OtherPlayer = other,
+                Proposal = proposal
+            };
             result.RetrieveDefaultMessage(PlayerIndex, target, other, DiplomaticActionReaction.None);
         }
         else
@@ -1788,9 +1819,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         ChangePlayerSettingsTokenEvent eventValue;
         if (!GetBusy())
         {
-            eventValue = new ChangePlayerSettingsTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.Player = PlayerIndex;
-            eventValue.Settings = settings;
+            eventValue = new ChangePlayerSettingsTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = PlayerIndex,
+                Settings = settings
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;

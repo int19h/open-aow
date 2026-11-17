@@ -28,9 +28,8 @@ public sealed class ResourcePayloadTests
     private const int Seed = 20261112;
 
     private static readonly FormatSchema s_schema = FormatSchema.Current;
-    private static EnginePersistableFactory? s_factory;
 
-    private static EnginePersistableFactory Factory => s_factory ??= new(EngineFixture.Engine);
+    private static EnginePersistableFactory Factory => field ??= new(EngineFixture.Engine);
 
     [Fact]
     public void ASequenceListLoadedThroughTheTreeDrawsWhereTheStreamLoadDraws()

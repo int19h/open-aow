@@ -23,17 +23,12 @@ public partial class WindowManager : UIComponent
     private InterfaceImageLibrary _backgroundTexture;
     private int _overlayPriority;
     private int _newOverlayPriority;
-    private int _borderLeft;
-    private int _borderTop;
-    private int _borderRight;
-    private int _borderBottom;
     private int _oldCursor;
     private readonly int _defaultCursor;
     [Published]
     public event NotifyEvent<WindowManager> OnChangeCursor;
     private int _imageLibraryIndexTBack;
     private int _imageLibraryIndexTFore;
-    private bool _drawOverlay;
 
     // AOWWinManager.pas:81
     public WindowManager(Component owner) : base(owner)
@@ -42,7 +37,7 @@ public partial class WindowManager : UIComponent
         SetWinWidthWithoutInvalidate(640);
         _oldCursor = -2;
         _defaultCursor = -2;
-        _drawOverlay = true;
+        DrawOverlay = true;
     }
 
     // AOWWinManager.pas:91
@@ -279,7 +274,7 @@ public partial class WindowManager : UIComponent
                 if (surface.Lock(ref lockedSurface) >= 0)
                 {
                     Draw(lockedSurface);
-                    if (_drawOverlay && _overlayPriority > 0)
+                    if (DrawOverlay && _overlayPriority > 0)
                     {
                         SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                         _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
@@ -332,7 +327,7 @@ public partial class WindowManager : UIComponent
                         Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
                         lockedSurface.ClipRectangle = rectangle;
                         Draw(lockedSurface);
-                        if (_drawOverlay && _overlayPriority > 0)
+                        if (DrawOverlay && _overlayPriority > 0)
                         {
                             SizedRectangle rectangle2 = new(WinLeft, WinTop, WinWidth, WinHeight);
                             _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
@@ -378,7 +373,7 @@ public partial class WindowManager : UIComponent
                         d.Rectangle = rectangle10;
                     }
 
-                    if (_drawOverlay && c.Priority < _overlayPriority)
+                    if (DrawOverlay && c.Priority < _overlayPriority)
                     {
                         if (surface.Lock(ref lockedSurface) >= 0)
                         {
@@ -725,19 +720,19 @@ public partial class WindowManager : UIComponent
     internal void SetOverlayPriorityImmediately(int value) => _overlayPriority = value;
 
     [Published]
-    public int BorderLeft { get => _borderLeft; set => _borderLeft = value; }
+    public int BorderLeft { get; set; }
 
     [Published]
-    public int BorderRight { get => _borderRight; set => _borderRight = value; }
+    public int BorderRight { get; set; }
 
     [Published]
-    public int BorderTop { get => _borderTop; set => _borderTop = value; }
+    public int BorderTop { get; set; }
 
     [Published]
-    public int BorderBottom { get => _borderBottom; set => _borderBottom = value; }
+    public int BorderBottom { get; set; }
 
     [Published]
-    public bool DrawOverlay { get => _drawOverlay; set => _drawOverlay = value; }
+    public bool DrawOverlay { get; set; }
 
     public new event NotifyEvent<WindowManager> OnChange
     {

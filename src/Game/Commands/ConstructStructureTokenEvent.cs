@@ -13,11 +13,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;
 
-public partial class ConstructStructureTokenEvent : TokenEvent
+public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public ConstructStructureTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135962;
 
     public int UnitId { get; set; }

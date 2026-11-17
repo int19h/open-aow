@@ -22,10 +22,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class HolyGround : ImageLibraryTerrainMapObject
+public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public HolyGround(CustomNode owner) : base(owner)
-    { }
 
     // HolyG.pas:92
     public new const int ClassId = 131987;
@@ -165,8 +163,11 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         Troop troop;
         damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText)
+        };
         string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
         _ = log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
@@ -325,10 +326,8 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
 
     private static readonly string s_holyGroundDamageText = "Holy Ground Damage";
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // HolyG.pas:276
         public new const int ClassId = 131988;

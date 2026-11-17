@@ -5,11 +5,8 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Combat;
 
 // Auto. EndTurn. Index. LastX. LastY. LastUnit
-public partial class TacticalBattlePlayer : CombatPlayer
+public partial class TacticalBattlePlayer(CustomNode owner) : CombatPlayer(owner)
 {
-    public TacticalBattlePlayer(CustomNode owner) : base(owner)
-    { }
-
     public bool Auto { get; private set; }
     public bool EndTurn { get; }
 

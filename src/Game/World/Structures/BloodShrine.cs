@@ -12,11 +12,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class BloodShrine : Structure
+public partial class BloodShrine(CustomNode owner) : Structure(owner)
 {
-    public BloodShrine(CustomNode owner) : base(owner)
-    {
-    }
 
     // BloodShrine.pas:65
     public new const int ClassId = 131376;

@@ -148,8 +148,10 @@ public partial class HeroLibraryManager : EngineObject
 
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
-            result = new HeroLibrary(_libraries);
-            result.LibraryName = libraryName;
+            result = new HeroLibrary(_libraries)
+            {
+                LibraryName = libraryName
+            };
             result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
         else

@@ -14,7 +14,6 @@ namespace Aow.Game.AI.Groups;
 // units, path, points, moves, source, destination
 public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
 {
-    // AIGroup.pas:4440
     public AIMoveExecutorMove(CustomNode owner) : base(owner) => Path = new MovePath();
 
     public MovePath Path { get; private set; }

@@ -11,6 +11,8 @@ namespace Aow.Game.UI.Windows;
 // surface, page-turn mode
 public partial class BookWindow : Window
 {
+    public BookWindow(Component owner) : base(owner) => PageTurn = new PageTurnControl();
+
     [Published]
     public event NotifyEvent<BookWindow> OnAnimationDone;
     private bool _firstAnimationFrame;
@@ -34,9 +36,6 @@ public partial class BookWindow : Window
 
         base.Dispose();
     }
-
-    // AoWBookWindow.pas:44
-    public BookWindow(Component owner) : base(owner) => PageTurn = new PageTurnControl();
 
     // AoWBookWindow.pas:78
     public override void Update()

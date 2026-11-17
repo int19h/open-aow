@@ -13,11 +13,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, army event, unit-details flag
-public partial class HeroInfoDialog : UIModule
+public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
 {
-    public HeroInfoDialog(UIContext ui) : base(ui)
-    { }
-
     public Panel UnitPanel { get; private set; }
     public Window Window { get; private set; }
     public Label HeroNameLabel { get; private set; }

@@ -4,12 +4,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Layout;
 
-public class LayoutDirectPlay : GDPlay
+public class LayoutDirectPlay(Component owner) : GDPlay(owner)
 {
-    public LayoutDirectPlay(Component owner) : base(owner)
-    {
-    }
-
     public int FilePacketSize { get; set; }
     public bool GuaranteeMessages { get; set; }
     public int MaxPlayers { get; set; }

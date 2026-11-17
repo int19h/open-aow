@@ -18,6 +18,12 @@ namespace Aow.Game.Magic.Abilities;
 // SpherePicksMax. Spheres
 public partial class Leader : Hero
 {
+    public Leader(CustomNode owner) : base(owner)
+    {
+        _spheres = new ByteList();
+        SpherePicksMax = 5;
+    }
+
     public new const int ClassId = 131634;
 
     public byte SpherePicksMax { get; private set; }
@@ -42,13 +48,6 @@ public partial class Leader : Hero
         base.PersistFields(persister);
         SpherePicksMax = persister.Byte("SpherePicksMax", value: SpherePicksMax, fallback: 5);
         PersistSupport.ByteList(persister, name: "Spheres", list: _spheres);
-    }
-
-    // Hero.PAS:2759
-    public Leader(CustomNode owner) : base(owner)
-    {
-        _spheres = new ByteList();
-        SpherePicksMax = 5;
     }
 
     // Hero.PAS:2845

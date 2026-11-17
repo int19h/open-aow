@@ -6,7 +6,6 @@ namespace Aow.Game.Draw;
 // FTables, Lookup (101 tables, indexed by percentage)
 public partial class LookupBlendTableCollection100 : IDisposable
 {
-    private readonly BlendTableList _tables;
 
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
     public BlendTable[] Lookup { get; } = new BlendTable[101];
@@ -15,19 +14,19 @@ public partial class LookupBlendTableCollection100 : IDisposable
     public BlendTable GetLookupTables(int index) => Lookup[index];
 
     // GFXE.pas:9674
-    public LookupBlendTableCollection100() => _tables = new BlendTableList();
+    public LookupBlendTableCollection100() => Tables = new BlendTableList();
 
     // GFXE.pas:9680
     public virtual void Dispose()
     {
         Clear();
-        _tables?.Dispose();
+        Tables?.Dispose();
     }
 
     // GFXE.pas:9692
     public void Clear()
     {
-        _tables.Clear();
+        Tables.Clear();
         Array.Clear(Lookup);
     }
 
@@ -56,7 +55,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
                 v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
                 proc(t, v);
-                _tables.Add(t);
+                Tables.Add(t);
             }
 
             for (int i = 0; i <= 100; i++)
@@ -67,7 +66,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
                     j = count - 1;
                 }
 
-                BlendTable blendTable = _tables.Tables[j];
+                BlendTable blendTable = Tables.Tables[j];
                 Lookup[i] = blendTable;
             }
 
@@ -81,7 +80,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
         return result;
     }
 
-    public BlendTableList Tables => _tables;
+    public BlendTableList Tables { get; }
 
     public sealed class LookupTablesAccessor(LookupBlendTableCollection100 target)
     {

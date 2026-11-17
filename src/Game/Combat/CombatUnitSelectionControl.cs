@@ -1350,8 +1350,11 @@ public partial class CombatUnitSelectionControl : MoveSelector
         if (flag2)
         {
             movePath = new MovePath();
-            multiMoveTokenEvent = new MultiMoveTokenEvent(null) { Holder = moves };
-            multiMoveTokenEvent.Simultaneous = false;
+            multiMoveTokenEvent = new MultiMoveTokenEvent(null)
+            {
+                Holder = moves,
+                Simultaneous = false
+            };
             moves.CalculateMovePositions(ValidateTacticalBattleMovePosition);
             int i = 1;
             for (int number = moves.Count - 1; i <= number; i++)

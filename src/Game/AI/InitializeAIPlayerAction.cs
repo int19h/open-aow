@@ -5,10 +5,8 @@ using Aow.Game.Session;
 
 namespace Aow.Game.AI;
 
-public partial class InitializeAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class InitializeAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public InitializeAIPlayerAction(CustomNode owner) : base(owner)
-    { }
 
     // AI.pas:1017
     public override bool Process()

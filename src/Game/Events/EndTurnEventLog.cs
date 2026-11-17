@@ -3,10 +3,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Events;
 
-public partial class EndTurnEventLog : EventLog
+public partial class EndTurnEventLog(CustomNode owner) : EventLog(owner)
 {
-    public EndTurnEventLog(CustomNode owner) : base(owner)
-    { }
 
     // EventLog.pas:753
     public new const int ClassId = 131811;

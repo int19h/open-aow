@@ -20,7 +20,6 @@ public sealed class MldDictionary
     private MldEntry[] _sorted = [];
     private MldEntry[] _contextual = [];
     private string? _fileName;
-    private int _language = 1;
 
     public int Version { get; private set; }
     public int ByteOrder { get; private set; }
@@ -32,7 +31,7 @@ public sealed class MldDictionary
     public ReadOnlyCollection<MldEntry> Entries { get; private set; } = Array.AsReadOnly<MldEntry>([]);
     public MldInfo? Info { get; private set; }
     public bool IsOpen { get; private set; }
-    public int Language => _language;
+    public int Language { get; private set; } = 1;
 
     public void Open(string path)
     {
@@ -213,7 +212,7 @@ public sealed class MldDictionary
             throw new ArgumentOutOfRangeException(nameof(value));
         }
 
-        _language = value == -1 ? LocalizationLanguage.Automatic() : value;
+        Language = value == -1 ? LocalizationLanguage.Automatic() : value;
         if (_fileName is string path)
         {
             Open(path);
@@ -260,12 +259,12 @@ public sealed class MldDictionary
 
     private string Translation(string source, MldEntry? entry)
     {
-        if (entry is null || _language == 0 || _language > entry.Translations.Count)
+        if (entry is null || Language == 0 || Language > entry.Translations.Count)
         {
             return source;
         }
 
-        string translated = entry.Translations[_language - 1];
+        string translated = entry.Translations[Language - 1];
         return translated.Length == 0 ? source : translated;
     }
 

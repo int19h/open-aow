@@ -46,8 +46,11 @@ public partial class FountainOfLife : CityEnchantmentSpell
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
-            a = new Animation(null) { Holder = CreationHolder() };
-            a.AnimationLevel = 27;
+            a = new Animation(null)
+            {
+                Holder = CreationHolder(),
+                AnimationLevel = 27
+            };
             a.OnShow += ShowFountain;
             a.AnimationMap = StrategicMap.Current;
             a.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));

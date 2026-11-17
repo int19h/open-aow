@@ -11,11 +11,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatHex : AbstractHexagon
+public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
-    public CombatHex(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 2229504;
 
     private byte _imageVariant;
@@ -208,11 +205,8 @@ public partial class CombatHex : AbstractHexagon
 
     private static ReadOnlySpan<byte> TransitionNeighbours => [6, 1, 2];
 
-    public new partial class Resource : AbstractHexagonResource
+    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
         public new const int ClassId = 2229505;
 
         public CustomImageLibrary TransitionLibrary { get; private set; }

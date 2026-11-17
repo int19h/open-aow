@@ -8,10 +8,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
+public partial class ExpanderAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
 {
-    public ExpanderAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // BehaviorAG.pas:511
     public override void ProcessStates()
@@ -25,8 +23,11 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
         switch (State)
         {
             case 0:
-                defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
-                defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
+                defense = new AIGroupDefenseControl(null)
+                {
+                    Holder = CreationHolder(),
+                    DefendMode = AIGroupDefenseControl.GroupDefendMode.Split
+                };
                 ActivatePlugin(defense);
                 _ = defense.Release();
                 State += 1;

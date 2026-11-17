@@ -6,11 +6,8 @@ using Aow.Game.Session;
 namespace Aow.Game.Units;
 
 // Race, Time, Relation
-public partial class MigrationItem : EngineObject
+public partial class MigrationItem(CustomNode owner) : EngineObject(owner)
 {
-    public MigrationItem(CustomNode owner) : base(owner)
-    { }
-
     public sbyte Race { get; set; }
     public int Time { get; set; }
     public Status Relation { get; set; }

@@ -11,9 +11,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -91,25 +91,25 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyEventLog.DamageTypes": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "ArmyEventLog.DamageValues": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
           "ArmyEventLog._gameOver": false,
@@ -148,9 +148,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -228,25 +228,25 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyEventLog.DamageTypes": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "ArmyEventLog.DamageValues": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
           "ArmyEventLog._gameOver": false,
@@ -314,9 +314,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -394,25 +394,25 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyEventLog.DamageTypes": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "ArmyEventLog.DamageValues": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
           "ArmyEventLog._gameOver": false,
@@ -451,9 +451,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -531,25 +531,25 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyEventLog.DamageTypes": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": []
           },
           "ArmyEventLog.DamageValues": {
             "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.Default": 0,
             "ByteList._capacity": 0,
             "ByteList._count": 0,
-            "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
           "ArmyEventLog._gameOver": false,
@@ -685,12 +685,12 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
@@ -699,9 +699,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -819,12 +819,12 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
@@ -833,9 +833,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -991,12 +991,12 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
@@ -1005,9 +1005,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -1125,12 +1125,12 @@
             ],
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
@@ -1139,9 +1139,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -2545,9 +2545,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2589,9 +2589,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2662,9 +2662,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2706,9 +2706,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -3094,9 +3094,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3134,9 +3134,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3199,9 +3199,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3239,9 +3239,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3303,9 +3303,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3342,9 +3342,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3405,9 +3405,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3444,9 +3444,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3712,9 +3712,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3752,9 +3752,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3817,9 +3817,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3857,9 +3857,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -4110,9 +4110,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4168,9 +4168,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4263,9 +4263,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4321,9 +4321,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4606,9 +4606,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4658,9 +4658,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4741,9 +4741,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4793,9 +4793,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4866,9 +4866,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4924,9 +4924,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5019,9 +5019,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5077,9 +5077,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5370,9 +5370,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5413,9 +5413,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5484,9 +5484,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5527,9 +5527,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5598,9 +5598,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5667,9 +5667,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5784,9 +5784,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5853,9 +5853,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -6546,9 +6546,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6591,9 +6591,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6666,9 +6666,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6711,9 +6711,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7008,9 +7008,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7072,9 +7072,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7179,9 +7179,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7243,9 +7243,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7746,9 +7746,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7790,9 +7790,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7863,9 +7863,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7907,9 +7907,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7980,9 +7980,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8023,9 +8023,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8094,9 +8094,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8137,9 +8137,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8772,9 +8772,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8816,9 +8816,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8889,9 +8889,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8933,9 +8933,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -9334,9 +9334,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9374,9 +9374,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9439,9 +9439,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9479,9 +9479,9 @@
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
+            "StringList.Sorted": false,
             "StringList.count": 0,
-            "StringList.items": [],
-            "StringList.sorted": false
+            "StringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }

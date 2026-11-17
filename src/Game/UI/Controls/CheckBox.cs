@@ -9,11 +9,8 @@ namespace Aow.Game.UI.Controls;
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
 // Fields: OnDoubleClick
-public partial class CheckBox : BaseButton
+public partial class CheckBox(Component owner) : BaseButton(owner)
 {
-    public CheckBox(Component owner) : base(owner)
-    { }
-
     [Published]
     public event NotifyEvent<CheckBox> OnDoubleClick;
 

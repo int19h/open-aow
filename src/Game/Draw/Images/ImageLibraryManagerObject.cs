@@ -7,9 +7,6 @@ namespace Aow.Game.Draw.Images;
 // (loaded by the first LinkToIL)
 public partial class ImageLibraryManagerObject
 {
-    private int _refCount;
-    private CustomImageLibrary _imageLibrary;
-
-    public int RefCount { get => _refCount; internal set => _refCount = value; }
-    public CustomImageLibrary ImageLibrary { get => _imageLibrary; internal set => _imageLibrary = value; }
+    public int RefCount { get; internal set; }
+    public CustomImageLibrary ImageLibrary { get; internal set; }
 }

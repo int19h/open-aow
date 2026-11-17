@@ -13,7 +13,6 @@ public partial class Control : UIComponent
     private readonly StringList _toolTipText;
     private int _toolTipShown;
     private BaseWindow _window;
-    private ToolTip _toolTip;
 
     // AoWControl.pas:46
     public Control(Component owner) : base(owner)
@@ -44,28 +43,28 @@ public partial class Control : UIComponent
             if (Visible)
             {
                 base.Update();
-                if (_toolTip != null)
+                if (ToolTip != null)
                 {
                     if (ToolTipCount > 0)
                     {
-                        if (_toolTipShown > 0 && MouseIn && _toolTip.ShowDuration > 0)
+                        if (_toolTipShown > 0 && MouseIn && ToolTip.ShowDuration > 0)
                         {
-                            if (_toolTipShown < _toolTip.ShowDuration)
+                            if (_toolTipShown < ToolTip.ShowDuration)
                             {
                                 _toolTipShown += 1;
                             }
                             else
                             {
-                                if (!_toolTip.ToolTipStatic && _toolTip != null)
+                                if (!ToolTip.ToolTipStatic && ToolTip != null)
                                 {
-                                    _toolTip.SetVisible(false);
+                                    ToolTip.SetVisible(false);
                                 }
 
                                 _toolTipShown = 0;
                             }
                         }
 
-                        if (_toolTip.ToolTipDelay > ToolTipCount)
+                        if (ToolTip.ToolTipDelay > ToolTipCount)
                         {
                             ToolTipCount += 1;
                         }
@@ -73,12 +72,12 @@ public partial class Control : UIComponent
                         {
                             if (_toolTipText.Count > 0 && !MouseIn)
                             {
-                                _toolTip.SetFStrings(_toolTipText);
-                                if (!_toolTip.ToolTipStatic)
+                                ToolTip.SetFStrings(_toolTipText);
+                                if (!ToolTip.ToolTipStatic)
                                 {
-                                    _toolTip.SetVisible(true);
+                                    ToolTip.SetVisible(true);
                                     _window.Redraw = true;
-                                    _toolTip.Sized = false;
+                                    ToolTip.Sized = false;
                                 }
 
                                 w = _window;
@@ -90,12 +89,12 @@ public partial class Control : UIComponent
                                 if (_window != w)
                                 {
                                     Rect rectangle = new(_window.WinLeft + w.WinLeft + WinLeft, _window.WinTop + w.WinTop + WinTop, _window.WinLeft + w.WinLeft + ToolTipLeft, _window.WinTop + w.WinTop + WinTop + WinHeight);
-                                    _toolTip.ControlRectangle = rectangle;
+                                    ToolTip.ControlRectangle = rectangle;
                                 }
                                 else
                                 {
                                     Rect rectangle = new(_window.WinLeft + WinLeft, _window.WinTop + WinTop, _window.WinLeft + ToolTipLeft, _window.WinTop + WinTop + WinHeight);
-                                    _toolTip.ControlRectangle = rectangle;
+                                    ToolTip.ControlRectangle = rectangle;
                                 }
 
                                 MouseIn = true;
@@ -107,9 +106,9 @@ public partial class Control : UIComponent
                     {
                         if (MouseIn)
                         {
-                            if (!_toolTip.ToolTipStatic && _toolTip != null)
+                            if (!ToolTip.ToolTipStatic && ToolTip != null)
                             {
-                                _toolTip.SetVisible(false);
+                                ToolTip.SetVisible(false);
                             }
 
                             MouseIn = false;
@@ -187,12 +186,12 @@ public partial class Control : UIComponent
     // AoWControl.pas:190
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (_toolTip != null)
+        if (ToolTip != null)
         {
-            _toolTip.SetVisible(false);
-            _toolTipShown = _toolTip.ShowDuration;
+            ToolTip.SetVisible(false);
+            _toolTipShown = ToolTip.ShowDuration;
             MouseIn = true;
-            ToolTipCount = _toolTip.ToolTipDelay;
+            ToolTipCount = ToolTip.ToolTipDelay;
         }
     }
 
@@ -205,7 +204,7 @@ public partial class Control : UIComponent
         }
         else
         {
-            if (_toolTip != null && _toolTip.ToolTipDelay > ToolTipCount)
+            if (ToolTip != null && ToolTip.ToolTipDelay > ToolTipCount)
             {
                 ToolTipLeft = X - _window.WinLeft;
                 ToolTipCount = 1;
@@ -231,7 +230,7 @@ public partial class Control : UIComponent
     public BaseWindow Window { get => _window; set => SetWindow(value); }
 
     [Published]
-    public ToolTip ToolTip { get => _toolTip; set => _toolTip = value; }
+    public ToolTip ToolTip { get; set; }
 
     [Published]
     public StringList ToolTipText { get => _toolTipText; set => SetToolStrings(value); }

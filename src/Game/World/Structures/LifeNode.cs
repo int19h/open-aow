@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class LifeNode : ProductionPlace
+public partial class LifeNode(CustomNode owner) : ProductionPlace(owner)
 {
-    public LifeNode(CustomNode owner) : base(owner)
-    { }
 
     // LifeNode.pas:37
     public new const int ClassId = 131953;

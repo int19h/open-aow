@@ -714,12 +714,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIMoveTargetSelector._bufferedTargets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -1108,12 +1108,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.AIGroupDefendTargetSelector._selector.AIMoveTargetSelector.Units.ObservableNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "MoveControlSettings._height": 0,
                 "MoveControlSettings._levelCount": 0,
@@ -1819,12 +1819,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIMoveTargetSelector._bufferedTargets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -2213,12 +2213,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.AIGroupDefendTargetSelector._selector.AIMoveTargetSelector.Units.ObservableNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "MoveControlSettings._height": 0,
                 "MoveControlSettings._levelCount": 0,
@@ -3188,12 +3188,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.AIGroupWanderControl._moveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "MoveControlSettings._height": 0,
               "MoveControlSettings._levelCount": 0,
@@ -3619,12 +3619,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.AIGroupWanderControl._moveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "MoveControlSettings._height": 0,
               "MoveControlSettings._levelCount": 0,
@@ -3730,12 +3730,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -3804,12 +3804,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -3857,8 +3857,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -4548,12 +4548,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -4623,12 +4623,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -5339,12 +5339,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -5414,12 +5414,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -5861,12 +5861,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -5935,12 +5935,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -5988,8 +5988,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -6679,12 +6679,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -6754,12 +6754,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -7470,12 +7470,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -7545,12 +7545,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -7992,12 +7992,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -8066,12 +8066,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -8119,8 +8119,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -8810,12 +8810,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -8885,12 +8885,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -9601,12 +9601,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -9676,12 +9676,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -10123,12 +10123,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -10197,12 +10197,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -10250,8 +10250,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -10941,12 +10941,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -11016,12 +11016,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -11732,12 +11732,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -11807,12 +11807,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -12254,12 +12254,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -12328,12 +12328,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -12381,8 +12381,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -13081,12 +13081,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.FortifyAIGroupControl._targetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -13156,12 +13156,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.FortifyAIGroupControl._targetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -13880,12 +13880,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.FortifyAIGroupControl._targetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -13955,12 +13955,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.FortifyAIGroupControl._targetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -14409,12 +14409,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -14483,12 +14483,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -14536,8 +14536,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -15880,12 +15880,12 @@
             },
             "GuardAreaAIGroup.UnknownBytes": 0,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -15961,12 +15961,12 @@
             },
             "GuardAreaAIGroup.UnknownBytes": 0,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -16021,8 +16021,8 @@
               },
               "GuardAreaAIGroup.UnknownBytes": 0,
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -17358,12 +17358,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -17432,12 +17432,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -17485,8 +17485,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -18176,12 +18176,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -18251,12 +18251,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -18967,12 +18967,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -19042,12 +19042,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -19489,12 +19489,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -19563,12 +19563,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -19616,8 +19616,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -20953,12 +20953,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
             "PatrolAIGroup.PatrolFrom": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": -1,
@@ -21042,12 +21042,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
             "PatrolAIGroup.PatrolFrom": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": -1,
@@ -21110,8 +21110,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0,
               "PatrolAIGroup.PatrolFrom": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -22462,12 +22462,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -22536,12 +22536,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -22589,8 +22589,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -23926,12 +23926,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -24000,12 +24000,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -24053,8 +24053,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -25390,12 +25390,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -25464,12 +25464,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -25517,8 +25517,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -26208,12 +26208,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -26283,12 +26283,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -26999,12 +26999,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -27074,12 +27074,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -27521,12 +27521,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -27595,12 +27595,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -27648,8 +27648,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -28985,12 +28985,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -29059,12 +29059,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -29112,8 +29112,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -29803,12 +29803,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -29878,12 +29878,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -30594,12 +30594,12 @@
                   "$type": "Aow.Game.Units.UnitUserList",
                   "EngineObject._owner": null,
                   "ObservableNode.CollectionChanged": null,
+                  "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
                     "$type": "Aow.Engine.Nodes.EngineObjectList",
                     "DelphiList\u00601.count": 0,
                     "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                  },
-                  "ObservableNode._updateCount": 0
+                  }
                 },
                 "AIGroupRecruitControl._control": null,
                 "AIGroupRecruitControl._damageTypes": {
@@ -30669,12 +30669,12 @@
                 "$type": "Aow.Game.Units.UnitUserList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.BehaviorAIGroupControl.TargetSelector.AIGroupTargetSelector._cooperation.AIGroupCooperationControl.Groups.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "AIGroupTargetSelector._target": null,
               "AIGroupTargetSelector._targetLimit": 0,
@@ -31116,12 +31116,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -31190,12 +31190,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -31243,8 +31243,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -32580,12 +32580,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -32654,12 +32654,12 @@
             "AIGroup._refCount": 1,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.AIGroup.Productions.OwningNode._children.DelphiList\u00601.items"
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -32707,8 +32707,8 @@
               "AIGroup._refCount": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -34448,12 +34448,12 @@
               "$type": "Aow.Game.Units.UnitUserList",
               "EngineObject._owner": null,
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": "$ref:$.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-              },
-              "ObservableNode._updateCount": 0
+              }
             },
             "MoveControlSettings._height": 0,
             "MoveControlSettings._levelCount": 0,
@@ -34869,12 +34869,12 @@
               "$type": "Aow.Game.Units.UnitUserList",
               "EngineObject._owner": null,
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": "$ref:$.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-              },
-              "ObservableNode._updateCount": 0
+              }
             },
             "MoveControlSettings._height": 0,
             "MoveControlSettings._levelCount": 0,
@@ -36274,9 +36274,9 @@
               "CombatData.CurrentPlayer": 0,
               "CombatData.DefeatedLeaders": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "CombatData.DefenderPlayer": 0,
@@ -36293,9 +36293,9 @@
               },
               "CombatData.InvolvedLeaders": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
               },
               "CombatData.Location": {
@@ -36329,9 +36329,9 @@
               ],
               "CombatData.TurnOrder": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
               },
               "CombatData.Wall": null,
@@ -36376,9 +36376,9 @@
                 "CombatData.CurrentPlayer": 0,
                 "CombatData.DefeatedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.DefenderPlayer": 0,
@@ -36395,9 +36395,9 @@
                 },
                 "CombatData.InvolvedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Location": {
@@ -36431,9 +36431,9 @@
                 ],
                 "CombatData.TurnOrder": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Wall": null,
@@ -36463,9 +36463,9 @@
                 "CombatData.CurrentPlayer": 0,
                 "CombatData.DefeatedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.DefenderPlayer": 0,
@@ -36482,9 +36482,9 @@
                 },
                 "CombatData.InvolvedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Location": {
@@ -36518,9 +36518,9 @@
                 ],
                 "CombatData.TurnOrder": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Wall": null,
@@ -36575,7 +36575,7 @@
             "Battle.Terminated": false,
             "Battle._executedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601._count": 0,
+              "EventStore\u00601.Count": 0,
               "EventStore\u00601._items": null
             },
             "Battle._executedLock": 0,
@@ -36626,9 +36626,9 @@
               "CombatData.CurrentPlayer": 0,
               "CombatData.DefeatedLeaders": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "CombatData.DefenderPlayer": 0,
@@ -36645,9 +36645,9 @@
               },
               "CombatData.InvolvedLeaders": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
               },
               "CombatData.Location": {
@@ -36681,9 +36681,9 @@
               ],
               "CombatData.TurnOrder": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
               },
               "CombatData.Wall": null,
@@ -36728,9 +36728,9 @@
                 "CombatData.CurrentPlayer": 0,
                 "CombatData.DefeatedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.DefenderPlayer": 0,
@@ -36747,9 +36747,9 @@
                 },
                 "CombatData.InvolvedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Location": {
@@ -36783,9 +36783,9 @@
                 ],
                 "CombatData.TurnOrder": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Wall": null,
@@ -36815,9 +36815,9 @@
                 "CombatData.CurrentPlayer": 0,
                 "CombatData.DefeatedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.DefenderPlayer": 0,
@@ -36834,9 +36834,9 @@
                 },
                 "CombatData.InvolvedLeaders": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Location": {
@@ -36870,9 +36870,9 @@
                 ],
                 "CombatData.TurnOrder": {
                   "$type": "Aow.Engine.Collections.ByteList",
+                  "ByteList.Default": 0,
                   "ByteList._capacity": 0,
                   "ByteList._count": 0,
-                  "ByteList._default": 0,
                   "ByteList._list": "$ref:$.Battle.CombatData.CombatData.DefeatedLeaders.ByteList._list"
                 },
                 "CombatData.Wall": null,
@@ -36927,7 +36927,7 @@
             "Battle.Terminated": false,
             "Battle._executedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601._count": 0,
+              "EventStore\u00601.Count": 0,
               "EventStore\u00601._items": null
             },
             "Battle._executedLock": 0,
@@ -37637,8 +37637,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37650,12 +37650,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37677,16 +37677,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -37701,13 +37701,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -37740,9 +37740,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -37776,8 +37776,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37789,12 +37789,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37816,16 +37816,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -37840,13 +37840,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -37879,9 +37879,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -37949,8 +37949,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37962,12 +37962,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -37989,16 +37989,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38013,13 +38013,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38052,9 +38052,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38088,8 +38088,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38101,12 +38101,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38128,16 +38128,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38152,13 +38152,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38191,9 +38191,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38261,8 +38261,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38274,12 +38274,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38301,16 +38301,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38325,13 +38325,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38364,9 +38364,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38400,8 +38400,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38413,12 +38413,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38440,16 +38440,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38464,13 +38464,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38503,9 +38503,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38573,8 +38573,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38586,12 +38586,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38613,16 +38613,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38637,13 +38637,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38676,9 +38676,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38712,8 +38712,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38725,12 +38725,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38752,16 +38752,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38776,13 +38776,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38815,9 +38815,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38885,8 +38885,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38898,12 +38898,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -38925,16 +38925,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -38949,13 +38949,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -38988,9 +38988,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39024,8 +39024,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39037,12 +39037,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39064,16 +39064,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -39088,13 +39088,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -39127,9 +39127,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39197,8 +39197,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39210,12 +39210,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39237,16 +39237,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -39261,13 +39261,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -39300,9 +39300,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39336,8 +39336,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39349,12 +39349,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39376,16 +39376,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -39400,13 +39400,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -39439,9 +39439,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39649,8 +39649,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39662,12 +39662,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39689,16 +39689,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -39713,13 +39713,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -39752,9 +39752,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39788,8 +39788,8 @@
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": [],
-              "ImageSequenceList._imageLibrary": null,
-              "ImageSequenceList._imageLibraryManager": {
+              "ImageSequenceList.ImageLibrary": null,
+              "ImageSequenceList.ImageLibraryManager": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
                 "Component.ComponentState": {
                   "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39801,12 +39801,12 @@
                   "Set\u00601.high": 0,
                   "Set\u00601.low": 0
                 },
+                "Component.Name": "",
                 "Component.Owner": null,
                 "Component.Tag": 0,
                 "Component.children": [],
                 "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager._diskList": {
+                "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -39828,16 +39828,16 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false
+                  "StringList.items": []
                 },
-                "ImageLibraryManager._ownedList": {
+                "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
-                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
+                    "Dictionary\u00602._comparer": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.ImageLibraryManagerList.HashTable.Dictionary\u00602._comparer",
                     "Dictionary\u00602._count": 0,
                     "Dictionary\u00602._entries": null,
                     "Dictionary\u00602._fastModMultiplier": 0,
@@ -39852,13 +39852,13 @@
                   "StringList.Duplicates": 0,
                   "StringList.OnChange": null,
                   "StringList.OnChanging": null,
+                  "StringList.Sorted": false,
                   "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-                  "StringList.sorted": false
+                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
                 },
-                "ImageLibraryManager._searchPath": ""
+                "ImageLibraryManager.SearchPath": ""
               },
-              "ImageSequenceList._linked": false
+              "ImageSequenceList.Linked": false
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
@@ -39891,9 +39891,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
-              "StringList.sorted": false
+              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39982,12 +39982,12 @@
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40009,12 +40009,12 @@
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40053,9 +40053,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "Troop.Group": null,
@@ -40119,12 +40119,12 @@
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40146,12 +40146,12 @@
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40190,9 +40190,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.LeaderSetupControl.Leader.Leader._spheres.ByteList._list"
               },
               "Troop.Group": null,
@@ -40279,12 +40279,12 @@
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40306,12 +40306,12 @@
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40350,9 +40350,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "Troop.Group": null,
@@ -40416,12 +40416,12 @@
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40443,12 +40443,12 @@
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.LeaderSetupControl.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40487,9 +40487,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.LeaderSetupControl.Leader.Leader._spheres.ByteList._list"
               },
               "Troop.Group": null,
@@ -40603,12 +40603,12 @@
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40630,12 +40630,12 @@
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.PlayerSetupSettings.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40674,9 +40674,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "Troop.Group": null,
@@ -40778,12 +40778,12 @@
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
                 "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40805,12 +40805,12 @@
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
                 "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.PlayerSetupSettings.Leader.Hero.HeroItems.ObservableNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40849,9 +40849,9 @@
               "Leader.SpherePicksMax": 5,
               "Leader._spheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": []
               },
               "Troop.Group": null,
@@ -41329,9 +41329,9 @@
             "Campaign.PlayMode": 2,
             "Campaign.RaceHistory": {
               "$type": "Aow.Engine.Collections.ByteList",
+              "ByteList.Default": 0,
               "ByteList._capacity": 0,
               "ByteList._count": 0,
-              "ByteList._default": 0,
               "ByteList._list": []
             },
             "Campaign.ScenarioStarted": false,
@@ -41377,12 +41377,12 @@
                 "EngineObject._owner": null,
                 "ItemList.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.Campaign.Scenarios.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "CampaignTransferSettings.Leader": null,
               "CampaignTransferSettings.SelectedHeroes": {
@@ -41401,9 +41401,9 @@
               },
               "CampaignTransferSettings.SelectedSpheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Campaign.RaceHistory.ByteList._list"
               },
               "CampaignTransferSettings.SelectedTransferGold": 0,
@@ -41423,12 +41423,12 @@
                 "$type": "Aow.Game.Units.UnitList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.Campaign.Scenarios.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "CampaignTransferSettings._researchPercentage": 50,
               "CampaignTransferSettings._researchPointsLeft": 0,
@@ -41483,9 +41483,9 @@
             "Campaign.PlayMode": 2,
             "Campaign.RaceHistory": {
               "$type": "Aow.Engine.Collections.ByteList",
+              "ByteList.Default": 0,
               "ByteList._capacity": 0,
               "ByteList._count": 0,
-              "ByteList._default": 0,
               "ByteList._list": []
             },
             "Campaign.ScenarioStarted": false,
@@ -41531,12 +41531,12 @@
                 "EngineObject._owner": null,
                 "ItemList.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.Campaign.Scenarios.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "CampaignTransferSettings.Leader": null,
               "CampaignTransferSettings.SelectedHeroes": {
@@ -41555,9 +41555,9 @@
               },
               "CampaignTransferSettings.SelectedSpheres": {
                 "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
                 "ByteList._capacity": 0,
                 "ByteList._count": 0,
-                "ByteList._default": 0,
                 "ByteList._list": "$ref:$.Campaign.RaceHistory.ByteList._list"
               },
               "CampaignTransferSettings.SelectedTransferGold": 0,
@@ -41577,12 +41577,12 @@
                 "$type": "Aow.Game.Units.UnitList",
                 "EngineObject._owner": null,
                 "ObservableNode.CollectionChanged": null,
+                "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": "$ref:$.Campaign.Scenarios.OwningNode._children.DelphiList\u00601.items"
-                },
-                "ObservableNode._updateCount": 0
+                }
               },
               "CampaignTransferSettings._researchPercentage": 50,
               "CampaignTransferSettings._researchPointsLeft": 0,
@@ -41672,9 +41672,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": [],
-                      "StringList.sorted": false
+                      "StringList.items": []
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41689,9 +41689,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41706,9 +41706,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41723,9 +41723,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41740,9 +41740,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41757,9 +41757,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41774,9 +41774,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41791,9 +41791,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41808,9 +41808,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41825,9 +41825,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41857,9 +41857,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41874,9 +41874,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41891,9 +41891,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41908,9 +41908,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41925,9 +41925,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41942,9 +41942,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41959,9 +41959,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41976,9 +41976,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41993,9 +41993,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42010,9 +42010,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42076,9 +42076,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": [],
-                      "StringList.sorted": false
+                      "StringList.items": []
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42093,9 +42093,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42110,9 +42110,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42127,9 +42127,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42144,9 +42144,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42161,9 +42161,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42178,9 +42178,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42195,9 +42195,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42212,9 +42212,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42229,9 +42229,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42261,9 +42261,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42278,9 +42278,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42295,9 +42295,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42312,9 +42312,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42329,9 +42329,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42346,9 +42346,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42363,9 +42363,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42380,9 +42380,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42397,9 +42397,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42414,9 +42414,9 @@
                       "StringList.Duplicates": 0,
                       "StringList.OnChange": null,
                       "StringList.OnChanging": null,
+                      "StringList.Sorted": false,
                       "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items",
-                      "StringList.sorted": false
+                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42479,18 +42479,18 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Alignment",
-            "Alignment._alignHeight": 0,
-            "Alignment._alignWidth": 0,
-            "Alignment._bottomOffset": 0,
-            "Alignment._bottomOffsetPercent": 0,
-            "Alignment._heightPercent": 0,
-            "Alignment._leftOffset": 0,
-            "Alignment._leftOffsetPercent": 0,
-            "Alignment._rightOffset": 0,
-            "Alignment._rightOffsetPercent": 0,
-            "Alignment._topOffset": 0,
-            "Alignment._topOffsetPercent": 0,
-            "Alignment._widthPercent": 0
+            "Alignment.AlignHeight": 0,
+            "Alignment.AlignWidth": 0,
+            "Alignment.BottomOffset": 0,
+            "Alignment.BottomOffsetPercent": 0,
+            "Alignment.HeightPercent": 0,
+            "Alignment.LeftOffset": 0,
+            "Alignment.LeftOffsetPercent": 0,
+            "Alignment.RightOffset": 0,
+            "Alignment.RightOffsetPercent": 0,
+            "Alignment.TopOffset": 0,
+            "Alignment.TopOffsetPercent": 0,
+            "Alignment.WidthPercent": 0
           }
         }
       },
@@ -42563,9 +42563,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": [],
-              "StringList.sorted": false
+              "StringList.items": []
             },
             "EngineObject._owner": null
           }
@@ -42599,9 +42599,9 @@
               "StringList.Duplicates": 0,
               "StringList.OnChange": null,
               "StringList.OnChanging": null,
+              "StringList.Sorted": false,
               "StringList.count": 0,
-              "StringList.items": [],
-              "StringList.sorted": false
+              "StringList.items": []
             },
             "EngineObject._owner": "$owner"
           }
@@ -43315,12 +43315,12 @@
             "EngineObject._owner": null,
             "ItemList.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -43346,12 +43346,12 @@
             "EngineObject._owner": "$owner",
             "ItemList.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -43364,8 +43364,8 @@
               "EngineObject._owner": "$owner",
               "ItemList.OnChanged": null,
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]
@@ -43506,23 +43506,23 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
             "PrisonersArmy.Items": {
               "$type": "Aow.Game.Units.ItemList",
               "EngineObject._owner": null,
               "ItemList.OnChanged": null,
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
-              },
-              "ObservableNode._updateCount": 0
+              }
             }
           }
         }
@@ -43599,23 +43599,23 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": "$ref:$.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
             },
-            "ObservableNode._updateCount": 0,
             "PrisonersArmy.Items": {
               "$type": "Aow.Game.Units.ItemList",
               "EngineObject._owner": null,
               "ItemList.OnChanged": null,
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
-              },
-              "ObservableNode._updateCount": 0
+              }
             }
           }
         }
@@ -43678,8 +43678,8 @@
               "Army._visibilityRanges": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0,
               "PrisonersArmy.Items": null
             }
           }
@@ -44057,12 +44057,12 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -44138,12 +44138,12 @@
             "Army._visibilityRanges": 0,
             "EngineObject._owner": "$owner",
             "ObservableNode.CollectionChanged": null,
+            "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
-            },
-            "ObservableNode._updateCount": 0
+            }
           }
         }
       },
@@ -44205,8 +44205,8 @@
               "Army._visibilityRanges": 0,
               "EngineObject._owner": "$owner",
               "ObservableNode.CollectionChanged": null,
-              "ObservableNode._children": null,
-              "ObservableNode._updateCount": 0
+              "ObservableNode.UpdateCount": 0,
+              "ObservableNode._children": null
             }
           }
         ]

@@ -6,10 +6,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // inherited text
-public partial class NewDayEventLog : TextEventLog
+public partial class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
 {
-    public NewDayEventLog(CustomNode owner) : base(owner)
-    { }
 
     // EventLog.pas:809
     public new const int ClassId = 131813;

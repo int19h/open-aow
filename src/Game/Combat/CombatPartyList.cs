@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
+public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
@@ -17,9 +17,6 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatParty;
 
     int IChildSink<CombatParty>.AddChild(CombatParty child) => AddChild(child);
-
-    public CombatPartyList(CustomNode owner) : base(owner)
-    { }
 
     // Combat2.pas:70
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.ArrayMode);
@@ -30,10 +27,13 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
         CombatParty p;
         if (GetParty(position) == null)
         {
-            p = new CombatParty(null) { Holder = CreationHolder() };
-            p.PlayerIndex = combatPlayer;
-            p.Position = position;
-            p.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
+            p = new CombatParty(null)
+            {
+                Holder = CreationHolder(),
+                PlayerIndex = combatPlayer,
+                Position = position,
+                Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L)
+            };
             p.SetArrayOwner(this, position);
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);

@@ -6,11 +6,8 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // player, text, mode, dialog style
-public partial class NewTurnEventLog : EventLog
+public partial class NewTurnEventLog(CustomNode owner) : EventLog(owner)
 {
-    public NewTurnEventLog(CustomNode owner) : base(owner)
-    { }
-
     public sbyte TurnPlayer { get; set; }
     public string Text { get; set; } = "";
     public NewTurnEventLogMode Mode { get; set; }

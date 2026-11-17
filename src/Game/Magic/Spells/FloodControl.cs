@@ -16,6 +16,8 @@ namespace Aow.Game.Magic.Spells;
 // Width, Height, OriginalTerrain
 public partial class FloodControl : EngineObject
 {
+    public FloodControl(CustomNode owner) : base(owner) => OriginalTerrain = [];
+
     public int Width { get; set; }
     public int Height { get; set; }
 
@@ -53,9 +55,6 @@ public partial class FloodControl : EngineObject
             persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, count)));
         }
     }
-
-    // GlobalEnchantmentSpells.pas:1066
-    public FloodControl(CustomNode owner) : base(owner) => OriginalTerrain = [];
 
     // GlobalEnchantmentSpells.pas:1090
     public void Setup()

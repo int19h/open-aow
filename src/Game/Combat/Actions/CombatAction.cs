@@ -8,6 +8,8 @@ namespace Aow.Game.Combat.Actions;
 // RefCount
 public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwnedSink<CombatActionList>
 {
+    public CombatAction(CustomNode owner) : base(owner) => RefCount = 1;
+
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new CombatActionList Owner { get => GetOwner<CombatActionList>(); set => SetOwner(value); }
@@ -15,9 +17,6 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is CombatActionList;
 
     void IOwnedSink<CombatActionList>.SetOwner(CombatActionList owner) => SetOwner(owner);
-
-    // Combat2.pas:698
-    public CombatAction(CustomNode owner) : base(owner) => RefCount = 1;
 
     public int RefCount { get; private set; }
 

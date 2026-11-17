@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class HeroList : ReferenceNode, IChildList<Hero>, IHeroHolder
+public partial class HeroList(CustomNode owner) : ReferenceNode(owner), IChildList<Hero>, IHeroHolder
 {
     // The hero in slot index, without a range check.
     public Hero this[int index] => Heroes[index];
@@ -13,9 +13,6 @@ public partial class HeroList : ReferenceNode, IChildList<Hero>, IHeroHolder
     protected sealed override bool AcceptsChild(EngineObject child) => child is Hero;
 
     int IChildSink<Hero>.AddChild(Hero child) => AddChild(child);
-
-    public HeroList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The heroes of this list, in their stored order.</summary>
     public HeroCollection Heroes => new(this);

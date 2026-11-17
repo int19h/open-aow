@@ -7,13 +7,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // spell ID, mana cost charged after execution
-public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
+public partial class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
     // UnitSpells.pas:975
     public new const int ClassId = 131793;
-
-    public DispelMagicSpellCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public int SpellId { get; set; }
     public int ManaCost { get; set; }

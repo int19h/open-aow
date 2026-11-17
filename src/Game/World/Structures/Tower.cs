@@ -11,10 +11,8 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // State, bit 0 razed
-public partial class Tower : PlayerStructure
+public partial class Tower(CustomNode owner) : PlayerStructure(owner)
 {
-    public Tower(CustomNode owner) : base(owner)
-    { }
 
     // Tower.pas:55
     public new const int ClassId = 132158;

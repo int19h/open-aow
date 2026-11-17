@@ -21,7 +21,7 @@ public partial class CustomDisplay
     public void PresentInitialFrame()
     {
         // The initial paint presents the cleared surface before the first scene update.
-        if (PresentedFrames != 0 || !_options.Contains(BlitOnPaint) || _activeDisplayController is null)
+        if (PresentedFrames != 0 || !Options.Contains(BlitOnPaint) || ActiveDisplayController is null)
         {
             return;
         }
@@ -33,10 +33,10 @@ public partial class CustomDisplay
 
     public CustomDisplay(Component owner) : base(owner)
     {
-        _options = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDisplayController,
+        Options = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDisplayController,
             AutoStartUpdateFrameLoop, AutoActivatePrimaryDisplayController, RestoreSurfacesOnSwap, BlitOnPaint);
         _bufferingScheme = BufferingScheme.Double;
-        _backSurfaceControlMode = BackSurfaceControlMode.BlitSurface;
+        BackSurfaceControlMode = BackSurfaceControlMode.BlitSurface;
         _backSurfaceWidth = 640;
         _backSurfaceHeight = 480;
         SurfaceIndex = 1;
@@ -60,13 +60,13 @@ public partial class CustomDisplay
 
     public virtual void Resize()
     {
-        if (_activeDisplayController is null)
+        if (ActiveDisplayController is null)
         {
             return;
         }
 
-        Surface screen = _activeDisplayController.GetSurface(0);
-        if (_options.Contains(AutoResizeBackSurface))
+        Surface screen = ActiveDisplayController.GetSurface(0);
+        if (Options.Contains(AutoResizeBackSurface))
         {
             ResizeBackSurfaces(screen.Width, screen.Height);
         }
@@ -141,14 +141,14 @@ public partial class CustomDisplay
         }
 
         _mouseAboveSurface = x != -1;
-        OnUpdateFrame?.Invoke(this, _activeDisplayController, SurfaceIndex);
-        if (_activeDisplayController is null)
+        OnUpdateFrame?.Invoke(this, ActiveDisplayController, SurfaceIndex);
+        if (ActiveDisplayController is null)
         {
             return;
         }
 
-        _activeDisplayController.NewFrame();
-        _ = _activeDisplayController.WaitForVerticalBlank();
+        ActiveDisplayController.NewFrame();
+        _ = ActiveDisplayController.WaitForVerticalBlank();
         _ = ExecuteBlitSurfaceEvent();
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
@@ -156,17 +156,17 @@ public partial class CustomDisplay
 
     public int ActivateDisplayController(DisplayController displayController)
     {
-        if (displayController == _activeDisplayController)
+        if (displayController == ActiveDisplayController)
         {
             return 0;
         }
 
-        DisplayController previous = _activeDisplayController;
+        DisplayController previous = ActiveDisplayController;
         DataSurface[] saved = new DataSurface[3];
         PauseFrameUpdateLoop();
         try
         {
-            if (previous is not null && _options.Contains(RestoreSurfacesOnSwap))
+            if (previous is not null && Options.Contains(RestoreSurfacesOnSwap))
             {
                 for (int i = 1; i <= (int)_bufferingScheme; i++)
                 {
@@ -186,17 +186,17 @@ public partial class CustomDisplay
             {
                 if (previous is not null && previous.Activate(this) >= 0)
                 {
-                    _activeDisplayController = previous;
+                    ActiveDisplayController = previous;
                 }
 
                 result = DCERR_ACTIVATEFAILED;
             }
             else
             {
-                _activeDisplayController = displayController;
+                ActiveDisplayController = displayController;
             }
 
-            if (_activeDisplayController is null)
+            if (ActiveDisplayController is null)
             {
                 return result;
             }
@@ -206,11 +206,11 @@ public partial class CustomDisplay
             {
                 if (saved[i] is not null)
                 {
-                    _ = RemapSurface(saved[i], _activeDisplayController.GetSurface(i));
+                    _ = RemapSurface(saved[i], ActiveDisplayController.GetSurface(i));
                 }
             }
 
-            OnActivateDisplayController?.Invoke(this, _activeDisplayController);
+            OnActivateDisplayController?.Invoke(this, ActiveDisplayController);
             return result;
         }
         finally
@@ -235,7 +235,7 @@ public partial class CustomDisplay
             }
 
             Host.Fullscreen = !Host.Fullscreen;
-            OnSwapDisplayController?.Invoke(_activeDisplayController);
+            OnSwapDisplayController?.Invoke(ActiveDisplayController);
             Resize();
             return 0;
         }

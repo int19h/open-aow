@@ -167,12 +167,15 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
         AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null) { Holder = CreationHolder() };
-        newTarget.Info = _selector.TargetInfo;
+        newTarget = new AIGroupControlTarget(null)
+        {
+            Holder = CreationHolder(),
+            Info = _selector.TargetInfo,
 
-        newTarget.Data = target.Data;
-        newTarget.Location = target.Location;
-        newTarget.MovePoints = target.MovePoints;
+            Data = target.Data,
+            Location = target.Location,
+            MovePoints = target.MovePoints
+        };
         AITargetData data = newTarget.Data;
         data.Priority += Round((double)target.MovePoints * _movePointsFactor);
         newTarget.Data = data;

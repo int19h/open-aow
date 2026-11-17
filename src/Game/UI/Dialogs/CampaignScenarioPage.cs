@@ -10,6 +10,8 @@ namespace Aow.Game.UI.Dialogs;
 // image library, image index, heading, text
 public partial class CampaignScenarioPage : EngineObject
 {
+    public CampaignScenarioPage(CustomNode owner) : base(owner) => Text = new StringList();
+
     // AoWVideoDlg.pas:264
     public new const int ClassId = 2248706;
 
@@ -40,8 +42,4 @@ public partial class CampaignScenarioPage : EngineObject
 
         ImageIndex = persister.Int32("ImageIndex", value: ImageIndex);
     }
-
-    // AoWVideoDlg.pas:250
-    public CampaignScenarioPage(CustomNode owner) : base(owner) => Text = new StringList();
-
 }

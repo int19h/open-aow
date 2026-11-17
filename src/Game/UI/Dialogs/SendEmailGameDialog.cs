@@ -13,11 +13,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // callback, send event
-public partial class SendEmailGameDialog : UIModule
+public partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
 {
-    public SendEmailGameDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Edit EmailAddressEdit { get; private set; }
     public CheckBox ManualCheckBox { get; private set; }

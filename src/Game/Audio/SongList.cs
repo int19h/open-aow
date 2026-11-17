@@ -17,13 +17,14 @@ public partial class SongList : EngineObject
 
     public SongList(CustomNode owner) : base(owner)
     {
-        _songs = new StringList();
-        _songs.OnChange = SongsChanged;
-        _songNames = new StringList();
+        _songs = new StringList
+        {
+            OnChange = SongsChanged
+        };
+        SongNames = new StringList();
     }
 
     private readonly StringList _songs;
-    private readonly StringList _songNames;
 
     // Sound.pas:813
     internal void SetSongs(StringList value) => _songs.Assign(value);
@@ -32,13 +33,13 @@ public partial class SongList : EngineObject
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
     internal void SongsChanged(object sender)
     {
-        _songNames.Clear();
+        SongNames.Clear();
         for (int i = _songs.Count - 1; i >= 0; i--)
         {
             try
             {
                 string songName = AudioPlayback.GetSongName(_songs[i]);
-                _songNames.Insert(0, songName);
+                SongNames.Insert(0, songName);
             }
             catch
             {
@@ -64,7 +65,7 @@ public partial class SongList : EngineObject
     public override void Dispose()
     {
         _songs?.Dispose();
-        _songNames?.Dispose();
+        SongNames?.Dispose();
         base.Dispose();
     }
 
@@ -88,6 +89,6 @@ public partial class SongList : EngineObject
     }
 
     public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames => _songNames;
+    public StringList SongNames { get; }
 
 }

@@ -12,11 +12,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // cosmetic-surgery caster
-public partial class DeformFaceDialog : UIModule
+public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
 {
-    public DeformFaceDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label UnitNameLabel { get; private set; }
 

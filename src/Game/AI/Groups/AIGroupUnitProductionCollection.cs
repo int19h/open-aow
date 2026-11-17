@@ -9,18 +9,16 @@ namespace Aow.Game.AI.Groups;
 /// </summary>
 public readonly struct AIGroupUnitProductionCollection : IReadOnlyList<AIGroupUnitProduction>
 {
-    private readonly AIGroupUnitProductionList _list;
-
-    internal AIGroupUnitProductionCollection(AIGroupUnitProductionList list) => _list = list;
+    internal AIGroupUnitProductionCollection(AIGroupUnitProductionList list) => Holder = list;
 
     /// <summary>The list that holds the productions.</summary>
-    public AIGroupUnitProductionList Holder => _list;
+    public AIGroupUnitProductionList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The production in slot index, read as the original reads the list, without a range check.
     // The list admits only unit productions.
-    public AIGroupUnitProduction this[int index] => _list.GetChild<AIGroupUnitProduction>(index);
+    public AIGroupUnitProduction this[int index] => Holder.GetChild<AIGroupUnitProduction>(index);
 
     public IEnumerator<AIGroupUnitProduction> GetEnumerator()
     {
@@ -33,5 +31,5 @@ public readonly struct AIGroupUnitProductionCollection : IReadOnlyList<AIGroupUn
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // AIGroup.pas:2435. The original reads through the range-checked child.
-    public AIGroupUnitProduction GetUnitProductions(int index) => _list.GetChildInRange<AIGroupUnitProduction>(index);
+    public AIGroupUnitProduction GetUnitProductions(int index) => Holder.GetChildInRange<AIGroupUnitProduction>(index);
 }

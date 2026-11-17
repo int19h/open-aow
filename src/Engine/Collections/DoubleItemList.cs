@@ -13,12 +13,11 @@ public partial class DoubleItemList : Persistent
     private DoubleItem[] _list = [];
     private int _count;
     private int _capacity;
-    private DoubleItem _default;
 
     // Engine.pas:5140
     internal DoubleItem Get(int index)
     {
-        DoubleItem result = index < 0 || index >= _count ? _default : _list[index];
+        DoubleItem result = index < 0 || index >= _count ? Default : _list[index];
         return result;
     }
 
@@ -68,7 +67,7 @@ public partial class DoubleItemList : Persistent
 
         if (newCount > _count)
         {
-            FillLargeInteger(_list.AsSpan(_count), newCount - _count, _default);
+            FillLargeInteger(_list.AsSpan(_count), newCount - _count, Default);
         }
 
         _count = newCount;
@@ -92,7 +91,7 @@ public partial class DoubleItemList : Persistent
             _count = doubleItemList._count;
             SetCapacity(doubleItemList._count);
             Array.Copy(doubleItemList._list, 0, _list, 0, _count);
-            _default = doubleItemList._default;
+            Default = doubleItemList.Default;
         }
         else
         {
@@ -293,7 +292,7 @@ public partial class DoubleItemList : Persistent
     {
         for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[i] == _default)
+            if (this[i] == Default)
             {
                 Delete(i);
             }
@@ -416,7 +415,7 @@ public partial class DoubleItemList : Persistent
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public DoubleItem Default { get => _default; set => _default = value; }
+    public DoubleItem Default { get; set; }
 
     public DoubleItem this[int index] { get => Get(index); set => Put(index, value); }
 

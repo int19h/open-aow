@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupUnitProductionList : ReferenceNode, IChildList<AIGroupUnitProduction>
+public partial class AIGroupUnitProductionList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupUnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupUnitProduction, so the cast never fails.
@@ -13,9 +13,6 @@ public partial class AIGroupUnitProductionList : ReferenceNode, IChildList<AIGro
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupUnitProduction;
 
     int IChildSink<AIGroupUnitProduction>.AddChild(AIGroupUnitProduction child) => AddChild(child);
-
-    public AIGroupUnitProductionList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The productions of this list, in their stored order.</summary>
     public AIGroupUnitProductionCollection Productions => new(this);

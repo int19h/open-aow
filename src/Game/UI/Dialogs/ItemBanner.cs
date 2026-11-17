@@ -9,11 +9,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ItemBanner : UIModule
+public partial class ItemBanner(UIContext ui) : UIModule(ui)
 {
-    public ItemBanner(UIContext ui) : base(ui)
-    { }
-
     public Label ItemNameLabel { get; private set; }
     public Menu BannerMenu { get; private set; }
     public Image AttackIcon { get; private set; }

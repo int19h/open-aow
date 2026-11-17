@@ -14,10 +14,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
-public partial class RangedPathHexSprite : FixedVisibleHexSprite
+public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
-    public RangedPathHexSprite(CustomNode owner) : base(owner)
-    { }
 
     // AoWTC.pas:4846
     public new const int ClassId = 2228485;

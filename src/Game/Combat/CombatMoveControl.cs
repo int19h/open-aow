@@ -9,12 +9,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatMoveControl : MoveControl
+public partial class CombatMoveControl(GameMap owner) : MoveControl(owner)
 {
-
-    public CombatMoveControl(GameMap owner) : base(owner)
-    { }
-
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
     public Set<CombatMoveModeElement> MoveFlags { get; private set; }
 

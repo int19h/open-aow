@@ -85,10 +85,12 @@ public partial class RangedAttackAbility : AdjustableAbility
                 FastBattleGetDamageValues(wallSituation: commands.Source.Combat.GetWallSituation(commands.Source, target), attacker: commands.Source, defender: target, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(i);
-                    command.MoveCost = 1;
-                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
+                    command = new FastBattleCommand(AbilityId)
+                    {
+                        Target = commands.TargetSide.GetObjects(i),
+                        MoveCost = 1,
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target)
+                    };
                     commands.Add(command);
                 }
             }

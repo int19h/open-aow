@@ -18,12 +18,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
-public partial class SimultaneousPlayerControl : PlayerControl
+public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131665;
-
-    public SimultaneousPlayerControl(CustomNode owner) : base(owner)
-    { }
 
     // PlayerC.PAS:1343
     public override void NewDay()
@@ -66,8 +63,11 @@ public partial class SimultaneousPlayerControl : PlayerControl
                         StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
-                            PlayerMagicEventLog research = new(null) { Holder = CreationHolder() };
-                            research.Mode = PlayerMagicEventLog.EventMode.StartResearch;
+                            PlayerMagicEventLog research = new(null)
+                            {
+                                Holder = CreationHolder(),
+                                Mode = PlayerMagicEventLog.EventMode.StartResearch
+                            };
                             StrategicMap.Current.TriggerExecuteEventLog(research, false, null);
                             _ = research.Release();
                         }
@@ -137,11 +137,14 @@ public partial class SimultaneousPlayerControl : PlayerControl
         Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-        log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
-        log.Mode = NewTurnEventLogMode.Dialog;
-        log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-        log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_letGameBeginText);
+        log = new NewTurnEventLog(null)
+        {
+            Holder = CreationHolder(),
+            TurnPlayer = StrategicMap.Current.SeatedPlayer,
+            Mode = NewTurnEventLogMode.Dialog,
+            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+            Text = AbilityRules.TranslateResourceString(GetEngine(), s_letGameBeginText)
+        };
         StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         _ = log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
@@ -289,11 +292,14 @@ public partial class SimultaneousPlayerControl : PlayerControl
         }
 
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-        log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
-        log.Mode = NewTurnEventLogMode.Dialog;
-        log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-        log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_gameContinuesText);
+        log = new NewTurnEventLog(null)
+        {
+            Holder = CreationHolder(),
+            TurnPlayer = StrategicMap.Current.SeatedPlayer,
+            Mode = NewTurnEventLogMode.Dialog,
+            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+            Text = AbilityRules.TranslateResourceString(GetEngine(), s_gameContinuesText)
+        };
         StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         _ = log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)

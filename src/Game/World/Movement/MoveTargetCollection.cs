@@ -11,18 +11,16 @@ namespace Aow.Game.World.Movement;
 /// </summary>
 public readonly struct MoveTargetCollection : IReadOnlyList<MoveTarget>
 {
-    private readonly MoveTargetList _list;
-
-    internal MoveTargetCollection(MoveTargetList list) => _list = list;
+    internal MoveTargetCollection(MoveTargetList list) => Holder = list;
 
     /// <summary>The list that holds the targets.</summary>
-    public MoveTargetList Holder => _list;
+    public MoveTargetList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The target in slot index, read as the original reads the list, without a range check. The
     // list admits only move targets, so the cast never fails.
-    public MoveTarget this[int index] => _list.GetChild<MoveTarget>(index);
+    public MoveTarget this[int index] => Holder.GetChild<MoveTarget>(index);
 
     public IEnumerator<MoveTarget> GetEnumerator()
     {
@@ -54,7 +52,7 @@ public readonly struct MoveTargetCollection : IReadOnlyList<MoveTarget>
     }
 
     // AIGroup.pas:4275
-    public void SortOnMovePoints() => _list.SortChildren<MoveTarget>(CompareMoveTargets);
+    public void SortOnMovePoints() => Holder.SortChildren<MoveTarget>(CompareMoveTargets);
 
     private static int CompareMoveTargets(MoveTarget item1, MoveTarget item2) => item1.MovePoints - item2.MovePoints;
 }

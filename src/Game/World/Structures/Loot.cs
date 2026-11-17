@@ -42,9 +42,12 @@ public sealed partial record Loot : ProductionOrder
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;
         ChangeRelation(control, city, -30);
-        LocationTextEventLog log = new(null) { Holder = control };
-        log.Player = control.GetPlayer();
-        log.Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
+        LocationTextEventLog log = new(null)
+        {
+            Holder = control,
+            Player = control.GetPlayer(),
+            Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()])
+        };
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         EventLog.DistributeLocationEventLog(y: city.GetHexY(), level: city.GetHexLevel(), x: city.GetHexX(), log: log, player: control.GetPlayer(), execute: false);
         _ = log.Release();

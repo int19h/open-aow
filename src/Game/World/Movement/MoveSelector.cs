@@ -333,8 +333,11 @@ public partial class MoveSelector : IDisposable
     public int AddMoveObject(HexSprite objectValue)
     {
         MoveSettings settings;
-        settings = new MoveSettings(null) { Holder = Creator.CreationHolder() };
-        settings.MoveObject = objectValue;
+        settings = new MoveSettings(null)
+        {
+            Holder = Creator.CreationHolder(),
+            MoveObject = objectValue
+        };
         settings.SetOwner(MoveSettingsList);
         return MoveSettingsList.Count - 1;
     }

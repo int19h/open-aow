@@ -255,8 +255,10 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            Map.SeatedPlayer = Viewer;
+            Map = new StrategicMap(null, holder: EngineFixture.Engine)
+            {
+                SeatedPlayer = Viewer
+            };
             StrategicMap.Current = Map;
         }
 

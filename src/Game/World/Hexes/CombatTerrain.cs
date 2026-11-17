@@ -16,10 +16,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatTerrain : TerrainMapObject
+public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
 {
-    public CombatTerrain(CustomNode owner) : base(owner)
-    { }
 
     // CombatTerrain.pas:82
     public new const int ClassId = 2228582;
@@ -263,8 +261,11 @@ public partial class CombatTerrain : TerrainMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatTerrainShadow(null) { Holder = CreationHolder() };
-                _shadow.Terrain = this;
+                _shadow = new CombatTerrainShadow(null)
+                {
+                    Holder = CreationHolder(),
+                    Terrain = this
+                };
             }
         }
     }
@@ -283,10 +284,8 @@ public partial class CombatTerrain : TerrainMapObject
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource : TerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CombatTerrain.pas:301
         public new const int ClassId = 2228583;

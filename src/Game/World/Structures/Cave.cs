@@ -413,8 +413,10 @@ public partial class Cave : Structure
             armyHexSprite = Owner.GetArmyHexSprite();
             if (CanEnterSelection(armyHexSprite.Army.Units) != armyHexSprite.Army.ValidateSelection(255))
             {
-                log = new EnterCaveEventLog(null, holder: CreationHolder());
-                log.Cave = this;
+                log = new EnterCaveEventLog(null, holder: CreationHolder())
+                {
+                    Cave = this
+                };
                 string splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
                 log.Message.Text = splitOnEnterCaveWarning;
                 log.Buttons = MessageEventLogButtons.YesNo;

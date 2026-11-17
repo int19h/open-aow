@@ -6,11 +6,8 @@ namespace Aow.Game.Draw;
 
 // FShowPriority, FOnShow (Show calls it). TAbstractAoWHSMap (AoWEPACK) creates two and sets
 // OnShow and ShowPriority
-public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
+public partial class CustomFixedVisibleHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
-    public CustomFixedVisibleHexSprite(CustomNode owner) : base(owner)
-    { }
-
     private int _showPriority;
     public event OnShowHSEvent OnShow;
 

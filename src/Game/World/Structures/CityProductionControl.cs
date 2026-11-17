@@ -17,11 +17,8 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // City
-public partial class CityProductionControl : ProductionControl
+public partial class CityProductionControl(CustomNode owner) : ProductionControl(owner)
 {
-    public CityProductionControl(CustomNode owner) : base(owner)
-    { }
-
     public City City { get; set; }
 
     // City.pas:645
@@ -67,8 +64,11 @@ public partial class CityProductionControl : ProductionControl
             valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         }
 
-        log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-        log.Player = city.Player;
+        log = new CityProductionEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = city.Player
+        };
         string name = Settings.Unit.GetName();
         string fCityName = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
@@ -85,8 +85,11 @@ public partial class CityProductionControl : ProductionControl
         CityProductionEventLog log;
         base.UnitResearched();
         city = City;
-        log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-        log.Player = city.Player;
+        log = new CityProductionEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = city.Player
+        };
         UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = City.GetName();

@@ -11,15 +11,12 @@ namespace Aow.Game.Draw.Images;
 // (ClassID $10): an opaque 16 bit picture. _pitch (bytes per row, a multiple of 4, or of 8 from
 // 32 pixels on), FBuffer (the rows from its first byte. The original's FData, FBuffer aligned to
 // 8 bytes, is FBuffer itself in the port)
-public partial class Picture16 : Image16, ILibraryImageClass
+public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 16;
     static string ILibraryImageClass.Name => "Picture (16bpp)";
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Picture16(owner);
-
-    public Picture16(CustomImageLibrary owner) : base(owner)
-    { }
 
     private int _pitch;
     private byte[] _buffer;

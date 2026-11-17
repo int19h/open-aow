@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public partial class IncomeSourceList : OwningNode, IChildList<IncomeSource>
+public partial class IncomeSourceList(CustomNode owner) : OwningNode(owner), IChildList<IncomeSource>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an IncomeSource, so the cast never fails.
@@ -12,9 +12,6 @@ public partial class IncomeSourceList : OwningNode, IChildList<IncomeSource>
     protected sealed override bool AcceptsChild(EngineObject child) => child is IncomeSource;
 
     int IChildSink<IncomeSource>.AddChild(IncomeSource child) => AddChild(child);
-
-    public IncomeSourceList(CustomNode owner) : base(owner)
-    { }
 
     // Player.PAS:231
     public IncomeSource GetItems(int index) => this[index];

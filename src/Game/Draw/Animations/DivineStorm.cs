@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class DivineStorm : BlastStorm
+public partial class DivineStorm(CustomNode owner) : BlastStorm(owner)
 {
-    public DivineStorm(CustomNode owner) : base(owner)
-    { }
 
     // Storms.pas:608
     public new const int ClassId = 135740;

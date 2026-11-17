@@ -10,8 +10,6 @@ namespace Aow.Game.Magic.Abilities;
 // (max level, level costs)
 public partial class MultiLevelAbility : AdjustableAbility
 {
-
-    // AoWAb.PAS:248
     public MultiLevelAbility(CustomNode owner) : base(owner)
     {
         LevelCosts = new Int32List();

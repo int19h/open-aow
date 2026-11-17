@@ -149,9 +149,12 @@ public partial class Gems : ImageLibraryTerrainMapObject
             Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
-            eventValue = new LocationTextEventLog(null) { Holder = CreationHolder() };
-            eventValue.Player = armyHexSprite.Army.Player;
-            eventValue.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
+            eventValue = new LocationTextEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = armyHexSprite.Army.Player,
+                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)])
+            };
             eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             _ = eventValue.Release();
@@ -161,10 +164,8 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
     private static readonly string s_goldFoundFormat = "%s gold pieces found";
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // Gems.pas:137
         public new const int ClassId = 132015;

@@ -6,11 +6,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatScanner : UIModule
+public partial class CombatScanner(UIContext ui) : UIModule(ui)
 {
-    public CombatScanner(UIContext ui) : base(ui)
-    { }
-
     public Window CombatScannerWindow { get; private set; }
     public Scanner Scanner { get; private set; }
 

@@ -15,11 +15,9 @@ namespace Aow.Game.Tests;
 /// </summary>
 [Collection("Engine")]
 [EngineState]
-public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
+public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture<WheelLayoutTests.Host>
 {
-    private readonly Host _host;
-
-    public WheelLayoutTests(Host host) => _host = host;
+    private readonly Host _host = host;
 
     public sealed class Host : IDisposable
     {

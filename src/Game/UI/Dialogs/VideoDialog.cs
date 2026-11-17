@@ -9,11 +9,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // full screen, change flag, display size
-public partial class VideoDialog : UIModule
+public partial class VideoDialog(UIContext ui) : UIModule(ui)
 {
-    public VideoDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public ListBox DisplayModesList { get; private set; }
     public CheckBox ResolutionCheckBox { get; private set; }

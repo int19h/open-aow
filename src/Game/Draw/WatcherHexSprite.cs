@@ -52,8 +52,11 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1203
     public WatcherHexSprite(CustomNode owner) : base(owner)
     {
-        Enchantment = new WatcherEnchantment(null) { Holder = CreationHolder() };
-        Enchantment.Watcher = this;
+        Enchantment = new WatcherEnchantment(null)
+        {
+            Holder = CreationHolder(),
+            Watcher = this
+        };
         _unexplored = new Int32List();
         _visibleForSeatedPlayer = false;
         _animationFrame = -1;

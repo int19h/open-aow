@@ -15,6 +15,12 @@ namespace Aow.Game.Draw;
 // FFinished, Frame, FX, FY, Layer, Path, EffectType
 public partial class WorldEffectHexSprite : FixedVisibleHexSprite
 {
+    public WorldEffectHexSprite(CustomNode owner) : base(owner)
+    {
+        Path = new Point3DList();
+        Frame = -1;
+    }
+
     public bool Done { get; private set; }
     public int Frame { get; set; }
     public int X { get; set; }
@@ -30,13 +36,6 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
     {
         Path?.Dispose();
         base.Dispose();
-    }
-
-    // Army.PAS:5327
-    public WorldEffectHexSprite(CustomNode owner) : base(owner)
-    {
-        Path = new Point3DList();
-        Frame = -1;
     }
 
     // Army.PAS:5353

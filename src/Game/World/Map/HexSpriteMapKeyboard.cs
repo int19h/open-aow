@@ -23,11 +23,8 @@ namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public partial class HexSpriteMapKeyboard : EngineObject
+public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 {
-    public HexSpriteMapKeyboard(CustomNode owner) : base(owner)
-    { }
-
     private string _cheatText = "";
 
     public HexSpriteMapKeyboardMode Mode { get; private set; }
@@ -209,9 +206,12 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                 if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                 {
-                    cheat = new CheatTokenEvent(null) { Holder = CreationHolder() };
-                    cheat.Player = StrategicMap.Current.SeatedPlayer;
-                    cheat.CheatId = i;
+                    cheat = new CheatTokenEvent(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = StrategicMap.Current.SeatedPlayer,
+                        CheatId = i
+                    };
                     StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
                     _ = cheat.Release();
                     _cheatText = "";

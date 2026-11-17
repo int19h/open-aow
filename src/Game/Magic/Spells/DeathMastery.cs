@@ -44,8 +44,11 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         y = coordinate63.Y;
         l = coordinate63.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        Animation animation = new(null) { Holder = CreationHolder() };
-        animation.AnimationLevel = 28;
+        Animation animation = new(null)
+        {
+            Holder = CreationHolder(),
+            AnimationLevel = 28
+        };
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);

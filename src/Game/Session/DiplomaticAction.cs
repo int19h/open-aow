@@ -25,6 +25,8 @@ namespace Aow.Game.Session;
 // proposal (AoWE.DiplomaticProposals.cs), stored as Kind, Gold, Mana and Message
 public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionList>, IOwnedSink<DiplomaticActionList>
 {
+    public DiplomaticAction(CustomNode owner) : base(owner) => _refCount = 1;
+
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new DiplomaticActionList Owner { get => GetOwner<DiplomaticActionList>(); set => SetOwner(value); }
@@ -35,10 +37,6 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
 
     // Diplomacy.pas:495
     public new const int ClassId = 131666;
-
-    // Diplomacy.pas:482
-    public DiplomaticAction(CustomNode owner) : base(owner) => _refCount = 1;
-
     private int _refCount;
 
     public int Day { get; set; }
@@ -329,8 +327,11 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public DiplomaticActionEventLog CreateEventLog()
     {
         DiplomaticActionEventLog log;
-        log = new DiplomaticActionEventLog(null) { Holder = CreationHolder() };
-        log.Day = StrategicMap.Current.Day;
+        log = new DiplomaticActionEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Day = StrategicMap.Current.Day
+        };
         log.SetDiplomaticAction(this);
         return log;
     }

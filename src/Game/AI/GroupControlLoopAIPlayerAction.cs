@@ -11,13 +11,8 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // group cycles, group control
-public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    // AI.pas:1119
-    public GroupControlLoopAIPlayerAction(CustomNode owner) : base(owner)
-    {
-    }
-
     private int _groupProcessCycles;
     private AIGroupControl _groupControl;
 

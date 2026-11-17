@@ -8,10 +8,8 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-public partial class DefendersArmy : Army
+public partial class DefendersArmy(CustomNode owner) : Army(owner)
 {
-    public DefendersArmy(CustomNode owner) : base(owner)
-    { }
 
     // ExploreS.pas:71
     public override bool CanAddUnit(Troop troop)

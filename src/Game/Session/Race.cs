@@ -18,6 +18,14 @@ namespace Aow.Game.Session;
 // race, defaults, player relations, enabled
 public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
 {
+    public Race(CustomNode owner) : base(owner)
+    {
+        _playerRelations = new Int32List();
+        DefaultRelations = new ByteList();
+        RaceIndex = -1;
+        Enabled = false;
+    }
+
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
     public new RaceList Owner { get => GetOwner<RaceList>(); set => SetOwner(value); }
 
@@ -26,15 +34,6 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     void IOwnedSink<RaceList>.SetOwner(RaceList owner) => SetOwner(owner);
 
     public new const int ClassId = 131586;
-
-    // Ability.PAS:212
-    public Race(CustomNode owner) : base(owner)
-    {
-        _playerRelations = new Int32List();
-        DefaultRelations = new ByteList();
-        RaceIndex = -1;
-        Enabled = false;
-    }
 
     public sbyte RaceIndex { get; set; }
 

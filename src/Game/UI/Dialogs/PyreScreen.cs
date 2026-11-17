@@ -18,11 +18,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // game-over event, animation frame
-public partial class PyreScreen : UIModule
+public partial class PyreScreen(UIContext ui) : UIModule(ui)
 {
-    public PyreScreen(UIContext ui) : base(ui)
-    { }
-
     public Panel DeadPanel { get; private set; }
     public Image LeaderFaceFrame { get; private set; }
     public UserDrawBox PyreAnimationView { get; private set; }

@@ -18,7 +18,6 @@ public partial class TabPanel : Control
     private readonly StringList _items;
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
-    private int _borderHeightSelected;
     private int _imageLibraryIndexUp;
     private int _imageLibraryIndexDown;
 
@@ -27,8 +26,10 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:62
     public TabPanel(Component owner) : base(owner)
     {
-        _items = new StringList();
-        _items.OnChange = OnChangeText;
+        _items = new StringList
+        {
+            OnChange = OnChangeText
+        };
         Panels = [];
     }
 
@@ -134,7 +135,7 @@ public partial class TabPanel : Control
                             int textWidth = base.Font.GetTextWidth(item);
                             int count2 = _items.Count;
                             string item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + BorderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -276,7 +277,7 @@ public partial class TabPanel : Control
     public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
     [Published]
-    public int BorderHeightSelected { get => _borderHeightSelected; set => _borderHeightSelected = value; }
+    public int BorderHeightSelected { get; set; }
 
     public new event NotifyEvent<TabPanel> OnChange
     {

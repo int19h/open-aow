@@ -13,10 +13,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Commands;
 
 // dispel chance, enchantment ID
-public partial class DisjunctionTokenEvent : SpellTokenEvent
+public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public DisjunctionTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalSpells.pas:745
     public new const int ClassId = 135961;

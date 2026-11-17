@@ -10,19 +10,14 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _frameType, _imageLibraryFrame, _imageLibraryTexture, _imageLibraryLine, _imageLibraryIndexFrame, _imageLibraryIndexLine,
 // _imageLibraryIndexTexture, _popupMenu
-public partial class Frame : Control
+public partial class Frame(Component owner) : Control(owner)
 {
-    public Frame(Component owner) : base(owner)
-    { }
-
-    private FrameType _frameType;
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTexture;
     private InterfaceImageLibrary _imageLibraryLine;
     private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexLine;
     private int _imageLibraryIndexTexture;
-    private Menu _popupMenu;
 
     // AoWFrame.pas:63
     public override void Validate()
@@ -47,15 +42,15 @@ public partial class Frame : Control
             Valid = true;
             if (_imageLibraryFrame != null)
             {
-                _frameType = _imageLibraryTexture != null ? FrameType.FilledBox : FrameType.HollowBox;
+                FrameType = _imageLibraryTexture != null ? FrameType.FilledBox : FrameType.HollowBox;
             }
             else
             {
                 if (_imageLibraryLine != null)
                 {
-                    if (_frameType != FrameType.HorizontalLine)
+                    if (FrameType != FrameType.HorizontalLine)
                     {
-                        _frameType = FrameType.VertLine;
+                        FrameType = FrameType.VertLine;
                     }
                 }
             }
@@ -67,7 +62,7 @@ public partial class Frame : Control
     // AoWFrame.pas:113
     public override void SetSize()
     {
-        switch (_frameType)
+        switch (FrameType)
         {
             case FrameType.FilledBox:
             case FrameType.HollowBox:
@@ -128,7 +123,7 @@ public partial class Frame : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                switch (_frameType)
+                switch (FrameType)
                 {
                     case FrameType.VertLine:
                         SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
@@ -175,40 +170,40 @@ public partial class Frame : Control
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
 
-            if (button == MouseButton.Right && _popupMenu != null)
+            if (button == MouseButton.Right && PopupMenu != null)
             {
-                _popupMenu.SetPopupOwner(this);
-                _popupMenu.WinLeft = X;
-                _popupMenu.WinTop = Y;
-                if (_popupMenu.WindowManager != null)
+                PopupMenu.SetPopupOwner(this);
+                PopupMenu.WinLeft = X;
+                PopupMenu.WinTop = Y;
+                if (PopupMenu.WindowManager != null)
                 {
-                    if (_popupMenu.Hidden)
+                    if (PopupMenu.Hidden)
                     {
-                        if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
+                        if (PopupMenu.MenuLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                         {
-                            _popupMenu.WinLeft = X - _popupMenu.WinWidth;
+                            PopupMenu.WinLeft = X - PopupMenu.WinWidth;
                         }
 
-                        if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
+                        if (PopupMenu.MenuTop + PopupMenu.WinHeight > PopupMenu.WindowManager.WinHeight)
                         {
-                            _popupMenu.WinTop = Y - _popupMenu.WinHeight;
+                            PopupMenu.WinTop = Y - PopupMenu.WinHeight;
                         }
                     }
                     else
                     {
-                        if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
+                        if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                         {
-                            _popupMenu.WinLeft = X - _popupMenu.WinWidth;
+                            PopupMenu.WinLeft = X - PopupMenu.WinWidth;
                         }
 
-                        if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
+                        if (PopupMenu.WinTop + PopupMenu.WinHeight > PopupMenu.WindowManager.WinHeight)
                         {
-                            _popupMenu.WinTop = Y - _popupMenu.WinHeight;
+                            PopupMenu.WinTop = Y - PopupMenu.WinHeight;
                         }
                     }
                 }
 
-                _popupMenu.Visible = true;
+                PopupMenu.Visible = true;
             }
         }
     }
@@ -297,7 +292,7 @@ public partial class Frame : Control
     }
 
     [Published]
-    public FrameType FrameType { get => _frameType; set => _frameType = value; }
+    public FrameType FrameType { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
@@ -318,7 +313,7 @@ public partial class Frame : Control
     public InterfaceImageLibrary ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
 
     [Published]
-    public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
+    public Menu PopupMenu { get; set; }
 
     public new event NotifyEvent<Frame> OnChange
     {

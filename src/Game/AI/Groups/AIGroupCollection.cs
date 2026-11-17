@@ -13,21 +13,20 @@ namespace Aow.Game.AI.Groups;
 /// </summary>
 public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
 {
-    private readonly OwningNode _holder;
 
     // Each holder admits only groups (AcceptsChild), so every slot holds a group or is empty.
-    internal AIGroupCollection(AIGroupList holder) => _holder = holder;
+    internal AIGroupCollection(AIGroupList holder) => Holder = holder;
 
-    internal AIGroupCollection(AIGroupManager holder) => _holder = holder;
+    internal AIGroupCollection(AIGroupManager holder) => Holder = holder;
 
     /// <summary>The list or manager that holds the groups.</summary>
-    public OwningNode Holder => _holder;
+    public OwningNode Holder { get; }
 
-    public int Count => _holder.GetCount();
+    public int Count => Holder.GetCount();
 
     // The group in slot index, read as the original reads the list, without a range check. The
     // holder admits only groups.
-    public AIGroup this[int index] => _holder.GetChild<AIGroup>(index);
+    public AIGroup this[int index] => Holder.GetChild<AIGroup>(index);
 
     public IEnumerator<AIGroup> GetEnumerator()
     {
@@ -74,7 +73,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     }
 
     // AIGroup.pas:559
-    public void SortOnProcessPriority() => _holder.SortChildren<AIGroup>(CompareProcessPriority);
+    public void SortOnProcessPriority() => Holder.SortChildren<AIGroup>(CompareProcessPriority);
 
     private static int CompareProcessPriority(AIGroup item1, AIGroup item2)
     {

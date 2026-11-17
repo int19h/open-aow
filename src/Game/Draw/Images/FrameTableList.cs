@@ -9,7 +9,6 @@ namespace Aow.Game.Draw.Images;
 
 public partial class FrameTableList : Persistent
 {
-    private int[] _list;
     private int _count;
     private int _capacity;
     private int _defaultValue;
@@ -22,7 +21,7 @@ public partial class FrameTableList : Persistent
             Error("List index out of bounds (%d)", index);
         }
 
-        return _list[index];
+        return List[index];
     }
 
     // ImageLib.pas:9440
@@ -46,7 +45,7 @@ public partial class FrameTableList : Persistent
             SetCount(index + 1);
         }
 
-        _list[index] = item;
+        List[index] = item;
     }
 
     // ImageLib.pas:9506
@@ -59,7 +58,7 @@ public partial class FrameTableList : Persistent
 
         if (newCapacity != _capacity)
         {
-            _list = ReallocArray(_list, newCapacity);
+            List = ReallocArray(List, newCapacity);
             _capacity = newCapacity;
         }
     }
@@ -80,7 +79,7 @@ public partial class FrameTableList : Persistent
         if (newCount > _count)
         {
             // FillChar: each byte of a new item is the low byte of the default.
-            _list.AsSpan(_count, newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
+            List.AsSpan(_count, newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
         }
 
         _count = newCount;
@@ -96,7 +95,7 @@ public partial class FrameTableList : Persistent
         {
             SetCapacity(frameTableList._count);
             _count = frameTableList._count;
-            MoveElements(frameTableList._list, 0, _list, 0, _count);
+            MoveElements(frameTableList.List, 0, List, 0, _count);
             _defaultValue = frameTableList._defaultValue;
         }
         else
@@ -114,7 +113,7 @@ public partial class FrameTableList : Persistent
             Grow();
         }
 
-        _list[result] = item;
+        List[result] = item;
         _count += 1;
         return result;
     }
@@ -137,7 +136,7 @@ public partial class FrameTableList : Persistent
         _count -= 1;
         if (index < _count)
         {
-            MoveElements(_list, index + 1, _list, index, _count - index);
+            MoveElements(List, index + 1, List, index, _count - index);
         }
     }
 
@@ -155,9 +154,9 @@ public partial class FrameTableList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        item = List[index1];
+        List[index1] = List[index2];
+        List[index2] = item;
     }
 
     // ImageLib.pas:9423
@@ -178,7 +177,7 @@ public partial class FrameTableList : Persistent
     public int IndexOf(int item)
     {
         int result = 0;
-        while (result < _count && _list[result] != item)
+        while (result < _count && List[result] != item)
         {
             result += 1;
         }
@@ -206,10 +205,10 @@ public partial class FrameTableList : Persistent
 
         if (index < _count)
         {
-            MoveElements(_list, index, _list, index + 1, _count - index);
+            MoveElements(List, index, List, index + 1, _count - index);
         }
 
-        _list[index] = item;
+        List[index] = item;
         _count += 1;
     }
 
@@ -260,14 +259,14 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9554
     public void Sort(FrameTableSortCompare compare)
     {
-        if (_list != null && Count > 0)
+        if (List != null && Count > 0)
         {
-            FrameTableQuickSort(_list, 0, Count - 1, compare);
+            FrameTableQuickSort(List, 0, Count - 1, compare);
         }
     }
 
     // ImageLib.pas:9560
-    public bool Compare(FrameTableList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
+    public bool Compare(FrameTableList list) => list._count == _count && List.AsSpan(0, _count).SequenceEqual(list.List.AsSpan(0, _count));
 
     // ImageLib.pas:9566
     public void LoadFromStream(Stream stream)
@@ -277,7 +276,7 @@ public partial class FrameTableList : Persistent
         stream.ReadExactly(Bytes.Of(ref _defaultValue, 4));
         stream.ReadExactly(Bytes.Of(ref n, 4));
         SetCapacity(n);
-        stream.ReadExactly(MemoryMarshal.AsBytes(_list.AsSpan(0, n)));
+        stream.ReadExactly(MemoryMarshal.AsBytes(List.AsSpan(0, n)));
         _count = n;
     }
 
@@ -289,7 +288,7 @@ public partial class FrameTableList : Persistent
         SetCapacity(items.Count);
         for (int i = 0; i < items.Count; i++)
         {
-            _list[i] = items[i];
+            List[i] = items[i];
         }
 
         _count = items.Count;
@@ -300,7 +299,7 @@ public partial class FrameTableList : Persistent
     {
         stream.Write(Bytes.Of(ref _defaultValue, 4));
         stream.Write(Bytes.Of(ref _count, 4));
-        stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)));
+        stream.Write(MemoryMarshal.AsBytes(List.AsSpan(0, _count)));
     }
 
     // ImageLib.pas:9586
@@ -310,7 +309,7 @@ public partial class FrameTableList : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(_list[i]) + ",";
+            result = result + IntToStr(List[i]) + ",";
         }
 
         if (!IsEmpty(result))
@@ -365,7 +364,7 @@ public partial class FrameTableList : Persistent
 
     public int this[int index] { get => Get(index); set => Put(index, value); }
 
-    public int[] List => _list;
+    public int[] List { get; private set; }
     public int DefaultValue { get => _defaultValue; set => _defaultValue = value; }
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
 

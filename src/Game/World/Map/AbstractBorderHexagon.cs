@@ -3,18 +3,12 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Map;
 
-public partial class AbstractBorderHexagon : AbstractHexagon
+public partial class AbstractBorderHexagon(CustomNode owner) : AbstractHexagon(owner)
 {
     public new const int ClassId = 65905;
 
-    public AbstractBorderHexagon(CustomNode owner) : base(owner)
-    { }
-
-    public new partial class Resource : AbstractHexagonResource
+    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
     }
 
 }

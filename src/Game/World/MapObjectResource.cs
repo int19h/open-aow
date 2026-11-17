@@ -22,27 +22,21 @@ public partial class MapObjectResource : EngineResource
 
     public MapObjectResource(CustomNode owner) : base(owner)
     {
-        _terrainList = new TerrainList();
-        _imageLibrary = new ImageLibrary(null);
+        TerrainList = new TerrainList();
+        ImageLibrary = new ImageLibrary(null);
         SetLevel(26);
     }
 
-    private GameEngine _engine;
-    private int _showPriorityOffset;
-    private readonly ImageLibrary _imageLibrary;
-    private ImageSequenceList _imageSequenceList;
-    private readonly TerrainList _terrainList;
     private byte _level;
-    private string _name = "";
 
     // MAPOBJ.PAS:391
     public override void Dispose()
     {
-        _terrainList?.Dispose();
-        _imageLibrary?.Dispose();
-        if (_imageSequenceList != null)
+        TerrainList?.Dispose();
+        ImageLibrary?.Dispose();
+        if (ImageSequenceList != null)
         {
-            _imageSequenceList?.Dispose();
+            ImageSequenceList?.Dispose();
         }
 
         base.Dispose();
@@ -52,41 +46,41 @@ public partial class MapObjectResource : EngineResource
     public override int ClassVersion() => 1;
 
     // MAPOBJ.PAS:400. Before the activation message the resource reaches the engine as any node does.
-    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
+    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
 
     // MAPOBJ.PAS:470
     public override void PersistFields(IPersister persister)
     {
         bool complex = default;
         base.PersistFields(persister);
-        _showPriorityOffset = persister.Int32("ShowPriorityOffset", value: _showPriorityOffset);
+        ShowPriorityOffset = persister.Int32("ShowPriorityOffset", value: ShowPriorityOffset);
         _level = persister.Byte("Level", value: _level);
-        _name = persister.String("Name", value: _name);
-        PersistSupport.TerrainList(persister, name: "TerrainList", list: _terrainList);
-        _ = _imageLibrary.ReduceCount();
-        PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: _imageLibrary);
+        Name = persister.String("Name", value: Name);
+        PersistSupport.TerrainList(persister, name: "TerrainList", list: TerrainList);
+        _ = ImageLibrary.ReduceCount();
+        PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: ImageLibrary);
         if (persister.Loading)
         {
             complex = persister.Boolean("Complex", value: complex);
             if (complex)
             {
-                _imageSequenceList ??= new ImageSequenceList(null, _imageLibrary);
+                ImageSequenceList ??= new ImageSequenceList(null, ImageLibrary);
             }
             else
             {
-                _imageSequenceList?.Dispose();
-                _imageSequenceList = null;
+                ImageSequenceList?.Dispose();
+                ImageSequenceList = null;
             }
         }
         else
         {
-            complex = _imageSequenceList != null;
+            complex = ImageSequenceList != null;
             complex = persister.Boolean("Complex", value: complex);
         }
 
         if (complex)
         {
-            PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: _imageSequenceList);
+            PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: ImageSequenceList);
         }
     }
 
@@ -98,11 +92,11 @@ public partial class MapObjectResource : EngineResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            _engine = message.Payload.As<GameEngine>();
-            if (_imageSequenceList != null)
+            Engine = message.Payload.As<GameEngine>();
+            if (ImageSequenceList != null)
             {
-                _imageSequenceList.ImageLibraryManager = _engine.HexSpriteSet.ImageLibraryManager;
-                _imageSequenceList.LinkToImageLibrary();
+                ImageSequenceList.ImageLibraryManager = Engine.HexSpriteSet.ImageLibraryManager;
+                ImageSequenceList.LinkToImageLibrary();
             }
         }
         else
@@ -127,22 +121,22 @@ public partial class MapObjectResource : EngineResource
         int i;
         i = 0;
         LibraryImage result = null;
-        while (i != _imageLibrary.Count && result == null)
+        while (i != ImageLibrary.Count && result == null)
         {
-            result = _imageLibrary.Get(i);
+            result = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (result == null && _imageSequenceList != null)
+        if (result == null && ImageSequenceList != null)
         {
-            result = _imageSequenceList.GetPreviewImage();
+            result = ImageSequenceList.GetPreviewImage();
         }
 
         return result;
     }
 
     // MAPOBJ.PAS:465
-    public override void SetCellImage(LibraryImage value) => _imageLibrary.SetImage(0, value);
+    public override void SetCellImage(LibraryImage value) => ImageLibrary.SetImage(0, value);
 
     // MAPOBJ.PAS:525
     // The user class is a map object. Another class throws, and a class id of zero stays null.
@@ -154,7 +148,7 @@ public partial class MapObjectResource : EngineResource
             return null;
         }
 
-        MapObject mapObject = _engine.CreateEngineObject<MapObject>(id, owner: null);
+        MapObject mapObject = Engine.CreateEngineObject<MapObject>(id, owner: null);
         if (mapObject != null)
         {
             mapObject.SetResource(this);
@@ -173,19 +167,19 @@ public partial class MapObjectResource : EngineResource
         Rect drawRectangle = default;
         i = 0;
         image = null;
-        while (i != _imageLibrary.Count && image == null)
+        while (i != ImageLibrary.Count && image == null)
         {
-            image = _imageLibrary.Get(i);
+            image = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (image == null && _imageSequenceList != null)
+        if (image == null && ImageSequenceList != null)
         {
             i = 0;
             sequence = null;
-            while (i != _imageSequenceList.Count && sequence == null)
+            while (i != ImageSequenceList.Count && sequence == null)
             {
-                sequence = _imageSequenceList.GetImageSequence(i);
+                sequence = ImageSequenceList.GetImageSequence(i);
                 if (sequence == null)
                 {
                     i += 1;
@@ -239,7 +233,7 @@ public partial class MapObjectResource : EngineResource
         => (T)PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // MAPOBJ.PAS:545
-    public virtual void CalculateShowPriorityOffset(int dX, int dY, int level) => _showPriorityOffset = dX + (level << 26) + (dY << 13);
+    public virtual void CalculateShowPriorityOffset(int dX, int dY, int level) => ShowPriorityOffset = dX + (level << 26) + (dY << 13);
 
     // The control of this resource kind, null for a resource with none. Hexagon resources answer
     // the hexagon control, road resources the road control.
@@ -250,11 +244,11 @@ public partial class MapObjectResource : EngineResource
     {
         ImageSequence sequence;
         int frame;
-        sequence = index < _imageSequenceList.Count ? _imageSequenceList.List[index] : null;
+        sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
         while (sequence != null)
         {
-            frame = sequence.GetFrameIndex(_engine.HexSpriteMap.Frame, (int)offset);
+            frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
             if (frame != -1)
             {
                 sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -269,12 +263,12 @@ public partial class MapObjectResource : EngineResource
     {
         int hexX = default;
         int hexY = default;
-        for (int i = _terrainList.Count - 1; i >= 0; i--)
+        for (int i = TerrainList.Count - 1; i >= 0; i--)
         {
-            if (_terrainList.GetTerrain(i) >= 0)
+            if (TerrainList.GetTerrain(i) >= 0)
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, i, ref hexX, ref hexY);
-                _engine.HexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
+                Engine.HexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
             }
         }
     }
@@ -305,7 +299,7 @@ public partial class MapObjectResource : EngineResource
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(_engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
+                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -314,13 +308,13 @@ public partial class MapObjectResource : EngineResource
         message.Result = placed ? 0 : -1;
     }
 
-    public GameEngine Engine => _engine;
-    public int ShowPriorityOffset { get => _showPriorityOffset; set => _showPriorityOffset = value; }
-    public ImageLibrary ImageLibrary => _imageLibrary;
-    public ImageSequenceList ImageSequenceList { get => _imageSequenceList; set => _imageSequenceList = value; }
-    public TerrainList TerrainList => _terrainList;
+    public GameEngine Engine { get; private set; }
+    public int ShowPriorityOffset { get; set; }
+    public ImageLibrary ImageLibrary { get; }
+    public ImageSequenceList ImageSequenceList { get; set; }
+    public TerrainList TerrainList { get; }
     public byte Level { get => _level; set => SetLevel(value); }
-    public string Name { get => _name; set => _name = value; }
+    public string Name { get; set; } = "";
 
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";

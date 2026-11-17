@@ -11,10 +11,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PassiveAIGroupControl : AIGroupControl
+public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public PassiveAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // MainAG.pas:199
     public override void ProcessStates()

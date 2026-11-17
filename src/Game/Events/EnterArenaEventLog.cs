@@ -12,7 +12,6 @@ namespace Aow.Game.Events;
 // Arena, Selection, Trainable, UnitIds
 public partial class EnterArenaEventLog : EventLog
 {
-    // Arena.pas:259
     public EnterArenaEventLog(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
     public Arena Arena { get; set; }

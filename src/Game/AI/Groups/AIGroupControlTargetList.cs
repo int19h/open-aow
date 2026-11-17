@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // children. group control
-public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGroupControlTarget>
+public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupControlTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.
@@ -16,9 +16,6 @@ public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGrou
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupControlTarget;
 
     int IChildSink<AIGroupControlTarget>.AddChild(AIGroupControlTarget child) => AddChild(child);
-
-    public AIGroupControlTargetList(CustomNode owner) : base(owner)
-    { }
 
     public AIGroupControl Control { get; set; }
 

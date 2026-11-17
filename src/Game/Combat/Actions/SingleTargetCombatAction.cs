@@ -12,13 +12,8 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // Mode. SourceId. TargetId
-public partial class SingleTargetCombatAction : CombatAction
+public partial class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
 {
-
-    public SingleTargetCombatAction(CustomNode owner) : base(owner)
-    {
-    }
-
     public Set<SingleTargetModeElement> Mode { get; set; }
     public byte SourceId { get; set; }
     public byte TargetId { get; set; }

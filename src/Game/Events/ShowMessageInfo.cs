@@ -4,9 +4,7 @@ namespace Aow.Game.Events;
 
 public struct ShowMessageInfo
 {
-    private string _text;
-
-    public string Text { readonly get => _text ?? ""; set => _text = value; }
+    public string Text { readonly get => field ?? ""; set; }
 
     public int Color { get; set; }
 }

@@ -24,7 +24,7 @@ public partial class UIComponent
     public virtual bool ContainsPoint(int X, int Y) => false;
 
     // Visible and willing to take a click. A wheel follows that, then bubbles to the parent.
-    public virtual bool WantsMouseWheel => _visible && _captureInput;
+    public virtual bool WantsMouseWheel => _visible && CaptureInput;
 
     public virtual bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y) => false;
 
@@ -68,7 +68,7 @@ public partial class UIComponent
     {
         if (s_wheelLinks.TryGetValue(this, out WheelLink link) && link.Bar != null)
         {
-            if (!link.Bar._visible || !link.Bar._captureInput)
+            if (!link.Bar._visible || !link.Bar.CaptureInput)
             {
                 return false;
             }
@@ -80,7 +80,7 @@ public partial class UIComponent
         VerticalScrollBar bar = null;
         for (int i = 0; i < Children.Count; i++)
         {
-            if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate._captureInput)
+            if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate.CaptureInput)
             {
                 if (bar != null)
                 {

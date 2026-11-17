@@ -9,8 +9,11 @@ public partial class ItemHexSprite
 {
     public ItemHexSprite(CustomNode owner) : base(owner)
     {
-        Items = new ItemHSList(null) { Holder = CreationHolder() };
-        Items.Sprite = this;
+        Items = new ItemHSList(null)
+        {
+            Holder = CreationHolder(),
+            Sprite = this
+        };
         Items.OnChanged += ItemsChanged;
     }
 }

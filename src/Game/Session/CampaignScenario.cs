@@ -6,16 +6,10 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // ID. name. map file name
-public partial class CampaignScenario : EngineObject
+public partial class CampaignScenario(CustomNode owner) : EngineObject(owner)
 {
     // Diplomacy.pas:2200
     public new const int ClassId = 131588;
-
-    // Diplomacy.pas:2194
-    public CampaignScenario(CustomNode owner) : base(owner)
-    {
-
-    }
 
     public int Id { get; set; }
 

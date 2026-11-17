@@ -11,14 +11,13 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, duration, player, enchantment)
 public partial class UnitEnchantmentAbilityData : AbilityData
 {
-    public new const int ClassId = 131756;
-
-    // AoWAb.PAS:555
     public UnitEnchantmentAbilityData(CustomNode owner) : base(owner)
     {
         EnchantmentPlayerIndex = -1;
         EnchantmentDuration = -1;
     }
+
+    public new const int ClassId = 131756;
 
     public ushort EnchantmentAbilityId { get; set; }
     public sbyte EnchantmentDuration { get; set; }

@@ -19,8 +19,6 @@ namespace Aow.Game.Magic;
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
 public partial class GlobalEnchantment : EngineObject
 {
-
-    // Spells.PAS:2471
     public GlobalEnchantment(CustomNode owner) : base(owner)
     {
         _refCount = 1;
@@ -173,10 +171,13 @@ public partial class GlobalEnchantment : EngineObject
             result = Activate(player);
             if (result)
             {
-                log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
-                log.EnchantmentPlayer = player;
-                log.Player = player;
-                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name]);
+                log = new GlobalEnchantmentEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    EnchantmentPlayer = player,
+                    Player = player,
+                    Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name])
+                };
                 EventLog.DistributeEventLog(log, false);
                 _ = log.Release();
             }
@@ -207,9 +208,12 @@ public partial class GlobalEnchantment : EngineObject
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
-                    log.Player = (sbyte)player;
-                    log.EnchantmentPlayer = PlayerIndex;
+                    log = new GlobalEnchantmentEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = (sbyte)player,
+                        EnchantmentPlayer = PlayerIndex
+                    };
                     log.SetLocation(location);
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
@@ -251,9 +255,12 @@ public partial class GlobalEnchantment : EngineObject
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
-                    log.Player = PlayerIndex;
-                    log.EnchantmentPlayer = PlayerIndex;
+                    log = new GlobalEnchantmentEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = PlayerIndex,
+                        EnchantmentPlayer = PlayerIndex
+                    };
                     log.SetLocation(location);
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);

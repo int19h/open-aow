@@ -8,11 +8,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // a sprite that is always in the visibility list (not on a field). FStatus: bit 1 visible
-public partial class FixedVisibleHexSprite : HexSprite
+public partial class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
 {
-    public FixedVisibleHexSprite(CustomNode owner) : base(owner)
-    { }
-
     private byte _status;
 
     // HXSPRITE.PAS:770

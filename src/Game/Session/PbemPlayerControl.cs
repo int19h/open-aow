@@ -19,13 +19,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Session;
 
 // local player
-public partial class PbemPlayerControl : TurnPlayerControl
+public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
 {
     public new const int ClassId = 131667;
-
-    public PbemPlayerControl(CustomNode owner) : base(owner)
-    { }
-
     private sbyte _localPlayer;
 
     // PlayerC.PAS:984
@@ -45,9 +41,12 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 StrategicMap.Current.SetCurrentPlayer(player);
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
                 StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
-                log = new SendEmailGameEventLog(null) { Holder = CreationHolder() };
-                log.Mode = 2;
-                log.SendPlayer = player;
+                log = new SendEmailGameEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    Mode = 2,
+                    SendPlayer = player
+                };
                 StrategicMap.Current.TriggerExecuteEventLog(log, false, SendEmailGameCallback);
                 _ = log.Release();
             }
@@ -141,8 +140,10 @@ public partial class PbemPlayerControl : TurnPlayerControl
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
             {
-                log = new SaveGameEventLog(null, holder: CreationHolder());
-                log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText);
+                log = new SaveGameEventLog(null, holder: CreationHolder())
+                {
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
+                };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name))
                 {
                     log.DefaultName = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name + ".asg";
@@ -176,8 +177,10 @@ public partial class PbemPlayerControl : TurnPlayerControl
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
             {
-                saveLog = new SaveGameEventLog(null, holder: CreationHolder());
-                saveLog.Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText);
+                saveLog = new SaveGameEventLog(null, holder: CreationHolder())
+                {
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
+                };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
                 {
                     saveLog.DefaultName = StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name + ".asg";
@@ -237,9 +240,12 @@ public partial class PbemPlayerControl : TurnPlayerControl
         _ = DeleteFile(log.FileName);
         if (!log.Success)
         {
-            sendLog = new SendEmailGameEventLog(null) { Holder = CreationHolder() };
-            sendLog.Mode = 1;
-            sendLog.SendPlayer = StrategicMap.Current.CurrentPlayer;
+            sendLog = new SendEmailGameEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Mode = 1,
+                SendPlayer = StrategicMap.Current.CurrentPlayer
+            };
             StrategicMap.Current.TriggerExecuteEventLog(sendLog, false, SendEmailGameCallback);
             _ = sendLog.Release();
         }
@@ -301,8 +307,10 @@ public partial class PbemPlayerControl : TurnPlayerControl
     {
         RestartGameEventLog log;
         StrategicMap.Current.SynchronizeBegin();
-        log = new RestartGameEventLog(null, holder: CreationHolder());
-        log.Player = player;
+        log = new RestartGameEventLog(null, holder: CreationHolder())
+        {
+            Player = player
+        };
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartEventLogFormat), [name]);
         log.Message.Text = format;
@@ -430,9 +438,11 @@ public partial class PbemPlayerControl : TurnPlayerControl
             if (GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame))
             {
                 SetSeatedPlayer(-1);
-                log = new MessageEventLog(null, holder: CreationHolder());
-                log.Buttons = MessageEventLogButtons.YesNo;
-                log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
+                log = new MessageEventLog(null, holder: CreationHolder())
+                {
+                    Buttons = MessageEventLogButtons.YesNo,
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)
+                };
                 string pbemRestartCheat = AbilityRules.TranslateResourceString(GetEngine(), s_pbemRestartCheatText);
                 log.Message.Text = pbemRestartCheat;
                 _ = log.Message.Add("");
@@ -446,9 +456,11 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 SetSeatedPlayer(-1);
                 if ((StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status & Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone)) == Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone))
                 {
-                    log = new MessageEventLog(null, holder: CreationHolder());
-                    log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
-                    log.Buttons = MessageEventLogButtons.YesNo;
+                    log = new MessageEventLog(null, holder: CreationHolder())
+                    {
+                        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText),
+                        Buttons = MessageEventLogButtons.YesNo
+                    };
                     string pbemGameEnded = AbilityRules.TranslateResourceString(GetEngine(), s_pbemGameEndedText);
                     log.Message.Text = pbemGameEnded;
                     _ = log.Message.Add("");

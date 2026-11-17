@@ -427,7 +427,7 @@ public sealed partial class PersistEquivalenceTests
 
             using SfxSequence sequence = new(null) { Holder = EngineFixture.Engine };
             Sfx sound = new(null) { Holder = EngineFixture.Engine };
-            typeof(Sfx).GetField("_fileName", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance).SetValue(sound, value: "bell.wav");
+            MemberNames.Field(typeof(Sfx), "FileName").SetValue(sound, value: "bell.wav");
             sound.SetOwner(sequence);
             using (DictionaryStream stream = new(dictionary))
             {
@@ -435,7 +435,7 @@ public sealed partial class PersistEquivalenceTests
                 Assert.Empty(stream.Visited);
                 Assert.Equal(["SfxSequence", "Sfx"], stream.Objects);
             }
-            Assert.Equal("bell.wav", typeof(Sfx).GetField("_fileName", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance).GetValue(sound));
+            Assert.Equal("bell.wav", MemberNames.Field(typeof(Sfx), "FileName").GetValue(sound));
         });
     }
 
@@ -527,8 +527,8 @@ public sealed partial class PersistEquivalenceTests
     // body and puts the previous status back.
     private static void WithEngineStatus(Set<HexSpriteEngineStatusElement> status, Action body)
     {
-        FieldInfo field = typeof(GameEngine).GetField("_status", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)
-            ?? throw new InvalidOperationException("GameEngine has no _status field.");
+        FieldInfo field = MemberNames.Field(typeof(GameEngine), "Status")
+            ?? throw new InvalidOperationException("GameEngine has no Status field.");
         object previous = field.GetValue(EngineFixture.Engine);
         field.SetValue(EngineFixture.Engine, value: status);
         try

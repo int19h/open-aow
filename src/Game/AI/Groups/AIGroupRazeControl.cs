@@ -16,11 +16,8 @@ namespace Aow.Game.AI.Groups;
 
 // { ot=1 }
 // fields control, mode, damage types, structure factor, city factor
-public partial class AIGroupRazeControl : AIGroupTask
+public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 {
-    public AIGroupRazeControl(CustomNode owner) : base(owner)
-    { }
-
     private AIGroupControl _control;
 
     public Set<AIGroupRazeControlModeElement> Mode { get; set; }

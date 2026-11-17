@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Commands;
 
 // (source unit ID/player, target unit ID/player)
-public partial class DispelMagicAbilityTokenEvent : TokenEvent
+public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public DispelMagicAbilityTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131827;
 
     public int SourceId { get; set; }

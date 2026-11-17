@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // Location: packed X/Y/layer coordinates
-public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
+public partial class GlobalTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public GlobalTargetSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalTargetSpells.pas:401
     public new const int ClassId = 135976;

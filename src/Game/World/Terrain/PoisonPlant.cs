@@ -176,9 +176,12 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         int damage;
         count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
-        log.Player = armyHexSprite.Army.Player;
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText),
+            Player = armyHexSprite.Army.Player
+        };
         string poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         _ = log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
@@ -316,10 +319,8 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
 
     private static readonly string s_poisonPlantDamageText = "Poison Plant Damage";
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // PoisonP.pas:293
         public new const int ClassId = 131999;

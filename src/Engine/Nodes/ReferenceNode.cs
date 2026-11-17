@@ -6,11 +6,8 @@ namespace Aow.Engine.Nodes;
 
 // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
 // removal)
-public partial class ReferenceNode : OwningNode
+public partial class ReferenceNode(CustomNode owner) : OwningNode(owner)
 {
-
-    public ReferenceNode(CustomNode owner) : base(owner)
-    { }
 
     // Engine.pas:8144
     public override void Clear()

@@ -17,11 +17,8 @@ namespace Aow.Game.UI.Dialogs;
 
 // phase, phase frame, animation frame, and shield indices/opacities, combat viewer, completion
 // event, retained event
-public partial class FastBattleWindow : UIModule
+public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 {
-    public FastBattleWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public Label LeftSideLabel { get; private set; }
     public Label RightSideLabel { get; private set; }

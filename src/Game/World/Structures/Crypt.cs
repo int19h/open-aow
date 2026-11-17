@@ -5,18 +5,14 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class Crypt : ItemExplorationSite
+public partial class Crypt(CustomNode owner) : ItemExplorationSite(owner)
 {
-    public Crypt(CustomNode owner) : base(owner)
-    { }
 
     // Crypt.pas:34
     public new const int ClassId = 131850;
 
-    public new partial class Resource : ItemExplorationSiteResource
+    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // Crypt.pas:40
         public new const int ClassId = 131851;

@@ -6,13 +6,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class MoveWallCombatAction : CombatAction
+public partial class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1072
     public new const int ClassId = 131767;
-
-    public MoveWallCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public byte CombatObjectId { get; set; }
     public byte InsideWall { get; set; }

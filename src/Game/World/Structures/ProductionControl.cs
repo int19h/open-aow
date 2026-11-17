@@ -33,8 +33,11 @@ public partial class ProductionControl : EngineObject
     {
         Settings = new ProductionSettings(null) { Holder = CreationHolder() };
         UnitProductions = new UnitProductionList(null) { Holder = CreationHolder() };
-        Queue = new ProductionQueue(null) { Holder = CreationHolder() };
-        Queue.ProductionControl = this;
+        Queue = new ProductionQueue(null)
+        {
+            Holder = CreationHolder(),
+            ProductionControl = this
+        };
         Status = ProductionControlStatus.Idle;
         Clear();
     }
@@ -124,8 +127,11 @@ public partial class ProductionControl : EngineObject
     {
         ProductionItem item;
         ExecuteDeleteProductions();
-        item = new ProductionItem(null) { Holder = CreationHolder() };
-        item.Order = new ProduceUnit(index, groupId);
+        item = new ProductionItem(null)
+        {
+            Holder = CreationHolder(),
+            Order = new ProduceUnit(index, groupId)
+        };
         ExecuteAddProduction(item);
         item?.Dispose();
         return true;
@@ -139,8 +145,11 @@ public partial class ProductionControl : EngineObject
         if (!UnitProductions.GetItem(index).Researched)
         {
             ExecuteDeleteProductions();
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = new ResearchSpell(index);
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new ResearchSpell(index)
+            };
             ExecuteAddProduction(item);
             item?.Dispose();
             result = true;
@@ -532,9 +541,11 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = new ProductionItem(null) { Holder = CreationHolder() };
-            // { explicit item receiver }
-            eventValue.Item.Order = new ProduceUnit(index, groupId);
+            eventValue.Item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),             // { explicit item receiver }
+                Order = new ProduceUnit(index, groupId)
+            };
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
@@ -606,9 +617,11 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = new ProductionItem(null) { Holder = CreationHolder() };
-            // { explicit item receiver }
-            eventValue.Item.Order = new ResearchSpell(index);
+            eventValue.Item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),             // { explicit item receiver }
+                Order = new ResearchSpell(index)
+            };
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);

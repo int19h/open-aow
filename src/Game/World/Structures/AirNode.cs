@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AirNode : ProductionPlace
+public partial class AirNode(CustomNode owner) : ProductionPlace(owner)
 {
-    public AirNode(CustomNode owner) : base(owner)
-    { }
 
     // AirNode.pas:37
     public new const int ClassId = 133454;
