@@ -73,7 +73,7 @@ public sealed class OfflineStubTests
                 continue;
             }
 
-            setter.Invoke(module, [constructor.Invoke([module])]);
+            _ = setter.Invoke(module, [constructor.Invoke([module])]);
         }
         return module;
     }
@@ -88,11 +88,11 @@ public sealed class OfflineStubTests
     private static MultiWindow NewGameWindow(UIContext ui)
     {
         MultiWindow window = ui.Add(Populate(new MultiWindow(ui)));
-        ui.Add(Populate(new TitleWindow(ui)));
-        ui.Add(new VideoDialog(ui));
+        _ = ui.Add(Populate(new TitleWindow(ui)));
+        _ = ui.Add(new VideoDialog(ui));
         SongPlayer songs = new();
         AudioHost.SongPlayer = songs;
-        ui.Add(new General(ui));
+        _ = ui.Add(new General(ui));
         return window;
     }
 
@@ -125,13 +125,13 @@ public sealed class OfflineStubTests
         UIContext ui = new(EngineFixture.Engine);
         SetupEvents events = OfflineSetupEvents(ui);
         HeroResourceList heroes = new(null) { Holder = EngineFixture.Engine };
-        new HeroResource(heroes);
+        _ = new HeroResource(heroes);
         GamePack.Current.HeroResources = heroes;
         LeaderSetupWindow window = Populate(new LeaderSetupWindow(ui));
         LeaderSetupControl control = new(null) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null) { Holder = EngineFixture.Engine } };
         bool done = false;
         control.OnDone += sender => done = ReferenceEquals(sender, control);
-        control.AddRef();
+        _ = control.AddRef();
         window.Setup = control;
         window.Leader = new Leader(null) { Holder = EngineFixture.Engine, HeroName = "Gorbag" };
         window.Leader.SetHeroResourceIndex(0);
@@ -159,7 +159,7 @@ public sealed class OfflineStubTests
     {
         using SavedGlobals saved = new();
         UIContext ui = new(EngineFixture.Engine);
-        OfflineSetupEvents(ui);
+        _ = OfflineSetupEvents(ui);
         MultiWindow window = NewGameWindow(ui);
         window.TcpButton.Visible = false;
         window.IpxButton.Visible = true;
@@ -209,7 +209,7 @@ public sealed class OfflineStubTests
     {
         using SavedGlobals saved = new();
         UIContext ui = new(EngineFixture.Engine);
-        OfflineSetupEvents(ui);
+        _ = OfflineSetupEvents(ui);
         MultiWindow window = NewGameWindow(ui);
         ScenarioSetup setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.SetupControl = new SetupControl(setup);
@@ -232,9 +232,9 @@ public sealed class OfflineStubTests
     {
         using SavedGlobals saved = new();
         UIContext ui = new(EngineFixture.Engine);
-        OfflineSetupEvents(ui);
+        _ = OfflineSetupEvents(ui);
         MultiWindow window = NewGameWindow(ui);
-        ui.Add(new TitleScene(ui));
+        _ = ui.Add(new TitleScene(ui));
         ui.TitleWindow.MainWindow.Visible = true;
         window.MultiPanel.Visible = true;
 
@@ -308,7 +308,7 @@ public sealed class OfflineStubTests
         SetField(level, "_fields", fields);
         MapContainer container = new(null) { Holder = EngineFixture.Engine };
         EngineObjectList levels = new();
-        levels.Add(level);
+        _ = levels.Add(level);
         SetField(container, "_children", levels);
         StrategicMap map = new(null, holder: EngineFixture.Engine);
         SetField(map, "_mapContainer", container);
@@ -319,7 +319,7 @@ public sealed class OfflineStubTests
         SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
         ImageSequenceList cast = new(null, null);
-        cast.Add(sequence);
+        _ = cast.Add(sequence);
         EarthMastery spell = new(null, holder: EngineFixture.Engine);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;

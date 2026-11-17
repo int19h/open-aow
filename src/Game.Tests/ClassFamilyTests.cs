@@ -33,12 +33,12 @@ public sealed class ClassFamilyTests
     [Fact]
     public void UnregisteredTypesHaveNoFamilyDescriptor()
     {
-        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of<UnregisteredAction>());
-        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of(typeof(UnregisteredAction)));
-        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of<UnregisteredGroup>());
-        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of(typeof(UnregisteredGroup)));
-        Assert.Throws<InvalidOperationException>(() => EditorClass.Of<UnregisteredEditor>());
-        Assert.Throws<InvalidOperationException>(() => EditorClass.Of(typeof(UnregisteredEditor)));
+        _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of<UnregisteredAction>());
+        _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of(typeof(UnregisteredAction)));
+        _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of<UnregisteredGroup>());
+        _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of(typeof(UnregisteredGroup)));
+        _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Of<UnregisteredEditor>());
+        _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Of(typeof(UnregisteredEditor)));
     }
 
     [Fact]
@@ -52,14 +52,14 @@ public sealed class ClassFamilyTests
         Verify(typeof(IAIPlayerActionClass), AIPlayerActionClass.All.Select(c => c.Class.Type));
         Verify(typeof(IAIGroupClass), AIGroupClass.All.Select(c => c.Class.Type));
         Verify(typeof(IEngineObjectEditorClass), EditorClass.All.Select(c => c.Class.Type));
-        Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<AIPlayerAction>().Priority);
-        Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<StructureAIPlayerAction>().Priority);
+        _ = Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<AIPlayerAction>().Priority);
+        _ = Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<StructureAIPlayerAction>().Priority);
         Assert.Equal("EndTurnAIPlayerAction", AIPlayerActionClass.Of<EndTurnAIPlayerAction>().StorageKey);
         Assert.Equal("HuntAIGroup", AIGroupClass.Of<HuntAIGroup>().StorageKey);
         Assert.Equal("EngineObjectEditor", EditorClass.Of<EngineObjectEditor>().StorageKey);
-        Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Register<EndTurnAIPlayerAction>());
-        Assert.Throws<InvalidOperationException>(() => AIGroupClass.Register<HuntAIGroup>());
-        Assert.Throws<InvalidOperationException>(() => EditorClass.Register<EngineObjectEditor>());
+        _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Register<EndTurnAIPlayerAction>());
+        _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Register<HuntAIGroup>());
+        _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Register<EngineObjectEditor>());
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public sealed class ClassFamilyTests
         Assert.True(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Loop));
         Assert.False(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
         // the base statics are abstract and the default
-        Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
+        _ = Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
         Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
         using EndTurnAIPlayerAction instance = new(null) { Holder = EngineFixture.Engine };
         Assert.Same(endTurn, instance.ActionClass);

@@ -63,7 +63,7 @@ public sealed class HashTableReplacementTests
             Assert.Equal("EObject Class ID double defined!", duplicate.Message);
             Assert.Same(style, engine.GetEngineClass(style.ClassId));
             engine.UnregisterEngineClasses([style]);
-            Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(style.ClassId));
+            _ = Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(style.ClassId));
         }
         finally
         {

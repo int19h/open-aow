@@ -147,7 +147,7 @@ public sealed class EventLogConstructionTests
                         StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null)
                         {
-                            value?.AddRef();
+                            _ = (value?.AddRef());
                         }
 
                         value?.Dispose();

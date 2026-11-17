@@ -80,8 +80,8 @@ public sealed partial class PersistEquivalenceTests
     public void AUnitSpellPacketMatchesReadWrite()
     {
         UnitSpellTokenEvent spell = new(null) { Holder = EngineFixture.Engine };
-        spell.TargetUnitIds.Add(3);
-        spell.TargetUnitIds.Add(9);
+        _ = spell.TargetUnitIds.Add(3);
+        _ = spell.TargetUnitIds.Add(9);
         spell.SpellData[0] = 11;
         spell.SpellData[1] = -4;
         spell.TargetPlayer = 2;
@@ -137,7 +137,7 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            move.Release();
+            _ = move.Release();
             if (added)
             {
                 EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
@@ -212,7 +212,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            names.Add(engineClass.StorageKey);
+            _ = names.Add(engineClass.StorageKey);
         }
         TheoryData<string> data = [.. names];
 

@@ -25,7 +25,7 @@ public sealed class SweepConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            base.AddChild(child);
+            _ = base.AddChild(child);
             Observations.Add(Snapshot(child));
             return Members.Count - 1;
         }

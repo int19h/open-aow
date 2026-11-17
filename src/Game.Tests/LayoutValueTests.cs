@@ -25,7 +25,7 @@ public sealed class LayoutValueTests
         Assert.NotEqual(low, high);
 
         using DoubleItemList list = new();
-        list.Add(low);
+        _ = list.Add(low);
         Assert.Equal(-1, list.IndexOf(high));
         Assert.Equal(0, list.IndexOf(low));
         list.Default = high;
@@ -42,7 +42,7 @@ public sealed class LayoutValueTests
         using DoubleItemList list = new();
         for (int i = 0; i < 5; i++)
         {
-            list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
+            _ = list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
         }
 
         list.Insert(1, new DoubleItemList.DoubleItem(First: 9, Second: 9));
@@ -57,7 +57,7 @@ public sealed class LayoutValueTests
         using QuadItemList quads = new();
         for (int i = 0; i < 4; i++)
         {
-            quads.AddABCD(i, i + 1, i + 2, i + 3);
+            _ = quads.AddABCD(i, i + 1, i + 2, i + 3);
         }
 
         quads.Insert(0, new QuadItemList.QuadInteger(First: 7, Second: 7, Third: 7, Fourth: 7));

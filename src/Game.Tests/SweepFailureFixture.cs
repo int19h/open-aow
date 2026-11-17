@@ -27,7 +27,7 @@ internal static class SweepFailureFixture
         {
             _last = child;
             Events.Add("insert:" + EngineFixture.Forwards(child.Owner, this));
-            base.AddChild(child);
+            _ = base.AddChild(child);
             return reject ? throw new InvalidDataException("owner rejects after insertion") : Members.Count - 1;
         }
 
@@ -35,7 +35,7 @@ internal static class SweepFailureFixture
         {
             Events.Add("remove:" + ReferenceEquals(_last, child));
             int index = Members.IndexOf(child);
-            base.RemoveChild(child);
+            _ = base.RemoveChild(child);
             return index;
         }
     }

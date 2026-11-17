@@ -12,12 +12,12 @@ public sealed class StreamReadTests
     {
         string text = "old";
         using MemoryStream textStream = new([1, 2]);
-        Assert.Throws<EndOfStreamException>(() => GameEngine.StringFromStream(ref text, textStream));
+        _ = Assert.Throws<EndOfStreamException>(() => GameEngine.StringFromStream(ref text, textStream));
         Assert.Equal("old", text);
 
         using CompressStream compressed = new();
         using MemoryStream header = new([1, 2, 3]);
-        Assert.Throws<EndOfStreamException>(() => compressed.LoadFromStream(header));
+        _ = Assert.Throws<EndOfStreamException>(() => compressed.LoadFromStream(header));
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public sealed class StreamReadTests
     {
         using LibraryImage image = new(null);
         using MemoryStream stream = new();
-        Assert.Throws<EndOfStreamException>(() => image.ReadImageData(stream));
+        _ = Assert.Throws<EndOfStreamException>(() => image.ReadImageData(stream));
     }
 
     [Fact]
@@ -35,6 +35,6 @@ public sealed class StreamReadTests
         // methods went with the combat ReadWrite methods (issue 185 PE-3-i part 4).
         Int32List list = new();
         using MemoryStream stream = new();
-        Assert.Throws<EndOfStreamException>(() => list.LoadFromStream(stream));
+        _ = Assert.Throws<EndOfStreamException>(() => list.LoadFromStream(stream));
     }
 }

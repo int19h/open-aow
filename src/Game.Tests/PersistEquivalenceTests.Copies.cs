@@ -119,16 +119,16 @@ public sealed partial class PersistEquivalenceTests
         EngineClass[] enlisted = EnlistCopiedClasses();
         try
         {
-            WithDestroyingMap(_ =>
+            WithDestroyingMap(destroyingMap =>
             {
                 CombatData data = new(null) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 1), Round = 2, Header = "Fight" };
-                data.TurnOrder.Add(1);
-                data.TurnOrder.Add(0);
+                _ = data.TurnOrder.Add(1);
+                _ = data.TurnOrder.Add(0);
                 new CombatParty(null) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 0), PlayerIndex = 1 }.SetOwner(data.Parties);
                 Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 1 };
                 CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
                 unit.SetUnit(hero);
-                hero.Release();
+                _ = hero.Release();
                 unit.SetOwner(data.CombatObjects);
                 CombatLogbook logbook = new(null) { Holder = EngineFixture.Engine };
                 logbook.SetInitialData(data);
@@ -159,7 +159,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AClassWithItsParentsIdComesBackAsTheRegisteredClass()
     {
-        WithDestroyingMap(_ =>
+        WithDestroyingMap(destroyingMap =>
         {
             CombatData data = new(null) { Holder = EngineFixture.Engine, Round = 1 };
             new TacticalBattleUnit(null) { Holder = EngineFixture.Engine, Id = 5, Position = 2 }.SetOwner(data.CombatObjects);
@@ -168,7 +168,7 @@ public sealed partial class PersistEquivalenceTests
             CombatData viaTree = new(null) { Holder = EngineFixture.Engine };
             viaTree.Assign(data, engine: EngineFixture.Engine);
             Assert.Equal(1, viaTree.CombatObjects.GetCount());
-            Assert.IsType<CombatUnit>(viaTree.CombatObjects.GetChild(0));
+            _ = Assert.IsType<CombatUnit>(viaTree.CombatObjects.GetChild(0));
             EqualBytes(Image(expected), actual: Image(viaTree), label: "CombatData with a tactical battle unit");
             Discard(expected);
             Discard(viaTree);
@@ -221,12 +221,12 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             DamageCombatAction free = new(null) { Holder = EngineFixture.Engine, Damage = 9, SourceId = 3, TargetId = 4 };
-            list.AddChild(free);
+            _ = list.AddChild(free);
             DamageCombatAction owned = new(null) { Holder = EngineFixture.Engine, Damage = 1 };
-            list.AddChild(owned);
+            _ = list.AddChild(owned);
             owned.SetOwnerWithoutNotify(list);
             DamageCombatAction elsewhere = new(null) { Holder = EngineFixture.Engine, Damage = 2 };
-            list.AddChild(elsewhere);
+            _ = list.AddChild(elsewhere);
             elsewhere.SetOwnerWithoutNotify(other);
             copy = list.Copy(EngineFixture.Engine);
             Assert.Null(free.Owner);
@@ -253,12 +253,12 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void GameSetImagesMatchTheStream()
     {
-        WithUnitResource(_ =>
+        WithUnitResource(resource =>
         {
             AbilityControl classes = new(null) { Holder = EngineFixture.Engine };
             SameObjectImage(classes, "AbilityControl", classTable: "game");
             UnitResourceList resources = new(null) { Holder = EngineFixture.Engine };
-            new UnitResource(resources) { Race = 3, Attack = 5, ObtainValue = 50 };
+            _ = new UnitResource(resources) { Race = 3, Attack = 5, ObtainValue = 50 };
             SameObjectImage(resources, "UnitResourceList", classTable: "game");
             HeroLibrary library = new(null) { Holder = EngineFixture.Engine };
             new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Library", Player = 1 }.SetOwner(library);
@@ -280,8 +280,8 @@ public sealed partial class PersistEquivalenceTests
     public void AGameSetFileRoundTripsBetweenItsCrcWords()
     {
         string root = Path.Combine(Path.GetTempPath(), "open-aow-pe3h-" + Guid.NewGuid().ToString("N"));
-        Directory.CreateDirectory(Path.Combine(root, "root"));
-        Directory.CreateDirectory(Path.Combine(root, "user"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "root"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "user"));
         IFileSystem previous = Runtime.Files;
         Runtime.Files = new LayeredFileSystem(Path.Combine(root, "root"), userDirectory: Path.Combine(root, "user"));
         HeroResourceList resources = new(null) { Holder = EngineFixture.Engine };
@@ -290,7 +290,7 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             string file = Path.Combine(root, "root", "HERORES.PFS");
-            new HeroResource(resources) { Name = "Elf" };
+            _ = new HeroResource(resources) { Name = "Elf" };
             EngineFixture.Engine.WriteToFileCrc(file, objectValue: resources, progress: null);
             byte[] bytes;
             using (Stream stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead))
@@ -421,8 +421,8 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             SchemaClass classValue = s_schema.Get(className);
-            StoredNameBindingTests.Fill(source, classValue: classValue, skip: s_sizes);
-            StoredNameBindingTests.Fill(target, classValue: classValue, first: 130, skip: s_sizes);
+            _ = StoredNameBindingTests.Fill(source, classValue: classValue, skip: s_sizes);
+            _ = StoredNameBindingTests.Fill(target, classValue: classValue, first: 130, skip: s_sizes);
             // An item sprite with no item removes itself when its item list changes.
             foreach (ItemHexSprite sprite in new[] { source, target, blank }.OfType<ItemHexSprite>())
             {
@@ -434,7 +434,7 @@ public sealed partial class PersistEquivalenceTests
             Exception refused = Record.Exception(() => Image(source));
             if (refused is not null)
             {
-                Assert.IsType<NotSupportedException>(refused);
+                _ = Assert.IsType<NotSupportedException>(refused);
                 Discard(source.Copy(EngineFixture.Engine));
                 return;
             }
@@ -631,7 +631,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            names.Add(engineClass.StorageKey);
+            _ = names.Add(engineClass.StorageKey);
         }
         TheoryData<string> data = [.. names];
 

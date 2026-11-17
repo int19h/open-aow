@@ -58,7 +58,7 @@ public sealed class OwnershipUnionTests
         }
         finally
         {
-            engine.RemoveChild(set);
+            _ = engine.RemoveChild(set);
             set.Dispose();
             map.Dispose();
             engine.Dispose();
@@ -76,8 +76,8 @@ public sealed class OwnershipUnionTests
             int count = engine.Count;
             ArgumentException error = Assert.Throws<ArgumentException>(() => engine.AddChild(stranger));
             Assert.Contains("GameEngine does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
-            Assert.Throws<ArgumentException>(() => engine.AddChild(container));
-            Assert.Throws<ArgumentException>(() => engine.SetChild(count, stranger));
+            _ = Assert.Throws<ArgumentException>(() => engine.AddChild(container));
+            _ = Assert.Throws<ArgumentException>(() => engine.SetChild(count, stranger));
             Assert.Equal(count, engine.Count);
         }
         finally
@@ -104,23 +104,23 @@ public sealed class OwnershipUnionTests
             // graphics and face resources, in that order.
             Assert.Equal(["terrain", "terrain", "resources", "control", "resources", "terrain", "terrain", "control", "resources", "control",
                 "resources", "resources", "resources", "resources", "resources"], Enumerable.Range(0, set.Count).Select(index => Kind(set[index])));
-            Assert.IsType<HexControl>(set[0].Node);
-            Assert.IsType<RoadControl>(set[1].Node);
-            Assert.IsType<MapObjectResourceList>(set[2].Node);
-            Assert.IsType<ResourceEditSettings>(set[3].Node);
+            _ = Assert.IsType<HexControl>(set[0].Node);
+            _ = Assert.IsType<RoadControl>(set[1].Node);
+            _ = Assert.IsType<MapObjectResourceList>(set[2].Node);
+            _ = Assert.IsType<ResourceEditSettings>(set[3].Node);
             Assert.Same(set.CombatResources, set[4].Node);
             Assert.Same(set.FaceResources, set[14].Node);
             IChildSink<GamePackChild> sink = set;
             Assert.Equal(15, sink.AddChild(units));
             Assert.Equal("resources", Kind(set[15]));
             Assert.Same(units, set[15].Node);
-            Assert.Throws<ArgumentException>(() => set.AddChild(stranger));
-            Assert.Throws<ArgumentException>(() => set.AddChild(tokenEvent));
+            _ = Assert.Throws<ArgumentException>(() => set.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => set.AddChild(tokenEvent));
             Assert.Equal(16, set.Count);
         }
         finally
         {
-            set.RemoveChild(units);
+            _ = set.RemoveChild(units);
             units.Dispose();
             tokenEvent.Dispose();
             stranger.Dispose();
@@ -146,13 +146,13 @@ public sealed class OwnershipUnionTests
             Assert.Same(map, map.DynamicFixedVisibleHexSprite.Owner);
             IOwned<MapContainer> owned = level;
             Assert.Same(container, owned.Owner);
-            Assert.Throws<ArgumentException>(() => new MapLevel(stranger));
-            Assert.Throws<ArgumentException>(() => new MapContainer(stranger));
-            Assert.Throws<ArgumentException>(() => new VisibilityList(stranger));
-            Assert.Throws<ArgumentException>(() => new HexSpriteSelection(stranger));
-            Assert.Throws<ArgumentException>(() => level.SetOwner(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new MapLevel(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new MapContainer(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new VisibilityList(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new HexSpriteSelection(stranger));
+            _ = Assert.Throws<ArgumentException>(() => level.SetOwner(stranger));
             Assert.Same(container, level.Owner);
-            Assert.Throws<ArgumentException>(() => container.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => container.AddChild(stranger));
             Assert.Equal(1, container.Count);
             Assert.Equal(0, stranger.Count);
         }
@@ -177,15 +177,15 @@ public sealed class OwnershipUnionTests
         {
             ArgumentException error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
             Assert.Contains("VisibilityList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
-            Assert.Throws<ArgumentException>(() => list.AddSortChild(stranger, 3));
+            _ = Assert.Throws<ArgumentException>(() => list.AddSortChild(stranger, 3));
             Assert.Equal(0, list.Count);
-            list.AddSortChild(first, 4);
-            list.AddChild(second);
-            Assert.Throws<ArgumentException>(() => list.SetChild(1, stranger));
+            _ = list.AddSortChild(first, 4);
+            _ = list.AddChild(second);
+            _ = Assert.Throws<ArgumentException>(() => list.SetChild(1, stranger));
             Assert.Same(first, list[0]);
             Assert.Same(second, list[1]);
             Assert.Equal(4, list.GetSortValue(0));
-            Assert.Throws<ArgumentException>(() => map.Selection.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => map.Selection.AddChild(stranger));
             Assert.Equal(0, map.Selection.Count);
         }
         finally
@@ -213,17 +213,17 @@ public sealed class OwnershipUnionTests
         {
             ArgumentException error = Assert.Throws<ArgumentException>(() => units.AddChild(face));
             Assert.Contains("UnitResourceList does not take a child of type FaceResource", error.Message, StringComparison.Ordinal);
-            Assert.Throws<ArgumentException>(() => units.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => units.AddChild(stranger));
             Assert.Equal(0, resources.AddChild(face));
             Assert.Same(face, resources[0]);
-            Assert.Throws<ArgumentException>(() => resources.AddChild(stranger));
-            Assert.Throws<ArgumentException>(() => library.AddChild(sound));
+            _ = Assert.Throws<ArgumentException>(() => resources.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => library.AddChild(sound));
             Assert.Equal(0, library.AddChild(sequence));
             Assert.Same(sequence, library[0]);
             Assert.Equal(0, sequence.AddChild(sound));
             Assert.Same(sound, sequence[0]);
-            Assert.Throws<ArgumentException>(() => sequence.AddChild(stranger));
-            Assert.Throws<ArgumentException>(() => pools.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => sequence.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => pools.AddChild(stranger));
             Assert.Equal(0, units.Count);
             Assert.Equal(0, pools.Count);
         }
@@ -270,7 +270,7 @@ public sealed class OwnershipUnionTests
         Assert.Equal(2, inserted.RefCount);
         AIBudgetList budgets = new(null!) { Holder = EngineFixture.Engine };
         OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
-        Assert.Throws<ArgumentException>(() => budgets.InsertChild(0, stranger));
+        _ = Assert.Throws<ArgumentException>(() => budgets.InsertChild(0, stranger));
         Assert.Equal(0, budgets.Count);
         stranger.Dispose();
         budgets.Dispose();

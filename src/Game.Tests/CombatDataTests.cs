@@ -52,8 +52,8 @@ public sealed class CombatDataTests
         ByteList defeated = data.DefeatedLeaders;
         ByteList involved = data.InvolvedLeaders;
         ObservedChild child = new(node);
-        defeated.Add(3);
-        involved.Add(4);
+        _ = defeated.Add(3);
+        _ = involved.Add(4);
         Assert.Same(child, Assert.Single(((IOwner)node).Children.Cast<object>()));
         data.Dispose();
         Assert.Equal(1, child.DestroyCount);
@@ -86,11 +86,11 @@ public sealed class CombatDataTests
             WallType = 2,
             WallBreached = true
         };
-        data.DefeatedLeaders.Add(3);
-        data.DefeatedLeaders.Add(5);
-        data.TurnOrder.Add(2);
-        data.TurnOrder.Add(1);
-        data.InvolvedLeaders.Add(4);
+        _ = data.DefeatedLeaders.Add(3);
+        _ = data.DefeatedLeaders.Add(5);
+        _ = data.TurnOrder.Add(2);
+        _ = data.TurnOrder.Add(1);
+        _ = data.InvolvedLeaders.Add(4);
         try
         {
             byte[] before = Save(data);

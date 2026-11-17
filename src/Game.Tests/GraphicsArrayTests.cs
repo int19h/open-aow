@@ -48,8 +48,8 @@ public sealed class GraphicsArrayTests
         ImageNode[] images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null)).ToArray();
         try
         {
-            node.Add(images[0]);
-            node.Add(images[1]);
+            _ = node.Add(images[0]);
+            _ = node.Add(images[1]);
             Assert.Equal((2, 2), (node.Count, node.Capacity));
             node.Insert(1, images[2]);
             Assert.Equal((3, 3), (node.Count, node.Capacity));
@@ -100,7 +100,7 @@ public sealed class GraphicsArrayTests
             Assert.Equal([1, 0x07070707, 0x07070707, 0x07070707, 0x07070707, 9], list.List.Take(list.Count));
             for (int i = 0; i < 6; i++)
             {
-                list.Add(i);
+                _ = list.Add(i);
             }
 
             Assert.Equal((12, 27), (list.Count, list.Capacity));
@@ -114,7 +114,7 @@ public sealed class GraphicsArrayTests
             list.Clear();
             Assert.Equal((0, 0), (list.Count, list.Capacity));
             Assert.Null(list.List);
-            Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(0));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(0));
         }
         finally
         {
@@ -138,12 +138,12 @@ public sealed class GraphicsArrayTests
         Assert.Equal(1, matrix.Data[3]);
         Assert.Equal(2, matrix.GetValue(1, 2));
         Assert.Equal(1, matrix.GetValue(3, 0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetValue(4, 0));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetValue(4, 0));
         matrix.Dispose();
         Assert.Null(matrix.Data);
         Matrix empty = new(0, 3);
         Assert.Null(empty.Data);
-        Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetValue(0, 0));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetValue(0, 0));
     }
 
     // DisplayC.pas 894, worked by hand. With

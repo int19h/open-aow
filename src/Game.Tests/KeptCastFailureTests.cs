@@ -16,9 +16,9 @@ public sealed class KeptCastFailureTests
     [Fact]
     public void DynamicIsometricHexFactoryChecksItsOwner()
     {
-        Assert.Throws<NullReferenceException>(() => EngineClass.Of<DynamicIsometricHex>().CreateInstance(null, holder: EngineFixture.Engine));
+        _ = Assert.Throws<NullReferenceException>(() => EngineClass.Of<DynamicIsometricHex>().CreateInstance(null, holder: EngineFixture.Engine));
         using OwningNode owner = new(null) { Holder = EngineFixture.Engine };
-        Assert.Throws<InvalidCastException>(() => EngineClass.Of<DynamicIsometricHex>().CreateInstance(owner, holder: EngineFixture.Engine));
+        _ = Assert.Throws<InvalidCastException>(() => EngineClass.Of<DynamicIsometricHex>().CreateInstance(owner, holder: EngineFixture.Engine));
     }
 
     [Fact]
@@ -26,8 +26,8 @@ public sealed class KeptCastFailureTests
     {
         using PlayerCollection players = new(null) { Holder = EngineFixture.Engine };
         using EngineObject other = new(null) { Holder = EngineFixture.Engine };
-        Assert.Throws<InvalidCastException>(() => players.Assign(other, engine: EngineFixture.Engine));
-        Assert.Throws<NullReferenceException>(() => players.Assign(null, engine: EngineFixture.Engine));
+        _ = Assert.Throws<InvalidCastException>(() => players.Assign(other, engine: EngineFixture.Engine));
+        _ = Assert.Throws<NullReferenceException>(() => players.Assign(null, engine: EngineFixture.Engine));
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public sealed class KeptCastFailureTests
         Control control = new(null);
         try
         {
-            Assert.Throws<InvalidCastException>(() => control.SetOwner(manager));
+            _ = Assert.Throws<InvalidCastException>(() => control.SetOwner(manager));
             control.SetOwner(null);
             using BaseWindow window = new(null);
             control.SetOwner(window);

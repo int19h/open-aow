@@ -24,7 +24,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         dialog.EmailAddresses.Clear();
         for (int i = 0; i < 6; i++)
         {
-            dialog.EmailAddresses.Add("");
+            _ = dialog.EmailAddresses.Add("");
         }
 
         dialog.EmailAddressEdit1.Text = "one@a";
@@ -132,7 +132,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         bool muted = false;
         if (system != null && system.SfxEnabled)
         {
-            system.SetSfxEnabled(false);
+            _ = system.SetSfxEnabled(false);
             muted = true;
         }
 
@@ -155,7 +155,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             dialog?.Dispose();
             if (muted)
             {
-                system!.SetSfxEnabled(true);
+                _ = system!.SetSfxEnabled(true);
             }
 
             ImageLibraries.BaseImageLibraryPath = previousImagePath;
@@ -279,9 +279,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 LayoutSession session = new();
-                UI.Load(session, module: new UIGraphics());
-                UI.Load(session, module: new UIFonts());
-                UI.Load(session, module: new General(UI));
+                _ = UI.Load(session, module: new UIGraphics());
+                _ = UI.Load(session, module: new UIFonts());
+                _ = UI.Load(session, module: new General(UI));
                 Dialog = Load(session, module: new EmailGameSettingsDialog(UI), publish: static module => { _ = module; });
             }
             catch

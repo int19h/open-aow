@@ -24,7 +24,7 @@ public sealed class OwnershipTests
         OwningNode first = new(root);
         OwningNode second = new(first);
         OwningNode shared = new(null) { Holder = EngineFixture.Engine };
-        root.AddChild(shared);
+        _ = root.AddChild(shared);
         try
         {
             IOwner owner = root;
@@ -43,7 +43,7 @@ public sealed class OwnershipTests
         }
         finally
         {
-            root.RemoveChild(shared);
+            _ = root.RemoveChild(shared);
             shared.Dispose();
             root.Dispose();
         }
@@ -82,9 +82,9 @@ public sealed class OwnershipTests
         {
             ArgumentException error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
             Assert.Contains("AIBudgetList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
-            Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
+            _ = Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
             Assert.Equal(0, list.Count);
-            Assert.Throws<ArgumentException>(() => new EventLogList(null!) { Holder = EngineFixture.Engine }.AddChild(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new EventLogList(null!) { Holder = EngineFixture.Engine }.AddChild(stranger));
         }
         finally
         {
@@ -104,12 +104,12 @@ public sealed class OwnershipTests
             IOwned<MapField> owned = sprite;
             Assert.Same(field, owned.Owner);
             Assert.Same(field, ((IOwned)sprite).Owner);
-            Assert.Throws<ArgumentException>(() => new SingleHexSprite(stranger));
-            Assert.Throws<ArgumentException>(() => sprite.SetOwner(stranger));
-            Assert.Throws<ArgumentException>(() => sprite.SetArrayOwner(stranger, 0));
-            Assert.Throws<ArgumentException>(() => sprite.SetOwnerWithoutNotify(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new SingleHexSprite(stranger));
+            _ = Assert.Throws<ArgumentException>(() => sprite.SetOwner(stranger));
+            _ = Assert.Throws<ArgumentException>(() => sprite.SetArrayOwner(stranger, 0));
+            _ = Assert.Throws<ArgumentException>(() => sprite.SetOwnerWithoutNotify(stranger));
             Assert.Same(field, sprite.Owner);
-            Assert.Throws<ArgumentException>(() => new MapField(stranger));
+            _ = Assert.Throws<ArgumentException>(() => new MapField(stranger));
             MapLevel level = new(null!) { Holder = EngineFixture.Engine };
             MapField mapField = new(level);
             Assert.Same(level, ((IOwned<MapLevel>)mapField).Owner);
@@ -131,7 +131,7 @@ public sealed class OwnershipTests
         Disposable?[] items = [new Disposable(), null, new Disposable(), new Disposable()];
         foreach (Disposable? item in items)
         {
-            list.Add(item);
+            _ = list.Add(item);
         }
 
         Assert.Equal(list.Capacity, list.Count);

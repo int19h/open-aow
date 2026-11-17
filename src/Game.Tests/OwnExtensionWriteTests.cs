@@ -20,7 +20,7 @@ public sealed class OwnExtensionWriteTests
 
     private void Run(Action<GameEngine, StrategicMap> action)
     {
-        Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
+        _ = Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         GameEngine engine = EngineFixture.Engine;
         StrategicMap map = new(null, holder: EngineFixture.Engine);
         GameMap previousMap = engine.HexSpriteMap;
@@ -86,11 +86,11 @@ public sealed class OwnExtensionWriteTests
     }
 
     [Fact]
-    public void ASaveBesideAnOriginalLeavesTheOriginalUntouched() => Run((engine, _) =>
+    public void ASaveBesideAnOriginalLeavesTheOriginalUntouched() => Run((engine, map) =>
     {
         byte[] original = [1, 2, 3];
         File.WriteAllBytes(Save("Foo.asg"), original);
-        Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null, GameProfile.WorldMap));
+        _ = Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null, GameProfile.WorldMap));
         FileLogRecord write = Assert.Single(_log);
         Assert.Equal(Save("Foo.oasg"), write.Path, ignoreCase: true);
         Assert.Equal(original, File.ReadAllBytes(Save("Foo.asg")));

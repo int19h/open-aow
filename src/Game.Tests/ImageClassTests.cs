@@ -13,12 +13,12 @@ public sealed class ImageClassTests
     [Fact]
     public void ImageDescriptorsRequireExplicitRegistration()
     {
-        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of<UnregisteredImage>());
-        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of(typeof(UnregisteredImage)));
-        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of<UnregisteredImageFile>());
-        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of(typeof(UnregisteredImageFile)));
-        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<Picture08>());
-        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<BmpImageFile>());
+        _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of<UnregisteredImage>());
+        _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of(typeof(UnregisteredImage)));
+        _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of<UnregisteredImageFile>());
+        _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of(typeof(UnregisteredImageFile)));
+        _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<Picture08>());
+        _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<BmpImageFile>());
         Assert.Equal("Picture08", LibraryImageClass.Of<Picture08>().StorageKey);
         Type[] types = typeof(LibraryImage).Assembly.GetTypes();
         Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
@@ -83,7 +83,7 @@ public sealed class ImageClassTests
                 Assert.Same(image.ImageClass, image.ImageClass);
             }
             Assert.Null(LibraryCatalog.FindLibraryImageClass(-1));
-            Assert.Throws<InvalidOperationException>(() => ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>()]));
+            _ = Assert.Throws<InvalidOperationException>(() => ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>()]));
         }
         finally
         {
@@ -127,9 +127,9 @@ public sealed class ImageClassTests
         Assert.Equal("BmpImageFile", descriptor.StorageKey);
         Assert.Equal("BMP", descriptor.Extension);
         Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
-        Assert.Throws<AbstractErrorException>(() => descriptor.Name);
+        _ = Assert.Throws<AbstractErrorException>(() => descriptor.Name);
         using ImageFileClassList classes = new();
-        classes.Add(descriptor);
+        _ = classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
         Assert.Null(classes.FindClass("png"));
     }
@@ -156,7 +156,7 @@ public sealed class ImageClassTests
         }
         finally
         {
-            surface.Unlock();
+            _ = surface.Unlock();
             surface.Dispose();
             library.Dispose();
             ImageLibraries.LibraryImageClasses.Clear();

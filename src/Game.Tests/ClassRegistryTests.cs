@@ -106,8 +106,8 @@ public sealed class ClassRegistryTests
             Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
             Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), mana == 30);
         }
-        Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, 0, 0));
-        Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
+        _ = Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, 0, 0));
+        _ = Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
     }
 
     public static IEnumerable<object?[]> Classes => EngineClass.All
@@ -120,13 +120,13 @@ public sealed class ClassRegistryTests
         // CustomNode is the abstract ownership base. Its factory raises the original abstract error.
         if (type == typeof(CustomNode))
         {
-            Assert.Throws<AbstractErrorException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
+            _ = Assert.Throws<AbstractErrorException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
             return;
         }
         // These two entries require a linked owner even though the descriptor accepts null.
         if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
-            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
+            _ = Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
             return;
         }
         EngineObject instance = EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);

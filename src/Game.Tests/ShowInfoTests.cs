@@ -46,7 +46,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.True(user is BlendTable t && ReferenceEquals(t, table));
             Assert.False(user is int);
             Assert.Same(table, user.Value);
-            Assert.Throws<InvalidCastException>(() => user.Percentage);
+            _ = Assert.Throws<InvalidCastException>(() => user.Percentage);
 
             BlendValue nil = null;
             Assert.False(nil.HasValue);
@@ -191,11 +191,11 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                     // A table in a percentage arm has no percentage to read.
                     if (mode != BlendMode.LinearAlpha)
                     {
-                        Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
+                        _ = Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
                     }
 
                     image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = table };
-                    Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface));
+                    _ = Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface));
                 }
                 finally { image.Dispose(); }
             }
@@ -334,7 +334,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
         ShowInfo info = image.ShowInfoValue;
         Assert.True(info.Blend is int, $"{file}: a show info read from a file holds a percentage");
-        tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
+        _ = tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
         tally.Modes[$"{info.ShowMode} {info.BlendMode}"] = seen + 1;
         if (info.BlendMode == BlendMode.User)
         {

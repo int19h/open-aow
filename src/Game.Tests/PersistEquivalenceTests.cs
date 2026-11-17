@@ -83,12 +83,12 @@ public sealed partial class PersistEquivalenceTests
             Layout = MessageEventLogLayout.Header,
             Buttons = MessageEventLogButtons.YesNoCancel,
         };
-        full.Message.Add("one");
-        full.Message.Add("");
-        full.Message.Add("two");
+        _ = full.Message.Add("one");
+        _ = full.Message.Add("");
+        _ = full.Message.Add("two");
         Check("MessageEventLog", full);
         MessageEventLog edge = new(null, holder: EngineFixture.Engine) { Layout = (MessageEventLogLayout)255, Buttons = (MessageEventLogButtons)255, Title = "" };
-        edge.Message.Add("line");
+        _ = edge.Message.Add("line");
         Check("MessageEventLog", edge);
     }
 
@@ -102,8 +102,8 @@ public sealed partial class PersistEquivalenceTests
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null) { Holder = EngineFixture.Engine });
         ResourceEditSettings editors = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
-        editors.Editors.AddObject("", Runtime.IntToObject(0));
-        editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
+        _ = editors.Editors.AddObject("", Runtime.IntToObject(0));
+        _ = editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
         Check("ResourceEditSettings", editors);
     }
 
@@ -278,8 +278,8 @@ public sealed partial class PersistEquivalenceTests
         Delegate previous = EngineClassCreation.Substitute(descriptor, next: (Func<CustomNode, EngineObject>)(static owner => new ThrowingFrozenWater(owner)));
         try
         {
-            (MapLevel continued, ProgressMap _) = NewLevel("MapLevel");
-            (MapLevel continuedTree, ProgressMap _) = NewLevel("MapLevel");
+            (MapLevel continued, _) = NewLevel("MapLevel");
+            (MapLevel continuedTree, _) = NewLevel("MapLevel");
             try
             {
                 Load(continued, image);
@@ -293,8 +293,8 @@ public sealed partial class PersistEquivalenceTests
                 continuedTree.Dispose();
                 continued.Dispose();
             }
-            (MapLevel stopped, ProgressMap _) = NewLevel("MapLevel");
-            (MapLevel stoppedTree, ProgressMap _) = NewLevel("MapLevel");
+            (MapLevel stopped, _) = NewLevel("MapLevel");
+            (MapLevel stoppedTree, _) = NewLevel("MapLevel");
             try
             {
                 InvalidOperationException streamError = Assert.Throws<InvalidOperationException>(() =>
@@ -313,7 +313,7 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            EngineClassCreation.Substitute(descriptor, next: previous);
+            _ = EngineClassCreation.Substitute(descriptor, next: previous);
             if (added)
             {
                 EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
@@ -349,7 +349,7 @@ public sealed partial class PersistEquivalenceTests
                     JsonArray sprites = new();
                     for (int k = 0; k < (x + y) % 4; k++)
                     {
-                        sprites.Add(new JsonObject()
+                        _ = sprites.Add(new JsonObject()
                             .Add("$class", new JsonString("FrozenWaterHexSprite"))
                             .Add("DaysRemaining", new JsonInteger(k + 1))
                             .Add("CasterPlayer", new JsonInteger(x - y)));
@@ -357,14 +357,14 @@ public sealed partial class PersistEquivalenceTests
 
                     if (sprites.Items.Count != 0)
                     {
-                        field.Add("HexSpriteList", sprites);
+                        _ = field.Add("HexSpriteList", sprites);
                     }
 
-                    field.Add("FieldFlags", new JsonInteger((x * 100) + y + 1));
+                    _ = field.Add("FieldFlags", new JsonInteger((x * 100) + y + 1));
                 }
-                row.Add(field);
+                _ = row.Add(field);
             }
-            rows.Add(row);
+            _ = rows.Add(row);
         }
         return new JsonObject()
             .Add("Width", new JsonInteger(width))
@@ -627,9 +627,9 @@ public sealed partial class PersistEquivalenceTests
     {
         SchemaClass classValue = s_schema.Get("ItemExplorationSiteEventLog");
         UnitIndexProbe source = new();
-        source.Units.Add(4);
-        source.Units.Add(-1);
-        source.Units.Add(-1);
+        _ = source.Units.Add(4);
+        _ = source.Units.Add(-1);
+        _ = source.Units.Add(-1);
         using ItemExplorationSiteEventLog expected = ExplorationLog(defaultValue: -1, 4, -1, -1);
         byte[] image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game");
         EqualBytes(Image(expected), image, "unit index list original");
@@ -640,13 +640,13 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal([4, -1, -1], loaded.Units.List.AsSpan(0, loaded.Units.Count).ToArray());
         UnitIndexProbe other = new();
         other.Units.Default = 3;
-        other.Units.Add(3);
+        _ = other.Units.Add(3);
         byte[] otherImage = OriginalBackend.Write(TreeWriter.Write(other, Factory), classValue, s_schema, "game");
         UnitIndexProbe reloaded = new();
         TreeReader.Read(OriginalBackend.Read(otherImage, classValue, s_schema, "game"), reloaded, Factory);
         Assert.Equal(3, reloaded.Units.Default);
         UnitIndexProbe untouched = new();
-        untouched.Units.Add(8);
+        _ = untouched.Units.Add(8);
         TreeReader.Read(new ObjectNode(null, null), untouched, Factory);
         Assert.Equal(-1, untouched.Units.Default);
         Assert.Equal(1, untouched.Units.Count);
@@ -711,7 +711,7 @@ public sealed partial class PersistEquivalenceTests
         log.ItemIds.Default = defaultValue;
         foreach (int item in items)
         {
-            log.ItemIds.Add(item);
+            _ = log.ItemIds.Add(item);
         }
 
         return log;
@@ -723,7 +723,7 @@ public sealed partial class PersistEquivalenceTests
         data.CommandedUnits.Default = defaultValue;
         foreach (byte item in items)
         {
-            data.CommandedUnits.Add(item);
+            _ = data.CommandedUnits.Add(item);
         }
 
         return data;
@@ -1192,7 +1192,7 @@ public sealed partial class PersistEquivalenceTests
         {
             if (previous is not null)
             {
-                EngineClassCreation.Substitute(descriptor, next: previous);
+                _ = EngineClassCreation.Substitute(descriptor, next: previous);
             }
 
             control.Dispose();
@@ -1361,7 +1361,7 @@ public sealed partial class PersistEquivalenceTests
         new AITransporterBudget(null) { Holder = EngineFixture.Engine }.SetOwner(styled);
         Check("EControlStyleNode", styled);
         PluginControl plugins = new(null) { Holder = EngineFixture.Engine };
-        plugins.UsedPlugins.Add("Abilities");
+        _ = plugins.UsedPlugins.Add("Abilities");
         Check("PluginControl", plugins);
         Check("PluginControl", new PluginControl(null) { Holder = EngineFixture.Engine });
     }
@@ -1394,12 +1394,12 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             DamageCombatAction free = new(null) { Holder = EngineFixture.Engine, Damage = 9, SourceId = 3, TargetId = 4 };
-            list.AddChild(free);
+            _ = list.AddChild(free);
             DamageCombatAction owned = new(null) { Holder = EngineFixture.Engine, Damage = 1 };
-            list.AddChild(owned);
+            _ = list.AddChild(owned);
             owned.SetOwnerWithoutNotify(list);
             DamageCombatAction elsewhere = new(null) { Holder = EngineFixture.Engine, Damage = 2 };
-            list.AddChild(elsewhere);
+            _ = list.AddChild(elsewhere);
             elsewhere.SetOwnerWithoutNotify(other);
             SchemaClass classValue = s_schema.Get("CombatActionList");
             ObjectNode tree = TreeWriter.Write(list, Factory);

@@ -17,11 +17,11 @@ public sealed class ObservableNodeTests
         Leaf first = new(1);
         Leaf second = new(2);
         Leaf third = new(3);
-        node.AddChild(first);
-        node.AddChild(second);
+        _ = node.AddChild(first);
+        _ = node.AddChild(second);
         node.SetChild(0, child: third);
-        node.RemoveChild(second);
-        node.RemoveChild(first);
+        _ = node.RemoveChild(second);
+        _ = node.RemoveChild(first);
         node.Changed();
         Assert.Equal(
             Calls(
@@ -47,8 +47,8 @@ public sealed class ObservableNodeTests
     public void ClearSendsOneRemovePerChildAndThenAReset()
     {
         RecordingNode node = new();
-        node.AddChild(new Leaf(1));
-        node.AddChild(new Leaf(2));
+        _ = node.AddChild(new Leaf(1));
+        _ = node.AddChild(new Leaf(2));
         node.Trace.Clear();
         node.Clear();
         Assert.Equal(
@@ -67,8 +67,8 @@ public sealed class ObservableNodeTests
         RecordingNode node = new();
         Leaf low = new(1);
         Leaf high = new(2);
-        node.AddChild(high);
-        node.AddChild(low);
+        _ = node.AddChild(high);
+        _ = node.AddChild(low);
         node.Trace.Clear();
         node.Sort((left, right) => Tag(left) - Tag(right));
         Assert.Equal(Calls("Reset:-1:-1:-:-"), node.Trace);
@@ -77,8 +77,8 @@ public sealed class ObservableNodeTests
         node.Trace.Clear();
         using (node.BeginUpdate())
         {
-            node.AddChild(new Leaf(3));
-            node.RemoveChild(low);
+            _ = node.AddChild(new Leaf(3));
+            _ = node.RemoveChild(low);
             node.SetChild(0, child: new Leaf(4));
             Assert.Empty(node.Trace);
         }
@@ -90,7 +90,7 @@ public sealed class ObservableNodeTests
         {
             using (node.BeginUpdate())
             {
-                node.AddChild(new Leaf(5));
+                _ = node.AddChild(new Leaf(5));
             }
 
             Assert.Empty(node.Trace);
@@ -100,7 +100,7 @@ public sealed class ObservableNodeTests
 
         node.Trace.Clear();
         node.LockChanged();
-        node.AddChild(new Leaf(6));
+        _ = node.AddChild(new Leaf(6));
         node.UnlockChanged();
         Assert.Empty(node.Trace);
 
@@ -120,8 +120,8 @@ public sealed class ObservableNodeTests
         RecordingNode node = new();
         Leaf first = new(1);
         Leaf second = new(2);
-        node.AddChild(first);
-        node.AddChild(second);
+        _ = node.AddChild(first);
+        _ = node.AddChild(second);
         node.Trace.Clear();
         node.MoveChild(0, target: 1);
         node.ExchangeChildren(0, second: 1);
@@ -140,7 +140,7 @@ public sealed class ObservableNodeTests
     {
         KeepingNode node = new();
         Leaf child = new(1);
-        node.AddChild(child);
+        _ = node.AddChild(child);
         node.Trace.Clear();
         Assert.Equal(0, node.RemoveChild(child));
         Assert.Equal(Calls("Removed:0:-1:1:-"), node.Trace);
@@ -155,7 +155,7 @@ public sealed class ObservableNodeTests
         List<string> trace = [];
         list.Events += _ => trace.Add("events");
         list.CollectionChanged += (_, change) => trace.Add(change.Kind.ToString());
-        list.AddChild(new Leaf(1));
+        _ = list.AddChild(new Leaf(1));
         list.Changed();
         Assert.Equal(["events", "Added", "events", "Reset"], trace);
     }
@@ -167,7 +167,7 @@ public sealed class ObservableNodeTests
         List<string> trace = [];
         items.OnChanged += _ => trace.Add("on");
         items.CollectionChanged += (_, _) => trace.Add("collection");
-        items.AddChild(new Item(null) { Holder = EngineFixture.Engine });
+        _ = items.AddChild(new Item(null) { Holder = EngineFixture.Engine });
         Assert.Equal(["on", "collection"], trace);
     }
 

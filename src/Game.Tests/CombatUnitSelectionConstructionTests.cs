@@ -48,7 +48,7 @@ public sealed class CombatUnitSelectionConstructionTests
             try
             {
                 value = Create();
-                Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
+                _ = Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
                 Assert.Same(entry.ImageLibrary, value.TargetImages);
                 state = OrderingRecording.Snapshot(value);
             }

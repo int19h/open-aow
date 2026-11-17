@@ -18,7 +18,7 @@ public sealed class MapNetSoundFailureTests
         public override int AddChild(EngineObject child)
         {
             Events.Add("insert");
-            base.AddChild(child);
+            _ = base.AddChild(child);
             return Members.Count - 1;
         }
 
@@ -26,7 +26,7 @@ public sealed class MapNetSoundFailureTests
         {
             Events.Add("remove");
             int index = Members.IndexOf(child);
-            base.RemoveChild(child);
+            _ = base.RemoveChild(child);
             return index;
         }
     }
@@ -136,7 +136,7 @@ public sealed class MapNetSoundFailureTests
         {
             SampleData data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
-            Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).CreateInstance(data));
+            _ = Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).CreateInstance(data));
             Assert.Empty(AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
             Assert.Equal(1, data.RefCount);
             Assert.Same(data, AudioHost.SampleDataList.Find("reference"));
@@ -182,12 +182,12 @@ public sealed class MapNetSoundFailureTests
                 Exception error = Record.Exception(() => meta.CreateInstance(path));
                 if (corrupt)
                 {
-                    Assert.IsType<InvalidDataException>(error);
+                    _ = Assert.IsType<InvalidDataException>(error);
                     Assert.Equal("Expected RIFF WAVE data.", error.Message);
                 }
                 else
                 {
-                    Assert.IsType<FileNotFoundException>(error);
+                    _ = Assert.IsType<FileNotFoundException>(error);
                 }
 
                 Assert.Null(AudioHost.SampleDataList.Find(path));
