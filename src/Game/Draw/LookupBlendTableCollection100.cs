@@ -42,16 +42,11 @@ public partial class LookupBlendTableCollection100 : IDisposable
         {
             for (int i = 0; i <= count - 1; i++)
             {
-                switch (bits)
+                t = bits switch
                 {
-                    case 5:
-                        t = new BlendTable5Bit();
-                        break;
-                    default:
-                        t = null;
-                        break;
-                }
-
+                    5 => new BlendTable5Bit(),
+                    _ => null,
+                };
                 v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
                 proc(t, v);

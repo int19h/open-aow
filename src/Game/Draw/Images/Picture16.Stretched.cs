@@ -277,6 +277,8 @@ public partial class Picture16
                             case PixelFormats.pfRGB565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            default:
+                                break;
                         }
                     }
                     else
@@ -293,6 +295,8 @@ public partial class Picture16
                                 break;
                             case PixelFormats.pfRGB565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -326,6 +330,8 @@ public partial class Picture16
                             case PixelFormats.pfRGB565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            default:
+                                break;
                         }
                     }
                     else
@@ -342,6 +348,8 @@ public partial class Picture16
                                 break;
                             case PixelFormats.pfRGB565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                break;
+                            default:
                                 break;
                         }
                     }

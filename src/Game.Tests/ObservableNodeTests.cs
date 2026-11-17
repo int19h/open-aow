@@ -174,7 +174,7 @@ public sealed class ObservableNodeTests
     private static int Tag(EngineObject? item) => item is Leaf leaf ? leaf.Tag : 0;
 
     private static EngineObject[] Children(ObservableNode node) =>
-        Enumerable.Range(0, node.Count).Select(node.GetChild).ToArray();
+        [.. Enumerable.Range(0, node.Count).Select(node.GetChild)];
 
     private static string[] Calls(params string[] events)
     {
@@ -185,7 +185,7 @@ public sealed class ObservableNodeTests
             lines.Add(line);
         }
 
-        return lines.ToArray();
+        return [.. lines];
     }
 
     private sealed class Leaf : EngineObject

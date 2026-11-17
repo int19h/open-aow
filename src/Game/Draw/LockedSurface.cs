@@ -236,26 +236,14 @@ public struct LockedSurface
         Rect rectangle;
         int GetPixel(int X, int Y)
         {
-            int result;
-            switch (lockedSurfaceValue.BitCount)
+            int result = lockedSurfaceValue.BitCount switch
             {
-                case 8:
-                    result = lockedSurfaceValue.View().Byte(X + (lockedSurfaceValue.Pitch * Y));
-                    break;
-                case 16:
-                    result = lockedSurfaceValue.View().UInt16(X + X + (lockedSurfaceValue.Pitch * Y));
-                    break;
-                case 24:
-                    // Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
-                    result = (int)lockedSurfaceValue.View().Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 16777215;
-                    break;
-                case 32:
-                    result = (int)lockedSurfaceValue.View().Dword((X * 4) + (lockedSurfaceValue.Pitch * Y));
-                    break;
-                default:
-                    throw new NotSupportedException("PixelFormat is not supported");
-            }
-
+                8 => lockedSurfaceValue.View().Byte(X + (lockedSurfaceValue.Pitch * Y)),
+                16 => lockedSurfaceValue.View().UInt16(X + X + (lockedSurfaceValue.Pitch * Y)),
+                24 => (int)lockedSurfaceValue.View().Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 16777215,// Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
+                32 => (int)lockedSurfaceValue.View().Dword((X * 4) + (lockedSurfaceValue.Pitch * Y)),
+                _ => throw new NotSupportedException("PixelFormat is not supported"),
+            };
             return result;
         }
 

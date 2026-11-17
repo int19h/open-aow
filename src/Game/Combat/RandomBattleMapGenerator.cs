@@ -184,38 +184,20 @@ public partial class RandomBattleMapGenerator : IDisposable
             randomTerrain = false;
             _randomTerrain = false;
             fileName += "Br";
-            switch (_terrain[0])
+            fileName += _terrain[0] switch
             {
-                case 10:
-                    fileName += "UW";
-                    break;
-                case 6:
-                    fileName += "Ic";
-                    break;
-                case 9:
-                    fileName += "La";
-                    break;
-                case 13:
-                    fileName += "UI";
-                    break;
-                default:
-                    fileName += "Wa";
-                    break;
-            }
-
-            switch (bridge.Direction)
+                10 => "UW",
+                6 => "Ic",
+                9 => "La",
+                13 => "UI",
+                _ => "Wa",
+            };
+            fileName += bridge.Direction switch
             {
-                case 1:
-                    fileName += "A000";
-                    break;
-                case 2:
-                    fileName += "B000";
-                    break;
-                default:
-                    fileName += "C000";
-                    break;
-            }
-
+                1 => "A000",
+                2 => "B000",
+                _ => "C000",
+            };
             _tags[0] = 127;
         }
 
@@ -302,38 +284,23 @@ public partial class RandomBattleMapGenerator : IDisposable
                             shape = Random(100) < 50 ? (byte)2 : (byte)7;
 
                             break;
+                        default:
+                            break;
                     }
 
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].GetDecorationType() == 9)
                     {
-                        switch (shape)
+                        j = shape switch
                         {
-                            case 1:
-                                j = 0;
-                                break;
-                            case 2:
-                                j = 1;
-                                break;
-                            case 3:
-                                j = 2;
-                                break;
-                            case 4:
-                                j = 3;
-                                break;
-                            case 5:
-                                j = 4;
-                                break;
-                            case 6:
-                                j = 5;
-                                break;
-                            case 7:
-                                j = 6;
-                                break;
-                            default:
-                                j = -1;
-                                break;
-                        }
-
+                            1 => 0,
+                            2 => 1,
+                            3 => 2,
+                            4 => 3,
+                            5 => 4,
+                            6 => 5,
+                            7 => 6,
+                            _ => -1,
+                        };
                         if (j > -1)
                         {
                             HexGeometry.CenterHexNumberToHex(X, Y, j, ref k, ref hexX);
@@ -388,6 +355,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                             case 26:
                                 shape = Random(100) < 50 ? (byte)0 : (byte)7;
 
+                                break;
+                            default:
                                 break;
                         }
 
@@ -450,6 +419,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 case 14:
                                 case 16:
                                     weights[11] += _neighborWeights[11];
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -521,6 +492,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref k, ref hexX);
                                 terrainBuffer[(hexX * 65) + k] = 254;
                                 break;
+                            default:
+                                break;
                         }
 
                         terrainBuffer[(row * 65) + (column * 2)] = (byte)j;
@@ -572,6 +545,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 case 14:
                                 case 16:
                                     weights[11] += _neighborWeights[11];
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -642,6 +617,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 terrainBuffer[(hexX * 65) + k] = 254;
                                 HexGeometry.CenterHexNumberToHex((column * 2) + 1, row, 6, ref k, ref hexX);
                                 terrainBuffer[(hexX * 65) + k] = 254;
+                                break;
+                            default:
                                 break;
                         }
 
@@ -929,6 +906,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                             case 5:
                                 unitHexSprite.SetDirection(6);
                                 break;
+                            default:
+                                break;
                         }
                     }
 
@@ -954,6 +933,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                 case 6:
                     x += 2;
                     y += 1;
+                    break;
+                default:
                     break;
             }
         }
@@ -990,6 +971,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                     break;
                 case 6:
                     unitHexSprite.SetDirection(3);
+                    break;
+                default:
                     break;
             }
         }

@@ -390,6 +390,8 @@ public partial class DispelMagicAbility : TouchAbility
             case 3:
                 result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " III";
                 break;
+            default:
+                break;
         }
 
         return result;

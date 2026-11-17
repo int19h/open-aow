@@ -13,12 +13,12 @@ public sealed class ImageClassTests
     [Fact]
     public void ImageDescriptorsRequireExplicitRegistration()
     {
-        _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of<UnregisteredImage>());
+        _ = Assert.Throws<InvalidOperationException>(LibraryImageClass.Of<UnregisteredImage>);
         _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of(typeof(UnregisteredImage)));
-        _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of<UnregisteredImageFile>());
+        _ = Assert.Throws<InvalidOperationException>(ImageFileClass.Of<UnregisteredImageFile>);
         _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of(typeof(UnregisteredImageFile)));
-        _ = Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<Picture08>());
-        _ = Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<BmpImageFile>());
+        _ = Assert.Throws<InvalidOperationException>(LibraryImageClass.Register<Picture08>);
+        _ = Assert.Throws<InvalidOperationException>(ImageFileClass.Register<BmpImageFile>);
         Assert.Equal("Picture08", LibraryImageClass.Of<Picture08>().StorageKey);
         Type[] types = typeof(LibraryImage).Assembly.GetTypes();
         Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),

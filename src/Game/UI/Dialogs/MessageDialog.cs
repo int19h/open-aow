@@ -144,6 +144,8 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
                 string fMessageText = log.Message.Text;
                 dialog.HeaderMemo.Items.Text = fMessageText;
                 break;
+            default:
+                break;
         }
 
         switch (log.Buttons)
@@ -159,6 +161,8 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
                 break;
             case MessageEventLogButtons.YesNoCancel:
                 dialog.YesNoCancelPanel.Visible = true;
+                break;
+            default:
                 break;
         }
 

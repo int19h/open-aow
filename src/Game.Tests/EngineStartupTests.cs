@@ -118,9 +118,9 @@ public sealed class EngineStartupTests
                     return;
                 }
 
-                string[] destroy = new StackTrace(arguments.Exception).GetFrames()
+                string[] destroy = [.. new StackTrace(arguments.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
-                    .Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray();
+                    .Select(x => x.GetMethod()!.DeclaringType!.Name)];
                 events.Add(fixture.Event("throw", arguments.Exception.GetType().FullName + ": " + fixture.Relative(arguments.Exception.Message), destroy));
             }
             AppDomain.CurrentDomain.FirstChanceException += Thrown;

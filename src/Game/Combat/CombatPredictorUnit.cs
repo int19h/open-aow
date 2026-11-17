@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 
 using Aow.Game.Magic.Abilities;
@@ -41,6 +42,7 @@ public partial class CombatPredictorUnit : IDisposable
     public QuadItemList<CombatPredictorUnit> RoundTargets { get; }
     public int CombatValueTotal { get; private set; }
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _combatRounds;
 
     public int IncomingCombatValue { get; private set; }

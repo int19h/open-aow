@@ -191,6 +191,9 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
                     case MouseButton.Right:
                         CenterButtonClick();
                         break;
+                    case MouseButton.Middle:
+                    default:
+                        break;
                 }
             }
         }

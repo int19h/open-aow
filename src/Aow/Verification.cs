@@ -222,6 +222,8 @@ internal static class Verification
                         case "string": string text = "default"; registry.String(section, name, ref text, GameSettings.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
                         case "rectangle": Rect rectangle = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.Rectangle(section, name, ref rectangle, GameSettings.ReadWriteMode.Read); Equal(7, rectangle.Left, "missing rectangle keeps getter default"); break;
                         case "bytes": byte[] bytes = [0x5A]; registry.Bytes(section, name, bytes, 1, GameSettings.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -238,6 +240,8 @@ internal static class Verification
                         case "string": registry.WriteString(name, "é test €"); break;
                         case "rectangle": registry.WriteString(name, "-10,20,640,480"); break;
                         case "bytes": registry.WriteBinaryData(name, [0xA5], 1); break;
+                        default:
+                            break;
                     }
                     registry.CloseKey();
                     count++;
@@ -259,6 +263,8 @@ internal static class Verification
                         case "string": Equal("é test €", registry.ReadString(name), name); break;
                         case "rectangle": Equal("-10,20,640,480", registry.ReadString(name), name); break;
                         case "bytes": byte[] bytes = [0]; Equal(1, registry.ReadBinaryData(name, bytes, 1), name); Equal((byte)0xA5, bytes[0], name); break;
+                        default:
+                            break;
                     }
                     registry.CloseKey();
                 }
@@ -408,7 +414,7 @@ internal static class Verification
         Console.WriteLine("Clock PASS: monotonic waits, yield and pacing without catch up");
     }
 
-    private static string FlipCase(string text) => new(text.Select(c => char.IsUpper(c) ? char.ToLowerInvariant(c) : char.ToUpperInvariant(c)).ToArray());
+    private static string FlipCase(string text) => new([.. text.Select(c => char.IsUpper(c) ? char.ToLowerInvariant(c) : char.ToUpperInvariant(c))]);
 
     private static void InstallTests(string gameRoot, string? sourceRoot)
     {
@@ -449,7 +455,7 @@ internal static class Verification
                     continue;
                 }
 
-                string[] matches = all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase)).ToArray();
+                string[] matches = [.. all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase))];
                 if (matches.Length == 0)
                 {
                     Console.WriteLine("P4 absent or contextual literal: " + literal);

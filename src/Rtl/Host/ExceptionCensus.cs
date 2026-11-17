@@ -78,7 +78,7 @@ public static class ExceptionCensus
             return;
         }
 
-        long[] snapshot = Enumerable.Range(0, s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index])).ToArray();
+        long[] snapshot = [.. Enumerable.Range(0, s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index]))];
         Append(s_path, Line(s_host, s_arguments, snapshot));
     }
 

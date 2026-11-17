@@ -73,10 +73,10 @@ public sealed class WallCrushingFastBattleTests
             RtlUnit.RandSeed = seed;
         }
 
-        (int Attack, int Damage, Set<DamageType> Types) roll = Assert.Single(wall.Rolls);
-        Assert.Equal(6, roll.Attack);
-        Assert.Equal(6, roll.Damage);
-        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), roll.Types);
+        (int attack, int damage, Set<DamageType> types) = Assert.Single(wall.Rolls);
+        Assert.Equal(6, attack);
+        Assert.Equal(6, damage);
+        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), types);
         Assert.Equal(1, combat.Logbook.Actions.Count);
         DamageCombatAction action = Assert.IsType<DamageCombatAction>(combat.Logbook.Actions.GetCombatActions(0));
         Assert.Equal(1, action.SourceId);

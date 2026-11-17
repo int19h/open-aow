@@ -49,6 +49,9 @@ public partial class GameOverEventLog : EventLog
                 string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
                 break;
+            case GameOverStatus.None:
+            default:
+                break;
         }
 
         return result;

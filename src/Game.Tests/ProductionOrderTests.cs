@@ -209,7 +209,7 @@ public sealed class ProductionOrderTests
         CityAction.Raze => 46,
         CityAction.Produce => 4,
         CityAction.Research => 5,
-        _ => 40,
+        CityAction.None or _ => 40,
     };
 
     // AoWProdScreen.pas:719 ActivityImage.
@@ -232,7 +232,7 @@ public sealed class ProductionOrderTests
                 CityAction.Migrate => 39 + row,
                 CityAction.Raze => 51 + row,
                 CityAction.Loot => 45 + row,
-                _ => -1,
+                CityAction.None or CityAction.Trade or CityAction.Research or CityAction.Produce or _ => -1,
             };
     }
 
@@ -261,6 +261,16 @@ public sealed class ProductionOrderTests
                 case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]); break;
                 case CityAction.Loot: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.LootText); break;
                 case CityAction.Fortify: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.FortifyText); break;
+                case CityAction.None:
+                    break;
+                case CityAction.Raze:
+                    break;
+                case CityAction.Research:
+                    break;
+                case CityAction.Produce:
+                    break;
+                default:
+                    break;
             }
         }
         else if (id == 10)

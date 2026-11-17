@@ -76,6 +76,8 @@ public partial class CustomDisplay : Component
             case BufferingScheme.Triple:
                 SurfaceIndex = 2;
                 break;
+            default:
+                break;
         }
     }
 
@@ -219,23 +221,13 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1541
     public virtual DisplayController GetDisplayController(int index)
     {
-        DisplayController result;
-        switch (index)
+        DisplayController result = index switch
         {
-            case -1:
-                result = ActiveDisplayController;
-                break;
-            case 0:
-                result = PrimaryDisplayController;
-                break;
-            case 1:
-                result = SecondaryDisplayController;
-                break;
-            default:
-                result = null;
-                break;
-        }
-
+            -1 => ActiveDisplayController,
+            0 => PrimaryDisplayController,
+            1 => SecondaryDisplayController,
+            _ => null,
+        };
         return result;
     }
 
@@ -295,6 +287,9 @@ public partial class CustomDisplay : Component
                             break;
                         case BackSurfaceControlMode.BlitInvalidatedSurface:
                             result = ActiveDisplayController.BlitInvalidatedSurface(SurfaceIndex);
+                            break;
+                        case BackSurfaceControlMode.None:
+                        default:
                             break;
                     }
                 }

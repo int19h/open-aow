@@ -596,6 +596,8 @@ public sealed class BlitterTests
             case 7: x = -2; y = -1; break;
             case 8: rectangle.Left = 37; break;
             case 9: rectangle.Right = x + width - 32; break;
+            default:
+                break;
         }
         return (rectangle, x, y);
     }

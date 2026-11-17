@@ -37,6 +37,12 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
                 }
 
                 break;
+            case AIMoveExecutorStatus.Idle:
+            case AIMoveExecutorStatus.Busy:
+            case AIMoveExecutorStatus.OutOfMovePoints:
+            case AIMoveExecutorStatus.Invalidated:
+            default:
+                break;
         }
     }
 
@@ -187,6 +193,8 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
 
                 _ = settings.Release();
                 Done();
+                break;
+            default:
                 break;
         }
     }

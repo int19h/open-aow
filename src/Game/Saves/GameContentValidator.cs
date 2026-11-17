@@ -71,6 +71,8 @@ internal sealed class GameContentValidator : IDocumentValidator
                 }
 
                 break;
+            default:
+                break;
         }
     }
 }

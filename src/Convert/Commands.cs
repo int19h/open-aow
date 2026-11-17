@@ -145,10 +145,9 @@ internal static class Commands
 
     /// <summary>Sorted relative paths of every file under a directory.</summary>
     internal static List<string> Enumerate(string directory) =>
-        Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories)
+        [.. Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories)
             .Select(f => Path.GetRelativePath(directory, f))
-            .Order(StringComparer.Ordinal)
-            .ToList();
+            .Order(StringComparer.Ordinal)];
 
     private static Dictionary<string, (string? Kind, string? Profile)> Manifest(string? path)
     {

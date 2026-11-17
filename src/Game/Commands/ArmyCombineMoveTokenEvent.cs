@@ -60,6 +60,9 @@ public partial class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyToken
                 string cannotCombineTransporters = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineTransportersText);
                 StrategicMap.Current.ShowMessage(cannotCombineTransporters);
                 break;
+            case AddUnitsResult.Ok:
+            default:
+                break;
         }
     }
 

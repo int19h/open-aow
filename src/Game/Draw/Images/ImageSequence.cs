@@ -159,6 +159,8 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                     image?.GetVisualDimensions(out R);
 
                     break;
+                default:
+                    break;
             }
 
             R.Left += _offsetX;
@@ -171,23 +173,13 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8666
     public int GetTotalSequenceFrames()
     {
-        int result;
-        switch (_sequenceMode)
+        int result = _sequenceMode switch
         {
-            case SequenceMode.FrameTable:
-                result = FrameTable.Count * (_sequenceSpeed + 1);
-                break;
-            case SequenceMode.Up:
-                result = ImageLibrary.Count * (_sequenceSpeed + 1);
-                break;
-            case SequenceMode.UpDown:
-                result = ImageLibrary.Count * (_sequenceSpeed + 1) * 2;
-                break;
-            default:
-                result = _sequenceSpeed + 1;
-                break;
-        }
-
+            SequenceMode.FrameTable => FrameTable.Count * (_sequenceSpeed + 1),
+            SequenceMode.Up => ImageLibrary.Count * (_sequenceSpeed + 1),
+            SequenceMode.UpDown => ImageLibrary.Count * (_sequenceSpeed + 1) * 2,
+            SequenceMode.None or SequenceMode.Random or SequenceMode.RandomFrameTable or _ => _sequenceSpeed + 1,
+        };
         return result;
     }
 
@@ -286,6 +278,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
 
                         result = (_imageIndex + offset) % ImageLibrary.Count;
                         break;
+                    case SequenceMode.None:
                     default:
                         result = -1;
                         break;
@@ -336,6 +329,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                     case SequenceMode.Random:
                         result = -1;
                         break;
+                    case SequenceMode.None:
                     default:
                         result = -1;
                         break;
@@ -515,7 +509,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     public int OffsetX { get => _offsetX; set => _offsetX = value; }
     public int OffsetY { get => _offsetY; set => _offsetY = value; }
 
-    internal static void BlitImageSequence(ImageSequence sequence, int displayController, int X, int Y, in Rect R, int frame, int bkColor)
+    internal static void BlitImageSequence(ImageSequence sequence, int X, int Y, in Rect R, int frame, int bkColor)
     {
         LockedSurface lockedSurface = default;
         Dib16Surface surface;

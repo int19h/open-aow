@@ -88,6 +88,8 @@ public partial class AIGroupCooperationControl : AIGroupTask
 
                 Done();
                 break;
+            default:
+                break;
         }
 
         return false;
@@ -298,13 +300,13 @@ public partial class AIGroupCooperationControl : AIGroupTask
 
     private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitCollection units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
     {
-        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
+        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation, Set<BattleFieldInfoRequestsElement>.Of([]), damageTypes);
         info.EnemyRelations = Set<byte>.WithBounds(0, 7);
         info.Units = units;
         info.Requests += Set<BattleFieldInfoRequestsElement>.Of([BattleFieldInfoRequestsElement.IgnorePassiveIndependents]);
         StrategicMap.Current.RetrieveBattleFieldInfo(location.X, location.Y, location.MapLevel, friendlyRadius, ref info);
         int friendlyStrength = info.FriendlyStrength;
-        BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
+        BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, Set<BattleFieldInfoRequestsElement>.Of([]), damageTypes);
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         info.Units = units;
         info.Requests += Set<BattleFieldInfoRequestsElement>.Of([BattleFieldInfoRequestsElement.IgnorePassiveIndependents]);

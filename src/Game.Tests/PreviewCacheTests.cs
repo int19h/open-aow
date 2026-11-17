@@ -102,7 +102,7 @@ public sealed class PreviewCacheTests : IDisposable
     [Fact]
     public void ListingOfFortyFilesComesFromTheCacheTheSecondTime()
     {
-        string[] names = Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl").ToArray();
+        string[] names = [.. Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl")];
         foreach (string? name in names)
         {
             File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));

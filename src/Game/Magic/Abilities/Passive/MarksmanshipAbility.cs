@@ -44,6 +44,8 @@ public partial class MarksmanshipAbility : MultiLevelAbility
             case 4:
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " IV";
                 break;
+            default:
+                break;
         }
 
         return result;

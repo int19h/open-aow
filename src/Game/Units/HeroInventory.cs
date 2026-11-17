@@ -234,7 +234,14 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         int i;
         switch (position)
         {
-            case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
+            case HeroItemPosition.InventorySlot1:
+            case HeroItemPosition.InventorySlot2:
+            case HeroItemPosition.InventorySlot3:
+            case HeroItemPosition.InventorySlot4:
+            case HeroItemPosition.InventorySlot5:
+            case HeroItemPosition.InventorySlot6:
+            case HeroItemPosition.InventorySlot7:
+            case HeroItemPosition.InventorySlot8:
                 i = (int)position - (int)HeroItemPosition.InventorySlot1;
                 if (i < Items.Count && i >= 0)
                 {
@@ -246,6 +253,14 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
                 }
 
                 break;
+            case HeroItemPosition.AttackSlot:
+            case HeroItemPosition.HeadSlot:
+            case HeroItemPosition.DefenseSlot:
+            case HeroItemPosition.LeftRingSlot:
+            case HeroItemPosition.TorsoSlot:
+            case HeroItemPosition.RightRingSlot:
+            case HeroItemPosition.Ground:
+            case HeroItemPosition.None:
             default:
                 result = null;
                 break;

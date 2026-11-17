@@ -125,6 +125,8 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             case 5:
                 StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                 break;
+            default:
+                break;
         }
     }
 
@@ -151,6 +153,8 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             case 5:
                 StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
+            default:
+                break;
         }
     }
 
@@ -170,6 +174,8 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
                 break;
             case 3:
                 StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
+                break;
+            default:
                 break;
         }
     }

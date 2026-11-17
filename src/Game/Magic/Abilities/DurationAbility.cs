@@ -47,6 +47,9 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
                     string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
+                case DurationMode.None:
+                default:
+                    break;
             }
         }
         else
@@ -155,6 +158,10 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
                 _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                break;
+            case DurationMode.None:
+            case DurationMode.Day:
+            default:
                 break;
         }
     }

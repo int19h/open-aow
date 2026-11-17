@@ -18,7 +18,7 @@ internal static class LibraryDrawing
         int l;
         l = S.Length;
         stream.Write(Bytes.Of(ref l, 4));
-        stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, l));
+        stream.Write(Cp1252.Encode(S).AsSpan()[..l]);
     }
 
     internal static void ReadStringFromStream(ref string S, Stream stream)

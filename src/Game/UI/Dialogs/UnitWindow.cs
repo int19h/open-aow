@@ -350,6 +350,10 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
                     LeftRingCheckBox.Drawn = false;
                     RightRingCheckBox.Drawn = false;
                     break;
+                case ItemType.Scroll:
+                case ItemType.Use:
+                default:
+                    break;
             }
 
             if (s_selectedItem != null)
@@ -674,6 +678,8 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         {
             case 27:
                 MainWindow.Visible = false;
+                break;
+            default:
                 break;
         }
     }

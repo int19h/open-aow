@@ -32,7 +32,7 @@ public sealed class OfflineStubTests
 
     private sealed class SavedGlobals : IDisposable
     {
-        private readonly object?[] _values = s_globals.Select(field => field.GetValue(null)).ToArray();
+        private readonly object?[] _values = [.. s_globals.Select(field => field.GetValue(null))];
         private readonly StrategicMap _map = StrategicMap.Current;
         private readonly TextControl _text = GamePack.Current.TextControl;
         private readonly HeroResourceList _heroes = GamePack.Current.HeroResources;
@@ -304,8 +304,8 @@ public sealed class OfflineStubTests
         MapLevel level = new(null) { Holder = EngineFixture.Engine };
         SetField(level, "Width", 2);
         int[] overlaid = [0, 4, 3];
-        MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null)
-        { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
+        MapField[] fields = [.. Enumerable.Range(0, 6).Select(i => new MapField(null)
+        { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) })];
         SetField(level, "_fields", fields);
         MapContainer container = new(null) { Holder = EngineFixture.Engine };
         EngineObjectList levels = new();

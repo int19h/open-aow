@@ -28,9 +28,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private const sbyte OtherPlayer = 2;
     private const int PrisonerId = 77;
 
-    private static Type[] EventLogTypes() => EngineClass.All
+    private static Type[] EventLogTypes() => [.. EngineClass.All
         .Where(c => typeof(EventLog).IsAssignableFrom(c.Type))
-        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
+        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal)];
 
     // The arms of the old cascade in their order.
     private static readonly Type[] s_oldArms =
@@ -112,6 +112,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 case PlayerMagicEventLog.EventMode.SpellResearched: return "SpellResearched";
                 case PlayerMagicEventLog.EventMode.OutOfMana: return "OutOfMana";
                 case PlayerMagicEventLog.EventMode.StartResearch: return "StartResearch";
+                default:
+                    break;
             }
             return "None";
         }
@@ -539,9 +541,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         Assert.Equal(35, MapEvents.EventRenderers.All.Count);
         Assert.False(MapEvents.EventRenderers.TryGet(EventView.None, out _));
-        EventView[] keys = typeof(EventView).GetProperties(BindingFlags.Public | BindingFlags.Static)
+        EventView[] keys = [.. typeof(EventView).GetProperties(BindingFlags.Public | BindingFlags.Static)
             .Where(property => property.PropertyType == typeof(EventView))
-            .Select(property => (EventView)property.GetValue(null)!).ToArray();
+            .Select(property => (EventView)property.GetValue(null)!)];
         Assert.Equal(36, keys.Length);
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());
         foreach (EventView? key in keys.Where(k => k != EventView.None))

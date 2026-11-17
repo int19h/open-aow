@@ -213,6 +213,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 string doneText = UI.Engine.TranslateResourceString(GameText.DoneText);
                 MainButton3.Text = doneText;
                 break;
+            default:
+                break;
         }
     }
 
@@ -385,6 +387,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 string razeText = UI.Engine.TranslateResourceString(GameText.RazeText);
                 UpgradeLabel.Text = razeText;
                 break;
+            default:
+                break;
         }
     }
 
@@ -543,6 +547,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             case 2:
                 QueueLBChange();
                 break;
+            default:
+                break;
         }
 
         Window.Drawn = false;
@@ -683,6 +689,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             case 5:
                 UI.Graphics.CityWindow[46].Show(r.Left + 2, r.Top + 2, lockedSurface);
                 break;
+            default:
+                break;
         }
     }
 
@@ -750,6 +758,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -759,6 +769,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     _ = _place.ProductionControl.DeleteProduction(QueueList.Selected);
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -808,6 +820,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -824,6 +838,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     }
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -1018,6 +1034,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             case 27:
                 Window.Visible = false;
                 break;
+            default:
+                break;
         }
     }
 
@@ -1125,7 +1143,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             MagicSphere.Air => 36,
             MagicSphere.Water => 39,
             MagicSphere.Death => 30,
-            _ => -1,
+            MagicSphere.Cosmos or MagicSphere.Secret or MagicSphere.None or _ => -1,
         };
     }
 }

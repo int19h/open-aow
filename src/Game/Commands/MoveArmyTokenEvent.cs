@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -497,5 +498,6 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         return null;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The unimplemented Delphi ConstructRoad stub keeps player and field.")]
     private static bool ConstructRoad(sbyte player, MapField field) => false;
 }

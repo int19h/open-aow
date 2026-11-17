@@ -393,6 +393,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                                 case PixelFormats.pfRGB555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                default:
+                                    break;
                             }
                         }
                         else
@@ -416,6 +418,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                                     break;
                                 case PixelFormats.pfRGB555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -446,6 +450,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                                 case PixelFormats.pfRGB555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                default:
+                                    break;
                             }
                         }
                         else
@@ -469,6 +475,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                                     break;
                                 case PixelFormats.pfRGB555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
+                                    break;
+                                default:
                                     break;
                             }
                         }

@@ -45,6 +45,8 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -165,6 +167,8 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
                     Done();
                 }
 
+                break;
+            default:
                 break;
         }
     }

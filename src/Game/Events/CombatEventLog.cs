@@ -157,6 +157,8 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 }
 
                 break;
+            default:
+                break;
         }
 
         return result;

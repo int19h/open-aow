@@ -116,19 +116,12 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                     _strikeCount = 10;
                                     break;
                                 case BattleEffectType.ScreenNS:
-                                    switch (SpellId)
+                                    _strikeCount = SpellId switch
                                     {
-                                        case 116:
-                                            _strikeCount = 21;
-                                            break;
-                                        case 124:
-                                            _strikeCount = 19;
-                                            break;
-                                        default:
-                                            _strikeCount = 35;
-                                            break;
-                                    }
-
+                                        116 => 21,
+                                        124 => 19,
+                                        _ => 35,
+                                    };
                                     break;
                                 case BattleEffectType.ShockWave:
                                     TargetX = SourceX;
@@ -142,6 +135,49 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                 case BattleEffectType.ScreenSwarm:
                                     _strikeCount = 30;
                                     break;
+                                case BattleEffectType.None:
+                                case BattleEffectType.Arrow:
+                                case BattleEffectType.Rock:
+                                case BattleEffectType.Comet:
+                                case BattleEffectType.CometBall:
+                                case BattleEffectType.Effect:
+                                case BattleEffectType.FBExplosion:
+                                case BattleEffectType.Ray:
+                                case BattleEffectType.Chain:
+                                case BattleEffectType.SFOverlay:
+                                case BattleEffectType.DamLightning:
+                                case BattleEffectType.DamFire:
+                                case BattleEffectType.DamPoison:
+                                case BattleEffectType.DamMagic:
+                                case BattleEffectType.DamHoly:
+                                case BattleEffectType.DamDeath:
+                                case BattleEffectType.DamCold:
+                                case BattleEffectType.SacredWrath:
+                                case BattleEffectType.SWComet:
+                                case BattleEffectType.Dispel:
+                                case BattleEffectType.WallSmoke:
+                                case BattleEffectType.Blood:
+                                case BattleEffectType.AltArrow:
+                                case BattleEffectType.Tremors:
+                                case BattleEffectType.Geyser:
+                                case BattleEffectType.GeyserWater:
+                                case BattleEffectType.HailImpact:
+                                case BattleEffectType.Cloud:
+                                case BattleEffectType.CloudPuff:
+                                case BattleEffectType.HitGround:
+                                case BattleEffectType.HitWater:
+                                case BattleEffectType.HighPrayer:
+                                case BattleEffectType.PrayerGlow:
+                                case BattleEffectType.Resurrect:
+                                case BattleEffectType.FrostBeam:
+                                case BattleEffectType.Frost:
+                                case BattleEffectType.MindDecay:
+                                case BattleEffectType.DecayLeg:
+                                case BattleEffectType.DecayComet:
+                                case BattleEffectType.SacFlame:
+                                case BattleEffectType.Winds:
+                                case BattleEffectType.SacFire:
+                                case BattleEffectType.BreathDam:
                                 default:
                                     if (AbilityId == 52)
                                     {
@@ -174,6 +210,54 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                     }
 
                                     break;
+                                case BattleEffectType.None:
+                                case BattleEffectType.Arrow:
+                                case BattleEffectType.Rock:
+                                case BattleEffectType.Comet:
+                                case BattleEffectType.Touch:
+                                case BattleEffectType.Breath:
+                                case BattleEffectType.CometBall:
+                                case BattleEffectType.Effect:
+                                case BattleEffectType.FBExplosion:
+                                case BattleEffectType.ScreenNESW:
+                                case BattleEffectType.ScreenNS:
+                                case BattleEffectType.Ray:
+                                case BattleEffectType.Chain:
+                                case BattleEffectType.Swarm:
+                                case BattleEffectType.SFOverlay:
+                                case BattleEffectType.DamLightning:
+                                case BattleEffectType.DamFire:
+                                case BattleEffectType.DamPoison:
+                                case BattleEffectType.DamMagic:
+                                case BattleEffectType.DamHoly:
+                                case BattleEffectType.DamDeath:
+                                case BattleEffectType.DamCold:
+                                case BattleEffectType.SacredWrath:
+                                case BattleEffectType.SWComet:
+                                case BattleEffectType.Dispel:
+                                case BattleEffectType.WallSmoke:
+                                case BattleEffectType.Blood:
+                                case BattleEffectType.AltArrow:
+                                case BattleEffectType.Geyser:
+                                case BattleEffectType.GeyserWater:
+                                case BattleEffectType.HailImpact:
+                                case BattleEffectType.Cloud:
+                                case BattleEffectType.CloudPuff:
+                                case BattleEffectType.HitGround:
+                                case BattleEffectType.HitWater:
+                                case BattleEffectType.HighPrayer:
+                                case BattleEffectType.PrayerGlow:
+                                case BattleEffectType.Resurrect:
+                                case BattleEffectType.FrostBeam:
+                                case BattleEffectType.Frost:
+                                case BattleEffectType.MindDecay:
+                                case BattleEffectType.DecayLeg:
+                                case BattleEffectType.ShockWave:
+                                case BattleEffectType.DecayComet:
+                                case BattleEffectType.SacFlame:
+                                case BattleEffectType.Winds:
+                                case BattleEffectType.SacFire:
+                                case BattleEffectType.BreathDam:
                                 default:
                                     NextStrike();
                                     break;
@@ -230,10 +314,12 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                 {
                                                     HexGeometry.CenterHexNumberToHex(endX, endY, i, ref x, ref y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
-                                                    EffectPaths.CreateFire(false, 50, x, y, engine: GetEngine());
+                                                    EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                 }
                                             }
 
+                                            break;
+                                        default:
                                             break;
                                     }
                                 }
@@ -299,6 +385,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                 }
 
                                                 break;
+                                            default:
+                                                break;
                                         }
                                     }
                                     else
@@ -345,6 +433,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                     }
 
                                                     break;
+                                                default:
+                                                    break;
                                             }
                                         }
                                         else
@@ -368,6 +458,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                             }
                                                         }
 
+                                                        break;
+                                                    default:
                                                         break;
                                                 }
                                             }
@@ -425,6 +517,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                             }
 
                                                             break;
+                                                        default:
+                                                            break;
                                                     }
                                                 }
                                                 else
@@ -435,7 +529,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                         {
                                                             case 100:
                                                                 sbyte hexY = _unit.UnitHexSprite.HexY;
-                                                                EffectPaths.CreateFire(false, 50, _unit.UnitHexSprite.HexX, hexY, engine: GetEngine());
+                                                                EffectPaths.CreateFire(50, _unit.UnitHexSprite.HexX, hexY, engine: GetEngine());
                                                                 message.MessageId = 200718;
                                                                 MapFieldMessageParameters param12 = message.Param;
                                                                 param12[0] = _unit;
@@ -457,10 +551,12 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
-                                                                        EffectPaths.CreateFire(false, 50, x, y, engine: GetEngine());
+                                                                        EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                                     }
                                                                 }
 
+                                                                break;
+                                                            default:
                                                                 break;
                                                         }
                                                     }
@@ -512,6 +608,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                         }
 
                                                                         break;
+                                                                    default:
+                                                                        break;
                                                                 }
                                                             }
                                                             else
@@ -540,6 +638,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                                 }
                                                                             }
 
+                                                                            break;
+                                                                        default:
                                                                             break;
                                                                     }
                                                                 }
@@ -663,7 +763,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                                         message.Param = param19;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
-                                                                                        EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
+                                                                                        EffectPaths.CreateFire(100, endX, endY, engine: GetEngine());
                                                                                         break;
                                                                                     case 52:
                                                                                         switch (effect.EffectType)
@@ -702,6 +802,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                                                         }
 
                                                                                                         break;
+                                                                                                    default:
+                                                                                                        break;
                                                                                                 }
 
                                                                                                 break;
@@ -715,13 +817,66 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                                                         message.Param = param23;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
-                                                                                                        EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
+                                                                                                        EffectPaths.CreateFire(100, endX, endY, engine: GetEngine());
+                                                                                                        break;
+                                                                                                    default:
                                                                                                         break;
                                                                                                 }
 
                                                                                                 break;
+                                                                                            case BattleEffectType.None:
+                                                                                            case BattleEffectType.Arrow:
+                                                                                            case BattleEffectType.Rock:
+                                                                                            case BattleEffectType.Comet:
+                                                                                            case BattleEffectType.Touch:
+                                                                                            case BattleEffectType.CometBall:
+                                                                                            case BattleEffectType.FBExplosion:
+                                                                                            case BattleEffectType.ScreenNESW:
+                                                                                            case BattleEffectType.Ray:
+                                                                                            case BattleEffectType.Chain:
+                                                                                            case BattleEffectType.Swarm:
+                                                                                            case BattleEffectType.ScreenSwarm:
+                                                                                            case BattleEffectType.SFOverlay:
+                                                                                            case BattleEffectType.DamLightning:
+                                                                                            case BattleEffectType.DamFire:
+                                                                                            case BattleEffectType.DamPoison:
+                                                                                            case BattleEffectType.DamMagic:
+                                                                                            case BattleEffectType.DamHoly:
+                                                                                            case BattleEffectType.DamDeath:
+                                                                                            case BattleEffectType.DamCold:
+                                                                                            case BattleEffectType.SacredWrath:
+                                                                                            case BattleEffectType.SWComet:
+                                                                                            case BattleEffectType.Dispel:
+                                                                                            case BattleEffectType.WallSmoke:
+                                                                                            case BattleEffectType.Blood:
+                                                                                            case BattleEffectType.AltArrow:
+                                                                                            case BattleEffectType.Tremors:
+                                                                                            case BattleEffectType.Geyser:
+                                                                                            case BattleEffectType.GeyserWater:
+                                                                                            case BattleEffectType.HailImpact:
+                                                                                            case BattleEffectType.Cloud:
+                                                                                            case BattleEffectType.CloudPuff:
+                                                                                            case BattleEffectType.HitGround:
+                                                                                            case BattleEffectType.HitWater:
+                                                                                            case BattleEffectType.HighPrayer:
+                                                                                            case BattleEffectType.PrayerGlow:
+                                                                                            case BattleEffectType.Resurrect:
+                                                                                            case BattleEffectType.FrostBeam:
+                                                                                            case BattleEffectType.Frost:
+                                                                                            case BattleEffectType.MindDecay:
+                                                                                            case BattleEffectType.DecayLeg:
+                                                                                            case BattleEffectType.ShockWave:
+                                                                                            case BattleEffectType.DecayComet:
+                                                                                            case BattleEffectType.SacFlame:
+                                                                                            case BattleEffectType.Winds:
+                                                                                            case BattleEffectType.SacFire:
+                                                                                            case BattleEffectType.BreathDam:
+                                                                                            default:
+                                                                                                break;
                                                                                         }
 
+                                                                                        break;
+                                                                                    default:
                                                                                         break;
                                                                                 }
                                                                             }
@@ -777,6 +932,8 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                         _ = MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
                     }
 
+                    break;
+                default:
                     break;
             }
 
@@ -1018,6 +1175,52 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                         sbyte hexX2 = _unit.UnitHexSprite.HexX;
                         CombatMap.Current.CenterViewTo(hexX2, hexY5 - 3, 0);
                         break;
+                    case BattleEffectType.None:
+                    case BattleEffectType.Arrow:
+                    case BattleEffectType.Rock:
+                    case BattleEffectType.Comet:
+                    case BattleEffectType.Touch:
+                    case BattleEffectType.Breath:
+                    case BattleEffectType.CometBall:
+                    case BattleEffectType.Effect:
+                    case BattleEffectType.FBExplosion:
+                    case BattleEffectType.ScreenNESW:
+                    case BattleEffectType.ScreenNS:
+                    case BattleEffectType.Ray:
+                    case BattleEffectType.Chain:
+                    case BattleEffectType.Swarm:
+                    case BattleEffectType.ScreenSwarm:
+                    case BattleEffectType.SFOverlay:
+                    case BattleEffectType.DamLightning:
+                    case BattleEffectType.DamFire:
+                    case BattleEffectType.DamPoison:
+                    case BattleEffectType.DamMagic:
+                    case BattleEffectType.DamHoly:
+                    case BattleEffectType.DamDeath:
+                    case BattleEffectType.DamCold:
+                    case BattleEffectType.SacredWrath:
+                    case BattleEffectType.SWComet:
+                    case BattleEffectType.Dispel:
+                    case BattleEffectType.WallSmoke:
+                    case BattleEffectType.Blood:
+                    case BattleEffectType.AltArrow:
+                    case BattleEffectType.Tremors:
+                    case BattleEffectType.GeyserWater:
+                    case BattleEffectType.HailImpact:
+                    case BattleEffectType.Cloud:
+                    case BattleEffectType.CloudPuff:
+                    case BattleEffectType.HitGround:
+                    case BattleEffectType.HitWater:
+                    case BattleEffectType.HighPrayer:
+                    case BattleEffectType.PrayerGlow:
+                    case BattleEffectType.Resurrect:
+                    case BattleEffectType.FrostBeam:
+                    case BattleEffectType.Frost:
+                    case BattleEffectType.DecayLeg:
+                    case BattleEffectType.DecayComet:
+                    case BattleEffectType.Winds:
+                    case BattleEffectType.SacFire:
+                    case BattleEffectType.BreathDam:
                     default:
                         CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                         break;
@@ -1179,16 +1382,11 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
 
                 break;
             case BattleEffectType.ScreenNS:
-                switch (SpellId)
+                i = SpellId switch
                 {
-                    case 124:
-                        i = 19;
-                        break;
-                    default:
-                        i = 7;
-                        break;
-                }
-
+                    124 => 19,
+                    _ => 7,
+                };
                 HexGeometry.CenterHexNumberToHex(TargetX, TargetY, RandomHex[_strikeIndex % i], ref deltaX, ref deltaY);
                 HexGeometry.HexToPixel(deltaX, deltaY, out x2, out y2);
                 CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
@@ -1424,6 +1622,39 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref path35, ref obstacles);
                 effect.Path = path35;
                 break;
+            case BattleEffectType.None:
+            case BattleEffectType.Arrow:
+            case BattleEffectType.Rock:
+            case BattleEffectType.Comet:
+            case BattleEffectType.CometBall:
+            case BattleEffectType.FBExplosion:
+            case BattleEffectType.SFOverlay:
+            case BattleEffectType.DamLightning:
+            case BattleEffectType.DamFire:
+            case BattleEffectType.DamPoison:
+            case BattleEffectType.DamMagic:
+            case BattleEffectType.DamHoly:
+            case BattleEffectType.DamDeath:
+            case BattleEffectType.DamCold:
+            case BattleEffectType.SWComet:
+            case BattleEffectType.Dispel:
+            case BattleEffectType.WallSmoke:
+            case BattleEffectType.Blood:
+            case BattleEffectType.AltArrow:
+            case BattleEffectType.Tremors:
+            case BattleEffectType.GeyserWater:
+            case BattleEffectType.HailImpact:
+            case BattleEffectType.CloudPuff:
+            case BattleEffectType.HitGround:
+            case BattleEffectType.HitWater:
+            case BattleEffectType.HighPrayer:
+            case BattleEffectType.PrayerGlow:
+            case BattleEffectType.Resurrect:
+            case BattleEffectType.Frost:
+            case BattleEffectType.DecayLeg:
+            case BattleEffectType.DecayComet:
+            case BattleEffectType.SacFire:
+            case BattleEffectType.BreathDam:
             default:
                 sbyte hexX4 = _unit.UnitHexSprite.HexX;
                 sbyte hexY9 = _unit.UnitHexSprite.HexY;
@@ -1501,6 +1732,50 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 }
 
                 break;
+            case BattleEffectType.None:
+            case BattleEffectType.Touch:
+            case BattleEffectType.Effect:
+            case BattleEffectType.FBExplosion:
+            case BattleEffectType.ScreenNESW:
+            case BattleEffectType.ScreenNS:
+            case BattleEffectType.Chain:
+            case BattleEffectType.ScreenSwarm:
+            case BattleEffectType.SFOverlay:
+            case BattleEffectType.DamLightning:
+            case BattleEffectType.DamFire:
+            case BattleEffectType.DamPoison:
+            case BattleEffectType.DamMagic:
+            case BattleEffectType.DamHoly:
+            case BattleEffectType.DamDeath:
+            case BattleEffectType.DamCold:
+            case BattleEffectType.SacredWrath:
+            case BattleEffectType.SWComet:
+            case BattleEffectType.Dispel:
+            case BattleEffectType.WallSmoke:
+            case BattleEffectType.Blood:
+            case BattleEffectType.Tremors:
+            case BattleEffectType.Geyser:
+            case BattleEffectType.GeyserWater:
+            case BattleEffectType.HailImpact:
+            case BattleEffectType.Cloud:
+            case BattleEffectType.CloudPuff:
+            case BattleEffectType.HitGround:
+            case BattleEffectType.HitWater:
+            case BattleEffectType.HighPrayer:
+            case BattleEffectType.PrayerGlow:
+            case BattleEffectType.Resurrect:
+            case BattleEffectType.FrostBeam:
+            case BattleEffectType.Frost:
+            case BattleEffectType.MindDecay:
+            case BattleEffectType.DecayLeg:
+            case BattleEffectType.ShockWave:
+            case BattleEffectType.DecayComet:
+            case BattleEffectType.SacFlame:
+            case BattleEffectType.Winds:
+            case BattleEffectType.SacFire:
+            case BattleEffectType.BreathDam:
+            default:
+                break;
         }
 
         if (_effectType == BattleEffectType.Breath)
@@ -1557,8 +1832,12 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                             extraEffect.AbilityIndex = AbilityId;
                             extraEffect.SpellIndex = SpellId;
                             break;
+                        default:
+                            break;
                     }
 
+                    break;
+                default:
                     break;
             }
         }
@@ -1607,8 +1886,47 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                         case >= 18 and <= 22:
                             _unit.UnitHexSprite.SetDirection(6);
                             break;
+                        default:
+                            break;
                     }
 
+                    break;
+                case BattleEffectType.None:
+                case BattleEffectType.Touch:
+                case BattleEffectType.FBExplosion:
+                case BattleEffectType.ScreenNESW:
+                case BattleEffectType.ScreenNS:
+                case BattleEffectType.DamLightning:
+                case BattleEffectType.DamFire:
+                case BattleEffectType.DamPoison:
+                case BattleEffectType.DamMagic:
+                case BattleEffectType.DamHoly:
+                case BattleEffectType.DamDeath:
+                case BattleEffectType.DamCold:
+                case BattleEffectType.SacredWrath:
+                case BattleEffectType.SWComet:
+                case BattleEffectType.WallSmoke:
+                case BattleEffectType.Blood:
+                case BattleEffectType.Tremors:
+                case BattleEffectType.GeyserWater:
+                case BattleEffectType.HailImpact:
+                case BattleEffectType.Cloud:
+                case BattleEffectType.CloudPuff:
+                case BattleEffectType.HitGround:
+                case BattleEffectType.HitWater:
+                case BattleEffectType.HighPrayer:
+                case BattleEffectType.PrayerGlow:
+                case BattleEffectType.Resurrect:
+                case BattleEffectType.Frost:
+                case BattleEffectType.MindDecay:
+                case BattleEffectType.DecayLeg:
+                case BattleEffectType.ShockWave:
+                case BattleEffectType.DecayComet:
+                case BattleEffectType.SacFlame:
+                case BattleEffectType.Winds:
+                case BattleEffectType.SacFire:
+                case BattleEffectType.BreathDam:
+                default:
                     break;
             }
         }
@@ -1654,30 +1972,16 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
         else
         {
             int ratio = Math.Abs(deltaY * 100 / deltaX);
-            switch (ratio)
+            result = ratio switch
             {
-                case >= 0 and <= 12:
-                    result = 6;
-                    break;
-                case >= 13 and <= 40:
-                    result = 5;
-                    break;
-                case >= 41 and <= 76:
-                    result = 4;
-                    break;
-                case >= 77 and <= 129:
-                    result = 3;
-                    break;
-                case >= 130 and <= 240:
-                    result = 2;
-                    break;
-                case >= 241 and <= 759:
-                    result = 1;
-                    break;
-                default:
-                    result = 0;
-                    break;
-            }
+                >= 0 and <= 12 => 6,
+                >= 13 and <= 40 => 5,
+                >= 41 and <= 76 => 4,
+                >= 77 and <= 129 => 3,
+                >= 130 and <= 240 => 2,
+                >= 241 and <= 759 => 1,
+                _ => 0,
+            };
         }
 
         if (deltaY > 0)

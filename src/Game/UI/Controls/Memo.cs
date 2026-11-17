@@ -410,6 +410,7 @@ public partial class Memo : Control
                                 string line3 = Lines[_topItem + i];
                                 base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), line3, lockedSurface);
                                 break;
+                            case TextAlignment.Center:
                             default:
                                 string line4 = Lines[_topItem + i];
                                 int fontTextWidth = base.Font.GetTextWidth(line4);
@@ -705,6 +706,8 @@ public partial class Memo : Control
                         }
                     }
 
+                    break;
+                default:
                     break;
             }
 

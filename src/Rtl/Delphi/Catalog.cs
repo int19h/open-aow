@@ -8,7 +8,7 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
 {
     private sealed record Snapshot(Dictionary<TKey, TValue> Entries, ReadOnlyCollection<TValue> All);
 
-    private readonly object _writeLock = new();
+    private readonly Lock _writeLock = new();
     private Snapshot _snapshot = new([], Array.AsReadOnly(Array.Empty<TValue>()));
 
     public TValue Add(TKey key, TValue value)

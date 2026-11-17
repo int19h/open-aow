@@ -74,7 +74,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Component owner = new(null);
         Button button = new(owner);
         Button? seen = null;
-        NotifyEvent<Button> click = sender => seen = sender;
+        void click(Button sender) => seen = sender;
         button.OnClick += click;
         Click(button);
         Assert.Same(button, seen);
@@ -97,7 +97,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Assert.Null(MouseDownHandler(button));
 
         Button? typedSender = null;
-        MouseEvent<Button> typed = (sender, mouseButton, shift, x, y) => typedSender = sender;
+        void typed(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) => typedSender = sender;
         button.OnMouseDown += typed;
         Assert.NotNull(MouseDownHandler(button));
         button.OnMouseDown -= typed;
@@ -201,11 +201,11 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button other = new(owner);
         Button? seen = null;
         byte key = 65;
-        KeyPressEvent<Button> handler = (sender, ref pressed) =>
+        void handler(Button sender, ref byte pressed)
         {
             seen = sender;
             pressed = 66;
-        };
+        }
         button.OnKeyPress += handler;
         button.OnKeyPress -= handler;
         Assert.Null(KeyPressHandler(button));
@@ -224,8 +224,8 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button button = new(owner);
         Button other = new(owner);
         Button? seen = null;
-        MouseEvent<Button> handler = (sender, mouseButton, shift, x, y) => seen = sender;
-        MouseEvent<Button> stranger = (sender, mouseButton, shift, x, y) => { };
+        void handler(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) => seen = sender;
+        void stranger(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) { }
         button.OnMouseDown += handler;
         button.OnMouseDown -= stranger;
         other.OnMouseDown -= handler;

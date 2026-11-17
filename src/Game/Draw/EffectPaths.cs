@@ -41,16 +41,11 @@ internal static class EffectPaths
         {
             radiusLocal = (float)((double)(angle * Math.PI) / 180);
             b = (phase + angle) % 180;
-            switch (b)
+            r = b switch
             {
-                case >= 0 and <= 89:
-                    r = (float)((double)((double)((double)b / 90 * ((double)b / 90)) * radius) + radius);
-                    break;
-                default:
-                    r = (float)((double)((double)((double)(180 - b) / 90 * ((double)(180 - b) / 90)) * radius) + radius);
-                    break;
-            }
-
+                >= 0 and <= 89 => (float)((double)((double)((double)b / 90 * ((double)b / 90)) * radius) + radius),
+                _ => (float)((double)((double)((double)(180 - b) / 90 * ((double)(180 - b) / 90)) * radius) + radius),
+            };
             xYZ = new Point3D
             {
                 X = Round((double)Math.Sin(radiusLocal) * r) + x,
@@ -75,6 +70,8 @@ internal static class EffectPaths
                         angle += 360;
                     }
 
+                    break;
+                default:
                     break;
             }
 
@@ -200,7 +197,7 @@ internal static class EffectPaths
         return result;
     }
 
-    internal static void CreateFire(bool spread, int chance, int hexX, int hexY, GameEngine engine)
+    internal static void CreateFire(int chance, int hexX, int hexY, GameEngine engine)
     {
         CombatFire fire;
         bool canBurn;

@@ -1,5 +1,6 @@
 #nullable disable
 
+using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -27,6 +28,8 @@ internal static class TacticalTables
                     case 1:
                         result = 5;
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -40,6 +43,8 @@ internal static class TacticalTables
                     case 1:
                         result = X / 2 * 2 == X ? (ushort)5 : (ushort)6;
 
+                        break;
+                    default:
                         break;
                 }
 
@@ -56,8 +61,12 @@ internal static class TacticalTables
                     case 1:
                         result = 6;
                         break;
+                    default:
+                        break;
                 }
 
+                break;
+            default:
                 break;
         }
 
@@ -151,6 +160,43 @@ internal static class TacticalTables
                                 path[0].Y = y + 12;
                                 obstacles.Clear();
                                 break;
+                            case BattleEffectType.None:
+                            case BattleEffectType.Arrow:
+                            case BattleEffectType.Rock:
+                            case BattleEffectType.Comet:
+                            case BattleEffectType.Touch:
+                            case BattleEffectType.CometBall:
+                            case BattleEffectType.FBExplosion:
+                            case BattleEffectType.ScreenNESW:
+                            case BattleEffectType.Ray:
+                            case BattleEffectType.Chain:
+                            case BattleEffectType.Swarm:
+                            case BattleEffectType.SFOverlay:
+                            case BattleEffectType.DamLightning:
+                            case BattleEffectType.DamFire:
+                            case BattleEffectType.DamPoison:
+                            case BattleEffectType.DamMagic:
+                            case BattleEffectType.DamHoly:
+                            case BattleEffectType.DamDeath:
+                            case BattleEffectType.DamCold:
+                            case BattleEffectType.SacredWrath:
+                            case BattleEffectType.SWComet:
+                            case BattleEffectType.Dispel:
+                            case BattleEffectType.WallSmoke:
+                            case BattleEffectType.Blood:
+                            case BattleEffectType.AltArrow:
+                            case BattleEffectType.GeyserWater:
+                            case BattleEffectType.HailImpact:
+                            case BattleEffectType.CloudPuff:
+                            case BattleEffectType.HitGround:
+                            case BattleEffectType.HitWater:
+                            case BattleEffectType.HighPrayer:
+                            case BattleEffectType.PrayerGlow:
+                            case BattleEffectType.Frost:
+                            case BattleEffectType.DecayLeg:
+                            case BattleEffectType.DecayComet:
+                            case BattleEffectType.SacFire:
+                            case BattleEffectType.BreathDam:
                             default:
                                 MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                                 break;
@@ -166,6 +212,7 @@ internal static class TacticalTables
         }
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
     internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
         int i;
@@ -344,6 +391,8 @@ internal static class TacticalTables
                             break;
                         case 4:
                             a = 50;
+                            break;
+                        default:
                             break;
                     }
 

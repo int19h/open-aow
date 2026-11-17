@@ -56,6 +56,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
+                case DurationMode.None:
                 default:
                     result = base.GetName(owner);
                     break;
@@ -221,6 +222,10 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
                 _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                break;
+            case DurationMode.None:
+            case DurationMode.Day:
+            default:
                 break;
         }
     }

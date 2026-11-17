@@ -75,6 +75,9 @@ public partial class Gauge : Control
                 }
 
                 break;
+            case GaugeType.Borderless:
+            default:
+                break;
         }
 
         if (Min + 1 > Max)
@@ -155,6 +158,8 @@ public partial class Gauge : Control
                         lockedSurface.ClipRectangle = oldClip;
                         SizedRectangle rectangle5 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, p, WinHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
+                        break;
+                    default:
                         break;
                 }
 

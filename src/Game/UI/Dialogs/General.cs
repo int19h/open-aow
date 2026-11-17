@@ -217,6 +217,8 @@ public partial class General(UIContext ui) : UIModule(ui)
             case 2:
                 _ = AudioPlayback.PlaySample("Sfx\\Int\\Btn6.wav");
                 break;
+            default:
+                break;
         }
     }
 
@@ -282,6 +284,8 @@ public partial class General(UIContext ui) : UIModule(ui)
                         {
                         }
 
+                        break;
+                    default:
                         break;
                 }
 
@@ -446,29 +450,15 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:185
     public int SphereToImage(MagicSphere sphere)
     {
-        int result;
-        switch (sphere)
+        int result = sphere switch
         {
-            case MagicSphere.Life:
-                result = 27;
-                break;
-            case MagicSphere.Death:
-                result = 30;
-                break;
-            case MagicSphere.Earth:
-                result = 33;
-                break;
-            case MagicSphere.Air:
-                result = 36;
-                break;
-            case MagicSphere.Water:
-                result = 39;
-                break;
-            default:
-                result = 42;
-                break;
-        }
-
+            MagicSphere.Life => 27,
+            MagicSphere.Death => 30,
+            MagicSphere.Earth => 33,
+            MagicSphere.Air => 36,
+            MagicSphere.Water => 39,
+            MagicSphere.Cosmos or MagicSphere.Fire or MagicSphere.Secret or MagicSphere.None or _ => 42,
+        };
         return result;
     }
 
@@ -684,6 +674,8 @@ public partial class General(UIContext ui) : UIModule(ui)
                     _ = SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
                     StartGame(this);
+                    break;
+                default:
                     break;
             }
         }

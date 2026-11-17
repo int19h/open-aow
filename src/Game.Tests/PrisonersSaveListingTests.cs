@@ -86,11 +86,11 @@ public sealed class PrisonersSaveListingTests
 
             engine.SaveHsm(saved, progress: null, profile: GameProfile.WorldMap);
             byte[] fileBytes = File.ReadAllBytes(saved);
-            (int Players, int Width, int Towns, int Day) listed = ListLikeTheLoadDialog(engine, saved);
-            Assert.Equal(players, listed.Players);
-            Assert.Equal(width, listed.Width);
-            Assert.Equal(towns, listed.Towns);
-            Assert.Equal(day, listed.Day);
+            (int listedPlayers, int listedWidth, int listedTowns, int listedDay) = ListLikeTheLoadDialog(engine, saved);
+            Assert.Equal(players, listedPlayers);
+            Assert.Equal(width, listedWidth);
+            Assert.Equal(towns, listedTowns);
+            Assert.Equal(day, listedDay);
 
             engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap opened = engine.HexSpriteMap as StrategicMap;

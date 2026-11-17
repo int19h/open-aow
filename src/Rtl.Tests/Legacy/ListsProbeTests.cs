@@ -17,7 +17,7 @@ public sealed class ListsProbeTests
     {
         ProbeLines p = new("lists");
         DelphiList<Item> l = new();
-        Item[] items = Enumerable.Range(0, 257).Select(i => new Item(i, i % 3)).ToArray();
+        Item[] items = [.. Enumerable.Range(0, 257).Select(i => new Item(i, i % 3))];
         void State(string tag)
         {
             p.Fact(tag + "_count", l.Count); p.Fact(tag + "_capacity", l.Capacity);

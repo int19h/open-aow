@@ -146,6 +146,8 @@ public sealed class NameTableTests : FormatsTest
             case CreatedObjectCodec created when created.Family is string family:
                 Assert.Equal(family, NameTable.ResolveStored(family));
                 break;
+            default:
+                break;
         }
     }
 

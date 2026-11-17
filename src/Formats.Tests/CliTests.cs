@@ -36,9 +36,9 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void AnExistingDestinationNeedsOverwrite()
     {
         File.WriteAllText(In("a.ahl"), "keep");
-        (int Code, string Output, string Errors) refused = Run("to-own", HeroList, In("a.ahl"));
-        Assert.Equal(Program.Error, refused.Code);
-        Assert.Contains("--overwrite", refused.Errors);
+        (int code, _, string errors) = Run("to-own", HeroList, In("a.ahl"));
+        Assert.Equal(Program.Error, code);
+        Assert.Contains("--overwrite", errors);
         Assert.Equal("keep", File.ReadAllText(In("a.ahl")));
         Assert.Equal(Program.Success, Run("to-own", HeroList, In("a.ahl"), "--overwrite").Code);
         Assert.NotEqual("keep", File.ReadAllText(In("a.ahl")));
@@ -61,9 +61,9 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void AFailedConversionWritesNothing()
     {
         File.WriteAllBytes(In("bad.ahl"), [1, 0, 0, 1, 99, 0, 5, 0, 0, 0]);
-        (int Code, string Output, string Errors) result = Run("to-own", In("bad.ahl"), In("out.ahl"));
-        Assert.Equal(Program.Error, result.Code);
-        Assert.Contains("E_UNKNOWN_PROPERTY", result.Errors);
+        (int code, _, string errors) = Run("to-own", In("bad.ahl"), In("out.ahl"));
+        Assert.Equal(Program.Error, code);
+        Assert.Contains("E_UNKNOWN_PROPERTY", errors);
         Assert.False(File.Exists(In("out.ahl")));
         _ = Assert.Single(Directory.GetFiles(_directory));
     }
@@ -82,9 +82,9 @@ public sealed class CliTests : FormatsTest, IDisposable
     [Fact]
     public void ExactLayoutConflictsWithLossyExport()
     {
-        (int Code, string Output, string Errors) result = Run("to-original", "a", "b", "--exact-layout", "--allow-lossy");
-        Assert.Equal(Program.Error, result.Code);
-        Assert.Contains("conflicts", result.Errors);
+        (int code, _, string errors) = Run("to-original", "a", "b", "--exact-layout", "--allow-lossy");
+        Assert.Equal(Program.Error, code);
+        Assert.Contains("conflicts", errors);
     }
 
     [GameFact]
@@ -93,14 +93,14 @@ public sealed class CliTests : FormatsTest, IDisposable
         _ = Directory.CreateDirectory(In("in"));
         File.Copy(HeroList, Path.Combine(In("in"), "h.ahl"));
         Assert.Equal(Program.Error, Run("to-own", "--dir", In("in"), "--out", Path.Combine(In("in"), "out")).Code);
-        (int Code, string Output, string Errors) result = Run("to-own", "--dir", In("in"), "--out", In("out"));
-        Assert.Equal(Program.Success, result.Code);
-        Assert.Contains("1 converted, 0 failed, 0 skipped", result.Output);
+        (int code, string output, _) = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        Assert.Equal(Program.Success, code);
+        Assert.Contains("1 converted, 0 failed, 0 skipped", output);
         // A derived output name takes the own extension on import and the original one on export.
         Assert.True(File.Exists(Path.Combine(In("out"), "h.oahl")));
         Assert.False(File.Exists(Path.Combine(In("out"), "h.ahl")));
-        (int Code, string Output, string Errors) back = Run("to-original", "--dir", In("out"), "--out", In("back"));
-        Assert.Equal(Program.Success, back.Code);
+        (int backCode, _, _) = Run("to-original", "--dir", In("out"), "--out", In("back"));
+        Assert.Equal(Program.Success, backCode);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
         _ = Assert.Single(Directory.GetFiles(In("back")));
     }
@@ -121,12 +121,12 @@ public sealed class CliTests : FormatsTest, IDisposable
     {
         _ = Directory.CreateDirectory(In("in"));
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.oahl")).Code);
-        (int Code, string Output, string Errors) import = Run("to-own", "--dir", In("in"), "--out", In("out"));
-        Assert.Contains("0 converted, 0 failed, 1 skipped", import.Output);
+        (_, string output, _) = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        Assert.Contains("0 converted, 0 failed, 1 skipped", output);
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
-        (int Code, string Output, string Errors) export = Run("to-original", "--dir", In("in"), "--out", In("back"));
-        Assert.NotEqual(Program.Success, export.Code);
-        Assert.Contains("exports to the same name as", export.Errors);
+        (int exportCode, _, string exportErrors) = Run("to-original", "--dir", In("in"), "--out", In("back"));
+        Assert.NotEqual(Program.Success, exportCode);
+        Assert.Contains("exports to the same name as", exportErrors);
         _ = Assert.Single(Directory.GetFiles(In("back")));
     }
 
@@ -144,19 +144,19 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void CheckReportsOwnDocuments()
     {
         _ = Run("to-own", HeroList, In("a.ahl"));
-        (int Code, string Output, string Errors) result = Run("check", In("a.ahl"));
-        Assert.Equal(Program.Success, result.Code);
-        Assert.Contains("Corpus: 0 original files", result.Output);
-        Assert.Contains("Own: all eligible documents G-own equal", result.Output);
+        (int code, string output, _) = Run("check", In("a.ahl"));
+        Assert.Equal(Program.Success, code);
+        Assert.Contains("Corpus: 0 original files", output);
+        Assert.Contains("Own: all eligible documents G-own equal", output);
     }
 
     [GameFact]
     public void InfoReportsProfileKindAndResidue()
     {
-        (int Code, string Output, string Errors) result = Run("info", HeroList);
-        Assert.Equal(Program.Success, result.Code);
-        Assert.Contains("Profile: hero-list, kind hero-list, version " + OwnFormat.CurrentVersion, result.Output);
-        Assert.Contains("Residue: 0 layout parts", result.Output);
+        (int code, string output, _) = Run("info", HeroList);
+        Assert.Equal(Program.Success, code);
+        Assert.Contains("Profile: hero-list, kind hero-list, version " + OwnFormat.CurrentVersion, output);
+        Assert.Contains("Residue: 0 layout parts", output);
     }
 
     [Fact]

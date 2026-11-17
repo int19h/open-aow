@@ -592,7 +592,7 @@ public sealed class ScenarioSetProfile : FileProfile
         Id.CopyTo(head.AsSpan(4));
         head[9] = (byte)nameBytes.Length;
         nameBytes.CopyTo(head, 10);
-        byte[] extension = Array.Empty<byte>();
+        byte[] extension = [];
         if (layout is not null)
         {
             foreach ((int offset, byte[]? bytes, JsonValue? at) in layout.Headers)

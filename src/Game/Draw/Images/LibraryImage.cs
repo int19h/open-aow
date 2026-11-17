@@ -421,8 +421,12 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                     case BlendMode.LinearAlpha:
                         ShowBlended(X, Y, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
+                    default:
+                        break;
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -460,8 +464,13 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                     case BlendMode.LinearAlpha:
                         ShowBlendedStretched(r, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
+                    default:
+                        break;
                 }
 
+                break;
+            case ShowMode.Transparent:
+            default:
                 break;
         }
     }
@@ -526,8 +535,13 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
                     case BlendMode.Shadow:
                         ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
+                    case BlendMode.LinearAlpha:
+                    default:
+                        break;
                 }
 
+                break;
+            default:
                 break;
         }
     }

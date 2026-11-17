@@ -64,6 +64,8 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
                 }
 
                 break;
+            default:
+                break;
         }
 
         return ExecuteResult.Done;

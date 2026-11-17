@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat.Actions;
@@ -185,6 +186,9 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
                     }
 
                     break;
+                case CombatSideIndex.Neutral:
+                default:
+                    break;
             }
         }
     }
@@ -333,6 +337,9 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
                     }
 
                     break;
+                case CombatSideIndex.Neutral:
+                default:
+                    break;
             }
         }
     }
@@ -421,6 +428,9 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
                         result.Generate(_defender, _attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), _defenderDamageTypes);
                     }
 
+                    break;
+                case CombatSideIndex.Neutral:
+                default:
                     break;
             }
         }
@@ -511,13 +521,14 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         return _defenderDamageValue;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
     internal static int StatisticsToDamageValue(int attack, int damage, Set<DamageType> damageTypes, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
         damageTypes -= immunityTypes;
-        if (damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
+        if (damageTypes != Set<DamageType>.Of([]))
         {
             attack -= defense;
-            if (damageTypes - protectionTypes == Set<DamageType>.Of(Array.Empty<DamageType>()))
+            if (damageTypes - protectionTypes == Set<DamageType>.Of([]))
             {
                 damage = damage + 1 >>> 1;
             }

@@ -36,6 +36,8 @@ public partial class ScannerWindow(UIContext ui) : UIModule(ui)
                     Scanner.UpdateStep = -1;
                     StrategicMap.Current.ViewLevel(2);
                     break;
+                default:
+                    break;
             }
         }
     }

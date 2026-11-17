@@ -18,7 +18,7 @@ public sealed class StringBufferTests
         }
     }
 
-    private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
+    private static MemoryStream Input(int length, ReadOnlySpan<byte> bytes)
     {
         MemoryStream stream = new();
         stream.Write(Bytes.Of(ref length));
@@ -32,8 +32,8 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void StringReadersKeepEveryByteAndIndependentAliases(int shape)
     {
-        byte[] bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
-        using MemoryStream stream = Input(shape, bytes.Length, bytes);
+        byte[] bytes = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
+        using MemoryStream stream = Input(bytes.Length, bytes);
         string text = "old", alias = text;
         Read(shape, ref text, stream);
         Assert.Equal(bytes, Cp1252.Encode(text).ToArray());
@@ -44,7 +44,7 @@ public sealed class StringBufferTests
     [Fact]
     public void ShortStringFromStreamKeepsTheResizedTail()
     {
-        using MemoryStream stream = Input(0, 6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(6, [0, 0x80, 0xFF]);
         string text = "seedtail";
         GameEngine.StringFromStream(ref text, stream);
         Assert.Equal(new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
@@ -54,7 +54,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void ShortStringBodiesThrowAndKeepTheResize(int shape)
     {
-        using MemoryStream stream = Input(shape, 6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(6, [0, 0x80, 0xFF]);
         string text = "seedtail";
         _ = Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
         Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
@@ -65,7 +65,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void NegativeLengthsKeepTheRangeErrorAndOutput(int shape)
     {
-        using MemoryStream stream = Input(shape, -1, []);
+        using MemoryStream stream = Input(-1, []);
         string text = "old";
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
         Assert.Equal("old", text);
@@ -96,7 +96,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void FailingReadsPublishOnlyTheResize(int shape)
     {
-        using MemoryStream input = Input(shape, 6, []);
+        using MemoryStream input = Input(6, []);
         using FailingBodyStream stream = new() { BodyPosition = (int)input.Length };
         stream.Write(input.ToArray());
         stream.Position = 0;
@@ -157,6 +157,6 @@ public sealed class StringBufferTests
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);
         _ = memo.Items.Add("<INT>text");
-        _ = Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
+        _ = Assert.Throws<IndexOutOfRangeException>(memo.SetSize);
     }
 }

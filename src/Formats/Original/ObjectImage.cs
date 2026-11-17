@@ -85,7 +85,7 @@ internal static class ObjectImage
         }
 
         // Each value runs to the next stored offset. Booleans have no bytes.
-        int[] boundaries = slots.Select(s => s.Entry.Offset).Append(length).Distinct().Order().ToArray();
+        int[] boundaries = [.. slots.Select(s => s.Entry.Offset).Append(length).Distinct().Order()];
         Dictionary<int, int> nonZeroAt = [];
         foreach (Slot s in slots)
         {
@@ -125,7 +125,7 @@ internal static class ObjectImage
             gaps.Add((cursor, length - cursor));
         }
 
-        List<Slot> order = slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index).ToList();
+        List<Slot> order = [.. slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index)];
         Dictionary<SchemaProperty, List<Slot>> byProperty = [];
         foreach (Slot s in order)
         {
@@ -410,7 +410,7 @@ internal static class ObjectImage
 
         Dictionary<SchemaProperty, Queue<EncodedItem>> dynamicQueues = writer.Items.Where(i => i.IsSequential)
             .GroupBy(i => i.Property!).ToDictionary(g => g.Key, g => new Queue<EncodedItem>(g));
-        List<TableEntry> dataOrder = stored.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
+        List<TableEntry> dataOrder = [.. stored.OrderBy(e => e.Offset).ThenBy(e => e.Index)];
         List<(TableEntry Entry, EncodedItem Item)> placed = [];
         foreach (TableEntry e in dataOrder)
         {
@@ -478,7 +478,7 @@ internal static class ObjectImage
             throw Bad("some bytes are not covered");
         }
 
-        int[] boundaries = placed.Select(p => p.Entry.Offset).Append((int)size).Distinct().Order().ToArray();
+        int[] boundaries = [.. placed.Select(p => p.Entry.Offset).Append((int)size).Distinct().Order()];
         foreach ((TableEntry e, EncodedItem item) in placed)
         {
             if (item.Length == 0)

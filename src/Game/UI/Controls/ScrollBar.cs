@@ -174,6 +174,8 @@ public partial class ScrollBar : Control
                         RaiseChange(this);
 
                         break;
+                    default:
+                        break;
                 }
             }
         }

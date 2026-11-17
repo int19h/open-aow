@@ -408,47 +408,18 @@ public partial class Scanner : Control
     // Scanner.pas:226
     public int GetOverlay(int X, int Y)
     {
-        int result;
-        if (StrategicMap.Current.CombatMap != null)
-        {
-            switch (Level.GetField(X + 8, Y + 6).GetDecorationType())
+        int result = StrategicMap.Current.CombatMap != null
+            ? Level.GetField(X + 8, Y + 6).GetDecorationType() switch
             {
-                case 1:
-                case 2:
-                case 3:
-                case 9:
-                    result = 1;
-                    break;
-                case 4:
-                case 5:
-                    result = 9;
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case >= 14 and <= 18:
-                    result = 8;
-                    break;
-                case 10:
-                    result = 3;
-                    break;
-                case 11:
-                case 12:
-                    result = 6;
-                    break;
-                case 13:
-                    result = 2;
-                    break;
-                default:
-                    result = Level.GetField(X + 8, Y + 6).OverlayType;
-                    break;
+                1 or 2 or 3 or 9 => 1,
+                4 or 5 => 9,
+                6 or 7 or 8 or (>= 14 and <= 18) => 8,
+                10 => 3,
+                11 or 12 => 6,
+                13 => 2,
+                _ => Level.GetField(X + 8, Y + 6).OverlayType,
             }
-        }
-        else
-        {
-            result = Level.GetField(X + 6, Y + 6).OverlayType;
-        }
-
+            : Level.GetField(X + 6, Y + 6).OverlayType;
         return result;
     }
 

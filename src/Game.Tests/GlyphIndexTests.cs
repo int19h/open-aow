@@ -10,8 +10,7 @@ public sealed class GlyphIndexTests
     [InstalledFontsFact]
     public void EveryByteDrawsAndMeasuresItsOwnGlyphInEveryInstalledFont()
     {
-        string[] files = Directory.EnumerateFiles(InstalledFontsFactAttribute.Fonts, "*.ILB")
-            .Order(StringComparer.OrdinalIgnoreCase).ToArray();
+        string[] files = [.. Directory.EnumerateFiles(InstalledFontsFactAttribute.Fonts, "*.ILB").Order(StringComparer.OrdinalIgnoreCase)];
         Assert.Equal(13, files.Length);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         string previousBase = ImageLibraries.BaseImageLibraryPath;

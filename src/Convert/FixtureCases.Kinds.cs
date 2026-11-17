@@ -127,6 +127,8 @@ public static partial class Fixtures
                 }
 
                 break;
+            default:
+                break;
         }
         return null;
     }
@@ -158,6 +160,8 @@ public static partial class Fixtures
                         Walk(item);
                     }
 
+                    break;
+                default:
                     break;
             }
         }

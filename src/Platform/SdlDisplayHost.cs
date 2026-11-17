@@ -110,8 +110,8 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     private (int X, int Y, bool Inside) Map(float x, float y)
     {
-        (float X, float Y) point = ToOutput(x, y);
-        return Viewport.Map(point.X, point.Y);
+        (float outputX, float outputY) = ToOutput(x, y);
+        return Viewport.Map(outputX, outputY);
     }
 
     public (int Width, int Height) ClientSize
@@ -133,7 +133,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { (int Width, int Height) desktop = DesktopSize; return PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
+        get { (int width, int height) = DesktopSize; return PixelFormats.IntegerScaleSizes(width, height); }
     }
 
     public void ResizeImage(int newWidth, int newHeight)
@@ -251,7 +251,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             Fullscreen = false;
         }
 
-        nint[] labels = buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label)).ToArray();
+        nint[] labels = [.. buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label))];
         nint title = Marshal.StringToCoTaskMemUTF8(request.Caption.Length > 0 ? request.Caption : "Age of Wonders");
         nint text = Marshal.StringToCoTaskMemUTF8(request.Text);
         try
@@ -421,25 +421,25 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                             Check(SDL_SetWindowSize(_window, _width * scale, _height * scale));
                         }
                     }
-                    (int Width, int Height) size = ClientSize;
-                    sink.Resize(size.Width, size.Height);
+                    (int width, int height) = ClientSize;
+                    sink.Resize(width, height);
                     break;
                 case SDL_EVENT_MOUSE_MOTION:
                     _input.SetModifiers((int)SDL_GetModState());
-                    (float X, float Y) motion = ToOutput(ev.motion.x, ev.motion.y);
-                    _input.Motion(motion.X, motion.Y, (uint)ev.motion.state, Viewport, sink);
-                    ShowSystemCursor(!Viewport.Map(motion.X, motion.Y).Inside);
+                    (float x, float y) = ToOutput(ev.motion.x, ev.motion.y);
+                    _input.Motion(x, y, (uint)ev.motion.state, Viewport, sink);
+                    ShowSystemCursor(!Viewport.Map(x, y).Inside);
                     break;
                 case SDL_EVENT_MOUSE_BUTTON_DOWN:
                 case SDL_EVENT_MOUSE_BUTTON_UP:
                     _input.SetModifiers((int)SDL_GetModState());
-                    (float X, float Y) press = ToOutput(ev.button.x, ev.button.y);
-                    _input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, press.X, press.Y, Viewport, sink);
+                    (float pressX, float pressY) = ToOutput(ev.button.x, ev.button.y);
+                    _input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, pressX, pressY, Viewport, sink);
                     break;
                 case SDL_EVENT_MOUSE_WHEEL:
                     _input.SetModifiers((int)SDL_GetModState());
-                    (float X, float Y) rolled = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
-                    _input.Wheel(ev.wheel.y, (int)ev.wheel.direction, rolled.X, rolled.Y, Viewport, sink);
+                    (float wheelX, float wheelY) = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
+                    _input.Wheel(ev.wheel.y, (int)ev.wheel.direction, wheelX, wheelY, Viewport, sink);
                     break;
                 case SDL_EVENT_KEY_DOWN:
                 case SDL_EVENT_KEY_UP:
@@ -451,6 +451,228 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 case SDL_EVENT_RENDER_TARGETS_RESET:
                 case SDL_EVENT_RENDER_DEVICE_RESET:
                     CreateTexture();
+                    break;
+                case SDL_EVENT_FIRST:
+                    break;
+                case SDL_EVENT_QUIT:
+                    break;
+                case SDL_EVENT_TERMINATING:
+                    break;
+                case SDL_EVENT_LOW_MEMORY:
+                    break;
+                case SDL_EVENT_WILL_ENTER_BACKGROUND:
+                    break;
+                case SDL_EVENT_DID_ENTER_BACKGROUND:
+                    break;
+                case SDL_EVENT_WILL_ENTER_FOREGROUND:
+                    break;
+                case SDL_EVENT_DID_ENTER_FOREGROUND:
+                    break;
+                case SDL_EVENT_LOCALE_CHANGED:
+                    break;
+                case SDL_EVENT_SYSTEM_THEME_CHANGED:
+                    break;
+                case SDL_EVENT_DISPLAY_ORIENTATION:
+                    break;
+                case SDL_EVENT_DISPLAY_ADDED:
+                    break;
+                case SDL_EVENT_DISPLAY_REMOVED:
+                    break;
+                case SDL_EVENT_DISPLAY_MOVED:
+                    break;
+                case SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED:
+                    break;
+                case SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED:
+                    break;
+                case SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED:
+                    break;
+                case SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_SHOWN:
+                    break;
+                case SDL_EVENT_WINDOW_HIDDEN:
+                    break;
+                case SDL_EVENT_WINDOW_EXPOSED:
+                    break;
+                case SDL_EVENT_WINDOW_MOVED:
+                    break;
+                case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_METAL_VIEW_RESIZED:
+                    break;
+                case SDL_EVENT_WINDOW_MINIMIZED:
+                    break;
+                case SDL_EVENT_WINDOW_MAXIMIZED:
+                    break;
+                case SDL_EVENT_WINDOW_RESTORED:
+                    break;
+                case SDL_EVENT_WINDOW_MOUSE_ENTER:
+                    break;
+                case SDL_EVENT_WINDOW_HIT_TEST:
+                    break;
+                case SDL_EVENT_WINDOW_ICCPROF_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_SAFE_AREA_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_OCCLUDED:
+                    break;
+                case SDL_EVENT_WINDOW_ENTER_FULLSCREEN:
+                    break;
+                case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN:
+                    break;
+                case SDL_EVENT_WINDOW_DESTROYED:
+                    break;
+                case SDL_EVENT_WINDOW_HDR_STATE_CHANGED:
+                    break;
+                case SDL_EVENT_WINDOW_SETTINGS_CHANGED:
+                    break;
+                case SDL_EVENT_TEXT_EDITING:
+                    break;
+                case SDL_EVENT_KEYMAP_CHANGED:
+                    break;
+                case SDL_EVENT_KEYBOARD_ADDED:
+                    break;
+                case SDL_EVENT_KEYBOARD_REMOVED:
+                    break;
+                case SDL_EVENT_TEXT_EDITING_CANDIDATES:
+                    break;
+                case SDL_EVENT_SCREEN_KEYBOARD_SHOWN:
+                    break;
+                case SDL_EVENT_SCREEN_KEYBOARD_HIDDEN:
+                    break;
+                case SDL_EVENT_MOUSE_ADDED:
+                    break;
+                case SDL_EVENT_MOUSE_REMOVED:
+                    break;
+                case SDL_EVENT_JOYSTICK_AXIS_MOTION:
+                    break;
+                case SDL_EVENT_JOYSTICK_BALL_MOTION:
+                    break;
+                case SDL_EVENT_JOYSTICK_HAT_MOTION:
+                    break;
+                case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
+                    break;
+                case SDL_EVENT_JOYSTICK_BUTTON_UP:
+                    break;
+                case SDL_EVENT_JOYSTICK_ADDED:
+                    break;
+                case SDL_EVENT_JOYSTICK_REMOVED:
+                    break;
+                case SDL_EVENT_JOYSTICK_BATTERY_UPDATED:
+                    break;
+                case SDL_EVENT_JOYSTICK_UPDATE_COMPLETE:
+                    break;
+                case SDL_EVENT_GAMEPAD_AXIS_MOTION:
+                    break;
+                case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+                    break;
+                case SDL_EVENT_GAMEPAD_BUTTON_UP:
+                    break;
+                case SDL_EVENT_GAMEPAD_ADDED:
+                    break;
+                case SDL_EVENT_GAMEPAD_REMOVED:
+                    break;
+                case SDL_EVENT_GAMEPAD_REMAPPED:
+                    break;
+                case SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN:
+                    break;
+                case SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION:
+                    break;
+                case SDL_EVENT_GAMEPAD_TOUCHPAD_UP:
+                    break;
+                case SDL_EVENT_GAMEPAD_SENSOR_UPDATE:
+                    break;
+                case SDL_EVENT_GAMEPAD_UPDATE_COMPLETE:
+                    break;
+                case SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED:
+                    break;
+                case SDL_EVENT_GAMEPAD_CAPSENSE_TOUCH:
+                    break;
+                case SDL_EVENT_GAMEPAD_CAPSENSE_RELEASE:
+                    break;
+                case SDL_EVENT_FINGER_DOWN:
+                    break;
+                case SDL_EVENT_FINGER_UP:
+                    break;
+                case SDL_EVENT_FINGER_MOTION:
+                    break;
+                case SDL_EVENT_FINGER_CANCELED:
+                    break;
+                case SDL_EVENT_PINCH_BEGIN:
+                    break;
+                case SDL_EVENT_PINCH_UPDATE:
+                    break;
+                case SDL_EVENT_PINCH_END:
+                    break;
+                case SDL_EVENT_CLIPBOARD_UPDATE:
+                    break;
+                case SDL_EVENT_DROP_FILE:
+                    break;
+                case SDL_EVENT_DROP_TEXT:
+                    break;
+                case SDL_EVENT_DROP_BEGIN:
+                    break;
+                case SDL_EVENT_DROP_COMPLETE:
+                    break;
+                case SDL_EVENT_DROP_POSITION:
+                    break;
+                case SDL_EVENT_AUDIO_DEVICE_ADDED:
+                    break;
+                case SDL_EVENT_AUDIO_DEVICE_REMOVED:
+                    break;
+                case SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED:
+                    break;
+                case SDL_EVENT_SENSOR_UPDATE:
+                    break;
+                case SDL_EVENT_PEN_PROXIMITY_IN:
+                    break;
+                case SDL_EVENT_PEN_PROXIMITY_OUT:
+                    break;
+                case SDL_EVENT_PEN_DOWN:
+                    break;
+                case SDL_EVENT_PEN_UP:
+                    break;
+                case SDL_EVENT_PEN_BUTTON_DOWN:
+                    break;
+                case SDL_EVENT_PEN_BUTTON_UP:
+                    break;
+                case SDL_EVENT_PEN_MOTION:
+                    break;
+                case SDL_EVENT_PEN_AXIS:
+                    break;
+                case SDL_EVENT_CAMERA_DEVICE_ADDED:
+                    break;
+                case SDL_EVENT_CAMERA_DEVICE_REMOVED:
+                    break;
+                case SDL_EVENT_CAMERA_DEVICE_APPROVED:
+                    break;
+                case SDL_EVENT_CAMERA_DEVICE_DENIED:
+                    break;
+                case SDL_EVENT_NOTIFICATION_ACTION_INVOKED:
+                    break;
+                case SDL_EVENT_RENDER_DEVICE_LOST:
+                    break;
+                case SDL_EVENT_PRIVATE0:
+                    break;
+                case SDL_EVENT_PRIVATE1:
+                    break;
+                case SDL_EVENT_PRIVATE2:
+                    break;
+                case SDL_EVENT_PRIVATE3:
+                    break;
+                case SDL_EVENT_POLL_SENTINEL:
+                    break;
+                case SDL_EVENT_USER:
+                    break;
+                case SDL_EVENT_LAST:
+                    break;
+                case SDL_EVENT_ENUM_PADDING:
+                    break;
+                default:
                     break;
             }
         }

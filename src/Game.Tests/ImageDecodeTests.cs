@@ -23,9 +23,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     public void EveryInstalledImageDecodesAndDrawsAsRecorded()
     {
         string root = InstalledFontsFactAttribute.Root;
-        string[] files = InstalledLibrariesFactAttribute.Folders
+        string[] files = [.. InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
-            .Order(StringComparer.OrdinalIgnoreCase).ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
         List<Entry> entries = [];
         SortedDictionary<string, int> classes = [with(StringComparer.Ordinal)];
         WithImageClasses(() =>
@@ -92,9 +92,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     public void GrabbedImagesDecodeAndDrawAsRecorded()
     {
         string root = InstalledFontsFactAttribute.Root;
-        string[] files = InstalledLibrariesFactAttribute.Folders
+        string[] files = [.. InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
-            .Order(StringComparer.OrdinalIgnoreCase).ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
         List<Entry> entries = [];
         WithImageClasses(() =>
         {

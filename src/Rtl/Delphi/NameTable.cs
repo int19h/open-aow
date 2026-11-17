@@ -12,7 +12,7 @@ namespace Aow.Rtl;
 // A type with no row stores that declaring-type chain and reports its simple name as the Delphi name.
 public static class NameTable
 {
-    private static readonly object s_gate = new();
+    private static readonly Lock s_gate = new();
     private static Table? s_product;
     private static Table? s_active;
     private static List<Type>? s_scanned;
@@ -274,7 +274,7 @@ public static class NameTable
                 }
                 catch (ReflectionTypeLoadException error)
                 {
-                    types = error.Types.Where(type => type is not null).Cast<Type>().ToArray();
+                    types = [.. error.Types.Where(type => type is not null).Cast<Type>()];
                 }
                 foreach (Type? type in types)
                 {
@@ -445,7 +445,7 @@ public static class NameTable
 
                     fields.Add(field.ToString());
                     _ = field.Clear();
-                    records.Add(fields.ToArray());
+                    records.Add([.. fields]);
                     fields.Clear();
                     begin = true;
                     continue;
@@ -461,7 +461,7 @@ public static class NameTable
             if (field.Length > 0 || fields.Count > 0)
             {
                 fields.Add(field.ToString());
-                records.Add(fields.ToArray());
+                records.Add([.. fields]);
             }
             return records;
         }
@@ -529,7 +529,7 @@ public static class NameTable
             }
             return new Table
             {
-                Rows = rows.ToArray(),
+                Rows = [.. rows],
                 TypeByCurrent = typeByCurrent,
                 StoredByCurrent = storedByCurrent,
                 TypeByStored = typeByStored,

@@ -105,6 +105,7 @@ public partial class AIPlayerControl
                 }
                 return Actions.Count != 0 && !Player.GetBusy() &&
                     StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
+            case AIPlayerProcessPhase.None:
             default: return false;
         }
     }

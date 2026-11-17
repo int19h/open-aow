@@ -71,7 +71,7 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
 /// </summary>
 public static class RecordCatalog
 {
-    private static readonly object s_gate = new();
+    private static readonly Lock s_gate = new();
     private static readonly List<IRecordCatalog> s_catalogs = [];
     private static readonly HashSet<Assembly> s_assemblies = [];
 
@@ -152,7 +152,7 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
         }
         catch (ReflectionTypeLoadException error)
         {
-            found = error.Types.Where(type => type is not null).Cast<Type>().ToArray();
+            found = [.. error.Types.Where(type => type is not null).Cast<Type>()];
         }
         foreach (Type? type in found)
         {
@@ -213,10 +213,9 @@ internal sealed partial class RecordTypeInfo
         }
 
         int size = layout.Size;
-        List<(FieldInfo Field, FieldOffsetAttribute? Offset)> raw = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+        List<(FieldInfo Field, FieldOffsetAttribute? Offset)> raw = [.. type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Select(field => (Field: field, Offset: field.GetCustomAttribute<FieldOffsetAttribute>()))
-            .Where(field => field.Offset is not null)
-            .ToList();
+            .Where(field => field.Offset is not null)];
         HashSet<FieldInfo> consumed = [];
         List<RecordFieldInfo> named = [];
         List<(int Offset, int Length)> residue = [];

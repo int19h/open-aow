@@ -139,6 +139,8 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                                 WorldPanel.ImageLibraryIndexTexture = 11;
                                 _starImageValue = 15;
                                 break;
+                            default:
+                                break;
                         }
 
                         WorldMapCampaign campaign11 = GetCampaign();
@@ -437,6 +439,8 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                     break;
                 case 10:
                     ShowIntroPages(GetCampaign().CurrentScenarioId);
+                    break;
+                default:
                     break;
             }
         }
@@ -1066,6 +1070,8 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                 break;
             case 2:
                 BookAction = 4;
+                break;
+            default:
                 break;
         }
 

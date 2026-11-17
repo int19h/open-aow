@@ -64,7 +64,7 @@ public sealed class SchemaTests : FormatsTest
     {
         foreach (SchemaClass classValue in Schema.Classes)
         {
-            List<string> names = classValue.Properties.Select(p => p.Name).ToList();
+            List<string> names = [.. classValue.Properties.Select(p => p.Name)];
             Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
             foreach (SchemaProperty p in classValue.Properties)
             {

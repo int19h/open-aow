@@ -52,21 +52,12 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
+            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
-                case 3:
-                    terrainOffset = 1;
-                    break;
-                case 5:
-                case 7:
-                case 12:
-                    terrainOffset = 2;
-                    break;
-                default:
-                    terrainOffset = 0;
-                    break;
-            }
-
+                3 => 1,
+                5 or 7 or 12 => 2,
+                _ => 0,
+            };
             if (sequence != null)
             {
                 do
@@ -86,21 +77,12 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
         {
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
+            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
-                case 3:
-                    terrainOffset = 20;
-                    break;
-                case 5:
-                case 7:
-                case 12:
-                    terrainOffset = 40;
-                    break;
-                default:
-                    terrainOffset = 0;
-                    break;
-            }
-
+                3 => 20,
+                5 or 7 or 12 => 40,
+                _ => 0,
+            };
             sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(terrainOffset + _race);
             if (sequence != null)
             {

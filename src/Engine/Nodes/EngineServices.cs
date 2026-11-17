@@ -1,6 +1,7 @@
 #nullable disable
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -9,8 +10,10 @@ namespace Aow.Engine.Nodes;
 
 public static class EngineServices
 {
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi clipboard stub keeps stream and format in its signature.")]
     internal static int CopyStreamToClipboard(Stream stream, string format) => 0;
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi clipboard stub keeps stream and format in its signature.")]
     internal static int PasteStreamFromClipboard(Stream stream, string format) => 0;
 
     internal const int MaxListSize = 134217727;
@@ -57,7 +60,7 @@ public static class EngineServices
         int length;
         length = S.Length;
         stream.Write(Bytes.Of(ref length, 4));
-        stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, length));
+        stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }
 
     internal static void ExchangeLinkedStrings(DelphiList<StringCollection> lists, int I, int J)

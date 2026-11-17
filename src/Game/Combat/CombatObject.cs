@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -41,16 +42,20 @@ public partial class CombatObject : EngineObject
     public QuadItemList<CombatObject> TargetedBy { get; }
     public int CombatValue { get; private set; }
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _wallCombatValue;
 
     public int IncomingCombatValue { get; private set; }
     public int IncomingWallCombatValue { get; private set; }
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _targetCount;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _wallTargetCount;
 
     public int AttackerCount { get; private set; }
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _wallAttackerCount;
 
     public int TargetPriority { get; protected set; }

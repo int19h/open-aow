@@ -54,8 +54,7 @@ internal sealed class FrameDiagnostics : IDisposable
             return;
         }
 
-        MethodBase?[] stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
-            .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game").ToArray();
+        MethodBase?[] stack = [.. new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod()).Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) }))
         {
             return;

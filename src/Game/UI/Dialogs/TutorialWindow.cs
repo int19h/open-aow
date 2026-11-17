@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWTutorialWin.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -46,6 +47,7 @@ public partial class TutorialWindow(UIContext ui) : UIModule(ui)
         }
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unused on purpose.")]
     internal static void ShowTutorialEvent(TutorialWindow dialog, TutorialMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
         dialog.AbilityScrollBar.Position = 0;
@@ -75,6 +77,7 @@ public partial class TutorialWindow(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unused on purpose.")]
     internal static void ShowFlagMessage(TutorialWindow dialog, FlagMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
         dialog.AbilityScrollBar.Position = 0;

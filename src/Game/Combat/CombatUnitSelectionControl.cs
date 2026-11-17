@@ -844,6 +844,8 @@ public partial class CombatUnitSelectionControl : MoveSelector
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 sbyte xhx = GetTacticalBattleUnitHexSprite().GetHexX();
@@ -1224,6 +1226,54 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                         }
 
                                         break;
+                                    case BattleEffectType.Arrow:
+                                    case BattleEffectType.Rock:
+                                    case BattleEffectType.Comet:
+                                    case BattleEffectType.Breath:
+                                    case BattleEffectType.CometBall:
+                                    case BattleEffectType.Effect:
+                                    case BattleEffectType.FBExplosion:
+                                    case BattleEffectType.ScreenNESW:
+                                    case BattleEffectType.ScreenNS:
+                                    case BattleEffectType.Ray:
+                                    case BattleEffectType.Chain:
+                                    case BattleEffectType.Swarm:
+                                    case BattleEffectType.ScreenSwarm:
+                                    case BattleEffectType.SFOverlay:
+                                    case BattleEffectType.DamLightning:
+                                    case BattleEffectType.DamFire:
+                                    case BattleEffectType.DamPoison:
+                                    case BattleEffectType.DamMagic:
+                                    case BattleEffectType.DamHoly:
+                                    case BattleEffectType.DamDeath:
+                                    case BattleEffectType.DamCold:
+                                    case BattleEffectType.SacredWrath:
+                                    case BattleEffectType.SWComet:
+                                    case BattleEffectType.Dispel:
+                                    case BattleEffectType.WallSmoke:
+                                    case BattleEffectType.Blood:
+                                    case BattleEffectType.AltArrow:
+                                    case BattleEffectType.Tremors:
+                                    case BattleEffectType.Geyser:
+                                    case BattleEffectType.GeyserWater:
+                                    case BattleEffectType.HailImpact:
+                                    case BattleEffectType.Cloud:
+                                    case BattleEffectType.CloudPuff:
+                                    case BattleEffectType.HitGround:
+                                    case BattleEffectType.HitWater:
+                                    case BattleEffectType.HighPrayer:
+                                    case BattleEffectType.PrayerGlow:
+                                    case BattleEffectType.Resurrect:
+                                    case BattleEffectType.FrostBeam:
+                                    case BattleEffectType.Frost:
+                                    case BattleEffectType.MindDecay:
+                                    case BattleEffectType.DecayLeg:
+                                    case BattleEffectType.ShockWave:
+                                    case BattleEffectType.DecayComet:
+                                    case BattleEffectType.SacFlame:
+                                    case BattleEffectType.Winds:
+                                    case BattleEffectType.SacFire:
+                                    case BattleEffectType.BreathDam:
                                     default:
                                         {
                                             int hexY = CombatMap.Current.Mouse.HexY;

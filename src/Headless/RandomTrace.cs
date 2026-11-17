@@ -77,9 +77,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Record(RandomTraceEvent entry)
     {
-        StackFrame[] stack = new StackTrace(1, true).GetFrames()
-            .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
-            .ToArray();
+        StackFrame[] stack = [.. new StackTrace(1, true).GetFrames().Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
         bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) };
         StackFrame? caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         _writer.WriteLine(JsonSerializer.Serialize(new

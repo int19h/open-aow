@@ -419,7 +419,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     {
         return AudioHost.SoundSystem != null
             ? AudioHost.SoundSystem.Status
-            : Set<SoundSystemStatusElement>.Of(Array.Empty<SoundSystemStatusElement>());
+            : Set<SoundSystemStatusElement>.Of([]);
     }
 
     private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetMusicEnabled(value);

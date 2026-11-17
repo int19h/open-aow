@@ -204,6 +204,8 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                         _effect.Path.Add(point);
                                         Step = TokenStep.ExecuteStrike;
                                         break;
+                                    default:
+                                        break;
                                 }
                             }
                         }
@@ -273,6 +275,8 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                             }
                                         }
 
+                                        break;
+                                    default:
                                         break;
                                 }
                             }
@@ -363,12 +367,14 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                                     PathStep path = Path[1];
                                                     HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
-                                                    EffectPaths.CreateFire(false, 50, x, y, engine: GetEngine());
+                                                    EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                 }
 
                                                 Unit.DeathMethod = TacticalBattleUnitDeathMethod.Explode;
                                             }
 
+                                            break;
+                                        default:
                                             break;
                                     }
                                 }
@@ -446,6 +452,10 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                         result = MoveStatus.Done;
                     }
 
+                    break;
+                case TokenStep.FirstStrike:
+                case TokenStep.DelayStrike:
+                default:
                     break;
             }
 

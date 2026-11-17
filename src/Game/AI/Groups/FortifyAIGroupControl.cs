@@ -48,6 +48,14 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case AITargetMode.Attack:
                 base.TargetFoundEvent(sender, target, ref searchDone);
                 break;
+            case AITargetMode.Raid:
+            case AITargetMode.Recruit:
+            case AITargetMode.Produce:
+            case AITargetMode.Hunt:
+            case AITargetMode.Defend:
+            case AITargetMode.GuardArea:
+            default:
+                break;
         }
     }
 
@@ -474,12 +482,18 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     case AIGroupTargetStatus.Idle:
                         MakeUselessUnitsPassive();
                         break;
+                    case AIGroupTargetStatus.Setup:
+                    case AIGroupTargetStatus.Execute:
+                    default:
+                        break;
                 }
 
                 State += 1;
                 break;
             case 25:
                 Done();
+                break;
+            default:
                 break;
         }
     }

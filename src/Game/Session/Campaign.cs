@@ -206,6 +206,12 @@ public partial class Campaign : EngineObject
                         case PlayerType.Cpu5:
                             StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
+                        case PlayerType.Human:
+                        case PlayerType.Cpu1:
+                        case PlayerType.Independent:
+                        case PlayerType.Free:
+                        default:
+                            break;
                     }
                 }
 
@@ -224,6 +230,12 @@ public partial class Campaign : EngineObject
                             break;
                         case PlayerType.Cpu4:
                             StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
+                            break;
+                        case PlayerType.Human:
+                        case PlayerType.Independent:
+                        case PlayerType.Free:
+                        case PlayerType.Cpu5:
+                        default:
                             break;
                     }
                 }
@@ -256,6 +268,8 @@ public partial class Campaign : EngineObject
                                     break;
                                 case 3:
                                     relation = 4;
+                                    break;
+                                default:
                                     break;
                             }
 

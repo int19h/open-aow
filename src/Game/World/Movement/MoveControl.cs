@@ -412,6 +412,10 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 }
 
                 break;
+            case MoveControlSettingsStatus.Processed:
+            case MoveControlSettingsStatus.Failed:
+            default:
+                break;
         }
 
         return Settings.Status is not MoveControlSettingsStatus.Processed and not MoveControlSettingsStatus.Failed;

@@ -112,7 +112,7 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
                     HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {
-                        EffectPaths.CreateFire(true, 50, hexX, hexY, engine: GetEngine());
+                        EffectPaths.CreateFire(50, hexX, hexY, engine: GetEngine());
                     }
                 }
 

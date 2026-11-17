@@ -835,6 +835,10 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                 dialog.UI.ScannerWindow.MainWindow.Priority = 10;
                 dialog.UI.General.Manager.OverlayPriority = 0;
                 break;
+            case TargetSelectionChange.None:
+            case TargetSelectionChange.Selected:
+            default:
+                break;
         }
     }
 

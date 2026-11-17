@@ -455,6 +455,8 @@ public partial class CombatUnit : CombatObject
                 UnitGraphicsResource unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
                 _ = unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
+            default:
+                break;
         }
     }
 

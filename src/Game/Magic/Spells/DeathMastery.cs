@@ -65,26 +65,18 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1593
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int count;
         int x;
         int y;
         int speed;
         int d;
         int image;
         RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-        switch (GetEngine().AnimationDetail)
+        int count = GetEngine().AnimationDetail switch
         {
-            case 0:
-                count = 5;
-                break;
-            case 2:
-                count = 20;
-                break;
-            default:
-                count = 10;
-                break;
-        }
-
+            0 => 5,
+            2 => 20,
+            _ => 10,
+        };
         for (int i = 0; i <= count - 1; i++)
         {
             x = Random(animation.Tag & 65535);

@@ -81,6 +81,9 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             case GameOverStatus.Won:
                 StrategicMap.Current.TutorialControl.ShowMessage(67, true, true);
                 break;
+            case GameOverStatus.None:
+            default:
+                break;
         }
 
         UI.Graphics.PyreFrames.LoadDiscardableImageData();
@@ -166,6 +169,9 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;
+            case GameOverStatus.None:
+            default:
+                break;
         }
     }
 
@@ -177,6 +183,8 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             case 13:
             case 27:
                 FinishScreen();
+                break;
+            default:
                 break;
         }
     }

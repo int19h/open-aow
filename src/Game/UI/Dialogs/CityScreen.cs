@@ -281,6 +281,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 MigrationTurnsList.Selected = -1;
                 MigrationRelationList.Selected = -1;
                 break;
+            default:
+                break;
         }
     }
 
@@ -307,45 +309,26 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             case 5:
                 StringSorting.SortStringsDescending(MigrationRelationList.Items, [MigrationTurnsList.Items, MigrationRaceList.Items]);
                 break;
+            default:
+                break;
         }
     }
 
     // AoWCityScreen.pas:904
     public int ActivityImage(CityAction action)
     {
-        int result;
-        switch (action)
+        int result = action switch
         {
-            case CityAction.Trade:
-                result = 40;
-                break;
-            case CityAction.Upgrade:
-                result = 43;
-                break;
-            case CityAction.Fortify:
-                result = _city.WallType == 0 ? 41 : 42;
-
-                break;
-            case CityAction.Migrate:
-                result = 44;
-                break;
-            case CityAction.Loot:
-                result = 45;
-                break;
-            case CityAction.Raze:
-                result = 46;
-                break;
-            case CityAction.Produce:
-                result = 4;
-                break;
-            case CityAction.Research:
-                result = 5;
-                break;
-            default:
-                result = 40;
-                break;
-        }
-
+            CityAction.Trade => 40,
+            CityAction.Upgrade => 43,
+            CityAction.Fortify => _city.WallType == 0 ? 41 : 42,
+            CityAction.Migrate => 44,
+            CityAction.Loot => 45,
+            CityAction.Raze => 46,
+            CityAction.Produce => 4,
+            CityAction.Research => 5,
+            CityAction.None or _ => 40,
+        };
         return result;
     }
 
@@ -605,6 +588,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 }
 
                 _ = u.Release();
+                break;
+            case CityAction.None:
+            default:
                 break;
         }
 
@@ -1016,6 +1002,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                         }
 
                         break;
+                    case CityAction.None:
+                    default:
+                        break;
                 }
 
                 break;
@@ -1025,6 +1014,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                     _ = _city.Production.DeleteProduction(_queueIndex);
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -1093,6 +1084,12 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                         }
 
                         break;
+                    case CityAction.None:
+                    case CityAction.Migrate:
+                    case CityAction.Loot:
+                    case CityAction.Raze:
+                    default:
+                        break;
                 }
 
                 break;
@@ -1109,6 +1106,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                     }
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -1396,6 +1395,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 break;
             case 27:
                 Window.Visible = false;
+                break;
+            default:
                 break;
         }
     }

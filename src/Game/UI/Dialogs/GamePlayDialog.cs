@@ -71,7 +71,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     {
         if (log.Password == _newPassword)
         {
-            string encode = AbilityRules.Encode(_newPassword, 0);
+            string encode = AbilityRules.Encode(_newPassword);
             PasswordEdit.Text = encode;
         }
         else
@@ -92,6 +92,8 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         {
             case 27:
                 CancelClick();
+                break;
+            default:
                 break;
         }
     }

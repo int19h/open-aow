@@ -48,6 +48,8 @@ public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(
             case ChangePlayerMagicTokenEventMode.ResearchSpell:
                 success = magic.ExecuteResearchSpell(Value);
                 break;
+            default:
+                break;
         }
 
         result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;

@@ -29,25 +29,15 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        ImageSequence sequence;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 16;
         pixelYSurface = y - 48 - pixelYSurface;
-        switch (Owner.TerrainType)
+        ImageSequence sequence = Owner.TerrainType switch
         {
-            case 3:
-            case 6:
-            case 13:
-                sequence = GamePack.Current.ImageSequences.ImageSequences[26];
-                break;
-            case 12:
-                sequence = GamePack.Current.ImageSequences.ImageSequences[27];
-                break;
-            default:
-                sequence = GamePack.Current.ImageSequences.ImageSequences[25];
-                break;
-        }
-
+            3 or 6 or 13 => GamePack.Current.ImageSequences.ImageSequences[26],
+            12 => GamePack.Current.ImageSequences.ImageSequences[27],
+            _ => GamePack.Current.ImageSequences.ImageSequences[25],
+        };
         while (sequence != null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));

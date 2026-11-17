@@ -41,10 +41,14 @@ public sealed class SysUtilsTests
     public void CaseTablesCoverEveryByteAndComparisonsKeepByteDifferences()
     {
         // SYSUTILS.PAS:2171 and :2180 use CP1252 CharUpperBuff and CharLowerBuff.
-        (int Upper, int Lower)[] pairs = Enumerable.Range(65, 26).Select(c => (Upper: c, Lower: c + 32))
-            .Concat(Enumerable.Range(192, 23).Select(c => (Upper: c, Lower: c + 32)))
-            .Concat(Enumerable.Range(216, 7).Select(c => (Upper: c, Lower: c + 32)))
-            .Concat(new[] { (Upper: 138, Lower: 154), (Upper: 140, Lower: 156), (Upper: 142, Lower: 158), (Upper: 159, Lower: 255) }).ToArray();
+        (int Upper, int Lower)[] pairs =
+        [
+            .. Enumerable.Range(65, 26).Select(c => (Upper: c, Lower: c + 32))
+,
+            .. Enumerable.Range(192, 23).Select(c => (Upper: c, Lower: c + 32)),
+            .. Enumerable.Range(216, 7).Select(c => (Upper: c, Lower: c + 32)),
+            .. new[] { (Upper: 138, Lower: 154), (Upper: 140, Lower: 156), (Upper: 142, Lower: 158), (Upper: 159, Lower: 255) },
+        ];
         for (int c = 0; c < 256; c++)
         {
             int lower = pairs.Where(p => p.Upper == c).Select(p => p.Lower).DefaultIfEmpty(c).Single();

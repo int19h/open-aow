@@ -147,7 +147,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             DocumentNodePath part = site.Path.Member(name);
             if (member.Value is JsonInteger number)
             {
-                CheckRange(number.Value, name, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, part, Text(number.Value), "-128 to 127"));
+                CheckRange(number.Value, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, part, Text(number.Value), "-128 to 127"));
             }
 
             ValueSite partSite = new() { Property = site.Property, Id = id, Path = part, Owner = site.Owner, Reader = site.Reader };
@@ -207,7 +207,7 @@ internal sealed class CoordinateCodec : PropertyCodec
 
             DocumentSite part = site.At(site.Path.Member(name), element: false);
             long number = Require(found, name, message => part.Mismatch(message));
-            CheckRange(number, name, stored => part.Fail(Codes.Range, name + " is outside -128 to 127.", null, Text(stored), "-128 to 127"));
+            CheckRange(number, stored => part.Fail(Codes.Range, name + " is outside -128 to 127.", null, Text(stored), "-128 to 127"));
             _ = json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, number), part)!);
         }
         foreach ((string? name, _) in node.Members)
@@ -244,7 +244,7 @@ internal sealed class CoordinateCodec : PropertyCodec
                 throw part.Mismatch(name + " is an integer.", member.Value);
             }
 
-            CheckRange(integer.Value, name, number => part.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, Text(number), "-128 to 127"));
+            CheckRange(integer.Value, number => part.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, Text(number), "-128 to 127"));
             node.Add(name, integer);
         }
         return node;
@@ -283,7 +283,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             throw context.Fail(Codes.Type, name + " is an integer.", start, site.Path);
         }
 
-        CheckRange(number.Value, name, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", start, site.Path, Text(value), "-128 to 127"));
+        CheckRange(number.Value, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", start, site.Path, Text(value), "-128 to 127"));
         return number.Value;
     }
 
@@ -294,7 +294,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             throw context.Fail(Codes.Type, name + " is an integer.", null, path);
         }
 
-        CheckRange(integer.Value, name, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", null, path, Text(value), "-128 to 127"));
+        CheckRange(integer.Value, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", null, path, Text(value), "-128 to 127"));
         return integer.Value;
     }
 
@@ -305,7 +305,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             : integer.Value;
     }
 
-    private void CheckRange(long number, string name, Func<long, ConversionException> fail)
+    private void CheckRange(long number, Func<long, ConversionException> fail)
     {
         if (_width == 1 || number is >= -128 and <= 127)
         {

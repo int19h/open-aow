@@ -163,19 +163,12 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            switch (GetEngine().Registry.GetDetailLevel())
+            count = GetEngine().Registry.GetDetailLevel() switch
             {
-                case DetailLevel.Low:
-                    count = 50;
-                    break;
-                case DetailLevel.High:
-                    count = 160;
-                    break;
-                default:
-                    count = 100;
-                    break;
-            }
-
+                DetailLevel.Low => 50,
+                DetailLevel.High => 160,
+                DetailLevel.Normal or _ => 100,
+            };
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= count; i++)
             {
@@ -216,6 +209,8 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                 break;
             case 4:
                 terrainType = 1;
+                break;
+            default:
                 break;
         }
     }

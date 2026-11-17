@@ -165,6 +165,9 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                                     case BloodType.None:
                                         corpse.SequenceIndex = -1;
                                         break;
+                                    case BloodType.Red:
+                                    case BloodType.Blue:
+                                    case BloodType.Green:
                                     default:
                                         {
                                             corpse.SequenceIndex = ((int)Troop.GetUnitSize() & 127) + 30;
@@ -180,6 +183,8 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                                 break;
                             case TacticalBattleUnitDeathMethod.Explode:
                                 corpse.SequenceIndex = -1;
+                                break;
+                            default:
                                 break;
                         }
 
@@ -244,7 +249,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         if (GetAbilityEnabled(43))
         {
             sbyte hexY = UnitHexSprite.GetHexY();
-            EffectPaths.CreateFire(false, 50, UnitHexSprite.GetHexX(), hexY, engine: GetEngine());
+            EffectPaths.CreateFire(50, UnitHexSprite.GetHexX(), hexY, engine: GetEngine());
         }
 
         CombatMap.Current.UnitChangedEventsStore.Raise(UnitHexSprite);
@@ -268,12 +273,19 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
             case >= 8 and <= 100:
                 point.Z = 3;
                 break;
+            default:
+                break;
         }
 
         switch (unitObject.Troop.GetBloodType())
         {
             case BloodType.None:
                 point.Z += 5;
+                break;
+            case BloodType.Red:
+            case BloodType.Blue:
+            case BloodType.Green:
+            default:
                 break;
         }
 

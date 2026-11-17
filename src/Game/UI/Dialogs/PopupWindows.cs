@@ -41,6 +41,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             case 5:
                 UI.DebugWindow.Show();
                 break;
+            default:
+                break;
         }
     }
 
@@ -56,6 +58,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             case 1:
                 UI.FileDialogWindow.Mode = 1;
                 UI.FileDialogWindow.Window.Visible = true;
+                break;
+            default:
                 break;
         }
     }
@@ -76,6 +80,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -88,6 +94,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                 string quitCombat = UI.Engine.TranslateResourceString(QuitCombatText);
                 string confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
                 UI.ConfirmationDialog.Confirm(confirm, text: quitCombat, onConfirmed: SurrenderCombat);
+                break;
+            default:
                 break;
         }
     }
@@ -117,6 +125,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                 // fullscreen, and the browser opens over it.
                 RtlUnit.OpenUrl(AgeOfWondersUrl);
                 break;
+            default:
+                break;
         }
     }
 
@@ -144,6 +154,8 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                     _ = GameHost.MainForm.CloseRequested();
                 }
 
+                break;
+            default:
                 break;
         }
     }

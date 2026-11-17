@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -46,6 +47,7 @@ public partial class AIGroupControl : EngineObject
     // GroupControlClass constructs a control matching its AIGroup subclass.
     protected T GetGroup<T>() where T : AIGroup => (T)Group;
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private Set<StatusElement> _status;
 
     public MapCoordinate Location { get; private set; }
@@ -408,6 +410,11 @@ public partial class AIGroupControl : EngineObject
                             _ = Group.AddUnits(group.Units);
                         }
 
+                        break;
+                    case AIGroupTargetStatus.None:
+                    case AIGroupTargetStatus.Setup:
+                    case AIGroupTargetStatus.Execute:
+                    default:
                         break;
                 }
             }

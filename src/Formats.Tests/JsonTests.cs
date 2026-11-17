@@ -23,7 +23,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void AcceptsOneLeadingByteOrderMark()
     {
-        byte[] bytes = Encoding.UTF8.GetPreamble().Concat("{}"u8.ToArray()).ToArray();
+        byte[] bytes = [.. Encoding.UTF8.GetPreamble(), .. "{}"u8.ToArray()];
         _ = Assert.IsType<JsonObject>(JsonReader.Parse(bytes));
     }
 

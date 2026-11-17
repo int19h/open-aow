@@ -52,7 +52,7 @@ public sealed class CatalogTests
     public async Task ConcurrentAddsPublishEveryEntryAndRejectTheDuplicate()
     {
         Catalog<int, object> catalog = new("kind");
-        object[] values = Enumerable.Range(0, 32).Select(_ => new object()).ToArray();
+        object[] values = [.. Enumerable.Range(0, 32).Select(_ => new object())];
         await Task.WhenAll(values.Select((value, key) => Task.Run(() =>
         {
             _ = catalog.Add(key, value);

@@ -1,5 +1,6 @@
 #nullable disable
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
@@ -155,6 +156,7 @@ public static class AbilityRules
         return result;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
     internal static int StatisticsToLimitedDamageValue(int attack, int damage, Set<DamageType> damageTypes, int maximum, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
         int result;
@@ -313,6 +315,7 @@ public static class AbilityRules
         return result;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi AlignmentsToInt32 signature keeps alignments.")]
     internal static int AlignmentsToInt32(Set<Alignment> alignments)
     {
         int result;
@@ -321,6 +324,7 @@ public static class AbilityRules
         return result;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi ToAlignments signature keeps value.")]
     internal static Set<Alignment> ToAlignments(int value)
     {
         Set<Alignment> result;
@@ -390,30 +394,15 @@ public static class AbilityRules
 
     internal static Alignment IndependentRelationToAlignment(sbyte relation)
     {
-        Alignment result;
-        if (relation < 0)
-        {
-            switch (relation)
+        Alignment result = relation < 0
+            ? relation switch
             {
-                case -2:
-                    result = Alignment.Good;
-                    break;
-                case -4:
-                    result = Alignment.Evil;
-                    break;
-                case -3:
-                    result = Alignment.Neutral;
-                    break;
-                default:
-                    result = Alignment.Neutral;
-                    break;
+                -2 => Alignment.Good,
+                -4 => Alignment.Evil,
+                -3 => Alignment.Neutral,
+                _ => Alignment.Neutral,
             }
-        }
-        else
-        {
-            result = GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
-        }
-
+            : GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
         return result;
     }
 
@@ -493,7 +482,7 @@ public static class AbilityRules
         Y = Round((double)Math.Sin(radians) * radius);
     }
 
-    internal static string Encode(string text, int mode)
+    internal static string Encode(string text)
     {
         string result = "";
         for (int i = 1; i <= text.Length; i++)

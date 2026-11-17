@@ -359,6 +359,8 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                 Done();
                 break;
+            default:
+                break;
         }
     }
 

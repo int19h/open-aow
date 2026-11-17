@@ -119,6 +119,8 @@ public partial class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner
                 }
 
                 break;
+            default:
+                break;
         }
     }
 }

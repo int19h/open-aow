@@ -1527,6 +1527,8 @@ public partial class Hero : Troop
                         }
 
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -1988,13 +1990,28 @@ public partial class Hero : Troop
 
                     Changed();
                     break;
-                case >= HeroItemPosition.AttackSlot and <= HeroItemPosition.RightRingSlot:
+                case HeroItemPosition.AttackSlot:
+                case HeroItemPosition.HeadSlot:
+                case HeroItemPosition.DefenseSlot:
+                case HeroItemPosition.LeftRingSlot:
+                case HeroItemPosition.TorsoSlot:
+                case HeroItemPosition.RightRingSlot:
                     _ = HeroItems.PlaceItem(item, position);
                     Changed();
                     break;
-                case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
+                case HeroItemPosition.InventorySlot1:
+                case HeroItemPosition.InventorySlot2:
+                case HeroItemPosition.InventorySlot3:
+                case HeroItemPosition.InventorySlot4:
+                case HeroItemPosition.InventorySlot5:
+                case HeroItemPosition.InventorySlot6:
+                case HeroItemPosition.InventorySlot7:
+                case HeroItemPosition.InventorySlot8:
                     item.SetArrayOwner(Inventory, (int)position - 6);
                     Changed();
+                    break;
+                case HeroItemPosition.None:
+                default:
                     break;
             }
 

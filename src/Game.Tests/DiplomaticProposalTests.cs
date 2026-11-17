@@ -478,6 +478,8 @@ public sealed class DiplomaticProposalTests
                 }
 
                 break;
+            default:
+                break;
         }
     }
 

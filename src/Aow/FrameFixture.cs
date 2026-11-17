@@ -72,12 +72,12 @@ internal sealed class FrameFixture
 
         HashSet<string> capturedSnapshots = [];
         Snapshot? pendingSnapshot = null;
-        (int X, int Y) size = fixture.Pair("size");
+        (int width, int height) = fixture.Pair("size");
         (int X, int Y) mouse = fixture.Pair("mouse");
         DateTime now = DateTime.Parse(fixture.Get("local_time"), CultureInfo.InvariantCulture);
         DateTime? fileStampUtc = fixture._fileLocalTime is null ? null :
             FileStampUtc(DateTime.Parse(fixture._fileLocalTime, CultureInfo.InvariantCulture), DateTimeOffset.Now.Offset);
-        HeadlessDisplayHost display = new(output, size.X, size.Y, frame) { Mouse = mouse, FixtureFrame = frame };
+        HeadlessDisplayHost display = new(output, width, height, frame) { Mouse = mouse, FixtureFrame = frame };
         _ = Directory.CreateDirectory(output);
         using FrameDiagnostics? diagnostics = FrameDiagnostics.Start(output);
         using StreamWriter trace = new(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
@@ -373,10 +373,10 @@ internal sealed class FrameFixture
                     x = coordinate1.X;
                     y = coordinate1.Y;
                     level = coordinate1.MapLevel;
-                    object[] Items(ItemCollection list) => Enumerable.Range(0, list.Count)
+                    object[] Items(ItemCollection list) => [.. Enumerable.Range(0, list.Count)
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()
-                        .Select(item => (object)new { FItemID = item.ItemId, name = item.Name, type = item.ItemType.ToString() }).ToArray();
+                        .Select(item => (object)new { FItemID = item.ItemId, name = item.Name, type = item.ItemType.ToString() })];
                     heroes.Add(new
                     {
                         name = hero.HeroName,
@@ -522,7 +522,7 @@ internal sealed class FrameFixture
                 checkpoint_frames = checkpoints,
                 snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
-            Console.WriteLine($"fixture {name}: map frame {StrategicMap.Current?.Frame}, combat frame {StrategicMap.Current?.CombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
+            Console.WriteLine($"fixture {name}: map frame {StrategicMap.Current?.Frame}, combat frame {StrategicMap.Current?.CombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {width}x{height} RGB555LE, no window, silent");
         }
         finally
         {
@@ -618,7 +618,7 @@ internal sealed class FrameFixture
         }
 
         using JsonDocument document = JsonDocument.Parse(Regex.Replace(text, @"(\w+)\s*=", "\"$1\":"));
-        return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
+        return [.. document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
             c.TryGetProperty("x", out JsonElement x) ? x.GetInt32() : 0, c.TryGetProperty("y", out JsonElement y) ? y.GetInt32() : 0,
             c.TryGetProperty("button", out JsonElement button) ? button.GetInt32() : 0,
             c.TryGetProperty("double", out JsonElement twice) && twice.GetBoolean(),
@@ -630,7 +630,7 @@ internal sealed class FrameFixture
             c.TryGetProperty("hx", out JsonElement hex) ? hex.GetInt32() : null,
             c.TryGetProperty("hy", out JsonElement hy) ? hy.GetInt32() : null,
             c.TryGetProperty("double_ui", out JsonElement doubleUI) && doubleUI.GetBoolean(),
-            c.TryGetProperty("move_only", out JsonElement moveOnly) && moveOnly.GetBoolean())).ToList();
+            c.TryGetProperty("move_only", out JsonElement moveOnly) && moveOnly.GetBoolean()))];
     }
 
     internal sealed class FixtureHost : IRtlHost, IDialogService

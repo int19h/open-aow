@@ -306,7 +306,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private static void CheckNames(JsonObject objectValue, RecordTypeInfo info, DocumentSite site)
     {
-        HashSet<string> known = info.Fields.Select(field => field.Name).ToHashSet();
+        HashSet<string> known = [.. info.Fields.Select(field => field.Name)];
         foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name == "$reserved")
@@ -330,7 +330,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
     private static void CheckNames(JsonObject objectValue, RecordTypeInfo info, EncodeContext context, DocumentNodePath path)
     {
-        HashSet<string> known = info.Fields.Select(field => field.Name).ToHashSet();
+        HashSet<string> known = [.. info.Fields.Select(field => field.Name)];
         foreach (JsonMember member in objectValue.Members)
         {
             if (member.Name == "$reserved")

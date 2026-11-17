@@ -80,7 +80,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         }
         foreach (string target in o.Positional)
         {
-            List<string> files = Directory.Exists(target) ? Commands.Enumerate(target).Select(r => Path.Combine(target, r)).ToList() : [target];
+            List<string> files = Directory.Exists(target) ? [.. Commands.Enumerate(target).Select(r => Path.Combine(target, r))] : [target];
             foreach (string file in files)
             {
                 CheckFile(file, o.Kind, o.Profile);
@@ -126,10 +126,10 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine(_legacy.Count == 0 ? "Legacy rules: none fired" :
             "Legacy rules: " + string.Join(", ", _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})")));
         output.WriteLine("G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.");
-        foreach ((string Name, string Profile, long Size, long Inflated, double ImportMs, double ExportMs, long Json) t in _timings.OrderByDescending(t => t.Inflated).Take(3))
+        foreach ((string name, string profile, long size, long inflated, double importMs, double exportMs, long json) in _timings.OrderByDescending(t => t.Inflated).Take(3))
         {
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Measure: {t.Name} ({t.Profile}), {t.Size} bytes, {t.Inflated} payload bytes, own JSON {t.Json} bytes, import {t.ImportMs:F0} ms, export {t.ExportMs:F0} ms"));
+                $"Measure: {name} ({profile}), {size} bytes, {inflated} payload bytes, own JSON {json} bytes, import {importMs:F0} ms, export {exportMs:F0} ms"));
         }
 
         bool drift = false;
@@ -184,6 +184,10 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             case DetectedFormat.OwnJson or DetectedFormat.GzipOwnJson:
                 CheckOwn(path, bytes);
                 break;
+            case DetectedFormat.MalformedOwn:
+            case DetectedFormat.UnsupportedVersion:
+            case DetectedFormat.UnsupportedKind:
+            case DetectedFormat.Unknown:
             default:
                 Failure(path, c.Error?.ToString() ?? $"unknown format ({c.Format})");
                 break;
@@ -247,7 +251,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             // The unit validators the game runs before it loads (own-formats.md 2.7). A refusal of
             // an original the game loads is a failure of the validators.
             ValidationContext context = new(imported.Document, profile, kind, name);
-            List<FormatDiagnostic> findings = FormatMapping.Validators.SelectMany(v => v.Validate(context)).ToList();
+            List<FormatDiagnostic> findings = [.. FormatMapping.Validators.SelectMany(v => v.Validate(context))];
             if (findings.Count == 0)
             {
                 _validated++;
@@ -373,6 +377,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                         pending.Push(item);
                     }
 
+                    break;
+                default:
                     break;
             }
         }

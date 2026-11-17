@@ -151,6 +151,8 @@ public partial class ExpanderAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 CombineIdleGroups();
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

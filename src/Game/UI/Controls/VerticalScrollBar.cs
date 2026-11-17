@@ -60,6 +60,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -83,6 +85,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -91,6 +95,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                 LibraryImage imageLibraryImageDecrement3 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
                 LibraryImage imageLibraryImageIncrement3 = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
                 SetWinHeightWithoutInvalidate(imageLibraryImageDecrement3.Height + imageLibraryImageIncrement3.Height);
+                break;
+            default:
                 break;
         }
 
@@ -167,6 +173,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                                 SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + imageLibraryImageDecrement2.Height + thumbPosition, WinWidth, ThumbLength);
                                 ThumbStrip.DrawVerticalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -188,6 +196,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                             case ScrollBarThumbStyle.Bar:
                                 SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + thumbPosition, WinWidth, ThumbLength);
                                 ThumbStrip.DrawVerticalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
+                                break;
+                            default:
                                 break;
                         }
 
@@ -221,6 +231,8 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
+                        break;
+                    default:
                         break;
                 }
 
@@ -362,6 +374,9 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                                 TrackClickTarget = Y - thumbPosition;
                             }
 
+                            break;
+                        case Style.IncrementDecrement:
+                        default:
                             break;
                     }
                 }

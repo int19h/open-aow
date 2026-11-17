@@ -316,6 +316,10 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 _storm = null;
                 Update();
                 break;
+            case TargetSelectionChange.None:
+            case TargetSelectionChange.Activated:
+            default:
+                break;
         }
     }
 

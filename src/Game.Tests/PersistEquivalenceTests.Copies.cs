@@ -658,7 +658,7 @@ public sealed partial class PersistEquivalenceTests
 
             added[engineClass.ClassId] = engineClass;
         }
-        EngineClass[] classes = added.Values.ToArray();
+        EngineClass[] classes = [.. added.Values];
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
     }

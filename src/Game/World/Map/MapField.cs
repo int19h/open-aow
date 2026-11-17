@@ -241,7 +241,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             {
                 if (level >= minLevel)
                 {
-                    if (_hexSpriteList[i].Owner is MapField)
+                    if (_hexSpriteList[i].Owner is not null)
                     {
                         _hexSpriteList[i].Dispose();
                     }

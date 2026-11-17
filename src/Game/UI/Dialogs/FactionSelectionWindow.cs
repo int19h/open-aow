@@ -209,6 +209,8 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
             case 27:
                 CloseSelection();
                 break;
+            default:
+                break;
         }
     }
 
@@ -229,6 +231,8 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 LoadWorldCampaign(dialog.UI.WorldMap, "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
                 GamePack.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
+                break;
+            default:
                 break;
         }
         ParseFontText(value.Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);

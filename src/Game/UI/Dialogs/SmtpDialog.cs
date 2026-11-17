@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWSMTPDlg.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
@@ -110,6 +111,7 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
 
     private static readonly string s_sendingEmailGameText = "Sending email game...";
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Event renderer callbacks share a uniform signature taking done.")]
     internal static void ShowSmtpEvent(SmtpDialog dialog, SmtpEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog.ResetProgress();

@@ -38,7 +38,7 @@ internal static class LocalizationFrameChecks
             ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow ];
         foreach (ImageLibraryFont? font in fonts)
         {
-            byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
+            byte[] missing = [.. germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)];
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
         string undead = ui.Engine.TranslateResourceString("Undead(plural)");
@@ -55,8 +55,7 @@ internal static class LocalizationFrameChecks
         SortedSet<string> required = [with(StringComparer.Ordinal)];
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
-        HashSet<int> absentEverywhere = Enumerable.Range(128, 128)
-            .Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)).ToHashSet();
+        HashSet<int> absentEverywhere = [.. Enumerable.Range(128, 128).Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0))];
         SortedSet<string> absent = [with(StringComparer.Ordinal)];
         foreach (Component module in layouts.Modules.Values)
         {
@@ -83,7 +82,7 @@ internal static class LocalizationFrameChecks
                     {
                         EditCharCase.UpperCase => RtlUnit.UpperCase(text),
                         EditCharCase.LowerCase => RtlUnit.LowerCase(text),
-                        _ => text
+                        EditCharCase.Normal or _ => text
                     };
                     for (int character = 1; character <= cased.Length; character++)
                     {

@@ -37,7 +37,7 @@ internal sealed class DictionaryEnumCatalog : IEnumCatalog
 /// </summary>
 public static class EnumCatalog
 {
-    private static readonly object s_gate = new();
+    private static readonly Lock s_gate = new();
     private static readonly List<IEnumCatalog> s_catalogs = [];
     private static readonly HashSet<Assembly> s_assemblies = [];
 
@@ -117,7 +117,7 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
         }
         catch (ReflectionTypeLoadException error)
         {
-            found = error.Types.Where(type => type is not null).Cast<Type>().ToArray();
+            found = [.. error.Types.Where(type => type is not null).Cast<Type>()];
         }
         foreach (Type? type in found)
         {

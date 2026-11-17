@@ -133,11 +133,11 @@ public sealed class MsgArgTests
         Assert.True(type.IsValueType);
         Assert.True(typeof(IUnion).IsAssignableFrom(type));
         Assert.True(type.IsDefined(typeof(UnionAttribute)));
-        string[] cases = type.GetConstructors().Select(c => c.GetParameters()).Where(p => p.Length == 1)
-            .Select(p => p[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
+        string[] cases = [.. type.GetConstructors().Select(c => c.GetParameters()).Where(p => p.Length == 1)
+            .Select(p => p[0].ParameterType.Name).Order(StringComparer.Ordinal)];
         Assert.Equal(new[] { "Int32", "Object" }, cases);
-        string[] conversions = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "op_Implicit")
-            .Select(m => m.GetParameters()[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
+        string[] conversions = [.. type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "op_Implicit")
+            .Select(m => m.GetParameters()[0].ParameterType.Name).Order(StringComparer.Ordinal)];
         Assert.Equal(new[] { "Int32" }, conversions);
     }
 }

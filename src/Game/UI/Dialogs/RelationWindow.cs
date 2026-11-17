@@ -327,28 +327,15 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         Player playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(playerPlayerType.PlayerType))
         {
-            switch (StrategicMap.Current.Players.GetPlayers(player).PlayerType)
+            PlayerTypeIcon.CurrentImage = StrategicMap.Current.Players.GetPlayers(player).PlayerType switch
             {
-                case PlayerType.Cpu1:
-                    PlayerTypeIcon.CurrentImage = 1;
-                    break;
-                case PlayerType.Cpu2:
-                    PlayerTypeIcon.CurrentImage = 2;
-                    break;
-                case PlayerType.Cpu3:
-                    PlayerTypeIcon.CurrentImage = 3;
-                    break;
-                case PlayerType.Cpu4:
-                    PlayerTypeIcon.CurrentImage = 4;
-                    break;
-                case PlayerType.Cpu5:
-                    PlayerTypeIcon.CurrentImage = 5;
-                    break;
-                default:
-                    PlayerTypeIcon.CurrentImage = 0;
-                    break;
-            }
-
+                PlayerType.Cpu1 => 1,
+                PlayerType.Cpu2 => 2,
+                PlayerType.Cpu3 => 3,
+                PlayerType.Cpu4 => 4,
+                PlayerType.Cpu5 => 5,
+                PlayerType.Human or PlayerType.Independent or PlayerType.Free or _ => 0,
+            };
             PlayerTypeIcon.Visible = true;
         }
         else
@@ -488,6 +475,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [evil]);
                 AlignmentLabel.Text = format2;
                 AlignmentImage.CurrentImage = 35;
+                break;
+            default:
                 break;
         }
     }

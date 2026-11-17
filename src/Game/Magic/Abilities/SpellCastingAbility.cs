@@ -213,6 +213,8 @@ public partial class SpellCastingAbility : MultiLevelAbility
             case 5:
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " V";
                 break;
+            default:
+                break;
         }
 
         return result;

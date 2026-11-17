@@ -220,6 +220,11 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
                     result = Unit.UnitHexSprite.ActionDone ? MoveStatus.Done : MoveStatus.Moving;
 
                     break;
+                case TokenStep.EndStrike:
+                case TokenStep.ExecuteEndStrike:
+                case TokenStep.StepUp:
+                default:
+                    break;
             }
 
             if (result == MoveStatus.Done)

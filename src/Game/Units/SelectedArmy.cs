@@ -864,7 +864,7 @@ public partial class SelectedArmy : MoveSelector
             {
                 MoveAction.Attack => 258,
                 MoveAction.Negotiate => 259,
-                _ => 256
+                MoveAction.Normal or MoveAction.Combine or _ => 256
             })
             : MoveSettingsList.Count <= 1 ? 256 : 0;
 
@@ -947,7 +947,7 @@ public partial class SelectedArmy : MoveSelector
                         ",",
                         IntToStr(mapCoordinate3.MapLevel)
                     }));
-                    if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, (byte)moveSettingsLocal.Selection, movePath, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>())))
+                    if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, (byte)moveSettingsLocal.Selection, movePath, Set<ArmyMoveModeElement>.Of([])))
                     {
                         multiMoveTokenEvent.Events.Add(armyDefaultMoveTokenEvent);
                     }

@@ -383,6 +383,9 @@ public partial class Unit(CustomNode owner) : Troop(owner)
                 case Rank.Gold:
                     GamePack.Current.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
                     break;
+                case Rank.None:
+                default:
+                    break;
             }
         }
 
@@ -440,6 +443,8 @@ public partial class Unit(CustomNode owner) : Troop(owner)
                     break;
                 case Rank.Gold:
                     SetExperience(UnitResource.Level * 6);
+                    break;
+                default:
                     break;
             }
         }

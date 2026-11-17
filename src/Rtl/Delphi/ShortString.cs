@@ -8,6 +8,6 @@ public static partial class RtlUnit
     {
         int length = Math.Min(value.Length, image.Length - 1);
         image[0] = (byte)length;
-        Cp1252.Encode(value).AsSpan().Slice(0, length).CopyTo(image.Slice(1));
+        Cp1252.Encode(value).AsSpan()[..length].CopyTo(image[1..]);
     }
 }

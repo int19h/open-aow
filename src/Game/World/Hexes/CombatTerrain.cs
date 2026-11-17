@@ -157,6 +157,8 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                         int executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole12);
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -170,6 +172,8 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                         message.Param = param2;
                     }
 
+                    break;
+                default:
                     break;
             }
         }

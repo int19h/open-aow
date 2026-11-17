@@ -47,6 +47,8 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
                     done = hero != null && item.ExecuteUse(hero);
 
                     break;
+                default:
+                    break;
             }
         }
 

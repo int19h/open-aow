@@ -147,6 +147,8 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             case 3:
                 StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
+            default:
+                break;
         }
     }
 
@@ -166,6 +168,8 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
                 break;
             case 3:
                 StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                break;
+            default:
                 break;
         }
     }

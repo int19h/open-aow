@@ -649,6 +649,8 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -694,6 +696,8 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                     Book.Drawn = false;
                 }
 
+                break;
+            default:
                 break;
         }
     }

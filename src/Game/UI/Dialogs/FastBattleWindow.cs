@@ -89,6 +89,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 X = Party7Panel.WinLeft;
                 Y = Party7Panel.WinTop;
                 break;
+            default:
+                break;
         }
     }
 
@@ -488,6 +490,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                     }
 
                     break;
+                default:
+                    break;
             }
 
             MainWindow.SurfaceValid = false;
@@ -623,38 +627,18 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         dialog._animationFrame = 0;
         for (int i = 0; i <= 7; i++)
         {
-            switch (i)
+            image = i switch
             {
-                case 0:
-                    image = dialog.Party1Background;
-                    break;
-                case 1:
-                    image = dialog.Party2Background;
-                    break;
-                case 2:
-                    image = dialog.Party3Background;
-                    break;
-                case 3:
-                    image = dialog.Party4Background;
-                    break;
-                case 4:
-                    image = dialog.Party5Background;
-                    break;
-                case 5:
-                    image = dialog.Party6Background;
-                    break;
-                case 6:
-                    image = dialog.Party7Background;
-                    break;
-                case 7:
-                    // { Original reuses the second background for the eighth party. }
-                    image = dialog.Party2Background;
-                    break;
-                default:
-                    image = null;
-                    break;
-            }
-
+                0 => dialog.Party1Background,
+                1 => dialog.Party2Background,
+                2 => dialog.Party3Background,
+                3 => dialog.Party4Background,
+                4 => dialog.Party5Background,
+                5 => dialog.Party6Background,
+                6 => dialog.Party7Background,
+                7 => dialog.Party2Background,// { Original reuses the second background for the eighth party. }
+                _ => null,
+            };
             party = combat.CombatData.Parties.GetParty((byte)i);
             if (party != null)
             {

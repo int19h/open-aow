@@ -216,6 +216,9 @@ public partial class TacticalBattleUnitHexSprite
                     }
 
                     break;
+                case SpriteAction.Killed:
+                default:
+                    break;
             }
 
             if (Unit.Troop.UnitStatus.Contains(UnitStatusElement.Enchanted))
@@ -468,6 +471,10 @@ public partial class TacticalBattleUnitHexSprite
                 }
 
                 break;
+            case SpriteAction.Move:
+            case SpriteAction.Killed:
+            case SpriteAction.Busy:
+            case SpriteAction.FreeStruck:
             default:
                 ActionFrame = -1;
                 break;
@@ -533,6 +540,10 @@ public partial class TacticalBattleUnitHexSprite
                         : UnitGraphicsResource.SfxLibraries[2].Play(0);
                 }
 
+                break;
+            case SpriteAction.Busy:
+            case SpriteAction.FreeStruck:
+            default:
                 break;
         }
     }

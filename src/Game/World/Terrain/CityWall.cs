@@ -145,6 +145,8 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
                     }
 
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -338,27 +340,17 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     {
         ImageSequence sequence;
         int imageIndex;
-        int terrainOffset;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
+        int terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
         {
-            case 3:
-                terrainOffset = 10;
-                break;
-            case 5:
-            case 7:
-            case 12:
-                terrainOffset = 20;
-                break;
-            default:
-                terrainOffset = 0;
-                break;
-        }
-
+            3 => 10,
+            5 or 7 or 12 => 20,
+            _ => 0,
+        };
         sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
         if (sequence != null)
         {

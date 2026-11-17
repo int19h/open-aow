@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -228,6 +229,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
     private static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi P5DiplomaticExecute signature keeps data.")]
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {
         bool result = trigger == ExecuteTrigger.User;

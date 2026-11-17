@@ -53,7 +53,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
             JsonValueKind.False => false,
             JsonValueKind.Array => value.EnumerateArray().Select(v => v.GetByte()).ToArray(),
             JsonValueKind.String => JsonSettingsStore.ReadText(key, value.GetString() ?? ""),
-            _ => throw new InvalidDataException("unsupported setting value")
+            JsonValueKind.Undefined or JsonValueKind.Object or JsonValueKind.Null or _ => throw new InvalidDataException("unsupported setting value")
         };
     }
 

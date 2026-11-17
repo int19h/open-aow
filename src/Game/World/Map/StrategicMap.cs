@@ -848,6 +848,8 @@ public partial class StrategicMap : GameMap
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_destroyingLevelText);
                     RaiseProgress(this, translatedText + IntToStr(progress.Level), progress.Percent);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -1076,6 +1078,14 @@ public partial class StrategicMap : GameMap
                     Players.GetPlayers(i).SetGems(players4.Gems + 500);
                     Player players5 = Players.GetPlayers(i);
                     Players.GetPlayers(i).MagicControl.SetMana(players5.MagicControl.Mana + 500);
+                    break;
+                case PlayerType.Human:
+                case PlayerType.Cpu1:
+                case PlayerType.Cpu2:
+                case PlayerType.Cpu3:
+                case PlayerType.Independent:
+                case PlayerType.Free:
+                default:
                     break;
             }
         }
@@ -2067,6 +2077,8 @@ public partial class StrategicMap : GameMap
             case 259:
                 Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 3) + 58;
                 break;
+            default:
+                break;
         }
 
         Mouse.CursorVisible = Mouse.Cursor != 0;
@@ -2172,6 +2184,9 @@ public partial class StrategicMap : GameMap
 
                 // { Original replaces an existing control without freeing it. }
                 PlayerControl = new SimultaneousPlayerControl(null) { Holder = CreationHolder() };
+                break;
+            case PlayMode.None:
+            default:
                 break;
         }
 

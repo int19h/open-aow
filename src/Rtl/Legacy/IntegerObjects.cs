@@ -35,11 +35,11 @@ public static partial class RtlUnit
     // Product code stores integers in object slots and reads them back. It does not recover an object from the id.
     public static int ObjectToInt(object? value)
     {
-        switch (value)
+        return value switch
         {
-            case null: return 0;
-            case IntegerObject box: return box.Value;
-            default: return IdentityHash.Of(value);
-        }
+            null => 0,
+            IntegerObject box => box.Value,
+            _ => IdentityHash.Of(value),
+        };
     }
 }

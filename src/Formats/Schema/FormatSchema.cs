@@ -229,7 +229,7 @@ public static class FormatVersions
     public static IReadOnlyList<string> FlatMappings => Names("flatMappings");
 
     private static string[] Names(string member) =>
-        s_current.Value[member] is JsonArray names ? names.Items.Select(n => ((JsonString)n).Value).ToArray() : [];
+        s_current.Value[member] is JsonArray names ? [.. names.Items.Select(n => ((JsonString)n).Value)] : [];
 }
 
 public sealed class SchemaClass
@@ -405,7 +405,7 @@ public sealed class SchemaClass
             children.Clear();
         }
 
-        List<SchemaProperty> all = readWrite.Concat(children).ToList();
+        List<SchemaProperty> all = [.. readWrite, .. children];
         if (_source["order"] is JsonArray order)
         {
             Dictionary<string, SchemaProperty> named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
@@ -573,7 +573,7 @@ public sealed class SchemaMapping
     }
 
     private static (string Field, string Member)[] Fields(JsonObject c) =>
-        ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value)).ToArray();
+        [.. ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value))];
 
     /// <summary>The name of the unit mapping, such as ProductionOrder.</summary>
     public string Name { get; }

@@ -103,6 +103,10 @@ public partial class Gems : ImageLibraryTerrainMapObject
             case GemsGenerateMode.High:
                 _amount = StrategicMap.Current.Random(50) + 100;
                 break;
+            case GemsGenerateMode.UserDefined:
+            case GemsGenerateMode.Random:
+            default:
+                break;
         }
     }
 
@@ -112,7 +116,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
         int value;
         switch (info.Mode)
         {
-            case >= AITargetMode.Attack and <= AITargetMode.Attack:
+            case AITargetMode.Attack:
                 if (info.Player != 0)
                 {
                     value = (_amount / 5) + 15;
@@ -122,6 +126,16 @@ public partial class Gems : ImageLibraryTerrainMapObject
                     }
                 }
 
+                break;
+            case AITargetMode.Raid:
+            case AITargetMode.Recruit:
+            case AITargetMode.Produce:
+            case AITargetMode.Hunt:
+            case AITargetMode.Fortify:
+            case AITargetMode.Defend:
+            case AITargetMode.GuardArea:
+            case AITargetMode.AttackArmies:
+            default:
                 break;
         }
     }

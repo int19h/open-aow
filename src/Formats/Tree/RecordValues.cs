@@ -101,7 +101,7 @@ public static class RecordValues
         at = 0;
         foreach ((int offset, int length) in info.Residue)
         {
-            residue.AsSpan(at, length).CopyTo(image.Slice(offset));
+            residue.AsSpan(at, length).CopyTo(image[offset..]);
             at += length;
         }
     }

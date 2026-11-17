@@ -69,6 +69,8 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                             case 68:
                                 translatedKey = 77;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -93,6 +95,8 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                             case 84:
                                 translatedKey = 67;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -102,8 +106,12 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                             case 65:
                                 translatedKey = 68;
                                 break;
+                            default:
+                                break;
                         }
 
+                        break;
+                    default:
                         break;
                 }
 
@@ -184,6 +192,8 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                             }
 
                             break;
+                        default:
+                            break;
                     }
                 }
 
@@ -226,6 +236,8 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                     }
                 }
 
+                break;
+            default:
                 break;
         }
 

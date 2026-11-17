@@ -129,7 +129,7 @@ public sealed partial class EngineFixture
             Record("Enumerate", directory);
             return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(GameRoot, "IMAGES"), StringComparison.OrdinalIgnoreCase)
                 ? throw new InvalidDataException("injected IMAGES search failure")
-                : (IEnumerable<RtlFileEntry>)_files.Enumerate(Checked(directory)).ToArray();
+                : [.. _files.Enumerate(Checked(directory))];
         }
 
         public object? Read(string key)

@@ -133,6 +133,15 @@ public partial class Mine : PlayerStructure
                     }
 
                     break;
+                case AITargetMode.Raid:
+                case AITargetMode.Recruit:
+                case AITargetMode.Produce:
+                case AITargetMode.Hunt:
+                case AITargetMode.Fortify:
+                case AITargetMode.GuardArea:
+                case AITargetMode.AttackArmies:
+                default:
+                    break;
             }
 
             // { Original can overwrite the special kind-6 priority with the previous higher value. }

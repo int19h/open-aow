@@ -39,9 +39,9 @@ public sealed class StartupOrderTests
     private static (StartupUnit[] Units, List<string> Calls) Recording()
     {
         List<string> calls = [];
-        StartupUnit[] units = Startup.Units.Select(u => new StartupUnit(u.Name,
+        StartupUnit[] units = [.. Startup.Units.Select(u => new StartupUnit(u.Name,
             u.Initialize is null ? null! : () => calls.Add("I " + u.Name),
-            u.Finalize is null ? null! : () => calls.Add("F " + u.Name))).ToArray();
+            u.Finalize is null ? null! : () => calls.Add("F " + u.Name)))];
         return (units, calls);
     }
 

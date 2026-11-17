@@ -41,6 +41,8 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
             case ChangeGlobalMagicTokenEventMode.RemoveEnchantment:
                 success = StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
                 break;
+            default:
+                break;
         }
 
         if (success)

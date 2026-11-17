@@ -762,25 +762,14 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.Side12PlayerComboBox, setup.Side12BehaviorComboBox, setup.Side12PlayerIcon, setup.Side12PlayerLabel, setup.Side12InfoLabel, setup.Side12FogPanel);
             if (setup.SetupControl.GetRemote())
             {
-                switch (setup.UI.SetupEvents.DirectPlay.ConnectionType)
+                connection = setup.UI.SetupEvents.DirectPlay.ConnectionType switch
                 {
-                    case ConnectionType.TCP:
-                        connection = setup.UI.Engine.TranslateResourceString(GameText.TcpIpLabel);
-                        break;
-                    case ConnectionType.IPX:
-                        connection = setup.UI.Engine.TranslateResourceString(GameText.IpxText);
-                        break;
-                    case ConnectionType.Modem:
-                        connection = setup.UI.Engine.TranslateResourceString(GameText.ModemText);
-                        break;
-                    case ConnectionType.Serial:
-                        connection = setup.UI.Engine.TranslateResourceString(GameText.SerialText);
-                        break;
-                    default:
-                        connection = "";
-                        break;
-                }
-
+                    ConnectionType.TCP => setup.UI.Engine.TranslateResourceString(GameText.TcpIpLabel),
+                    ConnectionType.IPX => setup.UI.Engine.TranslateResourceString(GameText.IpxText),
+                    ConnectionType.Modem => setup.UI.Engine.TranslateResourceString(GameText.ModemText),
+                    ConnectionType.Serial => setup.UI.Engine.TranslateResourceString(GameText.SerialText),
+                    ConnectionType.None or ConnectionType.Unknown or _ => "",
+                };
                 SetupSettings setupSettings = setup.SetupControl.Settings;
                 hostIndex = setupSettings.RemotePlayers.IndexOfRemoteId(setupSettings.HostRemoteId);
 
@@ -920,27 +909,15 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             icon.Visible = Set<byte>.WithBounds(0, 255).WithRange(0, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType);
             if (icon.Visible)
             {
-                switch (settings.Behavior.PlayerType)
+                icon.CurrentImage = settings.Behavior.PlayerType switch
                 {
-                    case 1:
-                        icon.CurrentImage = 1;
-                        break;
-                    case 2:
-                        icon.CurrentImage = 2;
-                        break;
-                    case 3:
-                        icon.CurrentImage = 3;
-                        break;
-                    case 6:
-                        icon.CurrentImage = 4;
-                        break;
-                    case 7:
-                        icon.CurrentImage = 5;
-                        break;
-                    default:
-                        icon.CurrentImage = 0;
-                        break;
-                }
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    6 => 4,
+                    7 => 5,
+                    _ => 0,
+                };
             }
 
             fog.Visible = settings.Status.Contains(PlayerSetupStatusElement.Fixed);

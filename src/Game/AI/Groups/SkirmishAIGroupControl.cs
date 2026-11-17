@@ -94,6 +94,8 @@ public partial class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 _ = group.Release();
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

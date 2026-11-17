@@ -55,6 +55,8 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
                 _ = control.Items.Add(1);
                 _ = control.Items.Add(3);
                 break;
+            default:
+                break;
         }
 
         UI.LeaderSetupWindow.Execute(control);

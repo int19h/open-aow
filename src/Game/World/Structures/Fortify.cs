@@ -73,6 +73,8 @@ public sealed partial record Fortify : ProductionOrder
             case 1:
                 city.WallType = 2;
                 break;
+            default:
+                break;
         }
 
         Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityFortifiedFormat), [city.GetName()]));

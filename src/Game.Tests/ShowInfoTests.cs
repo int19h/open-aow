@@ -260,9 +260,9 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     [InstalledLibrariesFact]
     public void EveryInstalledImageWritesItsShowInfoBackAsTheFileHoldsIt()
     {
-        string[] files = InstalledLibrariesFactAttribute.Folders
+        string[] files = [.. InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
-            .Order(StringComparer.OrdinalIgnoreCase).ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = [];
         Tally tally = new();

@@ -6,7 +6,7 @@ namespace Aow.Game.Saves;
 
 internal static class ContentChildren
 {
-    public static int Count(ContentScope scope, JsonObject value, string family)
+    public static int Count(JsonObject value, string family)
     {
         if (value["Children"] is not JsonArray children)
         {

@@ -12,7 +12,7 @@ public sealed class CountedChildren(string family, string countMember) : Content
     public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
         long expected = value[countMember] is JsonInteger count ? count.Value : 0;
-        int actual = ContentChildren.Count(scope, value, family);
+        int actual = ContentChildren.Count(value, family);
         if (actual != expected)
         {
             yield return scope.Context.At(Codes.Required, $"{countMember} counts {expected} {family} children, the document holds {actual}.",

@@ -59,6 +59,8 @@ public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(ow
 
                 selector?.Dispose();
                 break;
+            default:
+                break;
         }
     }
 

@@ -30,6 +30,8 @@ public partial class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(o
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -81,6 +83,8 @@ public partial class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(o
                     Done();
                 }
 
+                break;
+            default:
                 break;
         }
     }

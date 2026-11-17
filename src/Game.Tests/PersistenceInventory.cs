@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text.RegularExpressions;
@@ -460,6 +461,7 @@ internal static class PersistenceInventory
 
     private static bool IsFieldOpcode(int code) => code is 0x7B or 0x7C or 0x7D or 0x7E or 0x7F or 0x80;
 
+    [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "OperandType.InlinePhi is obsolete and triggers CS0618 under warnings as errors.")]
     private static int OperandBytes(byte[] il, int at, OperandType operand, MethodBase method) => operand switch
     {
         OperandType.InlineNone => 0,

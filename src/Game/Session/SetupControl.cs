@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWSetup.pas.
 
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
@@ -42,6 +43,7 @@ public partial class SetupControl : Component
     [Published]
     public event Event OnStart;
     // Nothing in the port raises OnAbort. The bound handler is kept.
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnAbort keeps this backing field until the port raises it.")]
     private Event _onAbort;
 
     [Published]
@@ -465,6 +467,8 @@ public partial class SetupControl : Component
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -724,6 +728,8 @@ public partial class SetupControl : Component
                     break;
                 case ConnectionMode.Remote:
                     s += "Remote";
+                    break;
+                default:
                     break;
             }
 
@@ -1630,16 +1636,11 @@ public partial class SetupControl : Component
         _phase = SetupPhase.SetupPlayers;
         Settings.HostRemoteId = remoteId;
         Settings.ConnectionType = mode;
-        switch (mode)
+        Settings.PlayMode = mode switch
         {
-            case 2:
-                Settings.PlayMode = 1;
-                break;
-            default:
-                Settings.PlayMode = 2;
-                break;
-        }
-
+            2 => 1,
+            _ => 2,
+        };
         string validatePlayerName = ValidatePlayerName(name);
         RemotePlayer.Name = validatePlayerName;
         RemotePlayer.RemoteId = remoteId;

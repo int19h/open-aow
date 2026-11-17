@@ -204,7 +204,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         foreach (string name in enums)
         {
             Type type = NameTable.Find(name);
-            Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: Enum.GetNames(type).Order(StringComparer.Ordinal).ToArray());
+            Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: [.. Enum.GetNames(type).Order(StringComparer.Ordinal)]);
         }
         output.WriteLine(records.Count + " records and " + enums.Count + " enums checked");
         Assert.True(failures.Count == 0, string.Join("\n", failures));
@@ -304,7 +304,9 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 TypeCode.Int16 => (short)next,
                 TypeCode.Byte => (byte)next,
                 TypeCode.SByte => (sbyte)next,
-                _ => null,
+                TypeCode.Empty or TypeCode.Object or TypeCode.DBNull or TypeCode.Boolean or TypeCode.Char
+                    or TypeCode.UInt32 or TypeCode.Int64 or TypeCode.UInt64 or TypeCode.Single
+                    or TypeCode.Double or TypeCode.Decimal or TypeCode.DateTime or TypeCode.String or _ => null,
             };
             if (value is null || field.FieldType.IsEnum)
             {
@@ -378,6 +380,8 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                     Collect(item, records, enums);
                 }
 
+                break;
+            default:
                 break;
         }
     }

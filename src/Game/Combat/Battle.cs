@@ -169,6 +169,8 @@ public partial class Battle : EngineObject
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
