@@ -396,7 +396,7 @@ public partial class InfoWindow : UIModule
             dialog.ExplorationSiteStatusLabel.Text = unexplored;
         }
 
-        bool canSearch = ((ExplorationSite)dialog.UI.General.Structure).CanSearch(StrategicMap.Current.SeatedPlayer);
+        bool canSearch = structure.CanSearch(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canSearch;
         string search = dialog.UI.Engine.TranslateResourceString(GameText.SearchText);
         dialog.MainButton.Text = search;
@@ -517,9 +517,8 @@ public partial class InfoWindow : UIModule
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
         dialog.MainButton.Visible = true;
-        // The selected structure is stored as Structure because any kind can be selected. This panel
-        // narrows it to the production place the view key names. Another kind throws, and null stays null.
-        dialog.UI.General.ProductionPlace = (ProductionPlace)dialog.UI.General.Structure;
+        // The view key already named this production place. The selection stores that same object.
+        dialog.UI.General.ProductionPlace = structure;
         dialog.ProductionPlacePanel.Visible = true;
         dialog.UI.General.ProductionControl = dialog.UI.General.ProductionPlace.ProductionControl;
         dialog.CurrentActivityWarningLabel.Visible = false;

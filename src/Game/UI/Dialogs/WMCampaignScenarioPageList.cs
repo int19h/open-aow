@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 public partial class WMCampaignScenarioPageList : OwningNode, IChildList<CampaignScenarioPage>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a CampaignScenarioPage, so the cast never fails.
-    public CampaignScenarioPage this[int index] => (CampaignScenarioPage)GetChild(index);
+    // AcceptsChild admits only a CampaignScenarioPage, so the read never fails.
+    public CampaignScenarioPage this[int index] => GetChild<CampaignScenarioPage>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CampaignScenarioPage;
 

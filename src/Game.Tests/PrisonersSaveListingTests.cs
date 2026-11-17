@@ -175,6 +175,13 @@ public sealed class PrisonersSaveListingTests
             engine.RegisterEngineClasses([dungeonClass]);
         }
 
+        EngineClass campaignClass = EngineClass.Of<WorldMapCampaign>();
+        bool registerCampaign = !engine.ClassTable.ContainsKey(campaignClass.ClassId);
+        if (registerCampaign)
+        {
+            engine.RegisterEngineClasses([campaignClass]);
+        }
+
         IFileSystem recordedFiles = Runtime.Files;
         PhysicalFileSystem physical = new();
         physical.SetCurrentDirectory(EngineFixture.Root);
@@ -194,7 +201,7 @@ public sealed class PrisonersSaveListingTests
             planted.Attack = -2;
             planted.LibraryId = 3;
 
-            engine.NewCampaign(EngineClass.Of<Campaign>().ClassId);
+            engine.NewCampaign(campaignClass.ClassId);
             engine.SaveCampaign(saved);
             GameFileResult prepared = GameBoundary.PrepareLoad(File.ReadAllBytes(saved), fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
             Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
@@ -236,6 +243,11 @@ public sealed class PrisonersSaveListingTests
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
             StrategicMap.Current = previous as StrategicMap ?? null;
             engine.CloseCampaign();
+            if (registerCampaign)
+            {
+                engine.UnregisterEngineClasses([campaignClass]);
+            }
+
             if (registerDungeon)
             {
                 engine.UnregisterEngineClasses([dungeonClass]);

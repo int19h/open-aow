@@ -24,6 +24,7 @@ public partial class GenericWindow : BaseWindow
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
+        // The owner is a UIComponent. This window sits in a window manager, and the cast stays.
         base.WindowManager = (WindowManager)OwnerComponent;
     }
 

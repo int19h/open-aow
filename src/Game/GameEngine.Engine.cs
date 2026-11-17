@@ -356,6 +356,9 @@ public partial class GameEngine : OwningNode
     // object of a stream: the stored class is created and loaded, and a failure gives nil.
     public EngineObject RetrieveFromTree(GameFileTree tree, Engine.ProgressEvent progress) => (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
 
+    // The stored class is the caller's class. An object of another class throws, the same way the call site did.
+    public T RetrieveFromTree<T>(GameFileTree tree, Engine.ProgressEvent progress) where T : EngineObject => (T)RetrieveFromTree(tree, progress: progress);
+
     // Loads the tree of a prepared file into an object the caller holds, as ReadEObject loads a
     // stream (persistence-tree.md 6 and 7). A failure of the object goes to the error handler as
     // rwEObject passes it to OnError. No handler continues.

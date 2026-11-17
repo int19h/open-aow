@@ -154,6 +154,7 @@ public partial class WindowManager : UIComponent
                 {
                     for (int i = 0, last = Children.Count - 1; i <= last; i++)
                     {
+                        // The child list is UIComponent. The manager shows windows, and the cast stays.
                         c = (WindowControl)Children[i];
                         if (c.Valid)
                         {
@@ -350,6 +351,7 @@ public partial class WindowManager : UIComponent
 
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
+                // The child list is UIComponent. The manager shows windows, and the cast stays.
                 c = (WindowControl)Children[i];
                 c.Hidden = false;
                 if (c.Valid && c.Visible)
@@ -546,6 +548,7 @@ public partial class WindowManager : UIComponent
 
         for (int i = Children.Count - 1; i >= 0; i--)
         {
+            // The child list is UIComponent. The manager shows windows, and the cast stays.
             c = (WindowControl)Children[i];
             if (c.Priority >= _overlayPriority)
             {

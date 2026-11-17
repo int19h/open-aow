@@ -92,13 +92,14 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
     {
     }
 
-    public void Object(string name, IPersistable objectValue) => stream.Object((EngineObject)objectValue, 0);
+    // IPersister takes IPersistable. The visit walks engine objects, and the cast stays.
+    public void Object(string name, IPersistable objectValue) => stream.Object((EngineObject)objectValue, id: 0);
 
     public IPersistable? Created(string name, IPersistable? objectValue)
     {
         if (objectValue is not null)
         {
-            stream.Object((EngineObject)objectValue, 0);
+            stream.Object((EngineObject)objectValue, id: 0);
         }
 
         return objectValue;
@@ -120,9 +121,9 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     public byte ByteList(string name, IList<byte> items, byte defaultValue) => defaultValue;
 
-    // The visit walks the children the node owns. A reference list's children without an owner
-    // are not visited.
-    public void Children(string name, IChildCollection children) => stream.Children((CustomNode)node, 1);
+    // The constructor takes the engine object TranslateVisit persists, and that object is not always
+    // a custom node. Children runs when the object is one, and the cast stays on this shared member.
+    public void Children(string name, IChildCollection children) => stream.Children((CustomNode)node, id: 1);
 
     public void Grid(string name, int width, int height, IReadOnlyList<IPersistable> fields, Action<int>? visited = null)
     {
