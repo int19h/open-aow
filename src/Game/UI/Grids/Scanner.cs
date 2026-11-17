@@ -15,6 +15,15 @@ namespace Aow.Game.UI.Grids;
 // surfaces, update step, incremental
 public partial class Scanner : Control
 {
+    public Scanner(Component owner) : base(owner)
+    {
+        _steps = 1;
+        TLeft = -1;
+        TTop = -1;
+        _tWidth = -1;
+        _tHeight = -1;
+    }
+
     private int _halfRowInset;
     private ImageLibrary _tilesImageLibrary;
     private ImageLibrary _highlightImageLibrary;
@@ -28,7 +37,6 @@ public partial class Scanner : Control
     public int TLeft { get; private set; }
 
     private int _tWidth;
-    private bool _showHighlights;
     private bool _buildings;
     private bool _armies;
     private bool _naturals;
@@ -63,16 +71,6 @@ public partial class Scanner : Control
         _objectSurface?.Dispose();
 
         base.Dispose();
-    }
-
-    // Scanner.pas:116
-    public Scanner(Component owner) : base(owner)
-    {
-        _steps = 1;
-        TLeft = -1;
-        TTop = -1;
-        _tWidth = -1;
-        _tHeight = -1;
     }
 
     // Scanner.pas:398
@@ -693,12 +691,12 @@ public partial class Scanner : Control
                                         }
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && _showHighlights && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && HighLights && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
                                     {
                                         _highlightImageLibrary[1].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && _showHighlights && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && HighLights && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
                                     {
                                         _highlightImageLibrary[0].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
@@ -835,7 +833,7 @@ public partial class Scanner : Control
     public int TileBoxHeight { get => _tHeight; set => SetTHeight(value); }
 
     [Published]
-    public bool HighLights { get => _showHighlights; set => _showHighlights = value; }
+    public bool HighLights { get; set; }
 
     [Published]
     public bool Buildings { get => _buildings; set => SetBuildings(value); }

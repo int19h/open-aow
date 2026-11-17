@@ -17,7 +17,6 @@ namespace Aow.Game.Events;
 // Hex, MovePoints, ArmyId, Object, Data1/Data2. inherited join fields
 public partial class NegotiateRequestEventLog : JoinEventLog
 {
-    // Diplomacy.pas:264
     public NegotiateRequestEventLog(CustomNode owner) : base(owner) => ArmyId = null;
 
     // Diplomacy.pas:279
@@ -114,12 +113,15 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     {
         NegotiateTokenEvent eventValue;
         ArmyId id;
-        eventValue = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
-        eventValue.Player = Player;
-        eventValue.Object = Object;
-        eventValue.Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel));
-        eventValue.Data1 = _data1;
-        eventValue.Data2 = _data2;
+        eventValue = new NegotiateTokenEvent(null)
+        {
+            Holder = CreationHolder(),
+            Player = Player,
+            Object = Object,
+            Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel)),
+            Data1 = _data1,
+            Data2 = _data2
+        };
         id = ArmyId;
         if (id != null)
         {

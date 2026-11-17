@@ -108,13 +108,13 @@ public sealed partial class SpellConstructionTests
         {
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "Creator")
                 {
                     continue; // the descriptor caches and the link to the engine are not constructor state
                 }
 
                 object? fieldValue = field.GetValue(value);
-                fields[current.Name + "." + MemberNames.Of(field)] = field.Name == "_owner"
+                fields[current.Name + "." + MemberNames.Of(field)] = MemberNames.Of(field) is "_owner" or "Owner"
                     ? fieldValue is null ? null : "$owner"
                     : State(fieldValue, depth + 1);
             }

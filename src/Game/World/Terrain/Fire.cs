@@ -27,6 +27,15 @@ namespace Aow.Game.World.Terrain;
 // Mode, TurnsLeft, Age, _showPriority, Player, ExplosionFrame
 public partial class Fire : ImageLibraryTerrainMapObject
 {
+    public Fire(CustomNode owner) : base(owner)
+    {
+        TurnsLeft = 3;
+        Age = 0;
+        Player = 0;
+        _showPriority = 1744830464;
+        _mode = Set<ModeElement>.Of(ModeElement.Expandable);
+        _explosionFrame = 0;
+    }
 
     public new const int ClassId = 132990;
 
@@ -49,18 +58,6 @@ public partial class Fire : ImageLibraryTerrainMapObject
         _mode = persister.Set("Mode", value: _mode);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         Age = persister.Byte("Age", value: Age);
-    }
-
-    // Structur.PAS:3386
-    // mode, lifetime, age, priority, owner player, explosion frame
-    public Fire(CustomNode owner) : base(owner)
-    {
-        TurnsLeft = 3;
-        Age = 0;
-        Player = 0;
-        _showPriority = 1744830464;
-        _mode = Set<ModeElement>.Of(ModeElement.Expandable);
-        _explosionFrame = 0;
     }
 
     // Structur.PAS:3672
@@ -430,11 +427,8 @@ public partial class Fire : ImageLibraryTerrainMapObject
     }
 
     // FireType
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
         public new const int ClassId = 132991;
 
         public FireType FireType { get; private set; }

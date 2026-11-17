@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class WaterNode : ProductionPlace
+public partial class WaterNode(CustomNode owner) : ProductionPlace(owner)
 {
-    public WaterNode(CustomNode owner) : base(owner)
-    { }
 
     // WaterNode.pas:37
     public new const int ClassId = 132275;

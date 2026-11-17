@@ -9,7 +9,7 @@ public partial class MapLevel
     private MapField[] _fields = [];
 
     public override EngineObject GetChild(int index) => _fields[index];
-    public MapField GetField(int x, int y) => _fields[(y * _width) + x];
+    public MapField GetField(int x, int y) => _fields[(y * Width) + x];
 
     // HSEngine.pas:2960 stores adjacent instances in a raw allocation.
     // Managed instances retain the same row order and virtual construction.
@@ -17,8 +17,8 @@ public partial class MapLevel
     {
         DestroyMapFieldList();
         EngineClass type = MapFieldClass();
-        _width = width;
-        _height = height;
+        Width = width;
+        Height = height;
         _count = width * height;
         _fields = new MapField[_count];
         for (int y = 0; y < height; y++)
@@ -28,7 +28,7 @@ public partial class MapLevel
                 MapField field = type.Create<MapField>(this, holder: CreationHolder());
                 field.HexX = (sbyte)x;
                 field.HexY = (sbyte)y;
-                field.HexLevel = (sbyte)_hexLevel;
+                field.HexLevel = (sbyte)HexLevel;
                 _fields[(y * width) + x] = field;
             }
         }
@@ -71,15 +71,15 @@ public partial class MapLevel
         if (loading)
         {
             Engine = PersistSupport.Engine(persister);
-            _mapContainer = Owner;
-            _map = _mapContainer.Map;
+            MapContainer = Owner;
+            Map = MapContainer.Map;
         }
-        _width = persister.Byte("Width", (byte)_width);
-        _height = persister.Byte("Height", (byte)_height);
-        _hexLevel = persister.Byte("HexLevel", (byte)_hexLevel);
+        Width = persister.Byte("Width", (byte)Width);
+        Height = persister.Byte("Height", (byte)Height);
+        HexLevel = persister.Byte("HexLevel", (byte)HexLevel);
         MapProgress progress = new()
         {
-            Level = _hexLevel,
+            Level = HexLevel,
             Percent = 0,
             ProgressType = loading ? MapProgressType.Loading : MapProgressType.Saving,
         };
@@ -87,12 +87,12 @@ public partial class MapLevel
         bool notify = !PersistSupport.Translating(persister);
         if (notify)
         {
-            _map.NotifyProgress(progress);
+            Map.NotifyProgress(progress);
         }
 
-        if (loading && _width != 0)
+        if (loading && Width != 0)
         {
-            CreateMapFieldList(_width, _height);
+            CreateMapFieldList(Width, Height);
         }
 
         if (loading && !persister.Has("Fields"))
@@ -101,14 +101,14 @@ public partial class MapLevel
         }
 
         int step = _count / 10;
-        persister.Grid("Fields", width: _width, height: _height, fields: _fields, visited: _ =>
+        persister.Grid("Fields", width: Width, height: Height, fields: _fields, visited: _ =>
         {
             if (--step == 0)
             {
                 progress.Percent += 10;
                 if (notify)
                 {
-                    _map.NotifyProgress(progress);
+                    Map.NotifyProgress(progress);
                 }
 
                 step = _count / 10;
@@ -118,8 +118,8 @@ public partial class MapLevel
 
     private void VisitFields(MapProgressType type, int divisor, int increment, Action<MapField> action, bool final)
     {
-        MapProgress progress = new() { Level = _hexLevel, Percent = 0, ProgressType = type };
-        _map.NotifyProgress(progress);
+        MapProgress progress = new() { Level = HexLevel, Percent = 0, ProgressType = type };
+        Map.NotifyProgress(progress);
         int step = _count / divisor;
         foreach (MapField field in _fields)
         {
@@ -127,11 +127,11 @@ public partial class MapLevel
             if (--step == 0)
             {
                 progress.Percent += increment;
-                _map.NotifyProgress(progress);
+                Map.NotifyProgress(progress);
                 step = _count / divisor;
             }
         }
-        if (final) { progress.Percent = 100; _map.NotifyProgress(progress); }
+        if (final) { progress.Percent = 100; Map.NotifyProgress(progress); }
     }
 
     public void DestroyHexSprite() => VisitFields(MapProgressType.Destroying, 10, 10, f => f.DestroyHexSprite(), false);

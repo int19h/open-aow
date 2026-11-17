@@ -7,7 +7,7 @@ public partial class TurnButton
     // A port addition the original does not have.
     internal bool Press()
     {
-        if (_animating)
+        if (Animating)
         {
             return false;
         }

@@ -17,6 +17,8 @@ namespace Aow.Game.Commands;
 // UnitIndices
 public partial class SummonSpellTokenEvent : SpellTokenEvent
 {
+    public SummonSpellTokenEvent(CustomNode owner) : base(owner) => UnitIndices = new UnitIndexList();
+
     // SummonSpells.pas:171
     public new const int ClassId = 135947;
 
@@ -35,9 +37,6 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         base.PersistFields(persister);
         PersistSupport.UnitIndexList(persister, name: "UnitIndices", list: UnitIndices);
     }
-
-    // SummonSpells.pas:159
-    public SummonSpellTokenEvent(CustomNode owner) : base(owner) => UnitIndices = new UnitIndexList();
 
     // SummonSpells.pas:182
     public override bool Process(Troop source, int value)

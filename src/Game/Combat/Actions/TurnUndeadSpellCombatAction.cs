@@ -7,13 +7,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TurnUndeadSpellCombatAction : CombatSpellCombatAction
+public partial class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:861
     public new const int ClassId = 131788;
-
-    public TurnUndeadSpellCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:867
     public override void Execute(Battle combat)

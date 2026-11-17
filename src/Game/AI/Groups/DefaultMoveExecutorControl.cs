@@ -9,10 +9,8 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // inherited move control, executer and state
-public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
+public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
 {
-    public DefaultMoveExecutorControl(CustomNode owner) : base(owner)
-    { }
 
     // AIGroup.pas:4978
     public override void CalculateMoves()

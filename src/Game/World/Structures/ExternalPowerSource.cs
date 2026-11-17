@@ -9,11 +9,8 @@ using Aow.Game.Session;
 namespace Aow.Game.World.Structures;
 
 // (external power control)
-public partial class ExternalPowerSource : PowerSource
+public partial class ExternalPowerSource(CustomNode owner) : PowerSource(owner)
 {
-    public ExternalPowerSource(CustomNode owner) : base(owner)
-    { }
-
     public PlayerMagicControl ExternalPowerControl { get; set; }
 
     // Spells.PAS:1835

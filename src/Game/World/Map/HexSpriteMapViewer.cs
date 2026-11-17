@@ -13,13 +13,12 @@ namespace Aow.Game.World.Map;
 // CenterScene, ChangeScene and SetSceneL
 public partial class HexSpriteMapViewer : Component
 {
-    private Surface _staticSurface;
     private int _sceneWidth;
     private int _sceneHeight;
     private int _sceneX;
     private int _sceneY;
     private int _sceneL;
-    private bool _staticSurfaceValid;
+
     [Published]
     public event NotifyEvent<object> OnSceneChanged;
     private GameMap _hexSpriteMap;
@@ -30,7 +29,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4670
     public HexSpriteMapViewer(Component owner) : base(owner)
     {
-        _staticSurfaceValid = false;
+        StaticSurfaceValid = false;
         OnSceneChanged = null;
     }
 
@@ -44,7 +43,7 @@ public partial class HexSpriteMapViewer : Component
             _hexSpriteMap.ClearViewLevelHandler();
         }
 
-        _staticSurface?.Dispose();
+        StaticSurface?.Dispose();
         CenteredSurface?.Dispose();
         base.Dispose();
     }
@@ -65,26 +64,26 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4794
     public virtual void VerifyStaticSurface(Surface surface)
     {
-        if (_staticSurface != null && _staticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
+        if (StaticSurface != null && StaticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
-            _staticSurface?.Dispose();
-            _staticSurface = null;
+            StaticSurface?.Dispose();
+            StaticSurface = null;
         }
 
-        if (_staticSurface == null || _staticSurface.GetWidth() != _sceneWidth || _staticSurface.GetHeight() != _sceneHeight)
+        if (StaticSurface == null || StaticSurface.GetWidth() != _sceneWidth || StaticSurface.GetHeight() != _sceneHeight)
         {
-            if (_staticSurface == null)
+            if (StaticSurface == null)
             {
                 int pixelFormatId = surface.GetPixelFormatId();
-                _staticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
+                StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
             }
             else
             {
-                _ = _staticSurface.Resize(_sceneWidth, _sceneHeight);
+                _ = StaticSurface.Resize(_sceneWidth, _sceneHeight);
             }
 
             _hexSpriteMap.StaticSceneInvalid = true;
-            _staticSurfaceValid = false;
+            StaticSurfaceValid = false;
         }
     }
 
@@ -193,8 +192,8 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4837
     public void ResetStaticSurface()
     {
-        _staticSurface?.Dispose();
-        _staticSurface = null;
+        StaticSurface?.Dispose();
+        StaticSurface = null;
     }
 
     // HSEngine.pas:4843
@@ -249,13 +248,13 @@ public partial class HexSpriteMapViewer : Component
                         _ = surface.Unlock(lockedSurface);
                     }
 
-                    _staticSurfaceValid = false;
+                    StaticSurfaceValid = false;
                 }
                 else
                 {
-                    if (_staticSurfaceValid)
+                    if (StaticSurfaceValid)
                     {
-                        _ = _staticSurface.BlitClipped(surface, X, Y);
+                        _ = StaticSurface.BlitClipped(surface, X, Y);
                         m.UpdateDynamicScene();
                         if (surface.Lock(ref lockedSurface, r) >= 0)
                         {
@@ -266,14 +265,14 @@ public partial class HexSpriteMapViewer : Component
                     else
                     {
                         m.UpdateStaticScene();
-                        if (_staticSurface.Lock(ref lockedSurface) >= 0)
+                        if (StaticSurface.Lock(ref lockedSurface) >= 0)
                         {
                             m.DrawStaticScene(ref lockedSurface);
-                            _ = _staticSurface.Unlock();
-                            _staticSurfaceValid = true;
+                            _ = StaticSurface.Unlock();
+                            StaticSurfaceValid = true;
                         }
 
-                        if (_staticSurface.BlitClipped(surface, X, Y) >= 0)
+                        if (StaticSurface.BlitClipped(surface, X, Y) >= 0)
                         {
                             m.UpdateDynamicScene();
                             if (surface.Lock(ref lockedSurface, r) >= 0)
@@ -401,8 +400,8 @@ public partial class HexSpriteMapViewer : Component
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
-    public Surface StaticSurface => _staticSurface;
-    public bool StaticSurfaceValid { get => _staticSurfaceValid; set => _staticSurfaceValid = value; }
+    public Surface StaticSurface { get; private set; }
+    public bool StaticSurfaceValid { get; set; }
     public int SceneX { get => _sceneX; set => SetSceneX(value); }
     public int SceneY { get => _sceneY; set => SetSceneY(value); }
     public int SceneL { get => _sceneL; set => SetSceneL(value); }

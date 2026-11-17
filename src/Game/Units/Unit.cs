@@ -19,13 +19,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-public partial class Unit : Troop
+public partial class Unit(CustomNode owner) : Troop(owner)
 {
     public new const int ClassId = 131603;
-
-    public Unit(CustomNode owner) : base(owner)
-    { }
-
     private byte _experience;
     private sbyte _movePoints;
     private sbyte _hitPoints;

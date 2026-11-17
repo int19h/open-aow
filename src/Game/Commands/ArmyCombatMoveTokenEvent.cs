@@ -16,11 +16,8 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // combat mode, combat type, ignore defenders
-public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
+public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
-    public ArmyCombatMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135426;
 
     private ArmyCombatMoveTokenEventMode _combatMode;
@@ -207,8 +204,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             if (_combatType != CombatType.None)
             {
-                flow = new CombatFlowControlTokenEvent(null) { Holder = CreationHolder() };
-                flow.Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.ActivateTacticalBattle, CombatFlowControlModeElement.EnableTurnTimer);
+                flow = new CombatFlowControlTokenEvent(null)
+                {
+                    Holder = CreationHolder(),
+                    Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.ActivateTacticalBattle, CombatFlowControlModeElement.EnableTurnTimer)
+                };
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
                 {
                     flow.Mode += Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch);
@@ -252,8 +252,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             {
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
                 {
-                    flow = new CombatFlowControlTokenEvent(null) { Holder = CreationHolder() };
-                    flow.Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch, CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.EnableTurnTimer);
+                    flow = new CombatFlowControlTokenEvent(null)
+                    {
+                        Holder = CreationHolder(),
+                        Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch, CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.EnableTurnTimer)
+                    };
                     StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                     _ = flow.Release();
                 }
@@ -270,10 +273,13 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     {
         NewTurnEventLog log;
         StrategicMap.Current.SetSeatedPlayer(-1);
-        log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-        log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
-        log.Mode = NewTurnEventLogMode.Dialog;
-        log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
+        log = new NewTurnEventLog(null)
+        {
+            Holder = CreationHolder(),
+            TurnPlayer = StrategicMap.Current.CurrentPlayer,
+            Mode = NewTurnEventLogMode.Dialog,
+            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+        };
         if (StrategicMap.Current.CurrentPlayer == 0)
         {
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
@@ -592,10 +598,13 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player2);
             if (StrategicMap.Current.SeatedPlayer == player2)
             {
-                request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
-                request.AttackerPlayer = ArmyHexSprite.Army.Player;
-                request.DefenderPlayer = field.GetPlayer();
-                request.Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel);
+                request = new CombatTypeRequestEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    AttackerPlayer = ArmyHexSprite.Army.Player,
+                    DefenderPlayer = field.GetPlayer(),
+                    Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel)
+                };
                 request.SetTokenEvent(this);
                 request.CreateNewMove = true;
                 request.ArmyId = ArmyHexSprite.Army.CreateId(Selection);
@@ -642,11 +651,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
         {
-            log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-            log.TurnPlayer = field.GetPlayer();
-            log.Mode = NewTurnEventLogMode.Dialog;
-            log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
+            log = new NewTurnEventLog(null)
+            {
+                Holder = CreationHolder(),
+                TurnPlayer = field.GetPlayer(),
+                Mode = NewTurnEventLogMode.Dialog,
+                DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText)
+            };
             StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
             _ = log.Release();
         }
@@ -655,11 +667,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady && _combatType == CombatType.Tactical && StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
             {
                 _combatMode = ArmyCombatMoveTokenEventMode.SetupHotSeat;
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = field.GetPlayer();
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText);
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = field.GetPlayer(),
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText)
+                };
                 StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
                 _ = log.Release();
             }
@@ -668,10 +683,13 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
             ArmyHexSprite.PauseMove();
-            request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
-            request.AttackerPlayer = ArmyHexSprite.Army.Player;
-            request.DefenderPlayer = field.GetPlayer();
-            request.Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel);
+            request = new CombatTypeRequestEventLog(null)
+            {
+                Holder = CreationHolder(),
+                AttackerPlayer = ArmyHexSprite.Army.Player,
+                DefenderPlayer = field.GetPlayer(),
+                Location = new MapCoordinate(field.HexX, field.HexY, field.HexLevel)
+            };
             if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
             {
                 sbyte hexLevel = ArmyHexSprite.GetHexLevel();

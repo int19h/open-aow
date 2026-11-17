@@ -9,11 +9,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-public partial class TacticalBattleItemHexSprite : ItemHexSprite
+public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
 {
-
-    public TacticalBattleItemHexSprite(CustomNode owner) : base(owner)
-    { }
 
     // AoWTC.pas:2586
     public override void Deactivate()

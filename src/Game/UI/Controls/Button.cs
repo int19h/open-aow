@@ -5,11 +5,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Controls;
 
 // Fields: OnClick
-public partial class Button : BaseButton
+public partial class Button(Component owner) : BaseButton(owner)
 {
-    public Button(Component owner) : base(owner)
-    { }
-
     [Published]
     public event NotifyEvent<Button> OnClick;
 

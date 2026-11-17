@@ -9,13 +9,11 @@ public partial class PropertyTable : IDisposable
 {
     private Item[] _items = [];
     private int _capacity;
-    private int _count;
     private int _nextIndex;
     private int _maxId;
     private Settings[] _stack = [];
     private int _stackCount;
     private int _stackCapacity;
-    private int _first;
 
     // Engine.pas:2260
     internal void SetCapacity(int newCapacity)
@@ -29,9 +27,9 @@ public partial class PropertyTable : IDisposable
         {
             Array.Resize(ref _items, newCapacity);
             _capacity = newCapacity;
-            if (_capacity < _count)
+            if (_capacity < Count)
             {
-                _count = _capacity;
+                Count = _capacity;
             }
         }
     }
@@ -46,14 +44,14 @@ public partial class PropertyTable : IDisposable
     // Engine.pas:2273
     public void Add(int id, int offset)
     {
-        if (_capacity == _count)
+        if (_capacity == Count)
         {
             SetCapacity(_capacity + 1);
         }
 
-        _items[_count].Id = id;
-        _items[_count].Offset = offset;
-        _count += 1;
+        _items[Count].Id = id;
+        _items[Count].Offset = offset;
+        Count += 1;
         if (id > _maxId)
         {
             _maxId = id;
@@ -74,16 +72,16 @@ public partial class PropertyTable : IDisposable
         int result;
         int i;
         i = _nextIndex;
-        if (i >= _count || _items[i].Id != id)
+        if (i >= Count || _items[i].Id != id)
         {
-            i = _first;
+            i = First;
             result = -1;
-            while (i < _count && _items[i].Id != id)
+            while (i < Count && _items[i].Id != id)
             {
                 i += 1;
             }
 
-            if (i != _count)
+            if (i != Count)
             {
                 result = _items[i].Offset;
                 _nextIndex = i + 1;
@@ -105,13 +103,13 @@ public partial class PropertyTable : IDisposable
         int i;
         if (id <= _maxId)
         {
-            i = _first;
-            while (i < _count && _items[i].Id != id)
+            i = First;
+            while (i < Count && _items[i].Id != id)
             {
                 i += 1;
             }
 
-            result = i != _count;
+            result = i != Count;
         }
         else
         {
@@ -126,7 +124,7 @@ public partial class PropertyTable : IDisposable
     public int NextOffset(int offset)
     {
         int result = -1;
-        for (int i = _first; i < _count; i++)
+        for (int i = First; i < Count; i++)
         {
             if (_items[i].Offset > offset && (result == -1 || _items[i].Offset < result))
             {
@@ -146,11 +144,11 @@ public partial class PropertyTable : IDisposable
             Array.Resize(ref _stack, _stackCapacity);
         }
 
-        _stack[_stackCount] = new Settings(First: _first, NextIndex: _nextIndex, MaxId: _maxId);
+        _stack[_stackCount] = new Settings(First: First, NextIndex: _nextIndex, MaxId: _maxId);
 
         _stackCount += 1;
-        _nextIndex = _count;
-        _first = _count;
+        _nextIndex = Count;
+        First = Count;
         _maxId = 0;
     }
 
@@ -158,8 +156,8 @@ public partial class PropertyTable : IDisposable
     public void RestoreSettings()
     {
         _stackCount -= 1;
-        _count = _first;
-        (_first, _nextIndex, _maxId) = _stack[_stackCount];
+        Count = First;
+        (First, _nextIndex, _maxId) = _stack[_stackCount];
     }
 
     // Engine.pas:2361
@@ -210,7 +208,7 @@ public partial class PropertyTable : IDisposable
         int pair = default;
         longCount = 0;
         shortCount = 0;
-        for (int i = _first, last = _count - 1; i <= last; i++)
+        for (int i = First, last = Count - 1; i <= last; i++)
         {
             if (_items[i].Id <= 127 && _items[i].Offset <= 255)
             {
@@ -235,7 +233,7 @@ public partial class PropertyTable : IDisposable
 
         if (shortCount != 0)
         {
-            for (int i = _first, last = _count - 1; i <= last; i++)
+            for (int i = First, last = Count - 1; i <= last; i++)
             {
                 if (_items[i].Id <= 127 && _items[i].Offset <= 255)
                 {
@@ -247,7 +245,7 @@ public partial class PropertyTable : IDisposable
 
         if (longCount != 0)
         {
-            for (int i = _first, last = _count - 1; i <= last; i++)
+            for (int i = First, last = Count - 1; i <= last; i++)
             {
                 if (_items[i].Id > 127 || _items[i].Offset > 255)
                 {
@@ -259,8 +257,8 @@ public partial class PropertyTable : IDisposable
     }
 
     public Item[] Items => _items;
-    public int Count => _count;
-    public int First => _first;
+    public int Count { get; private set; }
+    public int First { get; private set; }
 
     [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]

@@ -15,10 +15,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
+public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public PoisonPlantSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // PoisonP.pas:303
     public new const int ClassId = 135941;

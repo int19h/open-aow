@@ -115,9 +115,12 @@ public abstract partial record ProductionOrder
     // Adds Text at City to the logbook of the control's player.
     protected static void Log(ProductionControl control, City city, string text)
     {
-        CityProductionEventLog eventValue = new(null) { Holder = control };
-        eventValue.Player = control.GetPlayer();
-        eventValue.Text = text;
+        CityProductionEventLog eventValue = new(null)
+        {
+            Holder = control,
+            Player = control.GetPlayer(),
+            Text = text
+        };
         eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
         _ = eventValue.Release();

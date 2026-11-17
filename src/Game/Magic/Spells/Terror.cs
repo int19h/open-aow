@@ -90,11 +90,13 @@ public partial class Terror : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52, creator: this);
-            command.Target = null;
-            command.MoveCost = 1;
-            command.SpellId = SpellId;
-            command.ExpectedDamageValue = value;
+            command = new FastBattleSpellCommand(52, creator: this)
+            {
+                Target = null,
+                MoveCost = 1,
+                SpellId = SpellId,
+                ExpectedDamageValue = value
+            };
             commands.Add(command);
         }
     }

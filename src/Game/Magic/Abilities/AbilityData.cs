@@ -8,12 +8,8 @@ namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P1. }
 // (Next,)
-public partial class AbilityData : EngineObject
+public partial class AbilityData(CustomNode owner) : EngineObject(owner)
 {
-
-    public AbilityData(CustomNode owner) : base(owner)
-    { }
-
     public AbilityData Next { get; set; }
 
     // Ability.PAS:1234

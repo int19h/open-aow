@@ -9,6 +9,12 @@ namespace Aow.Game.AI.Groups;
 // it creates and reads them through Groups. A player's AIGroups list is a separate index.
 public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
 {
+    public AIGroupManager(CustomNode owner) : base(owner)
+    {
+        _nextId = 1;
+        RegisteredClasses = [];
+    }
+
     /// <summary>The groups this manager owns, in their stored order.</summary>
     public AIGroupCollection Groups => new(this);
 
@@ -18,13 +24,6 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroup;
 
     int IChildSink<AIGroup>.AddChild(AIGroup child) => AddChild(child);
-
-    // AIGroup.pas:564
-    public AIGroupManager(CustomNode owner) : base(owner)
-    {
-        _nextId = 1;
-        RegisteredClasses = [];
-    }
 
     private int _nextId;
 

@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's TItemLibrary derives from TItemList. The port's library owns its items as its
 // node children and reads them through Items.
-public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
+public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this library, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -25,9 +25,6 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
     public event NotifyEvent<object> OnChanged;
-
-    public ItemLibrary(CustomNode owner) : base(owner)
-    { }
 
     // Army.PAS:4596
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
@@ -189,9 +186,12 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     public Item CreateItem()
     {
         Item item;
-        item = new Item(null) { Holder = CreationHolder() };
-        item.LibraryId = CreateUniqueLibraryId();
-        item.LibraryName = Name;
+        item = new Item(null)
+        {
+            Holder = CreationHolder(),
+            LibraryId = CreateUniqueLibraryId(),
+            LibraryName = Name
+        };
         item.SetOwner(this);
         _ = item.Release();
         return item;

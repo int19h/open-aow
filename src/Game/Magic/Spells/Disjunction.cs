@@ -59,9 +59,12 @@ public partial class Disjunction : Spell
         DisjunctionSpellCaster caster;
         if (CanActivate(source, ref reason))
         {
-            caster = new DisjunctionSpellCaster(null) { Holder = CreationHolder() };
-            caster.CasterSpellId = SpellId;
-            caster.CasterSourceId = source.UnitId;
+            caster = new DisjunctionSpellCaster(null)
+            {
+                Holder = CreationHolder(),
+                CasterSpellId = SpellId,
+                CasterSourceId = source.UnitId
+            };
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
             result = true;

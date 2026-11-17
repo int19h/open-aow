@@ -88,10 +88,13 @@ public partial class ItemExplorationSite : ExplorationSite
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
             army = Owner.GetArmyHexSprite();
-            log = new ItemExplorationSiteEventLog(null) { Holder = CreationHolder() };
-            log.Player = army.Army.Player;
-            log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);
-            log.Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel());
+            log = new ItemExplorationSiteEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = army.Army.Player,
+                Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText),
+                Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel())
+            };
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 item = _items.GetItem(i);

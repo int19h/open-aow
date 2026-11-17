@@ -10,11 +10,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class House : CombatStructure
+public partial class House(CustomNode owner) : CombatStructure(owner)
 {
-    public House(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 2229522;
 
     private int _race;
@@ -170,10 +167,8 @@ public partial class House : CombatStructure
         }
     }
 
-    public new partial class Resource : CombatStructureResource
+    public new partial class Resource(CustomNode owner) : CombatStructureResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // House.pas:145
         public new const int ClassId = 2229523;

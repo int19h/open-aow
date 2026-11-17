@@ -479,9 +479,11 @@ public sealed class AsmStubsProbeTests
         {
             for (int b = -1; b <= 1; b++)
             {
-                HexNumberWalkData walk = new();
-                walk.CenterX = a;
-                walk.CenterY = b;
+                HexNumberWalkData walk = new()
+                {
+                    CenterX = a,
+                    CenterY = b
+                };
                 for (int i = 0; i < 80; i++)
                 {
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);

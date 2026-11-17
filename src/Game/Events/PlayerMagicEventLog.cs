@@ -13,8 +13,6 @@ namespace Aow.Game.Events;
 // (mode, location, spell ID, value, enchantment name)
 public partial class PlayerMagicEventLog : EventLog
 {
-    // Spells.PAS:1847
-    // mode, location, spell ID, value, enchantment name
     public PlayerMagicEventLog(CustomNode owner) : base(owner) => Location = MapCoordinate.None;
 
     public new const int ClassId = 131824;

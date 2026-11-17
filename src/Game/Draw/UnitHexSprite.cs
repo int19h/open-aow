@@ -402,8 +402,11 @@ public partial class UnitHexSprite : HexSprite
 
         if (StrategicMap.Current.ShowUnitShadows)
         {
-            _shadow = new UnitShadowHexSprite(null) { Holder = CreationHolder() };
-            _shadow.UnitHexSprite = this;
+            _shadow = new UnitShadowHexSprite(null)
+            {
+                Holder = CreationHolder(),
+                UnitHexSprite = this
+            };
         }
     }
 

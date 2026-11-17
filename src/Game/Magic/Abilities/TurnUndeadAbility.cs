@@ -111,9 +111,12 @@ public partial class TurnUndeadAbility : TouchAbility
         data = GetData(owner);
         if (data == null)
         {
-            data = new MultiLevelAbilityData(null) { Holder = CreationHolder() };
-            data.LevelAbilityId = (ushort)AbilityId;
-            data.Level = 1;
+            data = new MultiLevelAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                LevelAbilityId = (ushort)AbilityId,
+                Level = 1
+            };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
             result = true;

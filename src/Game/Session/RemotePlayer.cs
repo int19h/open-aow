@@ -5,13 +5,10 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
-public partial class RemotePlayer : EngineObject
+public partial class RemotePlayer(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:266
     public new const int ClassId = 131682;
-
-    public RemotePlayer(CustomNode owner) : base(owner)
-    { }
 
     public string Name { get; set; } = "";
     public int RemoteId { get; set; }

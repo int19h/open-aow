@@ -380,8 +380,11 @@ public partial class ProductionPlace : PlayerStructure
         ProductionPlaceEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
-            log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
-            log.Player = newPlayer;
+            log = new ProductionPlaceEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = newPlayer
+            };
             string editName = EditName();
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(HexX, HexY, HexLevel);
@@ -619,8 +622,11 @@ public partial class ProductionPlace : PlayerStructure
         string reason = "";
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = queue ? new Trade(1) : new Trade(-1);
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = queue ? new Trade(1) : new Trade(-1)
+            };
 
             _ = ProductionControl.Produce(item, queue);
             item?.Dispose();

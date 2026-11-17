@@ -201,8 +201,11 @@ public partial class Battle : EngineObject
     // Combat.pas:6163
     public virtual CombatUnit CreateCombatUnit()
     {
-        CombatUnit result = new FastBattleUnit(null) { Holder = CreationHolder() };
-        result.Id = CreateUniqueCombatObjectId();
+        CombatUnit result = new FastBattleUnit(null)
+        {
+            Holder = CreationHolder(),
+            Id = CreateUniqueCombatObjectId()
+        };
         return result;
     }
 
@@ -416,8 +419,11 @@ public partial class Battle : EngineObject
     public virtual void NewTurn(byte combatPlayer)
     {
         NewCombatTurnCombatAction a;
-        a = new NewCombatTurnCombatAction(null) { Holder = CreationHolder() };
-        a.CombatPlayer = combatPlayer;
+        a = new NewCombatTurnCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            CombatPlayer = combatPlayer
+        };
         ExecuteCombatAction(a);
         _ = a.Release();
         UpdateSidesSettings();
@@ -593,8 +599,11 @@ public partial class Battle : EngineObject
     public void SetLogbookHeader(string header)
     {
         UpdateHeaderCombatAction a;
-        a = new UpdateHeaderCombatAction(null) { Holder = CreationHolder() };
-        a.Header = header;
+        a = new UpdateHeaderCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            Header = header
+        };
         ExecuteCombatAction(a);
         _ = a.Release();
     }

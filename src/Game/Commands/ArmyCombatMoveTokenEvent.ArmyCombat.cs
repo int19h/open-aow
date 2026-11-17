@@ -120,8 +120,11 @@ public partial class ArmyCombatMoveTokenEvent
                 DistributeCombatEvent(combat.Logbook, true);
                 if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.SeatedPlayer == defender)
                 {
-                    log = new UserEventLog(null) { Holder = CreationHolder() };
-                    log.Data = this;
+                    log = new UserEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Data = this
+                    };
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
                     _ = log.Release();
                     StrategicMap.Current.AIExecutor.Lock();

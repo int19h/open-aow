@@ -2,10 +2,6 @@
 
 namespace Aow.Engine;
 
-public partial class PluginMissingException : Exception
+public partial class PluginMissingException(string message) : Exception(message)
 {
-    // SysUtils.pas:174
-    public PluginMissingException(string message) : base(message)
-    {
-    }
 }

@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatFire : SingleHexSprite
+public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
 {
-    public CombatFire(CustomNode owner) : base(owner)
-    {
-    }
 
     // CombatFire.pas:80
     public new const int ClassId = 2229578;

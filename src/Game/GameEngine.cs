@@ -112,8 +112,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5955
     public virtual void CreateHexSpriteSet()
     {
-        _hexSpriteSet = GamePack.Create(this, holder: this);
-        GameSet = _hexSpriteSet;
+        HexSpriteSet = GamePack.Create(this, holder: this);
+        GameSet = HexSpriteSet;
         GamePack.Current = GameSet;
     }
 
@@ -154,8 +154,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public void TranslateEngineObject(EngineObject objectValue, IvDictionary dictionary)
     {
         TranslateTextStream stream;
-        stream = new TranslateTextStream(this);
-        stream.FDictionary = dictionary;
+        stream = new TranslateTextStream(this)
+        {
+            FDictionary = dictionary
+        };
         try
         {
             stream.Object(objectValue, 0);
@@ -654,14 +656,17 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     private RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, Set<DamageType> damageTypes, int enchantment)
     {
         RangedAttackAbility ability;
-        ability = new RangedAttackAbility(null) { Holder = this };
-        ability.AbilityId = id;
-        ability.AbilityName = name;
-        ability.RangeRangedAttack = range;
-        ability.DamageTypesRangedAttack = damageTypes;
-        ability.AttackRangedAttack = attack;
-        ability.DamageRangedAttack = damage;
-        ability.AttackRepeatRangedAttack = repeats;
+        ability = new RangedAttackAbility(null)
+        {
+            Holder = this,
+            AbilityId = id,
+            AbilityName = name,
+            RangeRangedAttack = range,
+            DamageTypesRangedAttack = damageTypes,
+            AttackRangedAttack = attack,
+            DamageRangedAttack = damage,
+            AttackRepeatRangedAttack = repeats
+        };
         // { Original ignores Enchantment. }
         return ability;
     }
@@ -669,12 +674,15 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     private BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
     {
         BoltsAbility ability;
-        ability = new BoltsAbility(null) { Holder = this };
-        ability.AbilityId = id;
-        ability.AbilityName = name;
-        ability.DamageTypesRangedAttack = Set<DamageType>.Of(damageType);
-        ability.DamageRangedAttack = damage;
-        ability.AttackRangedAttack = (sbyte)attack;
+        ability = new BoltsAbility(null)
+        {
+            Holder = this,
+            AbilityId = id,
+            AbilityName = name,
+            DamageTypesRangedAttack = Set<DamageType>.Of(damageType),
+            DamageRangedAttack = damage,
+            AttackRangedAttack = (sbyte)attack
+        };
         // { Original ignores Enchantment. }
         return ability;
     }
@@ -682,10 +690,13 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     private BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
     {
         BreathAbility ability;
-        ability = new BreathAbility(null) { Holder = this };
-        ability.AbilityId = id;
-        ability.AbilityName = name;
-        ability.DamageTypesRangedAttack = Set<DamageType>.Of(damageType);
+        ability = new BreathAbility(null)
+        {
+            Holder = this,
+            AbilityId = id,
+            AbilityName = name,
+            DamageTypesRangedAttack = Set<DamageType>.Of(damageType)
+        };
         // { Original ignores Enchantment. }
         return ability;
     }
@@ -693,10 +704,13 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     private StrikeEnhancementAbility CreateStrikeEnhancement(int id, string name, Set<AbilitySelectionType> selection)
     {
         StrikeEnhancementAbility ability;
-        ability = new StrikeEnhancementAbility(null) { Holder = this };
-        ability.SelectionTypes = selection;
-        ability.AbilityId = id;
-        ability.AbilityName = name;
+        ability = new StrikeEnhancementAbility(null)
+        {
+            Holder = this,
+            SelectionTypes = selection,
+            AbilityId = id,
+            AbilityName = name
+        };
         return ability;
     }
 

@@ -3,9 +3,6 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Events;
 
-public partial class FlagMessageEventLog : HelpMessageEventLog
+public partial class FlagMessageEventLog(CustomNode owner, EngineObject holder) : HelpMessageEventLog(owner, holder)
 {
-    public FlagMessageEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
-    { }
-
 }

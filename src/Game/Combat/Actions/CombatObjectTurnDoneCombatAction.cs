@@ -6,13 +6,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class CombatObjectTurnDoneCombatAction : CombatAction
+public partial class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1038
     public new const int ClassId = 131772;
-
-    public CombatObjectTurnDoneCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public byte CombatObjectId { get; set; }
 

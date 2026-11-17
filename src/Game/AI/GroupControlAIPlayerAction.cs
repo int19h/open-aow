@@ -9,13 +9,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // group cycles, group control
-public partial class GroupControlAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    // AI.pas:1049
-    public GroupControlAIPlayerAction(CustomNode owner) : base(owner)
-    {
-    }
-
     private int _groupProcessCycles;
     private AIGroupControl _groupControl;
 

@@ -8,10 +8,8 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class Terrain : TerrainMapObject
+public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
 {
-    public Terrain(CustomNode owner) : base(owner)
-    { }
 
     // AoWTer.pas:89
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -114,11 +112,8 @@ public partial class Terrain : TerrainMapObject
     }
 
     // MapFieldResponse (stream id 20)
-    public new partial class Resource : TerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
         public int MapFieldResponse { get; private set; }
 
         // AoWTer.pas:116

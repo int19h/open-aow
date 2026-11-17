@@ -7,11 +7,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class UpperIsometricHex : IsometricHex
+public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
 {
-    public UpperIsometricHex(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131440;
 
     // IsoHex.pas:355
@@ -44,11 +41,8 @@ public partial class UpperIsometricHex : IsometricHex
         }
     }
 
-    public new partial class Resource : IsometricHexResource
+    public new partial class Resource(CustomNode owner) : IsometricHexResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
         public new const int ClassId = 131441;
 
         // IsoHex.pas:443

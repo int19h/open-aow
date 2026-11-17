@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // pending password
-public partial class GamePlayDialog : UIModule
+public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
 {
-    public GamePlayDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public CheckBox AutoSaveCheckBox { get; private set; }
     public CheckBox SkipIntroCheckBox { get; private set; }
@@ -54,9 +51,11 @@ public partial class GamePlayDialog : UIModule
             if (!IsEmpty(log.Password))
             {
                 _newPassword = log.Password;
-                password = new PasswordEventLog(null, holder: UI.Engine);
-                password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
-                password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
+                password = new PasswordEventLog(null, holder: UI.Engine)
+                {
+                    Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText),
+                    Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText)
+                };
                 StrategicMap.Current.TriggerTypedExecuteEventLog(password, true, PasswordConfirmed);
                 _ = password.Release();
             }
@@ -147,8 +146,10 @@ public partial class GamePlayDialog : UIModule
         PasswordEventLog log = default;
         if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
         {
-            log = new PasswordEventLog(null, holder: UI.Engine);
-            log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
+            log = new PasswordEventLog(null, holder: UI.Engine)
+            {
+                Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText)
+            };
             StrategicMap.Current.TriggerTypedExecuteEventLog(log, true, PasswordEntered);
             _ = log.Release();
         }

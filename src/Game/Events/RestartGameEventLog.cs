@@ -5,10 +5,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Events;
 
-public partial class RestartGameEventLog : MessageEventLog
+public partial class RestartGameEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public RestartGameEventLog(CustomNode owner, EngineObject holder) : base(owner, holder)
-    { }
 
     // Diplomacy.pas:2450
     public new const int ClassId = 131831;

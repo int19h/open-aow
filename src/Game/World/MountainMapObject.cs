@@ -5,10 +5,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World;
 
-public partial class MountainMapObject : Hexes.Terrain
+public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
 {
-    public MountainMapObject(CustomNode owner) : base(owner)
-    { }
 
     // Mountain.pas:101
     public new const int ClassId = 131432;

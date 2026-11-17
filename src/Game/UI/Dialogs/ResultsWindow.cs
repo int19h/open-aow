@@ -18,11 +18,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // player indices, checkbox controls
-public partial class ResultsWindow : UIModule
+public partial class ResultsWindow(UIContext ui) : UIModule(ui)
 {
-    public ResultsWindow(UIContext ui) : base(ui)
-    { }
-
     public CheckBox Player1CheckBox { get; private set; }
     public CheckBox Player2CheckBox { get; private set; }
     public CheckBox Player3CheckBox { get; private set; }

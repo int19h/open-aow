@@ -4,10 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Events;
 
-public partial class UserEventLog : EventLog
+public partial class UserEventLog(CustomNode owner) : EventLog(owner)
 {
-    public UserEventLog(CustomNode owner) : base(owner)
-    { }
-
     public object Data { get; set; }
 }

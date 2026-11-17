@@ -16,11 +16,8 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // poison cloud resource
-public partial class PestilenceStorm : Storm
+public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
 {
-    public PestilenceStorm(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135745;
 
     private PoisonCloud.Resource _cloudResource;

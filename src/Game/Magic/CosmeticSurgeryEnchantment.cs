@@ -11,14 +11,9 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic;
 
-public partial class CosmeticSurgeryEnchantment : UnitEnchantment
+public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
 {
     public new const int ClassId = 135964;
-
-    // AoWAb.PAS:885
-    public CosmeticSurgeryEnchantment(CustomNode owner) : base(owner)
-    {
-    }
 
     public int FaceIndex { get; set; }
 

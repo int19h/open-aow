@@ -43,7 +43,6 @@ public class Component : Persistent
 {
     private readonly List<Component> children = [];
     private List<Component>? freeNotifies;
-    private string name = "";
 
     public Component(Component? owner = null) => owner?.InsertComponent(this);
 
@@ -67,10 +66,10 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.SetName and ValidateRename.
     public string Name
     {
-        get => name;
+        get;
         set
         {
-            if (name == value)
+            if (field == value)
             {
                 return;
             }
@@ -81,10 +80,10 @@ public class Component : Persistent
                 throw new ArgumentException($"''{value}'' is not a valid component name");
             }
 
-            Owner?.ValidateRename(this, name, value);
-            name = value;
+            Owner?.ValidateRename(this, field, value);
+            field = value;
         }
-    }
+    } = "";
 
     protected virtual void ValidateRename(Component component, string oldName, string newName)
     {
@@ -113,7 +112,7 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.InsertComponent.
     public void InsertComponent(Component component)
     {
-        component.ValidateContainer(this); ValidateRename(component, "", component.name);
+        component.ValidateContainer(this); ValidateRename(component, "", component.Name);
         children.Add(component); component.Owner = this; Notification(component, Operation.Insert);
     }
 
@@ -122,10 +121,10 @@ public class Component : Persistent
     protected virtual void ValidateInsert(Component component) { }
 
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
-    public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; _ = children.Remove(component); ValidateRename(component, component.name, ""); }
+    public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; _ = children.Remove(component); ValidateRename(component, component.Name, ""); }
 
     // CLASSES.PAS TComponent.FindComponent.
-    public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.name, value) == 0);
+    public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.Name, value) == 0);
 
     // CLASSES.PAS TComponent.FreeNotification establishes reciprocal notifications.
     public void FreeNotification(Component component)

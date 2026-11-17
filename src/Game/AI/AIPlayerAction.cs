@@ -10,12 +10,8 @@ namespace Aow.Game.AI;
 
 // { Interface declaration run owned by P5. }
 // process cycles, player control, phase
-public partial class AIPlayerAction : EngineObject, IAIPlayerActionClass
+public partial class AIPlayerAction(CustomNode owner) : EngineObject(owner), IAIPlayerActionClass
 {
-
-    public AIPlayerAction(CustomNode owner) : base(owner)
-    { }
-
     private int _processCycles;
 
     public AIPlayerControl Control { get; set; }

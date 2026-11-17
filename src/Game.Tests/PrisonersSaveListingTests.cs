@@ -38,9 +38,12 @@ public sealed class PrisonersSaveListingTests
         string source = Path.Combine(directory, "prisoners-source.oasg");
         string saved = Path.Combine(directory, "prisoners.oasg");
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
-        StructureResource resource = new(null) { Holder = engine, ResourceId = PackResourceId };
-        // An explored dungeon reads this list while it activates. An empty list keeps that read in range.
-        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null);
+        StructureResource resource = new(null)
+        {
+            Holder = engine,
+            ResourceId = PackResourceId,         // An explored dungeon reads this list while it activates. An empty list keeps that read in range.
+            ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null)
+        };
         // Activation stores the engine on the resource. A structure reads that engine while it chooses a terrain type.
         engine.ActivateEngineObject(resource);
         // The fixture engine does not run GameClasses.Register. The running game registers a dungeon there.
@@ -165,8 +168,12 @@ public sealed class PrisonersSaveListingTests
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
         string saved = Path.Combine(directory, "prisoners" + FileBoundary.WriteExtension(DocumentKind.CampaignSave));
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
-        StructureResource resource = new(null) { Holder = engine, ResourceId = PackResourceId };
-        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null);
+        StructureResource resource = new(null)
+        {
+            Holder = engine,
+            ResourceId = PackResourceId,
+            ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null)
+        };
         engine.ActivateEngineObject(resource);
         EngineClass dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);

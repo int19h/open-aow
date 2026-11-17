@@ -19,11 +19,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // close callback, referenced hero, list sort orders, live hero, editable copy
-public partial class HeroUpgradeDialog : UIModule
+public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
 {
-    public HeroUpgradeDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label HeaderLabel { get; private set; }
     public ListBox AvailableAbilitiesList { get; private set; }

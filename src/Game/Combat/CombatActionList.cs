@@ -5,7 +5,7 @@ using Aow.Game.Combat.Actions;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatActionList : ReferenceNode, IChildList<CombatAction>
+public partial class CombatActionList(CustomNode owner) : ReferenceNode(owner), IChildList<CombatAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatAction, so the cast never fails.
@@ -14,9 +14,6 @@ public partial class CombatActionList : ReferenceNode, IChildList<CombatAction>
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatAction;
 
     int IChildSink<CombatAction>.AddChild(CombatAction child) => AddChild(child);
-
-    public CombatActionList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The actions of this list, in their stored order.</summary>
     public CombatActionCollection Actions => new(this);

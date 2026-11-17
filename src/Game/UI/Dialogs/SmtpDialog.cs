@@ -10,11 +10,8 @@ using Aow.Game.UI.Windows;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SmtpDialog : UIModule
+public partial class SmtpDialog(UIContext ui) : UIModule(ui)
 {
-    public SmtpDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Button ExitButton { get; private set; }
     public Label SendingGameLabel { get; private set; }

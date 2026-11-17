@@ -6,12 +6,8 @@ using Aow.Game.Session;
 namespace Aow.Game.AI;
 
 // No new fields
-public partial class BudgetManagerAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class BudgetManagerAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    // AI.pas:2201
-    public BudgetManagerAIPlayerAction(CustomNode owner) : base(owner)
-    {
-    }
 
     // AI.pas:2210
     public override bool Process() => false;

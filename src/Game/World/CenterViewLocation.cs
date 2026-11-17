@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World;
 
-public partial class CenterViewLocation : MapObject
+public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
 {
-    public CenterViewLocation(CustomNode owner) : base(owner)
-    { }
 
     // CenterViewLoc.pas:46
     public new const int ClassId = 2233640;

@@ -5,7 +5,7 @@ using Aow.Game.Units;
 
 namespace Aow.Game.World.Structures;
 
-public partial class MigrationList : OwningNode, IChildList<MigrationItem>
+public partial class MigrationList(CustomNode owner) : OwningNode(owner), IChildList<MigrationItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MigrationItem, so the cast never fails.
@@ -14,9 +14,6 @@ public partial class MigrationList : OwningNode, IChildList<MigrationItem>
     protected sealed override bool AcceptsChild(EngineObject child) => child is MigrationItem;
 
     int IChildSink<MigrationItem>.AddChild(MigrationItem child) => AddChild(child);
-
-    public MigrationList(CustomNode owner) : base(owner)
-    { }
 
     // City.pas:2711
     public MigrationItem GetItems(int index) => this[index];

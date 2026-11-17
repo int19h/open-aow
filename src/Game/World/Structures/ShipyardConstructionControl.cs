@@ -9,10 +9,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ShipyardConstructionControl : StructureConstructionControl
+public partial class ShipyardConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
-    public ShipyardConstructionControl(CustomNode owner) : base(owner)
-    { }
 
     // Shipyard.pas:93
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)

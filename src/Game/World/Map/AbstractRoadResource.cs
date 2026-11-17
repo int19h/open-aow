@@ -4,10 +4,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Map;
 
-public partial class AbstractRoadResource : MapObjectResource
+public partial class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
 {
-    public AbstractRoadResource(CustomNode owner) : base(owner)
-    { }
 
     // MAPOBJ.PAS:874
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

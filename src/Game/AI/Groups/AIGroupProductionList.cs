@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 
 // { Interface declaration run owned by P5. }
 // children
-public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProduction>
+public partial class AIGroupProductionList(CustomNode owner) : OwningNode(owner), IChildList<AIGroupProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProduction.
@@ -22,9 +22,6 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProduction;
 
     int IChildSink<AIGroupProduction>.AddChild(AIGroupProduction child) => AddChild(child);
-
-    public AIGroupProductionList(CustomNode owner) : base(owner)
-    { }
 
     // AIGroup.pas:1
     public AIGroupProduction GetProductions(int index) => this[index];
@@ -44,9 +41,11 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     // AIGroup.pas:15
     public void Add(ProductionControl control, Troop troop)
     {
-        AIGroupProduction aiGroupProduction = new(this);
-        aiGroupProduction.Control = control;
-        aiGroupProduction.Troop = troop;
+        _ = new AIGroupProduction(this)
+        {
+            Control = control,
+            Troop = troop
+        };
     }
 
     // AIGroup.pas:24

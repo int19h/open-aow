@@ -14,10 +14,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-public partial class Arena : Structure
+public partial class Arena(CustomNode owner) : Structure(owner)
 {
-    public Arena(CustomNode owner) : base(owner)
-    { }
 
     // Arena.pas:95
     public new const int ClassId = 133276;
@@ -209,8 +207,11 @@ public partial class Arena : Structure
         ArmyHexSprite army;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterArenaEventLog(null) { Holder = CreationHolder() };
-            log.Arena = this;
+            log = new EnterArenaEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Arena = this
+            };
             army = Owner.GetArmyHexSprite();
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {

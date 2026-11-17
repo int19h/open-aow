@@ -3,18 +3,12 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class LowerIsometricHex : IsometricHex
+public partial class LowerIsometricHex(CustomNode owner) : IsometricHex(owner)
 {
-    public LowerIsometricHex(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131442;
 
-    public new partial class Resource : IsometricHexResource
+    public new partial class Resource(CustomNode owner) : IsometricHexResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
-
         public new const int ClassId = 131443;
 
         // IsoHex.pas:581

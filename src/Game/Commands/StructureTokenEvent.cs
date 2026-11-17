@@ -12,11 +12,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class StructureTokenEvent : TokenEvent
+public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public StructureTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135440;
 
     private MapCoordinate Location { get; set; }

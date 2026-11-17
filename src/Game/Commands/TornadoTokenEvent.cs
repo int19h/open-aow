@@ -19,6 +19,8 @@ namespace Aow.Game.Commands;
 // angle, animation, selected army identity
 public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 {
+    public TornadoTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
+
     // GlobalTargetSpells.pas:1559
     public new const int ClassId = 135972;
 
@@ -40,9 +42,6 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         base.PersistFields(persister);
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
-
-    // GlobalTargetSpells.pas:1547
-    public TornadoTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalTargetSpells.pas:1660
     public override bool Process(Troop source, int value)
@@ -72,8 +71,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             // The original constructs a plain animation and stores it on the event. The later warp uses an image sequence.
-            _animation = new Animation(null) { Holder = CreationHolder() };
-            _animation.AnimationLevel = 27;
+            _animation = new Animation(null)
+            {
+                Holder = CreationHolder(),
+                AnimationLevel = 27
+            };
             _animation.SetShowHandler(ShowAnimation);
             _animation.AnimationMap = StrategicMap.Current;
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
@@ -130,8 +132,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                 if (selection != 0)
                 {
-                    log = new ArmyEventLog(null) { Holder = CreationHolder() };
-                    log.Player = source.Player;
+                    log = new ArmyEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = source.Player
+                    };
                     string tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyText = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
                     string tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);

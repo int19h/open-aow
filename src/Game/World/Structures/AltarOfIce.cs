@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AltarOfIce : Altar
+public partial class AltarOfIce(CustomNode owner) : Altar(owner)
 {
-    public AltarOfIce(CustomNode owner) : base(owner)
-    { }
 
     // AltIce.pas:36
     public new const int ClassId = 131659;
@@ -17,11 +15,8 @@ public partial class AltarOfIce : Altar
     // AltIce.pas:39
     public override Storm CreateStorm() => new IceStorm(null) { Holder = CreationHolder() };
 
-    public new partial class Resource : AltarResource
+    public new partial class Resource(CustomNode owner) : AltarResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-        }
 
         // AltIce.pas:52
         public new const int ClassId = 131660;

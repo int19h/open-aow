@@ -10,11 +10,8 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.AI.Groups;
 
 // location, destination, transport status, transport points, player, grouped
-public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
+public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner)
 {
-    public AIMoveExecutorArmy(CustomNode owner) : base(owner)
-    { }
-
     public MapCoordinate Location { get; private set; }
 
     private MapCoordinate _destination;

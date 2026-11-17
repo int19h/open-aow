@@ -178,8 +178,11 @@ public partial class WizardsTower : Structure
         EnterWizardsTowerEventLog log;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterWizardsTowerEventLog(null) { Holder = CreationHolder() };
-            log.Tower = this;
+            log = new EnterWizardsTowerEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Tower = this
+            };
             _ = log.Execute(true, ExecuteTrigger.User, null);
             _ = log.Release();
             result = true;
@@ -261,10 +264,8 @@ public partial class WizardsTower : Structure
     private static readonly string s_theyTaughtYouSpellFormat = "They taught you the spell %s";
     private static readonly Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
 
-    public new partial class Resource : StructureResource
+    public new partial class Resource(CustomNode owner) : StructureResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // WizardsTower.pas:263
         public new const int ClassId = 133279;

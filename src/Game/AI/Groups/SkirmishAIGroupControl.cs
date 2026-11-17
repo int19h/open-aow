@@ -8,10 +8,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
+public partial class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
 {
-    public SkirmishAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // BehaviorAG.pas:738
     public override void ProcessStates()

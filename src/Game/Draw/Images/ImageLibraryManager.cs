@@ -11,31 +11,27 @@ namespace Aow.Game.Draw.Images;
 public partial class ImageLibraryManager : Component
 {
 
-    private string _searchPath = "";
-    private readonly ImageLibraryManagerList _diskList;
-    private readonly ImageLibraryManagerList _ownedList;
-
     // ImageLib.pas:8260
     public ImageLibraryManager(Component owner) : base(owner)
     {
-        _diskList = new ImageLibraryManagerList(this);
-        _ownedList = new ImageLibraryManagerList(this);
+        DiskList = new ImageLibraryManagerList(this);
+        OwnedList = new ImageLibraryManagerList(this);
     }
 
     // ImageLib.pas:8267
     public override void Dispose()
     {
         Clear();
-        _diskList?.Dispose();
-        _ownedList?.Dispose();
+        DiskList?.Dispose();
+        OwnedList?.Dispose();
         base.Dispose();
     }
 
     // ImageLib.pas:8275
     public void Clear()
     {
-        _diskList.Clear();
-        _ownedList.Clear();
+        DiskList.Clear();
+        OwnedList.Clear();
     }
 
     // ImageLib.pas:8281
@@ -43,12 +39,12 @@ public partial class ImageLibraryManager : Component
     {
         if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            _diskList.UnloadImageLibrary();
+            DiskList.UnloadImageLibrary();
         }
 
         if (category.Contains(ImageLibraryManagerCategoryElement.Owned))
         {
-            _ownedList.UnloadImageLibrary();
+            OwnedList.UnloadImageLibrary();
         }
     }
 
@@ -60,9 +56,9 @@ public partial class ImageLibraryManager : Component
         void SearchDirectory(string subDirectory)
         {
             StringList list;
-            foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + subDirectory + "*.ilb", attributes: 63 - 16))
+            foreach (RtlFileEntry entry in Files.FindEntries(SearchPath + subDirectory + "*.ilb", attributes: 63 - 16))
             {
-                _ = _diskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
+                _ = DiskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
             list = new StringList();
@@ -82,11 +78,11 @@ public partial class ImageLibraryManager : Component
             list?.Dispose();
         }
 
-        _diskList.Clear();
-        _searchPath = UpperCase(path);
-        if (_searchPath[^1] != 92)
+        DiskList.Clear();
+        SearchPath = UpperCase(path);
+        if (SearchPath[^1] != 92)
         {
-            _searchPath += "\\";
+            SearchPath += "\\";
         }
 
         directory = GetCurrentDir();
@@ -103,16 +99,16 @@ public partial class ImageLibraryManager : Component
         CustomImageLibrary result = null;
         if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            result = _diskList.LinkToImageLibrary(fileName);
+            result = DiskList.LinkToImageLibrary(fileName);
         }
 
         if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && result == null)
         {
-            result = _ownedList.LinkToImageLibrary(fileName);
+            result = OwnedList.LinkToImageLibrary(fileName);
             if (result == null)
             {
                 result = new ImageLibrary(null);
-                _ = _ownedList.AddImageLibraryManagerObject(fileName, result);
+                _ = OwnedList.AddImageLibraryManagerObject(fileName, result);
             }
         }
 
@@ -137,25 +133,25 @@ public partial class ImageLibraryManager : Component
         released = false;
         if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            released = _diskList.ReleaseImageLibrary(fileName);
+            released = DiskList.ReleaseImageLibrary(fileName);
         }
 
         if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && !released)
         {
-            _ = _ownedList.ReleaseImageLibrary(fileName);
+            _ = OwnedList.ReleaseImageLibrary(fileName);
         }
     }
 
     // ImageLib.pas:8361
-    public void SaveToStream(Stream stream) => _ownedList.SaveToStream(stream);
+    public void SaveToStream(Stream stream) => OwnedList.SaveToStream(stream);
 
     // ImageLib.pas:8366
-    public void LoadFromStream(Stream stream) => _ownedList.LoadFromStream(stream);
+    public void LoadFromStream(Stream stream) => OwnedList.LoadFromStream(stream);
 
-    public ImageLibraryManagerList DiskList => _diskList;
-    public ImageLibraryManagerList OwnedList => _ownedList;
+    public ImageLibraryManagerList DiskList { get; }
+    public ImageLibraryManagerList OwnedList { get; }
 
     [Published]
-    public string SearchPath { get => _searchPath; set => _searchPath = value; }
+    public string SearchPath { get; set; } = "";
 
 }

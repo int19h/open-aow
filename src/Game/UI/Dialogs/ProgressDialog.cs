@@ -4,11 +4,8 @@ using Aow.Game.UI.Windows;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ProgressDialog : UIModule
+public partial class ProgressDialog(UIContext ui) : UIModule(ui)
 {
-    public ProgressDialog(UIContext ui) : base(ui)
-    { }
-
     public Label TitleLabel { get; private set; }
     public Label StatusLabel { get; private set; }
     public Window Window { get; private set; }

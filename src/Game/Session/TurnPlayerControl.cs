@@ -18,12 +18,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
-public partial class TurnPlayerControl : PlayerControl
+public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131664;
-
-    public TurnPlayerControl(CustomNode owner) : base(owner)
-    { }
 
     // PlayerC.PAS:589
     public override void NewTurn(sbyte player)
@@ -43,20 +40,26 @@ public partial class TurnPlayerControl : PlayerControl
 
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText);
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = StrategicMap.Current.CurrentPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText)
+                };
                 StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
                 _ = log.Release();
             }
             else
             {
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = StrategicMap.Current.CurrentPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+                };
                 if (player == 0)
                 {
                     log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
@@ -80,11 +83,14 @@ public partial class TurnPlayerControl : PlayerControl
                     StrategicMap.Current.ResetTurnTimer();
                     StrategicMap.Current.EnableTurnTimer();
                     StrategicMap.Current.ResetSeatedPlayerView();
-                    log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                    log.TurnPlayer = player;
-                    log.Mode = NewTurnEventLogMode.Dialog;
-                    log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText);
+                    log = new NewTurnEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        TurnPlayer = player,
+                        Mode = NewTurnEventLogMode.Dialog,
+                        DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                        Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText)
+                    };
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                     _ = log.Release();
                     ReplayLogbook();
@@ -139,8 +145,11 @@ public partial class TurnPlayerControl : PlayerControl
                     StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     if (spells.GetCount() > 0)
                     {
-                        magicLog = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                        magicLog.Mode = PlayerMagicEventLog.EventMode.StartResearch;
+                        magicLog = new PlayerMagicEventLog(null)
+                        {
+                            Holder = CreationHolder(),
+                            Mode = PlayerMagicEventLog.EventMode.StartResearch
+                        };
                         StrategicMap.Current.TriggerExecuteEventLog(magicLog, false, null);
                         _ = magicLog.Release();
                     }
@@ -341,20 +350,26 @@ public partial class TurnPlayerControl : PlayerControl
             StrategicMap.Current.SetSeatedPlayer(-1);
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human)
             {
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = StrategicMap.Current.CurrentPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText)
+                };
                 StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 _ = log.Release();
             }
             else
             {
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = StrategicMap.Current.CurrentPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+                };
                 if (StrategicMap.Current.CurrentPlayer == 0)
                 {
                     log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
@@ -376,11 +391,14 @@ public partial class TurnPlayerControl : PlayerControl
             StrategicMap.Current.ResetSeatedPlayerView();
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
-                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
-                log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
-                log.Mode = NewTurnEventLogMode.Dialog;
-                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
+                log = new NewTurnEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    TurnPlayer = StrategicMap.Current.SeatedPlayer,
+                    Mode = NewTurnEventLogMode.Dialog,
+                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText)
+                };
                 StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 _ = log.Release();
             }

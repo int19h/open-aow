@@ -10,11 +10,8 @@ namespace Aow.Game.World.Hexes;
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }
 // FTransitions (bit HN-1: a road on the neighbour HN. the pairs 2+6 and 3+5 become bits 7 and
 // 6)
-public partial class Road : AbstractRoad
+public partial class Road(CustomNode owner) : AbstractRoad(owner)
 {
-    public Road(CustomNode owner) : base(owner)
-    {
-    }
 
     // Road.pas:47
     public new const int ClassId = 131428;
@@ -68,10 +65,8 @@ public partial class Road : AbstractRoad
         }
     }
 
-    public new partial class Resource : AbstractRoadResource
+    public new partial class Resource(CustomNode owner) : AbstractRoadResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // Road.pas:136
         public new const int ClassId = 131429;

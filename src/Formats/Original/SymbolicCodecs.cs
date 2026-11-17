@@ -37,18 +37,11 @@ internal static class IntegerBytes
 }
 
 /// <summary>One enum byte or wider integer. A declared value is its C# member name. Any other value is its integer.</summary>
-internal sealed partial class EnumCodec : PropertyCodec
+internal sealed partial class EnumCodec(string typeName, int width, bool signed) : PropertyCodec
 {
-    public EnumCodec(string typeName, int width, bool signed)
-    {
-        TypeName = typeName;
-        Width = width;
-        Signed = signed;
-    }
-
-    public string TypeName { get; }
-    public int Width { get; }
-    public bool Signed { get; }
+    public string TypeName { get; } = typeName;
+    public int Width { get; } = width;
+    public bool Signed { get; } = signed;
 
     private EnumTypeInfo? _known;
 
@@ -130,16 +123,10 @@ internal sealed partial class EnumCodec : PropertyCodec
 }
 
 /// <summary>A set stored in a fixed number of bytes. The document is member names in ascending ordinal order, and integers for bits the enum does not name.</summary>
-internal sealed partial class SetCodec : PropertyCodec
+internal sealed partial class SetCodec(string typeName, int width) : PropertyCodec
 {
-    public SetCodec(string typeName, int width)
-    {
-        TypeName = typeName;
-        Width = width;
-    }
-
-    public string TypeName { get; }
-    public int Width { get; }
+    public string TypeName { get; } = typeName;
+    public int Width { get; } = width;
 
     private EnumTypeInfo? _known;
 
@@ -253,18 +240,11 @@ internal sealed partial class SetCodec : PropertyCodec
 /// A fixed integer array. Version 2 stores every element, including trailing zeros.
 /// A longer list is kept by the document and refused on export. A shorter list fills the rest with zero on export.
 /// </summary>
-internal sealed partial class FixedArrayCodec : PropertyCodec
+internal sealed partial class FixedArrayCodec(int width, bool signed, int count) : PropertyCodec
 {
-    public FixedArrayCodec(int width, bool signed, int count)
-    {
-        Width = width;
-        Signed = signed;
-        Count = count;
-    }
-
-    public int Width { get; }
-    public bool Signed { get; }
-    public int Count { get; }
+    public int Width { get; } = width;
+    public bool Signed { get; } = signed;
+    public int Count { get; } = count;
 
     internal override bool AcceptsList(int version) => version >= 2;
 

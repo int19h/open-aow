@@ -18,8 +18,6 @@ namespace Aow.Game.AI;
 // time, start, token cycles, token cycle, lock count
 public partial class AIExecutor : EngineObject
 {
-
-    // AI.pas:559
     public AIExecutor(CustomNode owner) : base(owner)
     {
         _players = new ByteList();

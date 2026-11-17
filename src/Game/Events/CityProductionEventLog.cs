@@ -7,10 +7,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Events;
 
-public partial class CityProductionEventLog : ProductionEventLog
+public partial class CityProductionEventLog(CustomNode owner) : ProductionEventLog(owner)
 {
-    public CityProductionEventLog(CustomNode owner) : base(owner)
-    { }
 
     // City.pas:3195
     public new const int ClassId = 131834;

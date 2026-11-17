@@ -105,10 +105,13 @@ public partial class GlobalMagicControl : EngineObject
             {
                 enchantment = Enchantments.GetEnchantments(index);
                 mana -= enchantment.GetUpkeep();
-                log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                log.Player = player;
-                log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
-                log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
+                log = new PlayerMagicEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    Player = player,
+                    Mode = PlayerMagicEventLog.EventMode.OutOfMana,
+                    EnchantmentName = Enchantments.GetEnchantments(index).GetName()
+                };
                 EventLog.DistributeEventLog(log, false);
                 _ = log.Release();
                 _ = enchantment.AddRef();

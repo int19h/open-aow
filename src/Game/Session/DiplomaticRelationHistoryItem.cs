@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // day, relation
-public partial class DiplomaticRelationHistoryItem : EngineObject
+public partial class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131354;
-
-    public DiplomaticRelationHistoryItem(CustomNode owner) : base(owner)
-    { }
 
     public int Day { get; set; }
     public DiplomaticRelation Relation { get; set; }

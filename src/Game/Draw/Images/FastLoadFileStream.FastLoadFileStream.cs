@@ -3,11 +3,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class FastLoadFileStream
+public partial class FastLoadFileStream(string name)
 {
-    private Stream _source;
-
-    public FastLoadFileStream(string name) => _source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+    private Stream _source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
 
     public override bool CanRead => true;
 

@@ -607,10 +607,13 @@ public partial class Hero : Troop
 
                 if (CastingManaValue == CastingProgress)
                 {
-                    log = new SpellCastEventLog(null) { Holder = CreationHolder() };
-                    log.Player = Player;
-                    log.UnitId = UnitId;
-                    log.SpellId = CastingSpellId;
+                    log = new SpellCastEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = Player,
+                        UnitId = UnitId,
+                        SpellId = CastingSpellId
+                    };
                     StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.AddEvent(log);
                     if (StrategicMap.Current.SeatedPlayer == Player && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Human)
                     {
@@ -1590,12 +1593,15 @@ public partial class Hero : Troop
                 UpgradePending = true;
                 oldLevel = Level;
                 Level = (byte)level;
-                log = new HeroUpgradeEventLog(null) { Holder = CreationHolder() };
-                log.OldLevel = (byte)oldLevel;
-                log.NewLevel = Level;
-                log.UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
-                log.Player = Player;
-                log.UnitId = UnitId;
+                log = new HeroUpgradeEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    OldLevel = (byte)oldLevel,
+                    NewLevel = Level,
+                    UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day,
+                    Player = Player,
+                    UnitId = UnitId
+                };
                 EventLog.DistributeLocationEventLog(log, Player, x, y, l, true);
                 _ = log.Release();
                 if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
@@ -1733,8 +1739,11 @@ public partial class Hero : Troop
     // Hero.PAS:1708
     public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
     {
-        HeroUpdateTokenEvent result = new(null) { Holder = CreationHolder() };
-        result.UnitId = UnitId;
+        HeroUpdateTokenEvent result = new(null)
+        {
+            Holder = CreationHolder(),
+            UnitId = UnitId
+        };
         return result;
     }
 

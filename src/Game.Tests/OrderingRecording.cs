@@ -55,9 +55,8 @@ internal static class OrderingRecording
     {
         private readonly int _seed = Runtime.RandSeed;
 
-        internal IvBinaryDictionary Dictionary => _dictionary;
+        internal IvBinaryDictionary Dictionary { get; } = EngineFixture.Engine.Dictionary;
 
-        private readonly IvBinaryDictionary _dictionary = EngineFixture.Engine.Dictionary;
         private readonly GamePack _set = GamePack.Current;
         private readonly StrategicMap _map = StrategicMap.Current;
 
@@ -95,7 +94,7 @@ internal static class OrderingRecording
         public void Dispose()
         {
             Engine.Dispose();
-            EngineFixture.Engine.Dictionary = _dictionary;
+            EngineFixture.Engine.Dictionary = Dictionary;
             GamePack.Current?.UnitGraphicsResources?.Dispose();
             GamePack.Current = _set;
             StrategicMap.Current = _map;
@@ -169,14 +168,14 @@ internal static class OrderingRecording
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
                     {
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }
 
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
-                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             }

@@ -7,11 +7,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // mode, player, enchantment ID, value
-public partial class ChangeGlobalMagicTokenEvent : TokenEvent
+public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public ChangeGlobalMagicTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135446;
 
     public ChangeGlobalMagicTokenEventMode Mode { get; set; }

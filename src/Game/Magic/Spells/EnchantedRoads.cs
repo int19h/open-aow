@@ -44,8 +44,11 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         y = coordinate65.Y;
         l = coordinate65.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        animation = new Animation(null) { Holder = CreationHolder() };
-        animation.AnimationLevel = 27;
+        animation = new Animation(null)
+        {
+            Holder = CreationHolder(),
+            AnimationLevel = 27
+        };
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();

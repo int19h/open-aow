@@ -7,10 +7,8 @@ namespace Aow.Game.Tests;
 // Brief 9.3b-12: the layout session owns the loading flags and the module failure boundary.
 public sealed class LayoutSessionTests
 {
-    private sealed class Tracked : Component
+    private sealed class Tracked(Component owner) : Component(owner)
     {
-        public Tracked(Component owner) : base(owner) { }
-
         public bool Destroyed { get; private set; }
 
         public override void Dispose() { Destroyed = true; base.Dispose(); }

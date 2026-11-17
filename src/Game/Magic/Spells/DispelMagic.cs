@@ -36,10 +36,13 @@ public partial class DispelMagic : UnitSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         DispelMagicSpellCombatAction action;
-        action = new DispelMagicSpellCombatAction(null) { Holder = CreationHolder() };
-        action.SpellId = SpellId;
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
+        action = new DispelMagicSpellCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SpellId = SpellId,
+            SourceId = source.Id,
+            TargetId = target.Id
+        };
         if (source is CombatUnit sourceUnit)
         {
             action.Generate(source, target, GetDispelMana(sourceUnit.Troop));

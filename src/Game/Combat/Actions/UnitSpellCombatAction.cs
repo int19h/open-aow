@@ -12,12 +12,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (spell ID, source/target IDs, spell data, mana)
-public partial class UnitSpellCombatAction : CombatAction
+public partial class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
     public new const int ClassId = 131779;
-
-    public UnitSpellCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public int SpellId { get; set; }
     public byte SourceId { get; set; }

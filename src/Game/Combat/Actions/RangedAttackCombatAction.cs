@@ -10,12 +10,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID)
-public partial class RangedAttackCombatAction : DamageCombatAction
+public partial class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131753;
-
-    public RangedAttackCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public int AbilityId { get; set; }
 

@@ -26,11 +26,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // directory, last filename, save event, done callback, dialog mode
-public partial class FileDialogWindow : UIModule
+public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 {
-    public FileDialogWindow(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Button OpenButton { get; private set; }
     public Label TitleLabel { get; private set; }
@@ -215,8 +212,10 @@ public partial class FileDialogWindow : UIModule
                     includeFile = ListsFile(Mode, UI.Engine.Campaign != null, extension);
                     if (includeFile)
                     {
-                        stamp = new FileTime();
-                        stamp.Time = FileDateToDateTime(entry.FileDate);
+                        stamp = new FileTime
+                        {
+                            Time = FileDateToDateTime(entry.FileDate)
+                        };
                         _ = Files.AddObject(entry.Name, stamp);
                     }
                 }

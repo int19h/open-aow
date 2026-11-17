@@ -22,11 +22,8 @@ namespace Aow.Game.UI.Dialogs;
 
 // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
 // event, saved player pages
-public partial class SpellBook : UIModule
+public partial class SpellBook(UIContext ui) : UIModule(ui)
 {
-    public SpellBook(UIContext ui) : base(ui)
-    { }
-
     public Label LeftHeaderLabel { get; private set; }
     public Panel LeftSpellPage { get; private set; }
     public Panel Spell1Panel { get; private set; }
@@ -923,8 +920,10 @@ public partial class SpellBook : UIModule
     {
         DoubleItemList.DoubleItem defaults = new(First: 2, Second: 0);
         _spells = new SpellList();
-        _playerPages = new DoubleItemList();
-        _playerPages.Default = defaults;
+        _playerPages = new DoubleItemList
+        {
+            Default = defaults
+        };
     }
 
     // AoWSpellBook.pas:206

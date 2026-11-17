@@ -9,19 +9,10 @@ namespace Aow.Game.Draw.Images;
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public partial class ImageSequenceList : DelphiList<ImageSequence>
+public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
 {
-    private bool _linked;
-    // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
-    private ImageLibraryManager _imageLibraryManager;
-    private readonly CustomImageLibrary _imageLibrary;
 
-    // ImageLib.pas:8903
-    public ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary)
-    {
-        _imageLibraryManager = aILManager;
-        _imageLibrary = imageLibrary;
-    }
+    // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
 
     // ImageLib.pas:8911
     public override void Dispose()
@@ -129,9 +120,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             }
         }
 
-        if (_linked)
+        if (Linked)
         {
-            _linked = false;
+            Linked = false;
             LinkToImageLibrary();
         }
     }
@@ -300,9 +291,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public void LinkToImageLibrary()
     {
         ImageSequence sequence;
-        if (!_linked)
+        if (!Linked)
         {
-            _linked = true;
+            Linked = true;
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
                 sequence = List[i];
@@ -319,9 +310,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public void ReleaseImageLibrary()
     {
         ImageSequence sequence;
-        if (_linked)
+        if (Linked)
         {
-            _linked = false;
+            Linked = false;
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
                 sequence = List[i];
@@ -514,8 +505,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     }
 
     public ImageSequencesAccessor ImageSequences => new(this);
-    public bool Linked => _linked;
-    public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; internal set => _imageLibraryManager = value; }
-    public CustomImageLibrary ImageLibrary => _imageLibrary;
+    public bool Linked { get; private set; }
+    public ImageLibraryManager ImageLibraryManager { get; internal set; } = aILManager;
+    public CustomImageLibrary ImageLibrary { get; } = imageLibrary;
 
 }

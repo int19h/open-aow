@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
 // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
 // pixels)
-public partial class Sprite16 : Image16, ILibraryImageClass
+public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";
@@ -39,11 +39,6 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
-    }
-
-    // ImageLib.pas:4247
-    public Sprite16(CustomImageLibrary owner) : base(owner)
-    {
     }
 
     // ImageLib.pas:4262

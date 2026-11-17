@@ -6,7 +6,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupProductionLocationList : ReferenceNode, IChildList<AIGroupProductionLocation>
+public partial class AIGroupProductionLocationList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupProductionLocation>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProductionLocation, so the cast never fails.
@@ -15,9 +15,6 @@ public partial class AIGroupProductionLocationList : ReferenceNode, IChildList<A
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProductionLocation;
 
     int IChildSink<AIGroupProductionLocation>.AddChild(AIGroupProductionLocation child) => AddChild(child);
-
-    public AIGroupProductionLocationList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The production locations of this list, in their stored order.</summary>
     public AIGroupProductionLocationCollection Locations => new(this);

@@ -7,12 +7,9 @@ using Aow.Game.Draw;
 namespace Aow.Game.World.Map;
 
 // the base of the terrain hexagons
-public partial class AbstractHexagon : MapObject
+public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
 {
     public new const int ClassId = 65904;
-
-    public AbstractHexagon(CustomNode owner) : base(owner)
-    { }
 
     // MAPOBJ.PAS:682
     public override byte GetLevel() => 0;

@@ -13,10 +13,8 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // Mode
-public partial class Farm : PlayerCropStructure
+public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
 {
-    public Farm(CustomNode owner) : base(owner)
-    { }
 
     // Farm.pas:54
     public new const int ClassId = 131950;

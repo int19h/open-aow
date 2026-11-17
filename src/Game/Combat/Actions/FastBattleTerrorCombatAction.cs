@@ -8,13 +8,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombatAction
+public partial class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1666
     public new const int ClassId = 131777;
-
-    public FastBattleTerrorCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:1672
     public override void Execute(Battle combat)

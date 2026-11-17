@@ -6,13 +6,10 @@ using Aow.Game.Audio;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class NewCombatTurnCombatAction : CombatAction
+public partial class NewCombatTurnCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:982
     public new const int ClassId = 131770;
-
-    public NewCombatTurnCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public byte CombatPlayer { get; set; }
 

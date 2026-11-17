@@ -10,8 +10,6 @@ namespace Aow.Game.Magic.Spells;
 // (spell ID, source ID, refcount)
 public partial class SpellCaster : EngineObject
 {
-
-    // Spells.PAS:748
     public SpellCaster(CustomNode owner) : base(owner) => _casterRefCount = 1;
 
     public int CasterSpellId { get; set; }

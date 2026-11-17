@@ -17,19 +17,9 @@ namespace Aow.Game.World.Movement;
 // map, status, player, mode, source, destination, map level, processed count, move limit, move
 // table, processed fields, army, selection, move data, callback, field offsets, point offsets,
 // gap endpoints, direct route, exploration mask, settings
-public partial class MoveControl : IDisposable
+public partial class MoveControl(GameMap owner) : IDisposable
 {
-
-    // MoveT.PAS:257
-    public MoveControl(GameMap owner)
-    {
-        Map = owner;
-        GapStarts = new MapCoordinateList();
-        GapEnds = new MapCoordinateList();
-        _directRoute = new MapCoordinateList();
-    }
-
-    public GameMap Map { get; init; }
+    public GameMap Map { get; init; } = owner;
 
     private Set<StatusElement> _status;
 
@@ -60,10 +50,10 @@ public partial class MoveControl : IDisposable
     private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
     private readonly int[][] _pointOffsets = [new int[8], new int[8]];
 
-    public MapCoordinateList GapStarts { get; init; }
-    public MapCoordinateList GapEnds { get; init; }
+    public MapCoordinateList GapStarts { get; init; } = new MapCoordinateList();
+    public MapCoordinateList GapEnds { get; init; } = new MapCoordinateList();
 
-    private readonly MapCoordinateList _directRoute;
+    private readonly MapCoordinateList _directRoute = new();
     private int _exploredMask;
 
     public MoveControlSettings Settings { get; set; }

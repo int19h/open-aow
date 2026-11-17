@@ -5,11 +5,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TargetSelectionDialog : UIModule
+public partial class TargetSelectionDialog(UIContext ui) : UIModule(ui)
 {
-    public TargetSelectionDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Button MainButton { get; private set; }
     public Memo DefaultMemo { get; private set; }

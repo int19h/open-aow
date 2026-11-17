@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // setup control, phase, fixed spheres, working leader, selected sort, available sort
-public partial class LeaderSetupWindow : UIModule
+public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 {
-    public LeaderSetupWindow(UIContext ui) : base(ui)
-    { }
-
     public ListBox SelectedAbilitiesList { get; private set; }
     public Panel Phase2Panel { get; private set; }
     public Panel LeaderMainPanel { get; private set; }

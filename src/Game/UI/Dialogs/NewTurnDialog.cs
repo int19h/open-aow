@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, new-turn event
-public partial class NewTurnDialog : UIModule
+public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
 {
-    public NewTurnDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label ClickMessageLabel { get; private set; }
     public Image LeftShield { get; private set; }

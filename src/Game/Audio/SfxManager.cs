@@ -9,22 +9,19 @@ namespace Aow.Game.Audio;
 // subdirectories) relative to the search path
 public partial class SfxManager : Component
 {
-    private string _searchPath = "";
-    private readonly SfxList _sfx;
-
     // Sound.pas:407
-    public SfxManager(Component owner) : base(owner) => _sfx = new SfxList();
+    public SfxManager(Component owner) : base(owner) => Sfx = new SfxList();
 
     // Sound.pas:413
     public override void Dispose()
     {
         Clear();
-        _sfx?.Dispose();
+        Sfx?.Dispose();
         base.Dispose();
     }
 
     // Sound.pas:420
-    public void Clear() => _sfx.Clear();
+    public void Clear() => Sfx.Clear();
 
     // Sound.pas:425
     public void ExecutePathSearch(string path)
@@ -33,9 +30,9 @@ public partial class SfxManager : Component
         void Search(string directory)
         {
             StringList directories;
-            foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
+            foreach (RtlFileEntry entry in Files.FindEntries(SearchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
             {
-                _ = _sfx.Add(UpperCase(directory + entry.Name));
+                _ = Sfx.Add(UpperCase(directory + entry.Name));
             }
 
             directories = new StringList();
@@ -55,25 +52,25 @@ public partial class SfxManager : Component
             directories?.Dispose();
         }
 
-        _sfx.Clear();
-        _searchPath = UpperCase(path);
-        if (_searchPath[^1] != 92)
+        Sfx.Clear();
+        SearchPath = UpperCase(path);
+        if (SearchPath[^1] != 92)
         {
-            _searchPath += "\\";
+            SearchPath += "\\";
         }
 
         oldDirectory = GetCurrentDir();
         _ = SetCurrentDir(path);
         Search("");
         _ = SetCurrentDir(oldDirectory);
-        _searchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, _searchPath));
+        SearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, SearchPath));
     }
 
     [Published]
-    public string SearchPath { get => _searchPath; set => _searchPath = value; }
+    public string SearchPath { get; set; } = "";
 
     [Published]
-    public SfxList Sfx => _sfx;
+    public SfxList Sfx { get; }
 
     private static readonly string s_sfxExtension = "WAV";
 

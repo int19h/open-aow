@@ -1,8 +1,7 @@
 namespace Aow.Rtl.Localize;
 
-public class IvTranslator : IvCustomTranslator
+public class IvTranslator(Component? owner = null) : IvCustomTranslator(owner)
 {
-    public IvTranslator(Component? owner = null) : base(owner) { }
 }
 
 public partial class IvDictionary : Component

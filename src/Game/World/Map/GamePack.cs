@@ -46,28 +46,36 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     {
         Holder = holder;
         SetControlStyle(GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2));
-        _pluginControl = new PluginControl(null) { Holder = CreationHolder() };
-        _terrainTypes = new StringList();
-        _overlayTypes = new StringList();
-        _decorationTypes = new StringList();
-        _hexControl = new HexControl(this);
-        _hexControl.MapObjectClass = typeof(AbstractHexagon);
-        _roadControl = new RoadControl(this);
-        _roadControl.MapObjectClass = typeof(AbstractRoad);
-        _mapObjectResourceList = new MapObjectResourceList(this);
-        _mapObjectResourceList.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
-        _resourceEditSettings = new ResourceEditSettings(this);
-        _resourceEditSettings.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
-        _imageLibraryManager = new ImageLibraryManager(null);
-        _sfxManager = new SfxManager(null);
+        PluginControl = new PluginControl(null) { Holder = CreationHolder() };
+        TerrainTypes = new StringList();
+        OverlayTypes = new StringList();
+        DecorationTypes = new StringList();
+        HexControl = new HexControl(this)
+        {
+            MapObjectClass = typeof(AbstractHexagon)
+        };
+        RoadControl = new RoadControl(this)
+        {
+            MapObjectClass = typeof(AbstractRoad)
+        };
+        MapObjectResourceList = new MapObjectResourceList(this);
+        MapObjectResourceList.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
+        ResourceEditSettings = new ResourceEditSettings(this);
+        ResourceEditSettings.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
+        ImageLibraryManager = new ImageLibraryManager(null);
+        SfxManager = new SfxManager(null);
 
         BitList enabled;
         CombatResources = new MapObjectResourceList(this);
         CombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
-        CombatHexes = new HexControl(this);
-        CombatHexes.MapObjectClass = typeof(AbstractHexagon);
-        CombatRoads = new RoadControl(this);
-        CombatRoads.MapObjectClass = typeof(AbstractRoad);
+        CombatHexes = new HexControl(this)
+        {
+            MapObjectClass = typeof(AbstractHexagon)
+        };
+        CombatRoads = new RoadControl(this)
+        {
+            MapObjectClass = typeof(AbstractRoad)
+        };
         ImageLibraryManager.ExecutePathSearch(GetEngine().StartupDirectory + "IMAGES");
         SfxManager.ExecutePathSearch(GetEngine().StartupDirectory + "SFX");
         ImageSequences = new ImageSequenceList(ImageLibraryManager, null);
@@ -162,22 +170,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         CombatImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
     }
 
-    private Set<HexSpriteSetStatusElement> _status;
-    private readonly HexControl _hexControl;
-    private readonly RoadControl _roadControl;
-    private GameEngine _activatedEngine;
-
-    public GameEngine ActivatedEngine => _activatedEngine;
-
-    private readonly MapObjectResourceList _mapObjectResourceList;
-    private readonly ResourceEditSettings _resourceEditSettings;
-    private ImageLibraryManager _imageLibraryManager;
-    private SfxManager _sfxManager;
-    private readonly PluginControl _pluginControl;
-    private string _name = "";
-    private StringList _terrainTypes;
-    private StringList _overlayTypes;
-    private StringList _decorationTypes;
+    public GameEngine ActivatedEngine { get; private set; }
 
     // Ability.PAS:74 around HSEngine.pas:3368.
     public override void Dispose()
@@ -189,32 +182,32 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SpellControl.UnregisterAll();
         ItemLibraries?.Dispose();
         HeroLibraries?.Dispose();
-        _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
         EngineMessage.InitializeMessage(out EngineMessage message, 66564, this);
-        if (_activatedEngine != null && _activatedEngine.ControlNode != null)
+        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
         {
-            _activatedEngine.ControlNode.MessageProc(ref message, this);
+            ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }
 
         base.Dispose();
-        _pluginControl?.Dispose();
-        _terrainTypes?.Dispose();
-        _terrainTypes = null;
-        _overlayTypes?.Dispose();
-        _overlayTypes = null;
-        _decorationTypes?.Dispose();
-        _decorationTypes = null;
-        _imageLibraryManager?.Dispose();
-        _imageLibraryManager = null;
-        _sfxManager?.Dispose();
-        _sfxManager = null;
+        PluginControl?.Dispose();
+        TerrainTypes?.Dispose();
+        TerrainTypes = null;
+        OverlayTypes?.Dispose();
+        OverlayTypes = null;
+        DecorationTypes?.Dispose();
+        DecorationTypes = null;
+        ImageLibraryManager?.Dispose();
+        ImageLibraryManager = null;
+        SfxManager?.Dispose();
+        SfxManager = null;
         EngineMessage.InitializeMessage(out message, 66565, this);
-        if (_activatedEngine != null && _activatedEngine.ControlNode != null)
+        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
         {
-            _activatedEngine.ControlNode.MessageProc(ref message, this);
+            ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }
 
-        _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
 
         AbilityControl?.Dispose();
         SpellControl?.Dispose();
@@ -233,12 +226,12 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
 
         GameEngine engine = PersistSupport.Engine(persister);
         SetEngine(engine);
-        _pluginControl.Engine = engine;
+        PluginControl.Engine = engine;
         base.PersistFields(persister);
-        _name = persister.String("Name", value: _name);
-        persister.Object("MapObjectResourceList", objectValue: _mapObjectResourceList);
-        persister.Object("ResourceEditSettings", objectValue: _resourceEditSettings);
-        persister.Object("PluginControl", objectValue: _pluginControl);
+        Name = persister.String("Name", value: Name);
+        persister.Object("MapObjectResourceList", objectValue: MapObjectResourceList);
+        persister.Object("ResourceEditSettings", objectValue: ResourceEditSettings);
+        persister.Object("PluginControl", objectValue: PluginControl);
         persister.Object("RaceResources", objectValue: RaceResources);
         persister.Object("ItemLibraries", objectValue: ItemLibraries);
         string path = ExtractFilePath(GetEngine().HssFileName);
@@ -308,7 +301,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            _activatedEngine = message.Payload.As<GameEngine>();
+            ActivatedEngine = message.Payload.As<GameEngine>();
         }
 
         ItemLibraries.MessageProc(ref message, sender);
@@ -319,28 +312,28 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     {
         EngineMessage.InitializeMessage(out EngineMessage message, 66560, this);
         GetEngine().ControlNode.MessageProc(ref message, this);
-        _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+        Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
         if (edit)
         {
             EngineMessage.InitializeMessage(out message, 66562, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
-            _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+            Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
         }
     }
 
     // HSEngine.pas:3436
     public void DeActivate()
     {
-        if (_status.Contains(HexSpriteSetStatusElement.Activated))
+        if (Status.Contains(HexSpriteSetStatusElement.Activated))
         {
             EngineMessage.InitializeMessage(out EngineMessage message, 66561, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
-            _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
-            if (_status.Contains(HexSpriteSetStatusElement.Editting))
+            Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+            if (Status.Contains(HexSpriteSetStatusElement.Editting))
             {
                 EngineMessage.InitializeMessage(out message, 66563, this);
                 GetEngine().ControlNode.MessageProc(ref message, this);
-                _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+                Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
             }
         }
     }
@@ -348,33 +341,33 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // HSEngine.pas:3454
     public void SetModified()
     {
-        if (_status.Contains(HexSpriteSetStatusElement.Editting))
+        if (Status.Contains(HexSpriteSetStatusElement.Editting))
         {
-            _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+            Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
         }
     }
 
     // HSEngine.pas:3459
-    public void ResetModified() => _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+    public void ResetModified() => Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
 
     // HSEngine.pas:3464
-    public void SetEditting() => _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void SetEditting() => Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
     // HSEngine.pas:3468
-    public void ResetEditting() => _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void ResetEditting() => Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
-    public Set<HexSpriteSetStatusElement> Status => _status;
-    public HexControl HexControl => _hexControl;
-    public RoadControl RoadControl => _roadControl;
-    public MapObjectResourceList MapObjectResourceList => _mapObjectResourceList;
-    public ResourceEditSettings ResourceEditSettings => _resourceEditSettings;
-    public ImageLibraryManager ImageLibraryManager => _imageLibraryManager;
-    public SfxManager SfxManager => _sfxManager;
-    public PluginControl PluginControl => _pluginControl;
-    public string Name { get => _name; set => _name = value; }
-    public StringList TerrainTypes => _terrainTypes;
-    public StringList OverlayTypes => _overlayTypes;
-    public StringList DecorationTypes => _decorationTypes;
+    public Set<HexSpriteSetStatusElement> Status { get; private set; }
+    public HexControl HexControl { get; }
+    public RoadControl RoadControl { get; }
+    public MapObjectResourceList MapObjectResourceList { get; }
+    public ResourceEditSettings ResourceEditSettings { get; }
+    public ImageLibraryManager ImageLibraryManager { get; private set; }
+    public SfxManager SfxManager { get; private set; }
+    public PluginControl PluginControl { get; }
+    public string Name { get; set; } = "";
+    public StringList TerrainTypes { get; private set; }
+    public StringList OverlayTypes { get; private set; }
+    public StringList DecorationTypes { get; private set; }
 
     public CustomImageLibrary GeneralImages { get; }
     public CustomImageLibrary CursorImages { get; }

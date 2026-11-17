@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI;
 
 // children
-public partial class AIPlayerActionList : OwningNode, IChildList<AIPlayerAction>
+public partial class AIPlayerActionList(CustomNode owner) : OwningNode(owner), IChildList<AIPlayerAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIPlayerAction.
@@ -13,9 +13,6 @@ public partial class AIPlayerActionList : OwningNode, IChildList<AIPlayerAction>
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIPlayerAction;
 
     int IChildSink<AIPlayerAction>.AddChild(AIPlayerAction child) => AddChild(child);
-
-    public AIPlayerActionList(CustomNode owner) : base(owner)
-    { }
 
     // AI.pas:26
     public AIPlayerAction GetActions(int index) => this[index];

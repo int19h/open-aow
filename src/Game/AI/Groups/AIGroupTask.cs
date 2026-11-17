@@ -13,8 +13,6 @@ namespace Aow.Game.AI.Groups;
 // references, cycles, control, status, state
 public partial class AIGroupTask : EngineObject
 {
-
-    // AIGroup.pas:1354
     public AIGroupTask(CustomNode owner) : base(owner)
     {
         _refCount = 1;

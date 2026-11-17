@@ -13,8 +13,6 @@ public partial class PluginControl : EngineObject
 {
     // The name of the abilities plug-in (AbilityP.dpl), the one plug-in the game provides.
     private const string AbilitiesPlugin = "Abilities";
-
-    private GameEngine _engine;
     private readonly StringList _usedPlugins;
 
     // Engine.pas:9279
@@ -43,10 +41,12 @@ public partial class PluginControl : EngineObject
     // Engine.pas:9252
     public PluginControl(CustomNode owner) : base(owner)
     {
-        _usedPlugins = new StringList();
-        _usedPlugins.Sorted = true;
-        _usedPlugins.OnChange = OnChange;
-        _engine = null;
+        _usedPlugins = new StringList
+        {
+            Sorted = true,
+            OnChange = OnChange
+        };
+        Engine = null;
     }
 
     // Engine.pas:9262
@@ -58,7 +58,7 @@ public partial class PluginControl : EngineObject
     }
 
     // Engine.pas:9269. Before the engine is set the control reaches it as any node does.
-    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
+    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
 
     // Engine.pas:9274
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
@@ -75,7 +75,7 @@ public partial class PluginControl : EngineObject
         }
     }
 
-    public GameEngine Engine { get => _engine; set => _engine = value; }
+    public GameEngine Engine { get; set; }
     public StringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
 
 }

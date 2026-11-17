@@ -13,15 +13,12 @@ namespace Aow.Game.Draw.Images;
 // dword, then the opaque pixels and, for a transparent run, the transparent index and the run
 // length), FRLELeft, FRLETop, FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the
 // data rectangle)
-public partial class RleSprite08 : Image08, ILibraryImageClass
+public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new RleSprite08(owner);
-
-    public RleSprite08(CustomImageLibrary owner) : base(owner)
-    { }
 
     private int _transparentColor;
     // Four bytes of unknown meaning after the transparent colour in the sprite's image data. The

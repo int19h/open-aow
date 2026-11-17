@@ -10,7 +10,14 @@ namespace Aow.Game.Net;
 // _engine, Received, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, Processed
 public partial class PlayerCommunicator : EngineObject
 {
-    private GameEngine _engine;
+    public PlayerCommunicator(CustomNode owner) : base(owner)
+    {
+        ReceivedPackage = null;
+        OnReceiveStore = new();
+        SendStream = new MemoryStream();
+        ReceiveStream = new MemoryStream();
+        OnProcessStore = new();
+    }
 
     internal EventStore<PlayerCommunicator> OnReceiveStore { get; }
 
@@ -20,12 +27,8 @@ public partial class PlayerCommunicator : EngineObject
         remove => OnReceiveStore.Remove(value);
     }
 
-    private DataPackage _receivedPackage;
-
     internal MemoryStream SendStream { get; }
     internal MemoryStream ReceiveStream { get; }
-
-    private PlayerCommunicationControl _playerCommunicationControl;
 
     internal EventStore<PlayerCommunicator> OnProcessStore { get; }
 
@@ -35,32 +38,22 @@ public partial class PlayerCommunicator : EngineObject
         remove => OnProcessStore.Remove(value);
     }
 
-    // NetworkE.pas:605
-    public PlayerCommunicator(CustomNode owner) : base(owner)
-    {
-        _receivedPackage = null;
-        OnReceiveStore = new();
-        SendStream = new MemoryStream();
-        ReceiveStream = new MemoryStream();
-        OnProcessStore = new();
-    }
-
     // NetworkE.pas:629
     public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
         bool result;
-        _playerCommunicationControl?.Release();
-        _playerCommunicationControl = null;
+        PlayerCommunicationControl?.Release();
+        PlayerCommunicationControl = null;
 
-        _playerCommunicationControl = playerCommunicationControl;
-        if (_playerCommunicationControl != null)
+        PlayerCommunicationControl = playerCommunicationControl;
+        if (PlayerCommunicationControl != null)
         {
-            _playerCommunicationControl.AddRef();
-            result = _playerCommunicationControl.Activate(this);
+            PlayerCommunicationControl.AddRef();
+            result = PlayerCommunicationControl.Activate(this);
             if (!result)
             {
-                _playerCommunicationControl.Release();
-                _playerCommunicationControl = null;
+                PlayerCommunicationControl.Release();
+                PlayerCommunicationControl = null;
             }
         }
         else
@@ -88,8 +81,8 @@ public partial class PlayerCommunicator : EngineObject
         SendStream?.Dispose();
         ReceiveStream?.Dispose();
         OnProcessStore.Clear();
-        _playerCommunicationControl?.Release();
-        _playerCommunicationControl = null;
+        PlayerCommunicationControl?.Release();
+        PlayerCommunicationControl = null;
 
         base.Dispose();
     }
@@ -101,16 +94,16 @@ public partial class PlayerCommunicator : EngineObject
         EngineObject objectValue = default;
         ReceiveStream.Clear();
         ReceiveStream.Position = 0;
-        if (_playerCommunicationControl.ReceivePackageData(ReceiveStream))
+        if (PlayerCommunicationControl.ReceivePackageData(ReceiveStream))
         {
             try
             {
-                objectValue = _engine.RetrieveEngineObject(ReceiveStream, null);
+                objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
                 if (objectValue is DataPackage received)
                 {
-                    _receivedPackage = received;
+                    ReceivedPackage = received;
                     OnReceiveStore.Raise(this);
-                    _ = _receivedPackage.Release();
+                    _ = ReceivedPackage.Release();
                 }
                 else
                 {
@@ -121,7 +114,7 @@ public partial class PlayerCommunicator : EngineObject
             {
             }
 
-            _receivedPackage = null;
+            ReceivedPackage = null;
             result = true;
         }
         else
@@ -138,12 +131,12 @@ public partial class PlayerCommunicator : EngineObject
         package.Sender = sender;
         package.Receiver = receiver;
         SendStream.Clear();
-        _engine.StoreEngineObject(SendStream, package, null);
+        Engine.StoreEngineObject(SendStream, package, null);
         SendStream.Position = 0;
-        return _playerCommunicationControl.SendPackageData(receiver, SendStream);
+        return PlayerCommunicationControl.SendPackageData(receiver, SendStream);
     }
 
-    public GameEngine Engine { get => _engine; set => _engine = value; }
+    public GameEngine Engine { get; set; }
 
     public event NotifyEvent<PlayerCommunicator> OnReceive
     {
@@ -151,8 +144,8 @@ public partial class PlayerCommunicator : EngineObject
         remove => OnReceiveStore.Remove(value);
     }
 
-    public DataPackage ReceivedPackage => _receivedPackage;
-    public PlayerCommunicationControl PlayerCommunicationControl => _playerCommunicationControl;
+    public DataPackage ReceivedPackage { get; private set; }
+    public PlayerCommunicationControl PlayerCommunicationControl { get; private set; }
 
     public event NotifyEvent<PlayerCommunicator> OnProcess
     {

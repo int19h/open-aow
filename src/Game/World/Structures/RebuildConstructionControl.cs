@@ -9,10 +9,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P4. }
-public partial class RebuildConstructionControl : ConstructionControl
+public partial class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
 {
-    public RebuildConstructionControl(CustomNode owner) : base(owner)
-    { }
 
     // AoWAb.PAS:5404
     public Structure GetStructure(Troop troop)

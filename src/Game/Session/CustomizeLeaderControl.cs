@@ -6,11 +6,8 @@ using Aow.Game.Units;
 
 namespace Aow.Game.Session;
 
-public partial class CustomizeLeaderControl : LeaderSetupControl
+public partial class CustomizeLeaderControl(CustomNode owner) : LeaderSetupControl(owner)
 {
-    public CustomizeLeaderControl(CustomNode owner) : base(owner)
-    { }
-
     public SetupControl SetupControl { get; set; }
     public int PlayerIndex { get; set; }
 

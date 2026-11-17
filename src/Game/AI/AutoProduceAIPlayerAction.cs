@@ -20,7 +20,6 @@ namespace Aow.Game.AI;
 // production index, state, gold upkeep, mana upkeep, productions
 public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    // AI.pas:1202
     public AutoProduceAIPlayerAction(CustomNode owner) : base(owner) => _productions = new QuadItemList<ProductionControl>();
 
     private int _productionIndex;

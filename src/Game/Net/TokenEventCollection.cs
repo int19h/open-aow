@@ -10,18 +10,16 @@ namespace Aow.Game.Net;
 /// </summary>
 public readonly struct TokenEventCollection : IReadOnlyList<TokenEvent>
 {
-    private readonly TokenEventReferenceList _list;
-
-    internal TokenEventCollection(TokenEventReferenceList list) => _list = list;
+    internal TokenEventCollection(TokenEventReferenceList list) => Holder = list;
 
     /// <summary>The list that holds the events.</summary>
-    public TokenEventReferenceList Holder => _list;
+    public TokenEventReferenceList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The event in slot index, read as the original reads the list, without a range check. The
     // list admits only token events.
-    public TokenEvent this[int index] => _list.GetChild<TokenEvent>(index);
+    public TokenEvent this[int index] => Holder.GetChild<TokenEvent>(index);
 
     public IEnumerator<TokenEvent> GetEnumerator()
     {

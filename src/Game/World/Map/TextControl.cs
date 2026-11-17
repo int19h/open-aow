@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // inherits the children list
-public partial class TextControl : OwningNode, IChildList<TextControlItem>
+public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildList<TextControlItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TextControlItem, so the cast never fails.
@@ -16,9 +16,6 @@ public partial class TextControl : OwningNode, IChildList<TextControlItem>
     protected sealed override bool AcceptsChild(EngineObject child) => child is TextControlItem;
 
     int IChildSink<TextControlItem>.AddChild(TextControlItem child) => AddChild(child);
-
-    public TextControl(CustomNode owner) : base(owner)
-    { }
 
     // Structur.PAS:4419
     public TextControlItem GetItem(int index)

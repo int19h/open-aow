@@ -10,11 +10,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // UnitId. Mode. ItemId (also spell ID). Parameter
-public partial class HeroUpdateTokenEvent : TokenEvent
+public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public HeroUpdateTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135429;
 
     public int UnitId { get; set; }

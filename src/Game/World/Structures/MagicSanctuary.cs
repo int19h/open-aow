@@ -14,8 +14,11 @@ public partial class MagicSanctuary : Structure
 {
     public MagicSanctuary(CustomNode owner) : base(owner)
     {
-        _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null) { Holder = CreationHolder() };
-        _overlayHexSprite.Structure = this;
+        _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null)
+        {
+            Holder = CreationHolder(),
+            Structure = this
+        };
     }
 
     // MagicSanctuary.pas:124

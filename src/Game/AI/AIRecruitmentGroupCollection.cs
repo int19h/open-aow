@@ -11,18 +11,16 @@ namespace Aow.Game.AI;
 /// </summary>
 public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmentGroup>
 {
-    private readonly AIRecruitmentGroupList _list;
-
-    internal AIRecruitmentGroupCollection(AIRecruitmentGroupList list) => _list = list;
+    internal AIRecruitmentGroupCollection(AIRecruitmentGroupList list) => Holder = list;
 
     /// <summary>The list that holds the recruitment groups.</summary>
-    public AIRecruitmentGroupList Holder => _list;
+    public AIRecruitmentGroupList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The group in slot index, read as the original reads the list, without a range check. The
     // list admits only recruitment groups.
-    public AIRecruitmentGroup this[int index] => _list.GetChild<AIRecruitmentGroup>(index);
+    public AIRecruitmentGroup this[int index] => Holder.GetChild<AIRecruitmentGroup>(index);
 
     public IEnumerator<AIRecruitmentGroup> GetEnumerator()
     {
@@ -42,7 +40,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     }
 
     // AIGroup.pas:811
-    public void SortOnMovePoints() => _list.SortChildren<AIRecruitmentGroup>(CompareMovePoints);
+    public void SortOnMovePoints() => Holder.SortChildren<AIRecruitmentGroup>(CompareMovePoints);
 
     // AIGroup.pas:861
     public bool UnitExists(Troop troop)

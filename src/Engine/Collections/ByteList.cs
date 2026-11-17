@@ -13,12 +13,11 @@ public partial class ByteList : Persistent
     private byte[] _list = [];
     private int _count;
     private int _capacity;
-    private byte _default;
 
     // Engine.pas:3678
     internal byte Get(int index)
     {
-        byte result = index < 0 || index >= _count ? _default : _list[index];
+        byte result = index < 0 || index >= _count ? Default : _list[index];
         return result;
     }
 
@@ -68,7 +67,7 @@ public partial class ByteList : Persistent
 
         if (newCount > _count)
         {
-            FillBytes(_list.AsSpan(_count, newCount - _count), _default);
+            FillBytes(_list.AsSpan(_count, newCount - _count), Default);
         }
 
         _count = newCount;
@@ -142,7 +141,7 @@ public partial class ByteList : Persistent
             _count = byteList._count;
             SetCapacity(byteList._count);
             Array.Copy(byteList._list, 0, _list, 0, _count * 1);
-            _default = byteList._default;
+            Default = byteList.Default;
         }
         else
         {
@@ -295,7 +294,7 @@ public partial class ByteList : Persistent
     {
         for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[i] == _default)
+            if (this[i] == Default)
             {
                 Delete(i);
             }
@@ -360,7 +359,7 @@ public partial class ByteList : Persistent
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public byte Default { get => _default; set => _default = value; }
+    public byte Default { get; set; }
 
     public byte this[int index] { get => Get(index); set => Put(index, value); }
 

@@ -10,10 +10,8 @@ namespace Aow.Game.Commands;
 
 // { ot=1 }
 // packed target coordinates. target owner
-public partial class CityTargetSpellTokenEvent : SpellTokenEvent
+public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public CityTargetSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CitySpells.pas:170
     public new const int ClassId = 135949;

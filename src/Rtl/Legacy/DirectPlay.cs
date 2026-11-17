@@ -3,9 +3,8 @@ namespace Aow.Rtl;
 // The offline DirectPlay component (aowDPlayComp.pas). It lists the TCP/IP provider that
 // DirectPlay lists on any current Windows, but it never connects and never joins a session, so
 // the original's guards on Connected and InSession take their offline branch.
-public class GDPlay : Component
+public class GDPlay(Component? owner = null) : Component(owner)
 {
-    public GDPlay(Component? owner = null) : base(owner) { }
 
     // DPlay.pas: the TCP/IP service provider.
     public static GUID DPSPGUID_TCPIP { get; } = "36E95EE0-8577-11CF-960C-0080C7534E82";

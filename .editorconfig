@@ -171,8 +171,7 @@ dotnet_diagnostic.IDE0010.severity = suggestion
 dotnet_diagnostic.IDE0011.severity = warning
 # IDE0016 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0016.severity = warning
-# IDE0017 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0017.severity = suggestion
+dotnet_diagnostic.IDE0017.severity = warning
 dotnet_diagnostic.IDE0018.severity = warning
 dotnet_diagnostic.IDE0019.severity = warning
 dotnet_diagnostic.IDE0020.severity = warning
@@ -191,8 +190,7 @@ dotnet_diagnostic.IDE0029.severity = warning
 # IDE0030 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0030.severity = warning
 dotnet_diagnostic.IDE0031.severity = warning
-# IDE0032 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0032.severity = suggestion
+dotnet_diagnostic.IDE0032.severity = warning
 # IDE0033 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0033.severity = warning
 dotnet_diagnostic.IDE0034.severity = warning
@@ -297,7 +295,9 @@ dotnet_diagnostic.IDE0260.severity = warning
 dotnet_diagnostic.IDE0270.severity = warning
 # IDE0280 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0280.severity = warning
-# IDE0290 raises to warning in the manual remainder.
+# IDE0290 stays at suggestion. 126 constructors run stores after the base constructor, the order of
+# Delphi inherited Create, and a primary constructor would run them before it. Those keep explicit
+# constructors. The construction snapshots pin the order.
 dotnet_diagnostic.IDE0290.severity = suggestion
 dotnet_diagnostic.IDE0300.severity = warning
 # IDE0301 raises to warning in the manual remainder.

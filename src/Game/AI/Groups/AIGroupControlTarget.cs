@@ -12,6 +12,12 @@ namespace Aow.Game.AI.Groups;
 // references. info. data. location. moves. transporter. status. path strength. data A. data B
 public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
+    public AIGroupControlTarget(CustomNode owner) : base(owner)
+    {
+        _refCount = 1;
+        TransporterId = -1;
+    }
+
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
     public new AIGroupControlTargetList Owner { get => GetOwner<AIGroupControlTargetList>(); set => SetOwner(value); }
@@ -19,13 +25,6 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupControlTargetList;
 
     void IOwnedSink<AIGroupControlTargetList>.SetOwner(AIGroupControlTargetList owner) => SetOwner(owner);
-
-    // AIGroup.pas:635
-    public AIGroupControlTarget(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-        TransporterId = -1;
-    }
 
     private int _refCount;
 

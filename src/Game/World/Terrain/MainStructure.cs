@@ -3,10 +3,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class MainStructure : CombatStructure
+public partial class MainStructure(CustomNode owner) : CombatStructure(owner)
 {
-    public MainStructure(CustomNode owner) : base(owner)
-    { }
 
     // MainStructure.pas:37
     public new const int ClassId = 2229532;
@@ -14,10 +12,8 @@ public partial class MainStructure : CombatStructure
     // MainStructure.pas:40
     public override int GetTerrainTypeImage(int terrainType) => terrainType;
 
-    public new partial class Resource : CombatStructureResource
+    public new partial class Resource(CustomNode owner) : CombatStructureResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // MainStructure.pas:43
         public new const int ClassId = 2229533;

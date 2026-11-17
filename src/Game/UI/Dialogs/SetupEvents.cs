@@ -17,11 +17,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SetupEvents : UIModule
+public partial class SetupEvents(UIContext ui) : UIModule(ui)
 {
-    public SetupEvents(UIContext ui) : base(ui)
-    { }
-
     public GDPlay DirectPlay { get; set; }
     public SetupControl SetupControl { get; set; }
 

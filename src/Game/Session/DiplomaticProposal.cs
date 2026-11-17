@@ -50,8 +50,10 @@ public abstract partial record DiplomaticProposal
     // The lines TStrings.Text splits Text into.
     public static IReadOnlyList<string> Lines(string text)
     {
-        StringList list = new();
-        list.Text = text;
+        StringList list = new()
+        {
+            Text = text
+        };
         IReadOnlyList<string> lines = Lines(list);
         list?.Dispose();
         return lines;

@@ -9,8 +9,6 @@ namespace Aow.Game.World.Movement;
 // Path, PathMovePoints, MoveObject, MovePoints, Priority, Selection, MovePosition, Valid
 public partial class MoveSettings : EngineObject
 {
-    // Structur.PAS:4011
-    // path, path cost, object, available points, priority, selection, position, valid
     public MoveSettings(CustomNode owner) : base(owner)
     {
         Path = new MovePath();

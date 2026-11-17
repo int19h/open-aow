@@ -9,12 +9,9 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class HealingCombatAction : SingleTargetCombatAction
+public partial class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131773;
-
-    public HealingCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public override bool TouchSucceeded => true;
 

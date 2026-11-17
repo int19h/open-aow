@@ -35,10 +35,12 @@ public partial class DisplayModeList : IDisposable
     public void Add(int width, int height, int pixelFormatId)
     {
         DisplayModeItem item;
-        item = new DisplayModeItem();
-        item.Width = width;
-        item.Height = height;
-        item.PixelFormatId = pixelFormatId;
+        item = new DisplayModeItem
+        {
+            Width = width,
+            Height = height,
+            PixelFormatId = pixelFormatId
+        };
         _list.Add(item);
     }
 

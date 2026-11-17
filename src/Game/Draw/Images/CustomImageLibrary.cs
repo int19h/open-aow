@@ -11,23 +11,16 @@ namespace Aow.Game.Draw.Images;
 // starts in the file), FCapacity, FCount, FImages, FPaletteManager
 public partial class CustomImageLibrary : Component
 {
-
-    private Set<ImageLibraryStatusElement> _status;
     public event NotifyEvent<object> OnChange;
     private byte _changeLock;
-    private bool _reloading;
     private bool _loadOnDemand;
-    private string _loadedFileName = "";
     private string _fileName = "";
-    private int _dataOffset;
 
     internal int Capacity { get; private set; }
 
     private int _count;
 
     internal ImageItem[] Images { get; private set; }
-
-    private readonly PaletteManager _paletteManager;
 
     // ImageLib.pas:9699
     internal void SetCapacity(int newCapacity)
@@ -151,7 +144,7 @@ public partial class CustomImageLibrary : Component
         _loadOnDemand = value;
         if (!value)
         {
-            _reloading = false;
+            Reloading = false;
         }
     }
 
@@ -162,10 +155,10 @@ public partial class CustomImageLibrary : Component
 
     public CustomImageLibrary(Component owner) : base(owner)
     {
-        _paletteManager = new PaletteManager();
+        PaletteManager = new PaletteManager();
         _loadOnDemand = true;
         _fileName = "";
-        _status = Set<ImageLibraryStatusElement>.Of();
+        Status = Set<ImageLibraryStatusElement>.Of();
         Clear();
     }
 
@@ -173,19 +166,19 @@ public partial class CustomImageLibrary : Component
     public override void Dispose()
     {
         Clear();
-        _paletteManager?.Dispose();
+        PaletteManager?.Dispose();
         base.Dispose();
     }
 
     // ImageLib.pas:9686
-    public virtual bool GetModified() => _status.Contains(ImageLibraryStatusElement.Modified);
+    public virtual bool GetModified() => Status.Contains(ImageLibraryStatusElement.Modified);
 
     // ImageLib.pas:9691
     public virtual void SetModified(bool value)
     {
-        _status = value
-            ? _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified)
-            : _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
+        Status = value
+            ? Status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified)
+            : Status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
     }
 
     // ImageLib.pas:9826
@@ -199,15 +192,15 @@ public partial class CustomImageLibrary : Component
             }
         }
 
-        if (!_status.Contains(ImageLibraryStatusElement.LoadingFromFile))
+        if (!Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
         {
             _fileName = "";
-            _loadedFileName = "";
+            LoadedFileName = "";
         }
 
-        _reloading = false;
+        Reloading = false;
         SetCapacity(0);
-        _paletteManager.Clear();
+        PaletteManager.Clear();
         if (_changeLock == 0)
         {
             CallOnChangeEvent();
@@ -224,23 +217,23 @@ public partial class CustomImageLibrary : Component
         ImageLibraryHeader header = default;
         int subIndex;
         LibraryImage image;
-        _status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
+        Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
         _changeLock = (byte)(_changeLock + 1);
         Clear();
-        _reloading = _status.Contains(ImageLibraryStatusElement.LoadingFromFile) && _loadOnDemand;
+        Reloading = Status.Contains(ImageLibraryStatusElement.LoadingFromFile) && _loadOnDemand;
         startPosition = (int)stream.Position;
         stream.ReadExactly(Bytes.Of(ref header, 24));
         _ = stream.Seek(header.HeaderSize + startPosition, SeekOrigin.Begin);
         if ((double)header.Version < 4)
         {
-            _dataOffset = 0;
+            DataOffset = 0;
             if (header.Version > 1.5)
             {
-                _paletteManager.LoadFromStream(stream);
+                PaletteManager.LoadFromStream(stream);
             }
             else
             {
-                _paletteManager.Clear();
+                PaletteManager.Clear();
             }
 
             // The original reads each index with Stream.Read. A short read leaves the index without its
@@ -284,13 +277,13 @@ public partial class CustomImageLibrary : Component
         }
         else
         {
-            _dataOffset = header.IndexEnd + startPosition;
+            DataOffset = header.IndexEnd + startPosition;
             milliseconds = new MemoryStream();
             try
             {
                 milliseconds.SetLength(header.IndexEnd - header.HeaderSize);
                 stream.ReadBuffer(milliseconds.GetBuffer().AsSpan(length: (int)milliseconds.Length, start: 0));
-                _paletteManager.LoadFromStream(milliseconds);
+                PaletteManager.LoadFromStream(milliseconds);
                 milliseconds.ReadBuffer(Bytes.Of(ref index, 4));
                 while (index != -1)
                 {
@@ -305,7 +298,7 @@ public partial class CustomImageLibrary : Component
                 milliseconds?.Dispose();
             }
 
-            if (!_status.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (!Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 _ = stream.Seek(header.Size + startPosition, SeekOrigin.Begin);
             }
@@ -317,7 +310,7 @@ public partial class CustomImageLibrary : Component
             CallOnChangeEvent();
         }
 
-        _status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
+        Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
     }
 
     // ImageLib.pas:10038
@@ -333,12 +326,12 @@ public partial class CustomImageLibrary : Component
         swap = OpenFile(swapName, 65535);
         try
         {
-            _status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
+            Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
             header.HeaderSize = 24;
             header.Id = "ILB\0";
             header.Version = 4;
             stream.Write(Bytes.Of(ref header, 24));
-            _paletteManager.SaveToStream(stream);
+            PaletteManager.SaveToStream(stream);
             i = 0;
             int last = _count - 1;
             for (; i <= last; i += 1)
@@ -367,7 +360,7 @@ public partial class CustomImageLibrary : Component
         }
         finally
         {
-            _status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
+            Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
             swap?.Dispose();
             _ = DeleteFile(swapName);
         }
@@ -381,14 +374,14 @@ public partial class CustomImageLibrary : Component
         try
         {
             _changeLock = (byte)(_changeLock + 1);
-            _status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
             FileName = ExpandFileName(fileName);
-            _loadedFileName = GetFullFileName();
+            LoadedFileName = GetFullFileName();
             LoadFromStream(stream);
         }
         finally
         {
-            _status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
             stream?.Dispose();
             _changeLock = (byte)(_changeLock - 1);
             if (_changeLock == 0)
@@ -404,12 +397,12 @@ public partial class CustomImageLibrary : Component
         Stream stream;
         string name;
         name = ExpandFileName(fileName);
-        if (name == _loadedFileName)
+        if (name == LoadedFileName)
         {
             DisableReloading();
         }
 
-        _status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
+        Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
         stream = OpenFile(name, 65535);
         try
         {
@@ -417,7 +410,7 @@ public partial class CustomImageLibrary : Component
         }
         finally
         {
-            _status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
+            Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
             stream?.Dispose();
         }
     }
@@ -448,7 +441,7 @@ public partial class CustomImageLibrary : Component
             SaveToStream(stream);
             stream.Position = 0;
             result.LoadFromStream(stream);
-            result._reloading = false;
+            result.Reloading = false;
         }
         finally
         {
@@ -501,14 +494,14 @@ public partial class CustomImageLibrary : Component
             Images[i].Image?.SetReloadingEnabled(false);
         }
 
-        _reloading = false;
+        Reloading = false;
     }
 
     // ImageLib.pas:9852
     public void ReleaseDiscardableImageData()
     {
         LibraryImage image;
-        if (_reloading)
+        if (Reloading)
         {
             for (int i = 0, last = _count - 1; i <= last; i++)
             {
@@ -580,16 +573,16 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10115
     public void LoadFromFileStream(string fileName, Stream stream)
     {
-        _status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+        Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         try
         {
             FileName = ExpandFileName(fileName);
-            _loadedFileName = GetFullFileName();
+            LoadedFileName = GetFullFileName();
             LoadFromStream(stream);
         }
         finally
         {
-            _status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         }
     }
 
@@ -616,7 +609,7 @@ public partial class CustomImageLibrary : Component
                 stream.Position = 0;
                 LoadFromStream(stream);
                 _fileName = library._fileName;
-                _loadedFileName = library._loadedFileName;
+                LoadedFileName = library.LoadedFileName;
                 if (_changeLock == 0)
                 {
                     CallOnChangeEvent();
@@ -1063,12 +1056,12 @@ public partial class CustomImageLibrary : Component
     public LibraryImage this[int index] => Get(index);
 
     public bool Modified { get => GetModified(); set => SetModified(value); }
-    public Set<ImageLibraryStatusElement> Status => _status;
-    public PaletteManager PaletteManager => _paletteManager;
+    public Set<ImageLibraryStatusElement> Status { get; private set; }
+    public PaletteManager PaletteManager { get; }
     public string FullFileName => GetFullFileName();
-    public string LoadedFileName => _loadedFileName;
-    public int DataOffset => _dataOffset;
-    public bool Reloading => _reloading;
+    public string LoadedFileName { get; private set; } = "";
+    public int DataOffset { get; private set; }
+    public bool Reloading { get; private set; }
     public bool LoadOnDemand { get => _loadOnDemand; set => SetLoadOnDemand(value); }
     public string FileName { get => _fileName; set => SetFileName(value); }
 

@@ -26,8 +26,6 @@ namespace Aow.Game.Combat;
 // Status. ControlMode
 public partial class CombatObject : EngineObject
 {
-
-    // Combat.pas:1922
     public CombatObject(CustomNode owner) : base(owner)
     {
         Targets = new QuadItemList<CombatObject>();
@@ -567,8 +565,11 @@ public partial class CombatObject : EngineObject
     public virtual void TurnDone()
     {
         CombatObjectTurnDoneCombatAction a;
-        a = new CombatObjectTurnDoneCombatAction(null) { Holder = CreationHolder() };
-        a.CombatObjectId = Id;
+        a = new CombatObjectTurnDoneCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            CombatObjectId = Id
+        };
         Combat.ExecuteCombatAction(a);
         _ = a.Release();
     }

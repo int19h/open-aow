@@ -202,9 +202,9 @@
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
         "MultiTargetCombatSpellCombatAction.TargetIds": {
           "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
           "ByteList._capacity": 0,
           "ByteList._count": 0,
-          "ByteList._default": 0,
           "ByteList._list": []
         },
         "MultiTargetCombatSpellCombatAction._succeeded": false
@@ -234,9 +234,9 @@
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
         "MultiTargetCombatSpellCombatAction.TargetIds": {
           "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
           "ByteList._capacity": 0,
           "ByteList._count": 0,
-          "ByteList._default": 0,
           "ByteList._list": []
         },
         "MultiTargetCombatSpellCombatAction._succeeded": false
@@ -292,9 +292,9 @@
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
         "MultiTargetCombatSpellCombatAction.TargetIds": {
           "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
           "ByteList._capacity": 0,
           "ByteList._count": 0,
-          "ByteList._default": 0,
           "ByteList._list": []
         },
         "MultiTargetCombatSpellCombatAction._succeeded": false
@@ -515,17 +515,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -587,17 +587,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -659,17 +659,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -733,17 +733,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -807,17 +807,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -879,17 +879,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -951,17 +951,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1025,17 +1025,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1099,17 +1099,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1171,17 +1171,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1245,17 +1245,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1317,17 +1317,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1389,17 +1389,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1461,17 +1461,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1533,17 +1533,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1605,17 +1605,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1677,17 +1677,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1749,17 +1749,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1821,17 +1821,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1895,17 +1895,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1967,17 +1967,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2039,17 +2039,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2113,17 +2113,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2205,17 +2205,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2277,17 +2277,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2365,17 +2365,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2457,17 +2457,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2531,17 +2531,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2605,17 +2605,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2677,17 +2677,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2751,17 +2751,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2843,17 +2843,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2915,17 +2915,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2987,17 +2987,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3059,17 +3059,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3133,17 +3133,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3205,17 +3205,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3277,17 +3277,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3349,17 +3349,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3421,17 +3421,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3495,17 +3495,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3583,17 +3583,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3655,17 +3655,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3727,17 +3727,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3801,17 +3801,17 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Ability.SelectionTypes": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Abilities.AbilitySelectionType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3873,9 +3873,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -3908,9 +3908,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4035,9 +4035,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4070,9 +4070,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4157,9 +4157,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4192,9 +4192,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -4268,9 +4268,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4303,9 +4303,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4361,9 +4361,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4396,9 +4396,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4479,9 +4479,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4514,9 +4514,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4586,9 +4586,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4621,9 +4621,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4668,9 +4668,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4703,9 +4703,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -4787,9 +4787,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4822,9 +4822,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -4898,9 +4898,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -4933,9 +4933,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5009,9 +5009,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5044,9 +5044,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5145,9 +5145,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5180,9 +5180,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5263,9 +5263,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5298,9 +5298,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5385,9 +5385,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5420,9 +5420,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5525,9 +5525,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5560,9 +5560,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5636,9 +5636,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5671,9 +5671,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5718,9 +5718,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5753,9 +5753,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -5808,9 +5808,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5843,9 +5843,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -5922,9 +5922,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -5957,9 +5957,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6004,9 +6004,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6039,9 +6039,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -6095,9 +6095,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6130,9 +6130,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6275,9 +6275,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6310,9 +6310,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -6415,9 +6415,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6450,9 +6450,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -6526,9 +6526,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6561,9 +6561,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6632,9 +6632,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6667,9 +6667,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -6723,9 +6723,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6758,9 +6758,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6874,9 +6874,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -6909,9 +6909,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -6965,9 +6965,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7000,9 +7000,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7145,9 +7145,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7180,9 +7180,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7256,9 +7256,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7291,9 +7291,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -7375,9 +7375,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7410,9 +7410,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7489,9 +7489,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7524,9 +7524,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7603,9 +7603,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7638,9 +7638,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7715,9 +7715,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7750,9 +7750,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7895,9 +7895,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -7930,9 +7930,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8007,9 +8007,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8042,9 +8042,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8219,9 +8219,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8254,9 +8254,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8326,9 +8326,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8361,9 +8361,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -8419,9 +8419,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8454,9 +8454,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8533,9 +8533,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8568,9 +8568,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8644,9 +8644,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8679,9 +8679,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 175,
@@ -8763,9 +8763,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8798,9 +8798,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8875,9 +8875,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8910,9 +8910,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8961,9 +8961,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -8996,9 +8996,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9071,9 +9071,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9106,9 +9106,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9207,9 +9207,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9242,9 +9242,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -9319,9 +9319,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9354,9 +9354,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9472,9 +9472,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9507,9 +9507,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -9563,9 +9563,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9598,9 +9598,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9719,9 +9719,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9754,9 +9754,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9804,9 +9804,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9839,9 +9839,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -9923,9 +9923,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -9958,9 +9958,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10034,9 +10034,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10069,9 +10069,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -10153,9 +10153,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10188,9 +10188,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10267,9 +10267,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10302,9 +10302,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -10353,9 +10353,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10388,9 +10388,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -10504,9 +10504,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10539,9 +10539,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 300,
@@ -10623,9 +10623,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10658,9 +10658,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10763,9 +10763,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10798,9 +10798,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10875,9 +10875,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -10910,9 +10910,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11055,9 +11055,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11090,9 +11090,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11169,9 +11169,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11204,9 +11204,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11254,9 +11254,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11289,9 +11289,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -11344,9 +11344,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11379,9 +11379,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11455,9 +11455,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11490,9 +11490,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11595,9 +11595,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11630,9 +11630,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11735,9 +11735,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11770,9 +11770,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11875,9 +11875,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -11910,9 +11910,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11989,9 +11989,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12024,9 +12024,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -12103,9 +12103,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12138,9 +12138,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -12215,9 +12215,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12250,9 +12250,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -12366,9 +12366,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12401,9 +12401,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 200,
@@ -12485,9 +12485,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12520,9 +12520,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -12596,9 +12596,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12631,9 +12631,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -12693,9 +12693,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12728,9 +12728,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -12790,9 +12790,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12825,9 +12825,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -12887,9 +12887,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -12922,9 +12922,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -12984,9 +12984,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13019,9 +13019,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -13081,9 +13081,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13116,9 +13116,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -13178,9 +13178,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13213,9 +13213,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -13275,9 +13275,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13310,9 +13310,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -13372,9 +13372,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13407,9 +13407,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -13469,9 +13469,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13504,9 +13504,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 250,
@@ -13566,9 +13566,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13601,9 +13601,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -13663,9 +13663,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13698,9 +13698,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -13755,9 +13755,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13790,9 +13790,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -13852,9 +13852,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -13887,9 +13887,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -13978,9 +13978,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14013,9 +14013,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14118,9 +14118,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14153,9 +14153,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14232,9 +14232,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14267,9 +14267,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14328,9 +14328,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14363,9 +14363,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14432,9 +14432,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14467,9 +14467,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14554,9 +14554,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14589,9 +14589,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14694,9 +14694,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14729,9 +14729,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14805,9 +14805,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14840,9 +14840,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -14924,9 +14924,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -14959,9 +14959,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -15038,9 +15038,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15073,9 +15073,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15148,9 +15148,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15183,9 +15183,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15255,9 +15255,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15290,9 +15290,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15340,9 +15340,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15375,9 +15375,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15496,9 +15496,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15531,9 +15531,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15647,9 +15647,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15682,9 +15682,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -15737,9 +15737,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15772,9 +15772,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -15856,9 +15856,9 @@
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
           "DelphiList\u00601.count": 0,
           "DelphiList\u00601.items": [],
-          "ImageSequenceList._imageLibrary": null,
-          "ImageSequenceList._imageLibraryManager": "$image-manager",
-          "ImageSequenceList._linked": false
+          "ImageSequenceList.ImageLibrary": null,
+          "ImageSequenceList.ImageLibraryManager": "$image-manager",
+          "ImageSequenceList.Linked": false
         },
         "Spell.CastSounds": {
           "$type": "Aow.Game.Audio.SfxLibrary",
@@ -15891,9 +15891,9 @@
           "StringList.Duplicates": 0,
           "StringList.OnChange": null,
           "StringList.OnChanging": null,
+          "StringList.Sorted": false,
           "StringList.count": 0,
-          "StringList.items": [],
-          "StringList.sorted": false
+          "StringList.items": []
         },
         "Spell.SpellType": 0
       }

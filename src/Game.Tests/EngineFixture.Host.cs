@@ -19,14 +19,12 @@ public sealed partial class EngineFixture
     internal sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
     {
         private readonly string _fault;
-        private readonly string _root = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
         private readonly PhysicalFileSystem _files = new();
         private readonly Dictionary<FieldInfo, object?> _globals = [];
         private readonly IFileSystem _previousFiles = Runtime.Files;
         private readonly ISettingsStore? _previousSettings = Runtime.Settings;
         private readonly IDialogService? _previousDialogs = Runtime.Dialogs;
         private readonly IShellService? _previousShell = Runtime.Shell;
-        private readonly IClock _previousClock = Runtime.Clock;
         private readonly string _previousExecutable = Runtime.Application.ExeName;
         private readonly Action<string> _previousMessage = Runtime.MessageHandler;
         private readonly string _previousLocalization = LocalizationRuntime.StartupDirectory;
@@ -55,25 +53,25 @@ public sealed partial class EngineFixture
                 }
             }
 
-            _ = Directory.CreateDirectory(_root);
+            _ = Directory.CreateDirectory(GameRoot);
             foreach (string directory in new[] { "IMAGES", "SFX", "Dict" })
             {
-                _ = Directory.CreateDirectory(Path.Combine(_root, directory));
+                _ = Directory.CreateDirectory(Path.Combine(GameRoot, directory));
             }
 
             if (fault == "dictionary")
             {
-                File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
+                File.WriteAllBytes(Path.Combine(GameRoot, "Dict", "ResStr.mld"), [0]);
             }
 
-            _ = _files.SetCurrentDirectory(_root);
+            _ = _files.SetCurrentDirectory(GameRoot);
             GamePack.Current = null;
             StrategicMap.Current = null;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
 
-        internal string Relative(string value) => value.Replace(_root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
+        internal string Relative(string value) => value.Replace(GameRoot, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
         internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GamePack.Current is not null, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
@@ -90,9 +88,9 @@ public sealed partial class EngineFixture
         public IDialogService Dialogs => this;
         // Engine tests record startup calls and never open a browser.
         public IShellService Shell { get; } = new RecordingShell();
-        public IClock Clock => _previousClock;
-        public string ExecutableName => Path.Combine(_root, "AoW.exe");
-        public string GameRoot => _root;
+        public IClock Clock { get; } = Runtime.Clock;
+        public string ExecutableName => Path.Combine(GameRoot, "AoW.exe");
+        public string GameRoot { get; } = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
         public string CurrentDirectory { get { Record("CurrentDirectory", ""); return _files.CurrentDirectory; } }
 
         public string ExpandPath(string path) { Record("ExpandPath", path); return Checked(path); }
@@ -100,7 +98,7 @@ public sealed partial class EngineFixture
         private string Checked(string path)
         {
             string full = _files.ExpandPath(path);
-            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Startup escaped temporary root: " + full);
+            Assert.True(full.Equals(GameRoot, StringComparison.OrdinalIgnoreCase) || full.StartsWith(GameRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Startup escaped temporary root: " + full);
             return full;
         }
 
@@ -129,7 +127,7 @@ public sealed partial class EngineFixture
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             Record("Enumerate", directory);
-            return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(_root, "IMAGES"), StringComparison.OrdinalIgnoreCase)
+            return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(GameRoot, "IMAGES"), StringComparison.OrdinalIgnoreCase)
                 ? throw new InvalidDataException("injected IMAGES search failure")
                 : (IEnumerable<RtlFileEntry>)_files.Enumerate(Checked(directory)).ToArray();
         }
@@ -150,7 +148,7 @@ public sealed partial class EngineFixture
         {
             Runtime.Files = _previousFiles; Runtime.Settings = _previousSettings; Runtime.Dialogs = _previousDialogs;
             Runtime.Shell = _previousShell;
-            Runtime.Clock = _previousClock; Runtime.Application.ExeName = _previousExecutable; Runtime.MessageHandler = _previousMessage;
+            Runtime.Clock = Clock; Runtime.Application.ExeName = _previousExecutable; Runtime.MessageHandler = _previousMessage;
         }
 
         public void Dispose()
@@ -162,7 +160,7 @@ public sealed partial class EngineFixture
 
             LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();
-            Directory.Delete(_root, true);
+            Directory.Delete(GameRoot, true);
         }
     }
 }

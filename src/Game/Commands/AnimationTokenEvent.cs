@@ -8,10 +8,8 @@ using Aow.Game.Net;
 namespace Aow.Game.Commands;
 
 // state, animation
-public partial class AnimationTokenEvent : TokenEvent
+public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public AnimationTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // Animation.pas:388
     public new const int ClassId = 135433;

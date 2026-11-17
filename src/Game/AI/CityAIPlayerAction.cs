@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI;
 
 // CityCount, ProductionLevelCounts, MaxProductionLevel, ProductionRatio
-public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public CityAIPlayerAction(CustomNode owner) : base(owner)
-    { }
-
     private int _cityCount;
     private readonly int[] _productionLevelCounts = new int[4];
     private int _maxProductionLevel;
@@ -37,13 +34,13 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         {
             manager = player.AIBudget;
             upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
-            if (upgradeBudget == null)
+            upgradeBudget ??= new AICityUpgradeBudget(null)
             {
-                upgradeBudget = new AICityUpgradeBudget(null) { Holder = CreationHolder() };
-                upgradeBudget.Owner = manager.Budgets;
-                upgradeBudget.RequiredGold = 250;
-                upgradeBudget.Days = 7;
-            }
+                Holder = CreationHolder(),
+                Owner = manager.Budgets,
+                RequiredGold = 250,
+                Days = 7
+            };
 
             researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
             if (researchBudget != null)
@@ -59,10 +56,13 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             }
             else
             {
-                researchBudget = new AICityResearchBudget(null) { Holder = CreationHolder() };
-                researchBudget.Days = 7;
-                researchBudget.RequiredGold = 125;
-                researchBudget.Owner = manager.Budgets;
+                researchBudget = new AICityResearchBudget(null)
+                {
+                    Holder = CreationHolder(),
+                    Days = 7,
+                    RequiredGold = 125,
+                    Owner = manager.Budgets
+                };
             }
 
             ValidateResearchBudget(researchBudget);
@@ -92,10 +92,13 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             {
                 if (StrategicMap.Current.Day > 5)
                 {
-                    fortifyBudget = new AICityFortifyBudget(null) { Holder = CreationHolder() };
-                    fortifyBudget.Days = 7;
-                    fortifyBudget.RequiredGold = 80;
-                    fortifyBudget.Owner = manager.Budgets;
+                    fortifyBudget = new AICityFortifyBudget(null)
+                    {
+                        Holder = CreationHolder(),
+                        Days = 7,
+                        RequiredGold = 80,
+                        Owner = manager.Budgets
+                    };
                 }
             }
 
@@ -238,8 +241,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             if (index != -1)
             {
                 city.Production.ExecuteDeleteProductions();
-                production = new ProductionItem(null) { Holder = CreationHolder() };
-                production.Order = new ResearchSpell(index);
+                production = new ProductionItem(null)
+                {
+                    Holder = CreationHolder(),
+                    Order = new ResearchSpell(index)
+                };
                 city.Production.ExecuteAddProduction(production);
                 production?.Dispose();
                 index = city.ResearchCost(index);
@@ -327,8 +333,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         {
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
-            production = new ProductionItem(null) { Holder = CreationHolder() };
-            production.Order = new Upgrade();
+            production = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Upgrade()
+            };
             city.Production.ExecuteAddProduction(production);
             production?.Dispose();
             _ = player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
@@ -452,8 +461,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             city.Production.ExecuteDeleteProductions();
             int fortifyCost = city.FortifyCost();
             _ = player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
-            production = new ProductionItem(null) { Holder = CreationHolder() };
-            production.Order = new Fortify();
+            production = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Fortify()
+            };
             city.Production.ExecuteAddProduction(production);
             production?.Dispose();
 

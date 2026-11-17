@@ -6,11 +6,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Terrain;
 
 // PadActive
-public partial class Pad : FixedImageLibraryTerrainMapObject
+public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
-    public Pad(CustomNode owner) : base(owner)
-    {
-    }
 
     // Pad.pas:52
     public new const int ClassId = 131334;

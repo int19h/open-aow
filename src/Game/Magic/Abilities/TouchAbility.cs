@@ -38,12 +38,14 @@ public partial class TouchAbility : AdjustableAbility
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(i);
-                    command.SourceDamageValue = values.SourceDamage;
-                    command.TargetDamageValue = values.TargetDamage;
-                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
-                    command.MoveCost = values.TargetDamage == 0 ? 1 : 2;
+                    command = new FastBattleCommand(AbilityId)
+                    {
+                        Target = commands.TargetSide.GetObjects(i),
+                        SourceDamageValue = values.SourceDamage,
+                        TargetDamageValue = values.TargetDamage,
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        MoveCost = values.TargetDamage == 0 ? 1 : 2
+                    };
 
                     commands.Add(command);
                 }
@@ -129,9 +131,12 @@ public partial class TouchAbility : AdjustableAbility
         MoveWallCombatAction action;
         if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
         {
-            action = new MoveWallCombatAction(null) { Holder = CreationHolder() };
-            action.CombatObjectId = source.Id;
-            action.InsideWall = 0;
+            action = new MoveWallCombatAction(null)
+            {
+                Holder = CreationHolder(),
+                CombatObjectId = source.Id,
+                InsideWall = 0
+            };
             source.Combat.ExecuteCombatAction(action);
             _ = action.Release();
         }

@@ -7,10 +7,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class RaidAIGroupControl : AIGroupControl
+public partial class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public RaidAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // IndependentAG.pas:589
     public override void MoveExecutorDone(object sender)

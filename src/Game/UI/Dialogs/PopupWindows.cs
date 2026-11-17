@@ -14,11 +14,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // published menu components
-public partial class PopupWindows : UIModule
+public partial class PopupWindows(UIContext ui) : UIModule(ui)
 {
-    public PopupWindows(UIContext ui) : base(ui)
-    { }
-
     public Menu OverviewsMenu { get; private set; }
 
     // AoWPWindows.pas:61

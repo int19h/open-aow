@@ -10,10 +10,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI;
 
-public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public EndTurnAIPlayerAction(CustomNode owner) : base(owner)
-    { }
 
     // AI.pas:1032
     public override bool Process()
@@ -22,10 +20,13 @@ public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClas
         EndTurnTokenEvent eventValue;
         if (!Control.Player.SingleProcessCycle)
         {
-            eventValue = new EndTurnTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.Player = Control.Player.PlayerIndex;
-            eventValue.Day = StrategicMap.Current.Day;
-            eventValue.Mode = EndTurnTokenEventMode.EndTurn;
+            eventValue = new EndTurnTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = Control.Player.PlayerIndex,
+                Day = StrategicMap.Current.Day,
+                Mode = EndTurnTokenEventMode.EndTurn
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;

@@ -7,13 +7,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class EntangleSpellCombatAction : ExclusiveCombatSpellCombatAction
+public partial class EntangleSpellCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1328
     public new const int ClassId = 131784;
-
-    public EntangleSpellCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:1334
     public override void Execute(Battle combat)

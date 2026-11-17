@@ -9,13 +9,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // spell ID, casting mana. source and target IDs inherited
-public partial class CombatSpellCombatAction : DamageCombatAction
+public partial class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     // CombatSpells.pas:447
     public new const int ClassId = 131778;
-
-    public CombatSpellCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public int SpellId { get; set; }
     public int ManaCost { get; set; }

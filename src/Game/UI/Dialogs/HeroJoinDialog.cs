@@ -17,11 +17,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, join event, details flag, selection mask, unit list, face unit
-public partial class HeroJoinDialog : UIModule
+public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
 {
-    public HeroJoinDialog(UIContext ui) : base(ui)
-    { }
-
     public Panel UnitPanel { get; private set; }
     public Button MiddleButton { get; private set; }
     public Button RightButton { get; private set; }

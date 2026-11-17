@@ -5,12 +5,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapObject
+public partial class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-
-    public FixedImageLibraryTerrainMapObject(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131464;
 
     // ILTer.pas:295

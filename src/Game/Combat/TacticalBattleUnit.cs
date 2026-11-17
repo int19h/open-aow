@@ -18,11 +18,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // MovePoints. UnitHexSprite. PositionIndex. PositionGroup. CanFlee. DeathMethod
-public partial class TacticalBattleUnit : CombatUnit
+public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
-    public TacticalBattleUnit(CustomNode owner) : base(owner)
-    { }
-
     public int MovePoints { get; set; }
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
     public byte PositionIndex { get; set; }
@@ -150,8 +147,10 @@ public partial class TacticalBattleUnit : CombatUnit
                     {
                         sbyte fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
                         sbyte fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
-                        corpse = new TacticalBattleCorpseHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY]);
-                        corpse.UnitGraphics = UnitHexSprite.UnitGraphicsResource;
+                        corpse = new TacticalBattleCorpseHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
+                        {
+                            UnitGraphics = UnitHexSprite.UnitGraphicsResource
+                        };
                         sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
                         if (sequence != null)
                         {

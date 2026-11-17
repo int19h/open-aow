@@ -16,6 +16,13 @@ namespace Aow.Game.World.Map;
 // the map
 public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
+    public HexSpriteSelection(CustomNode owner) : base(owner)
+    {
+        LocationHexSprite = [];
+        OnSelectStore = new();
+        OnDeselectStore = new();
+    }
+
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
     public HexSprite this[int index] => GetChild<HexSprite>(index);
@@ -30,8 +37,6 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
-
-    private readonly List<HexSprite> _locationHexSprite;
 
     internal EventStore<CustomNode> OnSelectStore { get; }
 
@@ -49,21 +54,11 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         remove => OnDeselectStore.Remove(value);
     }
 
-    private HexSprite _eventHexSprite;
-
-    // HSEngine.pas:3681
-    public HexSpriteSelection(CustomNode owner) : base(owner)
-    {
-        _locationHexSprite = [];
-        OnSelectStore = new();
-        OnDeselectStore = new();
-    }
-
     // HSEngine.pas:3689
     public override void Dispose()
     {
         base.Dispose();
-        _locationHexSprite?.Clear();
+        LocationHexSprite?.Clear();
         OnSelectStore.Clear();
         OnDeselectStore.Clear();
     }
@@ -72,20 +67,20 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     public override void Clear()
     {
         ClearChildren();
-        _locationHexSprite.Clear();
+        LocationHexSprite.Clear();
     }
 
     // HSEngine.pas:3699
     public void TriggerDeselectEvent(HexSprite hexSprite)
     {
-        _eventHexSprite = hexSprite;
+        EventHexSprite = hexSprite;
         OnDeselectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3705
     public void TriggerSelectEvent(HexSprite hexSprite)
     {
-        _eventHexSprite = hexSprite;
+        EventHexSprite = hexSprite;
         OnSelectStore.Raise(Owner);
     }
 
@@ -94,7 +89,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     {
         int i;
         i = IndexOfChild(hexSprite);
-        _ = _locationHexSprite.Remove(hexSprite);
+        _ = LocationHexSprite.Remove(hexSprite);
         if (i != -1)
         {
             _ = DropChild(hexSprite);
@@ -154,7 +149,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // HSEngine.pas:3790
     public void SelectLocationHexSprite(HexSprite hexSprite)
     {
-        _locationHexSprite.Add(hexSprite);
+        LocationHexSprite.Add(hexSprite);
         Select(hexSprite);
     }
 
@@ -168,13 +163,13 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // HSEngine.pas:3837
     public void UnselectLocation()
     {
-        while (_locationHexSprite.Count != 0)
+        while (LocationHexSprite.Count != 0)
         {
-            Unselect(_locationHexSprite[^1]);
+            Unselect(LocationHexSprite[^1]);
         }
     }
 
-    public List<HexSprite> LocationHexSprite => _locationHexSprite;
+    public List<HexSprite> LocationHexSprite { get; }
 
     public event NotifyEvent<CustomNode> OnSelect
     {
@@ -188,6 +183,6 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         remove => OnDeselectStore.Remove(value);
     }
 
-    public HexSprite EventHexSprite => _eventHexSprite;
+    public HexSprite EventHexSprite { get; private set; }
 
 }

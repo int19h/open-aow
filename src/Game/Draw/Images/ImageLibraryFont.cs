@@ -10,10 +10,13 @@ namespace Aow.Game.Draw.Images;
 // to Color, -1 for none). A character without an image is 5 pixels wide
 public partial class ImageLibraryFont : CustomImageLibrary
 {
+    public ImageLibraryFont(Component owner) : base(owner)
+    {
+        CharacterDistance = 2;
+        _fontColorPaletteIndex = -1;
+        CharCase = EditCharCase.Normal;
+    }
 
-    private int _characterDistance;
-    private int _height;
-    private EditCharCase _charCase;
     private int _color;
     private int _fontColorPaletteIndex;
 
@@ -33,28 +36,20 @@ public partial class ImageLibraryFont : CustomImageLibrary
         _fontColorPaletteIndex = value;
     }
 
-    // ImageLib.pas:6258
-    public ImageLibraryFont(Component owner) : base(owner)
-    {
-        _characterDistance = 2;
-        _fontColorPaletteIndex = -1;
-        _charCase = EditCharCase.Normal;
-    }
-
     // ImageLib.pas:6291
     public override void LoadFromStream(Stream stream)
     {
         int i;
         base.LoadFromStream(stream);
-        _height = 0;
+        Height = 0;
         i = 0;
         while (i < Count)
         {
             if (this[i] != null)
             {
-                if (this[i].Height > _height)
+                if (this[i].Height > Height)
                 {
-                    _height = this[i].Height;
+                    Height = this[i].Height;
                 }
             }
 
@@ -66,7 +61,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     public int GetTextWidth(string text)
     {
         int result;
-        switch (_charCase)
+        switch (CharCase)
         {
             case EditCharCase.Normal:
                 result = TextWidth(text);
@@ -91,7 +86,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         int h;
         int c;
         string s;
-        switch (_charCase)
+        switch (CharCase)
         {
             case EditCharCase.LowerCase:
                 s = LowerCase(text);
@@ -120,7 +115,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6399
     public void SetText(int X, int Y, string text, in LockedSurface lockedSurface)
     {
-        switch (_charCase)
+        switch (CharCase)
         {
             case EditCharCase.Normal:
                 ShowText(X, Y, text, lockedSurface);
@@ -138,7 +133,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     public void SetTextCentered(int X, int Y, string text, in LockedSurface lockedSurface)
     {
         string s;
-        switch (_charCase)
+        switch (CharCase)
         {
             case EditCharCase.Normal:
                 X -= (int)(((uint)TextWidth(text)) >> 1);
@@ -162,7 +157,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     {
         int c;
         string s;
-        switch (_charCase)
+        switch (CharCase)
         {
             case EditCharCase.LowerCase:
                 s = LowerCase(text);
@@ -186,22 +181,22 @@ public partial class ImageLibraryFont : CustomImageLibrary
             if (c < Count && this[c] != null)
             {
                 this[c].Show(X, Y, lockedSurface, showInfo);
-                X += this[c].Width + _characterDistance;
+                X += this[c].Width + CharacterDistance;
             }
             else
             {
-                X += _characterDistance + 5;
+                X += CharacterDistance + 5;
             }
         }
     }
 
-    public int Height => _height;
+    public int Height { get; private set; }
 
     [Published]
-    public int CharacterDistance { get => _characterDistance; set => _characterDistance = value; }
+    public int CharacterDistance { get; set; }
 
     [Published]
-    public EditCharCase CharCase { get => _charCase; set => _charCase = value; }
+    public EditCharCase CharCase { get; set; }
 
     [Published]
     public int Color { get => _color; set => SetColor(value); }

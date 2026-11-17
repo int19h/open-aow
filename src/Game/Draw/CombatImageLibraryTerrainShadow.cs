@@ -6,11 +6,8 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatImageLibraryTerrainShadow : HexSprite
+public partial class CombatImageLibraryTerrainShadow(CustomNode owner) : HexSprite(owner)
 {
-    public CombatImageLibraryTerrainShadow(CustomNode owner) : base(owner)
-    { }
-
     public CombatImageLibraryTerrain Terrain { get; set; }
 
     // CombatILTer.pas:82

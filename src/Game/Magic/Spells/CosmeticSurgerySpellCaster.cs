@@ -11,11 +11,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // replacement face index, target unit ID
-public partial class CosmeticSurgerySpellCaster : SpellCaster
+public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(owner)
 {
-    public CosmeticSurgerySpellCaster(CustomNode owner) : base(owner)
-    { }
-
     public int FaceIndex { get; set; }
     public int TargetUnitId { get; set; }
 

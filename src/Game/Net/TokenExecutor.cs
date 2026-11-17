@@ -14,17 +14,8 @@ namespace Aow.Game.Net;
 // OnExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
 public partial class TokenExecutor : IDisposable
 {
-    private TokenControl _activeTacticalBattle;
-    private TokenControl _prefetchTacticalBattle;
-    private int _activeTacticalBattleIndex;
-
     internal TokenEventList Events { get; }
     internal List<TokenControl> TacticalBattleList { get; }
-
-    private int _tokenCounter;
-    private int _round;
-    private int _executeCount;
-    private Set<TokenExecutorState> _state;
 
     internal EventStore<TokenExecutor> OnEventsExecutedStore { get; }
 
@@ -62,12 +53,9 @@ public partial class TokenExecutor : IDisposable
 
     internal void SetExecuteTokenEventHandler(TokenEventEvent handler) => OnExecuteTokenEvent = handler;
 
-    private bool _executing;
     private int _lockCount;
 
     internal TokenEventList SystemEvents { get; }
-
-    private bool _holdTacticalBattle;
 
     internal TokenManager TokenManager { get; }
 
@@ -75,7 +63,7 @@ public partial class TokenExecutor : IDisposable
     public virtual ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
         ExecuteResult result = default;
-        _executing = true;
+        Executing = true;
         OnExecuteTokenEvent?.Invoke(tokenEvent);
 
         try
@@ -88,8 +76,8 @@ public partial class TokenExecutor : IDisposable
             result = ExecuteResult.Done;
         }
 
-        _executeCount += 1;
-        _executing = false;
+        ExecuteCount += 1;
+        Executing = false;
         return result;
     }
 
@@ -151,33 +139,33 @@ public partial class TokenExecutor : IDisposable
     public void Reset()
     {
         TacticalBattleList.Clear();
-        _activeTacticalBattle = null;
-        _activeTacticalBattleIndex = -1;
-        _state = Set<TokenExecutorState>.Of();
-        _round = 0;
-        _tokenCounter = 0;
+        ActiveTacticalBattle = null;
+        ActiveTacticalBattleIndex = -1;
+        State = Set<TokenExecutorState>.Of();
+        Round = 0;
+        TokenCounter = 0;
     }
 
     // NetworkE.pas:1416
     // { Numbers an event that has no token counter yet (or an old one) and queues it }
     public void PrefetchTokenEvent(TokenEvent tokenEvent)
     {
-        if (_state.Contains(TokenExecutorState.Prefetching))
+        if (State.Contains(TokenExecutorState.Prefetching))
         {
-            if (tokenEvent.TokenCounter >= _tokenCounter || tokenEvent.TokenCounter == -1)
+            if (tokenEvent.TokenCounter >= TokenCounter || tokenEvent.TokenCounter == -1)
             {
-                tokenEvent.TokenCounter = Events.Count + _tokenCounter;
+                tokenEvent.TokenCounter = Events.Count + TokenCounter;
                 Events.Add(tokenEvent);
             }
 
-            _executeCount = 0;
+            ExecuteCount = 0;
         }
     }
 
     // NetworkE.pas:1444
     public TokenEvent GetExecutingTokenEvent()
     {
-        TokenEvent result = _state.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
+        TokenEvent result = State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
         return result;
     }
 
@@ -185,7 +173,7 @@ public partial class TokenExecutor : IDisposable
     public bool InsertExecuteEvent(TokenEvent tokenEvent)
     {
         bool result;
-        if (_state.Contains(TokenExecutorState.Executing))
+        if (State.Contains(TokenExecutorState.Executing))
         {
             Events.Add(tokenEvent);
             result = true;
@@ -201,25 +189,25 @@ public partial class TokenExecutor : IDisposable
     // NetworkE.pas:1463
     public void Initialize(int index)
     {
-        _state = Set<TokenExecutorState>.Of();
+        State = Set<TokenExecutorState>.Of();
         if (index < TacticalBattleList.Count)
         {
-            _activeTacticalBattle = TacticalBattleList[index];
-            _activeTacticalBattleIndex = index;
-            _round = 0;
+            ActiveTacticalBattle = TacticalBattleList[index];
+            ActiveTacticalBattleIndex = index;
+            Round = 0;
         }
     }
 
     // NetworkE.pas:1474
     public void ActivateTacticalBattle(int index)
     {
-        _activeTacticalBattle = TacticalBattleList[index];
-        _activeTacticalBattle.Active = true;
-        _activeTacticalBattleIndex = index;
+        ActiveTacticalBattle = TacticalBattleList[index];
+        ActiveTacticalBattle.Active = true;
+        ActiveTacticalBattleIndex = index;
         OnActivateTacticalBattleStore.Raise(this);
-        if (_state.Contains(TokenExecutorState.Executing))
+        if (State.Contains(TokenExecutorState.Executing))
         {
-            _state += Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
+            State += Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
         }
     }
 
@@ -231,23 +219,23 @@ public partial class TokenExecutor : IDisposable
         n = 0;
         while (true)
         {
-            _activeTacticalBattleIndex += 1;
+            ActiveTacticalBattleIndex += 1;
             n += 1;
-            if (TacticalBattleList.Count <= _activeTacticalBattleIndex)
+            if (TacticalBattleList.Count <= ActiveTacticalBattleIndex)
             {
-                _activeTacticalBattleIndex = 0;
-                _round += 1;
+                ActiveTacticalBattleIndex = 0;
+                Round += 1;
             }
 
-            if (TacticalBattleList[_activeTacticalBattleIndex].Active || n > TacticalBattleList.Count)
+            if (TacticalBattleList[ActiveTacticalBattleIndex].Active || n > TacticalBattleList.Count)
             {
                 break;
             }
         }
 
-        if (TacticalBattleList[_activeTacticalBattleIndex].Active)
+        if (TacticalBattleList[ActiveTacticalBattleIndex].Active)
         {
-            ActivateTacticalBattle(_activeTacticalBattleIndex);
+            ActivateTacticalBattle(ActiveTacticalBattleIndex);
         }
     }
 
@@ -266,20 +254,20 @@ public partial class TokenExecutor : IDisposable
     {
         bool result;
         ExecuteResult r;
-        if (!_state.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
+        if (!State.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
             if (SystemEvents[0].TokenCounter == -1)
             {
-                _executeCount = 0;
-                SystemEvents[0].TokenCounter = _tokenCounter;
+                ExecuteCount = 0;
+                SystemEvents[0].TokenCounter = TokenCounter;
             }
 
             r = ExecuteTokenEvent(SystemEvents[0]);
             if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
             {
                 SystemEvents.Delete(0);
-                _tokenCounter += 1;
-                _executeCount = 0;
+                TokenCounter += 1;
+                ExecuteCount = 0;
             }
 
             result = SystemEvents.Count != 0;
@@ -303,28 +291,28 @@ public partial class TokenExecutor : IDisposable
         int i;
         bool prefetched;
         ExecuteResult r;
-        if (_activeTacticalBattle != null && !ProcessSystemTokenEvents())
+        if (ActiveTacticalBattle != null && !ProcessSystemTokenEvents())
         {
             i = 0;
             prefetched = true;
             r = ExecuteResult.Done;
             while (_lockCount == 0 && prefetched && r == ExecuteResult.Done && i < TacticalBattleList.Count)
             {
-                if (!_state.Contains(TokenExecutorState.Executing))
+                if (!State.Contains(TokenExecutorState.Executing))
                 {
-                    _state += Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    State += Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
                     Events.Clear();
-                    prefetched = _activeTacticalBattle.PrefetchTokenEvents(this);
-                    _state -= Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    prefetched = ActiveTacticalBattle.PrefetchTokenEvents(this);
+                    State -= Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
                     if (prefetched)
                     {
-                        _state += Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
-                        _prefetchTacticalBattle = _activeTacticalBattle;
-                        _activeTacticalBattle.TokenEventsPrefetched(this, Events);
+                        State += Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        PrefetchTacticalBattle = ActiveTacticalBattle;
+                        ActiveTacticalBattle.TokenEventsPrefetched(this, Events);
                     }
                 }
 
-                if (_state.Contains(TokenExecutorState.Executing))
+                if (State.Contains(TokenExecutorState.Executing))
                 {
                     while (r == ExecuteResult.Done && Events.Count != 0)
                     {
@@ -332,22 +320,22 @@ public partial class TokenExecutor : IDisposable
                         if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
                         {
                             Events.Delete(0);
-                            _tokenCounter += 1;
-                            _executeCount = 0;
+                            TokenCounter += 1;
+                            ExecuteCount = 0;
                         }
                     }
 
                     if (Events.Count == 0)
                     {
-                        _state -= Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        State -= Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
                         OnEventsExecutedStore.Raise(this);
-                        if (!_holdTacticalBattle && !_state.Contains(TokenExecutorState.TacticalBattleActivated))
+                        if (!HoldTacticalBattle && !State.Contains(TokenExecutorState.TacticalBattleActivated))
                         {
                             ActivateNextTacticalBattle();
                         }
 
-                        _state -= Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
-                        _prefetchTacticalBattle = null;
+                        State -= Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
+                        PrefetchTacticalBattle = null;
                         i += 1;
                     }
                 }
@@ -355,16 +343,16 @@ public partial class TokenExecutor : IDisposable
         }
     }
 
-    public TokenControl ActiveTacticalBattle => _activeTacticalBattle;
-    public TokenControl PrefetchTacticalBattle => _prefetchTacticalBattle;
-    public int ActiveTacticalBattleIndex => _activeTacticalBattleIndex;
-    public int TokenCounter => _tokenCounter;
-    public int Round => _round;
-    public int ExecuteCount { get => _executeCount; internal set => _executeCount = value; }
-    public Set<TokenExecutorState> State => _state;
+    public TokenControl ActiveTacticalBattle { get; private set; }
+    public TokenControl PrefetchTacticalBattle { get; private set; }
+    public int ActiveTacticalBattleIndex { get; private set; }
+    public int TokenCounter { get; private set; }
+    public int Round { get; private set; }
+    public int ExecuteCount { get; internal set; }
+    public Set<TokenExecutorState> State { get; private set; }
     public bool Locked => GetLocked();
-    public bool HoldTacticalBattle { get => _holdTacticalBattle; set => _holdTacticalBattle = value; }
-    public bool Executing => _executing;
+    public bool HoldTacticalBattle { get; set; }
+    public bool Executing { get; private set; }
 
     public event NotifyEvent<TokenExecutor> OnEventsExecuted
     {

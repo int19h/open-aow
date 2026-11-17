@@ -11,11 +11,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class TerminatePlayerTokenEvent : TokenEvent
+public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public TerminatePlayerTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131836;
 
     public sbyte Player { get; set; }
@@ -47,9 +44,11 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
         StrategicMap.Current.Players.Update();
         if (StrategicMap.Current.SeatedPlayer != Player)
         {
-            log = new MessageEventLog(null, holder: CreationHolder());
-            log.Buttons = MessageEventLogButtons.Ok;
-            log.Layout = MessageEventLogLayout.Normal;
+            log = new MessageEventLog(null, holder: CreationHolder())
+            {
+                Buttons = MessageEventLogButtons.Ok,
+                Layout = MessageEventLogLayout.Normal
+            };
             string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_leftGameFormat), [name]);
             _ = log.Message.Add(format);

@@ -8,10 +8,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class SuicidalAIGroupControl : AIGroupControl
+public partial class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public SuicidalAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // MainAG.pas:750
     public override void MoveExecutorDone(object sender)

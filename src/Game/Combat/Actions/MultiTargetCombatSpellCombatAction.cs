@@ -14,6 +14,8 @@ namespace Aow.Game.Combat.Actions;
 // source ID, target byte list, casting mana, success, spell ID
 public partial class MultiTargetCombatSpellCombatAction : CombatAction
 {
+    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner) => TargetIds = new ByteList();
+
     public byte SourceId { get; protected set; }
 
     public ByteList TargetIds { get; }
@@ -41,9 +43,6 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
         _succeeded = persister.Boolean("Succeeded", value: _succeeded);
         SpellId = persister.Int32("SpellId", value: SpellId);
     }
-
-    // CombatSpells.pas:557
-    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner) => TargetIds = new ByteList();
 
     // CombatSpells.pas:579
     public override void Execute(Battle combat)

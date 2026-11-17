@@ -12,11 +12,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // selection. location. TokenEvent. owned object
-public partial class CombatTypeRequestEventLog : EventLog
+public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owner)
 {
-    public CombatTypeRequestEventLog(CustomNode owner) : base(owner)
-    { }
-
     public CombatType CombatType { get; private set; }
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }

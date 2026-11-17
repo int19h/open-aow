@@ -39,10 +39,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Layouts = layouts;
         UI = ui;
         GameHost.MainForm = this;
-        Display = new Display(null);
-        Display.Host = host;
-        Display.EventSink = this;
-        Display.Terminated = () => IsClosed;
+        Display = new Display(null)
+        {
+            Host = host,
+            EventSink = this,
+            Terminated = () => IsClosed
+        };
         WinDisplayController = new SdlDisplayController(host);
     }
 

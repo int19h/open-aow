@@ -80,9 +80,12 @@ public partial class SetupControl : Component
         // global.
         _engine = (owner as UIModule)?.UI.Engine;
         Settings = new SetupSettings(null) { Holder = _engine };
-        RemotePlayer = new RemotePlayer(null) { Holder = _engine };
-        RemotePlayer.RemoteId = 0;
-        RemotePlayer.PreferredRace = 255;
+        RemotePlayer = new RemotePlayer(null)
+        {
+            Holder = _engine,
+            RemoteId = 0,
+            PreferredRace = 255
+        };
         Stream = new MemoryStream();
     }
 
@@ -113,8 +116,11 @@ public partial class SetupControl : Component
         SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null) { Holder = _engine };
-            package.MessageId = messageId;
+            package = new SetupPackage(null)
+            {
+                Holder = _engine,
+                MessageId = messageId
+            };
             if (objectValue != null)
             {
                 package.Data = objectValue.Copy(_engine);
@@ -133,8 +139,11 @@ public partial class SetupControl : Component
         SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null) { Holder = _engine };
-            package.MessageId = messageId;
+            package = new SetupPackage(null)
+            {
+                Holder = _engine,
+                MessageId = messageId
+            };
             if (objectValue != null)
             {
                 package.Data = objectValue.Copy(_engine);
@@ -636,9 +645,12 @@ public partial class SetupControl : Component
 
         if (found)
         {
-            cLC = new CustomizeLeaderControl(null) { Holder = _engine };
-            cLC.SetupControl = this;
-            cLC.PlayerIndex = i;
+            cLC = new CustomizeLeaderControl(null)
+            {
+                Holder = _engine,
+                SetupControl = this,
+                PlayerIndex = i
+            };
             PlayerSetupSettings settingRace = Settings.GetSettings(i);
             _ = cLC.Items.Add(settingRace.Race);
             PlayerSetupSettings settingLeader = Settings.GetSettings(i);
@@ -1539,9 +1551,11 @@ public partial class SetupControl : Component
                 Player player = preview.Players.GetPlayers(i);
                 if (player.Status != PlayerStatus.Terminated)
                 {
-                    settings = new PlayerSetupSettings(Settings);
-                    settings.PlayerId = (byte)i;
-                    settings.Race = player.PlayerRace;
+                    settings = new PlayerSetupSettings(Settings)
+                    {
+                        PlayerId = (byte)i,
+                        Race = player.PlayerRace
+                    };
                     settings.Leader.Assign(player.LeaderSetup, _engine);
                     settings.BehaviorMode = (byte)(int)player.Behavior;
                     if (player.Participating)

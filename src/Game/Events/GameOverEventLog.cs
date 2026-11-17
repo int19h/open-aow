@@ -13,7 +13,6 @@ namespace Aow.Game.Events;
 // message, inherited player
 public partial class GameOverEventLog : EventLog
 {
-    // EventLog.pas:771
     public GameOverEventLog(CustomNode owner) : base(owner) => Message = new StringList();
 
     // EventLog.pas:777

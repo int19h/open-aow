@@ -14,11 +14,10 @@ namespace Aow.Game.AI.Groups;
 // hunted unit IDs
 public partial class HuntAIGroup : AIGroup, IAIGroupClass
 {
+    public HuntAIGroup(CustomNode owner) : base(owner) => TargetUnitIds = new Int32List();
+
     // AIGroup.pas:1442
     public new const int ClassId = 136288;
-
-    // AIGroup.pas:1430
-    public HuntAIGroup(CustomNode owner) : base(owner) => TargetUnitIds = new Int32List();
 
     public Int32List TargetUnitIds { get; }
 

@@ -45,9 +45,12 @@ public partial class RoundAttackAbility : TouchAbility
             fastUnit.RoundDistance = 0;
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };
-                moveAction.CombatObjectId = source.Id;
-                moveAction.InsideWall = 0;
+                moveAction = new MoveWallCombatAction(null)
+                {
+                    Holder = CreationHolder(),
+                    CombatObjectId = source.Id,
+                    InsideWall = 0
+                };
                 source.Combat.ExecuteCombatAction(moveAction);
                 _ = moveAction.Release();
             }

@@ -12,12 +12,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitConcealment. ConcealedForPlayers. MoraleValues
-public partial class ArmyView : Army
+public partial class ArmyView(CustomNode owner) : Army(owner)
 {
     public new const int ClassId = 131609;
-
-    public ArmyView(CustomNode owner) : base(owner)
-    { }
 
     public ushort[] UnitConcealment { get; } = new ushort[8];
 

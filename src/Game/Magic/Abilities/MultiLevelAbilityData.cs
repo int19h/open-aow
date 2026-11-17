@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (level, ability ID)
-public partial class MultiLevelAbilityData : AbilityData
+public partial class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 139265;
-
-    public MultiLevelAbilityData(CustomNode owner) : base(owner)
-    { }
 
     public byte Level { get; set; }
     public ushort LevelAbilityId { get; set; }

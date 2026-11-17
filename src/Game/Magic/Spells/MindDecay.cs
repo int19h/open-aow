@@ -37,10 +37,13 @@ public partial class MindDecay : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         MindDecayCombatAction action;
-        action = new MindDecayCombatAction(null) { Holder = CreationHolder() };
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
-        action.SpellId = SpellId;
+        action = new MindDecayCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SourceId = source.Id,
+            TargetId = target.Id,
+            SpellId = SpellId
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

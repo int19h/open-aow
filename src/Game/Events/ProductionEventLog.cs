@@ -3,11 +3,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Events;
 
-public partial class ProductionEventLog : LocationTextEventLog
+public partial class ProductionEventLog(CustomNode owner) : LocationTextEventLog(owner)
 {
-    public ProductionEventLog(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131833;
 
 }

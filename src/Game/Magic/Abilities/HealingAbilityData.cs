@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (enabled)
-public partial class HealingAbilityData : AbilityData
+public partial class HealingAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131758;
-
-    public HealingAbilityData(CustomNode owner) : base(owner)
-    { }
 
     public bool Enabled { get; set; }
 

@@ -12,7 +12,7 @@ public partial class MapContainer
     {
         if (GetMapLevel(level).GetField(x, y).RemoveHexSprite(sprite) != -1 && sprite.GetLevel() <= 15)
         {
-            _map.InvalidateStaticScene(x, y, level);
+            Map.InvalidateStaticScene(x, y, level);
         }
     }
 
@@ -21,7 +21,7 @@ public partial class MapContainer
         _ = GetMapLevel(level).GetField(x, y).AddHexSprite(sprite, hexNumber);
         if (sprite.GetLevel() <= 15)
         {
-            _map.InvalidateStaticScene(x, y, level);
+            Map.InvalidateStaticScene(x, y, level);
         }
     }
 }

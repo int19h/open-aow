@@ -5,11 +5,8 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Draw;
 
 // UnitHexSprite
-public partial class UnitShadowHexSprite : HexSprite
+public partial class UnitShadowHexSprite(CustomNode owner) : HexSprite(owner)
 {
-    public UnitShadowHexSprite(CustomNode owner) : base(owner)
-    { }
-
     public UnitHexSprite UnitHexSprite { get; set; }
 
     // UnitHS.PAS:153

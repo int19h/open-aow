@@ -3,11 +3,9 @@ using System.Buffers.Binary;
 namespace Aow.Formats.Original;
 
 /// <summary>A growable byte buffer for the original encodings.</summary>
-public sealed class ByteBuffer
+public sealed class ByteBuffer(int capacity = 64)
 {
-    private byte[] _buffer;
-
-    public ByteBuffer(int capacity = 64) => _buffer = new byte[Math.Max(capacity, 16)];
+    private byte[] _buffer = new byte[Math.Max(capacity, 16)];
 
     public int Length { get; private set; }
 

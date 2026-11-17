@@ -46,8 +46,11 @@ public partial class FireMastery : GlobalEnchantmentSpell
             l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-            Animation animation = new(null) { Holder = CreationHolder() };
-            animation.AnimationLevel = 27;
+            Animation animation = new(null)
+            {
+                Holder = CreationHolder(),
+                AnimationLevel = 27
+            };
             animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);

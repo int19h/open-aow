@@ -32,21 +32,14 @@ public partial class Memo : Control
     [Published]
     public event NotifyEvent<Memo> OnDrawItem;
     private int _scrollWidth;
-
-    private byte _cursorChar;
     private bool _blink;
-    private byte _blinkDelay;
     private byte _blinkCount;
     private int _currentColumn;
     private int _currentLine;
     private int _realColumn;
     private int _realLine;
-    private bool _editable;
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTexture;
-    private int _itemHeight;
-    private byte _colorChangeChar;
-    private TextAlignment _textAlign;
 
     public bool NoFrame { get; set; }
 
@@ -61,12 +54,14 @@ public partial class Memo : Control
     public Memo(Component owner) : base(owner)
     {
         Lines = new StringList();
-        _items = new StringList();
-        _items.OnChange = OnChangeText;
+        _items = new StringList
+        {
+            OnChange = OnChangeText
+        };
         ColorList = [];
         _numberVisible = 3;
-        _cursorChar = 124;
-        _editable = true;
+        CursorChar = 124;
+        Editable = true;
     }
 
     // AoWMemo.pas:138
@@ -118,9 +113,9 @@ public partial class Memo : Control
         int start;
         int tw;
         ColorChange cc;
-        if (_itemHeight < 1)
+        if (ItemHeight < 1)
         {
-            _itemHeight = 10;
+            ItemHeight = 10;
         }
 
         switch (NoFrame)
@@ -142,12 +137,12 @@ public partial class Memo : Control
 
                 LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                _numberVisible = (WinHeight - imageLibraryFrame4.Height - imageLibraryFrame5.Height) / _itemHeight;
+                _numberVisible = (WinHeight - imageLibraryFrame4.Height - imageLibraryFrame5.Height) / ItemHeight;
                 _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
                 Masked = false;
                 break;
             case true:
-                _numberVisible = WinHeight / _itemHeight;
+                _numberVisible = WinHeight / ItemHeight;
                 _scrollWidth = 0;
                 Masked = true;
                 break;
@@ -178,7 +173,7 @@ public partial class Memo : Control
             string item = NullTerminatedText(_items[i]);
             text = Cp1252.Encode(item);
             length = text.Length;
-            if (length > 6 && text[0] == _colorChangeChar)
+            if (length > 6 && text[0] == ColorChangeChar)
             {
                 cc = ColorList[^1];
                 cc.HasColor = true;
@@ -306,10 +301,10 @@ public partial class Memo : Control
                 }
             }
 
-            if (_editable && _blinkDelay > 0 && Redraw)
+            if (Editable && BlinkDelay > 0 && Redraw)
             {
                 _blinkCount = (byte)(_blinkCount + 1);
-                if (_blinkCount > _blinkDelay)
+                if (_blinkCount > BlinkDelay)
                 {
                     Drawn = false;
                     if (NoFrame)
@@ -403,26 +398,26 @@ public partial class Memo : Control
                             base.Font.Color = cc.Color;
                         }
 
-                        switch (_textAlign)
+                        switch (TextAlign)
                         {
                             case TextAlignment.Left:
                                 string line = Lines[_topItem + i];
-                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (_itemHeight * i), line, lockedSurface);
+                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (ItemHeight * i), line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 string line2 = Lines[_topItem + i];
                                 int textWidth = base.Font.GetTextWidth(line2);
                                 string line3 = Lines[_topItem + i];
-                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (_itemHeight * i), line3, lockedSurface);
+                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), line3, lockedSurface);
                                 break;
                             default:
                                 string line4 = Lines[_topItem + i];
                                 int fontTextWidth = base.Font.GetTextWidth(line4);
                                 string line5 = Lines[_topItem + i];
-                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (_itemHeight * i), line5, lockedSurface);
+                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (ItemHeight * i), line5, lockedSurface);
                                 break;
                         }
-                        _itemRectangle = new Rect(x, y + (_itemHeight * i), x + w, y + ((i + 1) * _itemHeight));
+                        _itemRectangle = new Rect(x, y + (ItemHeight * i), x + w, y + ((i + 1) * ItemHeight));
                         if (_itemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -440,11 +435,11 @@ public partial class Memo : Control
                     condition = _currentLine - _topItem < count;
                 }
 
-                if (condition && Redraw && _editable && _blink)
+                if (condition && Redraw && Editable && _blink)
                 {
                     string line = Lines[_currentLine];
                     int textWidth = base.Font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * _itemHeight), Cp1252.Text(_cursorChar), lockedSurface);
+                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * ItemHeight), Cp1252.Text(CursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -476,7 +471,7 @@ public partial class Memo : Control
         if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_editable)
+            if (Editable)
             {
                 Window.Cursor = -4;
             }
@@ -495,7 +490,7 @@ public partial class Memo : Control
         Handled = Redraw;
         changed = false;
         moved = false;
-        if (_editable && Redraw && Valid && Visible)
+        if (Editable && Redraw && Valid && Visible)
         {
             switch (key)
             {
@@ -603,7 +598,7 @@ public partial class Memo : Control
         Handled = Redraw;
         changed = false;
         moved = false;
-        if (_editable && Redraw && Valid && Visible)
+        if (Editable && Redraw && Valid && Visible)
         {
             switch (key)
             {
@@ -921,13 +916,13 @@ public partial class Memo : Control
     internal void SetVerticalScrollBarWithoutLayout(VerticalScrollBar value) => _verticalScrollBar = value;
 
     [Published]
-    public byte CursorChar { get => _cursorChar; set => _cursorChar = value; }
+    public byte CursorChar { get; set; }
 
     [Published]
-    public byte BlinkDelay { get => _blinkDelay; set => _blinkDelay = value; }
+    public byte BlinkDelay { get; set; }
 
     [Published]
-    public bool Editable { get => _editable; set => _editable = value; }
+    public bool Editable { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
@@ -942,13 +937,13 @@ public partial class Memo : Control
     public int ImageLibraryIndexTexture { get => _imageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
     [Published]
-    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
+    public int ItemHeight { get; set; }
 
     [Published]
-    public byte ColorChangeChar { get => _colorChangeChar; set => _colorChangeChar = value; }
+    public byte ColorChangeChar { get; set; }
 
     [Published]
-    public TextAlignment TextAlign { get => _textAlign; set => _textAlign = value; }
+    public TextAlignment TextAlign { get; set; }
 
     public new event NotifyEvent<Memo> OnChange
     {

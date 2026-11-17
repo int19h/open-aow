@@ -13,21 +13,15 @@ namespace Aow.Engine;
 /// names the engine the load reads (<c>Stream.Engine</c> of <c>ReadWrite</c>) and the progress
 /// handler the storage stream held (<c>OnProgress</c>).
 /// </summary>
-public sealed class EnginePersistableFactory : IEnginePersistableFactory
+public sealed class EnginePersistableFactory(GameEngine engine, ProgressEvent? progress = null) : IEnginePersistableFactory
 {
     // The classes by stored name, indexed at the first creation. A copy of an object that creates
     // nothing never builds it.
     private Dictionary<string, EngineClass>? _byName;
 
-    public EnginePersistableFactory(GameEngine engine, ProgressEvent? progress = null)
-    {
-        Engine = engine ?? throw new InvalidOperationException("The engine is not running.");
-        Progress = progress;
-    }
+    public GameEngine Engine { get; } = engine ?? throw new InvalidOperationException("The engine is not running.");
 
-    public GameEngine Engine { get; }
-
-    public ProgressEvent? Progress { get; }
+    public ProgressEvent? Progress { get; } = progress;
 
     public string ClassName(IPersistable objectValue) => NameTable.Stored(objectValue.GetType());
 

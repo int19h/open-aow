@@ -123,16 +123,16 @@ public sealed class UIConstructionTests
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
                     {
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }
 
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
-                    if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     if (child is UIContext) { fields[key] = child.GetType().FullName; continue; }
-                    fields[key] = field.Name is "_engine" or "_hexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
+                    fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
                 }
             }
 

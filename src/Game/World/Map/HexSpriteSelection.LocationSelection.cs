@@ -64,7 +64,7 @@ public partial class HexSpriteSelection
 
         if (hexSprite != null)
         {
-            if (_locationHexSprite.IndexOf(hexSprite) == -1)
+            if (LocationHexSprite.IndexOf(hexSprite) == -1)
             {
                 UnselectLocation();
                 SelectLocationHexSprite(hexSprite);
@@ -77,7 +77,7 @@ public partial class HexSpriteSelection
         int i;
         HexSprite hexSprite;
         int result = -1;
-        if (_locationHexSprite.Count != 0)
+        if (LocationHexSprite.Count != 0)
         {
             i = 0;
             HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int pixelX, out int pixelY);
@@ -86,7 +86,7 @@ public partial class HexSpriteSelection
                 hexSprite = mapField.HexSpriteList[i];
                 if (hexSprite.CanSelect(pixelX, pixelY))
                 {
-                    if (_locationHexSprite.IndexOf(hexSprite) != -1)
+                    if (LocationHexSprite.IndexOf(hexSprite) != -1)
                     {
                         result = i;
                     }

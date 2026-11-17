@@ -14,10 +14,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
+public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
-    public CombatAbilityTouchMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:624
     public new const int ClassId = 2236418;

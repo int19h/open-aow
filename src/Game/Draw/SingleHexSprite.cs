@@ -8,11 +8,8 @@ namespace Aow.Game.Draw;
 
 // a sprite on one hexagon. _status: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
-public partial class SingleHexSprite : HexSprite
+public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
 {
-    public SingleHexSprite(CustomNode owner) : base(owner)
-    { }
-
     private byte _status;
 
     // HXSPRITE.PAS:640

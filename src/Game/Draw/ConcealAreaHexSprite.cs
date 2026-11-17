@@ -14,6 +14,8 @@ namespace Aow.Game.Draw;
 // X/Y/layer explored hexagons, animation frame
 public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
 {
+    public ConcealAreaHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
+
     private sbyte _x;
     private sbyte _y;
     private sbyte _layer;
@@ -26,9 +28,6 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         _hexes?.Dispose();
         base.Dispose();
     }
-
-    // GlobalSpells.pas:199
-    public ConcealAreaHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
 
     // GlobalSpells.pas:211
     public override int GetShowPriority() => 2013265920;

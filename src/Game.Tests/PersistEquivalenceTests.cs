@@ -37,9 +37,8 @@ namespace Aow.Game.Tests;
 public sealed partial class PersistEquivalenceTests
 {
     private static readonly FormatSchema s_schema = FormatSchema.Current;
-    private static EnginePersistableFactory? s_factory;
 
-    private static EnginePersistableFactory Factory => s_factory ??= new(EngineFixture.Engine);
+    private static EnginePersistableFactory Factory => field ??= new(EngineFixture.Engine);
 
     [Fact]
     public void EnchantmentMatchesTheConverter()
@@ -389,12 +388,8 @@ public sealed partial class PersistEquivalenceTests
         public override void NotifyProgress(in MapProgress progress) => Reports.Add((progress.ProgressType, progress.Percent));
     }
 
-    private sealed class ThrowingFrozenWater : FrozenWaterHexSprite
+    private sealed class ThrowingFrozenWater(CustomNode owner) : FrozenWaterHexSprite(owner)
     {
-        public ThrowingFrozenWater(CustomNode owner) : base(owner)
-        {
-        }
-
         public override void PersistFields(IPersister persister)
         {
             if (persister.Loading)
@@ -422,8 +417,13 @@ public sealed partial class PersistEquivalenceTests
         };
         Check("GlobalEnchantment", named);
         Check("FloodControl", new FloodControl(null) { Holder = EngineFixture.Engine });
-        FloodControl terrain = new(null) { Holder = EngineFixture.Engine, Width = 2, Height = 1 };
-        terrain.OriginalTerrain = [0, -1, 127, -128];
+        FloodControl terrain = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            Width = 2,
+            Height = 1,
+            OriginalTerrain = [0, -1, 127, -128]
+        };
         Check("FloodControl", terrain);
         Check("FloodEnchantment", new FloodEnchantment(null, holder: EngineFixture.Engine));
         FloodEnchantment flood = new(null, holder: EngineFixture.Engine)
@@ -516,8 +516,12 @@ public sealed partial class PersistEquivalenceTests
         Each<CityEnchantmentId>(value =>
         {
             GlobalMagicControl control = new(null) { Holder = EngineFixture.Engine };
-            CityEnchantment city = new(null) { Holder = EngineFixture.Engine, CityEnchantmentId = value };
-            city.EnchantmentLocation = new MapCoordinate(9, 0, 0);
+            CityEnchantment city = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                CityEnchantmentId = value,
+                EnchantmentLocation = new MapCoordinate(9, 0, 0)
+            };
             city.SetOwner(control.Enchantments);
             Check("GlobalMagicControl", control, converterRead: false);
         });
@@ -782,22 +786,32 @@ public sealed partial class PersistEquivalenceTests
     public void ArmyViewCoversBothArrayWidths()
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap map = new(null, holder: EngineFixture.Engine);
-        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        StrategicMap map = new(null, holder: EngineFixture.Engine)
+        {
+            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+        };
         StrategicMap.Current = map;
         try
         {
             Check("Army", new Army(null) { Holder = EngineFixture.Engine });
             Each<GroupBehavior>(value =>
             {
-                Army army = new(null) { Holder = EngineFixture.Engine, OldAIBehavior = value, Player = -1 };
-                army.Mode = Set<ArmyModeElement>.Of(ArmyModeElement.FixedBehavior);
-                army.UserMode = Set<ArmyUserModeElement>.FromMask(0);
+                Army army = new(null)
+                {
+                    Holder = EngineFixture.Engine,
+                    OldAIBehavior = value,
+                    Player = -1,
+                    Mode = Set<ArmyModeElement>.Of(ArmyModeElement.FixedBehavior),
+                    UserMode = Set<ArmyUserModeElement>.FromMask(0)
+                };
                 Check("Army", army);
             });
-            Army full = new(null) { Holder = EngineFixture.Engine };
-            full.Mode = Set<ArmyModeElement>.FromMask(0xFF) - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-            full.UserMode = Set<ArmyUserModeElement>.FromMask(0xFF);
+            Army full = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                Mode = Set<ArmyModeElement>.FromMask(0xFF) - Set<ArmyModeElement>.Of(ArmyModeElement.Moving),
+                UserMode = Set<ArmyUserModeElement>.FromMask(0xFF)
+            };
             Check("Army", full);
             ArmyView view = new(null) { Holder = EngineFixture.Engine };
             Check("ArmyView", view);
@@ -839,9 +853,12 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(map =>
         {
             map.ConnectionType = PlayerConnectionType.Network;
-            Army army = new(null) { Holder = EngineFixture.Engine };
-            army.Destination = new MapCoordinate(3, 4, 1);
-            army.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+            Army army = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                Destination = new MapCoordinate(3, 4, 1),
+                UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard)
+            };
             SchemaClass classValue = s_schema.Get("Army");
             JsonObject document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, "game");
             Assert.Null(document.Find("Destination"));
@@ -849,8 +866,12 @@ public sealed partial class PersistEquivalenceTests
             Check("Army", army);
 
             map.ConnectionType = PlayerConnectionType.Local;
-            Army source = new(null) { Holder = EngineFixture.Engine, Destination = new MapCoordinate(3, 4, 1) };
-            source.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+            Army source = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                Destination = new MapCoordinate(3, 4, 1),
+                UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard)
+            };
             byte[] image = Image(source);
             source.Dispose();
             map.ConnectionType = PlayerConnectionType.Network;
@@ -883,8 +904,11 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            Army source = new(null) { Holder = EngineFixture.Engine };
-            source.Mode = Set<ArmyModeElement>.Of(ArmyModeElement.Moving, ArmyModeElement.FixedBehavior);
+            Army source = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                Mode = Set<ArmyModeElement>.Of(ArmyModeElement.Moving, ArmyModeElement.FixedBehavior)
+            };
             byte[] image = Image(source);
             source.Dispose();
             SchemaClass classValue = s_schema.Get("Army");
@@ -990,8 +1014,8 @@ public sealed partial class PersistEquivalenceTests
                 TargetMovePoints = int.MaxValue,
                 TargetMode = 255,
                 TargetType = value,
+                TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue))
             };
-            group.TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
             Check("AIGroup", group);
         });
     }
@@ -1330,8 +1354,10 @@ public sealed partial class PersistEquivalenceTests
     private static void WithDestroyingMap(Action<StrategicMap> body)
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap map = new(null, holder: EngineFixture.Engine);
-        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        StrategicMap map = new(null, holder: EngineFixture.Engine)
+        {
+            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+        };
         StrategicMap.Current = map;
         try
         {
@@ -1562,8 +1588,11 @@ public sealed partial class PersistEquivalenceTests
 
     private static Ability PlaceAbility(int id)
     {
-        Ability ability = new(null) { Holder = EngineFixture.Engine };
-        ability.AbilityId = id;
+        Ability ability = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            AbilityId = id
+        };
         List<Ability> list = GamePack.Current.AbilityControl.Abilities;
         while (id >= list.Count)
         {
@@ -1586,21 +1615,13 @@ public sealed partial class PersistEquivalenceTests
         ability.Dispose();
     }
 
-    private sealed class ThrowingHatred : HatredEnchantment
+    private sealed class ThrowingHatred(CustomNode owner, EngineObject holder) : HatredEnchantment(owner, holder)
     {
-        public ThrowingHatred(CustomNode owner, EngineObject holder) : base(owner, holder)
-        {
-        }
-
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("hatred failed");
     }
 
-    private sealed class ThrowingEnchantments : GlobalEnchantmentList
+    private sealed class ThrowingEnchantments(CustomNode owner) : GlobalEnchantmentList(owner)
     {
-        public ThrowingEnchantments(CustomNode owner) : base(owner)
-        {
-        }
-
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("enchantments failed");
     }
 

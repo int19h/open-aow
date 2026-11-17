@@ -185,9 +185,12 @@ public partial class Ability : EngineObject
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(owner, ref reason))
         {
-            info = new AbilityActivation(null) { Holder = CreationHolder() };
-            info.AbilityId = AbilityId;
-            info.UnitId = owner is Troop troop ? troop.UnitId : 0;
+            info = new AbilityActivation(null)
+            {
+                Holder = CreationHolder(),
+                AbilityId = AbilityId,
+                UnitId = owner is Troop troop ? troop.UnitId : 0
+            };
 
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             _ = info.Release();
@@ -215,9 +218,12 @@ public partial class Ability : EngineObject
         AbilityActivation info;
         if (CanActivateCombat(owner, out reason))
         {
-            info = new AbilityActivation(null) { Holder = CreationHolder() };
-            info.AbilityId = AbilityId;
-            info.UnitId = owner is Troop troop ? troop.UnitId : 0;
+            info = new AbilityActivation(null)
+            {
+                Holder = CreationHolder(),
+                AbilityId = AbilityId,
+                UnitId = owner is Troop troop ? troop.UnitId : 0
+            };
 
             StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             _ = info.Release();

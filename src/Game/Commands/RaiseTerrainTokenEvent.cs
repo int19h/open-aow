@@ -17,10 +17,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
+public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public RaiseTerrainTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // Mountain.pas:258
     public new const int ClassId = 135946;

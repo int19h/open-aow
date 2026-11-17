@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPlayerList : OwningNode, IChildList<CombatPlayer>
+public partial class CombatPlayerList(CustomNode owner) : OwningNode(owner), IChildList<CombatPlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatPlayer, so the cast never fails.
@@ -12,11 +12,6 @@ public partial class CombatPlayerList : OwningNode, IChildList<CombatPlayer>
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatPlayer;
 
     int IChildSink<CombatPlayer>.AddChild(CombatPlayer child) => AddChild(child);
-
-    // Combat2.pas:126
-    public CombatPlayerList(CustomNode owner) : base(owner)
-    {
-    }
 
     // Combat2.pas:132
     public CombatPlayer GetPlayers(sbyte index) => this[index];

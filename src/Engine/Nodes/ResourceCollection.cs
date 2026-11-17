@@ -5,7 +5,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Engine.Nodes;
 
 // resources with unique ids
-public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
+public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
 {
     public new const int ClassId = 1025;
 
@@ -20,9 +20,6 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
     protected virtual bool AcceptsResource(EngineResource resource) => true;
 
     int IChildSink<EngineResource>.AddChild(EngineResource child) => AddChild(child);
-
-    public ResourceCollection(CustomNode owner) : base(owner)
-    { }
 
     // Engine.pas:8573
     protected internal EngineResource GetResource(int index) => this[index];

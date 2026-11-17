@@ -5,13 +5,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TacticalBattleHighPrayerCombatAction : ExclusiveCombatSpellCombatAction
+public partial class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:976
     public new const int ClassId = 131786;
-
-    public TacticalBattleHighPrayerCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:982
     public override void Execute(Battle combat)

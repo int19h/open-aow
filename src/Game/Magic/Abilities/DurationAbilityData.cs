@@ -6,12 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (duration, player index, ability ID, unresolved Integer)
-public partial class DurationAbilityData : AbilityData
+public partial class DurationAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 139266;
-
-    public DurationAbilityData(CustomNode owner) : base(owner)
-    { }
 
     public byte Duration { get; set; }
     public byte PlayerIndex { get; set; }

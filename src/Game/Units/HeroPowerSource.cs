@@ -13,11 +13,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Units;
 
 // Hero
-public partial class HeroPowerSource : PowerSource
+public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
 {
-    public HeroPowerSource(CustomNode owner) : base(owner)
-    { }
-
     public Hero Hero { get; set; }
 
     // Hero.PAS:587

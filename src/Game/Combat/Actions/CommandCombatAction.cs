@@ -11,12 +11,9 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID, success)
-public partial class CommandCombatAction : SingleTargetCombatAction
+public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131763;
-
-    public CommandCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public int AbilityId { get; set; }
     public bool Successful { get; private set; }

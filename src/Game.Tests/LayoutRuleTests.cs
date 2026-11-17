@@ -90,9 +90,8 @@ public sealed class LayoutRuleTests
     [StructLayout(LayoutKind.Explicit)]
     private readonly struct PlantedExplicit(int value)
     {
-        [FieldOffset(0)] private readonly int _value = value;
-
-        public int Value => _value;
+        [field: FieldOffset(0)]
+        public int Value { get; } = value;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

@@ -23,37 +23,36 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct UnitCollection : IReadOnlyList<Troop>
 {
-    private readonly ObservableNode _holder;
     private readonly IUnitHolder _hooks;
 
     // An army, a unit list, a unit user list and an AI group admit only troops (AcceptsChild), so
     // every slot holds a troop or is empty.
     internal UnitCollection(Army holder)
     {
-        _holder = holder;
+        Holder = holder;
         _hooks = holder;
     }
 
     internal UnitCollection(UnitList holder)
     {
-        _holder = holder;
+        Holder = holder;
         _hooks = holder;
     }
 
     internal UnitCollection(AIGroup holder)
     {
-        _holder = holder;
+        Holder = holder;
         _hooks = holder;
     }
 
     internal UnitCollection(UnitUserList holder)
     {
-        _holder = holder;
+        Holder = holder;
         _hooks = holder;
     }
 
     /// <summary>The army, unit list, unit user list or AI group that holds the troops.</summary>
-    public ObservableNode Holder => _holder;
+    public ObservableNode Holder { get; }
 
     // The holder's CanAddUnit, which an army and its kinds override.
     public bool CanAddUnit(Troop troop) => _hooks.CanAddUnit(troop);
@@ -63,11 +62,11 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // build this view without a holder.
     public bool AddUnit(Troop troop) => _hooks.AddUnit(troop);
 
-    public int Count => _holder.GetCount();
+    public int Count => Holder.GetCount();
 
     // The troop in slot index, read as the original reads the list, without a range check. The
     // holder admits only troops, so the cast never fails.
-    public Troop this[int index] => _holder.GetChild<Troop>(index);
+    public Troop this[int index] => Holder.GetChild<Troop>(index);
 
     public IEnumerator<Troop> GetEnumerator()
     {
@@ -106,25 +105,25 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // Unit.PAS:2338
     public void Sort()
     {
-        using (_holder.BeginUpdate())
+        using (Holder.BeginUpdate())
         {
-            _holder.PackChildren();
-            _holder.SortChildren<Troop>(CompareUnits);
+            Holder.PackChildren();
+            Holder.SortChildren<Troop>(CompareUnits);
         }
     }
 
     // Unit.PAS:2349
     public void SortOnMoves()
     {
-        using (_holder.BeginUpdate())
+        using (Holder.BeginUpdate())
         {
-            _holder.PackChildren();
-            _holder.SortChildren<Troop>(CompareUnitMoves);
+            Holder.PackChildren();
+            Holder.SortChildren<Troop>(CompareUnitMoves);
         }
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop troop) => _holder.IndexOfChild(troop);
+    public int IndexOf(Troop troop) => Holder.IndexOfChild(troop);
 
     // Unit.PAS:2221
     public int IndexOfId(int id)

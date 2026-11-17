@@ -23,6 +23,8 @@ namespace Aow.Game.Commands;
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
 public partial class MoveArmyTokenEvent : MoveTokenEvent
 {
+    public MoveArmyTokenEvent(CustomNode owner) : base(owner) => _unitIds = new Int32List();
+
     public new const int ClassId = 135424;
 
     public Set<ArmyMoveModeElement> Mode { get; protected set; }
@@ -59,9 +61,6 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         Mode = persister.Set("Mode", value: Mode);
         Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
     }
-
-    // MoveT.PAS:2060
-    public MoveArmyTokenEvent(CustomNode owner) : base(owner) => _unitIds = new Int32List();
 
     // MoveT.PAS:2137
     public override bool Validate()

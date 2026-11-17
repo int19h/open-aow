@@ -55,13 +55,15 @@ public partial class StrikeAbility : AdjustableAbility
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId);
-                    command.Target = target;
-                    command.SourceDamageValue = values.SourceDamage;
-                    command.TargetDamageValue = values.TargetDamage;
-                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
-                    // { Both original branches assign the same move cost. }
-                    command.MoveCost = values.TargetDamage == 0 ? 2 : 2;
+                    command = new FastBattleCommand(AbilityId)
+                    {
+                        Target = target,
+                        SourceDamageValue = values.SourceDamage,
+                        TargetDamageValue = values.TargetDamage,
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        // { Both original branches assign the same move cost. }
+                        MoveCost = values.TargetDamage == 0 ? 2 : 2
+                    };
 
                     commands.Add(command);
                 }
@@ -88,10 +90,13 @@ public partial class StrikeAbility : AdjustableAbility
             fastUnit.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveCombatAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };
-                moveCombatAction.CombatObjectId = source.Id;
+                moveCombatAction = new MoveWallCombatAction(null)
+                {
+                    Holder = CreationHolder(),
+                    CombatObjectId = source.Id,
 
-                moveCombatAction.InsideWall = 0;
+                    InsideWall = 0
+                };
 
                 source.Combat.ExecuteCombatAction(moveCombatAction);
                 _ = moveCombatAction.Release();

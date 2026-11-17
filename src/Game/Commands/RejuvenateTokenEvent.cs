@@ -12,10 +12,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
+public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public RejuvenateTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalTargetSpells.pas:1036
     public new const int ClassId = 135952;

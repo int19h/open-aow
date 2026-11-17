@@ -5,10 +5,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class BloodShrineAnimation : Animation
+public partial class BloodShrineAnimation(CustomNode owner) : Animation(owner)
 {
-    public BloodShrineAnimation(CustomNode owner) : base(owner)
-    { }
 
     // BloodShrine.pas:56
     public override void NewFrame()

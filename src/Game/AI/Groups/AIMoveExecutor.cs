@@ -349,8 +349,11 @@ public partial class AIMoveExecutor : EngineObject
             ArmyHexSprite army;
             if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModeElement.Simultaneous))
             {
-                multiMove = new MultiMoveTokenEvent(null) { Holder = CreationHolder() };
-                multiMove.Simultaneous = false;
+                multiMove = new MultiMoveTokenEvent(null)
+                {
+                    Holder = CreationHolder(),
+                    Simultaneous = false
+                };
                 for (int i = Moves.Count - 1; i >= 0; i--)
                 {
                     if (Moves.GetMoves(i).RetrieveArmy(out army, out selection))

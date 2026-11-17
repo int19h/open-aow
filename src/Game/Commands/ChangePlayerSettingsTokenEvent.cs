@@ -8,11 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // player, settings string
-public partial class ChangePlayerSettingsTokenEvent : TokenEvent
+public partial class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public ChangePlayerSettingsTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135974;
 
     public sbyte Player { get; set; }

@@ -12,7 +12,6 @@ namespace Aow.Game.AI;
 // log index
 public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    // AI.pas:1610
     public ProcessEventLogAIPlayerAction(CustomNode owner) : base(owner) => _logIndex = -1;
 
     private int _logIndex;

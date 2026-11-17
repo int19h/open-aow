@@ -10,18 +10,16 @@ namespace Aow.Game.Session;
 /// </summary>
 public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticAction>
 {
-    private readonly DiplomaticActionList _list;
-
-    internal DiplomaticActionCollection(DiplomaticActionList list) => _list = list;
+    internal DiplomaticActionCollection(DiplomaticActionList list) => Holder = list;
 
     /// <summary>The list that holds the actions.</summary>
-    public DiplomaticActionList Holder => _list;
+    public DiplomaticActionList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The action in slot index, read as the original reads the list, without a range check. The
     // list admits only diplomatic actions, so the cast never fails.
-    public DiplomaticAction this[int index] => _list.GetChild<DiplomaticAction>(index);
+    public DiplomaticAction this[int index] => Holder.GetChild<DiplomaticAction>(index);
 
     public IEnumerator<DiplomaticAction> GetEnumerator()
     {

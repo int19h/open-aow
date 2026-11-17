@@ -14,11 +14,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // saved map rectangle, saved alignment
-public partial class MapWindow : UIModule
+public partial class MapWindow(UIContext ui) : UIModule(ui)
 {
-    public MapWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; set; }
     public HexSpriteMapViewer MapViewer { get; set; }
 

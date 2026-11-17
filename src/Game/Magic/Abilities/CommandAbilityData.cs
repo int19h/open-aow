@@ -12,10 +12,9 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, commanded combat-unit IDs)
 public partial class CommandAbilityData : AbilityData
 {
-    public new const int ClassId = 131755;
-
-    // AoWAb.PAS:4949
     public CommandAbilityData(CustomNode owner) : base(owner) => CommandedUnits = new ByteList();
+
+    public new const int ClassId = 131755;
 
     public int AbilityId { get; set; }
 

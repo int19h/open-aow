@@ -9,12 +9,9 @@ namespace Aow.Game.Draw.Images;
 // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
 // last surface). RegisterPalette (share the palette through the owner's palette manager) and
 // UnregisterPalette (make a private copy again)
-public partial class Image08 : LibraryImage, ILibraryImageClass
+public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image08(owner);
-
-    public Image08(CustomImageLibrary owner) : base(owner)
-    { }
 
     private bool _ownPalette;
     private LibraryImagePalette _imagePalette;

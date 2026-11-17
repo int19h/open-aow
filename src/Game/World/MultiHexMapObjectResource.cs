@@ -16,8 +16,6 @@ public partial class MultiHexMapObjectResource : MapObjectResource
         SetMainPointOffsetY(32);
     }
 
-    private int _imageOffsetX;
-    private int _imageOffsetY;
     private int _mainPointOffsetX;
     private int _mainPointOffsetY;
 
@@ -25,8 +23,8 @@ public partial class MultiHexMapObjectResource : MapObjectResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _imageOffsetX = persister.Int32("ImageOffsetX", value: _imageOffsetX);
-        _imageOffsetY = persister.Int32("ImageOffsetY", value: _imageOffsetY);
+        ImageOffsetX = persister.Int32("ImageOffsetX", value: ImageOffsetX);
+        ImageOffsetY = persister.Int32("ImageOffsetY", value: ImageOffsetY);
         _mainPointOffsetX = persister.Int32("MainPointOffsetX", value: _mainPointOffsetX);
         _mainPointOffsetY = persister.Int32("MainPointOffsetY", value: _mainPointOffsetY);
     }
@@ -47,8 +45,8 @@ public partial class MultiHexMapObjectResource : MapObjectResource
         CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, Level);
     }
 
-    public int ImageOffsetX { get => _imageOffsetX; set => _imageOffsetX = value; }
-    public int ImageOffsetY { get => _imageOffsetY; set => _imageOffsetY = value; }
+    public int ImageOffsetX { get; set; }
+    public int ImageOffsetY { get; set; }
     public int MainPointOffsetX { get => _mainPointOffsetX; set => SetMainPointOffsetX(value); }
     public int MainPointOffsetY { get => _mainPointOffsetY; set => SetMainPointOffsetY(value); }
 

@@ -13,12 +13,11 @@ public partial class QuadItemList : Persistent
     private QuadInteger[] _list = [];
     private int _count;
     private int _capacity;
-    private QuadInteger _default;
 
     // Engine.pas:5538
     internal QuadInteger Get(int index)
     {
-        QuadInteger result = index < 0 || index >= _count ? _default : _list[index];
+        QuadInteger result = index < 0 || index >= _count ? Default : _list[index];
         return result;
     }
 
@@ -68,7 +67,7 @@ public partial class QuadItemList : Persistent
 
         if (newCount > _count)
         {
-            FillQuadInteger(_list.AsSpan(_count), newCount - _count, _default);
+            FillQuadInteger(_list.AsSpan(_count), newCount - _count, Default);
         }
 
         _count = newCount;
@@ -92,7 +91,7 @@ public partial class QuadItemList : Persistent
             _count = quadItemList._count;
             SetCapacity(quadItemList._count);
             Array.Copy(quadItemList._list, 0, _list, 0, _count);
-            _default = quadItemList._default;
+            Default = quadItemList.Default;
         }
         else
         {
@@ -327,7 +326,7 @@ public partial class QuadItemList : Persistent
     {
         for (int i = _count - 1; i >= 0; i--)
         {
-            if (_list[i] == _default)
+            if (_list[i] == Default)
             {
                 Delete(i);
             }
@@ -372,7 +371,7 @@ public partial class QuadItemList : Persistent
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public QuadInteger Default { get => _default; set => _default = value; }
+    public QuadInteger Default { get; set; }
 
     public QuadInteger this[int index] { get => Get(index); set => Put(index, value); }
 

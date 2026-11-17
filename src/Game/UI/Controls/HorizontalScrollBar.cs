@@ -9,10 +9,8 @@ namespace Aow.Game.UI.Controls;
 // { The AoWHScroll unit of aowInt.dpl: TAOWHScrollBar, the horizontal scroll bar (TAOWScrollBar of
 //   AoWVScroll with the decrement button at the left and the increment button at the right). }
 // no fields of its own
-public partial class HorizontalScrollBar : ScrollBar
+public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
 {
-    public HorizontalScrollBar(Component owner) : base(owner)
-    { }
 
     // AoWHScroll.pas:31
     // { SetSize: as TAOWVScrollBar.SetSize across; the track length is not kept above zero here }

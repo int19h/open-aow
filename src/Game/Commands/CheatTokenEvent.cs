@@ -10,11 +10,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class CheatTokenEvent : TokenEvent
+public partial class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public CheatTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131829;
 
     public sbyte Player { get; set; }

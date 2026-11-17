@@ -13,12 +13,9 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (strike mode)
-public partial class StrikeCombatAction : DamageCombatAction
+public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131754;
-
-    public StrikeCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public Set<StrikeModeElement> StrikeMode { get; set; }
 

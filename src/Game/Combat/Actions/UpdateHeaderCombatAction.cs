@@ -4,13 +4,10 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class UpdateHeaderCombatAction : CombatAction
+public partial class UpdateHeaderCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:960
     public new const int ClassId = 131766;
-
-    public UpdateHeaderCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public string Header { get; set; } = "";
 

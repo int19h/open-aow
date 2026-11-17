@@ -10,40 +10,36 @@ public partial class LibraryImagePalette : Persistent
 {
     internal int IndexValue { get; set; }
 
-    private readonly Palette _palette;
-
     internal Palette RemapPaletteValue { get; private set; }
 
-    private int _refCount;
-
     // ImageLib.pas:7084
-    public LibraryImagePalette() => _palette = new Palette();
+    public LibraryImagePalette() => Palette = new Palette();
 
     // ImageLib.pas:7090
     public override void Dispose() => base.Dispose();
 
     // ImageLib.pas:7097
-    public void SaveToStream(Stream stream) => _palette.SaveToStream(stream);
+    public void SaveToStream(Stream stream) => Palette.SaveToStream(stream);
 
     // ImageLib.pas:7102
-    public void LoadFromStream(Stream stream) => _palette.LoadFromStream(stream);
+    public void LoadFromStream(Stream stream) => Palette.LoadFromStream(stream);
 
     // ImageLib.pas:7107
     public Palette RemapPalette(int pixelFormatId)
     {
         Palette result;
-        if (pixelFormatId == _palette.PixelFormatId)
+        if (pixelFormatId == Palette.PixelFormatId)
         {
-            result = _palette;
+            result = Palette;
         }
         else
         {
-            _ = PixelFormats.Color2PixelInfo(0, pixelFormatId, _palette);
+            _ = PixelFormats.Color2PixelInfo(0, pixelFormatId, Palette);
             if (RemapPaletteValue == null || pixelFormatId != RemapPaletteValue.PixelFormatId)
             {
                 RemapPaletteValue ??= new Palette();
 
-                RemapPaletteValue.Assign(_palette);
+                RemapPaletteValue.Assign(Palette);
                 _ = RemapPaletteValue.Remap(pixelFormatId);
             }
 
@@ -58,7 +54,7 @@ public partial class LibraryImagePalette : Persistent
     {
         if (source is LibraryImagePalette palette)
         {
-            _palette.Assign(palette._palette);
+            Palette.Assign(palette.Palette);
             if (palette.RemapPaletteValue != null)
             {
                 RemapPaletteValue ??= new Palette();
@@ -76,7 +72,7 @@ public partial class LibraryImagePalette : Persistent
     }
 
     public int Index => IndexValue;
-    public Palette Palette => _palette;
-    public int RefCount { get => _refCount; internal set => _refCount = value; }
+    public Palette Palette { get; }
+    public int RefCount { get; internal set; }
 
 }

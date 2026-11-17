@@ -35,26 +35,22 @@
                 "Set\u00601.high": 0,
                 "Set\u00601.low": 0
               },
+              "Component.Name": "",
               "Component.Owner": null,
               "Component.Tag": 0,
               "Component.children": [],
               "Component.freeNotifies": null,
-              "Component.name": "",
               "CustomImageLibrary.Capacity": 0,
+              "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
+              "CustomImageLibrary.LoadedFileName": "",
               "CustomImageLibrary.OnChange": null,
-              "CustomImageLibrary._changeLock": 0,
-              "CustomImageLibrary._count": 0,
-              "CustomImageLibrary._dataOffset": 0,
-              "CustomImageLibrary._fileName": "",
-              "CustomImageLibrary._loadOnDemand": true,
-              "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._paletteManager": {
+              "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
               },
-              "CustomImageLibrary._reloading": false,
-              "CustomImageLibrary._status": {
+              "CustomImageLibrary.Reloading": false,
+              "CustomImageLibrary.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
@@ -63,7 +59,11 @@
                 "Set\u00601.d": 0,
                 "Set\u00601.high": 0,
                 "Set\u00601.low": 0
-              }
+              },
+              "CustomImageLibrary._changeLock": 0,
+              "CustomImageLibrary._count": 0,
+              "CustomImageLibrary._fileName": "",
+              "CustomImageLibrary._loadOnDemand": true
             }
           },
           "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
@@ -454,12 +454,12 @@
               "$type": "Aow.Game.Units.UnitUserList",
               "EngineObject._owner": null,
               "ObservableNode.CollectionChanged": null,
+              "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": "$ref:$.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
-              },
-              "ObservableNode._updateCount": 0
+              }
             },
             "MoveControlSettings._height": 0,
             "MoveControlSettings._levelCount": 0,

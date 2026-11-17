@@ -103,9 +103,12 @@ public partial class LeadershipAbility : MultiLevelAbility
         if (data == null)
         {
             SetAbility(owner, AbilityId, 1);
-            data = new LeadershipAbilityData(null) { Holder = CreationHolder() };
-            data.LevelAbilityId = (ushort)AbilityId;
-            data.Level = 0;
+            data = new LeadershipAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                LevelAbilityId = (ushort)AbilityId,
+                Level = 0
+            };
             owner.AddAbilityData(data);
         }
 

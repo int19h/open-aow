@@ -39,7 +39,6 @@ namespace Aow.Game.World.Structures;
 // ID, update count, building player, days left, shadow, fogged
 public partial class Structure : FixedImageLibraryTerrainMapObject
 {
-
     public Structure(CustomNode owner) : base(owner)
     {
         BuildingPlayer = -1;
@@ -627,8 +626,11 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             DestroyShadow();
         }
 
-        _shadow = new StructureShadow(null) { Holder = CreationHolder() };
-        _shadow.Structure = this;
+        _shadow = new StructureShadow(null)
+        {
+            Holder = CreationHolder(),
+            Structure = this
+        };
         _shadow.Connect();
     }
 
@@ -658,8 +660,11 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual void BuildingDone()
     {
         LocationTextEventLog log;
-        log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-        log.Player = BuildingPlayer;
+        log = new LocationTextEventLog(null)
+        {
+            Holder = CreationHolder(),
+            Player = BuildingPlayer
+        };
         if (GetRazed())
         {
             string editName = EditName();
@@ -790,8 +795,11 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (CanRaze(player, ref reason))
         {
             BeginUpdate();
-            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-            log.Player = player;
+            log = new LocationTextEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = player
+            };
             string editName = EditName();
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureRazedFormat), [editName]);
             log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
@@ -1048,10 +1056,12 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                log = new RazeStructureEventLog(null, holder: CreationHolder());
-                log.Structure = this;
-                log.Buttons = MessageEventLogButtons.YesNo;
-                log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
+                log = new RazeStructureEventLog(null, holder: CreationHolder())
+                {
+                    Structure = this,
+                    Buttons = MessageEventLogButtons.YesNo,
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)
+                };
                 string razeStructureWarning = AbilityRules.TranslateResourceString(GetEngine(), s_razeStructureWarningText);
                 _ = log.Message.Add(razeStructureWarning);
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWishToContinueText);

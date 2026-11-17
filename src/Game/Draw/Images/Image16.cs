@@ -6,18 +6,13 @@ namespace Aow.Game.Draw.Images;
 // the base of the 16 bit images (pfRGB565 or pfRGB555). FPixelFormatID (of the pixels in
 // memory), FStoredPixelFormatID (of the pixels in the library file: WriteImageData remaps the
 // pixels back to it before they are written)
-public partial class Image16 : LibraryImage, ILibraryImageClass
+public partial class Image16(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image16(owner);
 
     internal int PixelFormatId { get; set; }
 
     internal int StoredPixelFormatId { get; set; }
-
-    // ImageLib.pas:2098
-    public Image16(CustomImageLibrary owner) : base(owner)
-    {
-    }
 
     // ImageLib.pas:2103
     public override void ReadImageData(Stream stream)

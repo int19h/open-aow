@@ -19,6 +19,16 @@ namespace Aow.Game.UI.Controls;
 // SurfaceValid
 public partial class UIComponent : Rtl.Component
 {
+    public UIComponent(Rtl.Component owner) : base(owner)
+    {
+        _visible = true;
+        FirstDraw = true;
+        _alignment = new Alignment();
+        Children = new DelphiList<UIComponent>();
+        BlitList = [];
+        DrawList = [];
+    }
+
     public int Color { get; private set; }
     public int SelectedColor { get; private set; }
     public bool Valid { get; set; }
@@ -119,7 +129,6 @@ public partial class UIComponent : Rtl.Component
 
     protected void RaiseUpdate(UIComponent sender) => OnUpdate?.Invoke(sender);
 
-    private bool _captureInput;
     // Nothing in the port raises OnDebugMessage. The bound handler is kept.
     private AoWOnDebugEvent _onDebugMessage;
 
@@ -131,7 +140,6 @@ public partial class UIComponent : Rtl.Component
     public DelphiList<UIComponent> Children { get; init; }
 
     private readonly Alignment _alignment;
-    private bool _masked;
 
     public List<DirtyRectangle> BlitList { get; }
     public List<DirtyRectangle> DrawList { get; }
@@ -147,17 +155,6 @@ public partial class UIComponent : Rtl.Component
     public virtual bool DoubleBuffered { get; set; }
 
     public bool SurfaceValid { get; set; }
-
-    // AoWComp.pas:222
-    public UIComponent(Rtl.Component owner) : base(owner)
-    {
-        _visible = true;
-        FirstDraw = true;
-        _alignment = new Alignment();
-        Children = new DelphiList<UIComponent>();
-        BlitList = [];
-        DrawList = [];
-    }
 
     // AoWComp.pas:233
     public override void Dispose()
@@ -1058,8 +1055,8 @@ public partial class UIComponent : Rtl.Component
     public int TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
     public UIComponent OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
     public Alignment Alignment { get => _alignment; set => SetAlign(value); }
-    public bool Masked { get => _masked; set => _masked = value; }
-    public bool CaptureInput { get => _captureInput; set => _captureInput = value; }
+    public bool Masked { get; set; }
+    public bool CaptureInput { get; set; }
 
     [Published]
     [DefaultValue(true)]

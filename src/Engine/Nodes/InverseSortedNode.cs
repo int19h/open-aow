@@ -3,12 +3,9 @@
 namespace Aow.Engine.Nodes;
 
 // { Engine.TEInverseSortNode: the same, sorted the other way }
-public partial class InverseSortedNode : SortedNode
+public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
 {
     public new const int ClassId = 262;
-
-    public InverseSortedNode(CustomNode owner) : base(owner)
-    { }
 
     // Engine.pas:1635
     public override int AddSortChild(EngineObject child, int sortValue)

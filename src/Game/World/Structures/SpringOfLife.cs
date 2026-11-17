@@ -12,11 +12,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class SpringOfLife : Structure
+public partial class SpringOfLife(CustomNode owner) : Structure(owner)
 {
-    public SpringOfLife(CustomNode owner) : base(owner)
-    {
-    }
 
     // Spring.pas:73
     public new const int ClassId = 131328;

@@ -15,10 +15,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
+public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public UnholyGroundSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // UnHolyG.pas:288
     public new const int ClassId = 135943;

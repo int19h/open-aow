@@ -9,12 +9,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class SelfDestructCombatAction : DamageCombatAction
+public partial class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131764;
-
-    public SelfDestructCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // AoWAb.PAS:2116
     public override void Execute(Battle combat)

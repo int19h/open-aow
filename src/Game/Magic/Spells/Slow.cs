@@ -34,10 +34,13 @@ public partial class Slow : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         SlowCombatAction action;
-        action = new SlowCombatAction(null) { Holder = CreationHolder() };
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
-        action.SpellId = SpellId;
+        action = new SlowCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SourceId = source.Id,
+            TargetId = target.Id,
+            SpellId = SpellId
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

@@ -11,10 +11,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class HealingUnitSelector : UnitSelector
+public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
-    public HealingUnitSelector(EngineObject creator) : base(creator)
-    { }
 
     // AoWAb.PAS:3894
     public override bool CanSelectUnit(Troop troop)
@@ -49,11 +47,14 @@ public partial class HealingUnitSelector : UnitSelector
 
             if (target != null)
             {
-                eventValue = new HealingTokenEvent(null) { Holder = Creator.CreationHolder() };
-                eventValue.SourceId = source.UnitId;
-                eventValue.SourcePlayer = (byte)source.Player;
-                eventValue.TargetId = target.UnitId;
-                eventValue.TargetPlayer = (byte)target.Player;
+                eventValue = new HealingTokenEvent(null)
+                {
+                    Holder = Creator.CreationHolder(),
+                    SourceId = source.UnitId,
+                    SourcePlayer = (byte)source.Player,
+                    TargetId = target.UnitId,
+                    TargetPlayer = (byte)target.Player
+                };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 result = true;

@@ -14,8 +14,6 @@ namespace Aow.Game.Magic;
 // (ID, source, upkeep, signed dispel resistance)
 public partial class Enchantment : EngineObject
 {
-    // Spells.PAS:1692
-    // ID, source, upkeep, dispel resistance
     public Enchantment(CustomNode owner) : base(owner)
     {
         DispelResistance = 10;

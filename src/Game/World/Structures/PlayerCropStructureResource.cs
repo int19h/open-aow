@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // CropLocations
-public partial class PlayerCropStructureResource : PlayerStructureResource
+public partial class PlayerCropStructureResource(CustomNode owner) : PlayerStructureResource(owner)
 {
-    public PlayerCropStructureResource(CustomNode owner) : base(owner)
-    { }
 
     // Crops.pas:599
     public new const int ClassId = 131919;

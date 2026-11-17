@@ -6,11 +6,8 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatObstacleOverlay : HexSprite
+public partial class CombatObstacleOverlay(CustomNode owner) : HexSprite(owner)
 {
-    public CombatObstacleOverlay(CustomNode owner) : base(owner)
-    { }
-
     public CombatObstacle Obstacle { get; set; }
 
     // CombatObstacle.pas:84

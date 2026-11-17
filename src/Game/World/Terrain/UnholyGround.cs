@@ -22,10 +22,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class UnholyGround : ImageLibraryTerrainMapObject
+public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public UnholyGround(CustomNode owner) : base(owner)
-    { }
 
     // UnHolyG.pas:93
     public new const int ClassId = 131985;
@@ -165,8 +163,11 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         Troop troop;
         damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText)
+        };
         string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
         _ = log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
@@ -327,10 +328,8 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
 
     private static readonly string s_unholyGroundDamageText = "Unholy Ground Damage";
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // UnHolyG.pas:278
         public new const int ClassId = 131986;

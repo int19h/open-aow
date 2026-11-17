@@ -11,7 +11,7 @@ public partial class Memo
         MouseDown = false;
         bool old = Redraw;
         Redraw = false;
-        if (_editable && _items.Count == 0)
+        if (Editable && _items.Count == 0)
         {
             _ = _items.Add("");
             _ = Lines.Add("");
@@ -33,9 +33,9 @@ public partial class Memo
                 top = Window.WinTop + WinTop + BorderHeight - 1;
                 bottom = Window.WinTop + WinTop + WinHeight;
             }
-            if (_editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
+            if (Editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
-                if (_editable)
+                if (Editable)
                 {
                     Redraw = true;
                     _blink = true;
@@ -47,7 +47,7 @@ public partial class Memo
                         Window.Drawn = false;
                     }
                 }
-                if (((Lines.Count - _topItem) * _itemHeight) + top < y)
+                if (((Lines.Count - _topItem) * ItemHeight) + top < y)
                 {
                     _currentLine = Lines.Count - 1;
                     _currentColumn = Lines[^1].Length;
@@ -69,7 +69,7 @@ public partial class Memo
                         }
                         _currentLine++;
                     }
-                    while (Lines.Count > _currentLine && ((_currentLine - _topItem + 1) * _itemHeight) + top < y)
+                    while (Lines.Count > _currentLine && ((_currentLine - _topItem + 1) * ItemHeight) + top < y)
                     {
                         _realColumn += Lines[_currentLine].Length;
                         if (_realColumn >= length)

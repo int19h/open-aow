@@ -16,11 +16,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // item bag
-public partial class InfoWindow : UIModule
+public partial class InfoWindow(UIContext ui) : UIModule(ui)
 {
-    public InfoWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; private set; }
     public Label TitleLabel { get; private set; }
     public Button MainButton { get; private set; }

@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
+public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
@@ -15,9 +15,6 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
     protected sealed override bool AcceptsChild(EngineObject child) => child is UnitProduction;
 
     int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
-
-    public UnitProductionList(CustomNode owner) : base(owner)
-    { }
 
     // Structur.PAS:14
     public UnitProduction GetItem(int index)
@@ -29,9 +26,11 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
     // Structur.PAS:20
     public void Add(int unitIndex, bool researched)
     {
-        UnitProduction unitProduction = new(this);
-        unitProduction.UnitIndex = unitIndex;
-        unitProduction.Researched = researched;
+        _ = new UnitProduction(this)
+        {
+            UnitIndex = unitIndex,
+            Researched = researched
+        };
     }
 
     // Structur.PAS:29

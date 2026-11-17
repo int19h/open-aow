@@ -36,10 +36,6 @@ namespace Aow.Game;
 public partial class GameEngine : OwningNode
 {
     private int _messageCount;
-    private readonly List<EngineClass> _engineClasses;
-    private readonly Dictionary<int, EngineClass> _classTable;
-    private readonly EngineObjectEditorList _editors;
-    private readonly ControlStyleNode _controlNode;
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
@@ -52,8 +48,6 @@ public partial class GameEngine : OwningNode
     private string _startupDirectory = "";
 
     public Set<EngineUserElement> User { get; private set; }
-
-    private Set<EngineModeElement> _options;
 
     // Create sets this before the instance exists. InitializeBeforeInherited reads it from the
     // base constructor, which runs before the body below.
@@ -70,13 +64,13 @@ public partial class GameEngine : OwningNode
     private protected GameEngine(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         UpdateStartupDirectory();
-        _options = Set<EngineModeElement>.Of(VerifyClasses);
+        Options = Set<EngineModeElement>.Of(VerifyClasses);
         DebugEventsStore = new();
-        _engineClasses = [];
-        _classTable = [];
-        _editors = new EngineObjectEditorList();
-        _controlNode = new ControlStyleNode(this);
-        _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        EngineClasses = [];
+        ClassTable = [];
+        Editors = new EngineObjectEditorList();
+        ControlNode = new ControlStyleNode(this);
+        ControlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<ControlStyleNode>(), EngineClass.Of<EngineNode>(), EngineClass.Of<ResourceEditSettings>()]);
         if (!s_fullConstruction)
         {
@@ -93,7 +87,7 @@ public partial class GameEngine : OwningNode
         RegisterEngineClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<GameMap>()]);
         RegisterEngineClasses([EngineClass.Of<MapObjectResource>(), EngineClass.Of<MultiHexMapObjectResource>()]);
         RegisterEngineClasses([EngineClass.Of<AbstractHexagon>(), EngineClass.Of<AbstractBorderHexagon>(), EngineClass.Of<AbstractRoad>()]);
-        _hssFileName = "noname.hss";
+        HssFileName = "noname.hss";
         CreateHexSpriteSet();
 
         Options -= Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
@@ -141,7 +135,7 @@ public partial class GameEngine : OwningNode
 
         DebugEventsStore.Clear();
         base.Dispose();
-        _engineClasses?.Clear();
+        EngineClasses?.Clear();
         if (_fullInstance || s_fullConstruction)
         {
             OnHsmLoadedStore.Clear();
@@ -200,7 +194,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8860
     public virtual EngineClass GetEngineClass(int classId)
     {
-        return !_classTable.TryGetValue(classId, out EngineClass result) || result == null
+        return !ClassTable.TryGetValue(classId, out EngineClass result) || result == null
             ? throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")")
             : result;
     }
@@ -252,19 +246,19 @@ public partial class GameEngine : OwningNode
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            if (_options.Contains(VerifyClasses))
+            if (Options.Contains(VerifyClasses))
             {
                 _ = VerifyEngineObjectClass(classes[i]);
             }
 
             int classId = classes[i].ClassId;
-            if (_classTable.ContainsKey(classId))
+            if (ClassTable.ContainsKey(classId))
             {
                 throw new InvalidOperationException("EObject Class ID double defined!");
             }
 
-            _engineClasses.Add(classes[i]);
-            HashTables.Add(_classTable, key: classes[i].ClassId, value: classes[i]);
+            EngineClasses.Add(classes[i]);
+            HashTables.Add(ClassTable, key: classes[i].ClassId, value: classes[i]);
         }
     }
 
@@ -273,9 +267,9 @@ public partial class GameEngine : OwningNode
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            _ = _engineClasses.Remove(classes[i]);
+            _ = EngineClasses.Remove(classes[i]);
             int classId = classes[i].ClassId;
-            _ = _classTable.Remove(classId);
+            _ = ClassTable.Remove(classId);
         }
     }
 
@@ -284,11 +278,11 @@ public partial class GameEngine : OwningNode
     {
         EngineObjectClassList l;
         l = new EngineObjectClassList();
-        for (int i = 0, last = _engineClasses.Count - 1; i <= last; i++)
+        for (int i = 0, last = EngineClasses.Count - 1; i <= last; i++)
         {
-            if (classValue.IsAssignableFrom(_engineClasses[i].Type))
+            if (classValue.IsAssignableFrom(EngineClasses[i].Type))
             {
-                _ = l.Add(_engineClasses[i]);
+                _ = l.Add(EngineClasses[i]);
             }
         }
 
@@ -524,10 +518,10 @@ public partial class GameEngine : OwningNode
         TreeReader.ReadObject(GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable), objectValue: objectValue, factory: factory);
     }
 
-    public List<EngineClass> EngineClasses => _engineClasses;
-    public Dictionary<int, EngineClass> ClassTable => _classTable;
-    public EngineObjectEditorList Editors => _editors;
-    public ControlStyleNode ControlNode => _controlNode;
+    public List<EngineClass> EngineClasses { get; }
+    public Dictionary<int, EngineClass> ClassTable { get; }
+    public EngineObjectEditorList Editors { get; }
+    public ControlStyleNode ControlNode { get; }
 
     public event NotifyEvent<EngineDebugNotification> DebugEvents
     {
@@ -536,7 +530,7 @@ public partial class GameEngine : OwningNode
     }
 
     public string StartupDirectory { get => _startupDirectory; set => SetStartupDirectory(value); }
-    public Set<EngineModeElement> Options { get => _options; set => _options = value; }
+    public Set<EngineModeElement> Options { get; set; }
 
     // Engine.pas:1126
     public bool VerifyEngineObjectClass(EngineClass type)

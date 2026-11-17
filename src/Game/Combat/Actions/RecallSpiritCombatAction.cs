@@ -9,13 +9,10 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // inherited source ID, target ID, mana, success, spell ID
-public partial class RecallSpiritCombatAction : ExclusiveCombatSpellCombatAction
+public partial class RecallSpiritCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1950
     public new const int ClassId = 131781;
-
-    public RecallSpiritCombatAction(CustomNode owner) : base(owner)
-    { }
 
     // CombatSpells.pas:1953
     public override void Execute(Battle combat)

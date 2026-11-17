@@ -10,16 +10,13 @@ namespace Aow.Engine.Storage;
 // Visits every string of an object tree through TranslateString and TranslateStrings. Nothing
 // is read or written. The visit is MainPersist, and the persister is not loading, so the visit
 // clears nothing.
-public partial class TranslateVisit : IDisposable
+public partial class TranslateVisit(GameEngine engine) : IDisposable
 {
     public delegate void TranslateErrorHandler(string message, ref bool handled);
 
     private TranslateErrorHandler _onError;
 
-    public GameEngine Engine { get; }
-
-    // Engine.pas:10825
-    public TranslateVisit(GameEngine engine) => Engine = engine;
+    public GameEngine Engine { get; } = engine;
 
     // Engine.pas:10831
     public virtual void Dispose()

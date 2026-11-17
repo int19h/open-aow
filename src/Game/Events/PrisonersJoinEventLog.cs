@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Events;
 
 // FX, FY, FL
-public partial class PrisonersJoinEventLog : JoinEventLog
+public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owner)
 {
-    public PrisonersJoinEventLog(CustomNode owner) : base(owner)
-    { }
-
     public MapCoordinate Location { get; set; }
 
     // Dungeon.pas:292

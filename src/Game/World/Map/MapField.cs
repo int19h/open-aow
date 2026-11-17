@@ -24,22 +24,15 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     public MapField(CustomNode owner) : base(owner)
     {
-        _terrainType = -1;
-        _overlayType = -1;
-        _status = Set<MapFieldStatusElement>.Of();
+        TerrainType = -1;
+        OverlayType = -1;
+        Status = Set<MapFieldStatusElement>.Of();
         Resize(3);
     }
 
     private HexSprite[] _hexSpriteList = [];
-    private byte _capacity;
 
     internal byte StoredCount { get; set; }
-
-    private byte _staticCount;
-    private Set<MapFieldStatusElement> _status;
-    private MapCoordinate _location;
-    private sbyte _terrainType;
-    private sbyte _overlayType;
 
     // HSEngine.pas:1907
     public override void Dispose()
@@ -139,10 +132,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1938
-    public MapCoordinate GetMapCoordinate() => _location;
+    public MapCoordinate GetMapCoordinate() => Location;
 
     // HSEngine.pas:1955
-    public int HexSpriteListDataSize() => (_capacity << 2) + ((_capacity + 3) & 252);
+    public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 252);
 
     // HSEngine.pas:2163
     public HexSprite FindHexSprite(Type classValue)
@@ -193,7 +186,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2300
     public void CopyDynamicVisibleHexSprite(VisibilityList list)
     {
-        byte last = _staticCount;
+        byte last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].MakeVisible(list);
@@ -203,7 +196,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2308
     public void CopyStaticVisibleHexSprite(VisibilityList list)
     {
-        for (int i = _staticCount - 1; i >= 0; i--)
+        for (int i = StaticCount - 1; i >= 0; i--)
         {
             _hexSpriteList[i].MakeVisible(list);
         }
@@ -212,7 +205,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2316
     public void ResetDynamicVisibleHexSprite()
     {
-        byte last = _staticCount;
+        byte last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].SetVisible(false);
@@ -222,7 +215,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2324
     public void ResetStaticVisibleHexSprite()
     {
-        for (int i = _staticCount - 1; i >= 0; i--)
+        for (int i = StaticCount - 1; i >= 0; i--)
         {
             _hexSpriteList[i].SetVisible(false);
         }
@@ -237,7 +230,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         bool done;
         int i;
         int level;
-        HexGeometry.HexToPixel(_location.X, _location.Y, out _, out _);
+        HexGeometry.HexToPixel(Location.X, Location.Y, out _, out _);
         i = StoredCount - 1;
         // { Preserve the original stack slot. }
         done = false;
@@ -309,9 +302,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         HexSpriteTerrainInfo info = default;
         info.MapField = this;
-        info.TerrainType = _terrainType;
-        info.OverlayType = _overlayType;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _location.X, _location.Y, 0);
+        info.TerrainType = TerrainType;
+        info.OverlayType = OverlayType;
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         for (int i = 1; i <= 6; i++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -324,15 +317,15 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
-    public byte Capacity => _capacity;
-    public byte StaticCount => _staticCount;
-    public Set<MapFieldStatusElement> Status { get => _status; set => _status = value; }
-    public sbyte HexX { get => _location.X; set => _location = _location with { X = value }; }
-    public sbyte HexY { get => _location.Y; set => _location = _location with { Y = value }; }
-    public sbyte HexLevel { get => _location.MapLevel; set => _location = _location with { MapLevel = value }; }
-    public MapCoordinate Location => _location;
-    public sbyte TerrainType { get => _terrainType; set => _terrainType = value; }
-    public sbyte OverlayType { get => _overlayType; set => _overlayType = value; }
+    public byte Capacity { get; private set; }
+    public byte StaticCount { get; private set; }
+    public Set<MapFieldStatusElement> Status { get; set; }
+    public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
+    public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
+    public sbyte HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = value }; }
+    public MapCoordinate Location { get; private set; }
+    public sbyte TerrainType { get; set; }
+    public sbyte OverlayType { get; set; }
 
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {

@@ -6,11 +6,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class Pop3Dialog : UIModule
+public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
 {
-    public Pop3Dialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public ListBox FoundEmailGamesList { get; private set; }
     public Panel ExitPanel { get; private set; }

@@ -5,9 +5,6 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Layout;
 
-public class LayoutIvTranslator : IvTranslator
+public class LayoutIvTranslator(Component owner) : IvTranslator(owner)
 {
-    public LayoutIvTranslator(Component owner) : base(owner)
-    {
-    }
 }

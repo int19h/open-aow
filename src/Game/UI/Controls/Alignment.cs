@@ -9,53 +9,40 @@ namespace Aow.Game.UI.Controls;
 // override Assign, so TAoWComponent.SetAlign raises FormatException (original bug)
 public partial class Alignment : Persistent
 {
-    private byte _widthPercent;
-    private byte _heightPercent;
-    private int _leftOffsetPercent;
-    private int _rightOffsetPercent;
-    private int _topOffsetPercent;
-    private int _bottomOffsetPercent;
-    private int _leftOffset;
-    private int _rightOffset;
-    private int _topOffset;
-    private int _bottomOffset;
-    private AlignWidth _alignWidth;
-    private AlignHeight _alignHeight;
+    [Published]
+    public AlignWidth AlignWidth { get; set; }
 
     [Published]
-    public AlignWidth AlignWidth { get => _alignWidth; set => _alignWidth = value; }
+    public AlignHeight AlignHeight { get; set; }
 
     [Published]
-    public AlignHeight AlignHeight { get => _alignHeight; set => _alignHeight = value; }
+    public byte HeightPercent { get; set; }
 
     [Published]
-    public byte HeightPercent { get => _heightPercent; set => _heightPercent = value; }
+    public byte WidthPercent { get; set; }
 
     [Published]
-    public byte WidthPercent { get => _widthPercent; set => _widthPercent = value; }
+    public int LeftOffsetPercent { get; set; }
 
     [Published]
-    public int LeftOffsetPercent { get => _leftOffsetPercent; set => _leftOffsetPercent = value; }
+    public int RightOffsetPercent { get; set; }
 
     [Published]
-    public int RightOffsetPercent { get => _rightOffsetPercent; set => _rightOffsetPercent = value; }
+    public int TopOffsetPercent { get; set; }
 
     [Published]
-    public int TopOffsetPercent { get => _topOffsetPercent; set => _topOffsetPercent = value; }
+    public int BottomOffsetPercent { get; set; }
 
     [Published]
-    public int BottomOffsetPercent { get => _bottomOffsetPercent; set => _bottomOffsetPercent = value; }
+    public int LeftOffset { get; set; }
 
     [Published]
-    public int LeftOffset { get => _leftOffset; set => _leftOffset = value; }
+    public int RightOffset { get; set; }
 
     [Published]
-    public int RightOffset { get => _rightOffset; set => _rightOffset = value; }
+    public int TopOffset { get; set; }
 
     [Published]
-    public int TopOffset { get => _topOffset; set => _topOffset = value; }
-
-    [Published]
-    public int BottomOffset { get => _bottomOffset; set => _bottomOffset = value; }
+    public int BottomOffset { get; set; }
 
 }

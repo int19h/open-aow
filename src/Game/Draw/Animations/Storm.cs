@@ -12,11 +12,8 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // player
-public partial class Storm : Animation
+public partial class Storm(CustomNode owner) : Animation(owner)
 {
-    public Storm(CustomNode owner) : base(owner)
-    { }
-
     public sbyte Player { get; private set; }
 
     // Storms.pas:34

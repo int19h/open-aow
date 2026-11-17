@@ -23,9 +23,6 @@ namespace Aow.Game.Session;
 // references, units, hero unit, special units, hero names
 public partial class RaceResource : EngineResource
 {
-    public new const int ClassId = 131585;
-
-    // PlayerC.PAS:1732
     public RaceResource(CustomNode owner) : base(owner)
     {
         UnitIndexes = new UnitIndexList();
@@ -33,6 +30,7 @@ public partial class RaceResource : EngineResource
         _heroNames = new StringList();
     }
 
+    public new const int ClassId = 131585;
     private CustomImageLibrary _faceLibrary;
 
     public CustomImageLibrary ImageLibrary { get; private set; }

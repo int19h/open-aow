@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class RealmWindow : UIModule
+public partial class RealmWindow(UIContext ui) : UIModule(ui)
 {
-    public RealmWindow(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public TabPanel HeaderTabs { get; private set; }
     public Panel CityPanel { get; private set; }

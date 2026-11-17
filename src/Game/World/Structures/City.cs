@@ -35,14 +35,20 @@ public partial class City : PlayerCropStructure
     public City(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Production = new CityProductionControl(null) { Holder = CreationHolder() };
-        Production.City = this;
+        Production = new CityProductionControl(null)
+        {
+            Holder = CreationHolder(),
+            City = this
+        };
         _defendersMode = DefendersGenerateMode.Average;
         Race = -1;
         Name = AbilityRules.TranslateResourceString(GetEngine(), s_noNameText);
         UpgradeLevel = 1;
-        Overlay = new CityOverlayHexSprite(null) { Holder = CreationHolder() };
-        Overlay.City = this;
+        Overlay = new CityOverlayHexSprite(null)
+        {
+            Holder = CreationHolder(),
+            City = this
+        };
         _enchantmentList = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         EnchantmentsVisible = false;
     }
@@ -933,8 +939,11 @@ public partial class City : PlayerCropStructure
         CityProductionEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !base.Resource.Claimed)
         {
-            log = new CityProductionEventLog(null) { Holder = CreationHolder() };
-            log.Player = newPlayer;
+            log = new CityProductionEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = newPlayer
+            };
             string editName = EditName();
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
@@ -1390,8 +1399,11 @@ public partial class City : PlayerCropStructure
                     if (bestIndex != -1)
                     {
                         Production.ExecuteDeleteProductions();
-                        item = new ProductionItem(null) { Holder = CreationHolder() };
-                        item.Order = new Migrate(selection.GetItems(bestIndex).Race);
+                        item = new ProductionItem(null)
+                        {
+                            Holder = CreationHolder(),
+                            Order = new Migrate(selection.GetItems(bestIndex).Race)
+                        };
                         Production.ExecuteAddProduction(item);
                         item?.Dispose();
                     }
@@ -1562,8 +1574,11 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanUpgrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = new Upgrade();
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Upgrade()
+            };
             _ = Production.Produce(item, queue);
             item?.Dispose();
             result = true;
@@ -1640,8 +1655,11 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanFortify(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = new Fortify();
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Fortify()
+            };
             _ = Production.Produce(item, queue);
             item?.Dispose();
             result = true;
@@ -1689,8 +1707,11 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = queue ? new Trade(1) : new Trade(-1);
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = queue ? new Trade(1) : new Trade(-1)
+            };
 
             _ = Production.Produce(item, queue);
             item?.Dispose();
@@ -1718,8 +1739,11 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanLoot(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = new Loot();
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Loot()
+            };
             _ = Production.Produce(item, false);
             item?.Dispose();
             result = true;
@@ -1809,8 +1833,11 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanMigrate(race, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null) { Holder = CreationHolder() };
-            item.Order = new Migrate(race);
+            item = new ProductionItem(null)
+            {
+                Holder = CreationHolder(),
+                Order = new Migrate(race)
+            };
             _ = Production.Produce(item, false);
             item?.Dispose();
             result = true;
@@ -1828,17 +1855,15 @@ public partial class City : PlayerCropStructure
     {
         MigrationItem result;
         string reason = "";
-        if (CanMigrate(race, ref reason))
-        {
-            result = new MigrationItem(null) { Holder = CreationHolder() };
-            result.Race = race;
-            result.Time = MigrationTime(race);
-            result.Relation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(Player);
-        }
-        else
-        {
-            result = null;
-        }
+        result = CanMigrate(race, ref reason)
+            ? new MigrationItem(null)
+            {
+                Holder = CreationHolder(),
+                Race = race,
+                Time = MigrationTime(race),
+                Relation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(Player)
+            }
+            : null;
 
         return result;
     }
@@ -1884,10 +1909,13 @@ public partial class City : PlayerCropStructure
                 if (chance >= StrategicMap.Current.Random(100))
                 {
                     _ = MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement>.Of());
-                    log = new CityRebellionEventLog(null) { Holder = CreationHolder() };
-                    log.Player = Player;
-                    log.CityName = GetName();
-                    log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
+                    log = new CityRebellionEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = Player,
+                        CityName = GetName(),
+                        Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel())
+                    };
                     EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
                     _ = log.Release();
                     SetPlayer(0);
@@ -2413,8 +2441,11 @@ public partial class City : PlayerCropStructure
                     }
 
                     armies?.Dispose();
-                    log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                    log.Player = Player;
+                    log = new LocationTextEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = Player
+                    };
                     string name = GetName();
                     log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_overthrownFormat), [name]);
                     log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());

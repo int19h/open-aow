@@ -12,19 +12,15 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexFrame, _imageLibraryIndexTNormal, _imageLibraryIndexTSelected
 public partial class Gauge : Control
 {
-    private int _min;
-    private int _max;
+    public Gauge(Component owner) : base(owner) => Max = 1;
+
     private int _position;
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTextureNormal;
     private InterfaceImageLibrary _imageLibraryTextureSelected;
     private GaugeType _style;
-    private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexTNormal;
     private int _imageLibraryIndexTSelected;
-
-    // AOWGauge.pas:69
-    public Gauge(Component owner) : base(owner) => _max = 1;
 
     // AOWGauge.pas:75
     public override void Validate()
@@ -43,7 +39,7 @@ public partial class Gauge : Control
         {
             if (_imageLibraryFrame != null)
             {
-                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
             }
 
             _style = _imageLibraryFrame != null ? GaugeType.Normal : GaugeType.Borderless;
@@ -60,40 +56,40 @@ public partial class Gauge : Control
         switch (_style)
         {
             case GaugeType.Normal:
-                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame = _imageLibraryFrame[ImageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[ImageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
-                LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[ImageLibraryIndexFrame + 2];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[ImageLibraryIndexFrame + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 break;
         }
 
-        if (_min + 1 > _max)
+        if (Min + 1 > Max)
         {
-            _max = _min + 1;
+            Max = Min + 1;
         }
 
-        if (_min > _position)
+        if (Min > _position)
         {
-            _position = _min;
+            _position = Min;
         }
 
-        if (_max < _position)
+        if (Max < _position)
         {
-            _position = _max;
+            _position = Max;
         }
 
         base.SetSize();
@@ -115,38 +111,38 @@ public partial class Gauge : Control
                 switch (_style)
                 {
                     case GaugeType.Normal:
-                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        p = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
+                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame = _imageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        p = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (Max - Min);
                         SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
-                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        _imageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         if (Window.WinLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
-                            LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            LibraryImage imageLibraryFrame3 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Rect clipRectangle = lockedSurface.ClipRectangle;
                             clipRectangle.Left = Window.WinLeft + p + WinLeft + imageLibraryFrame3.Width;
                             lockedSurface.ClipRectangle = clipRectangle;
                         }
 
-                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + imageLibraryFrame8.Width, Window.WinTop + WinTop + imageLibraryFrame7.Height, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
-                        LibraryImage imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        LibraryImage filFrameItem = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrameWidth2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame9 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage libraryImage = _imageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage filFrameItem = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrameWidth2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.WinTop + WinTop + filFrameItem.Height, p, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
-                        p = _position * WinWidth / (_max - _min);
+                        p = _position * WinWidth / (Max - Min);
                         if (Window.WinLeft + p + WinLeft > lockedSurface.ClipRectangle.Left)
                         {
                             Rect clipRectangle2 = lockedSurface.ClipRectangle;
@@ -241,9 +237,9 @@ public partial class Gauge : Control
     // AOWGauge.pas:114
     public void SetILFIndex(int value)
     {
-        if (value != _imageLibraryIndexFrame)
+        if (value != ImageLibraryIndexFrame)
         {
-            _imageLibraryIndexFrame = value;
+            ImageLibraryIndexFrame = value;
             Valid = false;
         }
     }
@@ -274,14 +270,14 @@ public partial class Gauge : Control
         if (value != _position)
         {
             _position = value;
-            if (_position > _max)
+            if (_position > Max)
             {
-                _position = _max;
+                _position = Max;
             }
 
-            if (_min > _position)
+            if (Min > _position)
             {
-                _position = _min;
+                _position = Min;
             }
 
             Drawn = false;
@@ -289,10 +285,10 @@ public partial class Gauge : Control
     }
 
     [Published]
-    public int Min { get => _min; set => _min = value; }
+    public int Min { get; set; }
 
     [Published]
-    public int Max { get => _max; set => _max = value; }
+    public int Max { get; set; }
 
     [Published]
     public int Position { get => _position; set => SetPosition(value); }
@@ -307,7 +303,7 @@ public partial class Gauge : Control
     public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
-    public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => _imageLibraryIndexFrame = value; }
+    public int ImageLibraryIndexFrame { get; set; }
 
     [Published]
     public int ImageLibraryIndexTNormal { get => _imageLibraryIndexTNormal; set => SetImageLibraryTnIndex(value); }

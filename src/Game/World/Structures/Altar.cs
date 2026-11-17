@@ -18,10 +18,8 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // Storm, Mode, RechargeDays
-public partial class Altar : PlayerStructure
+public partial class Altar(CustomNode owner) : PlayerStructure(owner)
 {
-    public Altar(CustomNode owner) : base(owner)
-    { }
 
     // Altar.pas:59
     public new const int ClassId = 132081;

@@ -20,11 +20,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // diplomatic actions, player indices, race indices, controls
-public partial class RelationWindow : UIModule
+public partial class RelationWindow(UIContext ui) : UIModule(ui)
 {
-    public RelationWindow(UIContext ui) : base(ui)
-    { }
-
     public Window MainWindow { get; set; }
     public Image RightShield { get; private set; }
     public Image LeftShield { get; private set; }

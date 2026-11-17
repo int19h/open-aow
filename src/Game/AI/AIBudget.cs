@@ -9,13 +9,10 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI;
 
 // priority, required gold/mana, upkeep, days, daily limits, daily requirements, gold/mana
-public partial class AIBudget : EngineObject
+public partial class AIBudget(CustomNode owner) : EngineObject(owner)
 {
     // AI.pas:1653
     public new const int ClassId = 131740;
-
-    public AIBudget(CustomNode owner) : base(owner)
-    { }
 
     public int Priority { get; set; }
     public int RequiredGold { get; set; }

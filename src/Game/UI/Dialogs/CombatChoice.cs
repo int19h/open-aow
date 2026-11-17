@@ -15,11 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // combat request, completion event
-public partial class CombatChoice : UIModule
+public partial class CombatChoice(UIContext ui) : UIModule(ui)
 {
-    public CombatChoice(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Button FightButton { get; private set; }
     public Button CancelButton { get; private set; }

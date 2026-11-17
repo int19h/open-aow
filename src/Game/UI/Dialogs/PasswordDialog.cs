@@ -7,11 +7,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PasswordDialog : UIModule
+public partial class PasswordDialog(UIContext ui) : UIModule(ui)
 {
-    public PasswordDialog(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Label TitleLabel { get; private set; }
     public Label PasswordLabel { get; private set; }

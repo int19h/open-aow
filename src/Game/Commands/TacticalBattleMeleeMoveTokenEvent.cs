@@ -14,11 +14,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
+public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
-    public TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 2236417;
 
     private MeleeRound _meleeRound;

@@ -12,21 +12,19 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct ArmyCollection : IReadOnlyList<Army>
 {
-    private readonly ArmyList _list;
-
-    internal ArmyCollection(ArmyList list) => _list = list;
+    internal ArmyCollection(ArmyList list) => Holder = list;
 
     /// <summary>The list that holds the armies.</summary>
-    public ArmyList Holder => _list;
+    public ArmyList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // Callers of the original list ask for the count by method.
-    public int GetCount() => _list.GetCount();
+    public int GetCount() => Holder.GetCount();
 
     // Player.PAS:6. The army in slot index, read as the original reads the list, without a range
     // check.
-    public Army GetArmy(int index) => _list.GetArmy(index);
+    public Army GetArmy(int index) => Holder.GetArmy(index);
 
     public Army this[int index] => GetArmy(index);
 
@@ -40,7 +38,7 @@ public readonly struct ArmyCollection : IReadOnlyList<Army>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public int AddChild(EngineObject child) => _list.AddChild(child);
+    public int AddChild(EngineObject child) => Holder.AddChild(child);
 
-    public int RemoveChild(EngineObject child) => _list.RemoveChild(child);
+    public int RemoveChild(EngineObject child) => Holder.RemoveChild(child);
 }

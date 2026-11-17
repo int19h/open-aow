@@ -16,10 +16,8 @@ namespace Aow.Game.Events;
 
 // { }
 // Logbook
-public partial class CombatEventLog : EventLog
+public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
 {
-    public CombatEventLog(CustomNode owner) : base(owner)
-    { }
 
     // Combat2.pas:413
     public new const int ClassId = 131810;

@@ -16,13 +16,10 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // Inherited combat layout. HostPlayer
-public partial class TacticalBattle : Battle
+public partial class TacticalBattle(CustomNode owner) : Battle(owner)
 {
     // AoWTC.pas:5081
     public new const int ClassId = 2228496;
-
-    public TacticalBattle(CustomNode owner) : base(owner)
-    { }
 
     public sbyte HostPlayer { get; private set; }
 

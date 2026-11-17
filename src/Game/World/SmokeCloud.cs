@@ -21,8 +21,11 @@ public partial class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(CustomNode owner) : base(owner)
     {
-        Enchantment = new SmokeCloudEnchantment(null) { Holder = CreationHolder() };
-        Enchantment.Cloud = this;
+        Enchantment = new SmokeCloudEnchantment(null)
+        {
+            Holder = CreationHolder(),
+            Cloud = this
+        };
         _visibleForSeatedPlayer = false;
         Drifting = false;
     }
@@ -321,10 +324,8 @@ public partial class SmokeCloud : MultiHexMapObject
         }
     }
 
-    public new partial class Resource : MultiHexMapObjectResource
+    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // SmokeCloud.pas:385
         public new const int ClassId = 135747;

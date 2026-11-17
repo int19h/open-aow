@@ -72,8 +72,10 @@ public partial class WorldMapCampaignScenario : CampaignScenario
             _ = new CampaignScenarioPage(OutroPages);
         }
 
-        Paths = new Int32List();
-        Paths.Default = -1;
+        Paths = new Int32List
+        {
+            Default = -1
+        };
     }
 
 }

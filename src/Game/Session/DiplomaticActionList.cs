@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class DiplomaticActionList : ReferenceNode, IChildList<DiplomaticAction>
+public partial class DiplomaticActionList(CustomNode owner) : ReferenceNode(owner), IChildList<DiplomaticAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticAction, so the cast never fails.
@@ -12,9 +12,6 @@ public partial class DiplomaticActionList : ReferenceNode, IChildList<Diplomatic
     protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticAction;
 
     int IChildSink<DiplomaticAction>.AddChild(DiplomaticAction child) => AddChild(child);
-
-    public DiplomaticActionList(CustomNode owner) : base(owner)
-    { }
 
     /// <summary>The actions of this list, in their stored order.</summary>
     public DiplomaticActionCollection Actions => new(this);

@@ -18,11 +18,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents : UIModule
+public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
 {
-    public CombatMapEvents(UIContext ui) : base(ui)
-    { }
-
     private int _chatHeight;
 
     // aowTCMapEvents.pas:105

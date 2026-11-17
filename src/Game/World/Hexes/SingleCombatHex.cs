@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class SingleCombatHex : AbstractHexagon
+public partial class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
-    public SingleCombatHex(CustomNode owner) : base(owner)
-    { }
 
     // SingleCombatHex.pas:41
     public new const int ClassId = 2229534;
@@ -30,10 +28,8 @@ public partial class SingleCombatHex : AbstractHexagon
     // SingleCombatHex.pas:44
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
-    public new partial class Resource : AbstractHexagonResource
+    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // SingleCombatHex.pas:59
         public new const int ClassId = 2229535;

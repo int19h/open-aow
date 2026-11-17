@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AltarOfDeath : Altar
+public partial class AltarOfDeath(CustomNode owner) : Altar(owner)
 {
-    public AltarOfDeath(CustomNode owner) : base(owner)
-    { }
 
     // AltDeath.pas:36
     public new const int ClassId = 131637;
@@ -17,11 +15,8 @@ public partial class AltarOfDeath : Altar
     // AltDeath.pas:39
     public override Storm CreateStorm() => new DeathStorm(null) { Holder = CreationHolder() };
 
-    public new partial class Resource : AltarResource
+    public new partial class Resource(CustomNode owner) : AltarResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-        }
 
         // AltDeath.pas:52
         public new const int ClassId = 131638;

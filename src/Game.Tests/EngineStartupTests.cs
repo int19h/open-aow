@@ -30,7 +30,7 @@ public sealed class EngineStartupTests
         "Aow.Game.Draw.Images.PaletteManager._palettes",
         "Aow.Game.Draw.TacticalBattleUnitHexSprite.Abilities",
         "Aow.Game.Draw.Point3DList._list",
-        "Aow.Game.GameEngine._engineClasses",
+        "Aow.Game.GameEngine.EngineClasses",
         "Aow.Game.Magic.Abilities.AbilityControl.Abilities",
         "Aow.Game.Magic.Spells.SpellControl.RegisteredSpells",
         "Aow.Game.Net.PackageDataList._list",
@@ -51,7 +51,7 @@ public sealed class EngineStartupTests
         "Aow.Game.Units.UnitControl.Units",
         "Aow.Game.World.Map.StrategicMap.Effects",
         "Aow.Game.World.Map.HexSpriteSelection._locationHexSprite",
-        "Aow.Game.World.Map.MapObjectResourceTerrainControl._resources",
+        "Aow.Game.World.Map.MapObjectResourceTerrainControl.Resources",
         "Aow.Game.World.PadControl.PadResources",
         "Aow.Game.World.Terrain.FireControl._resources",
     ];
@@ -70,7 +70,7 @@ public sealed class EngineStartupTests
     [
         with(StringComparer.Ordinal),
         "Aow.Game.Draw.Images.ImageLibraryManagerList.HashTable",
-        "Aow.Game.GameEngine._classTable",
+        "Aow.Game.GameEngine.ClassTable",
         "Aow.Game.Units.UnitControl.UnitTable",
     ];
 
@@ -229,7 +229,7 @@ public sealed class EngineStartupTests
             {
                 foreach (FieldInfo? field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name == "_owner" || field.GetValue(value) is not object child)
+                    if (MemberNames.Of(field) is "_owner" or "Owner" || field.GetValue(value) is not object child)
                     {
                         continue;
                     }

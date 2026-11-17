@@ -7,27 +7,22 @@ namespace Aow.Game.Commands;
 
 // FSyncValue (stored with id), the sync value of the system that sent it. another value on
 // execution triggers OnSyncError
-public partial class SyncTokenEvent : TokenEvent
+public partial class SyncTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = ClassIdSyncTokenEvent;
-
-    public SyncTokenEvent(CustomNode owner) : base(owner)
-    { }
-
-    private int _syncValue;
 
     // NetworkE.pas:1738
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _syncValue = persister.Int32("SyncValue", value: _syncValue);
+        SyncValue = persister.Int32("SyncValue", value: SyncValue);
     }
 
     // NetworkE.pas:1744
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        if (tokenEvent.GetSyncValue() != _syncValue)
+        if (tokenEvent.GetSyncValue() != SyncValue)
         {
             tokenEvent.RaiseSyncError(tokenEvent);
         }
@@ -35,7 +30,7 @@ public partial class SyncTokenEvent : TokenEvent
         return result;
     }
 
-    public int SyncValue { get => _syncValue; set => _syncValue = value; }
+    public int SyncValue { get; set; }
 
     private const short ClassIdSyncTokenEvent = 1365;
 

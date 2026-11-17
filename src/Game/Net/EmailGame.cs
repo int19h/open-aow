@@ -7,13 +7,10 @@ namespace Aow.Game.Net;
 // { Interface declaration run owned by P5. }
 // name. unique local ID. unique ID. security ID. email address. last day (not serialized by the
 // original)
-public partial class EmailGame : EngineObject
+public partial class EmailGame(CustomNode owner) : EngineObject(owner)
 {
     // Diplomacy.pas:2462
     public new const int ClassId = 136960;
-
-    public EmailGame(CustomNode owner) : base(owner)
-    { }
 
     public string Name { get; set; } = "";
     public int UniqueLocalId { get; set; }

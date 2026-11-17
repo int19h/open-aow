@@ -6,11 +6,9 @@ public static partial class RtlUnit
     // with TObject(I) and read them back with Integer(Obj). IntToObject gives one cached box per
     // value, so IndexOfObject finds it again, and ObjectToInt reads the box back. The values are
     // enum values, indices and small ids, so the cache stays bounded and holds no game object.
-    internal sealed class IntegerObject
+    internal sealed class IntegerObject(int value)
     {
-        public int Value { get; }
-
-        public IntegerObject(int value) => Value = value;
+        public int Value { get; } = value;
     }
 
     private static readonly Dictionary<int, object> integerObjects = [];

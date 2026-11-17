@@ -110,8 +110,11 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
             {
                 if (GetRace(i) == null)
                 {
-                    race = new Race(null) { Holder = CreationHolder() };
-                    race.RaceIndex = (sbyte)i;
+                    race = new Race(null)
+                    {
+                        Holder = CreationHolder(),
+                        RaceIndex = (sbyte)i
+                    };
                     race.SetArrayOwner(this, i);
                     race.SetEnabled(true);
                 }

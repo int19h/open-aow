@@ -23,7 +23,6 @@ namespace Aow.Game.World.Structures;
 // player, turns owned (FProductionPriority), flag ID, victory-location bits, unfog range
 public partial class PlayerStructure : Structure
 {
-
     public PlayerStructure(CustomNode owner) : base(owner)
     {
         _victoryLocations = new BitList();
@@ -592,8 +591,11 @@ public partial class PlayerStructure : Structure
         LocationTextEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
-            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-            log.Player = newPlayer;
+            log = new LocationTextEventLog(null)
+            {
+                Holder = CreationHolder(),
+                Player = newPlayer
+            };
             string editName = EditName();
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());

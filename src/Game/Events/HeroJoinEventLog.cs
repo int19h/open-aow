@@ -15,11 +15,8 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P2. }
-public partial class HeroJoinEventLog : JoinEventLog
+public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
 {
-    public HeroJoinEventLog(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131828;
 
     // Hero.PAS:116
@@ -59,15 +56,18 @@ public partial class HeroJoinEventLog : JoinEventLog
             sbyte locationY = coordinate18.Y;
             sbyte locationMapLevel = coordinate18.MapLevel;
             MapCoordinate location = new(locationX, locationY, locationMapLevel);
-            tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
-            tokenEvent.Player = Player;
-            tokenEvent.Object = NegotiateObject.Army;
-            tokenEvent.Gold = Gold;
-            tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
-            tokenEvent.Location = new MapCoordinate(unchecked((sbyte)(byte)location.X), unchecked((sbyte)(byte)location.Y), unchecked((sbyte)(byte)location.MapLevel));
-            tokenEvent.Mode = Set<NegotiateModeElement>.Of();
-            tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
-            tokenEvent.EventLogId = JoinIndex;
+            tokenEvent = new NegotiateTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                Player = Player,
+                Object = NegotiateObject.Army,
+                Gold = Gold,
+                Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe,
+                Location = new MapCoordinate(unchecked((sbyte)(byte)location.X), unchecked((sbyte)(byte)location.Y), unchecked((sbyte)(byte)location.MapLevel)),
+                Mode = Set<NegotiateModeElement>.Of(),
+                Result = NegotiateTokenEvent.NegotiateResult.Accept,
+                EventLogId = JoinIndex
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
         }

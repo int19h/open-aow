@@ -11,10 +11,8 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class CombatObstacle : MultiHexMapObject
+public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
 {
-    public CombatObstacle(CustomNode owner) : base(owner)
-    { }
 
     // CombatObstacle.pas:94
     public new const int ClassId = 2229546;
@@ -131,8 +129,11 @@ public partial class CombatObstacle : MultiHexMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatObstacleShadow(null) { Holder = CreationHolder() };
-                _shadow.Obstacle = this;
+                _shadow = new CombatObstacleShadow(null)
+                {
+                    Holder = CreationHolder(),
+                    Obstacle = this
+                };
             }
         }
     }
@@ -164,8 +165,11 @@ public partial class CombatObstacle : MultiHexMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _overlay = new CombatObstacleOverlay(null) { Holder = CreationHolder() };
-                _overlay.Obstacle = this;
+                _overlay = new CombatObstacleOverlay(null)
+                {
+                    Holder = CreationHolder(),
+                    Obstacle = this
+                };
             }
         }
     }
@@ -203,10 +207,8 @@ public partial class CombatObstacle : MultiHexMapObject
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource : MultiHexMapObjectResource
+    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // CombatObstacle.pas:239
         public new const int ClassId = 2229547;

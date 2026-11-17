@@ -11,15 +11,12 @@ namespace Aow.Game.Draw.Images;
 // a mask of one bit per pixel (ClassID $13), shown as white pixels. _pitch (bytes per row,
 // whole dwords), FMaskData (rows of dwords, the first pixel in the high bit), FMaskLeft,
 // FMaskTop, FMaskWidth, FMaskHeight (the rectangle of the mask in the data rectangle)
-public partial class BitMask : LibraryImage, ILibraryImageClass
+public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 19;
     static string ILibraryImageClass.Name => "Bit Mask";
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new BitMask(owner);
-
-    public BitMask(CustomImageLibrary owner) : base(owner)
-    { }
 
     private int _pitch;
 

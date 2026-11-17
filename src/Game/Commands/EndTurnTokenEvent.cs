@@ -10,11 +10,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // player, day, end-turn mode
-public partial class EndTurnTokenEvent : TokenEvent
+public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public EndTurnTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135425;
 
     public sbyte Player { get; set; }

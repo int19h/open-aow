@@ -18,15 +18,10 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // round distance, state
-public partial class FastBattleUnit : CombatUnit
+public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
     // AIGroup.pas:6778
     public new const int ClassId = 131791;
-
-    // AIGroup.pas:6773
-    public FastBattleUnit(CustomNode owner) : base(owner)
-    {
-    }
 
     public int RoundDistance { get; set; }
 
@@ -368,8 +363,11 @@ public partial class FastBattleUnit : CombatUnit
             {
                 if (CombatValue == 0 && IncomingCombatValue != 0 && GetSide() == CombatSideIndex.Attacker && !GetLocked())
                 {
-                    action = new FleeCombatAction(null) { Holder = CreationHolder() };
-                    action.ObjectId = Id;
+                    action = new FleeCombatAction(null)
+                    {
+                        Holder = CreationHolder(),
+                        ObjectId = Id
+                    };
                     Combat.ExecuteCombatAction(action);
                     _ = action.Release();
                     executed = true;

@@ -15,13 +15,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P1. }
-public partial class FaceResource : EngineResource
+public partial class FaceResource(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131696;
-
-    public FaceResource(CustomNode owner) : base(owner)
-    { }
-
     private string _imageLibraryName = "";
     private int _imageIndex;
     private CustomImageLibrary _imageLibrary;

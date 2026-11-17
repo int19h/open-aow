@@ -9,11 +9,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TerrainMapObject : MultiHexMapObject
+public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owner)
 {
-    public TerrainMapObject(CustomNode owner) : base(owner)
-    {
-    }
 
     // Terrain.pas:65
     public new const int ClassId = 131430;

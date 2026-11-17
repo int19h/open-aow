@@ -5,10 +5,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class BuildersGuild : ProductionPlace
+public partial class BuildersGuild(CustomNode owner) : ProductionPlace(owner)
 {
-    public BuildersGuild(CustomNode owner) : base(owner)
-    { }
 
     // BldGuild.pas:37
     public new const int ClassId = 133422;

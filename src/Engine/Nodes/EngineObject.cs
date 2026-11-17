@@ -13,10 +13,8 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // Engine.pas:2461
     public const int ClassId = 80;
 
-    private EngineClass _engineClass;
-
     // The engine class descriptor of the instance's exact type, read once and cached.
-    public EngineClass EngineClass => _engineClass ??= EngineClass.Of(GetType());
+    public EngineClass EngineClass => field ??= EngineClass.Of(GetType());
 
     // The Delphi pre-inherited statements run after capture and before any inherited body.
     private protected virtual void InitializeBeforeInherited() { }

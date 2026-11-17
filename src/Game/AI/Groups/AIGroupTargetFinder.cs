@@ -105,11 +105,14 @@ public partial class AIGroupTargetFinder : AIGroupTask
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
         AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null) { Holder = CreationHolder() };
-        newTarget.Info = Selector.TargetInfo;
-        newTarget.Data = target.Data;
-        newTarget.Location = target.Location;
-        newTarget.MovePoints = target.MovePoints;
+        newTarget = new AIGroupControlTarget(null)
+        {
+            Holder = CreationHolder(),
+            Info = Selector.TargetInfo,
+            Data = target.Data,
+            Location = target.Location,
+            MovePoints = target.MovePoints
+        };
         if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
             newTarget.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, Range, _step, engine: GetEngine());

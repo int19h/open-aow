@@ -14,11 +14,8 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P1. }
-public partial class StructureConstructionControl : ConstructionControl
+public partial class StructureConstructionControl(CustomNode owner) : ConstructionControl(owner)
 {
-
-    public StructureConstructionControl(CustomNode owner) : base(owner)
-    { }
 
     // Structur.PAS:3195
     public override bool CanConstruct(Troop troop, ref string reason) => ValidateLocation(troop, ref reason) && base.CanConstruct(troop, ref reason) && StructureResource(troop) != null;
@@ -31,10 +28,13 @@ public partial class StructureConstructionControl : ConstructionControl
         string reason = "";
         if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
-            eventValue = new ConstructStructureTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.UnitId = troop.UnitId;
-            eventValue.Player = troop.Player;
-            eventValue.ControlId = Id();
+            eventValue = new ConstructStructureTokenEvent(null)
+            {
+                Holder = CreationHolder(),
+                UnitId = troop.UnitId,
+                Player = troop.Player,
+                ControlId = Id()
+            };
             StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             result = true;

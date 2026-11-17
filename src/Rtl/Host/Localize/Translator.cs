@@ -56,10 +56,8 @@ public static class TranslatorProperties
     }
 }
 
-public class IvCustomTranslator : Component
+public class IvCustomTranslator(Component? owner = null) : Component(owner)
 {
-    public IvCustomTranslator(Component? owner = null) : base(owner) { }
-
     private ConditionalWeakTable<Component, Dictionary<string, string[]>> _nativeValues = [];
 
     public string DictionaryName { get; set; } = "AoW";

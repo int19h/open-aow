@@ -54,10 +54,8 @@ public partial class TutorialMessageEvent : FlagEvent
         return true;
     }
 
-    public new partial class Resource : FlagEventResource
+    public new partial class Resource(CustomNode owner) : FlagEventResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // FlagEvents.pas:269
         public new const int ClassId = 132460;

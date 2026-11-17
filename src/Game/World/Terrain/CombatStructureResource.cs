@@ -3,10 +3,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatStructureResource : CombatFixedImageLibraryTerrain.Resource
+public partial class CombatStructureResource(CustomNode owner) : CombatFixedImageLibraryTerrain.Resource(owner)
 {
-    public CombatStructureResource(CustomNode owner) : base(owner)
-    { }
 
     // CombatStructure.pas:256
     public new const int ClassId = 2229511;

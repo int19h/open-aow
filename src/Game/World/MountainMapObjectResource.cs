@@ -5,10 +5,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World;
 
-public partial class MountainMapObjectResource : Hexes.Terrain.Resource
+public partial class MountainMapObjectResource(CustomNode owner) : Hexes.Terrain.Resource(owner)
 {
-    public MountainMapObjectResource(CustomNode owner) : base(owner)
-    { }
 
     // Mountain.pas:169
     public new const int ClassId = 131433;

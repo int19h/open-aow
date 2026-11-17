@@ -30,8 +30,12 @@ public sealed class TypedNameRoundTripTests
             Assert.Equal("Jörg €„äß", typed);
             Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Cp1252.Encode(typed).ToArray());
 
-            source = new Leader(null!) { Holder = EngineFixture.Engine, HeroResourceIndex = -1 };
-            source.HeroName = typed;
+            source = new Leader(null!)
+            {
+                Holder = EngineFixture.Engine,
+                HeroResourceIndex = -1,
+                HeroName = typed
+            };
             byte[] saved = Save(source);
             Assert.True(saved.AsSpan().IndexOf(new byte[] { 0x80, 0x84, 0xE4, 0xDF }) > 0, "the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF");
             Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");

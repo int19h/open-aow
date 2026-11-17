@@ -89,16 +89,10 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     }
 }
 
-internal sealed class RunFiles : IFileSystem
+internal sealed class RunFiles(string gameRoot, string runDirectory, string? inputFile = null) : IFileSystem
 {
-    private readonly LayeredFileSystem _files;
-    private readonly string? _input;
-
-    public RunFiles(string gameRoot, string runDirectory, string? inputFile = null)
-    {
-        _files = new(gameRoot, runDirectory);
-        _input = inputFile is null ? null : Path.GetFullPath(inputFile);
-    }
+    private readonly LayeredFileSystem _files = new(gameRoot, runDirectory);
+    private readonly string? _input = inputFile is null ? null : Path.GetFullPath(inputFile);
 
     private bool IsInput(string path) => _input is not null && Path.IsPathFullyQualified(path) &&
         string.Equals(Path.GetFullPath(path), _input, StringComparison.OrdinalIgnoreCase);

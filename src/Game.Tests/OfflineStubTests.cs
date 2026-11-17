@@ -263,9 +263,10 @@ public sealed class OfflineStubTests
         GamePack.Current.TextControl = text;
         HelpWindow help = ui.Add(Populate(new HelpWindow(ui)));
         PopupWindows popups = new(ui);
-        Menu menu = new(null);
-
-        menu.SelectedItem = 0;
+        Menu menu = new(null)
+        {
+            SelectedItem = 0
+        };
         popups.HelpMenuSelect(menu);
         Assert.True(help.MainWindow.Visible);
         Assert.Equal("Topic 507", help.HeaderMemo.Items[0]);
@@ -301,7 +302,7 @@ public sealed class OfflineStubTests
         SetField(library, "Images", images);
         SetField(library, "_count", 128);
         MapLevel level = new(null) { Holder = EngineFixture.Engine };
-        SetField(level, "_width", 2);
+        SetField(level, "Width", 2);
         int[] overlaid = [0, 4, 3];
         MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null)
         { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
@@ -311,12 +312,12 @@ public sealed class OfflineStubTests
         _ = levels.Add(level);
         SetField(container, "_children", levels);
         StrategicMap map = new(null, holder: EngineFixture.Engine);
-        SetField(map, "_mapContainer", container);
-        SetField(map, "_viewWidthHex", 2);
-        SetField(map, "_viewHeightHex", 3);
+        SetField(map, "MapContainer", container);
+        SetField(map, "ViewWidthHex", 2);
+        SetField(map, "ViewHeightHex", 3);
         StrategicMap.Current = map;
         ImageSequence sequence = new(null);
-        SetField(sequence, "_imageLibrary", library);
+        SetField(sequence, "ImageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
         ImageSequenceList cast = new(null, null);
         _ = cast.Add(sequence);

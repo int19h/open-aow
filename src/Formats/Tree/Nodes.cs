@@ -282,18 +282,12 @@ public sealed class NullNode : TreeValue
 /// One object. <see cref="ClassName"/> is set for a created object and a child. <see cref="Slot"/>
 /// is the child's $slot. Members stay in call order. The document backend reorders them.
 /// </summary>
-public sealed class ObjectNode : TreeValue
+public sealed class ObjectNode(string? className, int? slot) : TreeValue
 {
     private readonly List<(string Name, TreeValue Value)> _members = [];
 
-    public ObjectNode(string? className, int? slot)
-    {
-        ClassName = className;
-        Slot = slot;
-    }
-
-    public string? ClassName { get; }
-    public int? Slot { get; }
+    public string? ClassName { get; } = className;
+    public int? Slot { get; } = slot;
     public IReadOnlyList<(string Name, TreeValue Value)> Members => _members;
 
     public override bool ValueEquals(TreeValue other) =>

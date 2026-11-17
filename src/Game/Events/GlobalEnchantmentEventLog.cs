@@ -8,11 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // (enchantment player)
-public partial class GlobalEnchantmentEventLog : LocationTextEventLog
+public partial class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(owner)
 {
-    public GlobalEnchantmentEventLog(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131819;
 
     public sbyte EnchantmentPlayer { get; set; }

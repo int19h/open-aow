@@ -15,21 +15,20 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct HeroCollection : IReadOnlyList<Hero>
 {
-    private readonly ReferenceNode _holder;
 
     // Each holder admits only heroes (AcceptsChild), so every slot holds a hero or is empty.
-    internal HeroCollection(HeroList holder) => _holder = holder;
+    internal HeroCollection(HeroList holder) => Holder = holder;
 
-    internal HeroCollection(HeroLibrary holder) => _holder = holder;
+    internal HeroCollection(HeroLibrary holder) => Holder = holder;
 
     /// <summary>The list or library that holds the heroes.</summary>
-    public ReferenceNode Holder => _holder;
+    public ReferenceNode Holder { get; }
 
-    public int Count => _holder.GetCount();
+    public int Count => Holder.GetCount();
 
     // The hero in slot index, read as the original reads the list, without a range check. The
     // holder admits only heroes. Another class throws, as the cast did. Null stays null.
-    public Hero this[int index] => _holder.GetChild<Hero>(index);
+    public Hero this[int index] => Holder.GetChild<Hero>(index);
 
     public IEnumerator<Hero> GetEnumerator()
     {

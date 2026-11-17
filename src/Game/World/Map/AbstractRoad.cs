@@ -6,12 +6,9 @@ using Aow.Game.Draw;
 namespace Aow.Game.World.Map;
 
 // the base of roads and bridges
-public partial class AbstractRoad : MapObject
+public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
 {
     public new const int ClassId = 65906;
-
-    public AbstractRoad(CustomNode owner) : base(owner)
-    { }
 
     // MAPOBJ.PAS:803
     public override byte GetLevel() => 10;

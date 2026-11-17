@@ -13,15 +13,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Magic.Abilities;
 
 // (duration mode)
-public partial class DurationAbility : AdjustableAbility
+public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
 {
-
-    // AoWAb.PAS:25
-    public DurationAbility(CustomNode owner) : base(owner)
-    {
-
-    }
-
     public DurationMode DurationMode { get; protected set; }
 
     // AoWAb.PAS:96
@@ -107,9 +100,12 @@ public partial class DurationAbility : AdjustableAbility
         data = GetData(owner);
         if (data == null)
         {
-            data = new DurationAbilityData(null) { Holder = CreationHolder() };
-            data.AbilityId = (ushort)AbilityId;
-            data.Duration = (byte)GetTotalDuration();
+            data = new DurationAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                AbilityId = (ushort)AbilityId,
+                Duration = (byte)GetTotalDuration()
+            };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
             result = true;

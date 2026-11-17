@@ -34,11 +34,14 @@ public partial class AnimateDead : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         AnimateDeadCombatAction action;
-        action = new AnimateDeadCombatAction(null) { Holder = CreationHolder() };
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
-        action.Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed);
-        action.SpellId = SpellId;
+        action = new AnimateDeadCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            SourceId = source.Id,
+            TargetId = target.Id,
+            Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed),
+            SpellId = SpellId
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;

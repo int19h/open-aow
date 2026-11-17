@@ -11,14 +11,11 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public int Index { get; private set; }
 
     private PointerElement<T>? view;
-    private object? storage;
-    private int byteOffset;
-    private int storageBytes;
 
-    private readonly object? Storage => storage ?? Array;
-    private readonly int StorageBytes => Array is null ? storageBytes : checked(Array.Length * Unsafe.SizeOf<T>());
+    private object? Storage { readonly get => field ?? Array; set; }
+    private int StorageBytes { readonly get => Array is null ? field : checked(Array.Length * Unsafe.SizeOf<T>()); set; }
     public readonly object? StorageIdentity => Storage;
-    public readonly int ByteIndex => byteOffset + (Index * Unsafe.SizeOf<T>());
+    public int ByteIndex { readonly get => field + (Index * Unsafe.SizeOf<T>()); private set; }
     public readonly ref T Value => ref this[0];
 
     private readonly ref T RawReference(int index) => ref view is null
@@ -84,7 +81,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         // so reading through a chain of reinterpretations costs one step.
         Array root = (Array)Storage!;
         int start = ByteIndex + offset;
-        return new Ptr<U> { storage = root, storageBytes = StorageBytes, byteOffset = start, view = View<U>(root, start) };
+        return new Ptr<U> { Storage = root, StorageBytes = StorageBytes, ByteIndex = start, view = View<U>(root, start) };
     }
 
     private static PointerElement<U> View<U>(Array root, int start)
@@ -168,11 +165,9 @@ public interface IPointerBox
     int ByteIndex { get; }
 }
 
-public sealed class PtrBox<T> : IPointerBox
+public sealed class PtrBox<T>(Ptr<T> pointer) : IPointerBox
 {
-    public Ptr<T> Pointer { get; }
-
-    public PtrBox(Ptr<T> pointer) => Pointer = pointer;
+    public Ptr<T> Pointer { get; } = pointer;
 
     public Ptr<U> As<U>() => Pointer.Reinterpret<U>();
 

@@ -58,7 +58,7 @@ public sealed class GraphicsConstructionTests
                 }
 
                 Assert.Equal(0, owner.Count);
-                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "_paletteManager")!, "Palettes")!);
+                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "PaletteManager")!, "Palettes")!);
                 image.Dispose();
             }
         }
@@ -97,24 +97,24 @@ public sealed class GraphicsConstructionTests
         if (value is DisplayController displayController)
         {
             Assert.NotNull(displayController.GetInverseMatrix());
-            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "_width"));
-            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "_height"));
+            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "Width"));
+            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "Height"));
         }
         if (value is CustomImageLibrary library)
         {
             Assert.Equal(0, library.Count);
             Assert.Equal(true, Field(library, "_loadOnDemand"));
-            Assert.NotNull(Field(library, "_paletteManager"));
+            Assert.NotNull(Field(library, "PaletteManager"));
         }
         if (value is ImageLibraryFont)
         {
-            Assert.Equal(2, Field(value, "_characterDistance"));
+            Assert.Equal(2, Field(value, "CharacterDistance"));
             Assert.Equal(-1, Field(value, "_fontColorPaletteIndex"));
         }
         if (value is ImageLibraryManager)
         {
-            Assert.NotNull(Field(value, "_diskList"));
-            Assert.NotSame(Field(value, "_diskList"), Field(value, "_ownedList"));
+            Assert.NotNull(Field(value, "DiskList"));
+            Assert.NotSame(Field(value, "DiskList"), Field(value, "OwnedList"));
         }
         value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
@@ -139,7 +139,7 @@ public sealed class GraphicsConstructionTests
     public void PrivateHelpersKeepInitialState()
     {
         LibraryImagePalette palette = new();
-        Assert.NotNull(Field(palette, "_palette"));
+        Assert.NotNull(Field(palette, "Palette"));
         PaletteManager manager = new();
         Assert.NotNull(Field(manager, "Palettes"));
         ImageLibraryManager imageLibraryManager = new(null);
@@ -147,10 +147,10 @@ public sealed class GraphicsConstructionTests
         Assert.Same(imageLibraryManager, Field(list, "_owner"));
         Assert.NotNull(Field(list, "HashTable"));
         ImageSequenceList sequences = new(imageLibraryManager, null);
-        Assert.Same(imageLibraryManager, Field(sequences, "_imageLibraryManager"));
+        Assert.Same(imageLibraryManager, Field(sequences, "ImageLibraryManager"));
         Assert.Equal(0, sequences.Count);
         ImageSequence sequence = new(sequences);
-        Assert.Same(sequences, Field(sequence, "_owner"));
+        Assert.Same(sequences, Field(sequence, "Owner"));
         Matrix matrix = new(3, 2);
         Assert.Equal(0, matrix.GetValue(2, 1));
         DisplayModeList modes = new();
@@ -160,7 +160,7 @@ public sealed class GraphicsConstructionTests
         BlendTableList blends = new();
         Assert.NotNull(Field(blends, "_list"));
         LookupBlendTableCollection100 lookup = new();
-        Assert.NotNull(Field(lookup, "_tables"));
+        Assert.NotNull(Field(lookup, "Tables"));
         foreach (object value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup })
         {
             ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
@@ -254,7 +254,7 @@ public sealed class GraphicsConstructionTests
         session.EndRead(library);
         Assert.False(library.ComponentState.Contains(ComponentState.Reading));
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
-        Assert.Equal(2, Field(font, "_characterDistance"));
+        Assert.Equal(2, Field(font, "CharacterDistance"));
     }
 
     [Fact]

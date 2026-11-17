@@ -17,10 +17,8 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatMoveTokenEvent : MoveTokenEvent
+public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
-    public CombatMoveTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:206
     public new const int ClassId = 2236416;

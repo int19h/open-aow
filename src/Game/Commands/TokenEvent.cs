@@ -9,6 +9,12 @@ namespace Aow.Game.Commands;
 // base of the game's token events
 public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>, IOwnedSink<TokenEventReferenceList>
 {
+    public TokenEvent(CustomNode owner) : base(owner)
+    {
+        RefCount = 1;
+        TokenCounter = -1;
+    }
+
     // A reference list holds the token event and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the read never fails.
     public new TokenEventReferenceList Owner { get => GetOwner<TokenEventReferenceList>(); set => SetOwner(value); }
@@ -20,21 +26,13 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
     // NetworkE.pas:950
     public new const int ClassId = ClassIdTokenEvent;
 
-    public TokenEvent(CustomNode owner) : base(owner)
-    {
-        RefCount = 1;
-        _tokenCounter = -1;
-    }
-
     internal int RefCount { get; private set; }
-
-    private int _tokenCounter;
 
     // NetworkE.pas:969
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _tokenCounter = persister.Int32("TokenCounter", value: _tokenCounter);
+        TokenCounter = persister.Int32("TokenCounter", value: TokenCounter);
     }
 
     // NetworkE.pas:943
@@ -64,7 +62,7 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
 
     public virtual bool Validate() => true;
 
-    public int TokenCounter { get => _tokenCounter; set => _tokenCounter = value; }
+    public int TokenCounter { get; set; }
 
     private const short ClassIdTokenEvent = 1361;
 

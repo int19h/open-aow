@@ -3,10 +3,8 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class BehaviorAIGroup : AIGroup
+public partial class BehaviorAIGroup(CustomNode owner) : AIGroup(owner)
 {
-    public BehaviorAIGroup(CustomNode owner) : base(owner)
-    { }
 
     // BehaviorAG.pas:137
     public override bool CooperateWithGroup(AIGroup group, AIGroupControlTarget target)

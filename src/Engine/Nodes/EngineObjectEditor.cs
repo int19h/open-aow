@@ -5,11 +5,8 @@ namespace Aow.Engine.Nodes;
 
 // editors are classes looked up by the class id of the object (TEObject.Editor). everything is
 // called on the class. The base editor edits nothing: Edit reports a cancel at once
-public partial class EngineObjectEditor : EngineObject, IEngineObjectEditorClass
+public partial class EngineObjectEditor(CustomNode owner) : EngineObject(owner), IEngineObjectEditorClass
 {
-
-    public EngineObjectEditor(CustomNode owner) : base(owner)
-    { }
 
     // Engine.pas:3036
     // { TEObjectEditor: stubs }

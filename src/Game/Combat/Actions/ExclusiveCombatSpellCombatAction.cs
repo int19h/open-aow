@@ -9,11 +9,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // source ID, target ID, casting mana, success, spell ID
-public partial class ExclusiveCombatSpellCombatAction : CombatAction
+public partial class ExclusiveCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
-    public ExclusiveCombatSpellCombatAction(CustomNode owner) : base(owner)
-    { }
-
     public byte SourceId { get; set; }
     public byte TargetId { get; set; }
     public int ManaCost { get; set; }

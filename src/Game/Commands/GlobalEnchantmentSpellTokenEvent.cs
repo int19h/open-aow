@@ -8,10 +8,8 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Commands;
 
 // Enchantment
-public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
+public partial class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public GlobalEnchantmentSpellTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalEnchantmentSpells.pas:389
     public new const int ClassId = 135954;

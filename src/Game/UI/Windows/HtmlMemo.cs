@@ -34,8 +34,10 @@ public partial class HtmlMemo : BaseWindow
     public HtmlMemo(Component owner) : base(owner)
     {
         _lines = new StringList();
-        _items = new StringList();
-        _items.OnChange = OnChangeText;
+        _items = new StringList
+        {
+            OnChange = OnChangeText
+        };
         Changes = [];
         _fonts = [];
         _images = new InterfaceImageLibrary(this);
@@ -143,14 +145,16 @@ public partial class HtmlMemo : BaseWindow
         void NewChange()
         {
             ChangeInfo n;
-            n = new ChangeInfo();
-            n.Height = ci.Height;
-            n.Color = ci.Color;
-            n.Font = ci.Font;
-            n.Align = ci.Align;
-            n.Spacing = ci.Spacing;
-            n.Position = ci.Position;
-            n.Line = ci.Line;
+            n = new ChangeInfo
+            {
+                Height = ci.Height,
+                Color = ci.Color,
+                Font = ci.Font,
+                Align = ci.Align,
+                Spacing = ci.Spacing,
+                Position = ci.Position,
+                Line = ci.Line
+            };
             Changes.Add(n);
             ci = n;
         }
@@ -247,14 +251,16 @@ public partial class HtmlMemo : BaseWindow
             }
 
             Changes.Clear();
-            ci = new ChangeInfo();
-            ci.Height = 10;
-            ci.Color = 16777215;
-            ci.Font = "";
-            ci.Align = TextAlignment.Left;
-            ci.Position = 0;
-            ci.Line = 0;
-            ci.Spacing = 0;
+            ci = new ChangeInfo
+            {
+                Height = 10,
+                Color = 16777215,
+                Font = "",
+                Align = TextAlignment.Left,
+                Position = 0,
+                Line = 0,
+                Spacing = 0
+            };
             Changes.Add(ci);
             lineIndex = 0;
             for (int i = 0, last = _items.Count - 1; i <= last; i++)
@@ -905,8 +911,10 @@ public partial class HtmlMemo : BaseWindow
 
         if (font == null && FileExists(fileName))
         {
-            font = new ImageLibraryFont(this);
-            font.FontColorPaletteIndex = 1;
+            font = new ImageLibraryFont(this)
+            {
+                FontColorPaletteIndex = 1
+            };
             font.LoadFromFile(fileName);
             _fonts.Add(font);
         }

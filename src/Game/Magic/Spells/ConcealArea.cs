@@ -69,9 +69,12 @@ public partial class ConcealArea : Spell
                             mapField.SetExplored(player, false);
                             if (log == null)
                             {
-                                log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                                log.Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer);
-                                log.Player = source.Player;
+                                log = new LocationTextEventLog(null)
+                                {
+                                    Holder = CreationHolder(),
+                                    Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer),
+                                    Player = source.Player
+                                };
                                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
@@ -87,9 +90,12 @@ public partial class ConcealArea : Spell
             {
                 if (StrategicMap.Current.VisibleForPlayer(x, y, layer, (sbyte)player))
                 {
-                    log = new LocationTextEventLog(null) { Holder = CreationHolder() };
-                    log.Location = new MapCoordinate(x, y, layer);
-                    log.Player = source.Player;
+                    log = new LocationTextEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Location = new MapCoordinate(x, y, layer),
+                        Player = source.Player
+                    };
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);

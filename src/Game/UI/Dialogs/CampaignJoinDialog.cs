@@ -11,11 +11,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // stage, faction, leader, scroll delay, scroll position, text
-public partial class CampaignJoinDialog : UIModule
+public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
 {
-    public CampaignJoinDialog(UIContext ui) : base(ui)
-    { }
-
     public Panel CharacterGenerationPanel { get; private set; }
     public Panel LeaderTypePanel { get; private set; }
     public Panel DefaultFacePanel { get; private set; }

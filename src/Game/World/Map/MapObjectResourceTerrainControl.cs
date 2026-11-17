@@ -14,19 +14,21 @@ namespace Aow.Game.World.Map;
 // a terrain type on a map field
 public partial class MapObjectResourceTerrainControl : EngineObject
 {
-    private GameEngine _hexSpriteEngine;
-    private int _tries;
-    private List<DelphiList<MapObjectResource>> _resources;
-    private Type _mapObjectClass;
+    public MapObjectResourceTerrainControl(CustomNode owner) : base(owner)
+    {
+        Resources = [];
+        MapObjectClass = typeof(MapObject);
+        Tries = 5;
+    }
 
     // HSEngine.pas:4522
     internal void Initialize()
     {
         Clear();
-        for (int i = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
+        for (int i = 0, last = HexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
         {
             DelphiList<MapObjectResource> list = new();
-            _resources.Add(list);
+            Resources.Add(list);
         }
     }
 
@@ -34,31 +36,23 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public override void Dispose()
     {
         Clear();
-        _resources?.Clear();
-        _resources = null;
+        Resources?.Clear();
+        Resources = null;
         base.Dispose();
     }
 
     // HSEngine.pas:4505
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Shared);
 
-    // HSEngine.pas:4489
-    public MapObjectResourceTerrainControl(CustomNode owner) : base(owner)
-    {
-        _resources = [];
-        _mapObjectClass = typeof(MapObject);
-        _tries = 5;
-    }
-
     // HSEngine.pas:4510
     public override void Clear()
     {
-        if (_resources != null)
+        if (Resources != null)
         {
-            for (int i = _resources.Count - 1; i >= 0; i--)
+            for (int i = Resources.Count - 1; i >= 0; i--)
             {
-                (_resources[i] as IDisposable)?.Dispose();
-                _resources.RemoveAt(i);
+                (Resources[i] as IDisposable)?.Dispose();
+                Resources.RemoveAt(i);
             }
         }
     }
@@ -69,7 +63,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            _hexSpriteEngine = message.Payload.As<GameEngine>();
+            HexSpriteEngine = message.Payload.As<GameEngine>();
             Initialize();
         }
     }
@@ -83,7 +77,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         int count;
         MapObjectResource r;
         i = terrainType;
-        list = _resources[i];
+        list = Resources[i];
         count = list.Count;
         if (count != 0)
         {
@@ -107,12 +101,12 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         MapField mapField;
         MapObject mapObject;
         MapObject result = null;
-        list = _resources[terrainType];
+        list = Resources[terrainType];
         if (list.Count != 0)
         {
             r = null;
             mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(_mapObjectClass);
+            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
             if (mapObject != null)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
@@ -145,11 +139,11 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         MapField mapField;
         MapObject mapObject;
         MapObject result = null;
-        if (_resources[terrainType].Count != 0)
+        if (Resources[terrainType].Count != 0)
         {
             r = null;
             mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(_mapObjectClass);
+            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
             if (mapObject != null && mapObject.Resource.EngineClass.ClassId == classId)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
@@ -180,12 +174,12 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         MapObjectResource result;
         DelphiList<MapObjectResource> list;
         int i;
-        list = _resources[terrainType];
+        list = Resources[terrainType];
         if (list.Count != 0)
         {
             i = 0;
             result = null;
-            while (i != _tries && result == null)
+            while (i != Tries && result == null)
             {
                 int random = Random(list.Count);
                 result = list.List[random];
@@ -225,20 +219,20 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     {
         sbyte terrainType;
         terrainType = resource.TerrainList.GetTerrain(0);
-        if (terrainType >= 0 && terrainType < _resources.Count)
+        if (terrainType >= 0 && terrainType < Resources.Count)
         {
-            if (_resources[terrainType].IndexOf(resource) != -1 || resource == null)
+            if (Resources[terrainType].IndexOf(resource) != -1 || resource == null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
-            _ = _resources[terrainType].Add(resource);
+            _ = Resources[terrainType].Add(resource);
         }
     }
 
-    public GameEngine HexSpriteEngine => _hexSpriteEngine;
-    public int Tries { get => _tries; set => _tries = value; }
-    public List<DelphiList<MapObjectResource>> Resources => _resources;
-    public Type MapObjectClass { get => _mapObjectClass; set => _mapObjectClass = value; }
+    public GameEngine HexSpriteEngine { get; private set; }
+    public int Tries { get; set; }
+    public List<DelphiList<MapObjectResource>> Resources { get; private set; }
+    public Type MapObjectClass { get; set; }
 
 }

@@ -12,18 +12,16 @@ namespace Aow.Game.AI.Groups;
 /// </summary>
 public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGroupProductionLocation>
 {
-    private readonly AIGroupProductionLocationList _list;
-
-    internal AIGroupProductionLocationCollection(AIGroupProductionLocationList list) => _list = list;
+    internal AIGroupProductionLocationCollection(AIGroupProductionLocationList list) => Holder = list;
 
     /// <summary>The list that holds the locations.</summary>
-    public AIGroupProductionLocationList Holder => _list;
+    public AIGroupProductionLocationList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The location in slot index, read as the original reads the list, without a range check.
     // The list admits only production locations.
-    public AIGroupProductionLocation this[int index] => _list.GetChild<AIGroupProductionLocation>(index);
+    public AIGroupProductionLocation this[int index] => Holder.GetChild<AIGroupProductionLocation>(index);
 
     public IEnumerator<AIGroupProductionLocation> GetEnumerator()
     {
@@ -43,7 +41,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     }
 
     // AIGroup.pas:919
-    public void SortOnMovePoints() => _list.SortChildren<AIGroupProductionLocation>(CompareMovePoints);
+    public void SortOnMovePoints() => Holder.SortChildren<AIGroupProductionLocation>(CompareMovePoints);
 
     // AIGroup.pas:934
     public int IndexOfPC(ProductionControl control)

@@ -8,10 +8,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat;
 
 // Inherited world-map level layout
-public partial class CombatMapLevel : MapLevel
+public partial class CombatMapLevel(CustomNode owner) : MapLevel(owner)
 {
-    public CombatMapLevel(CustomNode owner) : base(owner)
-    { }
 
     // AoWTC.pas:2173
     public new const int ClassId = 2228482;

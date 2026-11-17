@@ -17,11 +17,8 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // storm image library
-public partial class BlastStorm : Storm
+public partial class BlastStorm(CustomNode owner) : Storm(owner)
 {
-    public BlastStorm(CustomNode owner) : base(owner)
-    { }
-
     private CustomImageLibrary _stormImages;
 
     // Storms.pas:338

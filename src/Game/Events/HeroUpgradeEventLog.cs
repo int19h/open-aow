@@ -11,11 +11,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // UnitId. OldLevel. NewLevel. UpgradeDay
-public partial class HeroUpgradeEventLog : EventLog
+public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
 {
-    public HeroUpgradeEventLog(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131825;
 
     public int UnitId { get; set; }

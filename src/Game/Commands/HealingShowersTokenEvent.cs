@@ -15,10 +15,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Commands;
 
 // animation
-public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
+public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public HealingShowersTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // GlobalTargetSpells.pas:2138
     public new const int ClassId = 135975;
@@ -47,8 +45,11 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             // The original constructs a plain animation and stores it on the event. The later shower uses an image sequence.
-            _animation = new Animation(null) { Holder = CreationHolder() };
-            _animation.AnimationLevel = 27;
+            _animation = new Animation(null)
+            {
+                Holder = CreationHolder(),
+                AnimationLevel = 27
+            };
             _animation.SetShowHandler(ShowAnimation);
             _animation.AnimationMap = StrategicMap.Current;
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);

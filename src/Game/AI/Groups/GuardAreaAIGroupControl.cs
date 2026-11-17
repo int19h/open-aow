@@ -10,11 +10,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class GuardAreaAIGroupControl : AIGroupControl
+public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public GuardAreaAIGroupControl(CustomNode owner) : base(owner)
-    { }
-
     public new GuardAreaAIGroup Group => GetGroup<GuardAreaAIGroup>();
 
     // IndependentAG.pas:189
@@ -105,8 +102,11 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 {
                     if (Army.Moves(Selection) != Army.MovePoints(Selection) || Group.GuardLocation != Location)
                     {
-                        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
-                        settings.Player = Army.Player;
+                        settings = new MoveControlSettings(null)
+                        {
+                            Holder = CreationHolder(),
+                            Player = Army.Player
+                        };
                         settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
                         settings.SetSourcePosition(Army.Location);
                         settings.MovePointsMax = Army.MovePoints(Selection);

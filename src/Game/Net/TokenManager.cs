@@ -9,15 +9,12 @@ public partial class TokenManager : IDisposable
 
     public TokenManager(GameEngine owner)
     {
-        _owner = owner;
+        Owner = owner;
         _tokenControls = [];
-        _tokenExecutor = CreateTokenExecutor();
-        _tokenPackageDistributor = CreateTokenPackageDistributor();
+        TokenExecutor = CreateTokenExecutor();
+        TokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    private readonly TokenExecutor _tokenExecutor;
-    private readonly TokenPackageDistributor _tokenPackageDistributor;
-    private readonly GameEngine _owner;
     private readonly List<TokenControl> _tokenControls;
     public event NetworkMessageEvent OnMessage;
 
@@ -33,7 +30,7 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1628
     public virtual void Initialize(PlayerCommunicator pc)
     {
-        _tokenPackageDistributor.SetPC(pc);
+        TokenPackageDistributor.SetPC(pc);
         if (pc.PlayerCommunicationControl.GetCount() > 0)
         {
             ClearPlayers();
@@ -43,11 +40,11 @@ public partial class TokenManager : IDisposable
             }
         }
 
-        _tokenExecutor.Initialize(0);
+        TokenExecutor.Initialize(0);
     }
 
     // NetworkE.pas:1657
-    public virtual void Process() => _tokenExecutor?.Process();
+    public virtual void Process() => TokenExecutor?.Process();
 
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
@@ -57,11 +54,11 @@ public partial class TokenManager : IDisposable
         bool result;
         if (player < _tokenControls.Count && _tokenControls[player] != null)
         {
-            bool condition = _tokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
+            bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
             {
                 TokenControl item = _tokenControls[player];
-                condition = _tokenExecutor.PrefetchTacticalBattle == item && _tokenExecutor.State.Contains(TokenExecutorState.Executing);
+                condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
             result = !condition;
@@ -121,7 +118,7 @@ public partial class TokenManager : IDisposable
     {
         ClearPlayers();
         _tokenControls?.Clear();
-        _tokenExecutor?.Dispose();
+        TokenExecutor?.Dispose();
     }
 
     // NetworkE.pas:1623
@@ -137,9 +134,9 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1718
     public void TriggerMessage(string message) => OnMessage?.Invoke(this, message);
 
-    public TokenExecutor TokenExecutor => _tokenExecutor;
-    public TokenPackageDistributor TokenPackageDistributor => _tokenPackageDistributor;
-    public GameEngine Owner => _owner;
+    public TokenExecutor TokenExecutor { get; }
+    public TokenPackageDistributor TokenPackageDistributor { get; }
+    public GameEngine Owner { get; }
     public int Count => GetCount();
 
     public sealed class TokenControlsAccessor(TokenManager target)

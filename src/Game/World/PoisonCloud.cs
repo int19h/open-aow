@@ -349,10 +349,8 @@ public partial class PoisonCloud : MultiHexMapObject
         }
     }
 
-    public new partial class Resource : MultiHexMapObjectResource
+    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // PoisonC.pas:286
         public new const int ClassId = 135744;

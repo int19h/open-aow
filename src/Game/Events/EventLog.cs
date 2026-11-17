@@ -15,14 +15,14 @@ namespace Aow.Game.Events;
 // day, unique ID, player, reference count
 public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
+    public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
+
     // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.
     public new EventLogList Owner { get => GetOwner<EventLogList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is EventLogList;
 
     void IOwnedSink<EventLogList>.SetOwner(EventLogList owner) => SetOwner(owner);
-
-    public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
 
     public int Day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
     public int Id { get; set; }

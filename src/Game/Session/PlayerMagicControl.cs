@@ -276,9 +276,12 @@ public partial class PlayerMagicControl : EngineObject
             if (index != -1)
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
-                log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                log.Player = Player.PlayerIndex;
-                log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
+                log = new PlayerMagicEventLog(null)
+                {
+                    Holder = CreationHolder(),
+                    Player = Player.PlayerIndex,
+                    Mode = PlayerMagicEventLog.EventMode.OutOfMana
+                };
                 MapCoordinate coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
                 sbyte locationX = coordinate25.X;
                 sbyte locationY = coordinate25.Y;
@@ -384,10 +387,13 @@ public partial class PlayerMagicControl : EngineObject
                         Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
-                    log.Player = Player.PlayerIndex;
-                    log.Mode = PlayerMagicEventLog.EventMode.SpellResearched;
-                    log.SpellId = ResearchSpellId;
+                    log = new PlayerMagicEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = Player.PlayerIndex,
+                        Mode = PlayerMagicEventLog.EventMode.SpellResearched,
+                        SpellId = ResearchSpellId
+                    };
                     Player.EventLogbook.AddEvent(log);
                     _ = ExecuteSpellResearched(ResearchSpellId);
                     if (Player.PlayerIndex == StrategicMap.Current.SeatedPlayer && Player.PlayerType == PlayerType.Human)
@@ -712,8 +718,11 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2306
     public ChangePlayerMagicTokenEvent CreateChangeMagicTokenEvent()
     {
-        ChangePlayerMagicTokenEvent result = new(null) { Holder = CreationHolder() };
-        result.PlayerIndex = (byte)Player.PlayerIndex;
+        ChangePlayerMagicTokenEvent result = new(null)
+        {
+            Holder = CreationHolder(),
+            PlayerIndex = (byte)Player.PlayerIndex
+        };
         return result;
     }
 

@@ -6,10 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AltarOfLife : Altar
+public partial class AltarOfLife(CustomNode owner) : Altar(owner)
 {
-    public AltarOfLife(CustomNode owner) : base(owner)
-    { }
 
     // AltLife.pas:36
     public new const int ClassId = 131635;
@@ -17,11 +15,8 @@ public partial class AltarOfLife : Altar
     // AltLife.pas:39
     public override Storm CreateStorm() => new DivineStorm(null) { Holder = CreationHolder() };
 
-    public new partial class Resource : AltarResource
+    public new partial class Resource(CustomNode owner) : AltarResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-        }
 
         // AltLife.pas:52
         public new const int ClassId = 131636;

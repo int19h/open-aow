@@ -100,11 +100,14 @@ public partial class AIProductionLocationFinder : AIGroupTask
         control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
-            location = new AIGroupProductionLocation(null) { Holder = CreationHolder() };
-            location.ProductionControl = control;
-            location.Location = target.Location;
-            location.MovePoints = target.MovePoints;
-            location.TransporterId = target.TransporterId;
+            location = new AIGroupProductionLocation(null)
+            {
+                Holder = CreationHolder(),
+                ProductionControl = control,
+                Location = target.Location,
+                MovePoints = target.MovePoints,
+                TransporterId = target.TransporterId
+            };
             if (_mode.Contains(ModeElement.CalculateMovePathBfs))
             {
                 location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());

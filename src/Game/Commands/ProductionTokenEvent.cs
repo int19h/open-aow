@@ -10,11 +10,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Commands;
 
 // location/player, command, item, queue, index
-public partial class ProductionTokenEvent : TokenEvent
+public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public ProductionTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 131736;
 
     public MapCoordinate Location { get; internal set; }

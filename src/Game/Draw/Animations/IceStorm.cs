@@ -11,10 +11,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class IceStorm : BlastStorm
+public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
 {
-    public IceStorm(CustomNode owner) : base(owner)
-    { }
 
     // Storms.pas:363
     public new const int ClassId = 135738;

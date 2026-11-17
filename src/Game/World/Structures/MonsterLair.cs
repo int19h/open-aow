@@ -5,18 +5,14 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class MonsterLair : ItemExplorationSite
+public partial class MonsterLair(CustomNode owner) : ItemExplorationSite(owner)
 {
-    public MonsterLair(CustomNode owner) : base(owner)
-    { }
 
     // MonsterL.pas:34
     public new const int ClassId = 131886;
 
-    public new partial class Resource : ItemExplorationSiteResource
+    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // MonsterL.pas:40
         public new const int ClassId = 131887;

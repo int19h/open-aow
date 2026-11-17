@@ -10,9 +10,6 @@ public partial class PlayerCommunicationControl : IDisposable
 {
     internal int RefCount { get; private set; }
 
-    private PlayerCommunicator _playerCommunicator;
-    private readonly PlayerCommunicationSettingsList _playerCommunicationSettingsList;
-
     // NetworkE.pas:549
     public virtual int GetLocalSystemId() => 1;
 
@@ -22,7 +19,7 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:516
     public virtual bool Activate(PlayerCommunicator pc)
     {
-        _playerCommunicator = pc;
+        PlayerCommunicator = pc;
         return true;
     }
 
@@ -43,14 +40,14 @@ public partial class PlayerCommunicationControl : IDisposable
     {
         Creator = creator;
         RefCount = 1;
-        _playerCommunicationSettingsList = new PlayerCommunicationSettingsList(null) { Holder = Creator.CreationHolder() };
+        PlayerCommunicationSettingsList = new PlayerCommunicationSettingsList(null) { Holder = Creator.CreationHolder() };
     }
 
     // The node that created this control. It and the nodes it creates reach the engine through it.
     public EngineObject Creator { get; }
 
     // NetworkE.pas:475
-    public virtual void Dispose() => _playerCommunicationSettingsList?.Dispose();
+    public virtual void Dispose() => PlayerCommunicationSettingsList?.Dispose();
 
     // NetworkE.pas:481
     public void AddRef() => RefCount += 1;
@@ -68,22 +65,22 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:503
     public PlayerCommunicationSettings GetPlayers(int index)
     {
-        PlayerCommunicationSettings result = index >= 0 && index < _playerCommunicationSettingsList.Count
-            ? _playerCommunicationSettingsList.Players[index]
+        PlayerCommunicationSettings result = index >= 0 && index < PlayerCommunicationSettingsList.Count
+            ? PlayerCommunicationSettingsList.Players[index]
             : null;
         return result;
     }
 
     // NetworkE.pas:511
-    public int GetCount() => _playerCommunicationSettingsList.Count;
+    public int GetCount() => PlayerCommunicationSettingsList.Count;
 
     // NetworkE.pas:522
     public bool Setup(int count)
     {
-        _playerCommunicationSettingsList.Clear();
+        PlayerCommunicationSettingsList.Clear();
         for (int i = 0; i <= count - 1; i++)
         {
-            CreatePlayerCommunicationSettings().Owner = _playerCommunicationSettingsList;
+            CreatePlayerCommunicationSettings().Owner = PlayerCommunicationSettingsList;
         }
 
         return true;
@@ -96,7 +93,7 @@ public partial class PlayerCommunicationControl : IDisposable
         while (result != 0)
         {
             result -= 1;
-            if (_playerCommunicationSettingsList.Players[result].SystemId == systemId)
+            if (PlayerCommunicationSettingsList.Players[result].SystemId == systemId)
             {
                 return result;
             }
@@ -113,7 +110,7 @@ public partial class PlayerCommunicationControl : IDisposable
     }
 
     public PlayersAccessor Players => new(this);
-    public PlayerCommunicator PlayerCommunicator => _playerCommunicator;
-    public PlayerCommunicationSettingsList PlayerCommunicationSettingsList => _playerCommunicationSettingsList;
+    public PlayerCommunicator PlayerCommunicator { get; private set; }
+    public PlayerCommunicationSettingsList PlayerCommunicationSettingsList { get; }
 
 }

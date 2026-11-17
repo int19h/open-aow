@@ -1069,20 +1069,15 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
 }
 
 /// <summary>Named fields with no class. Version 1 has no record, and the backend refuses the shape.</summary>
-internal sealed class RecordCodec : PropertyCodec
+internal sealed class RecordCodec(JsonObject source, FormatSchema schema, string path) : PropertyCodec
 {
     internal override string? ImageRefusal => "A record has no image.";
 
-    private readonly (string Name, PropertyCodec Codec)[] _fields;
-
-    public RecordCodec(JsonObject source, FormatSchema schema, string path)
-    {
-        _fields = ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
+    private readonly (string Name, PropertyCodec Codec)[] _fields = ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
         {
             string name = ((JsonString)f["name"]!).Value;
             return (name, Create(f, schema, path + "." + name));
         }).ToArray();
-    }
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
         throw new InvalidOperationException("A record has no image.");

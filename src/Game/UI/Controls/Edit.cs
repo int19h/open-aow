@@ -20,17 +20,19 @@ namespace Aow.Game.UI.Controls;
 // counted from FFirstChar). FRedraw is the input focus
 public partial class Edit : Control
 {
-    private int _maxChars;
-    private byte _cursorChar;
-    private byte _passWordChar;
+    public Edit(Component owner) : base(owner)
+    {
+        CursorChar = 124;
+        _cursorShown = true;
+        Editable = true;
+    }
+
     private bool _cursorShown;
-    private int _blinkDelay;
     private int _blinkCount;
     private int _shownChars;
 
     public int FirstChar { get; set; }
 
-    private bool _editable;
     private InterfaceImageLibrary _imageLibraryEdit;
     [Published]
     public event NotifyEvent<Edit> OnExit;
@@ -38,14 +40,6 @@ public partial class Edit : Control
     public event NotifyEvent<Edit> OnReturn;
     private int _imageLibraryIndex;
     private int _cursorPosition;
-
-    // AoWEdit.pas:79
-    public Edit(Component owner) : base(owner)
-    {
-        _cursorChar = 124;
-        _cursorShown = true;
-        _editable = true;
-    }
 
     // AoWEdit.pas:87
     public override void Validate()
@@ -98,10 +92,10 @@ public partial class Edit : Control
     public override void Update()
     {
         base.Update();
-        if (Visible && _editable && _blinkDelay > 0 && Redraw)
+        if (Visible && Editable && BlinkDelay > 0 && Redraw)
         {
             _blinkCount += 1;
-            if (_blinkCount > _blinkDelay)
+            if (_blinkCount > BlinkDelay)
             {
                 Drawn = false;
                 _blinkCount = 0;
@@ -132,7 +126,7 @@ public partial class Edit : Control
                 }
 
                 base.Font.Color = Color;
-                if (_passWordChar == 0)
+                if (PassWordChar == 0)
                 {
                     base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
                 }
@@ -141,17 +135,17 @@ public partial class Edit : Control
                     string s = "";
                     for (int i = 0, last = _shownChars - 1; i <= last; i++)
                     {
-                        s += Cp1252.Text(_passWordChar);
+                        s += Cp1252.Text(PassWordChar);
                     }
 
                     base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                if (_editable && Redraw && _cursorShown)
+                if (Editable && Redraw && _cursorShown)
                 {
                     int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
-                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth + textWidth, Window.WinTop + WinTop + BorderHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth + textWidth, Window.WinTop + WinTop + BorderHeight, Cp1252.Text(CursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -180,7 +174,7 @@ public partial class Edit : Control
             {
                 if (button == MouseButton.Left)
                 {
-                    if (_editable)
+                    if (Editable)
                     {
                         Redraw = true;
                     }
@@ -212,7 +206,7 @@ public partial class Edit : Control
                         _cursorPosition = i;
                     }
 
-                    _cursorShown = _editable;
+                    _cursorShown = Editable;
                     _blinkCount = 0;
                     Drawn = false;
                 }
@@ -256,7 +250,7 @@ public partial class Edit : Control
         if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_editable)
+            if (Editable)
             {
                 Window.Cursor = -4;
             }
@@ -272,7 +266,7 @@ public partial class Edit : Control
         bool scroll;
         Handled = Redraw;
         scroll = true;
-        if (_editable && Redraw && Valid && Visible)
+        if (Editable && Redraw && Valid && Visible)
         {
             _cursorShown = true;
             switch (key)
@@ -298,7 +292,7 @@ public partial class Edit : Control
                     break;
                 default:
                     c = key;
-                    if (base.Text.Length < _maxChars || _maxChars == 0)
+                    if (base.Text.Length < MaxChars || MaxChars == 0)
                     {
                         base.Text = Copy(base.Text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, FirstChar + _cursorPosition, base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition += 1;
@@ -363,16 +357,16 @@ public partial class Edit : Control
     public override string Text { get => base.Text; set => SetGText(value); }
 
     [Published]
-    public int MaxChars { get => _maxChars; set => _maxChars = value; }
+    public int MaxChars { get; set; }
 
     [Published]
-    public byte CursorChar { get => _cursorChar; set => _cursorChar = value; }
+    public byte CursorChar { get; set; }
 
     [Published]
-    public int BlinkDelay { get => _blinkDelay; set => _blinkDelay = value; }
+    public int BlinkDelay { get; set; }
 
     [Published]
-    public bool Editable { get => _editable; set => _editable = value; }
+    public bool Editable { get; set; }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
@@ -381,13 +375,13 @@ public partial class Edit : Control
     public int ImageLibraryIndex { get => _imageLibraryIndex; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public byte PassWordChar { get => _passWordChar; set => _passWordChar = value; }
+    public byte PassWordChar { get; set; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         Handled = Redraw;
-        if (!_editable || !Redraw || !Valid || !Visible)
+        if (!Editable || !Redraw || !Valid || !Visible)
         {
             return;
         }

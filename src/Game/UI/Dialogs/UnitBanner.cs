@@ -11,11 +11,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // published labels, popup and ability-list controls
-public partial class UnitBanner : UIModule
+public partial class UnitBanner(UIContext ui) : UIModule(ui)
 {
-    public UnitBanner(UIContext ui) : base(ui)
-    { }
-
     public Label UnitNameLabel { get; private set; }
     public Image MovesIcon { get; private set; }
     public Label AttackLabel { get; private set; }

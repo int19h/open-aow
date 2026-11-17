@@ -7,12 +7,9 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class DispelMagicAbilityCombatAction : DispelMagicCombatAction
+public partial class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
     public new const int ClassId = 131775;
-
-    public DispelMagicAbilityCombatAction(CustomNode owner) : base(owner)
-    { }
 
     public override bool TouchSucceeded => EnchantmentIds.Count > 0;
 

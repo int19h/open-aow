@@ -128,14 +128,14 @@ public sealed class RemainingConstructionTests
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "Creator")
                     {
                         continue; // the descriptor caches and the link to the engine are not constructor state
                     }
 
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
-                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             }

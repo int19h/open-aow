@@ -12,10 +12,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class TransportAIGroupControl : AIGroupControl
+public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
-    public TransportAIGroupControl(CustomNode owner) : base(owner)
-    { }
 
     // MainAG.pas:822
     public override void MoveExecutorDone(object sender)

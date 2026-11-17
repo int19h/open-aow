@@ -86,9 +86,12 @@ public sealed class ThrowingCastTests
         Assert.Equal((sbyte)-1, y);
         Assert.Equal((sbyte)-1, level);
 
-        Army army = new(null) { Holder = EngineFixture.Engine };
-        army.Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
-        army.Location = new MapCoordinate(4, 6, 1);
+        Army army = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated),
+            Location = new MapCoordinate(4, 6, 1)
+        };
         leader.SetOwnerWithoutNotify(army);
         player.GetLeaderLocation(out x, out y, out level);
         Assert.Equal((sbyte)4, x);
@@ -208,8 +211,12 @@ public sealed class ThrowingCastTests
             MapField field = container.MapLevels[0].Field[3, 3];
             _ = field.AddHexSprite(new ItemSite(), 0);
 
-            TacticalBattle combat = new(null) { Holder = EngineFixture.Engine, ExplorationSite = 1 };
-            combat.Items = new PrisonersArmy(null) { Holder = EngineFixture.Engine };
+            TacticalBattle combat = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                ExplorationSite = 1,
+                Items = new PrisonersArmy(null) { Holder = EngineFixture.Engine }
+            };
             RandomBattleMapGenerator prisoners = new(EngineFixture.Engine);
             Exception error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));
             Assert.Null(prisoners.Items);
@@ -245,8 +252,11 @@ public sealed class ThrowingCastTests
         container.LevelCount = 1;
         scope.Map.MapContainer = container;
 
-        MoveControlSettings tactical = new(null) { Holder = EngineFixture.Engine };
-        tactical.ArmyHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = EngineFixture.Engine };
+        MoveControlSettings tactical = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            ArmyHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = EngineFixture.Engine }
+        };
         tactical.SetSourcePosition(0, 0, 0);
         tactical.SetDestinationPosition(1, 0, 0);
         Exception error = Record.Exception(() => scope.Map.MoveControl.Activate(tactical));
@@ -255,8 +265,11 @@ public sealed class ThrowingCastTests
 
         scope.Map.MoveControl.Deactivate();
         ArmyHexSprite army = new(null) { Holder = EngineFixture.Engine };
-        MoveControlSettings world = new(null) { Holder = EngineFixture.Engine };
-        world.ArmyHexSprite = army;
+        MoveControlSettings world = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            ArmyHexSprite = army
+        };
         world.SetSourcePosition(0, 0, 0);
         world.SetDestinationPosition(1, 0, 0);
         Assert.True(scope.Map.MoveControl.Activate(world));
@@ -266,8 +279,11 @@ public sealed class ThrowingCastTests
         CombatMap combatMap = new(null) { Holder = EngineFixture.Engine };
         try
         {
-            CombatMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
-            settings.ArmyHexSprite = new ArmyHexSprite(null) { Holder = EngineFixture.Engine };
+            CombatMoveControlSettings settings = new(null)
+            {
+                Holder = EngineFixture.Engine,
+                ArmyHexSprite = new ArmyHexSprite(null) { Holder = EngineFixture.Engine }
+            };
             settings.SetSourcePosition(-1, -1, -1);
             settings.SetDestinationPosition(-1, -1, -1);
             CombatMoveControl control = combatMap.MoveControl;
@@ -361,8 +377,11 @@ public sealed class ThrowingCastTests
         UnitList units = new(null) { Holder = EngineFixture.Engine };
         Troop transporter = new(null) { Holder = EngineFixture.Engine, UnitId = 5 };
         transporter.SetOwnerWithoutNotify(units);
-        AIMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
-        settings.Transporter = transporter;
+        AIMoveControlSettings settings = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            Transporter = transporter
+        };
         AIMoveControl control = new(null) { Holder = EngineFixture.Engine };
         bool result = false;
         Exception error = Record.Exception(() => result = control.CanMove(settings));
@@ -386,8 +405,11 @@ public sealed class ThrowingCastTests
         Assert.Null(error);
         Assert.Equal(2, caster.TargetUnits.GetCount());
 
-        Army army = new(null) { Holder = EngineFixture.Engine };
-        army.Player = 1;
+        Army army = new(null)
+        {
+            Holder = EngineFixture.Engine,
+            Player = 1
+        };
         _ = army.Units.AddUnit(source);
         _ = army.Units.AddUnit(target);
         UnitSpellCaster listed = new(null) { Holder = EngineFixture.Engine };

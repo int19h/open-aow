@@ -20,11 +20,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // view, place, production, queue, mode, preview, images
-public partial class ProductionScreen : UIModule
+public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 {
-    public ProductionScreen(UIContext ui) : base(ui)
-    { }
-
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
     public ListBox UnitAbilitiesList { get; private set; }

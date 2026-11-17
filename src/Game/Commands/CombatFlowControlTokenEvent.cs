@@ -9,11 +9,8 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // flow mode, player
-public partial class CombatFlowControlTokenEvent : TokenEvent
+public partial class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public CombatFlowControlTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135448;
 
     public Set<CombatFlowControlModeElement> Mode { get; set; }

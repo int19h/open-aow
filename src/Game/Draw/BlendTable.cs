@@ -9,8 +9,6 @@ namespace Aow.Game.Draw;
 // derived class's own field)
 public partial class BlendTable
 {
-    private int _bits;
-    private byte[] _table;
 
     // GFXE.pas:741
     public virtual BlendTable Copy() => throw AbstractErrorException.Create("Abstract Error");
@@ -21,12 +19,12 @@ public partial class BlendTable
     // GFXE.pas:9601
     public void Initialize(int bits, byte[] table)
     {
-        _table = table;
-        _bits = bits;
+        Table = table;
+        Bits = bits;
     }
 
-    public int Bits => _bits;
-    public byte[] Table => _table;
+    public int Bits { get; private set; }
+    public byte[] Table { get; private set; }
 
     // The bytes of the table in one span, as the blenders read them.
     public ReadOnlySpan<byte> Bytes => Table;

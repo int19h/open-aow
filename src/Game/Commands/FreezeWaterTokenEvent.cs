@@ -13,11 +13,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
+public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public FreezeWaterTokenEvent(CustomNode owner) : base(owner)
-    { }
-
     public new const int ClassId = 135939;
 
     // GlobalTargetSpells.pas:679

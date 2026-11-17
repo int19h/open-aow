@@ -12,10 +12,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Commands;
 
 // { ot=1 }
-public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
+public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public TacticalBattleEndTurnTokenEvent(CustomNode owner) : base(owner)
-    { }
 
     // CombatTE.pas:175
     public new const int ClassId = 2236420;

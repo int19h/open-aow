@@ -35,11 +35,14 @@ public partial class HighPrayer : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         TacticalBattleHighPrayerCombatAction action;
-        action = new TacticalBattleHighPrayerCombatAction(null) { Holder = CreationHolder() };
-        action.Succeeded = true;
-        action.SourceId = source.Id;
-        action.TargetId = target.Id;
-        action.SpellId = SpellId;
+        action = new TacticalBattleHighPrayerCombatAction(null)
+        {
+            Holder = CreationHolder(),
+            Succeeded = true,
+            SourceId = source.Id,
+            TargetId = target.Id,
+            SpellId = SpellId
+        };
         if (chargeMana)
         {
             action.ManaCost = BaseManaCost;
@@ -99,11 +102,13 @@ public partial class HighPrayer : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52, creator: this);
-            command.Target = null;
-            command.MoveCost = 1;
-            command.SpellId = SpellId;
-            command.ExpectedDamageValue = value;
+            command = new FastBattleSpellCommand(52, creator: this)
+            {
+                Target = null,
+                MoveCost = 1,
+                SpellId = SpellId,
+                ExpectedDamageValue = value
+            };
             commands.Add(command);
         }
     }

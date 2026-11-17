@@ -15,10 +15,8 @@ using Aow.Rtl;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class RaisedMountain : ImageLibraryTerrainMapObject
+public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public RaisedMountain(CustomNode owner) : base(owner)
-    { }
 
     // Mountain.pas:178
     public new const int ClassId = 131434;
@@ -137,10 +135,8 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         }
     }
 
-    public new partial class Resource : ImageLibraryTerrainMapObjectResource
+    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner)
-        { }
 
         // Mountain.pas:249
         public new const int ClassId = 131435;

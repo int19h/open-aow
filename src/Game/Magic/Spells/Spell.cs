@@ -204,9 +204,12 @@ public partial class Spell : EngineObject
         string reason = "";
         if (CanActivateCombat(source, ref reason))
         {
-            caster = new CombatSpellCaster(null) { Holder = CreationHolder() };
-            caster.CombatCasterSpellId = SpellId;
-            caster.CombatCasterSourceId = source.UnitId;
+            caster = new CombatSpellCaster(null)
+            {
+                Holder = CreationHolder(),
+                CombatCasterSpellId = SpellId,
+                CombatCasterSourceId = source.UnitId
+            };
             StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
             _ = caster.Release();
             result = true;

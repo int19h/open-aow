@@ -49,10 +49,12 @@ public partial class CommandAbility : TouchAbility
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(i);
-                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
-                    command.MoveCost = 0;
+                    command = new FastBattleCommand(AbilityId)
+                    {
+                        Target = commands.TargetSide.GetObjects(i),
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        MoveCost = 0
+                    };
                     commands.Add(command);
                 }
             }
@@ -222,8 +224,11 @@ public partial class CommandAbility : TouchAbility
         sourceData = GetData(source.Troop);
         if (sourceData == null)
         {
-            sourceData = new CommandAbilityData(null) { Holder = CreationHolder() };
-            sourceData.AbilityId = AbilityId;
+            sourceData = new CommandAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                AbilityId = AbilityId
+            };
             source.Troop.AddAbilityData(sourceData);
         }
 

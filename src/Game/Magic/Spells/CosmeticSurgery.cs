@@ -51,11 +51,14 @@ public partial class CosmeticSurgery : UnitSpell
         CosmeticSurgerySpellCaster caster;
         if (targets.GetCount() == 1)
         {
-            caster = new CosmeticSurgerySpellCaster(null) { Holder = CreationHolder() };
-            caster.CasterSourceId = source.UnitId;
-            caster.CasterSpellId = SpellId;
-            caster.TargetUnitId = targets.GetUnit(0).UnitId;
-            caster.FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0;
+            caster = new CosmeticSurgerySpellCaster(null)
+            {
+                Holder = CreationHolder(),
+                CasterSourceId = source.UnitId,
+                CasterSpellId = SpellId,
+                TargetUnitId = targets.GetUnit(0).UnitId,
+                FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0
+            };
 
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();

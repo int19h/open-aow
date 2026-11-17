@@ -15,7 +15,6 @@ namespace Aow.Game.Units;
 // NextUnitId. UnitTable. Units
 public partial class UnitControl : EngineObject
 {
-    // Unit.PAS:1
     public UnitControl(CustomNode owner) : base(owner)
     {
         UnitTable = [];

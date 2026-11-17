@@ -10,6 +10,8 @@ namespace Aow.Game.World.Map;
 // Field size and neighbour offsets keep the recovered layout values.
 public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<MapContainer>
 {
+    public MapLevel(CustomNode owner) : base(owner) => MapFieldClassId = 65793;
+
     // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
     // fails.
     public new MapContainer Owner { get => GetOwner<MapContainer>(); set => SetOwner(value); }
@@ -20,19 +22,9 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
 
     // AoWHSMap.PAS (TAoWMapLevel). HSEngine.pas:2837 gives the engine level 65794.
     public new const int ClassId = 131091;
-
-    public MapLevel(CustomNode owner) : base(owner) => _mapFieldClassId = 65793;
-
-    private int _hexLevel;
-    private int _width;
-    private int _height;
     private int _count;
-    private MapContainer _mapContainer;
-    private GameMap _map;
 
     protected internal GameEngine Engine { get; private set; }
-
-    private int _mapFieldClassId;
 
     // The index offset in the field array of each hex direction, per row parity. HSEngine.pas
     // stores byte offsets into its raw allocation, the managed array counts fields.
@@ -47,8 +39,8 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
         if (message.MessageId == 536870920)
         {
             Engine = message.Payload.As<GameEngine>();
-            _mapContainer = Owner;
-            _map = _mapContainer.Map;
+            MapContainer = Owner;
+            Map = MapContainer.Map;
         }
         else
         {
@@ -93,12 +85,12 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     // AoWHSMap.PAS:231. HSEngine.pas:2842 names the engine field class, which the fold made the same class.
     public virtual EngineClass MapFieldClass() => EngineClass.Of<MapField>();
 
-    public int HexLevel { get => _hexLevel; set => _hexLevel = value; }
-    public int Width => _width;
-    public int Height => _height;
-    public MapContainer MapContainer => _mapContainer;
-    public GameMap Map => _map;
-    public int MapFieldClassId { get => _mapFieldClassId; set => _mapFieldClassId = value; }
+    public int HexLevel { get; set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+    public MapContainer MapContainer { get; private set; }
+    public GameMap Map { get; private set; }
+    public int MapFieldClassId { get; set; }
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)

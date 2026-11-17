@@ -11,18 +11,16 @@ namespace Aow.Game.Events;
 /// </summary>
 public readonly struct EventLogCollection : IReadOnlyList<EventLog>
 {
-    private readonly EventLogList _list;
-
-    internal EventLogCollection(EventLogList list) => _list = list;
+    internal EventLogCollection(EventLogList list) => Holder = list;
 
     /// <summary>The list that holds the logs.</summary>
-    public EventLogList Holder => _list;
+    public EventLogList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The log in slot index, read as the original reads the list, without a range check. The
     // list admits only event logs. A child of another class throws, the same way the cast did.
-    public EventLog this[int index] => _list.GetChild<EventLog>(index);
+    public EventLog this[int index] => Holder.GetChild<EventLog>(index);
 
     public IEnumerator<EventLog> GetEnumerator()
     {

@@ -10,18 +10,16 @@ namespace Aow.Game.Combat;
 /// </summary>
 public readonly struct CombatActionCollection : IReadOnlyList<CombatAction>
 {
-    private readonly CombatActionList _list;
-
-    internal CombatActionCollection(CombatActionList list) => _list = list;
+    internal CombatActionCollection(CombatActionList list) => Holder = list;
 
     /// <summary>The list that holds the actions.</summary>
-    public CombatActionList Holder => _list;
+    public CombatActionList Holder { get; }
 
-    public int Count => _list.GetCount();
+    public int Count => Holder.GetCount();
 
     // The action in slot index, read as the original reads the list, without a range check. The
     // list admits only combat actions, so the read never fails.
-    public CombatAction this[int index] => _list.GetChild<CombatAction>(index);
+    public CombatAction this[int index] => Holder.GetChild<CombatAction>(index);
 
     public IEnumerator<CombatAction> GetEnumerator()
     {

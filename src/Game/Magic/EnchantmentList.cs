@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public partial class EnchantmentList : OwningNode, IChildList<Enchantment>
+public partial class EnchantmentList(CustomNode owner) : OwningNode(owner), IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Enchantment, so the read never fails.
@@ -13,9 +13,6 @@ public partial class EnchantmentList : OwningNode, IChildList<Enchantment>
     protected sealed override bool AcceptsChild(EngineObject child) => child is Enchantment;
 
     int IChildSink<Enchantment>.AddChild(Enchantment child) => AddChild(child);
-
-    public EnchantmentList(CustomNode owner) : base(owner)
-    { }
 
     // Spells.PAS:1762
     // inherited children

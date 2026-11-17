@@ -1333,26 +1333,16 @@ internal sealed class MemberPersister : IPersister
 }
 
 /// <summary>One list item, holding a single tree value.</summary>
-internal sealed class ItemSlot : IItemSlot
+internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false) : IItemSlot
 {
-    private readonly TreeValue? _loaded;
-    private readonly bool _loading;
-    private readonly IPersistableFactory _factory;
-    private readonly DocumentNodePath _path;
-    private readonly LoadErrorPolicy? _errors;
-    private readonly bool _preview;
+    private readonly TreeValue? _loaded = loaded;
+    private readonly bool _loading = loading;
+    private readonly IPersistableFactory _factory = factory;
+    private readonly DocumentNodePath _path = path;
+    private readonly LoadErrorPolicy? _errors = errors;
+    private readonly bool _preview = preview;
     private TreeValue? _stored;
     private bool _used;
-
-    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
-    {
-        _loaded = loaded;
-        _loading = loading;
-        _factory = factory;
-        _path = path;
-        _errors = errors;
-        _preview = preview;
-    }
 
     public TreeValue Finish() =>
         !_used

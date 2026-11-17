@@ -104,12 +104,14 @@ public partial class DispelMagicAbility : TouchAbility
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId);
-                    command.Target = target;
-                    command.SourceDamageValue = values.SourceDamage;
-                    command.TargetDamageValue = 0;
-                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, 0, commands.Source, target);
-                    command.MoveCost = 0;
+                    command = new FastBattleCommand(AbilityId)
+                    {
+                        Target = target,
+                        SourceDamageValue = values.SourceDamage,
+                        TargetDamageValue = 0,
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, 0, commands.Source, target),
+                        MoveCost = 0
+                    };
                     commands.Add(command);
                 }
             }
@@ -152,9 +154,12 @@ public partial class DispelMagicAbility : TouchAbility
         if (CanActivate(owner, ref reason))
         {
             Troop troop = owner as Troop;
-            info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
-            info.AbilityId = AbilityId;
-            info.UnitId = troop != null ? troop.UnitId : 0;
+            info = new UnitSelectionActivation(null)
+            {
+                Holder = CreationHolder(),
+                AbilityId = AbilityId,
+                UnitId = troop != null ? troop.UnitId : 0
+            };
 
             selector = new DispelMagicAbilityUnitSelector(this);
             string dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
@@ -204,9 +209,12 @@ public partial class DispelMagicAbility : TouchAbility
         data = GetData(owner);
         if (data == null)
         {
-            data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
-            data.Level = 1;
-            data.Enabled = true;
+            data = new DispelMagicAbilityData(null)
+            {
+                Holder = CreationHolder(),
+                Level = 1,
+                Enabled = true
+            };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
             result = true;

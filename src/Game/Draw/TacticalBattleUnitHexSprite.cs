@@ -20,10 +20,8 @@ namespace Aow.Game.Draw;
 
 // Unit. MoveIndicator. IndicatorStep. Action. ActionDone. ActionFrame. OffsetX.
 // OffsetY. SelectedAbility. SelectedSpell. CombatAbilityCount. Abilities. Busy
-public partial class TacticalBattleUnitHexSprite : UnitHexSprite
+public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSprite(owner)
 {
-    public TacticalBattleUnitHexSprite(CustomNode owner) : base(owner)
-    { }
 
     // AoWTC.pas:3348
     public new const int ClassId = 2228484;
@@ -707,8 +705,10 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         {
             if (Unit.GetAbilityEnabled(i))
             {
-                ability = new CombatAbilityRef();
-                ability.Ability = i;
+                ability = new CombatAbilityRef
+                {
+                    Ability = i
+                };
                 if (GamePack.Current.AbilityControl.GetAbility(i).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && GamePack.Current.AbilityControl.GetAbility(i).GetCombatMode(Unit.Troop) != CombatMode.Melee)
                 {
                     Abilities.Insert(CombatAbilityCount, ability);

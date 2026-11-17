@@ -37,6 +37,13 @@ namespace Aow.Game.Units;
 // reads them through Units. The members below that carry a Unit.PAS line are TUnitList's part.
 public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 {
+    public Army(CustomNode owner) : base(owner)
+    {
+        Location = new MapCoordinate(-1, -1, -1);
+        Destination = new MapCoordinate(-1, -1, -1);
+        IndependentRelation = -1;
+    }
+
     public new const int ClassId = 131606;
 
     /// <summary>The troops of this army, in their stored order.</summary>
@@ -48,14 +55,6 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     Troop IOwner<Troop>.this[int index] => Units[index];
 
     int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
-
-    // Army.PAS:324
-    public Army(CustomNode owner) : base(owner)
-    {
-        Location = new MapCoordinate(-1, -1, -1);
-        Destination = new MapCoordinate(-1, -1, -1);
-        IndependentRelation = -1;
-    }
 
     public Set<ArmyStatusElement> Status { get; set; }
 
@@ -747,9 +746,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public ArmyId CreateId(byte selection)
     {
         ArmyId id;
-        id = new ArmyId(null) { Holder = CreationHolder() };
-        id.Location = new MapCoordinate(Location.X, Location.Y, Location.MapLevel);
-        id.Player = Player;
+        id = new ArmyId(null)
+        {
+            Holder = CreationHolder(),
+            Location = new MapCoordinate(Location.X, Location.Y, Location.MapLevel),
+            Player = Player
+        };
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
@@ -1005,8 +1007,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             {
                 using (BeginUpdate())
                 {
-                    log = new ArmyEventLog(null) { Holder = CreationHolder() };
-                    log.Player = player;
+                    log = new ArmyEventLog(null)
+                    {
+                        Holder = CreationHolder(),
+                        Player = player
+                    };
                     if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)terrainType))
                     {
                         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
@@ -3037,9 +3042,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         int damage;
         bool damaged;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
-        log.Player = GetArmyHexSprite().Army.Player;
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText),
+            Player = GetArmyHexSprite().Army.Player
+        };
         string fireDamage = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         _ = log.ArmyMessages.Add(fireDamage);
         log.ArmyIcon = 0;
@@ -3158,9 +3166,12 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         bool damaged;
         int damage;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null) { Holder = CreationHolder() };
-        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
-        log.Player = player;
+        log = new ArmyEventLog(null)
+        {
+            Holder = CreationHolder(),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]),
+            Player = player
+        };
         // { Original appends the storm message. }
         string stormType = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         _ = log.ArmyMessages.Add(stormType);

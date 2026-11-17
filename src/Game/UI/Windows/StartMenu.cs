@@ -9,12 +9,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Windows;
 
 // whole-menu image library
-public partial class StartMenu : Menu
+public partial class StartMenu(Component owner) : Menu(owner)
 {
-    public StartMenu(Component owner) : base(owner)
-    { }
-
-    private ImageLibrary _imageLibraryWholeMenu;
 
     // StartMenu.pas:30
     public override void SetSize()
@@ -106,7 +102,7 @@ public partial class StartMenu : Menu
                 {
                     Rect oldClip = lockedSurface.ClipRectangle;
                     Font.Color = Color;
-                    _imageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
+                    ImageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
                     for (int i = 0, last = Items.Count - 1; i <= last; i++)
                     {
                         if (Items.Count > 0)
@@ -169,7 +165,7 @@ public partial class StartMenu : Menu
     }
 
     [Published]
-    public ImageLibrary ImageLibraryWholeMenu { get => _imageLibraryWholeMenu; set => _imageLibraryWholeMenu = value; }
+    public ImageLibrary ImageLibraryWholeMenu { get; set; }
 
     public new event NotifyEvent<StartMenu> OnChange
     {
