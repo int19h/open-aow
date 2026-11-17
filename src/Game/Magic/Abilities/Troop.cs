@@ -827,6 +827,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                         : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BribeUnitsJoinFormat), [IntToStr(amount)]);
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -1559,6 +1561,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     case 4:
                         result = GetAbilityEnabled(138);
                         break;
+                    default:
+                        break;
                 }
             }
             else
@@ -1629,6 +1633,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 attack = 4;
                 result = 3;
                 break;
+            case StormType.None:
             default:
                 attack = 0;
                 result = 0;
@@ -1655,6 +1660,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     break;
                 case StormType.Pestilence:
                     _ = ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
+                    break;
+                case StormType.None:
+                case StormType.Fire:
+                case StormType.Holy:
+                case StormType.Ice:
+                case StormType.Lightning:
+                default:
                     break;
             }
         }

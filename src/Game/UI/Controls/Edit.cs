@@ -419,6 +419,8 @@ public partial class Edit : Control
                     FirstChar = 1;
                 }
                 break;
+            default:
+                break;
         }
         _shownChars = base.Text.Length - FirstChar + 1;
         _cursorPosition = Math.Max(_cursorPosition, 0);

@@ -99,6 +99,8 @@ public partial class BaseButton(Component owner) : Control(owner)
                 SetWinWidthWithoutInvalidate(_imageLibraryIcon[_imageLibraryIndexUp].Width);
                 SetWinHeightWithoutInvalidate(_imageLibraryIcon[_imageLibraryIndexUp].Height);
                 break;
+            default:
+                break;
         }
 
         base.SetSize();

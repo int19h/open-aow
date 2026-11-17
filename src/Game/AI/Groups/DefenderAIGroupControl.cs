@@ -150,6 +150,8 @@ public partial class DefenderAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 CombineIdleGroups();
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

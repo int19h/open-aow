@@ -812,6 +812,12 @@ public partial class City : PlayerCropStructure
                     }
 
                     break;
+                case AITargetMode.Recruit:
+                case AITargetMode.Hunt:
+                case AITargetMode.GuardArea:
+                case AITargetMode.AttackArmies:
+                default:
+                    break;
             }
         }
     }
@@ -1176,26 +1182,14 @@ public partial class City : PlayerCropStructure
     // City.pas:924
     public int AICityEnchantmentUpkeepPriority(CityEnchantmentId id)
     {
-        int result;
-        switch (id)
+        int result = id switch
         {
-            case CityEnchantmentId.FountainOfLife:
-                result = (GetSize() * 25) + 600;
-                break;
-            case CityEnchantmentId.GoldRush:
-                result = (GetSize() * 25) + 600;
-                break;
-            case CityEnchantmentId.AntiMagicShell:
-                result = (GetSize() * 25) + 700;
-                break;
-            case CityEnchantmentId.Warmonger:
-                result = (GetSize() * 25) + 600;
-                break;
-            default:
-                result = 0;
-                break;
-        }
-
+            CityEnchantmentId.FountainOfLife => (GetSize() * 25) + 600,
+            CityEnchantmentId.GoldRush => (GetSize() * 25) + 600,
+            CityEnchantmentId.AntiMagicShell => (GetSize() * 25) + 700,
+            CityEnchantmentId.Warmonger => (GetSize() * 25) + 600,
+            _ => 0,
+        };
         return result;
     }
 
@@ -2100,28 +2094,15 @@ public partial class City : PlayerCropStructure
                 ? Session.Status.Hostile
                 : StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
 
-            switch (relation)
+            value = relation switch
             {
-                case Session.Status.Hostile:
-                    value = -35;
-                    break;
-                case Session.Status.Wary:
-                    value = -25;
-                    break;
-                case Session.Status.Neutral:
-                    value = 0;
-                    break;
-                case Session.Status.Polite:
-                    value = 15;
-                    break;
-                case Session.Status.Friendly:
-                    value = 25;
-                    break;
-                default:
-                    value = 0;
-                    break;
-            }
-
+                Session.Status.Hostile => -35,
+                Session.Status.Wary => -25,
+                Session.Status.Neutral => 0,
+                Session.Status.Polite => 15,
+                Session.Status.Friendly => 25,
+                _ => 0,
+            };
             value = value + (WallType * 5) + (UpgradeLevel * 5);
             if (Race >= 0)
             {
@@ -2259,7 +2240,7 @@ public partial class City : PlayerCropStructure
                     {
                         int unitIndex2 = raceResource.UnitIndexes[i];
                         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex2);
-                        unitLevel = UnitLevelToCityLevel(size: GetSize(), level: unitResource.Level);
+                        unitLevel = UnitLevelToCityLevel(unitResource.Level);
                         if (unitLevel != -1 && unitLevel <= UpgradeLevel)
                         {
                             researched = unitLevel == 1 && !(raceResource.SpecialUnitIndexes.Count >= 4 && raceResource.UnitIndexes[i] == raceResource.SpecialUnitIndexes[3]);
@@ -2689,7 +2670,7 @@ public partial class City : PlayerCropStructure
         return flag;
     }
 
-    private static int UnitLevelToCityLevel(int level, int size) => level;
+    private static int UnitLevelToCityLevel(int level) => level;
 
     private static int CompareCityProductions(UnitProduction item1, UnitProduction item2)
     {

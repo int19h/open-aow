@@ -44,6 +44,8 @@ public partial class WallCombatant(CustomNode owner) : Troop(owner)
             case WallType.None:
                 result = AbilityRules.TranslateResourceString(GetEngine(), GameText.UndefinedWallText);
                 break;
+            default:
+                break;
         }
 
         return result;

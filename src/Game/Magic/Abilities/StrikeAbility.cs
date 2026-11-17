@@ -118,6 +118,9 @@ public partial class StrikeAbility : AdjustableAbility
                     case CombatSideIndex.Defender:
                         stop = !source.GetEnabled();
                         break;
+                    case CombatSideIndex.Neutral:
+                    default:
+                        break;
                 }
 
                 _ = action.Release();

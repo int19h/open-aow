@@ -39,6 +39,12 @@ public partial class MultiWindow
                 {
                     case ConnectionType.TCP: TcpButton.Visible = true; break;
                     case ConnectionType.IPX: IpxButton.Visible = true; break;
+                    case ConnectionType.None:
+                    case ConnectionType.Unknown:
+                    case ConnectionType.Modem:
+                    case ConnectionType.Serial:
+                    default:
+                        break;
                 }
             }
         }

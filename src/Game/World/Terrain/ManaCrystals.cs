@@ -115,6 +115,8 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             case 3:
                 _amount = StrategicMap.Current.Random(50) + 100;
                 break;
+            default:
+                break;
         }
     }
 
@@ -134,6 +136,8 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
                     }
                 }
 
+                break;
+            default:
                 break;
         }
     }

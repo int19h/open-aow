@@ -94,6 +94,7 @@ public partial class UnitWindow
                     UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + machine;
                     UI.UnitWindow.TypeIcon.CurrentImage = 22;
                     break;
+                case UnitType.Humanoid:
                 default:
                     if (h == null)
                     {
@@ -491,6 +492,9 @@ public partial class UnitWindow
                         break;
                     case Units.Alignment.PureEvil:
                         AlignmentImage.CurrentImage = 35;
+                        break;
+                    case Units.Alignment.None:
+                    default:
                         break;
                 }
 

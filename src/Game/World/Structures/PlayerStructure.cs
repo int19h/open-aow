@@ -385,6 +385,16 @@ public partial class PlayerStructure : Structure
                 }
 
                 break;
+            case AITargetMode.Raid:
+            case AITargetMode.Recruit:
+            case AITargetMode.Produce:
+            case AITargetMode.Hunt:
+            case AITargetMode.Fortify:
+            case AITargetMode.Defend:
+            case AITargetMode.GuardArea:
+            case AITargetMode.AttackArmies:
+            default:
+                break;
         }
     }
 

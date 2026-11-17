@@ -240,8 +240,8 @@ internal sealed partial class ChildrenCodec : PropertyCodec
         PropertyTable table = PropertyTable.Read(context, start, end, site.Path);
         int db = table.DataBase;
         int length = end - db;
-        int[] boundaries = table.Entries.Select(e => e.Offset).Append(length).Distinct().Order().ToArray();
-        List<TableEntry> order = table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
+        int[] boundaries = [.. table.Entries.Select(e => e.Offset).Append(length).Distinct().Order()];
+        List<TableEntry> order = [.. table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index)];
         HashSet<int> slots = [];
         JsonArray array = new();
         int cursor = 0, k = 0;

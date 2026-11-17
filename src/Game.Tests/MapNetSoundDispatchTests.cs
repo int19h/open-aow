@@ -12,9 +12,7 @@ public sealed class MapNetSoundDispatchTests
 {
     private sealed class ConvertedField(CustomNode owner) : MapField(owner)
     {
-        private int _ownerCalls;
-
-        public override void SetOwner(CustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) => base.SetOwner(owner);
     }
 
     private sealed class ConvertedMap(CustomNode owner) : GameMap(owner)

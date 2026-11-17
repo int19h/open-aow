@@ -176,9 +176,7 @@ public partial class SortedNode : CustomNode
                 }
                 if (number <= number2)
                 {
-                    SortItem sortItem = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = sortItem;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -13,7 +14,11 @@ public sealed class EngineSupportTests
 
     [InlineArray(4)] private struct FourBytes { private byte _first; }
 
-    private sealed class Receiver { public void Event(object sender) { } }
+    private sealed class Receiver
+    {
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The NotifyEvent delegate signature requires sender.")]
+        public void Event(object sender) { }
+    }
 
     private sealed class EventContext { }
 
@@ -30,7 +35,7 @@ public sealed class EngineSupportTests
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         _ = Assert.Throws<InvalidCastException>(() => cast(new object()));
-        EventDone nullable = value => Assert.Null(value);
+        EventDone nullable = Assert.Null;
         R.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
         Assert.Null(R.RebindDelegate<NotifyEvent<object>>(null));
         Assert.Same(cast, R.RebindDelegate<NotifyEvent<object>>(cast));
@@ -117,7 +122,7 @@ public sealed class EngineSupportTests
     {
         foreach (CompressionLevel level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
         {
-            byte[] expected = Enumerable.Range(0, 8193).Select(i => (byte)(i * 17)).ToArray();
+            byte[] expected = [.. Enumerable.Range(0, 8193).Select(i => (byte)(i * 17))];
             MemoryStream backing = new();
             ZLibStream compressor = new(backing, level, true);
             compressor.Write(expected);

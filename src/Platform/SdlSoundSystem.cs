@@ -315,7 +315,7 @@ internal class SdlSample : Sample
 
         _voice.Loop = _loop;
         _voice.Volume = _volume == -1 ? 1 : (float)(Math.Round(Math.Clamp(_volume, 0, 100) * 32767.0 / 100) / 32767);
-        _voice.Pan = _pan switch { SamplePanning.Left => -1, SamplePanning.Right => 1, _ => 0 };
+        _voice.Pan = _pan switch { SamplePanning.Left => -1, SamplePanning.Right => 1, SamplePanning.Center or SamplePanning.Surround or _ => 0 };
     }
 
     public override void Play() { lock (_mixer.Sync) { if (_voice?.Playing != true) { _voice = _mixer.Play(((SdlSampleData)SampleData).Wave); Apply(); } } }

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Session;
@@ -11,6 +12,7 @@ namespace Aow.Game.AI;
 // group cycles, group control
 public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _groupProcessCycles;
     private AIGroupControl _groupControl;
 

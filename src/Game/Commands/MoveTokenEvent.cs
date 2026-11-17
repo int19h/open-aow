@@ -75,18 +75,12 @@ public partial class MoveTokenEvent : TokenEvent
                 _status = MoveStatus.Moving;
                 InitializeMove();
                 _ = StrategicMap.Current.Random(1048575);
-                switch (Path.Count)
+                _status = Path.Count switch
                 {
-                    case >= 0 and <= 1:
-                        _status = MoveStatus.Done;
-                        break;
-                    case 2:
-                        _status = LastMove();
-                        break;
-                    default:
-                        _status = DefaultMove();
-                        break;
-                }
+                    >= 0 and <= 1 => MoveStatus.Done,
+                    2 => LastMove(),
+                    _ => DefaultMove(),
+                };
             }
             else
             {

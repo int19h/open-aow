@@ -469,6 +469,12 @@ public partial class PlayerMagicControl : EngineObject
             case PlayerType.Cpu5:
                 result = Round((double)result * 2);
                 break;
+            case PlayerType.Human:
+            case PlayerType.Cpu1:
+            case PlayerType.Independent:
+            case PlayerType.Free:
+            default:
+                break;
         }
 
         return result;

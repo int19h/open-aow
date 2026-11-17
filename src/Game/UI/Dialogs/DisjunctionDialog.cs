@@ -88,6 +88,8 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             case 3:
                 StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
                 break;
+            default:
+                break;
         }
     }
 

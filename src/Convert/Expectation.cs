@@ -103,7 +103,7 @@ public sealed class Expectation
         foreach (JsonProperty r in root.GetProperty("legacyRules").EnumerateObject())
         {
             rules[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
-                r.Value.GetProperty("files").EnumerateArray().Select(f => f.GetString()!).ToList());
+                [.. r.Value.GetProperty("files").EnumerateArray().Select(f => f.GetString()!)]);
         }
 
         return (census, new Expectation

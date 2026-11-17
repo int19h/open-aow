@@ -172,14 +172,14 @@ public sealed class MldDictionary
             coverage.Add((infoOffset, reader.Position));
         }
         int consumed = 0;
-        foreach ((int Start, int End) range in coverage.OrderBy(r => r.Start).ThenBy(r => r.End))
+        foreach ((int start, int end) in coverage.OrderBy(r => r.Start).ThenBy(r => r.End))
         {
-            if (range.Start != consumed)
+            if (start != consumed)
             {
                 throw new InvalidDataException("MLD has gaps or overlapping sections");
             }
 
-            consumed = range.End;
+            consumed = end;
         }
         if (consumed != bytes.Length)
         {
@@ -192,7 +192,7 @@ public sealed class MldDictionary
         FileSize = bytes.Length;
         ConsumedBytes = consumed;
         // OrderBy preserves on-disk order for equal keys.
-        _sorted = entries.OrderBy(SortKey, Cp1252.Comparer).ToArray();
+        _sorted = [.. entries.OrderBy(SortKey, Cp1252.Comparer)];
         _contextual = _sorted;
         IsOpen = true;
     }

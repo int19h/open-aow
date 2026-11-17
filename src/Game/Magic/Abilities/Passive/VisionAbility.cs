@@ -41,6 +41,8 @@ public partial class VisionAbility : MultiLevelAbility
             case 4:
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText) + " IV";
                 break;
+            default:
+                break;
         }
 
         return result;

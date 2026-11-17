@@ -150,6 +150,8 @@ public partial class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
 
                 break;
+            default:
+                break;
         }
 
         _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -583,12 +584,14 @@ public partial class GameEngine : OwningNode
 
     internal static void RegisterTerrain(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<TerrainMapObject>(), EngineClass.Of<TerrainMapObjectResource>()]);
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Unit registration helpers share a uniform Register signature taking engine.")]
     internal static void RegisterHill(GameEngine engine)
     {
     }
 
     internal static void RegisterAltar(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<Altar>(), EngineClass.Of<AltarResource>()]);
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Unit registration helpers share a uniform Register signature taking engine.")]
     internal static void RegisterRandomNode(GameEngine engine)
     {
     }

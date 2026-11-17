@@ -127,6 +127,8 @@ public partial class Panel : BaseWindow
                 }
 
                 break;
+            default:
+                break;
         }
 
         if (MinWidth > 0 && MinWidth > WinWidth)
@@ -443,6 +445,9 @@ public partial class Panel : BaseWindow
                     case Style.Borderless:
                         SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
+                        break;
+                    case Style.Blank:
+                    default:
                         break;
                 }
 

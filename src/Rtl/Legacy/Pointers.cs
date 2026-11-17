@@ -50,7 +50,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public readonly Span<T> AsSpan(int count)
     {
         return count == 0
-            ? Span<T>.Empty
+            ? []
             : Array is not null
             ? Array.AsSpan(Index, count)
             : count < 0 || ByteIndex < 0 || ByteIndex + ((long)count * Unsafe.SizeOf<T>()) > StorageBytes

@@ -59,17 +59,17 @@ public sealed class InputMapper
     public void Motion(float x, float y, uint state, DisplayViewport viewport, IDisplayEvents sink)
     {
         _buttons = state & 5;
-        (int X, int Y, bool Inside) point = viewport.Map(x, y);
-        if (point.Inside)
+        (int mappedX, int mappedY, bool inside) = viewport.Map(x, y);
+        if (inside)
         {
-            sink.MouseMove(Shift(), point.X, point.Y);
+            sink.MouseMove(Shift(), mappedX, mappedY);
         }
         else if (_inside)
         {
             sink.MouseMove(default, -1, -1);
         }
 
-        _inside = point.Inside;
+        _inside = inside;
     }
 
     public void Leave(IDisplayEvents sink)
@@ -93,8 +93,8 @@ public sealed class InputMapper
             y = -y;
         }
 
-        (int X, int Y, bool Inside) point = viewport.Map(x, yPosition);
-        if (!point.Inside)
+        (int mappedX, int mappedY, bool inside) = viewport.Map(x, yPosition);
+        if (!inside)
         {
             return;
         }
@@ -109,7 +109,7 @@ public sealed class InputMapper
         _wheelY -= steps;
         if (steps != 0)
         {
-            sink.MouseWheel(steps, Shift(), point.X, point.Y);
+            sink.MouseWheel(steps, Shift(), mappedX, mappedY);
         }
     }
 
@@ -122,11 +122,11 @@ public sealed class InputMapper
 
         uint mask = 1u << (button - 1);
         _buttons = down ? _buttons | mask : _buttons & ~mask;
-        (int X, int Y, bool Inside) point = viewport.Map(x, y);
+        (int mappedX, int mappedY, bool inside) = viewport.Map(x, y);
         MouseButton mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
         if (!down)
         {
-            sink.MouseUp(mapped, Shift(_doubleButton == button), point.X, point.Y);
+            sink.MouseUp(mapped, Shift(_doubleButton == button), mappedX, mappedY);
             if (_doubleButton == button)
             {
                 _doubleButton = 0;
@@ -134,16 +134,16 @@ public sealed class InputMapper
 
             return;
         }
-        bool twice = point.Inside && _firstPress is { } first && first.Button == button && milliseconds >= first.Time && milliseconds - first.Time <= 500
+        bool twice = inside && _firstPress is { } first && first.Button == button && milliseconds >= first.Time && milliseconds - first.Time <= 500
             && Math.Abs(x - first.X) <= 4 && Math.Abs(y - first.Y) <= 4;
-        _firstPress = point.Inside && !twice ? (button, milliseconds, x, y) : null;
+        _firstPress = inside && !twice ? (button, milliseconds, x, y) : null;
         _doubleButton = twice ? button : (byte)0;
         if (twice)
         {
             sink.DoubleClick();
         }
 
-        sink.MouseDown(mapped, Shift(twice), point.X, point.Y);
+        sink.MouseDown(mapped, Shift(twice), mappedX, mappedY);
     }
 
     public void Key(int keycode, int scancode, int keyModifiers, bool down, IDisplayEvents sink)

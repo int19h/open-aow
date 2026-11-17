@@ -90,7 +90,7 @@ public sealed class DelphiListGenericTests
                 }
 
                 sorted.Sort((a, b) => a!.Key - b!.Key);
-                Keyed[] expected = keys.ToArray();
+                Keyed[] expected = [.. keys];
                 ReferenceQuickSort(expected, left: 0, right: n - 1, (a, b) => a.Key - b.Key);
                 Assert.Equal(expected, sorted.List.Take(n));
 

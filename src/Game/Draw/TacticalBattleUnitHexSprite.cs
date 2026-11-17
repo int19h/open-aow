@@ -543,6 +543,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             case GameSettings.MovementSpeed.Turbo:
                 result = 2;
                 break;
+            case GameSettings.MovementSpeed.Normal:
             default:
                 result = base.GetMoveSteps();
                 break;
@@ -683,6 +684,53 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 result = -1;
                 Unselect();
                 break;
+            case BattleEffectType.None:
+            case BattleEffectType.Arrow:
+            case BattleEffectType.Rock:
+            case BattleEffectType.Comet:
+            case BattleEffectType.Touch:
+            case BattleEffectType.Breath:
+            case BattleEffectType.CometBall:
+            case BattleEffectType.Effect:
+            case BattleEffectType.FBExplosion:
+            case BattleEffectType.ScreenNS:
+            case BattleEffectType.Ray:
+            case BattleEffectType.Chain:
+            case BattleEffectType.Swarm:
+            case BattleEffectType.ScreenSwarm:
+            case BattleEffectType.SFOverlay:
+            case BattleEffectType.DamLightning:
+            case BattleEffectType.DamFire:
+            case BattleEffectType.DamPoison:
+            case BattleEffectType.DamMagic:
+            case BattleEffectType.DamHoly:
+            case BattleEffectType.DamDeath:
+            case BattleEffectType.DamCold:
+            case BattleEffectType.SWComet:
+            case BattleEffectType.Dispel:
+            case BattleEffectType.WallSmoke:
+            case BattleEffectType.Blood:
+            case BattleEffectType.AltArrow:
+            case BattleEffectType.Geyser:
+            case BattleEffectType.GeyserWater:
+            case BattleEffectType.HailImpact:
+            case BattleEffectType.Cloud:
+            case BattleEffectType.CloudPuff:
+            case BattleEffectType.HitGround:
+            case BattleEffectType.HitWater:
+            case BattleEffectType.PrayerGlow:
+            case BattleEffectType.Resurrect:
+            case BattleEffectType.FrostBeam:
+            case BattleEffectType.Frost:
+            case BattleEffectType.MindDecay:
+            case BattleEffectType.DecayLeg:
+            case BattleEffectType.DecayComet:
+            case BattleEffectType.SacFlame:
+            case BattleEffectType.Winds:
+            case BattleEffectType.SacFire:
+            case BattleEffectType.BreathDam:
+            default:
+                break;
         }
 
         CombatMap.Current.UnitSelection.UpdateMoveCursor();
@@ -767,6 +815,15 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 }
 
                 break;
+            case SpriteAction.Move:
+            case SpriteAction.MeleeHit:
+            case SpriteAction.MeleeMiss:
+            case SpriteAction.Ability:
+            case SpriteAction.Hit:
+            case SpriteAction.Killed:
+            case SpriteAction.Busy:
+            case SpriteAction.FreeStruck:
+            case SpriteAction.BreathAttack:
             default:
                 ActionFrame = -1;
                 break;

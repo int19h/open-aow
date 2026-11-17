@@ -24,9 +24,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private const sbyte Viewer = 1;
     private const sbyte OtherPlayer = 2;
 
-    private static Type[] StructureTypes() => EngineClass.All
+    private static Type[] StructureTypes() => [.. EngineClass.All
         .Where(c => typeof(Structure).IsAssignableFrom(c.Type))
-        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
+        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal)];
 
     // The original's army query on the structure's field tells that a kind action ran. No army
     // stands on the field, so every action stops at that query. A structure's owner is a field.

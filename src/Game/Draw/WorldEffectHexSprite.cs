@@ -201,6 +201,14 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         sequence = GamePack.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
                         ShowGlobal(false, false);
                         break;
+                    case WorldEffectType.Hatred:
+                    case WorldEffectType.Crusade:
+                    case WorldEffectType.WaterMastery:
+                    case WorldEffectType.SpellWard:
+                    case WorldEffectType.EarthMastery:
+                    case WorldEffectType.Tranquility:
+                    default:
+                        break;
                 }
             }
         }
@@ -270,6 +278,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case 90:
                             Frame = -1;
                             break;
+                        default:
+                            break;
                     }
 
                     break;
@@ -302,6 +312,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case 90:
                             Frame = -1;
                             break;
+                        default:
+                            break;
                     }
 
                     break;
@@ -333,6 +345,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             break;
                         case 75:
                             Frame = -1;
+                            break;
+                        default:
                             break;
                     }
 
@@ -392,6 +406,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case 200:
                             Frame = -1;
                             break;
+                        default:
+                            break;
                     }
 
                     break;
@@ -426,6 +442,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             }
 
                             break;
+                        default:
+                            break;
                     }
 
                     switch (Frame)
@@ -453,6 +471,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case 120:
                             Frame = -1;
                             break;
+                        default:
+                            break;
                     }
 
                     break;
@@ -479,6 +499,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case 200:
                             Frame = -1;
                             break;
+                        default:
+                            break;
                     }
 
                     break;
@@ -496,6 +518,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         Done = true;
                     }
 
+                    break;
+                default:
                     break;
             }
 

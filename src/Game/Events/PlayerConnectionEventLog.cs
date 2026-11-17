@@ -81,6 +81,8 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
                 string terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 _ = Message.Add(terminateGameSaveText);
                 break;
+            default:
+                break;
         }
     }
 

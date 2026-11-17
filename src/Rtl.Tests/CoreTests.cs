@@ -83,7 +83,7 @@ public sealed class CoreTests
         Assert.Equal((byte)63, Cp1252.Byte('\u0080'));
         Assert.Equal((byte)128, Cp1252.Byte('\u20ac'));
         Assert.Equal("?", Cp1252.Normalize("\u4e2d"));
-        byte[] all = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
+        byte[] all = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
         string full = Cp1252.Decode(all);
         Assert.Equal(256, full.Length);
         Assert.Equal(all, Cp1252.Encode(full));

@@ -80,7 +80,7 @@ public sealed class JsonSettingsStore : ISettingsStore
     {
         if (value is string rectangleText && (key.StartsWith("General/rectangles/", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", StringComparison.OrdinalIgnoreCase)))
         {
-            int[] coordinates = rectangleText.Split(',').Select(int.Parse).ToArray();
+            int[] coordinates = [.. rectangleText.Split(',').Select(int.Parse)];
             return coordinates.Length != 4
                 ? throw new ArgumentException("A rectangle has four coordinates.")
                 : (object)(new { kind = "rectangle", value = coordinates });
@@ -107,7 +107,7 @@ public sealed class JsonSettingsStore : ISettingsStore
                 JsonValueKind.False => false,
                 JsonValueKind.String => ReadText(key, item.GetString()!),
                 JsonValueKind.Array => item.EnumerateArray().Select(e => e.GetByte()).ToArray(),
-                _ => throw new InvalidDataException("Unsupported setting.")
+                JsonValueKind.Undefined or JsonValueKind.Object or JsonValueKind.Null or _ => throw new InvalidDataException("Unsupported setting.")
             };
         }
 

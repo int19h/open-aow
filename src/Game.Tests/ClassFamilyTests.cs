@@ -33,11 +33,11 @@ public sealed class ClassFamilyTests
     [Fact]
     public void UnregisteredTypesHaveNoFamilyDescriptor()
     {
-        _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of<UnregisteredAction>());
+        _ = Assert.Throws<InvalidOperationException>(AIPlayerActionClass.Of<UnregisteredAction>);
         _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Of(typeof(UnregisteredAction)));
-        _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of<UnregisteredGroup>());
+        _ = Assert.Throws<InvalidOperationException>(AIGroupClass.Of<UnregisteredGroup>);
         _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Of(typeof(UnregisteredGroup)));
-        _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Of<UnregisteredEditor>());
+        _ = Assert.Throws<InvalidOperationException>(EditorClass.Of<UnregisteredEditor>);
         _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Of(typeof(UnregisteredEditor)));
     }
 
@@ -57,9 +57,9 @@ public sealed class ClassFamilyTests
         Assert.Equal("EndTurnAIPlayerAction", AIPlayerActionClass.Of<EndTurnAIPlayerAction>().StorageKey);
         Assert.Equal("HuntAIGroup", AIGroupClass.Of<HuntAIGroup>().StorageKey);
         Assert.Equal("EngineObjectEditor", EditorClass.Of<EngineObjectEditor>().StorageKey);
-        _ = Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Register<EndTurnAIPlayerAction>());
-        _ = Assert.Throws<InvalidOperationException>(() => AIGroupClass.Register<HuntAIGroup>());
-        _ = Assert.Throws<InvalidOperationException>(() => EditorClass.Register<EngineObjectEditor>());
+        _ = Assert.Throws<InvalidOperationException>(AIPlayerActionClass.Register<EndTurnAIPlayerAction>);
+        _ = Assert.Throws<InvalidOperationException>(AIGroupClass.Register<HuntAIGroup>);
+        _ = Assert.Throws<InvalidOperationException>(EditorClass.Register<EngineObjectEditor>);
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public sealed class ClassFamilyTests
             throw new InvalidOperationException(name);
         }
         Type[] types = typeof(AIPlayerAction).Assembly.GetTypes();
-        List<Type> actions = types.Where(t => typeof(AIPlayerAction).IsAssignableFrom(t) && t != typeof(AIPlayerAction) && t != typeof(StructureAIPlayerAction)).ToList();
+        List<Type> actions = [.. types.Where(t => typeof(AIPlayerAction).IsAssignableFrom(t) && t != typeof(AIPlayerAction) && t != typeof(StructureAIPlayerAction))];
         Assert.Equal(13, actions.Count);
         foreach (Type type in actions)
         {
@@ -112,7 +112,7 @@ public sealed class ClassFamilyTests
             Assert.Equal(Nearest(type, nameof(AIPlayerAction.Priority)), descriptor.Priority);
             Assert.Equal(Nearest(type, nameof(AIPlayerAction.SupportedPhases)), descriptor.SupportedPhases);
         }
-        List<Type> groups = types.Where(t => typeof(AIGroup).IsAssignableFrom(t)).ToList();
+        List<Type> groups = [.. types.Where(t => typeof(AIGroup).IsAssignableFrom(t))];
         Assert.Equal(19, groups.Count);
         foreach (Type type in groups)
         {
@@ -129,7 +129,7 @@ public sealed class ClassFamilyTests
         AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>()];
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
-        List<AIPlayerActionClass> registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
+        List<AIPlayerActionClass> registered = [.. Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses)];
         foreach (AIPlayerActionClass c in classes)
         {
             Assert.Contains(c, registered);

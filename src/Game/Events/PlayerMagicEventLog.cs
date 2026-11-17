@@ -60,6 +60,9 @@ public partial class PlayerMagicEventLog : EventLog
                     : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
 
                 break;
+            case EventMode.StartResearch:
+            default:
+                break;
         }
 
         return result;
@@ -69,26 +72,15 @@ public partial class PlayerMagicEventLog : EventLog
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool result = default;
-        bool show;
-        switch (Mode)
+        bool show = Mode switch
         {
-            case EventMode.OutOfMana:
-                show = trigger == ExecuteTrigger.User;
-                break;
-            case EventMode.SpellResearched:
-                show = trigger == ExecuteTrigger.User || (StrategicMap.Current.PlayMode == PlayMode.Turn
-                        ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)
-                        : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched));
-
-                break;
-            case EventMode.StartResearch:
-                show = true;
-                break;
-            default:
-                show = false;
-                break;
-        }
-
+            EventMode.OutOfMana => trigger == ExecuteTrigger.User,
+            EventMode.SpellResearched => trigger == ExecuteTrigger.User || (StrategicMap.Current.PlayMode == PlayMode.Turn
+                                    ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)
+                                    : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)),
+            EventMode.StartResearch => true,
+            _ => false,
+        };
         result = show && base.Execute(mode, trigger, done);
 
         return result;

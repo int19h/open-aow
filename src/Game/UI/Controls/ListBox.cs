@@ -140,6 +140,8 @@ public partial class ListBox : Control
                 _scrollWidth = 0;
                 Masked = true;
                 break;
+            default:
+                break;
         }
 
         if (_items.Count < VisibleRows)
@@ -334,6 +336,7 @@ public partial class ListBox : Control
                                 string item3 = _items[FirstShownItem + i];
                                 base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + (ItemHeight * i), item3, lockedSurface);
                                 break;
+                            case TextAlignment.Center:
                             default:
                                 string item4 = _items[FirstShownItem + i];
                                 int fontTextWidth = base.Font.GetTextWidth(item4);

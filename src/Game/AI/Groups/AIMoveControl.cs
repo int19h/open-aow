@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
@@ -26,6 +27,7 @@ public partial class AIMoveControl : EngineObject
     public AIMoveControlStatus Status { get; private set; }
     public AIMoveControlSettings Settings { get; private set; }
 
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
     private MovePointTable _movePointTable;
     private MovePointTable _transportMovePointTable;
@@ -100,6 +102,8 @@ public partial class AIMoveControl : EngineObject
                 Settings.MovePoints = canMove;
                 Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
+                break;
+            default:
                 break;
         }
     }
@@ -331,6 +335,8 @@ public partial class AIMoveControl : EngineObject
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -450,6 +456,8 @@ public partial class AIMoveControl : EngineObject
                     break;
                 case AIMoveControlMode.TransporterCanMove:
                     ProcessTransporterCanMove();
+                    break;
+                default:
                     break;
             }
         }

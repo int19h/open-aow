@@ -116,6 +116,8 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
                                 }
 
                                 break;
+                            default:
+                                break;
                         }
                     }
 

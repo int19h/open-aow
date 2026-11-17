@@ -105,6 +105,8 @@ public partial class ArmyEventLog : EventLog
                 }
 
                 break;
+            default:
+                break;
         }
 
         return result;

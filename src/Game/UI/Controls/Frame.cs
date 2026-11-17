@@ -109,6 +109,8 @@ public partial class Frame(Component owner) : Control(owner)
 
                 SetWinWidthWithoutInvalidate(_imageLibraryLine[_imageLibraryIndexLine].Width);
                 break;
+            default:
+                break;
         }
 
         base.SetSize();
@@ -148,6 +150,8 @@ public partial class Frame(Component owner) : Control(owner)
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle5 = new(Window.WinLeft + WinLeft + imageLibraryFrame4.Width, Window.WinTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle5, ref lockedSurface);
+                        break;
+                    default:
                         break;
                 }
 

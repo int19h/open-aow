@@ -147,7 +147,7 @@ public static partial class Fixtures
         });
         yield return new("strings", "all 256 code page bytes", () =>
         {
-            byte[] bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
+            byte[] bytes = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
             return RoundTrip(HeroListImage([1, 20, 0], Concat([255], I32(256), bytes)), profile: "hero-list", kind: "hero-list", inspect: d => Root(d)["LibraryName"] is JsonString s && s.Value.Length == 256 && s.Value[0x81] == '\u0081' && s.Value[0x80] == '\u20ac'
                     ? null : "the code page mapping is not the frozen table");
         });
@@ -226,7 +226,7 @@ public static partial class Fixtures
             children.Items.RemoveAt(1);
             return OwnRoundTrip(d, (n, _) =>
             {
-                List<long> slots = Arr(Object(Root(n)["Players"])["Children"]).Items.Select(c => ((JsonInteger)Object(c)["$slot"]!).Value).ToList();
+                List<long> slots = [.. Arr(Object(Root(n)["Players"])["Children"]).Items.Select(c => ((JsonInteger)Object(c)["$slot"]!).Value)];
                 return count >= 3 && !slots.Contains(1) && slots.Contains(count - 1) ? null : "slots were renumbered: " + string.Join(",", slots);
             });
         });
@@ -552,7 +552,7 @@ public static partial class Fixtures
             entries.Add((BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at)), BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at + 4))));
         }
 
-        List<int> offsets = entries.Select(e => e.Offset).Distinct().Order().ToList();
+        List<int> offsets = [.. entries.Select(e => e.Offset).Distinct().Order()];
         Dictionary<int, (int, int)> result = [];
         foreach ((int id, int offset) in entries)
         {

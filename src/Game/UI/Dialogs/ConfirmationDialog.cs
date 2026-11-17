@@ -71,6 +71,8 @@ public partial class ConfirmationDialog(UIContext ui) : UIModule(ui)
                 }
 
                 break;
+            default:
+                break;
         }
     }
 }

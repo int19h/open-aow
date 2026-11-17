@@ -87,6 +87,8 @@ public partial class PlayerStructureResource : StructureResource
                     FlagX = 30;
                     FlagY = -60;
                     break;
+                default:
+                    break;
             }
         }
     }

@@ -39,26 +39,14 @@ public partial class SummonedAbility : UnitEnchantmentAbility
             return 0;
         }
 
-        int result;
-        switch (troop.GetUnitLevel())
+        int result = troop.GetUnitLevel() switch
         {
-            case 1:
-                result = 250;
-                break;
-            case 2:
-                result = 250;
-                break;
-            case 3:
-                result = 500;
-                break;
-            case 4:
-                result = 1000;
-                break;
-            default:
-                result = 1000;
-                break;
-        }
-
+            1 => 250,
+            2 => 250,
+            3 => 500,
+            4 => 1000,
+            _ => 1000,
+        };
         return result;
     }
 
@@ -81,26 +69,14 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1147
     public int UnitIndexToAIUpkeepPriority(int unitIndex)
     {
-        int result;
-        switch (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level)
+        int result = GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level switch
         {
-            case 1:
-                result = 250;
-                break;
-            case 2:
-                result = 250;
-                break;
-            case 3:
-                result = 500;
-                break;
-            case 4:
-                result = 1000;
-                break;
-            default:
-                result = 1000;
-                break;
-        }
-
+            1 => 250,
+            2 => 250,
+            3 => 500,
+            4 => 1000,
+            _ => 1000,
+        };
         return result;
     }
 

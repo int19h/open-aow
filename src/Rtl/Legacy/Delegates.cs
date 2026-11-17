@@ -30,7 +30,7 @@ public static partial class RtlUnit
 
         MethodInfo target = typeof(T).GetMethod("Invoke")!;
         MethodInfo source = value.GetType().GetMethod("Invoke")!;
-        ParameterExpression[] parameters = target.GetParameters().Select(p => Expression.Parameter(p.ParameterType, p.Name)).ToArray();
+        ParameterExpression[] parameters = [.. target.GetParameters().Select(p => Expression.Parameter(p.ParameterType, p.Name))];
         ParameterInfo[] inputs = source.GetParameters();
         if (inputs.Length != parameters.Length)
         {

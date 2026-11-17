@@ -73,19 +73,12 @@ public partial class AirMastery : GlobalEnchantmentSpell
         if (StrategicMap.Current.ViewMapLevel == 0)
         {
             RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-            switch ((int)GetEngine().AnimationDetail)
+            count = (int)GetEngine().AnimationDetail switch
             {
-                case 0:
-                    count = 5;
-                    break;
-                case 2:
-                    count = 20;
-                    break;
-                default:
-                    count = 10;
-                    break;
-            }
-
+                0 => 5,
+                2 => 20,
+                _ => 10,
+            };
             for (int i = 0; i <= count - 1; i++)
             {
                 x = Random(animation.Tag & 65535);

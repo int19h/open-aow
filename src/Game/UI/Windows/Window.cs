@@ -253,6 +253,8 @@ public partial class Window : GenericWindow
                 }
 
                 break;
+            default:
+                break;
         }
 
         if (DoubleBuffered && BackSurface != null)
@@ -317,6 +319,9 @@ public partial class Window : GenericWindow
                     case Style.Borderless:
                         SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
+                        break;
+                    case Style.Blank:
+                    default:
                         break;
                 }
 
@@ -626,6 +631,8 @@ public partial class Window : GenericWindow
 
                             resized = true;
                             break;
+                        default:
+                            break;
                     }
 
                     switch (ResizingY)
@@ -679,6 +686,8 @@ public partial class Window : GenericWindow
 
                             resized = true;
                             break;
+                        default:
+                            break;
                     }
 
                     if (resized)
@@ -688,6 +697,8 @@ public partial class Window : GenericWindow
                         Aligned = false;
                     }
 
+                    break;
+                default:
                     break;
             }
 

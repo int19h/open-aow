@@ -399,7 +399,7 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(expected.EditorObjects, actual.EditorObjects);
         Assert.Equal(expected.Scores, actual.Scores);
         Assert.Equal(expected.Flags, actual.Flags);
-        Assert.Equal(expected.Kids.Select(k => k.Number).ToList(), actual.Kids.Select(k => k.Number).ToList());
+        Assert.Equal(expected.Kids.Select(k => k.Number).ToList(), [.. actual.Kids.Select(k => k.Number)]);
         Assert.Equal(expected.Made is Inner made ? made.Number : -1, actual.Made is Inner loaded ? loaded.Number : -1);
         Assert.Equal(expected.Fixed.Number, actual.Fixed.Number);
     }

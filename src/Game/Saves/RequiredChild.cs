@@ -11,7 +11,7 @@ public sealed class RequiredChild(string family) : ContentRule
 
     public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
-        if (ContentChildren.Count(scope, value, family) == 0)
+        if (ContentChildren.Count(value, family) == 0)
         {
             yield return scope.Context.At(Codes.Required, $"The game requires a {family} child here.", value, path, null, "one " + family + " child");
         }

@@ -95,16 +95,16 @@ public sealed class EngineLeafConstructionTests
                 Assert.Equal(plugin, strings.OnChange!.Target);
                 Assert.Null(strings.OnChanging);
                 break;
+            default:
+                break;
         }
     }
 
     private sealed class ConvertedNode : CustomNode
     {
-        private int _ownerCalls;
-
         internal ConvertedNode(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(CustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) => base.SetOwner(owner);
 
         public override int GetCount() => 0;
 
@@ -119,13 +119,10 @@ public sealed class EngineLeafConstructionTests
 
     private sealed class ConvertedSort : SortedNode
     {
-        private int _ownerCalls;
-
         internal ConvertedSort(CustomNode owner) : base(owner) { }
 
         public override void SetOwner(CustomNode owner)
         {
-            _ownerCalls++;
             base.SetOwner(owner);
             Items = new SortItem[1];
         }

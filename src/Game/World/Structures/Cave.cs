@@ -89,18 +89,12 @@ public partial class Cave : Structure
         MapField field;
         if (info.HexNumber == 0)
         {
-            switch (Entrance)
+            field = Entrance switch
             {
-                case CaveEntrance.Up:
-                    field = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1);
-                    break;
-                case CaveEntrance.Down:
-                    field = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1);
-                    break;
-                default:
-                    field = null;
-                    break;
-            }
+                CaveEntrance.Up => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1),
+                CaveEntrance.Down => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1),
+                CaveEntrance.Idle or _ => null,
+            };
 
             // { Original dereferences the destination even for an idle entrance. }
             ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainType) + field.OverlayType));
@@ -324,6 +318,9 @@ public partial class Cave : Structure
                     break;
                 case CaveEntrance.Up:
                     l = (sbyte)(GetHexLevel() - 1);
+                    break;
+                case CaveEntrance.Idle:
+                default:
                     break;
             }
             _ = path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);

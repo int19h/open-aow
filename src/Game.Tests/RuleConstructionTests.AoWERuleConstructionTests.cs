@@ -240,13 +240,13 @@ public sealed partial class RuleConstructionTests
         ConstructorInfo? constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
-        object?[] arguments = parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
+        object?[] arguments = [.. parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
             : p.ParameterType == typeof(GameMap) ? fixture.Map
             : p.ParameterType == typeof(EngineObject) ? EngineFixture.Engine
             : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!) { Holder = EngineFixture.Engine }
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!) { Holder = EngineFixture.Engine }
-            : null).ToArray();
+            : null)];
         try { return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
         finally
         {
@@ -277,13 +277,13 @@ public sealed partial class RuleConstructionTests
     // A nested type can reuse the simple name.
     private static Type TypeNamed(string name)
     {
-        Type[] matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
+        Type[] matches = [.. typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name)];
         if (matches.Length == 1)
         {
             return matches[0];
         }
 
-        Type[] top = matches.Where(type => type.DeclaringType is null).ToArray();
+        Type[] top = [.. matches.Where(type => type.DeclaringType is null)];
         return top.Length == 1
             ? top[0]
             : throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");

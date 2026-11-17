@@ -82,6 +82,8 @@ public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
             case 25:
                 _ = CheckAttachments();
                 break;
+            default:
+                break;
         }
     }
 

@@ -60,7 +60,7 @@ public sealed class LayoutRuleTests
     [Fact]
     public void EveryLayoutTypeIsMarked()
     {
-        HashSet<string> unmarked = ProductTypes().Where(type => HasLayout(type) && !IsStored(type)).Select(Name).ToHashSet();
+        HashSet<string> unmarked = [.. ProductTypes().Where(type => HasLayout(type) && !IsStored(type)).Select(Name)];
         Assert.Empty(unmarked.Except(s_unmarkedLayouts).Order(StringComparer.Ordinal));
         // An entry whose type has lost its layout leaves the list.
         Assert.Empty(s_unmarkedLayouts.Except(unmarked).Order(StringComparer.Ordinal));
@@ -70,10 +70,9 @@ public sealed class LayoutRuleTests
     public void MarkedTypesStayAtTheBoundary()
     {
         const BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-        HashSet<string> held = ProductTypes()
+        HashSet<string> held = [.. ProductTypes()
             .Where(type => !(type.IsValueType && IsStored(type)))
-            .SelectMany(type => type.GetFields(all).Where(field => IsStored(ElementType(field.FieldType))).Select(field => Name(type) + "." + field.Name))
-            .ToHashSet();
+            .SelectMany(type => type.GetFields(all).Where(field => IsStored(ElementType(field.FieldType))).Select(field => Name(type) + "." + field.Name))];
         Assert.Empty(held.Except(s_heldStoredLayouts).Order(StringComparer.Ordinal));
         Assert.Empty(s_heldStoredLayouts.Except(held).Order(StringComparer.Ordinal));
     }

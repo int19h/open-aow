@@ -11,26 +11,13 @@ internal static class AlignmentTables
 
     internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
     {
-        sbyte result;
-        switch (alignment)
+        sbyte result = alignment switch
         {
-            case Alignment.PureGood:
-            case Alignment.Good:
-                result = -2;
-                break;
-            case Alignment.Evil:
-            case Alignment.PureEvil:
-                result = -4;
-                break;
-            case Alignment.PureNeutral:
-            case Alignment.Neutral:
-                result = -3;
-                break;
-            default:
-                result = -1;
-                break;
-        }
-
+            Alignment.PureGood or Alignment.Good => -2,
+            Alignment.Evil or Alignment.PureEvil => -4,
+            Alignment.PureNeutral or Alignment.Neutral => -3,
+            Alignment.None or _ => -1,
+        };
         return result;
     }
 
@@ -58,25 +45,13 @@ internal static class AlignmentTables
 
     internal static DiplomaticRelation StatusToDiplomaticRelation(Status status)
     {
-        DiplomaticRelation result;
-        switch (status)
+        DiplomaticRelation result = status switch
         {
-            case Status.Polite:
-            case Status.Friendly:
-                result = DiplomaticRelation.Peace;
-                break;
-            case Status.Neutral:
-                result = DiplomaticRelation.Unknown;
-                break;
-            case Status.Hostile:
-            case Status.Wary:
-                result = DiplomaticRelation.War;
-                break;
-            default:
-                result = DiplomaticRelation.Unknown;
-                break;
-        }
-
+            Status.Polite or Status.Friendly => DiplomaticRelation.Peace,
+            Status.Neutral => DiplomaticRelation.Unknown,
+            Status.Hostile or Status.Wary => DiplomaticRelation.War,
+            _ => DiplomaticRelation.Unknown,
+        };
         return result;
     }
 

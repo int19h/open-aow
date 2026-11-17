@@ -228,7 +228,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
             added[engineClass.ClassId] = engineClass;
         }
-        EngineClass[] classes = added.Values.ToArray();
+        EngineClass[] classes = [.. added.Values];
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
     }
@@ -574,7 +574,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     {
         const string prefix = "Class ";
         int nameEnd = error.Message.IndexOf(' ', prefix.Length);
-        return error.Message.Substring(prefix.Length, nameEnd - prefix.Length);
+        return error.Message[prefix.Length..nameEnd];
     }
 
     private static bool IsDirectRefusal(ConversionException error)
@@ -643,7 +643,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             return false;
         }
 
-        string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
+        string name = message[prefix.Length..nameEnd];
         return s_engineTypes.TryGetValue(name, out Type type) && EngineObject.TreePersistenceRefusal(type) == message;
     }
 

@@ -67,7 +67,7 @@ public static class GameFiles
     /// </summary>
     public static FileProfile? ProfileFor(string kind, byte[] file)
     {
-        List<FileProfile> candidates = FileProfile.All.Where(p => p.Kinds.Contains(kind)).ToList();
+        List<FileProfile> candidates = [.. FileProfile.All.Where(p => p.Kinds.Contains(kind))];
         if (candidates.Count == 1)
         {
             return candidates[0];
@@ -75,7 +75,7 @@ public static class GameFiles
 
         if (candidates.All(p => p is HsmProfile) && HsmProfile.HeaderClassId(file) is int id)
         {
-            List<FileProfile> matching = candidates.Where(p => Schema.Resolve(p.Engine, id) is { } c && c.InheritsFrom(p.RootFamily)).ToList();
+            List<FileProfile> matching = [.. candidates.Where(p => Schema.Resolve(p.Engine, id) is { } c && c.InheritsFrom(p.RootFamily))];
             if (matching.Count == 1)
             {
                 return matching[0];

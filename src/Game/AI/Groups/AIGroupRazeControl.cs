@@ -104,6 +104,9 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
                 }
 
                 break;
+            case Session.Status.Neutral:
+            case Session.Status.Polite:
+            case Session.Status.Friendly:
             default:
                 result = Mode.Contains(AIGroupRazeControlModeElement.Always);
                 break;

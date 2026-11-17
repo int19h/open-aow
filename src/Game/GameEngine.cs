@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -100,6 +101,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             case GameSettings.Language.Spanish:
                 Dictionary.SetLanguage(1);
                 break;
+            default:
+                break;
         }
 
         Demo = false;
@@ -198,6 +201,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                         break;
                     case GameSettings.Language.Spanish:
                         dictionary.SetLanguage(5);
+                        break;
+                    default:
                         break;
                 }
 
@@ -365,7 +370,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 memory.LoadFromFile(StartupDirectory + "RELEASE\\GENERAL.PFS");
                 _ = memory.Read(Bytes.Of(ref registered, 1));
                 StringFromStream(ref name, memory);
-                result = AbilityRules.Encode(name, 0);
+                result = AbilityRules.Encode(name);
             }
             finally
             {
@@ -653,6 +658,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private static readonly string s_registerDoomGazeText = "Doom Gaze";
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, Set<DamageType> damageTypes, int enchantment)
     {
         RangedAttackAbility ability;
@@ -671,6 +677,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         return ability;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
     {
         BoltsAbility ability;
@@ -687,6 +694,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         return ability;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
     {
         BreathAbility ability;

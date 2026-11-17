@@ -439,6 +439,8 @@ public partial class AIMoveTargetSelector : EngineObject
                 }
 
                 break;
+            default:
+                break;
         }
 
         return yield;

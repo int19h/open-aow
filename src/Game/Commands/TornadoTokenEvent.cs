@@ -94,25 +94,14 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     if ((selection & (1 << i)) != 0)
                     {
                         troopObject = army.Army.Units.GetUnit(i);
-                        switch (troopObject.GetUnitLevel())
+                        chance = troopObject.GetUnitLevel() switch
                         {
-                            case 1:
-                                chance = 90;
-                                break;
-                            case 2:
-                                chance = 70;
-                                break;
-                            case 3:
-                                chance = 50;
-                                break;
-                            case 4:
-                                chance = 30;
-                                break;
-                            default:
-                                chance = 30;
-                                break;
-                        }
-
+                            1 => 90,
+                            2 => 70,
+                            3 => 50,
+                            4 => 30,
+                            _ => 30,
+                        };
                         if (!exposed)
                         {
                             chance /= 2;

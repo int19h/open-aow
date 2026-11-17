@@ -157,6 +157,8 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
                 CombineIdleGroups();
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

@@ -88,13 +88,10 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class Converted : ControlStyleObject
     {
-        private int _calls;
-
         internal Converted(CustomNode owner) : base(owner) { }
 
         public override void SetOwner(CustomNode owner)
         {
-            _calls++;
             _ = GetControlStyle();
             base.SetOwner(owner);
         }

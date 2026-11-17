@@ -41,7 +41,7 @@ public sealed class FixtureTests : FormatsTest
     [Fact]
     public void CaseNamesAreUniqueAndBothKindsExist()
     {
-        List<string> names = Fixtures.All().Select(c => c.Group + "/" + c.Name).ToList();
+        List<string> names = [.. Fixtures.All().Select(c => c.Group + "/" + c.Name)];
         Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
         Assert.Equal(18, Fixtures.All().Count(c => !c.UsesGame));
     }

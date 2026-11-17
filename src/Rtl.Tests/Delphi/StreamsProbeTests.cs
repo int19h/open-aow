@@ -32,7 +32,7 @@ public sealed class StreamsProbeTests
 
         void Exercise(string tag, Stream s)
         {
-            byte[] data = Enumerable.Range(0, 32).Select(i => (byte)i).ToArray(), read = new byte[32];
+            byte[] data = [.. Enumerable.Range(0, 32).Select(i => (byte)i)], read = new byte[32];
             State(tag + "_created", s);
             s.WriteBuffer(data);
             State(tag + "_initialize32", s);

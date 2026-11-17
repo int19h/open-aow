@@ -56,7 +56,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
             throw new InvalidOperationException("Set elements require an enum or byte");
         }
 
-        int[] values = Enum.GetValues(typeof(E)).Cast<E>().Select(Ordinal).ToArray();
+        int[] values = [.. Enum.GetValues(typeof(E)).Cast<E>().Select(Ordinal)];
         return values.Length == 0 ? (0, 63) : (values.Min(), values.Max());
     }
 

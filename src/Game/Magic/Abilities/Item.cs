@@ -206,32 +206,16 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4402
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes()
     {
-        Set<AbilitySelectionType> result;
-        switch (ItemType)
+        Set<AbilitySelectionType> result = ItemType switch
         {
-            case ItemType.Head:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem);
-                break;
-            case ItemType.Torso:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
-                break;
-            case ItemType.Attack:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.AttackItem);
-                break;
-            case ItemType.Defense:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.DefenseItem);
-                break;
-            case ItemType.Ring:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.RingItem);
-                break;
-            case ItemType.Use:
-                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
-                break;
-            default:
-                result = Set<AbilitySelectionType>.Of();
-                break;
-        }
-
+            ItemType.Head => Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem),
+            ItemType.Torso => Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem),
+            ItemType.Attack => Set<AbilitySelectionType>.Of(AbilitySelectionType.AttackItem),
+            ItemType.Defense => Set<AbilitySelectionType>.Of(AbilitySelectionType.DefenseItem),
+            ItemType.Ring => Set<AbilitySelectionType>.Of(AbilitySelectionType.RingItem),
+            ItemType.Use => Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem),
+            ItemType.Scroll or _ => Set<AbilitySelectionType>.Of(),
+        };
         return result;
     }
 
@@ -318,6 +302,14 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
 
                     Dispose();
                     hero.Changed();
+                    break;
+                case ItemType.Head:
+                case ItemType.Torso:
+                case ItemType.Attack:
+                case ItemType.Defense:
+                case ItemType.Ring:
+                case ItemType.Use:
+                default:
                     break;
             }
         }

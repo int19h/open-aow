@@ -102,6 +102,8 @@ public partial class AIGroupDefenseControl : AIGroupTask
                             GroupControl.State = CustomState;
                             Done();
                             break;
+                        default:
+                            break;
                     }
                 }
                 else
@@ -112,6 +114,8 @@ public partial class AIGroupDefenseControl : AIGroupTask
                 break;
             case 1:
                 Done();
+                break;
+            default:
                 break;
         }
 

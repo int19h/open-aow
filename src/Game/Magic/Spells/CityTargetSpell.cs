@@ -73,6 +73,10 @@ public partial class CityTargetSpell : Spell
                     }
 
                     break;
+                case TargetSelectionChange.None:
+                case TargetSelectionChange.Activated:
+                default:
+                    break;
             }
         }
         else

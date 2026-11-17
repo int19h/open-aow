@@ -137,7 +137,7 @@ public sealed class MapShapeTests : FormatsTest
         byte[] image = OriginalBackend.Write(TreeWriter.Write(level, s_factory), classValue, Schema, "game");
         // The last value is the field: a length of 1 and an empty table.
         Assert.Equal([1, 0, 0, 0, 0], image[^5..]);
-        byte[] empty = image.ToArray();
+        byte[] empty = [.. image];
         empty[^5] = 0;
         ConversionException zero = Assert.Throws<ConversionException>(() => OriginalBackend.Read(empty, classValue, Schema, "game"));
         Assert.Equal((Codes.Corrupt, "root.Fields[0][0]"), (zero.Diagnostic.Code, zero.Diagnostic.Path));
@@ -240,7 +240,7 @@ public sealed class MapShapeTests : FormatsTest
         byte[] image = OriginalBackend.Write(TreeWriter.Write(new CampaignProbe { Map = NestedMap("none", 0) }, s_factory), classValue, Schema, "campaign");
         // The table holds the size (id 5) at offset 0 and the bytes (id 6) at offset 4.
         Assert.Equal([2, 5, 0, 6, 4], image[..5]);
-        byte[] bigger = image.ToArray();
+        byte[] bigger = [.. image];
         BinaryPrimitives.WriteInt32LittleEndian(bigger.AsSpan(5), BinaryPrimitives.ReadInt32LittleEndian(bigger.AsSpan(5)) + 1);
         ConversionException size = Assert.Throws<ConversionException>(() => OriginalBackend.Read(bigger, classValue, Schema, "campaign"));
         Assert.Equal((Codes.Corrupt, "root.Map"), (size.Diagnostic.Code, size.Diagnostic.Path));

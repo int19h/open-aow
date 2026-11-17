@@ -519,7 +519,7 @@ internal sealed class MemberPersister : IPersister
             residue = (byte)(bits[length - 1] & (byte)(0xFF << (count & 7)));
         }
 
-        Store(name, new BitArrayNode(count, indices.ToArray(), residue));
+        Store(name, new BitArrayNode(count, [.. indices], residue));
     }
 
     public BitListImage? BitList(string name, BitListImage value)

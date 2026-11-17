@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Units;
 using Aow.Rtl;
 
@@ -18,6 +19,7 @@ public struct BattleFieldInfo
     public int FriendlyStrength { get; set; }
     public int Strength { get; set; }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps relation and the original ignores it.")]
     internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
     {
         info = default;

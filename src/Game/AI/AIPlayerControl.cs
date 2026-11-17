@@ -181,6 +181,10 @@ public partial class AIPlayerControl : EngineObject
             case PlayerType.Independent:
                 _processCyclesMax = 3;
                 break;
+            case PlayerType.Human:
+            case PlayerType.Free:
+            default:
+                break;
         }
     }
 
@@ -400,6 +404,8 @@ public partial class AIPlayerControl : EngineObject
                     case Status.Polite:
                     case Status.Friendly:
                         priority += 20;
+                        break;
+                    default:
                         break;
                 }
 

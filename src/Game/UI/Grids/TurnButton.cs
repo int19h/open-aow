@@ -100,6 +100,8 @@ public partial class TurnButton : Control
                     }
 
                     break;
+                default:
+                    break;
             }
         }
     }

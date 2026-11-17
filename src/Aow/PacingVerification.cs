@@ -74,9 +74,9 @@ internal static class PacingVerification
             controller?.Dispose();
             RtlUnit.Clock = savedClock;
         }
-        double[] regular = times.Take(300).ToArray();
+        double[] regular = [.. times.Take(300)];
         double slow = times[300];
-        double[] following = times.Skip(301).ToArray();
+        double[] following = [.. times.Skip(301)];
         bool equal = regular.Concat(following).All(t => Math.Abs(t - 33) <= 1) && slow >= 70;
         _ = Directory.CreateDirectory(output);
         File.WriteAllText(Path.Combine(output, "pacing.json"), JsonSerializer.Serialize(new

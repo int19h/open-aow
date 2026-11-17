@@ -152,60 +152,29 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                 _ = CityRaceList.Items.Add(raceNamesPlural);
                 _ = CityIncomeList.Items.Add(IntToStr(c.Income));
                 _ = CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
-                switch (c.WallType)
+                _ = c.WallType switch
                 {
-                    case 1:
-                        _ = CityWallList.Items.Add("1");
-                        break;
-                    case 2:
-                        _ = CityWallList.Items.Add("2");
-                        break;
-                    default:
-                        _ = CityWallList.Items.Add("-");
-                        break;
-                }
-
-                switch (c.GetCivilStatus())
+                    1 => CityWallList.Items.Add("1"),
+                    2 => CityWallList.Items.Add("2"),
+                    _ => CityWallList.Items.Add("-"),
+                };
+                _ = c.GetCivilStatus() switch
                 {
-                    case City.CivilStatus.Unrest:
-                        _ = CityMoraleList.Items.Add("1");
-                        break;
-                    case City.CivilStatus.Stable:
-                        _ = CityMoraleList.Items.Add("2");
-                        break;
-                    case City.CivilStatus.Content:
-                        _ = CityMoraleList.Items.Add("3");
-                        break;
-                    case City.CivilStatus.Cheerful:
-                        _ = CityMoraleList.Items.Add("4");
-                        break;
-                    default:
-                        _ = CityMoraleList.Items.Add("-");
-                        break;
-                }
-
-                switch ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127)
+                    City.CivilStatus.Unrest => CityMoraleList.Items.Add("1"),
+                    City.CivilStatus.Stable => CityMoraleList.Items.Add("2"),
+                    City.CivilStatus.Content => CityMoraleList.Items.Add("3"),
+                    City.CivilStatus.Cheerful => CityMoraleList.Items.Add("4"),
+                    City.CivilStatus.Unruly or City.CivilStatus.Oppressed or City.CivilStatus.Slavery or _ => CityMoraleList.Items.Add("-"),
+                };
+                _ = ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127) switch
                 {
-                    case 0:
-                        _ = CityRelationList.Items.Add("0");
-                        break;
-                    case 1:
-                        _ = CityRelationList.Items.Add("1");
-                        break;
-                    case 2:
-                        _ = CityRelationList.Items.Add("2");
-                        break;
-                    case 3:
-                        _ = CityRelationList.Items.Add("3");
-                        break;
-                    case 4:
-                        _ = CityRelationList.Items.Add("4");
-                        break;
-                    default:
-                        _ = CityRelationList.Items.Add("-");
-                        break;
-                }
-
+                    0 => CityRelationList.Items.Add("0"),
+                    1 => CityRelationList.Items.Add("1"),
+                    2 => CityRelationList.Items.Add("2"),
+                    3 => CityRelationList.Items.Add("3"),
+                    4 => CityRelationList.Items.Add("4"),
+                    _ => CityRelationList.Items.Add("-"),
+                };
                 ProductionOrder activeOrder = c.GetActiveOrder();
                 _ = CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
@@ -302,6 +271,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                 case 5:
                     UpdateOther();
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -380,6 +351,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             case 50:
                 LibraryImage listBoxIconWidth = UI.Graphics.ListIcons[8];
                 UI.Graphics.ListIcons[8].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIconWidth.Width / 2), drawRectangle.Top, lockedSurface);
+                break;
+            default:
                 break;
         }
     }

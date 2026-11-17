@@ -1,4 +1,5 @@
 // Translated from GlobalTargetSpells.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -181,6 +182,7 @@ public partial class GlobalTargetSpell : Spell
         return result;
     }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unused on purpose.")]
     internal static bool GlobalTargetActivate(GlobalTargetSpell spell, Troop caster, int unused)
     {
         bool result;

@@ -149,6 +149,8 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
                 CombineIdleGroups();
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

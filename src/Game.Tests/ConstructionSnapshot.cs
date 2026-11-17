@@ -118,7 +118,7 @@ internal static class ConstructionSnapshot
     private static JsonNode? Expand(JsonNode? node) => node switch
     {
         JsonObject objectValue => new JsonObject(objectValue.Select(pair => KeyValuePair.Create(pair.Key, Expand(pair.Value)))),
-        JsonArray array => new JsonArray(array.Select(Expand).ToArray()),
+        JsonArray array => new JsonArray([.. array.Select(Expand)]),
         JsonValue value when value.TryGetValue(out string? text) => Readable(text),
         _ => node?.DeepClone()
     };

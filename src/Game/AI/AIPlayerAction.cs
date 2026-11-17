@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Session;
@@ -12,6 +13,7 @@ namespace Aow.Game.AI;
 // process cycles, player control, phase
 public partial class AIPlayerAction(CustomNode owner) : EngineObject(owner), IAIPlayerActionClass
 {
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
     public AIPlayerControl Control { get; set; }

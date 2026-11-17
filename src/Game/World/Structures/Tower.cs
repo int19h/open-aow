@@ -70,6 +70,16 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
                     }
 
                     break;
+                case AITargetMode.Attack:
+                case AITargetMode.Raid:
+                case AITargetMode.Recruit:
+                case AITargetMode.Produce:
+                case AITargetMode.Hunt:
+                case AITargetMode.Defend:
+                case AITargetMode.GuardArea:
+                case AITargetMode.AttackArmies:
+                default:
+                    break;
             }
         }
     }

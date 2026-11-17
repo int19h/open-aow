@@ -109,7 +109,7 @@ public sealed class Cp1252Tests
                 Assert.Equal(Cp1252.Decode(bytes), text);
             }
         }
-        byte[] all = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
+        byte[] all = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
         Assert.Equal(all, Cp1252.Encode(Cp1252.Decode(all)));
         Assert.Equal(new byte[] { 0, 128, 63, 63, 63 }, Cp1252.Encode("\0\u20ac\u0080\u2603\ud800"));
         Assert.Empty(Cp1252.Encode(null));
@@ -162,9 +162,9 @@ public sealed class Cp1252Tests
     public void OneEncoderMatchesTheFrozenMapForEveryCharAndEveryProducer()
     {
         Dictionary<char, byte> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
-        string text = new(Enumerable.Range(0, char.MaxValue + 1).Select(i => (char)i).ToArray());
-        byte[] expected = text.Select(c => inverse.GetValueOrDefault(c, (byte)63)).ToArray();
-        string normalized = new(expected.Select(ExpectedChar).ToArray());
+        string text = new([.. Enumerable.Range(0, char.MaxValue + 1).Select(i => (char)i)]);
+        byte[] expected = [.. text.Select(c => inverse.GetValueOrDefault(c, (byte)63))];
+        string normalized = new([.. expected.Select(ExpectedChar)]);
         Assert.Equal(expected, Cp1252.Encode(text));
         Assert.Equal(expected, Cp1252.Encode(HeldText(text)));
         Assert.Equal(expected, Cp1252.Encode(normalized));
@@ -221,7 +221,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void UnmappedCharsKeepTheirCaseAndOrderAfterEveryMappedChar()
     {
-        HashSet<char> mapped = Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i)).ToHashSet();
+        HashSet<char> mapped = [.. Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i))];
         for (int i = 0; i <= char.MaxValue; i++)
         {
             char c = (char)i;
@@ -257,7 +257,7 @@ public sealed class Cp1252Tests
     public void CompareAndComparerGiveAnInjectiveTotalOrderOutsideTheImage()
     {
         Random random = new(95102);
-        string Next() => new(Enumerable.Range(0, random.Next(9)).Select(_ => (char)random.Next(65536)).ToArray());
+        string Next() => new([.. Enumerable.Range(0, random.Next(9)).Select(_ => (char)random.Next(65536))]);
         Dictionary<char, int> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
         int Key(char c) => inverse.GetValueOrDefault(c, 256 + c);
         int Expected(string a, string b)

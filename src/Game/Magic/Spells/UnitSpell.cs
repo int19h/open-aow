@@ -398,6 +398,10 @@ public partial class UnitSpell : Spell
                     }
 
                     break;
+                case TargetSelectionChange.None:
+                case TargetSelectionChange.Activated:
+                default:
+                    break;
             }
         }
         else

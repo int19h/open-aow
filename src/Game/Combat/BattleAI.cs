@@ -742,6 +742,49 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                 obstacles?.Dispose();
                 result = original - value;
                 break;
+            case BattleEffectType.None:
+            case BattleEffectType.Touch:
+            case BattleEffectType.Effect:
+            case BattleEffectType.FBExplosion:
+            case BattleEffectType.ScreenNESW:
+            case BattleEffectType.ScreenNS:
+            case BattleEffectType.Chain:
+            case BattleEffectType.Swarm:
+            case BattleEffectType.ScreenSwarm:
+            case BattleEffectType.SFOverlay:
+            case BattleEffectType.DamLightning:
+            case BattleEffectType.DamFire:
+            case BattleEffectType.DamPoison:
+            case BattleEffectType.DamMagic:
+            case BattleEffectType.DamHoly:
+            case BattleEffectType.DamDeath:
+            case BattleEffectType.DamCold:
+            case BattleEffectType.SacredWrath:
+            case BattleEffectType.SWComet:
+            case BattleEffectType.Dispel:
+            case BattleEffectType.WallSmoke:
+            case BattleEffectType.Blood:
+            case BattleEffectType.Tremors:
+            case BattleEffectType.Geyser:
+            case BattleEffectType.GeyserWater:
+            case BattleEffectType.HailImpact:
+            case BattleEffectType.Cloud:
+            case BattleEffectType.CloudPuff:
+            case BattleEffectType.HitGround:
+            case BattleEffectType.HitWater:
+            case BattleEffectType.HighPrayer:
+            case BattleEffectType.PrayerGlow:
+            case BattleEffectType.Resurrect:
+            case BattleEffectType.FrostBeam:
+            case BattleEffectType.Frost:
+            case BattleEffectType.MindDecay:
+            case BattleEffectType.DecayLeg:
+            case BattleEffectType.ShockWave:
+            case BattleEffectType.DecayComet:
+            case BattleEffectType.SacFlame:
+            case BattleEffectType.Winds:
+            case BattleEffectType.SacFire:
+            case BattleEffectType.BreathDam:
             default:
                 result = 0;
                 break;
@@ -1005,6 +1048,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                 case 114:
                                                     range = 4;
                                                     break;
+                                                default:
+                                                    break;
                                             }
 
                                             if (range == -1)
@@ -1012,31 +1057,11 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                 range = 100;
                                             }
 
-                                            switch (spell)
+                                            value = spell switch
                                             {
-                                                case 8:
-                                                case >= 15 and <= 17:
-                                                case 32:
-                                                case 33:
-                                                case 36:
-                                                case 37:
-                                                case 40:
-                                                case 42:
-                                                case 43:
-                                                case 49:
-                                                case 56:
-                                                case 77:
-                                                case 102:
-                                                case 106:
-                                                case 110:
-                                                case 111:
-                                                    value = TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target);
-                                                    break;
-                                                default:
-                                                    value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target), hitPoints, hits);
-                                                    break;
-                                            }
-
+                                                8 or (>= 15 and <= 17) or 32 or 33 or 36 or 37 or 40 or 42 or 43 or 49 or 56 or 77 or 102 or 106 or 110 or 111 => TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target),
+                                                _ => ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target), hitPoints, hits),
+                                            };
                                             if (target.GetTargetStrength() <= 0 && _enemies.Count > 1)
                                             {
                                                 value -= 10000;
@@ -1266,6 +1291,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                                 sbyte hexY5 = unit.UnitHexSprite.GetHexY();
                                                                 pathValue = EvalBreath(ref value, target, ability, spell, hexX3, hexY5, x2, y2, unit);
                                                                 break;
+                                                            default:
+                                                                break;
                                                         }
                                                     }
                                                 }
@@ -1445,6 +1472,34 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                         }
 
                                         break;
+                                    case BattleEffectType.None:
+                                    case BattleEffectType.Touch:
+                                    case BattleEffectType.FBExplosion:
+                                    case BattleEffectType.SFOverlay:
+                                    case BattleEffectType.DamLightning:
+                                    case BattleEffectType.DamFire:
+                                    case BattleEffectType.DamPoison:
+                                    case BattleEffectType.DamMagic:
+                                    case BattleEffectType.DamHoly:
+                                    case BattleEffectType.DamDeath:
+                                    case BattleEffectType.DamCold:
+                                    case BattleEffectType.WallSmoke:
+                                    case BattleEffectType.Geyser:
+                                    case BattleEffectType.GeyserWater:
+                                    case BattleEffectType.Cloud:
+                                    case BattleEffectType.CloudPuff:
+                                    case BattleEffectType.HitGround:
+                                    case BattleEffectType.HitWater:
+                                    case BattleEffectType.PrayerGlow:
+                                    case BattleEffectType.Resurrect:
+                                    case BattleEffectType.FrostBeam:
+                                    case BattleEffectType.Frost:
+                                    case BattleEffectType.DecayLeg:
+                                    case BattleEffectType.DecayComet:
+                                    case BattleEffectType.SacFire:
+                                    case BattleEffectType.BreathDam:
+                                    default:
+                                        break;
                                 }
                             }
                         }
@@ -1478,21 +1533,11 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                             }
 
                                             value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, unit, target), hitPoints, hits) + terrainValue;
-                                            switch (ability)
+                                            value = ability switch
                                             {
-                                                case >= 27 and <= 29:
-                                                case 40:
-                                                case 60:
-                                                case 106:
-                                                case 107:
-                                                case 148:
-                                                    value = TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target);
-                                                    break;
-                                                default:
-                                                    value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target), hitPoints, hits);
-                                                    break;
-                                            }
-
+                                                (>= 27 and <= 29) or 40 or 60 or 106 or 107 or 148 => TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target),
+                                                _ => ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, unit, target), hitPoints, hits),
+                                            };
                                             if (ability == 117 && CombatObject.MeleeDamageTypes(unit) == Set<DamageType>.Of())
                                             {
                                                 value = ScaleDamageEvaluation(value, 100, 1);
@@ -1512,6 +1557,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                         break;
                                                     case 114:
                                                         EvalArea(ref value, target, ability, spell, pathStepList.List[1].Location.X, pathStepList.List[1].Location.Y, false, false, true, unit, wall);
+                                                        break;
+                                                    default:
                                                         break;
                                                 }
                                             }
@@ -1674,6 +1721,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                             sbyte hexX2 = unit.UnitHexSprite.GetHexX();
                                                             sbyte hexY3 = unit.UnitHexSprite.GetHexY();
                                                             pathValue = EvalBreath(ref value, target, ability, spell, hexX2, hexY3, x2, y2, unit);
+                                                            break;
+                                                        default:
                                                             break;
                                                     }
                                                 }
@@ -1863,6 +1912,37 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     _ = MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                                 }
 
+                                break;
+                            case BattleEffectType.None:
+                            case BattleEffectType.FBExplosion:
+                            case BattleEffectType.SFOverlay:
+                            case BattleEffectType.DamLightning:
+                            case BattleEffectType.DamFire:
+                            case BattleEffectType.DamPoison:
+                            case BattleEffectType.DamMagic:
+                            case BattleEffectType.DamHoly:
+                            case BattleEffectType.DamDeath:
+                            case BattleEffectType.DamCold:
+                            case BattleEffectType.WallSmoke:
+                            case BattleEffectType.Geyser:
+                            case BattleEffectType.GeyserWater:
+                            case BattleEffectType.Cloud:
+                            case BattleEffectType.CloudPuff:
+                            case BattleEffectType.HitGround:
+                            case BattleEffectType.HitWater:
+                            case BattleEffectType.PrayerGlow:
+                            case BattleEffectType.Resurrect:
+                            case BattleEffectType.FrostBeam:
+                            case BattleEffectType.Frost:
+                            case BattleEffectType.MindDecay:
+                            case BattleEffectType.DecayLeg:
+                            case BattleEffectType.ShockWave:
+                            case BattleEffectType.DecayComet:
+                            case BattleEffectType.SacFlame:
+                            case BattleEffectType.Winds:
+                            case BattleEffectType.SacFire:
+                            case BattleEffectType.BreathDam:
+                            default:
                                 break;
                         }
 
@@ -2134,6 +2214,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                 case 117:
                                                     _flee = false;
                                                     break;
+                                                default:
+                                                    break;
                                             }
 
                                             if (j == 52 && u.Troop is Hero)
@@ -2391,6 +2473,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                             case 66:
                                             case 117:
                                                 _flee = false;
+                                                break;
+                                            default:
                                                 break;
                                         }
 
@@ -2701,6 +2785,13 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                 case BattleAIMoveType.Fake:
                                     _moves.RemoveAt(i);
                                     break;
+                                case BattleAIMoveType.Move:
+                                case BattleAIMoveType.Touch:
+                                case BattleAIMoveType.Melee:
+                                case BattleAIMoveType.Ranged:
+                                case BattleAIMoveType.MoveRanged:
+                                case BattleAIMoveType.WallTouch:
+                                case BattleAIMoveType.WallRanged:
                                 default:
                                     {
                                         if (move.Value is > -100000000 and < 100000000)
@@ -2950,6 +3041,11 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     }
 
                                     break;
+                                case BattleAIMoveType.Fake:
+                                case BattleAIMoveType.WallTouch:
+                                case BattleAIMoveType.WallRanged:
+                                default:
+                                    break;
                             }
 
                             (
@@ -2977,6 +3073,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                         _ = MessageBox(0, "Error - TCAI", "Error during Execute Moves", 0);
                     }
 
+                    break;
+                default:
                     break;
             }
         }

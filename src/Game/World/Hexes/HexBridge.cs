@@ -367,6 +367,8 @@ public partial class HexBridge : AbstractRoad
                     }
 
                     break;
+                default:
+                    break;
             }
         }
     }

@@ -134,7 +134,6 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         int x;
         int y;
         int frame;
-        int opacity;
         ShowInfo info = default;
         string text = "";
         _introFrame += 1;
@@ -142,22 +141,13 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         y = surface.Height / 2;
         page = _introFrame / 130;
         frame = _introFrame % 130;
-        switch (frame)
+        int opacity = frame switch
         {
-            case >= 0 and <= 10:
-                opacity = frame * 10;
-                break;
-            case >= 11 and <= 30:
-                opacity = 100;
-                break;
-            case >= 31 and <= 40:
-                opacity = 100 - ((frame - 30) * 10);
-                break;
-            default:
-                opacity = 0;
-                break;
-        }
-
+            >= 0 and <= 10 => frame * 10,
+            >= 11 and <= 30 => 100,
+            >= 31 and <= 40 => 100 - ((frame - 30) * 10),
+            _ => 0,
+        };
         if (opacity != 0)
         {
             switch (page)
@@ -170,6 +160,8 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                     break;
                 case 2:
                     text = "";
+                    break;
+                default:
                     break;
             }
 
@@ -229,19 +221,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
                     break;
                 case 2:
-                    switch (frame)
+                    opacity = frame switch
                     {
-                        case >= 45 and <= 55:
-                            opacity = (frame - 45) * 10;
-                            break;
-                        case >= 121 and <= 130:
-                            opacity = 100 - ((frame - 120) * 10);
-                            break;
-                        default:
-                            opacity = 101;
-                            break;
-                    }
-
+                        >= 45 and <= 55 => (frame - 45) * 10,
+                        >= 121 and <= 130 => 100 - ((frame - 120) * 10),
+                        _ => 101,
+                    };
                     if (opacity <= 100)
                     {
                         info.ShowMode = ShowMode.Blended;
@@ -254,6 +239,8 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                         _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), "Copyright (C) 1999,2000 Triumph Studios", surface);
                     }
 
+                    break;
+                default:
                     break;
             }
         }

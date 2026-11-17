@@ -700,6 +700,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     NoTargetsFound();
                     Done();
                     break;
+                default:
+                    break;
             }
         }
         else
@@ -905,24 +907,13 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public bool Setup(AIGroupControl control)
     {
         Reset();
-        switch ((int)StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
+        _validTargetLimit = (int)StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType switch
         {
-            case (int)PlayerType.Cpu1:
-                _validTargetLimit = 5;
-                break;
-            case (int)PlayerType.Cpu2:
-                _validTargetLimit = 7;
-                break;
-            case (int)PlayerType.Cpu3:
-            case (int)PlayerType.Cpu4:
-            case (int)PlayerType.Cpu5:
-                _validTargetLimit = 10;
-                break;
-            default:
-                _validTargetLimit = 5;
-                break;
-        }
-
+            (int)PlayerType.Cpu1 => 5,
+            (int)PlayerType.Cpu2 => 7,
+            (int)PlayerType.Cpu3 or (int)PlayerType.Cpu4 or (int)PlayerType.Cpu5 => 10,
+            _ => 5,
+        };
         return true;
     }
 

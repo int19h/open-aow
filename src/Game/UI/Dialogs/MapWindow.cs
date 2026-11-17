@@ -199,8 +199,12 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
+                break;
+            default:
                 break;
         }
 
@@ -359,6 +363,8 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                         }
                     }
 
+                    break;
+                default:
                     break;
             }
         }

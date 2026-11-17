@@ -171,6 +171,15 @@ public partial class HtmlMemo : BaseWindow
                     }
 
                     break;
+                case IntegerParseMode.None:
+                case IntegerParseMode.Start:
+                case IntegerParseMode.Font:
+                case IntegerParseMode.ItemHeight:
+                case IntegerParseMode.Color:
+                case IntegerParseMode.Background:
+                case IntegerParseMode.BackgroundIndex:
+                case IntegerParseMode.Space:
+                case IntegerParseMode.Align:
                 default:
                     if (tag == "P")
                     {
@@ -284,6 +293,8 @@ public partial class HtmlMemo : BaseWindow
                                     textEnd = j - 1;
                                     tagStart = j + 1;
                                     break;
+                                default:
+                                    break;
                             }
 
                             break;
@@ -300,6 +311,8 @@ public partial class HtmlMemo : BaseWindow
                                 case 61:
                                     ParseTag(Copy(item, tagStart + 1, j - tagStart));
                                     tagStart = j + 1;
+                                    break;
+                                default:
                                     break;
                             }
 
@@ -493,6 +506,8 @@ public partial class HtmlMemo : BaseWindow
                             }
 
                             break;
+                        default:
+                            break;
                     }
 
                     if (textEnd >= textStart)
@@ -517,6 +532,16 @@ public partial class HtmlMemo : BaseWindow
                             ParseTag(Copy(item, tagStart + 1, last2 - tagStart));
                         }
 
+                        break;
+                    case IntegerParseMode.Font:
+                    case IntegerParseMode.ItemHeight:
+                    case IntegerParseMode.Color:
+                    case IntegerParseMode.Background:
+                    case IntegerParseMode.InBackground:
+                    case IntegerParseMode.BackgroundIndex:
+                    case IntegerParseMode.Space:
+                    case IntegerParseMode.Align:
+                    default:
                         break;
                 }
             }
@@ -680,6 +705,8 @@ public partial class HtmlMemo : BaseWindow
                             case TextAlignment.Right:
                                 x = _textWidth - BorderWidth;
                                 break;
+                            default:
+                                break;
                         }
 
                         while (ci.Line == i && line10 <= Changes.Count)
@@ -708,6 +735,8 @@ public partial class HtmlMemo : BaseWindow
                                         string line7 = _lines[i];
                                         x -= Font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
+                                    default:
+                                        break;
                                 }
                             }
 
@@ -734,6 +763,8 @@ public partial class HtmlMemo : BaseWindow
                                         break;
                                     case TextAlignment.Right:
                                         x = _textWidth - BorderWidth;
+                                        break;
+                                    default:
                                         break;
                                 }
                             }
@@ -771,6 +802,8 @@ public partial class HtmlMemo : BaseWindow
                                     string line8 = _lines[i];
                                     string line9 = _lines[i];
                                     Font.SetText(x - fontTextWidth, y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
+                                    break;
+                                default:
                                     break;
                             }
                         }

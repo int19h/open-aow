@@ -158,14 +158,14 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
 
     private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatId)
     {
-        (int Width, int Height) desktop = DesktopSize();
-        IReadOnlyList<(int Width, int Height)> sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
-        foreach ((int Width, int Height) size in sizes)
+        (int desktopWidth, int desktopHeight) = DesktopSize();
+        IReadOnlyList<(int Width, int Height)> sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktopWidth && size.Height <= desktopHeight)];
+        foreach ((int sizeWidth, int sizeHeight) in sizes)
         {
-            if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
+            if ((width == 0 || width == sizeWidth) && (height == 0 || height == sizeHeight) &&
                 (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == PixelFormats.pfRGB555))
             {
-                list.Add(size.Width, size.Height, PixelFormats.pfRGB555);
+                list.Add(sizeWidth, sizeHeight, PixelFormats.pfRGB555);
             }
         }
     }

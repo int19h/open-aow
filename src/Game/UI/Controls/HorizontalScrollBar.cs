@@ -55,6 +55,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -78,6 +80,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                         }
 
                         break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -86,6 +90,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                 LibraryImage imageLibraryImageDecrement3 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
                 LibraryImage imageLibraryImageIncrement3 = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
                 SetWinWidthWithoutInvalidate(imageLibraryImageDecrement3.Width + imageLibraryImageIncrement3.Width);
+                break;
+            default:
                 break;
         }
 
@@ -163,6 +169,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                                 SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft + imageLibraryImageDecrement2.Width + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
                                 ThumbStrip.DrawHorizontalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -184,6 +192,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                             case ScrollBarThumbStyle.Bar:
                                 SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
                                 ThumbStrip.DrawHorizontalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
+                                break;
+                            default:
                                 break;
                         }
 
@@ -217,6 +227,8 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
+                        break;
+                    default:
                         break;
                 }
 
@@ -356,6 +368,9 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
                                 TrackClickTarget = X - thumbPosition;
                             }
 
+                            break;
+                        case Style.IncrementDecrement:
+                        default:
                             break;
                     }
                 }

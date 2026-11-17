@@ -123,29 +123,15 @@ public static class PixelFormats
 
     internal static string GetErrorMessage(int errorCode)
     {
-        string result;
-        switch (errorCode)
+        string result = errorCode switch
         {
-            case GFXE_OK:
-                result = "No ERROR occurred!";
-                break;
-            case GFXE_ERROR:
-                result = "Undefine ERROR occurred";
-                break;
-            case GFXE_NOTSUPPORTED:
-                result = "Function is not supported";
-                break;
-            case GFXE_PIXELFORMATNOTSUPPORTED:
-                result = "PixelFormat is not supported";
-                break;
-            case GFXE_BITMAPFORMATNOTSUPPORTED:
-                result = "Bitmap format is not supported";
-                break;
-            default:
-                result = "Undocumented Error (Error Code:" + IntToStr(errorCode) + ")";
-                break;
-        }
-
+            GFXE_OK => "No ERROR occurred!",
+            GFXE_ERROR => "Undefine ERROR occurred",
+            GFXE_NOTSUPPORTED => "Function is not supported",
+            GFXE_PIXELFORMATNOTSUPPORTED => "PixelFormat is not supported",
+            GFXE_BITMAPFORMATNOTSUPPORTED => "Bitmap format is not supported",
+            _ => "Undocumented Error (Error Code:" + IntToStr(errorCode) + ")",
+        };
         return result;
     }
 

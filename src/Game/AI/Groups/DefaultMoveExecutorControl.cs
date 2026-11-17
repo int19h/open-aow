@@ -105,6 +105,8 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
             case 2:
                 Done();
                 break;
+            default:
+                break;
         }
     }
 }

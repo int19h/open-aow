@@ -60,23 +60,13 @@ public partial class ImageLibraryFont : CustomImageLibrary
     // ImageLib.pas:6367
     public int GetTextWidth(string text)
     {
-        int result;
-        switch (CharCase)
+        int result = CharCase switch
         {
-            case EditCharCase.Normal:
-                result = TextWidth(text);
-                break;
-            case EditCharCase.LowerCase:
-                result = TextWidth(LowerCase(text));
-                break;
-            case EditCharCase.UpperCase:
-                result = TextWidth(UpperCase(text));
-                break;
-            default:
-                result = 0;
-                break;
-        }
-
+            EditCharCase.Normal => TextWidth(text),
+            EditCharCase.LowerCase => TextWidth(LowerCase(text)),
+            EditCharCase.UpperCase => TextWidth(UpperCase(text)),
+            _ => 0,
+        };
         return result;
     }
 
@@ -85,20 +75,12 @@ public partial class ImageLibraryFont : CustomImageLibrary
     {
         int h;
         int c;
-        string s;
-        switch (CharCase)
+        string s = CharCase switch
         {
-            case EditCharCase.LowerCase:
-                s = LowerCase(text);
-                break;
-            case EditCharCase.UpperCase:
-                s = UpperCase(text);
-                break;
-            default:
-                s = text;
-                break;
-        }
-
+            EditCharCase.LowerCase => LowerCase(text),
+            EditCharCase.UpperCase => UpperCase(text),
+            EditCharCase.Normal or _ => text,
+        };
         h = 0;
         for (int i = 1; i <= s.Length; i++)
         {
@@ -126,6 +108,8 @@ public partial class ImageLibraryFont : CustomImageLibrary
             case EditCharCase.UpperCase:
                 ShowText(X, Y, UpperCase(text), lockedSurface);
                 break;
+            default:
+                break;
         }
     }
 
@@ -149,6 +133,8 @@ public partial class ImageLibraryFont : CustomImageLibrary
                 X -= (int)(((uint)TextWidth(s)) >> 1);
                 ShowText(X, Y, s, lockedSurface);
                 break;
+            default:
+                break;
         }
     }
 
@@ -156,20 +142,12 @@ public partial class ImageLibraryFont : CustomImageLibrary
     public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, Set<SetTextModeElement> mode, in ShowInfo showInfo)
     {
         int c;
-        string s;
-        switch (CharCase)
+        string s = CharCase switch
         {
-            case EditCharCase.LowerCase:
-                s = LowerCase(text);
-                break;
-            case EditCharCase.UpperCase:
-                s = UpperCase(text);
-                break;
-            default:
-                s = text;
-                break;
-        }
-
+            EditCharCase.LowerCase => LowerCase(text),
+            EditCharCase.UpperCase => UpperCase(text),
+            EditCharCase.Normal or _ => text,
+        };
         if (mode.Contains(SetTextModeElement.Center))
         {
             X -= (int)(((uint)TextWidth(s)) >> 1);

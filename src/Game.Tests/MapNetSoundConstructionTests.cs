@@ -190,6 +190,8 @@ public sealed class MapNetSoundConstructionTests
             case CustomNode node:
                 Assert.Equal(0, node.Count);
                 break;
+            default:
+                break;
         }
     }
 
@@ -313,6 +315,8 @@ public sealed class MapNetSoundConstructionTests
                 case SampleList samples: Assert.Equal(0, samples.Count); break;
                 case SampleDataList data: Assert.Equal(0, data.Count); break;
                 case SoundSystemList list: Assert.Equal(0, list.Count); break;
+                default:
+                    break;
             }
         }
         finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }

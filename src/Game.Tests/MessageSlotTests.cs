@@ -36,7 +36,7 @@ public sealed class MessageSlotTests
     private static (MapField Field, Handler[] Handlers) Field(params Proc[] procs)
     {
         MapField field = new(null) { Holder = EngineFixture.Engine };
-        Handler[] handlers = procs.Select(p => new Handler(p)).ToArray();
+        Handler[] handlers = [.. procs.Select(p => new Handler(p))];
         foreach (Handler? handler in handlers)
         {
             _ = field.AddHexSprite(handler, 0);
@@ -45,7 +45,7 @@ public sealed class MessageSlotTests
         return (field, handlers);
     }
 
-    private static int[] Calls(Handler[] handlers) => handlers.Select(h => h.Calls).ToArray();
+    private static int[] Calls(Handler[] handlers) => [.. handlers.Select(h => h.Calls)];
 
     [Fact]
     public void TheMessageRecordsKeepTheProtocolArity()

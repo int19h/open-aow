@@ -197,6 +197,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         {
             case 1: GameHost.DeferredSetupAction = 0; _ = UI.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
             case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(UI.FileDialogWindow); break;
+            default:
+                break;
         }
         if (UI.SetupEvents.DirectPlay.DPlay is not null)
         {

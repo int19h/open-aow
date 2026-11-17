@@ -256,7 +256,7 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
 
     private static DamageType DamageTypesToDamageType(Set<DamageType> damageTypes)
     {
-        return damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>())
+        return damageTypes != Set<DamageType>.Of([])
             ? damageTypes.Contains(DamageType.Holy)
                 ? DamageType.Holy
                 : damageTypes.Contains(DamageType.Magic)

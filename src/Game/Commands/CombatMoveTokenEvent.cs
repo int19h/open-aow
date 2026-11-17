@@ -272,6 +272,12 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                         }
 
                         break;
+                    case TokenStep.FirstStrike:
+                    case TokenStep.ExecuteEndStrike:
+                    case TokenStep.StepUp:
+                    case TokenStep.DelayStrike:
+                    default:
+                        break;
                 }
             }
             else

@@ -5,7 +5,7 @@ public static class Cp1252
     // This bijection is the frozen text table for the 9.7 document format.
     private static readonly char[] s_characters = MakeCharacters();
     private static readonly byte[] s_bytes = MakeBytes();
-    private static readonly string[] s_texts = s_characters.Select(c => new string(c, 1)).ToArray();
+    private static readonly string[] s_texts = [.. s_characters.Select(c => new string(c, 1))];
 
     private static char[] MakeCharacters()
     {

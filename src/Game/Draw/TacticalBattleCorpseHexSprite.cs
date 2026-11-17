@@ -125,6 +125,8 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                                 case 17:
                                     deltaY = -deltaY;
                                     break;
+                                default:
+                                    break;
                             }
 
                             double pi = Math.PI;
@@ -177,6 +179,8 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                             raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             _ = raiseAction.Release();
+                            break;
+                        default:
                             break;
                     }
 

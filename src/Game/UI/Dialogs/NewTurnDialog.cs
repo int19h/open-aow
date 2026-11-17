@@ -109,6 +109,8 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             case NewTurnEventLogMode.Close:
                 Window.Visible = false;
                 break;
+            default:
+                break;
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Aow.Formats.Json;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -16,6 +17,7 @@ internal sealed class ImageFrame
     /// <summary>The class of the object that holds the value. A map level's class names its field class.</summary>
     public SchemaClass? OwnerClass { get; init; }
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The context parameter disambiguates this overload from the encode overload.")]
     public ValueSite Value(DecodeContext context) => new()
     {
         Property = Property,
@@ -24,6 +26,7 @@ internal sealed class ImageFrame
         Owner = Owner,
     };
 
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The context parameter disambiguates this overload from the decode overload.")]
     public ValueSite Value(EncodeContext context) => new()
     {
         Property = Property,

@@ -30,6 +30,8 @@ public partial class GameSettings : Registry
                 case ReadWriteMode.Write:
                     WriteInteger(name, value);
                     break;
+                default:
+                    break;
             }
 
             CloseKey();
@@ -52,6 +54,8 @@ public partial class GameSettings : Registry
                     break;
                 case ReadWriteMode.Write:
                     WriteBool(name, value);
+                    break;
+                default:
                     break;
             }
 
@@ -76,6 +80,8 @@ public partial class GameSettings : Registry
                 case ReadWriteMode.Write:
                     WriteString(name, value);
                     break;
+                default:
+                    break;
             }
 
             CloseKey();
@@ -98,6 +104,8 @@ public partial class GameSettings : Registry
                     break;
                 case ReadWriteMode.Write:
                     WriteBinaryData(name, value, size);
+                    break;
+                default:
                     break;
             }
 
@@ -124,6 +132,8 @@ public partial class GameSettings : Registry
                 case ReadWriteMode.Write:
                     text = RectangleToString(value);
                     WriteString(name, text);
+                    break;
+                default:
                     break;
             }
 
@@ -626,14 +636,14 @@ public partial class GameSettings : Registry
         string result;
         result = "";
         String("Email", "POP3 Password", ref result, ReadWriteMode.Read);
-        result = TransformPassword(result, true);
+        result = TransformPassword(result);
         return result;
     }
 
     // AoWReg.pas:728
     public void SetPop3Password(string value)
     {
-        value = TransformPassword(value, true);
+        value = TransformPassword(value);
         String("Email", "POP3 Password", ref value, ReadWriteMode.Write);
     }
 
@@ -756,6 +766,8 @@ public partial class GameSettings : Registry
                 case 3:
                     result.Bottom = number3;
                     break;
+                default:
+                    break;
             }
             number = Pos(",", S);
             number2++;
@@ -777,7 +789,7 @@ public partial class GameSettings : Registry
         });
     }
 
-    private static string TransformPassword(string S, bool mode)
+    private static string TransformPassword(string S)
     {
         string text = "";
         for (int i = 1; i <= S.Length; i++)

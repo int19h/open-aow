@@ -160,6 +160,8 @@ public partial class PageTurnControl
             case PageTurnMode.Close:
                 _position = 180;
                 break;
+            default:
+                break;
         }
     }
 
@@ -510,6 +512,8 @@ public partial class PageTurnControl
                 double mathSin = Math.Sin((double)(_position * mathPI) / 180);
                 R.Top = Y - Round((double)((double)((double)mathSin * _scale) * _width) + 1);
                 R.Bottom = Y + _height;
+                break;
+            default:
                 break;
         }
     }

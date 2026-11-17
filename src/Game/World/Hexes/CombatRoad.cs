@@ -121,6 +121,8 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
                         int random3 = Random(2);
                         _images[hexNumber] = (byte)(random3 * 3);
                         break;
+                    default:
+                        break;
                 }
             }
             else

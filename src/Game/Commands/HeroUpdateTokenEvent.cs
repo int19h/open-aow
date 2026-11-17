@@ -60,6 +60,8 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
                 case HeroUpdateTokenEventMode.CancelCasting:
                     success = hero.ExecuteCancelCasting();
                     break;
+                default:
+                    break;
             }
         }
 

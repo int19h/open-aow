@@ -437,6 +437,8 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     sender.Drawn = false;
                     sender.ImageLibraryIndexUp = 20;
                     break;
+                default:
+                    break;
             }
 
             ChatFlash = (short)(ChatFlash - 1);

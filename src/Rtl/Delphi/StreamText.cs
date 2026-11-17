@@ -4,7 +4,7 @@ public static partial class RtlUnit
 {
     public static int ReadString(Stream stream, ref string value, int start, int count, bool exact)
     {
-        byte[] bytes = Cp1252.Encode(value).ToArray();
+        byte[] bytes = [.. Cp1252.Encode(value)];
         Span<byte> buffer = bytes.AsSpan(start, count);
         if (exact && count == 0)
         {

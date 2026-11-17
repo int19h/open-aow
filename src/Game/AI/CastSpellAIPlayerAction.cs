@@ -247,6 +247,8 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 }
 
                 break;
+            default:
+                break;
         }
     }
 

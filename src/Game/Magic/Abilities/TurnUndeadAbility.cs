@@ -267,26 +267,14 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3260
     public override sbyte GetTouchAttack(int level)
     {
-        sbyte result;
-        switch (level)
+        sbyte result = level switch
         {
-            case 1:
-                result = 4;
-                break;
-            case 2:
-                result = 5;
-                break;
-            case 3:
-                result = 6;
-                break;
-            case 4:
-                result = 7;
-                break;
-            default:
-                result = 4;
-                break;
-        }
-
+            1 => 4,
+            2 => 5,
+            3 => 6,
+            4 => 7,
+            _ => 4,
+        };
         return result;
     }
 
@@ -336,6 +324,8 @@ public partial class TurnUndeadAbility : TouchAbility
             case 4:
                 result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " IV";
                 break;
+            default:
+                break;
         }
 
         return result;
@@ -344,26 +334,14 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3271
     public sbyte GetTurnUndeadDamage(int level)
     {
-        sbyte result;
-        switch (level)
+        sbyte result = level switch
         {
-            case 1:
-                result = 4;
-                break;
-            case 2:
-                result = 5;
-                break;
-            case 3:
-                result = 6;
-                break;
-            case 4:
-                result = 7;
-                break;
-            default:
-                result = 0;
-                break;
-        }
-
+            1 => 4,
+            2 => 5,
+            3 => 6,
+            4 => 7,
+            _ => 0,
+        };
         return result;
     }
 

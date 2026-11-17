@@ -54,7 +54,7 @@ public readonly struct FormatArg : IUnion
         Case.Extended => BitConverter.Int64BitsToDouble(bits),
         Case.String or Case.Object => reference,
         Case.Pointer => new PointerArg((uint)bits),
-        _ => null,
+        Case.None or _ => null,
     };
 
     public bool HasValue => kind != Case.None;

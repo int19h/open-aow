@@ -99,6 +99,8 @@ public partial class TitleScene
                     }
 
                     break;
+                default:
+                    break;
             }
         }
         _pressedButton = -1;

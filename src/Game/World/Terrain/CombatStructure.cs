@@ -149,6 +149,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     int executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense12);
                     SetHitPoints(HitPoints - executeDamageRole12);
                     break;
+                default:
+                    break;
             }
         }
     }

@@ -40,31 +40,16 @@ public partial class BattleEffectSprite
         void SelectDamageSequence()
         {
             int n = default;
-            switch (EffectType)
+            n = EffectType switch
             {
-                case BattleEffectType.DamLightning:
-                    n = 40;
-                    break;
-                case BattleEffectType.DamFire:
-                    n = 41;
-                    break;
-                case BattleEffectType.DamPoison:
-                    n = 42;
-                    break;
-                case BattleEffectType.DamMagic:
-                    n = 43;
-                    break;
-                case BattleEffectType.DamHoly:
-                    n = 44;
-                    break;
-                case BattleEffectType.DamDeath:
-                    n = 45;
-                    break;
-                default:
-                    n = 46;
-                    break;
-            }
-
+                BattleEffectType.DamLightning => 40,
+                BattleEffectType.DamFire => 41,
+                BattleEffectType.DamPoison => 42,
+                BattleEffectType.DamMagic => 43,
+                BattleEffectType.DamHoly => 44,
+                BattleEffectType.DamDeath => 45,
+                BattleEffectType.None or BattleEffectType.Arrow or BattleEffectType.Rock or BattleEffectType.Comet or BattleEffectType.Touch or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.Effect or BattleEffectType.FBExplosion or BattleEffectType.ScreenNESW or BattleEffectType.ScreenNS or BattleEffectType.Ray or BattleEffectType.Chain or BattleEffectType.Swarm or BattleEffectType.ScreenSwarm or BattleEffectType.SFOverlay or BattleEffectType.DamCold or BattleEffectType.SacredWrath or BattleEffectType.SWComet or BattleEffectType.Dispel or BattleEffectType.WallSmoke or BattleEffectType.Blood or BattleEffectType.AltArrow or BattleEffectType.Tremors or BattleEffectType.Geyser or BattleEffectType.GeyserWater or BattleEffectType.HailImpact or BattleEffectType.Cloud or BattleEffectType.CloudPuff or BattleEffectType.HitGround or BattleEffectType.HitWater or BattleEffectType.HighPrayer or BattleEffectType.PrayerGlow or BattleEffectType.Resurrect or BattleEffectType.FrostBeam or BattleEffectType.Frost or BattleEffectType.MindDecay or BattleEffectType.DecayLeg or BattleEffectType.ShockWave or BattleEffectType.DecayComet or BattleEffectType.SacFlame or BattleEffectType.Winds or BattleEffectType.SacFire or BattleEffectType.BreathDam or _ => 46,
+            };
             sequence = GamePack.Current.ImageSequences.ImageSequences[n];
         }
 
@@ -502,7 +487,13 @@ public partial class BattleEffectSprite
                         ShowScreenSwarm();
                         FinishPath();
                         break;
-                    case >= BattleEffectType.DamLightning and <= BattleEffectType.DamCold:
+                    case BattleEffectType.DamLightning:
+                    case BattleEffectType.DamFire:
+                    case BattleEffectType.DamPoison:
+                    case BattleEffectType.DamMagic:
+                    case BattleEffectType.DamHoly:
+                    case BattleEffectType.DamDeath:
+                    case BattleEffectType.DamCold:
                         SelectDamageSequence();
                         ShowParticle(EffectType == BattleEffectType.DamDeath);
                         FinishPath();
@@ -629,6 +620,19 @@ public partial class BattleEffectSprite
                         SelectSequence(0);
                         ShowMovingLoop();
                         FinishPath();
+                        break;
+                    case BattleEffectType.None:
+                    case BattleEffectType.Dispel:
+                    case BattleEffectType.Tremors:
+                    case BattleEffectType.Cloud:
+                    case BattleEffectType.HighPrayer:
+                    case BattleEffectType.Resurrect:
+                    case BattleEffectType.MindDecay:
+                    case BattleEffectType.ShockWave:
+                    case BattleEffectType.SacFlame:
+                    case BattleEffectType.Winds:
+                    case BattleEffectType.BreathDam:
+                    default:
                         break;
                 }
             }

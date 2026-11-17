@@ -240,6 +240,10 @@ public partial class StormSpell : Spell
                 _targetStorm?.Dispose();
                 _targetStorm = null;
                 break;
+            case TargetSelectionChange.None:
+            case TargetSelectionChange.Activated:
+            default:
+                break;
         }
     }
 }

@@ -261,6 +261,8 @@ public partial class RangedAttackAbility : AdjustableAbility
                 case 4:
                     result = (sbyte)(result + 2);
                     break;
+                default:
+                    break;
             }
         }
 
@@ -286,6 +288,8 @@ public partial class RangedAttackAbility : AdjustableAbility
                     break;
                 case 4:
                     result = (sbyte)(result + 2);
+                    break;
+                default:
                     break;
             }
         }

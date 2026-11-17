@@ -197,7 +197,7 @@ public sealed class LayeredFileSystem : IFileSystem
 
             if (!_userListings.TryGetValue(location, out string[]? entries))
             {
-                _userListings[location] = entries = Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal).ToArray();
+                _userListings[location] = entries = [.. Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal)];
             }
 
             string? match = entries.FirstOrDefault(e => Same(Path.GetFileName(e), part));

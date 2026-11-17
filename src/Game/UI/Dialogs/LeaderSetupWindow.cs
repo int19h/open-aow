@@ -279,6 +279,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
             case 3:
                 StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
+            default:
+                break;
         }
     }
 
@@ -298,6 +300,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 break;
             case 3:
                 StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                break;
+            default:
                 break;
         }
     }
@@ -413,6 +417,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
             case 3:
                 UpdateSpheres();
                 break;
+            default:
+                break;
         }
     }
 
@@ -445,34 +451,17 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         Button button;
         for (int i = 0; i <= 6; i++)
         {
-            switch (i)
+            button = i switch
             {
-                case 0:
-                    button = SelectedSphere1Button;
-                    break;
-                case 1:
-                    button = SelectedSphere2Button;
-                    break;
-                case 2:
-                    button = SelectedSphere3Button;
-                    break;
-                case 3:
-                    button = SelectedSphere4Button;
-                    break;
-                case 4:
-                    button = SelectedSphere5Button;
-                    break;
-                case 5:
-                    button = SelectedSphere6Button;
-                    break;
-                case 6:
-                    button = SelectedSphere7Button;
-                    break;
-                default:
-                    button = null;
-                    break;
-            }
-
+                0 => SelectedSphere1Button,
+                1 => SelectedSphere2Button,
+                2 => SelectedSphere3Button,
+                3 => SelectedSphere4Button,
+                4 => SelectedSphere5Button,
+                5 => SelectedSphere6Button,
+                6 => SelectedSphere7Button,
+                _ => null,
+            };
             if (i < Leader.GetSphereCount())
             {
                 button.Visible = true;
@@ -507,6 +496,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                         button.ImageLibraryIndexDown = 31;
                         button.ImageLibraryIndexLit = 32;
                         button.ImageLibraryIndexUp = 30;
+                        break;
+                    default:
                         break;
                 }
             }
@@ -732,6 +723,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -789,6 +782,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                     UI.MessageDialog.Window.Visible = true;
                 }
 
+                break;
+            default:
                 break;
         }
     }
@@ -966,6 +961,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 Leader.ClearSpheres();
                 UpdateSpheres();
                 break;
+            default:
+                break;
         }
     }
 
@@ -1013,6 +1010,8 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                     UpdateSpheres();
                 }
 
+                break;
+            default:
                 break;
         }
     }

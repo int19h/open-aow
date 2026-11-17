@@ -171,11 +171,11 @@ internal sealed class LayoutReader
 
     public (List<TableEntry> Entries, bool LongMarker, JsonValue At)? Table(int? property)
     {
-        foreach ((int? Property, List<TableEntry> Entries, bool LongMarker, JsonValue At) t in Tables)
+        foreach ((int? tableProperty, List<TableEntry> entries, bool longMarker, JsonValue at) in Tables)
         {
-            if (t.Property == property)
+            if (tableProperty == property)
             {
-                return (t.Entries, t.LongMarker, t.At);
+                return (entries, longMarker, at);
             }
         }
 

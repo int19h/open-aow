@@ -3130,6 +3130,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     attack = 4;
                     damage = 3;
                     break;
+                case StormType.None:
                 default:
                     attack = 0;
                     damage = 0;
@@ -3258,6 +3259,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     data.Priority |= 1;
                 }
 
+                break;
+            case AITargetMode.Produce:
+            case AITargetMode.Fortify:
+            case AITargetMode.Defend:
+            default:
                 break;
         }
     }

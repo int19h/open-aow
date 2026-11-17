@@ -229,6 +229,8 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                 case PixelFormats.pfRGB555:
                     BlendRle555(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
+                default:
+                    break;
             }
 
             if (LoadMode == LoadMode.LoadFreeOnDemand)
@@ -250,6 +252,8 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                     break;
                 case PixelFormats.pfRGB555:
                     BlendRle555(X + Xshift + _spriteX, Y + Yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
+                    break;
+                default:
                     break;
             }
         }

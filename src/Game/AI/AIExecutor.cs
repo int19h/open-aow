@@ -103,20 +103,12 @@ public partial class AIExecutor : EngineObject
     // AI.pas:603
     public int GetProcessTimeElapsed()
     {
-        int result;
-        switch (_processTimeMode)
+        int result = _processTimeMode switch
         {
-            case AIExecutorProcessTimeMode.Static:
-                result = _processTimeUsed;
-                break;
-            case AIExecutorProcessTimeMode.Dynamic:
-                result = (PixelFormats.GetElapsedMilliseconds() - _processStarted) * 1000;
-                break;
-            default:
-                result = -1;
-                break;
-        }
-
+            AIExecutorProcessTimeMode.Static => _processTimeUsed,
+            AIExecutorProcessTimeMode.Dynamic => (PixelFormats.GetElapsedMilliseconds() - _processStarted) * 1000,
+            _ => -1,
+        };
         return result;
     }
 
@@ -268,6 +260,9 @@ public partial class AIExecutor : EngineObject
                             }
                         }
 
+                        break;
+                    case PlayMode.None:
+                    default:
                         break;
                 }
             }

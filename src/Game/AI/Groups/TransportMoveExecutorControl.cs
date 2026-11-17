@@ -329,6 +329,8 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                 }
 
                 break;
+            default:
+                break;
         }
     }
 

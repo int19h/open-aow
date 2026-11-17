@@ -225,6 +225,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 NextButton.Visible = false;
                 PreviousButton.Visible = false;
                 break;
+            default:
+                break;
         }
     }
 
@@ -274,6 +276,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     string spellType6 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType6]);
                     RightHeaderLabel.Text = format5;
+                    break;
+                default:
                     break;
             }
 
@@ -342,34 +346,17 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
             for (int i = 0; i <= 6; i++)
             {
-                switch (i)
+                button = i switch
                 {
-                    case 0:
-                        button = Sphere1Button;
-                        break;
-                    case 1:
-                        button = Sphere2Button;
-                        break;
-                    case 2:
-                        button = Sphere3Button;
-                        break;
-                    case 3:
-                        button = Sphere4Button;
-                        break;
-                    case 4:
-                        button = Sphere5Button;
-                        break;
-                    case 5:
-                        button = Sphere6Button;
-                        break;
-                    case 6:
-                        button = Sphere7Button;
-                        break;
-                    default:
-                        button = null;
-                        break;
-                }
-
+                    0 => Sphere1Button,
+                    1 => Sphere2Button,
+                    2 => Sphere3Button,
+                    3 => Sphere4Button,
+                    4 => Sphere5Button,
+                    5 => Sphere6Button,
+                    6 => Sphere7Button,
+                    _ => null,
+                };
                 if (i < leader.GetSphereCount())
                 {
                     button.Visible = true;
@@ -404,6 +391,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                             button.ImageLibraryIndexDown = 31;
                             button.ImageLibraryIndexLit = 32;
                             button.ImageLibraryIndexUp = 30;
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -718,6 +707,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         CombatMap.Current.ShowWarning(reason);
                     }
 
+                    break;
+                default:
                     break;
             }
         }
@@ -1081,6 +1072,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     break;
                 case 1:
                     SelectSpell(GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId));
+                    break;
+                default:
                     break;
             }
         }

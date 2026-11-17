@@ -29,7 +29,7 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
     {
         Case.Integer => bits,
         Case.Object => reference,
-        _ => null,
+        Case.None or _ => null,
     };
 
     public bool HasValue => kind != Case.None;
@@ -52,7 +52,7 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
     {
         Case.Integer => bits,
         Case.None => 0,
-        _ => throw new InvalidCastException("Message argument holds a reference, not an integer"),
+        Case.Object or _ => throw new InvalidCastException("Message argument holds a reference, not an integer"),
     };
 
     // The reference case as T, null when the slot holds an integer, nothing or another type.

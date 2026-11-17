@@ -29,6 +29,8 @@ public partial class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -91,6 +93,8 @@ public partial class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner
                 ActivatePlugin(raze);
                 _ = raze.Release();
                 State = 1;
+                break;
+            default:
                 break;
         }
     }

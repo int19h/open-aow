@@ -82,8 +82,8 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override void GetMousePosition(ref int x, ref int y)
     {
-        (int X, int Y, bool Inside) pointer = host.PointerPosition();
-        (x, y) = host.HasFocus && pointer.Inside ? (pointer.X, pointer.Y) : (-1, -1);
+        (int pointerX, int pointerY, bool inside) = host.PointerPosition();
+        (x, y) = host.HasFocus && inside ? (pointerX, pointerY) : (-1, -1);
         host.ShowSystemCursor(x == -1);
     }
 

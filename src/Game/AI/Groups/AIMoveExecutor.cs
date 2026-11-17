@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -44,6 +45,7 @@ public partial class AIMoveExecutor : EngineObject
     public AIMoveExecutorStatus Status { get; set; }
 
     private sbyte _player;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
     public event DoneEvent OnDone;
@@ -429,6 +431,8 @@ public partial class AIMoveExecutor : EngineObject
                         break;
                     case 1:
                         ActivateMoveExecutorControl(() => new TransportMoveExecutorControl(null) { Holder = CreationHolder() });
+                        break;
+                    default:
                         break;
                 }
 

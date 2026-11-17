@@ -879,8 +879,8 @@ internal sealed partial class ChildrenCodec
     {
         PropertyTable table = PropertyTable.Read(context, start, end, frame.Path);
         int db = table.DataBase;
-        int[] boundaries = table.Entries.Select(entry => entry.Offset).Append(end - db).Distinct().Order().ToArray();
-        List<TableEntry> order = table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index).ToList();
+        int[] boundaries = [.. table.Entries.Select(entry => entry.Offset).Append(end - db).Distinct().Order()];
+        List<TableEntry> order = [.. table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index)];
         HashSet<int> slots = [];
         List<ObjectNode> children = [];
         for (int i = 0; i < order.Count; i++)
@@ -1073,11 +1073,11 @@ internal sealed class RecordCodec(JsonObject source, FormatSchema schema, string
 {
     internal override string? ImageRefusal => "A record has no image.";
 
-    private readonly (string Name, PropertyCodec Codec)[] _fields = ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
+    private readonly (string Name, PropertyCodec Codec)[] _fields = [.. ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
         {
             string name = ((JsonString)f["name"]!).Value;
             return (name, Create(f, schema, path + "." + name));
-        }).ToArray();
+        })];
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
         throw new InvalidOperationException("A record has no image.");

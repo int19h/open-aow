@@ -45,7 +45,7 @@ public sealed class GraphicsArrayTests
     public void ImageNodeShiftsItsImages()
     {
         ImageNode node = new(null);
-        ImageNode[] images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null)).ToArray();
+        ImageNode[] images = [.. Enumerable.Range(0, 4).Select(_ => new ImageNode(null))];
         try
         {
             _ = node.Add(images[0]);

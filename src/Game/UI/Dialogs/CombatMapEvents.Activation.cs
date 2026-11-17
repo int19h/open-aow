@@ -30,6 +30,8 @@ public partial class CombatMapEvents
                 case 2:
                     _ = AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", 2, 0, true);
                     break;
+                default:
+                    break;
             }
         }
 

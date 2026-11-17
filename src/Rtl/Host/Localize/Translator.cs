@@ -20,7 +20,7 @@ public static class TranslatorProperties
         s_bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
             StringCollection? strings = read((T)component);
-            return strings is null ? [] : Enumerable.Range(0, strings.Count).Select(i => strings[i]).ToArray();
+            return strings is null ? [] : [.. Enumerable.Range(0, strings.Count).Select(i => strings[i])];
         }, (component, values) =>
         {
             StringCollection? strings = read((T)component);
@@ -177,6 +177,6 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
             int skip = end == marker ? 5 : 1;
             value = RtlUnit.Copy(value, end + skip, value.Length - end - skip + 1);
         } while (value.Length > 0);
-        return result.ToArray();
+        return [.. result];
     }
 }

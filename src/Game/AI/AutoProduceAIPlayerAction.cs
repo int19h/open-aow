@@ -148,6 +148,8 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 }
 
                 break;
+            default:
+                break;
         }
 
         return _state != -1;

@@ -373,7 +373,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                             // The save takes the extension the host writes, beside an original of the same name
                             // (own-formats.md 4.2).
                             SaveFileNameEdit.Text = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.CampaignSave.OriginalExtension);
-                            SaveCampaign(UI.General, SaveFileNameEdit.Text);
+                            SaveCampaign(SaveFileNameEdit.Text);
                         }
                         else
                         {
@@ -386,7 +386,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                             {
                                 Window.Visible = false;
                                 SaveFileNameEdit.Text = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.Save.OriginalExtension);
-                                SaveGame(UI.General, SaveFileNameEdit.Text);
+                                SaveGame(SaveFileNameEdit.Text);
                             }
                         }
 
@@ -402,6 +402,8 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                         LastFileName = FileNameEdit.Text;
                     }
 
+                    break;
+                default:
                     break;
             }
         }
@@ -581,6 +583,8 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 UI.FileDialogWindow.OpenButton.Text = select;
                 SavePanel.Visible = false;
                 NewPanel.Visible = true;
+                break;
+            default:
                 break;
         }
 
@@ -809,9 +813,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         }
     }
 
-    private static void SaveGame(General controller, string name) => StrategicMap.Current.SaveGame(name);
+    private static void SaveGame(string name) => StrategicMap.Current.SaveGame(name);
 
-    private static void SaveCampaign(General controller, string name) =>
+    private static void SaveCampaign(string name) =>
         // { Original campaign-save command uses the map save routine. }
         StrategicMap.Current.SaveGame(name);
 

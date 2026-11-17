@@ -181,8 +181,12 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     case 117:
                                         Frame += 1;
                                         break;
+                                    default:
+                                        break;
                                 }
 
+                                break;
+                            default:
                                 break;
                         }
 
@@ -592,6 +596,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 Done = true;
                                 Target = null;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -810,6 +816,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                                 Frame = -1;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -905,6 +913,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 }
 
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -979,6 +989,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         }
 
                                         break;
+                                    default:
+                                        break;
                                 }
 
                                 break;
@@ -1044,6 +1056,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 break;
                             case 200:
                                 Frame = -1;
+                                break;
+                            default:
                                 break;
                         }
 
@@ -1196,6 +1210,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 Frame = -1;
                                 Target = null;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -1237,6 +1253,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         Frame = newPath.Count - 1;
                                         k = k == 2 ? -1 : 0;
 
+                                        break;
+                                    default:
                                         break;
                                 }
 
@@ -1503,6 +1521,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case 120:
                                 Frame = -1;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -1520,6 +1540,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 break;
                             case >= 200 and <= 249:
                                 MakeCloud((250 - Frame) * 3, 150);
+                                break;
+                            default:
                                 break;
                         }
 
@@ -1618,6 +1640,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 Frame = -1;
                                 Target = null;
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
@@ -1626,6 +1650,8 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                         {
                             case 100:
                                 Frame = -1;
+                                break;
+                            default:
                                 break;
                         }
 
@@ -1706,11 +1732,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 }
 
                                 break;
+                            default:
+                                break;
                         }
 
                         break;
                     case BattleEffectType.SWComet:
                         break;
+                    case BattleEffectType.None:
+                    case BattleEffectType.Dispel:
+                    case BattleEffectType.BreathDam:
                     default:
                         Frame = -1;
                         break;

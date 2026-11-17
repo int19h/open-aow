@@ -136,6 +136,8 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
                     result.JoinMessage.Text = formattedText;
                     break;
+                default:
+                    break;
             }
         }
         else

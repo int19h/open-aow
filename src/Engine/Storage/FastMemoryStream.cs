@@ -118,7 +118,7 @@ public partial class FastMemoryStream : Stream
                     }
                     else
                     {
-                        Move(_memory.AsSpan(_position, result), buffer.Slice(0, result), result);
+                        Move(_memory.AsSpan(_position, result), buffer[..result], result);
                     }
                 }
             }
@@ -183,7 +183,7 @@ public partial class FastMemoryStream : Stream
                         {
                             if (count != 0)
                             {
-                                Move(buffer.Slice(0, count), _memory.AsSpan(_position, count), count);
+                                Move(buffer[..count], _memory.AsSpan(_position, count), count);
                             }
                         }
                     }
@@ -214,6 +214,8 @@ public partial class FastMemoryStream : Stream
                 break;
             case SeekOrigin.End:
                 _position = _size + offsetLocal;
+                break;
+            default:
                 break;
         }
 

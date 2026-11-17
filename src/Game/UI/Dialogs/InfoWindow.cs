@@ -360,6 +360,9 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
                 string goDown = dialog.UI.Engine.TranslateResourceString(GameText.GoDownText);
                 dialog.MainButton.Text = goDown;
                 break;
+            case CaveEntrance.Idle:
+            default:
+                break;
         }
     }
 

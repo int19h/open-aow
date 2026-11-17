@@ -132,6 +132,8 @@ public partial class CombatWall : CombatObject
             case 2:
                 GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
                 break;
+            default:
+                break;
         }
         HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: (sbyte)_hitPoints), x: X, y: Y - 10, surface: surface);
     }

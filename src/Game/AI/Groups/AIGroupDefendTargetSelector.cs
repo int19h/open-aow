@@ -223,6 +223,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
             case PlayerType.Cpu5:
                 _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
+            case PlayerType.Human:
+            case PlayerType.Cpu1:
+            case PlayerType.Independent:
+            case PlayerType.Free:
+            default:
+                break;
         }
 
         return true;

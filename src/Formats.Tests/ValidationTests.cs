@@ -20,7 +20,7 @@ public sealed class ValidationTests : FormatsTest
             }
 
             JsonArray players = (JsonArray)((JsonObject)context.Root["Players"]!)["Children"]!;
-            HashSet<long> slots = players.Items.Select(p => ((JsonInteger)((JsonObject)p)["$slot"]!).Value).ToHashSet();
+            HashSet<long> slots = [.. players.Items.Select(p => ((JsonInteger)((JsonObject)p)["$slot"]!).Value)];
             if (!slots.Contains(current.Value))
             {
                 yield return context.At(Codes.Reference,
@@ -42,7 +42,7 @@ public sealed class ValidationTests : FormatsTest
     [GameFact]
     public void ADanglingReferenceIsLocatedAndNamesItsDomain()
     {
-        byte[] text = GameFiles.Write(Map()).AsSpan().ToArray();
+        byte[] text = [.. GameFiles.Write(Map())];
         string edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
         FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
         Assert.Equal(Codes.Reference, finding.Code);

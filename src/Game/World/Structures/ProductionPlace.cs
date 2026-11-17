@@ -268,6 +268,13 @@ public partial class ProductionPlace : PlayerStructure
                     }
 
                     break;
+                case AITargetMode.Recruit:
+                case AITargetMode.Hunt:
+                case AITargetMode.Fortify:
+                case AITargetMode.GuardArea:
+                case AITargetMode.AttackArmies:
+                default:
+                    break;
             }
         }
     }
@@ -500,31 +507,16 @@ public partial class ProductionPlace : PlayerStructure
         ImageSequenceAnimation animation;
         if (sphere == GetMagicSphere() && Player > 0)
         {
-            switch (sphere)
+            unitIndex = sphere switch
             {
-                case MagicSphere.Life:
-                    unitIndex = 216;
-                    break;
-                case MagicSphere.Death:
-                    unitIndex = 217;
-                    break;
-                case MagicSphere.Water:
-                    unitIndex = 227;
-                    break;
-                case MagicSphere.Fire:
-                    unitIndex = 226;
-                    break;
-                case MagicSphere.Earth:
-                    unitIndex = 225;
-                    break;
-                case MagicSphere.Air:
-                    unitIndex = 224;
-                    break;
-                default:
-                    unitIndex = -1;
-                    break;
-            }
-
+                MagicSphere.Life => 216,
+                MagicSphere.Death => 217,
+                MagicSphere.Water => 227,
+                MagicSphere.Fire => 226,
+                MagicSphere.Earth => 225,
+                MagicSphere.Air => 224,
+                MagicSphere.Cosmos or MagicSphere.Secret or MagicSphere.None or _ => -1,
+            };
             if (unitIndex != -1)
             {
                 unit = new Unit(null) { Holder = CreationHolder() };

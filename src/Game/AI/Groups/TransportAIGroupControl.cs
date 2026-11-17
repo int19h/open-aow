@@ -34,6 +34,8 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -97,6 +99,8 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
                 break;
             case 3:
                 Done();
+                break;
+            default:
                 break;
         }
     }

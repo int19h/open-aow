@@ -646,6 +646,8 @@ public partial class ArmyHexSprite : UnitHexSprite
             case GameSettings.MovementSpeed.Turbo:
                 MoveSteps = 2;
                 break;
+            default:
+                break;
         }
 
         if (StrategicMap.Current.FPS > 0)

@@ -96,6 +96,8 @@ public partial class ArmyInfoEventLog : EventLog
                     }
 
                     break;
+                default:
+                    break;
             }
         }
 

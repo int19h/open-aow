@@ -734,7 +734,7 @@ public partial class PlayerControl : EngineObject
     {
         string password = "";
         MessageEventLog messageLog = default;
-        password = AbilityRules.Encode(log.Password, 0);
+        password = AbilityRules.Encode(log.Password);
         if (log.PressedButton != PressedEventLogButton.Ok || password != _password)
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder())

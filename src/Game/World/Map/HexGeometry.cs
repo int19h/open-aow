@@ -70,6 +70,8 @@ public static class HexGeometry
                 case 5:
                     HVtoHex(position, -r, out newHexX, out newHexY);
                     break;
+                default:
+                    break;
             }
         }
         else
@@ -227,6 +229,8 @@ public static class HexGeometry
                     break;
                 case 5:
                     HVtoHex(position, -r, out hexX, out hexY);
+                    break;
+                default:
                     break;
             }
         }

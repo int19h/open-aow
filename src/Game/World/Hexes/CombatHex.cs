@@ -56,6 +56,8 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
                 case 2:
                     UpdateTransition(3);
                     break;
+                default:
+                    break;
             }
         }
     }

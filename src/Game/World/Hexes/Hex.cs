@@ -101,6 +101,8 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
                 case 2:
                     UpdateTransition(2);
                     break;
+                default:
+                    break;
             }
         }
     }

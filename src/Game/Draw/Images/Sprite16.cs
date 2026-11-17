@@ -359,6 +359,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                             case PixelFormats.pfRGB565:
                                 BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
+                            default:
+                                break;
                         }
                     }
                     else
@@ -375,6 +377,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                                 break;
                             case PixelFormats.pfRGB565:
                                 BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -398,6 +402,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                             case PixelFormats.pfRGB565:
                                 BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
                                 break;
+                            default:
+                                break;
                         }
                     }
                     else
@@ -414,6 +420,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                                 break;
                             case PixelFormats.pfRGB565:
                                 BlendColorKey565(source, destination, w, h, _colorKey, table.Bytes);
+                                break;
+                            default:
                                 break;
                         }
                     }

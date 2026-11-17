@@ -314,6 +314,8 @@ public partial class CombatMap : GameMap
                         }
 
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -655,6 +657,8 @@ public partial class CombatMap : GameMap
                     break;
                 case 258:
                     Mouse.Cursor = (((int)(((uint)Frame) >> 2)) & 1) + 49;
+                    break;
+                default:
                     break;
             }
         }

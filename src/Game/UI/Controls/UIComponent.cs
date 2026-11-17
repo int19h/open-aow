@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWComp.pas.
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Rtl;
@@ -130,6 +131,7 @@ public partial class UIComponent : Rtl.Component
     protected void RaiseUpdate(UIComponent sender) => OnUpdate?.Invoke(sender);
 
     // Nothing in the port raises OnDebugMessage. The bound handler is kept.
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnDebugMessage keeps this backing field until the port raises it.")]
     private AoWOnDebugEvent _onDebugMessage;
 
     [Published]
@@ -237,6 +239,9 @@ public partial class UIComponent : Rtl.Component
                 case AlignWidth.Center:
                     _winLeft = (_ownerComponent._winWidth / 2) - (_winWidth / 2);
                     break;
+                case AlignWidth.None:
+                default:
+                    break;
             }
 
             switch (_alignment.AlignHeight)
@@ -263,6 +268,9 @@ public partial class UIComponent : Rtl.Component
                     break;
                 case AlignHeight.Center:
                     _winTop = (_ownerComponent._winHeight / 2) - (_winHeight / 2);
+                    break;
+                case AlignHeight.None:
+                default:
                     break;
             }
         }

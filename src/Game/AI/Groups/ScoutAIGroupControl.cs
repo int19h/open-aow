@@ -32,6 +32,8 @@ public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owne
                 }
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -111,6 +113,8 @@ public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owne
                 break;
             case 3:
                 Done();
+                break;
+            default:
                 break;
         }
     }

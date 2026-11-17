@@ -1683,10 +1683,10 @@ public partial class GameMap : OwningNode
         color = 2134015;
         if (R.Left > 0 && R.Top > 0 && pixelXSurface < R.Right && pixelYSurface < R.Bottom && R.Right < ViewWidth + pixelXSurface && R.Bottom < ViewHeight + pixelYSurface)
         {
-            DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, 0, color, lockedSurface);
-            DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, 0, color, lockedSurface);
-            DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, 0, color, lockedSurface);
-            DrawLine(R.Left - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Top - pixelYSurface, 0, color, lockedSurface);
+            DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, color, lockedSurface);
+            DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
+            DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
+            DrawLine(R.Left - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Top - pixelYSurface, color, lockedSurface);
         }
     }
 
@@ -1740,7 +1740,7 @@ public partial class GameMap : OwningNode
         }
     }
 
-    private static void DrawLine(int x1, int y1, int x2, int y2, int skip, int color, in LockedSurface lockedSurface)
+    private static void DrawLine(int x1, int y1, int x2, int y2, int color, in LockedSurface lockedSurface)
     {
         int pixelFormatId = lockedSurface.PixelFormatId;
         int number = pixelFormatId;

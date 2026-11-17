@@ -25,7 +25,7 @@ public sealed class PersistRefusalTests
                 continue;
             }
 
-            if (EngineObject.TreePersistenceRefusal(engineClass.Type) is string)
+            if (EngineObject.TreePersistenceRefusal(engineClass.Type) is not null)
             {
                 found.Add(engineClass.Type.Name);
             }

@@ -517,6 +517,8 @@ public partial class CampaignTransferSettings : EngineObject
                     case 2:
                         _ = AddUnit(candidates[0].Second);
                         break;
+                    default:
+                        break;
                 }
             }
             else

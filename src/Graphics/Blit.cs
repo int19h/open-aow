@@ -77,10 +77,6 @@ public static partial class Blit
         for (int i = 0; i < tail; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
     }
 
-    private static ulong UInt64(Span<byte> s, int offset) => BinaryPrimitives.ReadUInt64LittleEndian(s.Slice(offset, 8));
-
-    private static void UInt64(Span<byte> d, int offset, ulong value) => BinaryPrimitives.WriteUInt64LittleEndian(d.Slice(offset, 8), value);
-
     // `rep movsd` with the bytes before and after: a row shorter than 4 bytes is copied byte by
     // byte, a longer one as the bytes that align its end, the dwords and the tail bytes. A
     // negative width copies nothing.

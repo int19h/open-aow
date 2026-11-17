@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
@@ -20,6 +21,7 @@ public partial class AIGroupTask : EngineObject
     }
 
     private int _refCount;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
     public AIGroupControl GroupControl { get; protected set; }

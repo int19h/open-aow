@@ -223,6 +223,8 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
                 }
 
                 break;
+            default:
+                break;
         }
 
         if (action != null)

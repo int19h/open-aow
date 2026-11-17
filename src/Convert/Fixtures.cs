@@ -4,7 +4,6 @@ using Aow.Formats;
 using Aow.Formats.Json;
 
 using Aow.Formats.Original;
-using Aow.Rtl;
 
 namespace Aow.Convert;
 
@@ -231,6 +230,4 @@ public static partial class Fixtures
 
     /// <summary>A written hero list: the outer table, then a THeroLibrary table and data.</summary>
     private static byte[] HeroListImage(byte[] table, byte[] data) => Concat([1, 0, 0], table, data);
-
-    private static string ShortString(string s) => System.Convert.ToHexStringLower(Concat([(byte)s.Length], Cp1252.Encode(s)));
 }

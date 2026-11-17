@@ -115,7 +115,6 @@ internal static class PixelRemap
 
     internal static int RemapPixelInfo(int pixelInfo, int sourcePixelFormatId, Palette sourcePalette, int destinationPixelFormatId, Palette destinationPalette)
     {
-        int result;
         byte r;
         byte g;
         byte b;
@@ -174,36 +173,19 @@ internal static class PixelRemap
                 throw new NotSupportedException("Source PixelFormat not supported");
         }
 
-        switch (destinationPixelFormatId)
+        int result = destinationPixelFormatId switch
         {
-            case PixelFormats.pfPAL8:
-                result = destinationPalette != null
-                    ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
-                    : throw new InvalidOperationException("Destination Palette needed");
-
-                break;
-            case PixelFormats.pfRGB565:
-                result = ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3);
-                break;
-            case PixelFormats.pfRGB555:
-                result = ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3);
-                break;
-            case PixelFormats.pfARGB1555:
-                result = ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3);
-                break;
-            case PixelFormats.pfRGB24:
-                result = (r << 16) + (g << 8) + b;
-                break;
-            case PixelFormats.pfBGR24:
-                result = r + (g << 8) + (b << 16);
-                break;
-            case PixelFormats.pfRGB32:
-                result = (a << 24) + (r << 16) + (g << 8) + b;
-                break;
-            default:
-                throw new NotSupportedException("Destination PixelFormat not supported");
-        }
-
+            PixelFormats.pfPAL8 => destinationPalette != null
+                                ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
+                                : throw new InvalidOperationException("Destination Palette needed"),
+            PixelFormats.pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormats.pfRGB555 => ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormats.pfARGB1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormats.pfRGB24 => (r << 16) + (g << 8) + b,
+            PixelFormats.pfBGR24 => r + (g << 8) + (b << 16),
+            PixelFormats.pfRGB32 => (a << 24) + (r << 16) + (g << 8) + b,
+            _ => throw new NotSupportedException("Destination PixelFormat not supported"),
+        };
         return result;
     }
 
