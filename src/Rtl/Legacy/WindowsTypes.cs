@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public struct GUID
+public readonly struct GUID
 {
     public int D1 { get; init; }
     public ushort D2 { get; init; }

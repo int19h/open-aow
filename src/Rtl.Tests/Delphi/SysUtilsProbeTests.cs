@@ -9,7 +9,7 @@ public sealed class SysUtilsProbeTests
 {
     internal static void StringsRemaining(ProbeLines probe, ITestOutputHelper output)
     {
-        void Bytes(string label, string s) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(s).Array!.AsSpan(0, s.Length)));
+        void Bytes(string label, string s) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(s).Array.AsSpan(0, s.Length)));
         string all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
         Bytes("uppercase_all_bytes", UpperCase(all)); Bytes("lowercase_all_bytes", LowerCase(all));
         foreach ((string? label, string? a, string? b) in new (string, string, string)[] { ("case", "abc", "ABC"), ("prefix", "ab", "ABC"), ("high", "\xe0", "\xc0"), ("empty", "", "a"), ("zero", "a\0b", "A\0c") })

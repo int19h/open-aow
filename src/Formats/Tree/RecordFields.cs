@@ -77,7 +77,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
     public override int Width => ElementWidth;
     public override bool Signed => ElementSigned;
 
-    internal override bool OmitsDocument(JsonValue value) => value is JsonInteger { Value: 0 } || value is JsonBoolean { Value: false };
+    internal override bool OmitsDocument(JsonValue value) => value is JsonInteger { Value: 0 } or JsonBoolean { Value: false };
 
     internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 };
 
@@ -145,26 +145,26 @@ internal sealed class IntegerRecordField : RecordFieldInfo
     {
         if (typeof(T) == typeof(int))
         {
-            BinaryPrimitives.WriteInt32LittleEndian(bytes, (int)(object)value!);
+            BinaryPrimitives.WriteInt32LittleEndian(bytes, (int)(object)value);
         }
         else if (typeof(T) == typeof(uint))
         {
-            BinaryPrimitives.WriteUInt32LittleEndian(bytes, (uint)(object)value!);
+            BinaryPrimitives.WriteUInt32LittleEndian(bytes, (uint)(object)value);
         }
         else if (typeof(T) == typeof(short))
         {
-            BinaryPrimitives.WriteInt16LittleEndian(bytes, (short)(object)value!);
+            BinaryPrimitives.WriteInt16LittleEndian(bytes, (short)(object)value);
         }
         else if (typeof(T) == typeof(ushort))
         {
-            BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)(object)value!);
+            BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)(object)value);
         }
         else
         {
             bytes[0] = typeof(T) == typeof(byte)
-                ? (byte)(object)value!
+                ? (byte)(object)value
                 : typeof(T) == typeof(sbyte)
-                ? (byte)(sbyte)(object)value!
+                ? (byte)(sbyte)(object)value
                 : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
         }
     }
@@ -177,7 +177,7 @@ internal sealed class BooleanRecordField : RecordFieldInfo
     public override RecordFieldKind Kind => RecordFieldKind.Boolean;
     public override int Width => 1;
 
-    internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 } || value is BooleanNode { Value: false };
+    internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 } or BooleanNode { Value: false };
 
     internal override PropertyCodec CreateCodec() => new RecordBooleanCodec(Name);
 
@@ -220,7 +220,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
 
     private static void Move<TEnum>(IPersister persister, string name, object[] box) where TEnum : struct, Enum
     {
-        TEnum value = (TEnum)Enum.ToObject(typeof(TEnum), (long)box[0]!);
+        TEnum value = (TEnum)Enum.ToObject(typeof(TEnum), (long)box[0]);
         value = persister.Enum(name, value);
         box[0] = Convert.ToInt64(value);
     }
@@ -254,7 +254,7 @@ internal sealed class SetRecordField : RecordFieldInfo
 
     private static void Move<E>(IPersister persister, string name, object[] box) where E : unmanaged, Enum
     {
-        byte[] image = (byte[])box[0]!;
+        byte[] image = (byte[])box[0];
         ulong mask = 0;
         for (int i = 0; i < image.Length; i++)
         {

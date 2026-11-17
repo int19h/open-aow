@@ -91,7 +91,7 @@ public readonly struct FormatArg : IUnion
 
     public bool TryGetValue([MaybeNullWhen(false)] out object value)
     {
-        value = kind == Case.Object ? reference! : null;
+        value = kind == Case.Object ? reference : null;
         return kind == Case.Object;
     }
 

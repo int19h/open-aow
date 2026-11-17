@@ -152,7 +152,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
     public void StringsFixture()
     {
         ProbeLines probe = new("strings");
-        void Bytes(string label, string value) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(value).Array!.AsSpan(0, value.Length)));
+        void Bytes(string label, string value) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(value).Array.AsSpan(0, value.Length)));
         string s = "abcd";
         foreach ((string? label, int index, int count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-2,2),

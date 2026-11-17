@@ -653,11 +653,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, DecodeContext context, DocumentNodePath path)
     {
         return owner?[name] is JsonInteger json
-            ? json.Value < 0 || json.Value > int.MaxValue
+            ? json.Value is < 0 or > int.MaxValue
                 ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(json.Value))
                 : (int)json.Value
             : parent?.Find(name) is IntegerNode node
-            ? node.Value < 0 || node.Value > int.MaxValue
+            ? node.Value is < 0 or > int.MaxValue
                 ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", 0, path, Text(node.Value))
                 : (int)node.Value
             : 0;
@@ -666,11 +666,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, EncodeContext context, DocumentNodePath path)
     {
         return owner?[name] is JsonInteger json
-            ? json.Value < 0 || json.Value > int.MaxValue
+            ? json.Value is < 0 or > int.MaxValue
                 ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", json, path, Text(json.Value))
                 : (int)json.Value
             : parent?.Find(name) is IntegerNode node
-            ? node.Value < 0 || node.Value > int.MaxValue
+            ? node.Value is < 0 or > int.MaxValue
                 ? throw context.Fail(Codes.Range, name + " is a non-negative 32-bit integer.", null, path, Text(node.Value))
                 : (int)node.Value
             : 0;

@@ -21,7 +21,7 @@ public static partial class RtlUnit
 
     public static string ConsoleFormat(object value, int width = 0, int? precision = null)
     {
-        string Scientific(double real)
+        static string Scientific(double real)
         {
             string text = real.ToString("E14", CultureInfo.InvariantCulture);
             int exponent = text.IndexOf('E');

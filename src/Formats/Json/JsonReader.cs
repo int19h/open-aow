@@ -105,7 +105,7 @@ public sealed class JsonReader
         while (_position < _text.Length)
         {
             char c = _text[_position];
-            if (c == ' ' || c == '\t' || c == '\r')
+            if (c is ' ' or '\t' or '\r')
             {
                 _position++;
             }
@@ -165,7 +165,7 @@ public sealed class JsonReader
                 value = new JsonNull();
                 break;
             default:
-                value = c == '-' || c is >= '0' and <= '9' ? ReadNumber() : throw Error(Codes.Syntax, $"Unexpected character '{Printable(c)}'.");
+                value = c is '-' or (>= '0' and <= '9') ? ReadNumber() : throw Error(Codes.Syntax, $"Unexpected character '{Printable(c)}'.");
 
                 break;
         }
