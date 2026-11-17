@@ -42,9 +42,9 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineChildrenAreItsControlNodeItsMapsAndItsSet()
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         GameMap map = new(engine);
-        GamePack set = new(null!, holder: EngineFixture.Engine);
+        GamePack set = new(null, holder: EngineFixture.Engine);
         try
         {
             IChildSink<GameEngineChild> sink = engine;
@@ -68,9 +68,9 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineRefusesAnotherChildAtEveryWrite()
     {
-        GameEngine engine = new(null!);
-        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
-        MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+        GameEngine engine = new(null);
+        OwningNode stranger = new(null) { Holder = EngineFixture.Engine };
+        MapContainer container = new(null) { Holder = EngineFixture.Engine };
         try
         {
             int count = engine.Count;
@@ -131,10 +131,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void MapPartsTakeTheirOwnTypeOfOwnerOnly()
     {
-        GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        GameMap map = new(null) { Holder = EngineFixture.Engine };
         MapContainer container = new(map);
         MapLevel level = new(container);
-        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null) { Holder = EngineFixture.Engine };
         try
         {
             Assert.Same(map, container.Owner);
@@ -168,10 +168,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SortedListAndSelectionTakeSpritesOnly()
     {
-        GameMap map = new(null!) { Holder = EngineFixture.Engine };
-        OwningNode stranger = new(null!) { Holder = EngineFixture.Engine };
-        HexSprite first = new(null!) { Holder = EngineFixture.Engine };
-        HexSprite second = new(null!) { Holder = EngineFixture.Engine };
+        GameMap map = new(null) { Holder = EngineFixture.Engine };
+        OwningNode stranger = new(null) { Holder = EngineFixture.Engine };
+        HexSprite first = new(null) { Holder = EngineFixture.Engine };
+        HexSprite second = new(null) { Holder = EngineFixture.Engine };
         VisibilityList list = map.DynamicFixedVisibleHexSprite;
         try
         {
@@ -246,7 +246,7 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void RegisteredIncomeSourceCountsOnce()
     {
-        Player player = new(null!) { Holder = EngineFixture.Engine };
+        Player player = new(null) { Holder = EngineFixture.Engine };
         FixedIncome source = new();
         player.RegisterIncomeSource(source);
         player.RegisterIncomeSource(source);

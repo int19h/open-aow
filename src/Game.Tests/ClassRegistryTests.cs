@@ -120,16 +120,16 @@ public sealed class ClassRegistryTests
         // CustomNode is the abstract ownership base. Its factory raises the original abstract error.
         if (type == typeof(CustomNode))
         {
-            Assert.Throws<AbstractErrorException>(() => EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine));
+            Assert.Throws<AbstractErrorException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
             return;
         }
         // These two entries require a linked owner even though the descriptor accepts null.
         if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
-            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine));
+            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine));
             return;
         }
-        EngineObject instance = EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject instance = EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);
         try { Assert.IsType(type, instance); }
         finally
         {

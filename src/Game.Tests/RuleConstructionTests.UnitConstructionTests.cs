@@ -49,7 +49,7 @@ public sealed partial class RuleConstructionTests
 
         if (route == 2)
         {
-            using GameEngine engine = new(null!);
+            using GameEngine engine = new(null);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -58,11 +58,11 @@ public sealed partial class RuleConstructionTests
         }
         if (route == 3)
         {
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)]).Invoke(meta, [owner, EngineFixture.Engine]));
         }
 
-        ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type)!;
-        return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
+        ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type);
+        return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)));
     }
 
     [Theory]
@@ -71,7 +71,7 @@ public sealed partial class RuleConstructionTests
     {
         Type type = TypeNamed(name);
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap.Current = null!;
+        StrategicMap.Current = null;
         try
         {
             List<string> states = [];
@@ -81,7 +81,7 @@ public sealed partial class RuleConstructionTests
                 for (int route = 0; route < 4; route++)
                 {
                     UnitOwner owner = new(ownerMode == 2);
-                    Troop value = CreateUnit(type, ownerMode == 0 ? null! : owner, route);
+                    Troop value = CreateUnit(type, ownerMode == 0 ? null : owner, route);
                     Assert.IsType(type, value);
                     Assert.Equal(1, value.RefCount);
                     Assert.Equal(-1, value.UnitId);
@@ -110,14 +110,14 @@ public sealed partial class RuleConstructionTests
     {
         StrategicMap previousMap = StrategicMap.Current;
         GamePack previousSet = GamePack.Current;
-        StrategicMap.Current = null!;
-        GamePack set = EngineFixture.Configure(GamePack.Create(null!, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null!) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null!) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null!) { Holder = EngineFixture.Engine }; });
+        StrategicMap.Current = null;
+        GamePack set = EngineFixture.Configure(GamePack.Create(null, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null) { Holder = EngineFixture.Engine }; });
         GamePack.Current = set;
         Type type = TypeNamed(name);
         EngineClass meta = EngineClass.Of(type);
-        GameEngine engine = new(null!);
-        EngineObject source = CreateUnit(type, null!, 0);
-        EngineObject result = null!;
+        GameEngine engine = new(null);
+        EngineObject source = CreateUnit(type, null, 0);
+        EngineObject result = null;
         using MemoryStream memory = new();
         try
         {
@@ -169,16 +169,16 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedUnit(CustomNode owner) : Troop(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add("add:" + result); return result; }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner!.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add("release:" + result); return result; }
     }
 
     private sealed class ObservedHero(CustomNode owner) : Hero(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add("add:" + result); return result; }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner!.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add("release:" + result); return result; }
     }
 
     [Theory]
@@ -189,7 +189,7 @@ public sealed partial class RuleConstructionTests
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap.Current = null!;
+        StrategicMap.Current = null;
         UnitOwner owner = new(reject);
         s_refcountOwner = owner;
         try

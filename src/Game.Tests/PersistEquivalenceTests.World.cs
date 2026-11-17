@@ -83,7 +83,7 @@ public sealed partial class PersistEquivalenceTests
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
             Assert.Same(viaPersist, map.MapContainer);
             EqualBytes(Image(viaReadWrite), Image(viaPersist), "MapContainer read");
-            map.MapContainer = null!;
+            map.MapContainer = null;
         });
     }
 
@@ -94,7 +94,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AMapStoresItsContainerAtTheOriginalSlotSix()
     {
-        using GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        using GameMap map = new(null) { Holder = EngineFixture.Engine };
         MapContainer container = new(map) { Holder = EngineFixture.Engine };
         Assert.Equal(6, map.Count);
         Assert.Same(container, map.GetChild(5));
@@ -104,7 +104,7 @@ public sealed partial class PersistEquivalenceTests
         ObjectNode read = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue: classValue, schema: s_schema, engine: "game");
         Assert.Equal([6], ChildSlots(read));
         Assert.Equal([6], ChildSlots(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game")));
-        using GameMap loaded = new(null!) { Holder = EngineFixture.Engine };
+        using GameMap loaded = new(null) { Holder = EngineFixture.Engine };
         TreeReader.Read(read, loaded, Factory);
         Assert.Equal(6, loaded.Count);
         Assert.IsType<MapContainer>(loaded.GetChild(5));
@@ -123,7 +123,7 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(map =>
         {
             SchemaClass classValue = s_schema.Get("Sign");
-            using Sign source = new(null!) { Holder = EngineFixture.Engine };
+            using Sign source = new(null) { Holder = EngineFixture.Engine };
             source.Text.Add("Welcome");
             source.TextSeen[2] = true;
             byte[] local = Image(source);
@@ -133,8 +133,8 @@ public sealed partial class PersistEquivalenceTests
             ObjectNode tree = TreeWriter.Write(source, Factory);
             Assert.Null(DocumentBackend.Write(tree, classValue, s_schema, "game").Find("TextSeen"));
             EqualBytes(network, OriginalBackend.Write(tree, classValue, s_schema, "game"), "Sign network write");
-            using Sign viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
-            using Sign viaPersist = new(null!) { Holder = EngineFixture.Engine };
+            using Sign viaReadWrite = new(null) { Holder = EngineFixture.Engine };
+            using Sign viaPersist = new(null) { Holder = EngineFixture.Engine };
             AlikeOutcome(() => Load(viaReadWrite, local), () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, "game"), viaPersist, Factory), "Sign network load");
             Assert.False(viaPersist.TextSeen[2]);
             Assert.Equal(viaReadWrite.TextSeen[2], viaPersist.TextSeen[2]);

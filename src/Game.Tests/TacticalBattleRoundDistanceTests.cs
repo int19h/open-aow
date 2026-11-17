@@ -12,7 +12,7 @@ public sealed class TacticalBattleRoundDistanceTests
 {
     private static TacticalBattle Build(byte round, byte sideIndex)
     {
-        TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
+        TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
         _ = new CombatPlayer(combat.CombatData.Players) { SideIndex = sideIndex };
         combat.CombatData.Round = round;
         combat.CombatData.CurrentPlayer = 0;

@@ -29,8 +29,8 @@ public sealed class StructureBorderTests
         {
             Assert.Equal(PixelFormats.GFXE_OK, surface.Clear(color));
             Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
-            Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null!));
-            return library[library.Count - 1];
+            Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null));
+            return library[^1];
         }
         finally
         {

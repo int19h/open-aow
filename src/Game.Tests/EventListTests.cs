@@ -129,9 +129,9 @@ public sealed class EventListTests
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
-        Player player = new(null!) { Holder = EngineFixture.Engine };
+        Player player = new(null) { Holder = EngineFixture.Engine };
         try
         {
             sbyte seen = -2;

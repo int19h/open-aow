@@ -104,7 +104,7 @@ public sealed partial class PersistEquivalenceTests
             AITargetLocation.At(new MapCoordinate(40, 21, 1)),
         })
         {
-            AIGroup group = new(null!) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
+            AIGroup group = new(null) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
             Check("AIGroup", group);
         }
         Assert.Equal(0x00FF_FFFF, AITargetLocation.None.ToStored().ToInt32());
@@ -155,10 +155,10 @@ public sealed partial class PersistEquivalenceTests
         MoveTokenEvent? read = null;
         try
         {
-            move = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
+            move = new MoveArmyTokenEvent(null) { Holder = EngineFixture.Engine };
             move.Path.Assign(path);
             byte[] image = Image(move);
-            read = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
+            read = new MoveArmyTokenEvent(null) { Holder = EngineFixture.Engine };
             Load(read, image);
             Assert.True(read.Path.Compare(move.Path));
             Assert.Equal(stored, read.Path.Default);

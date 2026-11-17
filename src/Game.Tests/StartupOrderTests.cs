@@ -63,13 +63,13 @@ public sealed class StartupOrderTests
     {
         (StartupUnit[]? units, List<string>? calls) = Recording();
         bool[] state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, null!);
+        Startup.InitializeUnits(units, state, null);
         Assert.Equal(Split(Initializations).Select(n => "I " + n), calls);
         Assert.All(state, Assert.True);
         calls.Clear();
-        Startup.InitializeUnits(units, state, null!);
+        Startup.InitializeUnits(units, state, null);
         Assert.Empty(calls);
-        Startup.FinalizeUnits(units, state, null!);
+        Startup.FinalizeUnits(units, state, null);
         Assert.Equal(Split(Finalizations).Select(n => "F " + n), calls);
         Assert.All(state, Assert.False);
     }
@@ -88,7 +88,7 @@ public sealed class StartupOrderTests
         Assert.Equal(["F Sound"], calls);
         calls.Clear();
         // Only initialized units are finalized: GFXE was never initialized.
-        Startup.FinalizeUnits(units, state, null!);
+        Startup.FinalizeUnits(units, state, null);
         Assert.Equal(["F ImageLib"], calls);
         Assert.All(state, Assert.False);
     }

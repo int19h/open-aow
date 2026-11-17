@@ -133,7 +133,7 @@ public sealed class DiplomaticProposalTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         engine.RegisterEngineClasses([EngineClass.Of<DiplomaticAction>(), EngineClass.Of<DiplomaticActionTokenEvent>(), EngineClass.Of<DiplomaticActionEventLog>()]);
         return engine;
@@ -152,7 +152,7 @@ public sealed class DiplomaticProposalTests
         return Assert.IsType<Translate>(engine.RetrieveEngineObject(memory, progress: null));
     }
 
-    private static DiplomaticAction Action(Case c) => new(null!)
+    private static DiplomaticAction Action(Case c) => new(null)
     {
         Holder = EngineFixture.Engine,
         Source = c.Source,
@@ -189,14 +189,14 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(c.Alone, Write(engine, action));
             action.Release();
 
-            DiplomaticActionTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine, Operation = 1 };
+            DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = EngineFixture.Engine, Operation = 1 };
             action = Action(c);
             tokenEvent.SetDiplomaticAction(action);
             action.Release();
             Assert.Equal(c.Token, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
-            DiplomaticActionEventLog log = new(null!) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
+            DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
             Assert.Equal(c.Logged, Write(engine, log));
             log.Dispose();
 
@@ -228,8 +228,8 @@ public sealed class DiplomaticProposalTests
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
-            using DiplomaticActionEventLog log = new(null!) { Holder = EngineFixture.Engine, Day = 5 };
-            log.Action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
+            using DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine, Day = 5 };
+            log.Action = new DiplomaticAction(null) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, log);
             DiplomaticActionEventLog copy = Read<DiplomaticActionEventLog>(engine, bytes);
             Assert.Equal(message, copy.Action.Proposal.Message);
@@ -262,7 +262,7 @@ public sealed class DiplomaticProposalTests
             Assert.Equal((kind, gold, mana), proposal.ToFields());
             Assert.Same(proposal, proposal.WithOffer(5, 5));
         }
-        Assert.Equal(new DeclareWar(), new DiplomaticAction(null!) { Holder = EngineFixture.Engine }.Proposal);
+        Assert.Equal(new DeclareWar(), new DiplomaticAction(null) { Holder = EngineFixture.Engine }.Proposal);
     }
 
     // The kinds that carry no offer keep none. The census finds gold and mana on no kind.
@@ -300,11 +300,11 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void TheEditorBuildsTheProposal()
     {
-        DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
+        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
         action.Proposal = action.Proposal with { Message = DiplomaticProposal.Lines("Peace?\r\nPlease.") };
         action.Proposal = action.Proposal.WithOffer(120, 30);
         Assert.Equal(new OfferPeace(120, 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
-        DiplomaticAction message = new(null!) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
+        DiplomaticAction message = new(null) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
         message.Proposal = message.Proposal.WithOffer(120, 30);
         Assert.Equal(new SendMessage(), message.Proposal);
         action.Release();
@@ -486,7 +486,7 @@ public sealed class DiplomaticProposalTests
     private static TextControl TextControl()
     {
         int[] withOther = [157, 160, 139, 142, 145, 148];
-        TextControl control = new(null!) { Holder = EngineFixture.Engine };
+        TextControl control = new(null) { Holder = EngineFixture.Engine };
         for (int id = 100; id <= 164; id++)
         {
             TextControlItem item = control.New();
@@ -503,7 +503,7 @@ public sealed class DiplomaticProposalTests
     public void ProposalsAnswerAsTheOldSwitches()
     {
         StrategicMap previousMap = StrategicMap.Current;
-        StrategicMap.Current = new StrategicMap(null!, holder: EngineFixture.Engine);
+        StrategicMap.Current = new StrategicMap(null, holder: EngineFixture.Engine);
         TextControl control = TextControl();
         try
         {
@@ -515,22 +515,22 @@ public sealed class DiplomaticProposalTests
                 Assert.Equal(OldIcon(kind), proposal.Icon);
                 Assert.Equal(kind == 7, proposal.SignedAsOtherPlayer);
                 Assert.Equal(OldSample(kind), proposal.LoggedSample);
-                if (kind <= 6 || kind == 10)
+                if (kind is <= 6 or 10)
                 {
-                    Assert.Equal(OldName(kind), proposal.Name(new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal }));
+                    Assert.Equal(OldName(kind), proposal.Name(new DiplomaticAction(null) { Holder = EngineFixture.Engine, Proposal = proposal }));
                 }
 
                 checks += 5;
                 string error = "";
-                Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal }, ref error));
+                Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine, Proposal = proposal }, ref error));
                 Assert.Equal(kind == 5 ? AbilityRules.TranslateResourceString(EngineFixture.Engine, Player.MakeTribute.NoGoldManaSpecifiedText) : "", error);
-                Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null!) { Holder = EngineFixture.Engine }, ref error));
+                Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine }, ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })
                 {
                     foreach (sbyte source in new sbyte[] { 0, 1 })
                     {
-                        DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
+                        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = proposal + " reaction " + reaction + " source " + source;
                         Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);

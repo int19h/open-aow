@@ -45,7 +45,7 @@ public sealed partial class SpellConstructionTests
     {
         private readonly GamePack _previousSet = GamePack.Current;
 
-        internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
+        internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null);
 
         internal Fixture()
         {
@@ -134,7 +134,7 @@ public sealed partial class SpellConstructionTests
 
     private static GameEngine RegisteredEngine(Type type)
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         try { engine.RegisterEngineClasses([EngineClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
         return engine;
@@ -311,10 +311,10 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        SummonSpell raw = new(null!) { Holder = EngineFixture.Engine };
+        SummonSpell raw = new(null) { Holder = EngineFixture.Engine };
         Assert.NotNull(raw.SpellText);
         Assert.NotNull(raw.UnitIndices);
-        Assert.Equal(0, raw.GetDispelResistance(null!));
+        Assert.Equal(0, raw.GetDispelResistance(null));
         raw.Dispose();
     }
 }

@@ -35,7 +35,7 @@ public sealed class MessageSlotTests
     // priority in front, so the handlers run in the order given.
     private static (MapField Field, Handler[] Handlers) Field(params Proc[] procs)
     {
-        MapField field = new(null!) { Holder = EngineFixture.Engine };
+        MapField field = new(null) { Holder = EngineFixture.Engine };
         Handler[] handlers = procs.Select(p => new Handler(p)).ToArray();
         foreach (Handler? handler in handlers)
         {
@@ -113,7 +113,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
-        using GameEngine engine = new(null!);
+        using GameEngine engine = new(null);
         EngineMessage.InitializeMessage(out EngineMessage message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
@@ -130,7 +130,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheFirstParameterCarriesAnArmyOrADistance()
     {
-        ArmyHexSprite army = new(null!) { Holder = EngineFixture.Engine };
+        ArmyHexSprite army = new(null) { Holder = EngineFixture.Engine };
         ArmyHexSprite? placed = null;
         int distance = -1;
         (MapField? field, Handler[] _) = Field((ref m) =>
@@ -243,7 +243,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheResultCarriesAControlOrAPlayer()
     {
-        ProductionControl control = new(null!) { Holder = EngineFixture.Engine };
+        ProductionControl control = new(null) { Holder = EngineFixture.Engine };
         (MapField? field, Handler[]? handlers) = Field((ref m) =>
         {
             if (m.MessageId == 0x1201)

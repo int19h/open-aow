@@ -22,7 +22,7 @@ public sealed class PreInheritedTests
     private class First : EngineObject
     {
 
-        private protected First(ConstructionContext? context, CustomNode? owner) : base(context!, owner!) => s_events.Add("first body");
+        private protected First(ConstructionContext? context, CustomNode? owner) : base(context, owner) => s_events.Add("first body");
     }
 
     private class Middle : First

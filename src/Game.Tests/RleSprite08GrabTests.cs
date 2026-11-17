@@ -14,7 +14,7 @@ public sealed class RleSprite08GrabTests
     {
         int w = pixels.GetLength(1), h = pixels.GetLength(0);
         DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormats.pfBGR24 }, width: w, height: h, pixelFormatId: PixelFormats.pfPAL8);
-        RleSprite08 image = new(null!);
+        RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
         try
         {
@@ -115,8 +115,8 @@ public sealed class RleSprite08GrabTests
     [Fact]
     public void GrabOfAnotherFormatFails()
     {
-        DataSurface surface = new(2, 2, PixelFormats.pfRGB555, null!);
-        RleSprite08 image = new(null!);
+        DataSurface surface = new(2, 2, PixelFormats.pfRGB555, null);
+        RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
         try
         {

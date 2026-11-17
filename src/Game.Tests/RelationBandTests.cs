@@ -19,7 +19,7 @@ public sealed class RelationBandTests
 
         public MapScope()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
         }
 
@@ -52,7 +52,7 @@ public sealed class RelationBandTests
         public DialogScope()
         {
             AudioHost.SoundSystem = null;
-            UI.Add(new General(UI)).Manager = new WindowManager(null!);
+            UI.Add(new General(UI)).Manager = new WindowManager(null);
         }
 
         public UIContext UI { get; } = new(EngineFixture.Engine);
@@ -63,67 +63,67 @@ public sealed class RelationBandTests
     private static RecordingRelWindow CreateWindow(UIContext ui)
     {
         RecordingRelWindow window = new(ui);
-        window.Player1Image = new Image(null!);
-        window.Player2Image = new Image(null!);
-        window.Player3Image = new Image(null!);
-        window.Player4Image = new Image(null!);
-        window.Player5Image = new Image(null!);
-        window.Player6Image = new Image(null!);
-        window.Player7Image = new Image(null!);
-        window.Player8Image = new Image(null!);
-        window.Player9Image = new Image(null!);
-        window.Player10Image = new Image(null!);
-        window.Player11Image = new Image(null!);
-        window.Player12Image = new Image(null!);
-        window.Race1Image = new Image(null!);
-        window.Race2Image = new Image(null!);
-        window.Race3Image = new Image(null!);
-        window.Race4Image = new Image(null!);
-        window.Race5Image = new Image(null!);
-        window.Race6Image = new Image(null!);
-        window.Race7Image = new Image(null!);
-        window.Race8Image = new Image(null!);
-        window.Race9Image = new Image(null!);
-        window.Race10Image = new Image(null!);
-        window.Race11Image = new Image(null!);
-        window.Race12Image = new Image(null!);
-        window.Player1CheckBox = new CheckBox(null!);
-        window.Player2CheckBox = new CheckBox(null!);
-        window.Player3CheckBox = new CheckBox(null!);
-        window.Player4CheckBox = new CheckBox(null!);
-        window.Player5CheckBox = new CheckBox(null!);
-        window.Player6CheckBox = new CheckBox(null!);
-        window.Player7CheckBox = new CheckBox(null!);
-        window.Player8CheckBox = new CheckBox(null!);
-        window.Player9CheckBox = new CheckBox(null!);
-        window.Player10CheckBox = new CheckBox(null!);
-        window.Player11CheckBox = new CheckBox(null!);
-        window.Player12CheckBox = new CheckBox(null!);
-        window.Race1CheckBox = new CheckBox(null!);
-        window.Race2CheckBox = new CheckBox(null!);
-        window.Race3CheckBox = new CheckBox(null!);
-        window.Race4CheckBox = new CheckBox(null!);
-        window.Race5CheckBox = new CheckBox(null!);
-        window.Race6CheckBox = new CheckBox(null!);
-        window.Race7CheckBox = new CheckBox(null!);
-        window.Race8CheckBox = new CheckBox(null!);
-        window.Race9CheckBox = new CheckBox(null!);
-        window.Race10CheckBox = new CheckBox(null!);
-        window.Race11CheckBox = new CheckBox(null!);
-        window.Race12CheckBox = new CheckBox(null!);
-        window.MainWindow = new Window(null!);
-        window.RelationPanel = new Panel(null!);
-        window.PlayerGlow = new Image(null!);
-        window.NewActionPanel = new Panel(null!);
-        window.IncomingPanel = new Panel(null!);
-        window.MessageEditPanel = new Panel(null!);
-        window.SendBribePanel = new Panel(null!);
-        window.ReceivedMessagePanel = new Panel(null!);
-        window.IncomingInfoPanel = new Panel(null!);
-        window.ActionsList = new ListBox<DiplomaticAction>(null!);
-        window.SendMessageMemo = new Memo(null!);
-        window.IncomingMemo = new Memo(null!);
-        window.SelectActionButton = new Button(null!);
+        window.Player1Image = new Image(null);
+        window.Player2Image = new Image(null);
+        window.Player3Image = new Image(null);
+        window.Player4Image = new Image(null);
+        window.Player5Image = new Image(null);
+        window.Player6Image = new Image(null);
+        window.Player7Image = new Image(null);
+        window.Player8Image = new Image(null);
+        window.Player9Image = new Image(null);
+        window.Player10Image = new Image(null);
+        window.Player11Image = new Image(null);
+        window.Player12Image = new Image(null);
+        window.Race1Image = new Image(null);
+        window.Race2Image = new Image(null);
+        window.Race3Image = new Image(null);
+        window.Race4Image = new Image(null);
+        window.Race5Image = new Image(null);
+        window.Race6Image = new Image(null);
+        window.Race7Image = new Image(null);
+        window.Race8Image = new Image(null);
+        window.Race9Image = new Image(null);
+        window.Race10Image = new Image(null);
+        window.Race11Image = new Image(null);
+        window.Race12Image = new Image(null);
+        window.Player1CheckBox = new CheckBox(null);
+        window.Player2CheckBox = new CheckBox(null);
+        window.Player3CheckBox = new CheckBox(null);
+        window.Player4CheckBox = new CheckBox(null);
+        window.Player5CheckBox = new CheckBox(null);
+        window.Player6CheckBox = new CheckBox(null);
+        window.Player7CheckBox = new CheckBox(null);
+        window.Player8CheckBox = new CheckBox(null);
+        window.Player9CheckBox = new CheckBox(null);
+        window.Player10CheckBox = new CheckBox(null);
+        window.Player11CheckBox = new CheckBox(null);
+        window.Player12CheckBox = new CheckBox(null);
+        window.Race1CheckBox = new CheckBox(null);
+        window.Race2CheckBox = new CheckBox(null);
+        window.Race3CheckBox = new CheckBox(null);
+        window.Race4CheckBox = new CheckBox(null);
+        window.Race5CheckBox = new CheckBox(null);
+        window.Race6CheckBox = new CheckBox(null);
+        window.Race7CheckBox = new CheckBox(null);
+        window.Race8CheckBox = new CheckBox(null);
+        window.Race9CheckBox = new CheckBox(null);
+        window.Race10CheckBox = new CheckBox(null);
+        window.Race11CheckBox = new CheckBox(null);
+        window.Race12CheckBox = new CheckBox(null);
+        window.MainWindow = new Window(null);
+        window.RelationPanel = new Panel(null);
+        window.PlayerGlow = new Image(null);
+        window.NewActionPanel = new Panel(null);
+        window.IncomingPanel = new Panel(null);
+        window.MessageEditPanel = new Panel(null);
+        window.SendBribePanel = new Panel(null);
+        window.ReceivedMessagePanel = new Panel(null);
+        window.IncomingInfoPanel = new Panel(null);
+        window.ActionsList = new ListBox<DiplomaticAction>(null);
+        window.SendMessageMemo = new Memo(null);
+        window.IncomingMemo = new Memo(null);
+        window.SelectActionButton = new Button(null);
         window.RelationWindowCreate();
         return window;
     }

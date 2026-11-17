@@ -20,15 +20,15 @@ public sealed partial class PersistEquivalenceTests
     public void ALoadedCombatObjectIsNotActivatedOnBothPaths()
     {
         SchemaClass classValue = s_schema.Get("CombatWall");
-        using CombatWall source = new(null!) { Holder = EngineFixture.Engine, Id = 4, Position = 2 };
+        using CombatWall source = new(null) { Holder = EngineFixture.Engine, Id = 4, Position = 2 };
         source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
         byte[] image = Image(source);
         ObjectNode tree = TreeWriter.Write(source, factory: Factory);
         source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         EqualJson(PilotImage.Decode(image, className: "CombatWall"), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall write");
         EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall original");
-        using CombatWall viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
-        using CombatWall viaPersist = new(null!) { Holder = EngineFixture.Engine };
+        using CombatWall viaReadWrite = new(null) { Holder = EngineFixture.Engine };
+        using CombatWall viaPersist = new(null) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
         Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), viaReadWrite.Status);
@@ -42,14 +42,14 @@ public sealed partial class PersistEquivalenceTests
     public void ACombatUnitTakesItsStoredTroopOnBothLoads()
     {
         SchemaClass classValue = s_schema.Get("CombatUnit");
-        Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
-        CombatUnit source = new(null!) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
+        CombatUnit source = new(null) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
         source.SetUnit(hero);
         hero.Release();
         byte[] image = Image(source);
         Check("CombatUnit", objectValue: source);
-        using CombatUnit viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
-        using CombatUnit viaPersist = new(null!) { Holder = EngineFixture.Engine };
+        using CombatUnit viaReadWrite = new(null) { Holder = EngineFixture.Engine };
+        using CombatUnit viaPersist = new(null) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
         Hero stream = Assert.IsType<Hero>(viaReadWrite.Troop);
@@ -75,8 +75,8 @@ public sealed partial class PersistEquivalenceTests
             ["Painter"] = "Maler",
             ["Abilities"] = "Fähigkeiten",
         };
-        Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
-        using CombatUnit unit = new(null!) { Holder = EngineFixture.Engine, Id = 3 };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+        using CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3 };
         unit.SetUnit(hero);
         hero.Release();
         unit.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
@@ -90,8 +90,8 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal("Bogenschütze", hero.HeroName);
         Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), unit.Status);
 
-        using CombatData data = new(null!) { Holder = EngineFixture.Engine, Header = "Siege", Round = 4 };
-        UpdateHeaderCombatAction action = new(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
+        using CombatData data = new(null) { Holder = EngineFixture.Engine, Header = "Siege", Round = 4 };
+        UpdateHeaderCombatAction action = new(null) { Holder = EngineFixture.Engine, Header = "Ambush" };
         using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(data, 0);
@@ -101,9 +101,9 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal(("Belagerung", 4, "Hinterhalt"), (data.Header, data.Round, action.Header));
         action.Release();
 
-        using ResourceEditSettings settings = new(null!) { Holder = EngineFixture.Engine };
+        using ResourceEditSettings settings = new(null) { Holder = EngineFixture.Engine };
         Assert.Equal(1, settings.GetEditId("Painter"));
-        using PluginControl plugins = new(null!) { Holder = EngineFixture.Engine };
+        using PluginControl plugins = new(null) { Holder = EngineFixture.Engine };
         plugins.UsedPlugins.Add("Abilities");
         using (DictionaryStream stream = new(dictionary))
         {
@@ -127,18 +127,18 @@ public sealed partial class PersistEquivalenceTests
         EngineClass[] enlisted = EnlistCombatClasses();
         try
         {
-            using CombatLogbook logbook = new(null!) { Holder = EngineFixture.Engine, PlayerEliminated = true };
+            using CombatLogbook logbook = new(null) { Holder = EngineFixture.Engine, PlayerEliminated = true };
             CombatData data = logbook.InitialData;
             data.Header = "Siege";
             data.Round = 3;
             data.Location = data.Location with { X = 7 };
             data.TurnOrder.Add(1);
             _ = new CombatPlayer(data.Players) { Holder = EngineFixture.Engine, Player = 2, IndependentRelation = 1 };
-            Hero hero = new(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
             CombatUnit unit = new(data.CombatObjects) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
             unit.SetUnit(hero);
             hero.Release();
-            UpdateHeaderCombatAction action = new(null!) { Holder = EngineFixture.Engine, Header = "Ambush" };
+            UpdateHeaderCombatAction action = new(null) { Holder = EngineFixture.Engine, Header = "Ambush" };
             logbook.Actions.AddChild(action);
             action.Release();
             using MemoryStream memory = new();

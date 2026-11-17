@@ -38,7 +38,7 @@ public sealed class LeftoverConstructionTests
         private readonly int _previousSeed = Runtime.RandSeed;
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly ImageLibraryManager _manager = new(null);
         private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
@@ -46,8 +46,8 @@ public sealed class LeftoverConstructionTests
             Runtime.RandSeed = 123456789;
             GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
-            StrategicMap.Current = null!;
-            GamePack.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null;
+            GamePack.Current.UnitGraphicsResources = null;
             Runtime.RandSeed = 123456789;
         }
 
@@ -331,7 +331,7 @@ public sealed class LeftoverConstructionTests
 
     private static EngineObject Saved(Type type, CustomNode owner)
     {
-        using GameEngine engine = new(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
+        using GameEngine engine = new(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
         EngineClass descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }

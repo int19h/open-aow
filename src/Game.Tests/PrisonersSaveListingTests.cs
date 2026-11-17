@@ -38,9 +38,9 @@ public sealed class PrisonersSaveListingTests
         string source = Path.Combine(directory, "prisoners-source.oasg");
         string saved = Path.Combine(directory, "prisoners.oasg");
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
-        StructureResource resource = new(null!) { Holder = engine, ResourceId = PackResourceId };
+        StructureResource resource = new(null) { Holder = engine, ResourceId = PackResourceId };
         // An explored dungeon reads this list while it activates. An empty list keeps that read in range.
-        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null!);
+        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null);
         // Activation stores the engine on the resource. A structure reads that engine while it chooses a terrain type.
         engine.ActivateEngineObject(resource);
         // The fixture engine does not run GameClasses.Register. The running game registers a dungeon there.
@@ -60,7 +60,7 @@ public sealed class PrisonersSaveListingTests
         {
             resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
-            engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
+            engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
@@ -81,7 +81,7 @@ public sealed class PrisonersSaveListingTests
             Assert.Equal(0, towns);
             Assert.Equal(4, day);
 
-            engine.SaveHsm(saved, progress: null!, profile: GameProfile.WorldMap);
+            engine.SaveHsm(saved, progress: null, profile: GameProfile.WorldMap);
             byte[] fileBytes = File.ReadAllBytes(saved);
             (int Players, int Width, int Towns, int Day) listed = ListLikeTheLoadDialog(engine, saved);
             Assert.Equal(players, listed.Players);
@@ -89,14 +89,14 @@ public sealed class PrisonersSaveListingTests
             Assert.Equal(towns, listed.Towns);
             Assert.Equal(day, listed.Day);
 
-            engine.LoadHsm(saved, edit: false, progress: null!, profile: GameProfile.WorldMap);
+            engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             if (opened is null)
             {
                 Surface(engine, saved);
             }
 
-            Item item = PrisonerItem(opened!);
+            Item item = PrisonerItem(opened);
             Assert.Equal("Blade", item.Name);
             Assert.Equal(7, item.ItemId);
             Assert.Equal(-2, item.Attack);
@@ -110,7 +110,7 @@ public sealed class PrisonersSaveListingTests
             Assert.NotNull(prepared.ImageRefusal);
             Assert.Equal(Codes.Unrepresentable, prepared.ImageRefusal.Code);
             Assert.EndsWith(".Items", prepared.ImageRefusal.Path);
-            byte[] canonical = GameFiles.Write(prepared.Document!);
+            byte[] canonical = GameFiles.Write(prepared.Document);
             Assert.Equal(EngineServices.GetCrc32(canonical, canonical.Length), FileBoundary.ImageCrc32(saved, GameProfile.WorldMap));
             ConversionException refused = Assert.Throws<ConversionException>(() => FileBoundary.LoadOrRaise(saved, GameProfile.WorldMap));
             Assert.Equal(Codes.Unrepresentable, refused.Diagnostic.Code);
@@ -134,7 +134,7 @@ public sealed class PrisonersSaveListingTests
             }
 
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
-            StrategicMap.Current = previous as StrategicMap ?? null!;
+            StrategicMap.Current = previous as StrategicMap ?? null;
             if (registerDungeon)
             {
                 engine.UnregisterEngineClasses([dungeonClass]);
@@ -165,8 +165,8 @@ public sealed class PrisonersSaveListingTests
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
         string saved = Path.Combine(directory, "prisoners" + FileBoundary.WriteExtension(DocumentKind.CampaignSave));
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
-        StructureResource resource = new(null!) { Holder = engine, ResourceId = PackResourceId };
-        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null!);
+        StructureResource resource = new(null) { Holder = engine, ResourceId = PackResourceId };
+        resource.ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null);
         engine.ActivateEngineObject(resource);
         EngineClass dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);
@@ -183,14 +183,14 @@ public sealed class PrisonersSaveListingTests
         {
             resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
-            engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
+            engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
                 Surface(engine, source);
             }
 
-            Item planted = PrisonerItem(live!);
+            Item planted = PrisonerItem(live);
             planted.Attack = -2;
             planted.LibraryId = 3;
 
@@ -205,16 +205,16 @@ public sealed class PrisonersSaveListingTests
             Assert.EndsWith(".Items", prepared.ImageRefusal.Path);
             Assert.Equal("1073741824", prepared.ImageRefusal.Value);
             Assert.Contains("PrisonersArmy.Items", prepared.ImageRefusal.Message);
-            ConversionException exported = Assert.Throws<ConversionException>(() => GameFiles.Export(prepared.Document!));
+            ConversionException exported = Assert.Throws<ConversionException>(() => GameFiles.Export(prepared.Document));
             Assert.Equal(prepared.ImageRefusal.Path, exported.Diagnostic.Path);
             Assert.Equal(Codes.Unrepresentable, exported.Diagnostic.Code);
 
             engine.LoadCampaign(saved);
-            Assert.True(GameFiles.IsJsonCandidate(engine.Campaign!.Stream.GetBuffer().AsSpan(0, (int)engine.Campaign.Stream.Length)));
-            engine.LoadCampaignMap(null!);
+            Assert.True(GameFiles.IsJsonCandidate(engine.Campaign.Stream.GetBuffer().AsSpan(0, (int)engine.Campaign.Stream.Length)));
+            engine.LoadCampaignMap(null);
             StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             Assert.NotNull(opened);
-            Item item = PrisonerItem(opened!);
+            Item item = PrisonerItem(opened);
             Assert.Equal("Blade", item.Name);
             Assert.Equal(7, item.ItemId);
             Assert.Equal(-2, item.Attack);
@@ -234,7 +234,7 @@ public sealed class PrisonersSaveListingTests
             }
 
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
-            StrategicMap.Current = previous as StrategicMap ?? null!;
+            StrategicMap.Current = previous as StrategicMap ?? null;
             engine.CloseCampaign();
             if (registerDungeon)
             {
@@ -267,7 +267,7 @@ public sealed class PrisonersSaveListingTests
 
         try
         {
-            return (map!.Players.GetCount() - 1, map.MapContainer.Width, map.StructureControl.CityCount, map.Day);
+            return (map.Players.GetCount() - 1, map.MapContainer.Width, map.StructureControl.CityCount, map.Day);
         }
         finally
         {
@@ -323,7 +323,7 @@ public sealed class PrisonersSaveListingTests
             }
         }
         Assert.Fail("The map has no dungeon.");
-        return null!;
+        return null;
     }
 
     private static JsonObject Document()

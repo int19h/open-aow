@@ -86,7 +86,7 @@ public sealed class EndTurnShortcutTests
 
         public Play()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
             LocalPlayerCommunicationControl playerCommunicationControl = new(EngineFixture.Engine);
             playerCommunicationControl.Setup(Map.Players.Count);
@@ -101,12 +101,12 @@ public sealed class EndTurnShortcutTests
             playerCommunicationControl.Release();
             Map.TokenManager.Initialize(Map.PlayerCommunicator);
             Window = new MapWindow(UI);
-            Window.MainWindow = new Window(null!);
+            Window.MainWindow = new Window(null);
             Window.MainWindow.SetVisibleWithoutUpdate(true);
             Window.MainWindow.OnKeyDown += Window.MapWindowKeyDown;
-            Window.MapViewer = new HexSpriteMapViewer(null!);
+            Window.MapViewer = new HexSpriteMapViewer(null);
             TaskBar bar = UI.Add(new TaskBar(UI));
-            Button = new TurnButton(null!);
+            Button = new TurnButton(null);
             bar.WorldTurnButton = Button;
             Button.OnChange += _ => bar.TurnButtonChange();
         }
@@ -115,7 +115,7 @@ public sealed class EndTurnShortcutTests
 
         public void Press(ushort key) => Window.MainWindow.CheckKeyDown(ref key, Set<ShiftState>.Of(ShiftState.Ctrl));
 
-        public void BeginCombat() => _combat = new CombatMap(null!) { Holder = EngineFixture.Engine };
+        public void BeginCombat() => _combat = new CombatMap(null) { Holder = EngineFixture.Engine };
 
         public int QueuedCount() => Control().GetCount();
 

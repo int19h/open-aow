@@ -45,8 +45,8 @@ public sealed class UIConstructionTests
             _closed = EngineFixture.Engine.OnHsmCloseStore;
             EngineFixture.Engine.OnHsmLoadedStore = new EventStore<GameMap>();
             EngineFixture.Engine.OnHsmCloseStore = new EventStore<GameMap>();
-            StrategicMap.Current = null!;
-            CombatMap.Current = null!;
+            StrategicMap.Current = null;
+            CombatMap.Current = null;
         }
 
         public void Dispose()

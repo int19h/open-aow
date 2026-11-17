@@ -49,7 +49,7 @@ public sealed class EngineClassTests
         HashSet<EngineClass> seen = [];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
-            Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType!)), engineClass.StorageKey);
+            Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType)), engineClass.StorageKey);
             Assert.True(seen.Add(engineClass));
             Assert.True(typeof(EngineObject).IsAssignableFrom(engineClass.Type));
         }
@@ -111,7 +111,7 @@ public sealed class EngineClassTests
             int steps = 0;
             while (c.Type != typeof(EngineObject))
             {
-                EngineClass parent = EngineClass.Of(c.Type.BaseType!);
+                EngineClass parent = EngineClass.Of(c.Type.BaseType);
                 Assert.Equal(c.Type.BaseType, parent.Type);
                 c = parent;
                 Assert.True(++steps < 64, engineClass.StorageKey);
@@ -123,7 +123,7 @@ public sealed class EngineClassTests
     [Fact]
     public void InstancesReachTheirDescriptorThroughTheCachedProperty()
     {
-        EngineObject created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(EngineClass.Of<ResourceEditSettings>(), created.EngineClass);
@@ -137,14 +137,14 @@ public sealed class EngineClassTests
     [Fact]
     public void CreationThroughTheDescriptorKeepsTheExactTypeAndThrowsWhenUnregistered()
     {
-        EngineObject created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject created = EngineClass.Of<ControlStyleObject>().CreateInstance(null, holder: EngineFixture.Engine);
         try { Assert.IsType<ControlStyleObject>(created); }
         finally { created?.Dispose(); }
-        EngineObject split = EngineClass.Of<ResourceCollection>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject split = EngineClass.Of<ResourceCollection>().CreateInstance(null, holder: EngineFixture.Engine);
         try { Assert.IsType<ResourceCollection>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!) { Holder = EngineFixture.Engine }));
+        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null) { Holder = EngineFixture.Engine }));
     }
 
     [Fact]
@@ -158,7 +158,7 @@ public sealed class EngineClassTests
 
     private sealed class Unregistered : EngineObject
     {
-        public Unregistered() : base(null!) { }
+        public Unregistered() : base(null) { }
 
     }
 
@@ -171,11 +171,11 @@ public sealed class EngineClassTests
         EngineClass descriptor = EngineClass.Register(EngineObject.ClassId, static owner => new Registered(owner));
         Assert.Same(descriptor, EngineClass.Of<Registered>());
         Assert.Same(descriptor, EngineClass.Of(typeof(Registered)));
-        Assert.Same(EngineClass.Of<EngineObject>(), EngineClass.Of(descriptor.Type.BaseType!));
+        Assert.Same(EngineClass.Of<EngineObject>(), EngineClass.Of(descriptor.Type.BaseType));
         Assert.Equal(previous.Count + 1, EngineClass.All.Count);
         Assert.Same(descriptor, EngineClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);
-        EngineObject instance = descriptor.CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject instance = descriptor.CreateInstance(null, holder: EngineFixture.Engine);
         try { Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));

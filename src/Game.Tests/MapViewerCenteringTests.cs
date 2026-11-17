@@ -37,13 +37,13 @@ public sealed class MapViewerCenteringTests
     private sealed class Fixture : IDisposable
     {
         public PaintedMap Map { get; } = new();
-        public HexSpriteMapViewer Viewer { get; } = new(null!);
+        public HexSpriteMapViewer Viewer { get; } = new(null);
 
-        private readonly DataSurface _target = new(420, 320, PixelFormats.pfRGB555, null!);
+        private readonly DataSurface _target = new(420, 320, PixelFormats.pfRGB555, null);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
-            Map.MapContainer = new MapContainer(null!) { Holder = EngineFixture.Engine, Width = MapWidth, Height = MapHeight, LevelCount = 1 };
+            Map.MapContainer = new MapContainer(null) { Holder = EngineFixture.Engine, Width = MapWidth, Height = MapHeight, LevelCount = 1 };
             Viewer.HexSpriteMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;

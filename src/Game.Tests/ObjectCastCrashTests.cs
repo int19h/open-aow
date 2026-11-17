@@ -30,8 +30,8 @@ public sealed class ObjectCastCrashTests
 
         public MapScope()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
-            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
+            MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(1, 1);
             container.Map = Map;
@@ -49,15 +49,15 @@ public sealed class ObjectCastCrashTests
 
     private sealed class MasteryUnit : Troop
     {
-        public MasteryUnit() : base(null!)
+        public MasteryUnit() : base(null)
         {
         }
 
         public override bool ExpandAbility(int abilityId)
         {
-            UnitEnchantmentAbilityData data = new(null!) { Holder = EngineFixture.Engine };
+            UnitEnchantmentAbilityData data = new(null) { Holder = EngineFixture.Engine };
             data.EnchantmentAbilityId = (ushort)abilityId;
-            data.Enchantment = new UnitEnchantment(null!) { Holder = EngineFixture.Engine };
+            data.Enchantment = new UnitEnchantment(null) { Holder = EngineFixture.Engine };
             data.Enchantment.Upkeep = 5;
             data.Enchantment.Source = -3;
             AddAbilityData(data);
@@ -84,7 +84,7 @@ public sealed class ObjectCastCrashTests
 
     private sealed class ListedTerrain : TerrainMapObject
     {
-        public ListedTerrain(MapObjectResourceList list) : base(null!) => Resources = list;
+        public ListedTerrain(MapObjectResourceList list) : base(null) => Resources = list;
 
         public MapObjectResourceList Resources { get; }
 
@@ -97,13 +97,13 @@ public sealed class ObjectCastCrashTests
 
     private static void Own(MapObject sprite, MapField field)
     {
-        sprite.SetResourceWithoutOverrides(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
+        sprite.SetResourceWithoutOverrides(new MapObjectResource(null) { Holder = EngineFixture.Engine });
         sprite.Owner = field;
     }
 
     private static Animation AnimationAtOrigin()
     {
-        Animation animation = new(null!) { Holder = EngineFixture.Engine };
+        Animation animation = new(null) { Holder = EngineFixture.Engine };
         animation.Location = new MapCoordinate(0, 0, 0);
         return animation;
     }
@@ -114,7 +114,7 @@ public sealed class ObjectCastCrashTests
         using MapScope scope = new();
         Animation animation = AnimationAtOrigin();
 
-        HolyGround holy = new(null!) { Holder = EngineFixture.Engine };
+        HolyGround holy = new(null) { Holder = EngineFixture.Engine };
         Own(holy, scope.Field);
         holy.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
         holy.NewFrameSummonAnimation(animation, 8);
@@ -122,7 +122,7 @@ public sealed class ObjectCastCrashTests
         holy.NewFrameSummonAnimation(animation, 9);
         Assert.False(holy.Mode.Contains(HolySummoning.Summoning));
 
-        UnholyGround unholy = new(null!) { Holder = EngineFixture.Engine };
+        UnholyGround unholy = new(null) { Holder = EngineFixture.Engine };
         Own(unholy, scope.Field);
         unholy.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         unholy.NewFrameSummonAnimation(animation, 8);
@@ -130,7 +130,7 @@ public sealed class ObjectCastCrashTests
         unholy.NewFrameSummonAnimation(animation, 9);
         Assert.False(unholy.Mode.Contains(UnholySummoning.Summoning));
 
-        PoisonPlant plant = new(null!) { Holder = EngineFixture.Engine };
+        PoisonPlant plant = new(null) { Holder = EngineFixture.Engine };
         Own(plant, scope.Field);
         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         plant.NewFrameSummonAnimation(animation, 8);
@@ -138,7 +138,7 @@ public sealed class ObjectCastCrashTests
         plant.NewFrameSummonAnimation(animation, 9);
         Assert.False(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
 
-        RaisedMountain mountain = new(null!) { Holder = EngineFixture.Engine };
+        RaisedMountain mountain = new(null) { Holder = EngineFixture.Engine };
         Own(mountain, scope.Field);
         mountain.Mode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         mountain.NewFrameRaiseTerrainAnimation(animation, 8);
@@ -151,8 +151,8 @@ public sealed class ObjectCastCrashTests
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
         SpellControl control = GamePack.Current.SpellControl;
-        control.RegisterSpell(new StoneSkin(null!, holder: EngineFixture.Engine));
-        control.RegisterSpell(new Bless(null!, holder: EngineFixture.Engine));
+        control.RegisterSpell(new StoneSkin(null, holder: EngineFixture.Engine));
+        control.RegisterSpell(new Bless(null, holder: EngineFixture.Engine));
         try
         {
             MasteryUnit unit = new();
@@ -193,28 +193,28 @@ public sealed class ObjectCastCrashTests
         int seed = Runtime.RandSeed;
         try
         {
-            MapObjectResourceList list = new(null!) { Holder = EngineFixture.Engine };
-            list.AddChild(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
-            TerrainMapObjectResource match = new(null!) { Holder = EngineFixture.Engine };
+            MapObjectResourceList list = new(null) { Holder = EngineFixture.Engine };
+            list.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
+            TerrainMapObjectResource match = new(null) { Holder = EngineFixture.Engine };
             match.TerrainType = 4;
             match.DecorationType = 2;
             list.AddChild(match);
 
-            TerrainMapObjectResource resource = new(null!) { Holder = EngineFixture.Engine };
+            TerrainMapObjectResource resource = new(null) { Holder = EngineFixture.Engine };
             resource.TerrainType = 4;
             resource.DecorationType = 9;
             ListedTerrain finder = new(list);
             finder.SetResourceWithoutOverrides(resource);
             Assert.Same(match, finder.FindDecorationResource(2));
 
-            MapObjectResourceList clearing = new(null!) { Holder = EngineFixture.Engine };
-            clearing.AddChild(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
-            TerrainMapObjectResource wide = new(null!) { Holder = EngineFixture.Engine };
+            MapObjectResourceList clearing = new(null) { Holder = EngineFixture.Engine };
+            clearing.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
+            TerrainMapObjectResource wide = new(null) { Holder = EngineFixture.Engine };
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
             ListedTerrain terrain = new(clearing);
             terrain.SetResourceWithoutOverrides(wide);
-            terrain.ClearTerrain(null!, 0);
+            terrain.ClearTerrain(null, 0);
             Assert.True(terrain.Destroyed);
         }
         finally
@@ -230,71 +230,71 @@ public sealed class ObjectCastCrashTests
         SoundSystem previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
         UIContext ui = new(EngineFixture.Engine);
-        ui.Add(new General(ui)).Manager = new WindowManager(null!);
+        ui.Add(new General(ui)).Manager = new WindowManager(null);
         try
         {
             RecordingRelationWindow window = new(ui);
-            window.Player1Image = new Image(null!);
-            window.Player2Image = new Image(null!);
-            window.Player3Image = new Image(null!);
-            window.Player4Image = new Image(null!);
-            window.Player5Image = new Image(null!);
-            window.Player6Image = new Image(null!);
-            window.Player7Image = new Image(null!);
-            window.Player8Image = new Image(null!);
-            window.Player9Image = new Image(null!);
-            window.Player10Image = new Image(null!);
-            window.Player11Image = new Image(null!);
-            window.Player12Image = new Image(null!);
-            window.Race1Image = new Image(null!);
-            window.Race2Image = new Image(null!);
-            window.Race3Image = new Image(null!);
-            window.Race4Image = new Image(null!);
-            window.Race5Image = new Image(null!);
-            window.Race6Image = new Image(null!);
-            window.Race7Image = new Image(null!);
-            window.Race8Image = new Image(null!);
-            window.Race9Image = new Image(null!);
-            window.Race10Image = new Image(null!);
-            window.Race11Image = new Image(null!);
-            window.Race12Image = new Image(null!);
-            window.Player1CheckBox = new CheckBox(null!);
-            window.Player2CheckBox = new CheckBox(null!);
-            window.Player3CheckBox = new CheckBox(null!);
-            window.Player4CheckBox = new CheckBox(null!);
-            window.Player5CheckBox = new CheckBox(null!);
-            window.Player6CheckBox = new CheckBox(null!);
-            window.Player7CheckBox = new CheckBox(null!);
-            window.Player8CheckBox = new CheckBox(null!);
-            window.Player9CheckBox = new CheckBox(null!);
-            window.Player10CheckBox = new CheckBox(null!);
-            window.Player11CheckBox = new CheckBox(null!);
-            window.Player12CheckBox = new CheckBox(null!);
-            window.Race1CheckBox = new CheckBox(null!);
-            window.Race2CheckBox = new CheckBox(null!);
-            window.Race3CheckBox = new CheckBox(null!);
-            window.Race4CheckBox = new CheckBox(null!);
-            window.Race5CheckBox = new CheckBox(null!);
-            window.Race6CheckBox = new CheckBox(null!);
-            window.Race7CheckBox = new CheckBox(null!);
-            window.Race8CheckBox = new CheckBox(null!);
-            window.Race9CheckBox = new CheckBox(null!);
-            window.Race10CheckBox = new CheckBox(null!);
-            window.Race11CheckBox = new CheckBox(null!);
-            window.Race12CheckBox = new CheckBox(null!);
-            window.MainWindow = new Window(null!);
-            window.RelationPanel = new Panel(null!);
-            window.PlayerGlow = new Image(null!);
-            window.NewActionPanel = new Panel(null!);
-            window.IncomingPanel = new Panel(null!);
-            window.MessageEditPanel = new Panel(null!);
-            window.SendBribePanel = new Panel(null!);
-            window.ReceivedMessagePanel = new Panel(null!);
-            window.IncomingInfoPanel = new Panel(null!);
-            window.ActionsList = new ListBox<DiplomaticAction>(null!);
-            window.SendMessageMemo = new Memo(null!);
-            window.IncomingMemo = new Memo(null!);
-            window.SelectActionButton = new Button(null!);
+            window.Player1Image = new Image(null);
+            window.Player2Image = new Image(null);
+            window.Player3Image = new Image(null);
+            window.Player4Image = new Image(null);
+            window.Player5Image = new Image(null);
+            window.Player6Image = new Image(null);
+            window.Player7Image = new Image(null);
+            window.Player8Image = new Image(null);
+            window.Player9Image = new Image(null);
+            window.Player10Image = new Image(null);
+            window.Player11Image = new Image(null);
+            window.Player12Image = new Image(null);
+            window.Race1Image = new Image(null);
+            window.Race2Image = new Image(null);
+            window.Race3Image = new Image(null);
+            window.Race4Image = new Image(null);
+            window.Race5Image = new Image(null);
+            window.Race6Image = new Image(null);
+            window.Race7Image = new Image(null);
+            window.Race8Image = new Image(null);
+            window.Race9Image = new Image(null);
+            window.Race10Image = new Image(null);
+            window.Race11Image = new Image(null);
+            window.Race12Image = new Image(null);
+            window.Player1CheckBox = new CheckBox(null);
+            window.Player2CheckBox = new CheckBox(null);
+            window.Player3CheckBox = new CheckBox(null);
+            window.Player4CheckBox = new CheckBox(null);
+            window.Player5CheckBox = new CheckBox(null);
+            window.Player6CheckBox = new CheckBox(null);
+            window.Player7CheckBox = new CheckBox(null);
+            window.Player8CheckBox = new CheckBox(null);
+            window.Player9CheckBox = new CheckBox(null);
+            window.Player10CheckBox = new CheckBox(null);
+            window.Player11CheckBox = new CheckBox(null);
+            window.Player12CheckBox = new CheckBox(null);
+            window.Race1CheckBox = new CheckBox(null);
+            window.Race2CheckBox = new CheckBox(null);
+            window.Race3CheckBox = new CheckBox(null);
+            window.Race4CheckBox = new CheckBox(null);
+            window.Race5CheckBox = new CheckBox(null);
+            window.Race6CheckBox = new CheckBox(null);
+            window.Race7CheckBox = new CheckBox(null);
+            window.Race8CheckBox = new CheckBox(null);
+            window.Race9CheckBox = new CheckBox(null);
+            window.Race10CheckBox = new CheckBox(null);
+            window.Race11CheckBox = new CheckBox(null);
+            window.Race12CheckBox = new CheckBox(null);
+            window.MainWindow = new Window(null);
+            window.RelationPanel = new Panel(null);
+            window.PlayerGlow = new Image(null);
+            window.NewActionPanel = new Panel(null);
+            window.IncomingPanel = new Panel(null);
+            window.MessageEditPanel = new Panel(null);
+            window.SendBribePanel = new Panel(null);
+            window.ReceivedMessagePanel = new Panel(null);
+            window.IncomingInfoPanel = new Panel(null);
+            window.ActionsList = new ListBox<DiplomaticAction>(null);
+            window.SendMessageMemo = new Memo(null);
+            window.IncomingMemo = new Memo(null);
+            window.SelectActionButton = new Button(null);
             window.RelationWindowCreate();
 
             window.ShowRelations(0);
@@ -330,19 +330,17 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void PlaceHexRefreshesNoFieldThroughThePreviousFieldsLevel()
     {
-        using (MapScope scope = new())
-        {
-            MapLevel level = scope.Field.Owner;
-            MapField marker = new(level);
-            marker.HexX = 20;
-            marker.HexY = 20;
-            marker.OverlayType = 4;
-            HexBridge bridge = new(marker);
-            bridge.SetResourceWithoutOverrides(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
-            Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
-            Assert.Same(scope.Field, bridge.Owner);
-            Assert.Equal(4, marker.OverlayType);
-        }
+        using MapScope scope = new();
+        MapLevel level = scope.Field.Owner;
+        MapField marker = new(level);
+        marker.HexX = 20;
+        marker.HexY = 20;
+        marker.OverlayType = 4;
+        HexBridge bridge = new(marker);
+        bridge.SetResourceWithoutOverrides(new MapObjectResource(null) { Holder = EngineFixture.Engine });
+        Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
+        Assert.Same(scope.Field, bridge.Owner);
+        Assert.Equal(4, marker.OverlayType);
     }
 
     [Fact]
@@ -350,11 +348,11 @@ public sealed class ObjectCastCrashTests
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
         Assert.Null(GamePack.Current.SpellControl.GetSpell(155));
-        Unit unit = new(null!) { Holder = EngineFixture.Engine };
-        unit.UnitResource = new UnitResource(null!) { Holder = EngineFixture.Engine, Level = 2 };
+        Unit unit = new(null) { Holder = EngineFixture.Engine };
+        unit.UnitResource = new UnitResource(null) { Holder = EngineFixture.Engine, Level = 2 };
         Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));
         Assert.Equal(5, SummonedAbility.GetDefaultDispelResistance(unit));
-        Assert.Equal(5, new SummonSyron(null!, holder: EngineFixture.Engine).GetDispelResistance(unit));
+        Assert.Equal(5, new SummonSyron(null, holder: EngineFixture.Engine).GetDispelResistance(unit));
         Assert.Equal(0, SummonedAbility.GetDefaultManaUpkeep(new MasteryUnit()));
     }
 
@@ -364,8 +362,8 @@ public sealed class ObjectCastCrashTests
         StrategicMap previous = StrategicMap.Current;
         try
         {
-            StrategicMap map = new(null!, holder: EngineFixture.Engine);
-            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            StrategicMap map = new(null, holder: EngineFixture.Engine);
+            MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(2, 1);
             container.Map = map;
@@ -373,8 +371,8 @@ public sealed class ObjectCastCrashTests
             StrategicMap.Current = map;
             MapField first = container.GetField(0, 0, 0);
             MapField second = container.GetField(1, 0, 0);
-            Bridge bridge = new(null!) { Holder = EngineFixture.Engine };
-            bridge.SetResourceWithoutOverrides(new Bridge.Resource(null!) { Holder = EngineFixture.Engine });
+            Bridge bridge = new(null) { Holder = EngineFixture.Engine };
+            bridge.SetResourceWithoutOverrides(new Bridge.Resource(null) { Holder = EngineFixture.Engine });
             Assert.True(bridge.PlaceHex(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);
             Assert.True(bridge.PlaceHex(container, 1, 0, 0));

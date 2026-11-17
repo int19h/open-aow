@@ -40,7 +40,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void OneHandlerRunsFromAButtonAndAList()
     {
-        Component owner = new(null!);
+        Component owner = new(null);
         Button button = new(owner);
         ListBox list = new(owner);
         int runs = 0;
@@ -58,7 +58,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void BaseHandlerBindsToTheButtonEvent()
     {
-        Component owner = new(null!);
+        Component owner = new(null);
         Button button = new(owner);
         object? seen = null;
         void Ignore(object sender) => seen = sender;
@@ -73,7 +73,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TypedAndBaseHandlersReachTheBaseEventAndLeaveIt()
     {
-        Component owner = new(null!);
+        Component owner = new(null);
         Button button = new(owner);
         Button? seen = null;
         NotifyEvent<Button> click = sender => seen = sender;
@@ -112,7 +112,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void DirectCallPassesNoSender()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         using RelationWindow window = new(new UIContext(EngineFixture.Engine));
         window.BribeGoldSlider = new HorizontalScrollBar(owner);
         window.BribeGoldValueLabel = new Label(owner);
@@ -165,7 +165,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TwoLevelMouseDownFiresTheDerivedOwner()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         Button button = new(owner);
         Button other = new(owner);
         Button? seen = null;
@@ -183,7 +183,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void BaseAndDerivedHandlersBothRunInTheOrderTheyJoined()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         Button button = new(owner);
         List<string> runs = [];
         button.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add("button " + (sender == button));
@@ -222,7 +222,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void RemovingAnotherHandlerKeepsTheView()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         Button button = new(owner);
         Button other = new(owner);
         Button? seen = null;

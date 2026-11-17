@@ -131,7 +131,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             EngineObject? objectValue = null;
             try
             {
-                objectValue = engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+                objectValue = engineClass.CreateInstance(null, holder: EngineFixture.Engine);
                 List<(string Name, long Value)> filled = Fill(objectValue, classValue);
                 if (filled.Count == 0)
                 {
