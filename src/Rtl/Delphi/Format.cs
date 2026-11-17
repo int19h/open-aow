@@ -13,13 +13,13 @@ public static partial class RtlUnit
         int next = 0;
         for (int i = 0; i < text.Length; i++)
         {
-            if (text[i] != '%') { result.Append(text[i]); continue; }
+            if (text[i] != '%') { _ = result.Append(text[i]); continue; }
             if (++i >= text.Length)
             {
                 break;
             }
 
-            if (text[i] == '%') { result.Append('%'); continue; }
+            if (text[i] == '%') { _ = result.Append('%'); continue; }
             int start = i;
             int width;
             bool left;
@@ -72,7 +72,7 @@ public static partial class RtlUnit
                 PointerArg value when conversion == 'P' => value.Value.ToString("X8", CultureInfo.InvariantCulture),
                 int or bool or char or double or string or object or PointerArg or null => throw Mismatch(conversion, start),
             };
-            result.Append(left ? output.PadRight(Math.Max(0, width)) : output.PadLeft(Math.Max(0, width)));
+            _ = result.Append(left ? output.PadRight(Math.Max(0, width)) : output.PadLeft(Math.Max(0, width)));
         }
         return result.ToString();
     }

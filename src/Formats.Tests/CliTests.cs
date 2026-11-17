@@ -65,13 +65,13 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(Program.Error, result.Code);
         Assert.Contains("E_UNKNOWN_PROPERTY", result.Errors);
         Assert.False(File.Exists(In("out.ahl")));
-        Assert.Single(Directory.GetFiles(_directory));
+        _ = Assert.Single(Directory.GetFiles(_directory));
     }
 
     [GameFact]
     public void NormalizeWritesASeparateOutput()
     {
-        Run("to-own", HeroList, In("a.ahl"));
+        _ = Run("to-own", HeroList, In("a.ahl"));
         byte[] before = File.ReadAllBytes(In("a.ahl"));
         Assert.Equal(Program.Success, Run("normalize", In("a.ahl"), In("n.ahl")).Code);
         Assert.Equal(before, File.ReadAllBytes(In("a.ahl")));
@@ -90,7 +90,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void DirectoryTreesMayNotOverlap()
     {
-        Directory.CreateDirectory(In("in"));
+        _ = Directory.CreateDirectory(In("in"));
         File.Copy(HeroList, Path.Combine(In("in"), "h.ahl"));
         Assert.Equal(Program.Error, Run("to-own", "--dir", In("in"), "--out", Path.Combine(In("in"), "out")).Code);
         (int Code, string Output, string Errors) result = Run("to-own", "--dir", In("in"), "--out", In("out"));
@@ -102,14 +102,14 @@ public sealed class CliTests : FormatsTest, IDisposable
         (int Code, string Output, string Errors) back = Run("to-original", "--dir", In("out"), "--out", In("back"));
         Assert.Equal(Program.Success, back.Code);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
-        Assert.Single(Directory.GetFiles(In("back")));
+        _ = Assert.Single(Directory.GetFiles(In("back")));
     }
 
     // An own document named with an original extension exports to that original name.
     [GameFact]
     public void DirectoryExportOfAnOwnDocumentUnderAnOriginalNameKeepsTheName()
     {
-        Directory.CreateDirectory(In("in"));
+        _ = Directory.CreateDirectory(In("in"));
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
         Assert.Equal(Program.Success, Run("to-original", "--dir", In("in"), "--out", In("back")).Code);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
@@ -119,7 +119,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void DirectoryModesSkipOwnInputsAndRefuseCollidingExports()
     {
-        Directory.CreateDirectory(In("in"));
+        _ = Directory.CreateDirectory(In("in"));
         Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.oahl")).Code);
         (int Code, string Output, string Errors) import = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Contains("0 converted, 0 failed, 1 skipped", import.Output);
@@ -127,7 +127,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         (int Code, string Output, string Errors) export = Run("to-original", "--dir", In("in"), "--out", In("back"));
         Assert.NotEqual(Program.Success, export.Code);
         Assert.Contains("exports to the same name as", export.Errors);
-        Assert.Single(Directory.GetFiles(In("back")));
+        _ = Assert.Single(Directory.GetFiles(In("back")));
     }
 
     // The explicit output path of the single-file forms is kept as given.
@@ -143,7 +143,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void CheckReportsOwnDocuments()
     {
-        Run("to-own", HeroList, In("a.ahl"));
+        _ = Run("to-own", HeroList, In("a.ahl"));
         (int Code, string Output, string Errors) result = Run("check", In("a.ahl"));
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("Corpus: 0 original files", result.Output);

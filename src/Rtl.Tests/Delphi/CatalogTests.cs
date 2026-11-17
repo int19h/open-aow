@@ -16,7 +16,7 @@ public sealed class CatalogTests
         Assert.Contains("production order", absent.Message);
         Assert.Contains("17", absent.Message);
         Assert.Same(value, catalog[42]);
-        Assert.Single(catalog.All);
+        _ = Assert.Single(catalog.All);
     }
 
     [Fact]
@@ -43,8 +43,8 @@ public sealed class CatalogTests
         Assert.Equal([first, second], catalog.All);
         IList<object> list = Assert.IsAssignableFrom<IList<object>>(catalog.All);
         Assert.True(list.IsReadOnly);
-        Assert.Throws<NotSupportedException>(() => list[0] = second);
-        Assert.Throws<NotSupportedException>(() => list.Add(new object()));
+        _ = Assert.Throws<NotSupportedException>(() => list[0] = second);
+        _ = Assert.Throws<NotSupportedException>(() => list.Add(new object()));
         Assert.Same(first, catalog[9]);
     }
 
@@ -55,7 +55,7 @@ public sealed class CatalogTests
         object[] values = Enumerable.Range(0, 32).Select(_ => new object()).ToArray();
         await Task.WhenAll(values.Select((value, key) => Task.Run(() =>
         {
-            catalog.Add(key, value);
+            _ = catalog.Add(key, value);
             Assert.Same(value, catalog[key]);
             foreach (object item in catalog.All)
             {
@@ -68,12 +68,12 @@ public sealed class CatalogTests
             Assert.Same(values[key], catalog[key]);
         }
 
-        bool[] results = await Task.WhenAll(Enumerable.Range(0, 2).Select(_ => Task.Run(() =>
+        bool[] results = await Task.WhenAll(Enumerable.Range(0, 2).Select(attempt => Task.Run(() =>
         {
-            try { catalog.Add(99, new object()); return true; }
+            try { _ = catalog.Add(99, new object()); return true; }
             catch (InvalidOperationException) { return false; }
         })));
-        Assert.Single(results, added => added);
+        _ = Assert.Single(results, added => added);
         Assert.Equal(values.Length + 1, catalog.All.Count);
     }
 }

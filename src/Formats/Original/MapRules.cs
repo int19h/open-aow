@@ -85,10 +85,10 @@ internal sealed partial class MapFieldsCodec
             JsonArray row = new();
             for (int x = 0; x < width; x++)
             {
-                row.Add(DocumentBackend.WriteObject(grid.Fields[(y * width) + x], fieldClass, site.At(site.Path.Item(y).Item(x), element: false), created: false, slotted: false));
+                _ = row.Add(DocumentBackend.WriteObject(grid.Fields[(y * width) + x], fieldClass, site.At(site.Path.Item(y).Item(x), element: false), created: false, slotted: false));
             }
 
-            rows.Add(row);
+            _ = rows.Add(row);
         }
         return rows;
     }
@@ -290,7 +290,7 @@ internal sealed partial class CampaignMapCodec
     private static JsonObject NestedOwnDocument(byte[] image, DocumentSite site)
     {
         ReadResult read = GameFiles.Read(image, fileName: site.Context.File);
-        (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
+        (FileProfile? profile, _, JsonObject? container, JsonValue? root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
         if (profile.Name != Nested.Name)
         {
             throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
@@ -304,7 +304,7 @@ internal sealed partial class CampaignMapCodec
         JsonObject map = new JsonObject().Add("$container", container).Add("root", rootObject);
         if (read.Document.Find("$layout") is { } layout)
         {
-            map.Add("$layout", layout.Value);
+            _ = map.Add("$layout", layout.Value);
         }
 
         return map;
@@ -323,7 +323,7 @@ internal sealed partial class CampaignMapCodec
             }
         }
 
-        DocumentBackend.Read(body, classValue: classValue, schema: site.Schema, engine: Nested.Engine, path: site.Path.Member("root"), file: site.Context.File);
+        _ = DocumentBackend.Read(body, classValue: classValue, schema: site.Schema, engine: Nested.Engine, path: site.Path.Member("root"), file: site.Context.File);
     }
 
     private static byte[] OwnDocument(JsonObject container, JsonObject root) =>

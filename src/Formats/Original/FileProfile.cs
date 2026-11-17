@@ -85,7 +85,7 @@ public abstract class FileProfile
         JsonObject container = new JsonObject().Add("profile", new JsonString(Name)).Add("compression", new JsonString(compression));
         if (level is int l)
         {
-            container.Add("level", new JsonInteger(l));
+            _ = container.Add("level", new JsonInteger(l));
         }
 
         return container;
@@ -127,7 +127,7 @@ public abstract class FileProfile
         JsonObject root = new();
         if (RootHasClass)
         {
-            root.Add("$class", new JsonString(classValue.Name));
+            _ = root.Add("$class", new JsonString(classValue.Name));
         }
 
         ObjectImage.Decode(context, start, end, classValue, DocumentNodePath.Root, root);
@@ -385,7 +385,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         int classId = context.Int32(12);
         if (reserved != 0)
         {
-            container.Add("header", new JsonObject().Add("Reserved", new JsonInteger(reserved)));
+            _ = container.Add("header", new JsonObject().Add("Reserved", new JsonInteger(reserved)));
         }
 
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
@@ -518,7 +518,7 @@ public sealed class ScenarioSetProfile : FileProfile
         }
 
         JsonObject container = NewContainer("none", null);
-        container.Add("header", new JsonObject().Add("Name", new JsonString(TextCodec.Decode(file.AsSpan(10, nameLength)))));
+        _ = container.Add("header", new JsonObject().Add("Name", new JsonString(TextCodec.Decode(file.AsSpan(10, nameLength)))));
         LayoutBuilder layout = new();
         int tail = 10 + nameLength;
         if (file.AsSpan(tail, HeaderSize - tail).ContainsAnyExcept((byte)0))

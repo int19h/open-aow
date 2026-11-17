@@ -24,7 +24,7 @@ internal static class PersistenceMeasurement
 {
     public static int Run(string root, string kind, string file, string? map, string output)
     {
-        Directory.CreateDirectory(output);
+        _ = Directory.CreateDirectory(output);
         HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file));
         Shim.InstallHost(host);
         Startup.InitializeAll();

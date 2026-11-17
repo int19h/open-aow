@@ -23,7 +23,7 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
         JsonObject objectValue = new();
         if (context.Schema.Version >= SlotVersion && site.Property.SlotBase is int slotBase)
         {
-            objectValue.Add("$slot", new JsonInteger(site.Id - slotBase));
+            _ = objectValue.Add("$slot", new JsonInteger(site.Id - slotBase));
         }
 
         ObjectImage.Decode(context, start, end, context.Schema.Get(ClassName), site.Path, objectValue);
@@ -92,10 +92,10 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             }
 
             isNull = true;
-            objectValue.Add("$class", new JsonNull());
+            _ = objectValue.Add("$class", new JsonNull());
             if (slot is int s0)
             {
-                objectValue.Add("$slot", new JsonInteger(s0));
+                _ = objectValue.Add("$slot", new JsonInteger(s0));
             }
 
             return objectValue;
@@ -109,10 +109,10 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", start, site.Path, classValue.Name, family);
         }
 
-        objectValue.Add("$class", new JsonString(classValue.Name));
+        _ = objectValue.Add("$class", new JsonString(classValue.Name));
         if (slot is int s)
         {
-            objectValue.Add("$slot", new JsonInteger(s));
+            _ = objectValue.Add("$slot", new JsonInteger(s));
         }
 
         if (shape is { } legacy)
@@ -265,7 +265,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
             }
 
             int next = boundaries[Array.BinarySearch(boundaries, e.Offset) + 1];
-            array.Add(CreatedObjectCodec.DecodeCreated(site: new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner, Builder = site.Builder }, context: context, start: db + e.Offset, end: db + next, family: null, slot: e.Id, isNull: out _));
+            _ = array.Add(CreatedObjectCodec.DecodeCreated(site: new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner, Builder = site.Builder }, context: context, start: db + e.Offset, end: db + next, family: null, slot: e.Id, isNull: out _));
             cursor = next;
         }
         if (cursor < length)
@@ -379,10 +379,10 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
 
                 JsonObject field = new();
                 ObjectImage.Decode(context, at + 4, at + 4 + length, fieldClass, site.Path.Item(y).Item(x), field);
-                row.Add(field);
+                _ = row.Add(field);
                 at += 4 + length;
             }
-            rows.Add(row);
+            _ = rows.Add(row);
         }
         return at != end
             ? throw context.Fail(Codes.Dimensions, $"The field stream holds more than {width} by {height} fields.", at, site.Path)

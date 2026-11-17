@@ -31,7 +31,7 @@ public sealed class SystemClock : IClock
         ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
         if (milliseconds == 0)
         {
-            Thread.Yield();
+            _ = Thread.Yield();
         }
         else
         {

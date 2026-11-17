@@ -199,7 +199,7 @@ public class SdlSoundSystem : SoundSystem
         {
             if (State == SongState.WaitingForFadeIn && Mixer.MusicGain.Value == 0)
             {
-                PlaySong(_fileName, 0, _fadeIn, _loop);
+                _ = PlaySong(_fileName, 0, _fadeIn, _loop);
             }
         }
 

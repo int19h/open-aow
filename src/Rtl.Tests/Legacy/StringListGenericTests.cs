@@ -12,7 +12,7 @@ public sealed class StringListGenericTests
         StringList<Tagged> list = new();
         Assert.Equal(0, list.AddObject("b", first));
         list.InsertObject(0, "a", second);
-        list.Add("c");
+        _ = list.Add("c");
         Tagged? read = list.Objects[1];
         Assert.Same(first, read);
         Assert.Same(second, list.Objects[0]);
@@ -20,9 +20,9 @@ public sealed class StringListGenericTests
         Assert.Equal(1, list.IndexOfObject(first));
 
         StringCollection untyped = list;
-        Assert.Throws<ArgumentException>(() => untyped.Objects[2] = new object());
+        _ = Assert.Throws<ArgumentException>(() => untyped.Objects[2] = new object());
         // The base adds the string before it stores the object, so the string stays with an empty slot.
-        Assert.Throws<ArgumentException>(() => untyped.AddObject("d", "text"));
+        _ = Assert.Throws<ArgumentException>(() => untyped.AddObject("d", "text"));
         Assert.Null(list.Objects[3]);
         list.Delete(3);
         untyped.Objects[2] = first;
@@ -37,7 +37,7 @@ public sealed class StringListGenericTests
         copy.AddStrings(list);
         Assert.Same(second, copy.Objects[2]);
         StringList mixed = new();
-        mixed.AddObject("x", new object());
-        Assert.Throws<ArgumentException>(() => copy.AddStrings(mixed));
+        _ = mixed.AddObject("x", new object());
+        _ = Assert.Throws<ArgumentException>(() => copy.AddStrings(mixed));
     }
 }

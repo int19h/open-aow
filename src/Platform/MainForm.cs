@@ -83,7 +83,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.SecondaryDisplayController = WinDisplayController;
         FormCreate();
         _created = true;
-        Display.ActivateDisplayController(WinDisplayController);
+        _ = Display.ActivateDisplayController(WinDisplayController);
         Display.PresentInitialFrame();
         // The game reads its command line as a path on its own drive, so a host path becomes the file system's public path.
         FormShow(argument.Length == 0 ? argument : RtlUnit.Files.ExpandPath(argument));
@@ -123,7 +123,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         UI.SoundDialog.Settings = settings6;
         if (UI.SoundDialog.SoundQuality != 0)
         {
-            AudioPlayback.InitializeSoundSystem("SDL", UI.SoundDialog.Settings);
+            _ = AudioPlayback.InitializeSoundSystem("SDL", UI.SoundDialog.Settings);
             AudioPlayback.SetMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position);
             AudioPlayback.SetSfxVolume(UI.SoundDialog.EffectsVolumeSlider.Position);
         }
@@ -141,7 +141,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         WindowActions.RestoreWindowLayout(UI.General);
-        RtlUnit.SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = RtlUnit.SetCurrentDir(UI.Engine.StartupDirectory);
         UI.Engine.CombatFont = UI.Fonts.Age8;
     }
 
@@ -193,7 +193,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         RtlUnit.Clock.WaitMilliseconds(UI.Engine.Registry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
-            case 1: GameHost.DeferredSetupAction = 0; UI.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
+            case 1: GameHost.DeferredSetupAction = 0; _ = UI.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
             case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(UI.FileDialogWindow); break;
         }
         if (UI.SetupEvents.DirectPlay.DPlay is not null)
@@ -223,7 +223,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
                 try { DrawCursor(x, y, descriptor); }
-                finally { back.Unlock(); }
+                finally { _ = back.Unlock(); }
             }
             FLastCursorRectangle = rectangle;
             UI.DebugWindow.ShowFrameRate(Display.CurrentFrameRate);
@@ -256,7 +256,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             image.GetVisualDimensions(out Rect bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
             bounds.Top += y + dy; bounds.Bottom += y + dy;
-            RtlUnit.UnionRect(out _cursorBounds, _cursorBounds, bounds);
+            _ = RtlUnit.UnionRect(out _cursorBounds, _cursorBounds, bounds);
         }
         _cursorBounds = default;
         if (StrategicMap.Current is not null)
@@ -342,7 +342,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void KeyDown(ushort key, Set<ShiftState> shift)
     {
-        if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDisplayController(); return; }
+        if (key == 13 && shift.Contains(ShiftState.Alt)) { _ = Display.SwapDisplayController(); return; }
         UI.General.Manager.CheckKeyDown(ref key, shift);
         if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial)
         {

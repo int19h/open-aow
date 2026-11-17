@@ -69,7 +69,7 @@ public sealed class ValidationTests : FormatsTest
     public void StructuralErrorsComeBeforeContentValidators()
     {
         JsonObject document = Map();
-        ((JsonObject)document["root"]!).Add("NoSuchMember", new JsonInteger(1));
+        _ = ((JsonObject)document["root"]!).Add("NoSuchMember", new JsonInteger(1));
         FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
         Assert.Equal(Codes.UnknownMember, finding.Code);
     }

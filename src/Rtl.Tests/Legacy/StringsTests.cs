@@ -17,7 +17,7 @@ public sealed class StringsTests
     {
         // CLASSES.PAS:2125..2163 and :2263..2354.
         StringList list = new(); TrackObject objectValue = new(); TrackObject other = new();
-        Assert.Equal(0, list.AddObject("First=one", objectValue)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
+        Assert.Equal(0, list.AddObject("First=one", objectValue)); list.InsertObject(1, "blank", other); _ = list.Add("FIRST=two"); _ = list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
         Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new object()));
         Assert.Equal("one", list.Values["FIRST"]); Assert.Equal("", list.Values["missing"]);
@@ -30,7 +30,7 @@ public sealed class StringsTests
         list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(objectValue, list.Objects[2]);
         list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(objectValue, list.Objects[0]);
         list.Move(-1, -1);
-        Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
+        _ = Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
         list.Dispose(); Assert.False(objectValue.Destroyed); Assert.False(other.Destroyed);
     }
@@ -43,23 +43,23 @@ public sealed class StringsTests
         list.OnChanging = s => { Assert.Same(list, s); events.Add("changing"); };
         list.OnChange = s => { Assert.Same(list, s); events.Add("changed"); };
         list.Clear(); Assert.Empty(events);
-        list.BeginUpdate(); list.BeginUpdate(); list.Add("b"); list.Add("a"); list.EndUpdate(); Assert.Equal(new[] { "changing" }, events); list.EndUpdate(); Assert.Equal(new[] { "changing", "changed" }, events);
+        list.BeginUpdate(); list.BeginUpdate(); _ = list.Add("b"); _ = list.Add("a"); list.EndUpdate(); Assert.Equal(new[] { "changing" }, events); list.EndUpdate(); Assert.Equal(new[] { "changing", "changed" }, events);
         events.Clear(); list.Sorted = true; Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal("a", list[0]);
         events.Clear(); list.Sort(); list.Sorted = true; Assert.Empty(events);
-        Assert.Throws<InvalidOperationException>(() => list[0] = "z"); Assert.Throws<InvalidOperationException>(() => list.Insert(0, "z"));
+        _ = Assert.Throws<InvalidOperationException>(() => list[0] = "z"); _ = Assert.Throws<InvalidOperationException>(() => list.Insert(0, "z"));
         list.Objects[0] = new object(); list.Exchange(0, 1); Assert.Equal(4, events.Count);
         list.Sorted = false; events.Clear(); list[0] = "x"; list.Delete(1); Assert.Equal(4, events.Count);
         events.Clear(); list.Clear(); Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal(0, list.Capacity);
         list.Capacity = 8; list.Clear(); Assert.Equal(8, list.Capacity);
-        list.Add("a"); Assert.Throws<ArgumentOutOfRangeException>(() => list.Capacity = 0);
+        _ = list.Add("a"); _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Capacity = 0);
         foreach (int i in new[] { -1, 1 })
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => list[i]); Assert.Throws<ArgumentOutOfRangeException>(() => list[i] = "x");
-            Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i]); Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i] = null);
-            Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i)); Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list[i]); _ = Assert.Throws<ArgumentOutOfRangeException>(() => list[i] = "x");
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i]); _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i] = null);
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i)); _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
         }
-        Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x")); Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
-        list.Duplicates = Duplicates.Ignore; list.Sorted = true; list.AddObject("A", new object()); Assert.Equal(1, list.Count);
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x")); _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
+        list.Duplicates = Duplicates.Ignore; list.Sorted = true; _ = list.AddObject("A", new object()); Assert.Equal(1, list.Count);
         events.Clear(); list.Dispose(); Assert.Empty(events); Assert.Null(list.OnChange); Assert.Null(list.OnChanging);
     }
 
@@ -76,7 +76,7 @@ public sealed class StringsTests
         {
             list.CommaText = input; Assert.Equal(expected, Enumerable.Range(0, list.Count).Select(i => list[i])); Assert.Equal(canonical, list.CommaText);
         }
-        list.Clear(); list.Add("a\tb"); list.Add("c\0d"); Assert.Equal("\"a\tb\",c\0d", list.CommaText);
+        list.Clear(); _ = list.Add("a\tb"); _ = list.Add("c\0d"); Assert.Equal("\"a\tb\",c\0d", list.CommaText);
         // Both branches keep a char outside the table (strings.md 2.6).
         list.CommaText = "\"\u0141,x\",\u03a9"; Assert.Equal(new[] { "\u0141,x", "\u03a9" }, Enumerable.Range(0, list.Count).Select(i => list[i]));
     }
@@ -100,7 +100,7 @@ public sealed class StringsTests
         // CLASSES.PAS:2119..2540.
         using ProbeDirectory directory = new();
         PlainStrings source = new(); object ignored = new();
-        source.AddObject("a", ignored); source.InsertObject(1, "b", ignored); Assert.Null(source.Objects[0]); source.Objects[0] = ignored;
+        _ = source.AddObject("a", ignored); source.InsertObject(1, "b", ignored); Assert.Null(source.Objects[0]); source.Objects[0] = ignored;
         Assert.Equal(0, source.IndexOfObject(null)); Assert.Equal(-1, source.IndexOfObject(ignored));
         Assert.Equal(2, source.Capacity); source.Capacity = 100; Assert.Equal(2, source.Capacity);
         source.Exchange(0, 1); Assert.Equal("b", source[0]); source.Move(0, 1); Assert.Equal("a", source[0]); source.Move(-1, -1);
@@ -112,6 +112,6 @@ public sealed class StringsTests
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
         Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => StringCollection.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Dispose();
-        IndexedProperty<int, int> readOnly = new(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
+        IndexedProperty<int, int> readOnly = new(i => i + 1); Assert.Equal(3, readOnly[2]); _ = Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
     }
 }

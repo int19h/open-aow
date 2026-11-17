@@ -76,7 +76,7 @@ public sealed class GameSetTests : FormatsTest
 
     private static JsonObject WithoutLayout(JsonObject objectValue)
     {
-        objectValue.Members.RemoveAll(member => member.Name == "$layout");
+        _ = objectValue.Members.RemoveAll(member => member.Name == "$layout");
         foreach (JsonMember member in objectValue.Members)
         {
             WithoutLayout(member.Value);
@@ -89,7 +89,7 @@ public sealed class GameSetTests : FormatsTest
     {
         if (value is JsonObject nested)
         {
-            WithoutLayout(nested);
+            _ = WithoutLayout(nested);
         }
         else if (value is JsonArray array)
         {

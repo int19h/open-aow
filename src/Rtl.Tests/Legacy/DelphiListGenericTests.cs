@@ -63,16 +63,16 @@ public sealed class DelphiListGenericTests
         object second = new();
         object third = new();
         DelphiList<object> list = new();
-        list.Add(first);
-        list.Add(second);
-        list.Add(third);
+        _ = list.Add(first);
+        _ = list.Add(second);
+        _ = list.Add(third);
         list.Sort((_, _) => 0);
         Assert.False(ReferenceEquals(list[0], first) && ReferenceEquals(list[1], second) && ReferenceEquals(list[2], third));
 
         list.Clear();
-        list.Add(first);
-        list.Add(second);
-        list.Add(third);
+        _ = list.Add(first);
+        _ = list.Add(second);
+        _ = list.Add(third);
         list.SortStable((_, _) => 0);
         Assert.Same(first, list[0]);
         Assert.Same(second, list[1]);
@@ -86,7 +86,7 @@ public sealed class DelphiListGenericTests
                 DelphiList<Keyed> sorted = new();
                 foreach (Keyed key in keys)
                 {
-                    sorted.Add(key);
+                    _ = sorted.Add(key);
                 }
 
                 sorted.Sort((a, b) => a!.Key - b!.Key);
@@ -97,7 +97,7 @@ public sealed class DelphiListGenericTests
                 DelphiList<Keyed> stable = new();
                 foreach (Keyed key in keys)
                 {
-                    stable.Add(key);
+                    _ = stable.Add(key);
                 }
 
                 stable.SortStable((a, b) => a!.Key - b!.Key);
@@ -116,8 +116,8 @@ public sealed class DelphiListGenericTests
             DelphiList<Keyed> narrowed = new();
             foreach (Keyed key in keys)
             {
-                plain.Add(key);
-                narrowed.Add(key);
+                _ = plain.Add(key);
+                _ = narrowed.Add(key);
             }
 
             plain.Sort((a, b) => a!.Key - b!.Key);
@@ -134,7 +134,7 @@ public sealed class DelphiListGenericTests
         {
             ListSortCompare<DerivedKeyed> compare = (a, b) => a!.Id - b!.Id;
             DelphiList<Keyed> list = new();
-            list.Add(new DerivedKeyed(id: 1, key: 0));
+            _ = list.Add(new DerivedKeyed(id: 1, key: 0));
             list.Sort(compare);
             Assert.Same(compare, traced);
         }
@@ -151,12 +151,12 @@ public sealed class DelphiListGenericTests
         object b = new();
         object c = new();
         DelphiList<object> list = new();
-        list.Add(a);
-        list.Add(b);
-        list.Add(c);
+        _ = list.Add(a);
+        _ = list.Add(b);
+        _ = list.Add(c);
         Assert.Equal(1, list.Remove(b));
         Assert.Same(c, list.List[list.Count]);
-        list.Add(null);
+        _ = list.Add(null);
         Assert.Equal(2, list.Remove(null));
         Assert.Equal(-1, list.Remove(b));
         Assert.Equal(-1, list.Remove(new object()));
@@ -164,22 +164,22 @@ public sealed class DelphiListGenericTests
         Assert.Equal(0, list.Remove(c));
         Assert.Equal(0, list.Count);
 
-        list.Add(a);
-        list.Add(null);
-        list.Add(b);
-        list.Add(null);
+        _ = list.Add(a);
+        _ = list.Add(null);
+        _ = list.Add(b);
+        _ = list.Add(null);
         list.Pack();
         Assert.Equal([a, b], list.List.Take(list.Count));
         list.Capacity = list.Count;
         Assert.Same(list, list.Expand());
         Assert.Equal(6, list.Capacity);
-        list.Expand();
+        _ = list.Expand();
         Assert.Equal(6, list.Capacity);
 
         Identical present = new();
         Identical equal = new();
         DelphiList<Identical> identities = new();
-        identities.Add(present);
+        _ = identities.Add(present);
         Assert.Equal(-1, identities.IndexOf(equal));
         Assert.Equal(0, identities.IndexOf(present));
         Assert.Equal(0, identities.Remove(present));
@@ -189,7 +189,7 @@ public sealed class DelphiListGenericTests
         PtrBox<int> sameAlias = new(records + 1);
         PtrBox<int> other = new(records);
         DelphiList<PtrBox<int>> boxes = new();
-        boxes.Add(alias);
+        _ = boxes.Add(alias);
         Assert.Equal(0, boxes.IndexOf(sameAlias));
         Assert.Equal(-1, boxes.IndexOf(other));
         Assert.Equal(0, boxes.Remove(sameAlias));
@@ -197,7 +197,7 @@ public sealed class DelphiListGenericTests
 
         DelphiList<object> empty = new();
         Assert.Equal("List index out of bounds (0)", Assert.Throws<ArgumentOutOfRangeException>(() => empty.Delete(0)).Message);
-        empty.Add(a);
+        _ = empty.Add(a);
         empty.Count = 3;
         Assert.Null(empty[1]);
         Assert.Null(empty[2]);

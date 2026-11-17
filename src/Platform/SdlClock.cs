@@ -31,7 +31,7 @@ public sealed class SdlClock : IClock
             throw new ArgumentOutOfRangeException(nameof(milliseconds));
         }
 
-        if (milliseconds == 0) { Thread.Yield(); return; }
+        if (milliseconds == 0) { _ = Thread.Yield(); return; }
         ulong end = SDL_GetTicksNS() + ((ulong)milliseconds * 1_000_000);
         if (milliseconds == 1) { SDL_DelayPrecise(1_000_000); return; }
         if (milliseconds > 2)

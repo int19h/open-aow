@@ -73,7 +73,7 @@ public sealed class MapShapeTests : FormatsTest
         Assert.Empty(loaded.Fields);
         LevelProbe untouched = Level(width: 1, height: 1, spritesPerField: [1]);
         TreeReader.Read(DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Width":1,"Height":1}"""u8, "map.json"), classValue: classValue, schema: Schema, engine: "game"), untouched, s_factory);
-        Assert.Single(untouched.Fields[0].Sprites);
+        _ = Assert.Single(untouched.Fields[0].Sprites);
         Assert.Equal(0, untouched.Visited);
     }
 
@@ -159,7 +159,7 @@ public sealed class MapShapeTests : FormatsTest
         JsonObject imported = (JsonObject)GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document["root"]!;
         JsonObject map = (JsonObject)imported["Map"]!;
         Assert.Equal(compression == "cfs" && level != 0, map.Find("$layout") is not null);
-        imported.Members.RemoveAll(member => member.Name == "$class");
+        _ = imported.Members.RemoveAll(member => member.Name == "$class");
         byte[] image = PilotImage.Encode(imported, "Campaign", "campaign");
         ObjectNode read = OriginalBackend.Read(image, classValue, Schema, "campaign");
         CampaignProbe loaded = new();
@@ -169,7 +169,7 @@ public sealed class MapShapeTests : FormatsTest
         ObjectNode tree = TreeWriter.Write(loaded, s_factory);
         Assert.Equal(image, OriginalBackend.Write(tree, classValue, Schema, "campaign"));
         // The direct document holds the nested document without the converter's retained bytes.
-        map.Members.RemoveAll(member => member.Name == "$layout");
+        _ = map.Members.RemoveAll(member => member.Name == "$layout");
         JsonObject document = DocumentBackend.Write(tree, classValue, Schema, "campaign");
         Assert.Equal(Compact(imported), Compact(document));
         CampaignProbe again = new();
@@ -196,7 +196,7 @@ public sealed class MapShapeTests : FormatsTest
         JsonObject document = GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document;
         Assert.Equal(file, GameFiles.Export(document).Bytes);
         JsonObject root = (JsonObject)document["root"]!;
-        root.Members.RemoveAll(member => member.Name == "$class");
+        _ = root.Members.RemoveAll(member => member.Name == "$class");
         byte[] image = PilotImage.Encode(root, "Campaign", "campaign");
         ObjectNode tree = OriginalBackend.Read(image, classValue, Schema, "campaign");
         Assert.Equal(image, OriginalBackend.Write(tree, classValue, Schema, "campaign"));
@@ -288,7 +288,7 @@ public sealed class MapShapeTests : FormatsTest
         JsonObject container = new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString(compression));
         if (compression == "cfs")
         {
-            container.Add("level", new JsonInteger(level));
+            _ = container.Add("level", new JsonInteger(level));
         }
 
         return GameFiles.Export(Envelope(root: new JsonObject()
@@ -402,8 +402,8 @@ public sealed class MapShapeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            persister.Byte("Width", 3);
-            persister.Byte("Height", 1);
+            _ = persister.Byte("Width", 3);
+            _ = persister.Byte("Height", 1);
             persister.Grid("Fields", width: 1, height: 1, fields: _fields);
         }
     }

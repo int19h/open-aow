@@ -64,7 +64,7 @@ public sealed class SysUtilsProbeTests
                 {
                     string kind = a >= 128 || b >= 128 ? "extended byte" : a < 32 || b < 32 || a == 127 || b == 127 ? "control" : "punctuation";
                     kinds[kind] = kinds.GetValueOrDefault(kind) + 1;
-                    differences.AppendLine($"{a:X2} {b:X2} oracle={expected} shim={actual} {kind}");
+                    _ = differences.AppendLine($"{a:X2} {b:X2} oracle={expected} shim={actual} {kind}");
                 }
                 probe.Fact($"{a:X2} {b:X2}", expected);
             }

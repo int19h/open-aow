@@ -50,7 +50,7 @@ public sealed class FilesAndStreamsTests
 
             using (Stream write = OpenFile("a/new.bin", fmOpenWrite))
             {
-                Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
+                _ = Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
             }
 
             Assert.True(DeleteFile("a/new.bin")); Assert.False(DeleteFile("a/new.bin"));
@@ -189,18 +189,18 @@ public sealed class FilesAndStreamsTests
         memory.Position = 0; Record restored = new(); Assert.Equal(8, memory.Read(ref restored)); Assert.Equal(record.Number, restored.Number); Assert.Equal(record.Tail, restored.Tail);
         restored = default; memory.ReadBuffer(ref restored); Assert.Equal(record.Number, restored.Number);
         restored = default; Assert.Equal(2, memory.Read(ref restored, 2)); Assert.Equal(0x0201, restored.Number); memory.ReadBuffer(ref restored, 2);
-        Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(ref restored));
+        _ = Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(ref restored));
         memory.Clear(); Ptr<byte> pointer = Ptr<byte>.To([1, 2, 3, 4], 1);
         Assert.Equal(2, memory.Write(pointer, 2)); memory.WriteBuffer(pointer, 2); memory.Position = 0; Assert.Equal(2, memory.Read(pointer, 2)); memory.ReadBuffer(pointer, 2);
-        Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, 1));
+        _ = Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, 1));
         Assert.Equal(0, memory.Write(pointer, -1)); Assert.Equal(0, memory.Read(pointer, -1));
         Assert.Equal(0, memory.Write(new byte[1], -1)); Assert.Equal(0, memory.Read(new byte[1], -1));
         memory.Clear(); Assert.Equal(1, memory.Write([9, 8], 1)); Assert.Equal(0, memory.Read(new byte[2], 1));
         memory.ReadBuffer(default, 0); memory.WriteBuffer(default, 0);
         using ShortStream shortStream = new();
         shortStream.ReadBuffer([]); shortStream.WriteBuffer([]); Assert.Equal(0, shortStream.Calls);
-        Assert.Throws<EndOfStreamException>(() => shortStream.ReadBuffer(new byte[1])); Assert.Throws<IOException>(() => shortStream.WriteBuffer(new byte[1])); Assert.Equal(2, shortStream.Calls);
-        Assert.Throws<IOException>(() => shortStream.CopyFrom(memory, -1));
+        _ = Assert.Throws<EndOfStreamException>(() => shortStream.ReadBuffer(new byte[1])); _ = Assert.Throws<IOException>(() => shortStream.WriteBuffer(new byte[1])); Assert.Equal(2, shortStream.Calls);
+        _ = Assert.Throws<IOException>(() => shortStream.CopyFrom(memory, -1));
     }
 
     [Fact]
@@ -219,9 +219,9 @@ public sealed class FilesAndStreamsTests
         // .NET enforces share modes between opens only on Windows.
         if (OperatingSystem.IsWindows())
         {
-            Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
+            _ = Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
         }
 
-        Assert.Throws<NotSupportedException>(() => file.SetLength(2)); Assert.Equal(0L, file.Position); Assert.Equal(4L, file.Length);
+        _ = Assert.Throws<NotSupportedException>(() => file.SetLength(2)); Assert.Equal(0L, file.Position); Assert.Equal(4L, file.Length);
     }
 }

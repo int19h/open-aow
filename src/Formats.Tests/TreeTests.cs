@@ -42,7 +42,7 @@ public sealed class TreeTests : FormatsTest
         JsonObject document = Write(new Sample());
         Assert.Equal(["Blob", "Fixed", "Made", "Children", "Pair"], document.Members.Select(m => m.Name).ToList());
         Assert.Equal("00000000", ((JsonString)document["Blob"]!).Value);
-        Assert.IsType<JsonNull>(document["Made"]);
+        _ = Assert.IsType<JsonNull>(document["Made"]);
         Assert.Empty(((JsonObject)document["Fixed"]!).Members);
         Assert.Empty(((JsonArray)document["Children"]!).Items);
         Assert.Empty(((JsonObject)document["Pair"]!).Members);
@@ -213,12 +213,12 @@ public sealed class TreeTests : FormatsTest
     public void AnUnknownMemberIsAnErrorWithItsPath()
     {
         JsonObject document = Write(new Sample());
-        document.Add("Nope", new JsonInteger(1));
+        _ = document.Add("Nope", new JsonInteger(1));
         ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.Nope", error.Diagnostic.Path);
         JsonObject nested = Write(new Sample());
-        ((JsonObject)nested["Fixed"]!).Add("Nope", new JsonInteger(1));
+        _ = ((JsonObject)nested["Fixed"]!).Add("Nope", new JsonInteger(1));
         ConversionException nestedError = Assert.Throws<ConversionException>(() => DocumentBackend.Read(nested, SampleClass, Schema, "game"));
         Assert.Equal("root.Fixed.Nope", nestedError.Diagnostic.Path);
     }
@@ -227,7 +227,7 @@ public sealed class TreeTests : FormatsTest
     public void ADuplicateMemberIsRefused()
     {
         JsonObject document = Write(new Sample());
-        document.Add("Fixed", new JsonObject());
+        _ = document.Add("Fixed", new JsonObject());
         ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
         Assert.Equal(Codes.Duplicate, error.Diagnostic.Code);
         Assert.Equal("root.Fixed", error.Diagnostic.Path);
@@ -324,7 +324,7 @@ public sealed class TreeTests : FormatsTest
         JsonObject document = DocumentBackend.Write(node, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
         Assert.Equal(4, ((JsonInteger)document["Upkeep"]!).Value);
         ObjectNode read = DocumentBackend.Read(document, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
-        Assert.IsType<IntegerNode>(read.Find("Upkeep"));
+        _ = Assert.IsType<IntegerNode>(read.Find("Upkeep"));
         ReferenceProbe probe = new();
         TreeReader.Read(node, probe, new TestFactory());
         Assert.Equal(4, probe.Key);

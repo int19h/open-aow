@@ -194,7 +194,7 @@ internal sealed class TerrainListCodec : PropertyCodec
         JsonArray array = new();
         foreach ((sbyte first, sbyte second) in pairs)
         {
-            array.Add(new JsonArray().Add(new JsonInteger(first)).Add(new JsonInteger(second)));
+            _ = array.Add(new JsonArray().Add(new JsonInteger(first)).Add(new JsonInteger(second)));
         }
 
         return array;
@@ -328,7 +328,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
             }
 
             int y = Math.DivRem(i / 2, width, out int x);
-            array.Add(new JsonObject()
+            _ = array.Add(new JsonObject()
                 .Add("X", new JsonInteger(x))
                 .Add("Y", new JsonInteger(y))
                 .Add("Terrain", new JsonInteger((sbyte)bytes[i]))
@@ -805,7 +805,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
         {
             if (entries[i] is not { } layers)
             {
-                array.Add(new JsonNull());
+                _ = array.Add(new JsonNull());
                 continue;
             }
             JsonArray chain = new();
@@ -815,37 +815,37 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                 JsonObject item = new();
                 if (layer.Library.Length != 0)
                 {
-                    item.Add("Library", new JsonString(layer.Library));
+                    _ = item.Add("Library", new JsonString(layer.Library));
                 }
 
                 if (layer.Layer != 0)
                 {
-                    item.Add("Layer", new JsonInteger(layer.Layer));
+                    _ = item.Add("Layer", new JsonInteger(layer.Layer));
                 }
 
                 if (layer.Speed != 0)
                 {
-                    item.Add("Speed", new JsonInteger(layer.Speed));
+                    _ = item.Add("Speed", new JsonInteger(layer.Speed));
                 }
 
                 if (layer.Mode != 0)
                 {
-                    item.Add("Mode", _mode.MemberText(layer.Mode, file, path.Item(i).Item(k).Member("Mode").ToString()));
+                    _ = item.Add("Mode", _mode.MemberText(layer.Mode, file, path.Item(i).Item(k).Member("Mode").ToString()));
                 }
 
                 if (layer.ImageIndex != 0)
                 {
-                    item.Add("ImageIndex", new JsonInteger(layer.ImageIndex));
+                    _ = item.Add("ImageIndex", new JsonInteger(layer.ImageIndex));
                 }
 
                 if (layer.OffsetX != 0)
                 {
-                    item.Add("OffsetX", new JsonInteger(layer.OffsetX));
+                    _ = item.Add("OffsetX", new JsonInteger(layer.OffsetX));
                 }
 
                 if (layer.OffsetY != 0)
                 {
-                    item.Add("OffsetY", new JsonInteger(layer.OffsetY));
+                    _ = item.Add("OffsetY", new JsonInteger(layer.OffsetY));
                 }
 
                 if (layer.Frames is { } frames)
@@ -853,14 +853,14 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                     JsonArray items = new();
                     foreach (int frame in frames.Items)
                     {
-                        items.Add(new JsonInteger(frame));
+                        _ = items.Add(new JsonInteger(frame));
                     }
 
-                    item.Add("Frames", new JsonObject().Add("default", new JsonInteger(frames.Default)).Add("items", items));
+                    _ = item.Add("Frames", new JsonObject().Add("default", new JsonInteger(frames.Default)).Add("items", items));
                 }
-                chain.Add(item);
+                _ = chain.Add(item);
             }
-            array.Add(chain);
+            _ = array.Add(chain);
         }
         return array;
     }
@@ -933,7 +933,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                 throw context.Fail(Codes.Type, "Library is a string.", libraryValue, path.Member("Library"), libraryValue.KindName);
             }
 
-            TextCodec.Encode(context, text.Value, text, path.Member("Library"));
+            _ = TextCodec.Encode(context, text.Value, text, path.Member("Library"));
             library = text.Value;
         }
         byte mode = layer["Mode"] is { } modeValue ? (byte)_mode.Parse(context, modeValue, path.Member("Mode"), "Mode") : (byte)0;

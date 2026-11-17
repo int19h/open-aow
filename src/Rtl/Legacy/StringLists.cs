@@ -83,7 +83,7 @@ public abstract class StringCollection : Persistent
                         p++;
                     }
 
-                    Add(Copy(value, start, p - start));
+                    _ = Add(Copy(value, start, p - start));
                     if (p <= value.Length && value[p - 1] == 13)
                     {
                         p++;
@@ -165,7 +165,7 @@ public abstract class StringCollection : Persistent
 
                         s = Copy(value, start, p - start);
                     }
-                    Add(s); Spaces(); if (At() == 44) { p++; Spaces(); }
+                    _ = Add(s); Spaces(); if (At() == 44) { p++; Spaces(); }
                 }
             }
             finally { EndUpdate(); }
@@ -188,7 +188,7 @@ public abstract class StringCollection : Persistent
     // CLASSES.PAS TStrings.AddStrings and Assign.
     public void AddStrings(StringCollection source)
     {
-        BeginUpdate(); try { int count = source.Count; for (int i = 0; i < count; i++) { AddObject(source[i], source.Objects[i]); } } finally { EndUpdate(); }
+        BeginUpdate(); try { int count = source.Count; for (int i = 0; i < count; i++) { _ = AddObject(source[i], source.Objects[i]); } } finally { EndUpdate(); }
     }
 
     public override void Assign(Persistent? source)

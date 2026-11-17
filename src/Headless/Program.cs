@@ -105,7 +105,7 @@ internal static class Program
                 throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
             }
 
-            Directory.CreateDirectory(output);
+            _ = Directory.CreateDirectory(output);
             if (Directory.EnumerateFiles(output, "day-*.asg").Any())
             {
                 throw new IOException("output already contains day saves");
@@ -113,17 +113,17 @@ internal static class Program
 
             writeManifest = true;
             trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n" };
-            AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
+            AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
             {
                 string detail = (e.Exception.ToString() + (gameplay ? "\n" + new StackTrace(1, true) : "")).Replace("\r\n", "\n");
                 if (e.Exception is NotImplementedException)
                 {
-                    todos.Add(detail);
+                    _ = todos.Add(detail);
                 }
 
                 if (gameplay)
                 {
-                    runtimeErrors.Add(detail);
+                    _ = runtimeErrors.Add(detail);
                 }
 
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
@@ -160,7 +160,7 @@ internal static class Program
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             }
 
-            map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
+            _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
@@ -178,15 +178,8 @@ internal static class Program
                 if (info.Log is MessageEventLog message)
                 {
                     bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
-                    host.Show(new(message.Message.Text, message.Title, (int)message.Buttons, yes ? 6 : 1));
-                    if (yes)
-                    {
-                        message.Yes();
-                    }
-                    else
-                    {
-                        message.Ok();
-                    }
+                    _ = host.Show(new(message.Message.Text, message.Title, (int)message.Buttons, yes ? 6 : 1));
+                    _ = yes ? message.Yes() : message.Ok();
                 }
                 info.Done?.Invoke(info.Log);
             };

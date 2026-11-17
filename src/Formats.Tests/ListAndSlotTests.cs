@@ -285,7 +285,7 @@ public sealed class ListAndSlotTests : FormatsTest
             }
             foreach ((int slot, Part? part) in Stored)
             {
-                persister.CreatedSlot("Parts", slot: slot, objectValue: part);
+                _ = persister.CreatedSlot("Parts", slot: slot, objectValue: part);
             }
         }
     }

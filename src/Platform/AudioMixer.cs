@@ -56,7 +56,7 @@ public sealed class AudioMixer : IDisposable
 
     public Voice? Play(WaveData data)
     {
-        _voices.RemoveAll(v => !v.Playing);
+        _ = _voices.RemoveAll(v => !v.Playing);
         if (_voices.Count >= VoiceLimit || data.Frames == 0)
         {
             return null;

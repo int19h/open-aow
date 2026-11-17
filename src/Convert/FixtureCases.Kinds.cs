@@ -55,7 +55,7 @@ public static partial class Fixtures
     private static JsonObject Action(int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue = null)
     {
         JsonObject action = Mapped("DiplomaticAction", slot, kind, fields, residue);
-        action.Add("Source", new JsonInteger(1)).Add("Target", new JsonInteger(2)).Add("OtherPlayer", new JsonInteger(255));
+        _ = action.Add("Source", new JsonInteger(1)).Add("Target", new JsonInteger(2)).Add("OtherPlayer", new JsonInteger(255));
         return action;
     }
 
@@ -64,12 +64,12 @@ public static partial class Fixtures
         JsonObject objectValue = new JsonObject().Add("$class", new JsonString(classValue)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
         if (residue is not null)
         {
-            objectValue.Add("$residue", residue);
+            _ = objectValue.Add("$residue", residue);
         }
 
         foreach ((string? name, JsonValue? value) in fields)
         {
-            objectValue.Add(name, value);
+            _ = objectValue.Add(name, value);
         }
 
         return objectValue;
@@ -84,7 +84,7 @@ public static partial class Fixtures
             JsonObject queue = FirstQueue(Root(document)) ?? throw new InvalidOperationException("The save has no production queue.");
             foreach (JsonObject item in items)
             {
-                Arr(queue["Children"]).Add(item);
+                _ = Arr(queue["Children"]).Add(item);
             }
         }
         if (actions.Length > 0)
@@ -92,7 +92,7 @@ public static partial class Fixtures
             JsonObject player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
             foreach (JsonObject action in actions)
             {
-                Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
+                _ = Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
             }
         }
         return document;

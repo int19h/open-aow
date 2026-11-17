@@ -28,7 +28,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
             _caster = Enumerable.Range(1, map.Players.GetCount() - 1)
                 .Where(i => map.Players.GetPlayers(i).Leader is not null)
                 .OrderBy(i => map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
-            map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
+            _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
             CastGlobal();
         }
     }

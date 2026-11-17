@@ -73,7 +73,7 @@ public sealed class EnumTypeInfo
         {
             long value = ToInt64(Enum.Parse(type, name));
             byName.Add(name, value);
-            byValue.TryAdd(value, name);
+            _ = byValue.TryAdd(value, name);
         }
         return new EnumTypeInfo
         {

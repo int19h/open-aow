@@ -37,7 +37,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         try
         {
             // Real pixels on a scaled Windows desktop, instead of a bitmap the system stretches.
-            SDL_SetHint("SDL_WINDOWS_DPI_AWARENESS", "permonitorv2");
+            _ = SDL_SetHint("SDL_WINDOWS_DPI_AWARENESS", "permonitorv2");
             Check(SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO));
             _width = width;
             _height = height;
@@ -199,7 +199,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
 
         float x, y;
-        SDL_GetMouseState(&x, &y);
+        _ = SDL_GetMouseState(&x, &y);
         return Map(x, y);
     }
 
@@ -488,6 +488,6 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         _renderer = null;
         _texture = null;
         _disposed = true;
-        Interlocked.Exchange(ref s_owned, 0);
+        _ = Interlocked.Exchange(ref s_owned, 0);
     }
 }

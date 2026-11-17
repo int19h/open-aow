@@ -65,7 +65,7 @@ public sealed class HostPathTests
         StringList list = new() { Sorted = true, Duplicates = Duplicates.Ignore };
         foreach (string name in s_names.Concat(Enumerable.Reverse(s_names)))
         {
-            list.Add(name);
+            _ = list.Add(name);
         }
 
         Assert.Equal(s_names.Length, list.Count);

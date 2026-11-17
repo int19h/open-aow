@@ -30,24 +30,24 @@ public sealed class ListsProbeTests
         for (int i = 0; i < 140; i++) { p.Fact($"growth_add_index_{i}", l.Add(items[i])); p.Fact($"growth_capacity_{i}", l.Capacity); }
         l.Clear(); State("clear"); for (int i = 0; i < 4; i++)
         {
-            l.Add(items[i]);
+            _ = l.Add(items[i]);
         }
 
         State("filled_four");
         l.Insert(0, items[4]); State("insert_start"); l.Insert(3, items[5]); State("insert_middle"); l.Insert(l.Count, items[6]); State("insert_end");
         p.Fact("indexof_present", l.IndexOf(items[5])); p.Fact("indexof_absent", l.IndexOf(items[99])); p.Fact("indexof_nil_absent", l.IndexOf(null));
         l.Exchange(0, l.Count - 1); State("exchange"); l.Delete(2); State("delete_middle"); l.Delete(0); State("delete_first"); l.Delete(l.Count - 1); State("delete_last");
-        l.Add(null); l.Insert(1, null); l.Add(items[1]); State("nil_entries"); p.Fact("indexof_nil", l.IndexOf(null)); l.Pack(); State("pack");
+        _ = l.Add(null); l.Insert(1, null); _ = l.Add(items[1]); State("nil_entries"); p.Fact("indexof_nil", l.IndexOf(null)); l.Pack(); State("pack");
         p.Fact("remove_present", l.Remove(items[1])); State("remove"); p.Fact("remove_absent", l.Remove(items[99])); l.Move(0, l.Count - 1); State("move");
         p.Fact("first_identity", l.First()!.Id); p.Fact("last_identity", l.Last()!.Id);
-        l.Capacity = l.Count; State("capacity_exact"); l.Expand(); State("expand_full"); l.Expand(); State("expand_spare");
+        l.Capacity = l.Count; State("capacity_exact"); _ = l.Expand(); State("expand_full"); _ = l.Expand(); State("expand_spare");
         p.Fact("delete_outside", p.Thrown(() => l.Delete(l.Count))); p.Fact("insert_outside", p.Thrown(() => l.Insert(-1, null)));
-        foreach (int capacity in new[] { 8, 64 }) { l.Clear(); l.Capacity = capacity; for (int i = 0; i < capacity; i++) { l.Add(items[i]); } l.Expand(); State($"expand_capacity{capacity}"); }
+        foreach (int capacity in new[] { 8, 64 }) { l.Clear(); l.Capacity = capacity; for (int i = 0; i < capacity; i++) { _ = l.Add(items[i]); } _ = l.Expand(); State($"expand_capacity{capacity}"); }
         for (int pattern = 0; pattern <= 2; pattern++)
         {
             foreach (int n in new[] { 0, 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32, 64, 65, 100, 257 })
             {
-                l.Clear(); for (int i = 0; i < n; i++) { items[i].Key = pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }; l.Add(items[i]); }
+                l.Clear(); for (int i = 0; i < n; i++) { items[i].Key = pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }; _ = l.Add(items[i]); }
                 l.Sort((a, b) => a!.Key - b!.Key);
                 for (int i = 0; i < n; i++) { p.Fact($"sort_{pattern}_{n}_id_{i}", l[i]!.Id); p.Fact($"sort_{pattern}_{n}_key_{i}", l[i]!.Key); }
                 p.Fact($"sort_{pattern}_{n}_count", l.Count);

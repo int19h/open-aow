@@ -33,8 +33,8 @@ public class GDPlay : Component
     {
         Connections.Clear();
         ConnectionItems.Clear();
-        Connections.Add("Internet TCP/IP Connection For DirectPlay");
-        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = ConnectionType.TCP });
+        _ = Connections.Add("Internet TCP/IP Connection For DirectPlay");
+        _ = ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = ConnectionType.TCP });
         return 0;
     }
 

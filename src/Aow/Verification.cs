@@ -37,7 +37,7 @@ internal static class Verification
     public static int Run(string gameRoot, string? sourceRoot)
     {
         s_scratch = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "obj", "verification", Guid.NewGuid().ToString("N")));
-        Directory.CreateDirectory(s_scratch);
+        _ = Directory.CreateDirectory(s_scratch);
         InputTests();
         SettingsTests();
         FileTests();
@@ -230,7 +230,7 @@ internal static class Verification
             {
                 foreach (string name in names)
                 {
-                    registry.OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + section.Replace('/', '\\'), true);
+                    _ = registry.OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + section.Replace('/', '\\'), true);
                     switch (kind)
                     {
                         case "integer": registry.WriteInteger(name, -123); break;
@@ -250,7 +250,7 @@ internal static class Verification
             {
                 foreach (string name in names)
                 {
-                    registry.OpenKey("\\software\\triumph studios\\age of wonders\\" + section.Replace('/', '\\').ToLowerInvariant(), false);
+                    _ = registry.OpenKey("\\software\\triumph studios\\age of wonders\\" + section.Replace('/', '\\').ToLowerInvariant(), false);
                     Check(registry.ValueExists(name.ToUpperInvariant()), "case insensitive registry value");
                     switch (kind)
                     {
@@ -299,11 +299,11 @@ internal static class Verification
     private static void FileTests()
     {
         string root = Path.Combine(s_scratch, "install"), user = Path.Combine(s_scratch, "user");
-        Directory.CreateDirectory(Path.Combine(root, "Images", "Scenes"));
-        Directory.CreateDirectory(Path.Combine(root, "Scenario", "Custom"));
-        Directory.CreateDirectory(Path.Combine(root, "Scenario", "Campaign"));
-        Directory.CreateDirectory(Path.Combine(root, "Int", "Scenes"));
-        Directory.CreateDirectory(Path.Combine(root, "Songs"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "Images", "Scenes"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "Scenario", "Custom"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "Scenario", "Campaign"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "Int", "Scenes"));
+        _ = Directory.CreateDirectory(Path.Combine(root, "Songs"));
         File.WriteAllText(Path.Combine(root, "Images", "Scenes", "Intro.avi"), "root");
         File.WriteAllText(Path.Combine(root, "Images", "B.ilb"), "B");
         File.WriteAllText(Path.Combine(root, "Images", "a.ilb"), "a");
@@ -437,7 +437,7 @@ internal static class Verification
             {
                 foreach (Match match in Regex.Matches(Cp1252.Decode(File.ReadAllBytes(path)), "'([^'\\r\\n]*\\\\[^'\\r\\n]*)'"))
                 {
-                    candidates.Add(match.Groups[1].Value);
+                    _ = candidates.Add(match.Groups[1].Value);
                 }
             }
 

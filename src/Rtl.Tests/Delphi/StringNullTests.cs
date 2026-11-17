@@ -61,7 +61,7 @@ public sealed class StringNullTests
         {
             if (strict)
             {
-                Assert.Throws<NullStringException>(read);
+                _ = Assert.Throws<NullStringException>(read);
             }
             else
             {
@@ -70,15 +70,15 @@ public sealed class StringNullTests
         }
         if (strict)
         {
-            Assert.Throws<NullStringException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            Assert.Throws<NullStringException>(() => RtlUnit.StrToInt(null));
-            Assert.Throws<NullStringException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<NullStringException>(() => RtlUnit.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<NullStringException>(() => RtlUnit.StrToInt(null));
+            _ = Assert.Throws<NullStringException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
         }
         else
         {
-            Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
-            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
+            _ = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));
             Assert.True(RtlUnit.IsEmpty(null));

@@ -62,15 +62,15 @@ internal static class FrameFixtureChecks
             Window mapWindow = new(null) { Modal = true };
             mapWindow.SetVisibleWithoutUpdate(true);
             UIContext ui = new(startup.Engine);
-            ui.Add(new MapWindow(ui) { MainWindow = mapWindow });
+            _ = ui.Add(new MapWindow(ui) { MainWindow = mapWindow });
             StartMenu menu = new(null) { Modal = false };
             menu.SetVisibleWithoutUpdate(true);
             Window hidden = new(null) { Modal = true };
             hidden.SetVisibleWithoutUpdate(false);
             WindowManager manager = new(null) { Children = new DelphiList<UIComponent>() };
-            manager.Children.Add(mapWindow);
-            manager.Children.Add(menu);
-            manager.Children.Add(hidden);
+            _ = manager.Children.Add(mapWindow);
+            _ = manager.Children.Add(menu);
+            _ = manager.Children.Add(hidden);
             General controller = new(ui) { Manager = manager };
             Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu.Modal = true;
@@ -81,9 +81,9 @@ internal static class FrameFixtureChecks
             PlayerCollection players = new(null) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
             players.ClearChildren();
-            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
-            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
-            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
+            _ = players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
             StrategicMap.Current = new StrategicMap(null, holder: startup.Engine);
             StrategicMap.Current.Players = players;
             TaskBar bar = new(ui)
@@ -108,18 +108,18 @@ internal static class FrameFixtureChecks
             world.MapWindowUpdate();
             Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
             MovementArmy army = new() { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
-            army.MoveFirst(1, false);
+            _ = army.MoveFirst(1, false);
             Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
                 StrategicMap.Current.UpdateFPS(fps);
                 army.MoveStep = -1;
-                army.MoveFirst(1, false);
+                _ = army.MoveFirst(1, false);
                 Check(army.MoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
             }
             StrategicMap.Current.UpdateFPS(30);
             army.MoveStep = -1;
-            army.MoveFirst(1, false);
+            _ = army.MoveFirst(1, false);
             Check(army.MoveSteps == 8, "normal measured FPS retains the eight-step animation");
         }
         finally
@@ -145,7 +145,7 @@ internal static class FrameFixtureChecks
 
         internal StartupScope(string root)
         {
-            Directory.CreateDirectory(_scratch);
+            _ = Directory.CreateDirectory(_scratch);
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
             Startup.InitializeAll();
             NullSoundSystem.Install();

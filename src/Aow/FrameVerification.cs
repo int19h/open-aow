@@ -38,7 +38,7 @@ internal static class FrameVerification
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
             LockedSurface lockedSurface = default;
             Check(back.Lock(ref lockedSurface) == 0 && lockedSurface.PixelFormatId == PixelFormats.pfRGB555, "555 back surface");
-            back.Unlock();
+            _ = back.Unlock();
             Check(controller.FlipSurface(1) == DisplayCodes.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
             display.PresentInitialFrame();
             display.PresentInitialFrame();

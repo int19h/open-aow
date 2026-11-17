@@ -848,7 +848,7 @@ internal sealed class MemberPersister : IPersister
     {
         if (Loading && (_consumed is null || !_consumed.Contains(name)))
         {
-            Take(name);
+            _ = Take(name);
         }
     }
 
@@ -1188,7 +1188,7 @@ internal sealed class MemberPersister : IPersister
             {
                 ItemSlot slot = new(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors, preview: Preview);
                 T value = transfer(slot, default!);
-                slot.Finish();
+                _ = slot.Finish();
                 items.Add(value);
             }
             return;

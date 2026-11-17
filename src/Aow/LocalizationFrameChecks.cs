@@ -25,7 +25,7 @@ internal static class LocalizationFrameChecks
                     byte code = Cp1252.Byte(entry.Translations[1][index - 1]);
                     if (code >= 128)
                     {
-                        germanBytes.Add(code);
+                        _ = germanBytes.Add(code);
                     }
                 }
             }
@@ -96,10 +96,10 @@ internal static class LocalizationFrameChecks
                         bool missing = !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0;
                         if (missing && absentEverywhere.Contains(code))
                         {
-                            absent.Add($"{font.Name}:{code}");
+                            _ = absent.Add($"{font.Name}:{code}");
                             continue;
                         }
-                        required.Add($"{font.Name}:{code}");
+                        _ = required.Add($"{font.Name}:{code}");
                         if (missing)
                         {
                             throw new InvalidOperationException($"Missing visible fixture glyph {code} in {font.Name}, component {control.Name}");
@@ -134,11 +134,11 @@ internal static class LocalizationFrameChecks
             Dib16Surface right = new(120, 40, PixelFormats.pfRGB555);
             try
             {
-                left.Clear(0);
-                right.Clear(0);
+                _ = left.Clear(0);
+                _ = right.Clear(0);
                 LockedSurface l = default, r = default;
-                left.Lock(ref l);
-                right.Lock(ref r);
+                _ = left.Lock(ref l);
+                _ = right.Lock(ref r);
                 try
                 {
                     ui.Fonts.Age8.SetText(0, 0, undead, l);
@@ -149,7 +149,7 @@ internal static class LocalizationFrameChecks
                         throw new InvalidOperationException("English Undead rendering differs");
                     }
                 }
-                finally { left.Unlock(); right.Unlock(); }
+                finally { _ = left.Unlock(); _ = right.Unlock(); }
             }
             finally { left?.Dispose(); right?.Dispose(); }
         }

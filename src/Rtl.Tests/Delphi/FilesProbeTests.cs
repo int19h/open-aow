@@ -9,7 +9,7 @@ public sealed class FilesProbeTests
     {
         using ProbeDirectory directory = new();
         ProbeLines p = new("files");
-        Directory.CreateDirectory("probe-files"); File.SetAttributes("probe-files", FileAttributes.Directory);
+        _ = Directory.CreateDirectory("probe-files"); File.SetAttributes("probe-files", FileAttributes.Directory);
         static int Attributes(int n) => (n & 7) | ((n & 8) != 0 ? 32 : 0);
         void Make(string name, int attributes)
         {
@@ -25,7 +25,7 @@ public sealed class FilesProbeTests
             Make($"f{i:X2}.dat", Attributes(i));
         }
 
-        for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attributes(i))); }
+        for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); _ = Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attributes(i))); }
         // The search lists entries without the Delphi result codes. The recording holds them, and with the
         // probe's files they follow from the count: 0 then 18 for a search with entries, 2 then 2 for one
         // whose pattern matches no name.

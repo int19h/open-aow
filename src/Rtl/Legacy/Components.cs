@@ -122,7 +122,7 @@ public class Component : Persistent
     protected virtual void ValidateInsert(Component component) { }
 
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
-    public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; children.Remove(component); ValidateRename(component, component.name, ""); }
+    public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; _ = children.Remove(component); ValidateRename(component, component.name, ""); }
 
     // CLASSES.PAS TComponent.FindComponent.
     public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.name, value) == 0);
@@ -144,7 +144,7 @@ public class Component : Persistent
     {
         if (operation == Operation.Remove && freeNotifies is not null)
         {
-            freeNotifies.Remove(component); if (freeNotifies.Count == 0)
+            _ = freeNotifies.Remove(component); if (freeNotifies.Count == 0)
             {
                 freeNotifies = null;
             }

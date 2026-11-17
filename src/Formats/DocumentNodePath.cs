@@ -41,14 +41,14 @@ public sealed class DocumentNodePath
             {
                 if (builder.Length > 0)
                 {
-                    builder.Append('.');
+                    _ = builder.Append('.');
                 }
 
-                builder.Append(p._name);
+                _ = builder.Append(p._name);
             }
             else
             {
-                builder.Append('[').Append(p._index).Append(']');
+                _ = builder.Append('[').Append(p._index).Append(']');
             }
         }
         return builder.ToString();

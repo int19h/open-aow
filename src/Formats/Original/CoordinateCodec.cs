@@ -177,7 +177,7 @@ internal sealed class CoordinateCodec : PropertyCodec
         {
             if (numbers[i] is long number)
             {
-                objectValue.Add(_parts[i].Name, new JsonInteger(number));
+                _ = objectValue.Add(_parts[i].Name, new JsonInteger(number));
             }
         }
 
@@ -197,7 +197,7 @@ internal sealed class CoordinateCodec : PropertyCodec
         }
 
         JsonObject json = new();
-        foreach ((string? name, int _) in _parts)
+        foreach ((string? name, _) in _parts)
         {
             TreeValue? found = node.Find(name);
             if (found is null)
@@ -208,9 +208,9 @@ internal sealed class CoordinateCodec : PropertyCodec
             DocumentSite part = site.At(site.Path.Member(name), element: false);
             long number = Require(found, name, message => part.Mismatch(message));
             CheckRange(number, name, stored => part.Fail(Codes.Range, name + " is outside -128 to 127.", null, Text(stored), "-128 to 127"));
-            json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, number), part)!);
+            _ = json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, number), part)!);
         }
-        foreach ((string? name, TreeValue _) in node.Members)
+        foreach ((string? name, _) in node.Members)
         {
             if (IndexOf(name) < 0)
             {

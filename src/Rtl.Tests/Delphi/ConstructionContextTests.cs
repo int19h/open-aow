@@ -121,7 +121,7 @@ public sealed class ConstructionContextTests
         public void Dispose()
         {
             ConstructionTrace.Number("owner_at_destroy", _owner.Count);
-            _owner.Remove(this);
+            _ = _owner.Remove(this);
             ConstructionTrace.Number("owner_removed", _owner.Count);
         }
     }
@@ -274,7 +274,7 @@ public sealed class ConstructionContextTests
         });
         saved!.Fail();
         Assert.Equal(0, destroys);
-        Assert.Throws<InvalidOperationException>(() => saved.Capture(objectValue));
+        _ = Assert.Throws<InvalidOperationException>(() => saved.Capture(objectValue));
         ((objectValue ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         Assert.Equal(1, destroys);
     }
@@ -303,11 +303,11 @@ public sealed class ConstructionContextTests
         }));
         if (throwInDestroy)
         {
-            Assert.IsType<Cleanup>(error);
+            _ = Assert.IsType<Cleanup>(error);
         }
         else
         {
-            Assert.IsType<Construct>(error);
+            _ = Assert.IsType<Construct>(error);
         }
 
         saved!.Fail();
@@ -327,7 +327,7 @@ public sealed class ConstructionContextTests
         int destroys = 0;
         ConstructionContext context = new();
         context.Capture(new Counted(() => destroys++));
-        Assert.Throws<InvalidOperationException>(() => context.Capture(new object()));
+        _ = Assert.Throws<InvalidOperationException>(() => context.Capture(new object()));
         context.Fail();
         context.Fail();
         Assert.Equal(1, destroys);

@@ -24,7 +24,7 @@ public sealed class JsonTests : FormatsTest
     public void AcceptsOneLeadingByteOrderMark()
     {
         byte[] bytes = Encoding.UTF8.GetPreamble().Concat("{}"u8.ToArray()).ToArray();
-        Assert.IsType<JsonObject>(JsonReader.Parse(bytes));
+        _ = Assert.IsType<JsonObject>(JsonReader.Parse(bytes));
     }
 
     [Theory]
@@ -105,8 +105,8 @@ public sealed class JsonTests : FormatsTest
     public void WritesFieldRowsOnSingleLines()
     {
         JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
-        rows.Add(new JsonArray().Add(new JsonObject().Add("Terrain", new JsonInteger(1))).Add(new JsonObject().Add("Terrain", new JsonInteger(2))));
-        rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject()))).Add(new JsonObject()));
+        _ = rows.Add(new JsonArray().Add(new JsonObject().Add("Terrain", new JsonInteger(1))).Add(new JsonObject().Add("Terrain", new JsonInteger(2))));
+        _ = rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject()))).Add(new JsonObject()));
         Assert.Equal(actual: JsonWriter.ToText(new JsonObject().Add("Fields", rows)), expected: "{\n  \"Fields\": [\n    [{\"Terrain\": 1}, {\"Terrain\": 2}],\n    [{\"Sprites\": [{}]}, {}]\n  ]\n}\n");
     }
 
@@ -114,7 +114,7 @@ public sealed class JsonTests : FormatsTest
     public void AParsedDocumentWritesItsFieldRowsBackOnSingleLines()
     {
         JsonArray rows = new() { Layout = ArrayLayout.RowsOnLines };
-        rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject().Add("$class", new JsonString("T"))))));
+        _ = rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject().Add("$class", new JsonString("T"))))));
         string text = JsonWriter.ToText(new JsonObject().Add("Level", new JsonObject().Add("Fields", rows)));
         Assert.Equal(text, JsonWriter.ToText(JsonReader.Parse(text)));
     }

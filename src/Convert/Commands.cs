@@ -186,7 +186,7 @@ internal static class Commands
         foreach (string relative in Enumerate(o.Directory!))
         {
             string input = Path.Combine(o.Directory!, relative);
-            manifest.TryGetValue(relative, out (string? Kind, string? Profile) entry);
+            _ = manifest.TryGetValue(relative, out (string? Kind, string? Profile) entry);
             string extension = Path.GetExtension(relative);
             if (entry.Kind is null && (DocumentKind.ForExtension(extension) is not { } byName || byName.IsOwnExtension(extension)))
             {
@@ -334,13 +334,13 @@ internal static class Commands
                 text = GameFiles.Write(document);
                 writeMilliseconds = watch.Elapsed.TotalMilliseconds;
                 watch.Restart();
-                GameFiles.Read(text, input);
+                _ = GameFiles.Read(text, input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             watch.Restart();
             ExportResult exported = GameFiles.Export(document, null, input);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
-            (FileProfile? profile, string? kind, Formats.Json.JsonObject _, Formats.Json.JsonValue _) = GameFiles.Envelope(document, input);
+            (FileProfile? profile, string? kind, _, _) = GameFiles.Envelope(document, input);
             output.WriteLine($"File: {input}");
             output.WriteLine($"Format: {format}");
             output.WriteLine($"Profile: {profile.Name}, kind {kind}, version {OwnFormat.CurrentVersion}");

@@ -27,7 +27,7 @@ public static class LayoutResidue
     public static string Fingerprint(JsonValue value, string profile)
     {
         StringBuilder builder = new();
-        builder.Append(Codec).Append('\n').Append(profile).Append('\n');
+        _ = builder.Append(Codec).Append('\n').Append(profile).Append('\n');
         Append(builder, value);
         return Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(builder.ToString())));
     }
@@ -37,34 +37,34 @@ public static class LayoutResidue
         switch (value)
         {
             case JsonObject objectValue:
-                builder.Append('{');
+                _ = builder.Append('{');
                 bool first = true;
                 foreach (JsonMember? m in objectValue.Members.Where(m => m.Name != "$layout").OrderBy(m => m.Name, StringComparer.Ordinal))
                 {
                     if (!first)
                     {
-                        builder.Append(',');
+                        _ = builder.Append(',');
                     }
 
                     first = false;
                     JsonWriter.WriteString(builder, m.Name);
-                    builder.Append(':');
+                    _ = builder.Append(':');
                     Append(builder, m.Value);
                 }
-                builder.Append('}');
+                _ = builder.Append('}');
                 break;
             case JsonArray array:
-                builder.Append('[');
+                _ = builder.Append('[');
                 for (int i = 0; i < array.Items.Count; i++)
                 {
                     if (i > 0)
                     {
-                        builder.Append(',');
+                        _ = builder.Append(',');
                     }
 
                     Append(builder, array.Items[i]);
                 }
-                builder.Append(']');
+                _ = builder.Append(']');
                 break;
             default:
                 JsonWriter.WriteCompact(builder, value);
@@ -85,19 +85,19 @@ internal sealed class LayoutBuilder
         JsonObject part = new JsonObject().Add("category", new JsonString(LayoutResidue.TableFormOrder));
         if (property is int p)
         {
-            part.Add("property", new JsonInteger(p));
+            _ = part.Add("property", new JsonInteger(p));
         }
 
         JsonArray list = new();
         foreach (TableEntry e in entries)
         {
-            list.Add(new JsonArray().Add(new JsonInteger(e.Id)).Add(new JsonInteger(e.Offset)).Add(new JsonInteger(e.Long ? 1 : 0)));
+            _ = list.Add(new JsonArray().Add(new JsonInteger(e.Id)).Add(new JsonInteger(e.Offset)).Add(new JsonInteger(e.Long ? 1 : 0)));
         }
 
-        part.Add("entries", list);
+        _ = part.Add("entries", list);
         if (emptyLongMarker)
         {
-            part.Add("longMarker", new JsonBoolean(true));
+            _ = part.Add("longMarker", new JsonBoolean(true));
         }
 
         Parts.Add(part);
@@ -108,10 +108,10 @@ internal sealed class LayoutBuilder
         JsonObject part = new JsonObject().Add("category", new JsonString(LayoutResidue.Gaps));
         if (property is int p)
         {
-            part.Add("property", new JsonInteger(p));
+            _ = part.Add("property", new JsonInteger(p));
         }
 
-        part.Add("offset", new JsonInteger(offset)).Add("bytes", new JsonString(LayoutResidue.Hex(bytes)));
+        _ = part.Add("offset", new JsonInteger(offset)).Add("bytes", new JsonString(LayoutResidue.Hex(bytes)));
         Parts.Add(part);
     }
 
@@ -141,7 +141,7 @@ internal sealed class LayoutBuilder
         JsonArray parts = new();
         foreach (JsonObject p in Parts)
         {
-            parts.Add(p);
+            _ = parts.Add(p);
             counts.Add(((JsonString)p["category"]!).Value);
         }
         counts.Objects++;

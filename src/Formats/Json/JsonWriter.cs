@@ -21,7 +21,7 @@ public static class JsonWriter
     {
         StringBuilder builder = new();
         Write(builder, value, 0);
-        builder.Append('\n');
+        _ = builder.Append('\n');
         return builder.ToString();
     }
 
@@ -34,15 +34,15 @@ public static class JsonWriter
             case JsonObject objectValue:
                 if (objectValue.Members.Count == 0)
                 {
-                    builder.Append("{}");
+                    _ = builder.Append("{}");
                     return;
                 }
-                builder.Append("{\n");
+                _ = builder.Append("{\n");
                 for (int i = 0; i < objectValue.Members.Count; i++)
                 {
                     Indent(builder, depth + 1);
                     WriteString(builder, objectValue.Members[i].Name);
-                    builder.Append(": ");
+                    _ = builder.Append(": ");
                     JsonMember member = objectValue.Members[i];
                     // Map field rows take one line each, also in a parsed document without layout marks.
                     if (member.Name == "Fields" && member.Value is JsonArray { Items.Count: > 0 } rows && rows.Items.All(r => r is JsonArray))
@@ -54,18 +54,18 @@ public static class JsonWriter
                         Write(builder, member.Value, depth + 1);
                     }
 
-                    builder.Append(i + 1 < objectValue.Members.Count ? ",\n" : "\n");
+                    _ = builder.Append(i + 1 < objectValue.Members.Count ? ",\n" : "\n");
                 }
                 Indent(builder, depth);
-                builder.Append('}');
+                _ = builder.Append('}');
                 return;
             case JsonArray array:
                 if (array.Items.Count == 0)
                 {
-                    builder.Append("[]");
+                    _ = builder.Append("[]");
                     return;
                 }
-                builder.Append("[\n");
+                _ = builder.Append("[\n");
                 for (int i = 0; i < array.Items.Count; i++)
                 {
                     Indent(builder, depth + 1);
@@ -78,10 +78,10 @@ public static class JsonWriter
                         Write(builder, array.Items[i], depth + 1);
                     }
 
-                    builder.Append(i + 1 < array.Items.Count ? ",\n" : "\n");
+                    _ = builder.Append(i + 1 < array.Items.Count ? ",\n" : "\n");
                 }
                 Indent(builder, depth);
-                builder.Append(']');
+                _ = builder.Append(']');
                 return;
             default:
                 WriteScalar(builder, value);
@@ -91,15 +91,15 @@ public static class JsonWriter
 
     private static void WriteRows(StringBuilder builder, JsonArray rows, int depth)
     {
-        builder.Append("[\n");
+        _ = builder.Append("[\n");
         for (int i = 0; i < rows.Items.Count; i++)
         {
             Indent(builder, depth + 1);
             WriteCompact(builder, rows.Items[i]);
-            builder.Append(i + 1 < rows.Items.Count ? ",\n" : "\n");
+            _ = builder.Append(i + 1 < rows.Items.Count ? ",\n" : "\n");
         }
         Indent(builder, depth);
-        builder.Append(']');
+        _ = builder.Append(']');
     }
 
     /// <summary>One line, one space after colons and commas.</summary>
@@ -108,32 +108,32 @@ public static class JsonWriter
         switch (value)
         {
             case JsonObject objectValue:
-                builder.Append('{');
+                _ = builder.Append('{');
                 for (int i = 0; i < objectValue.Members.Count; i++)
                 {
                     if (i > 0)
                     {
-                        builder.Append(", ");
+                        _ = builder.Append(", ");
                     }
 
                     WriteString(builder, objectValue.Members[i].Name);
-                    builder.Append(": ");
+                    _ = builder.Append(": ");
                     WriteCompact(builder, objectValue.Members[i].Value);
                 }
-                builder.Append('}');
+                _ = builder.Append('}');
                 return;
             case JsonArray array:
-                builder.Append('[');
+                _ = builder.Append('[');
                 for (int i = 0; i < array.Items.Count; i++)
                 {
                     if (i > 0)
                     {
-                        builder.Append(", ");
+                        _ = builder.Append(", ");
                     }
 
                     WriteCompact(builder, array.Items[i]);
                 }
-                builder.Append(']');
+                _ = builder.Append(']');
                 return;
             default:
                 WriteScalar(builder, value);
@@ -149,16 +149,16 @@ public static class JsonWriter
                 WriteString(builder, s.Value);
                 break;
             case JsonInteger n:
-                builder.Append(n.Value.ToString(CultureInfo.InvariantCulture));
+                _ = builder.Append(n.Value.ToString(CultureInfo.InvariantCulture));
                 break;
             case JsonNumber number:
-                builder.Append(number.Text);
+                _ = builder.Append(number.Text);
                 break;
             case JsonBoolean b:
-                builder.Append(b.Value ? "true" : "false");
+                _ = builder.Append(b.Value ? "true" : "false");
                 break;
             case JsonNull:
-                builder.Append("null");
+                _ = builder.Append("null");
                 break;
             default:
                 throw new InvalidOperationException("Unknown JSON value " + value.GetType().Name);
@@ -167,41 +167,39 @@ public static class JsonWriter
 
     public static void WriteString(StringBuilder builder, string value)
     {
-        builder.Append('"');
+        _ = builder.Append('"');
         for (int i = 0; i < value.Length; i++)
         {
             char c = value[i];
             switch (c)
             {
-                case '"': builder.Append("\\\""); break;
-                case '\\': builder.Append("\\\\"); break;
-                case '\b': builder.Append("\\b"); break;
-                case '\t': builder.Append("\\t"); break;
-                case '\n': builder.Append("\\n"); break;
-                case '\f': builder.Append("\\f"); break;
-                case '\r': builder.Append("\\r"); break;
+                case '"': _ = builder.Append("\\\""); break;
+                case '\\': _ = builder.Append("\\\\"); break;
+                case '\b': _ = builder.Append("\\b"); break;
+                case '\t': _ = builder.Append("\\t"); break;
+                case '\n': _ = builder.Append("\\n"); break;
+                case '\f': _ = builder.Append("\\f"); break;
+                case '\r': _ = builder.Append("\\r"); break;
                 default:
                     if (c is < ' ' or (>= '\u007f' and <= '\u009f'))
                     {
-                        builder.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+                        _ = builder.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
                     }
                     else if (char.IsHighSurrogate(c) && i + 1 < value.Length && char.IsLowSurrogate(value[i + 1]))
                     {
-                        builder.Append(c).Append(value[i + 1]);
+                        _ = builder.Append(c).Append(value[i + 1]);
                         i++;
-                    }
-                    else if (char.IsSurrogate(c))
-                    {
-                        throw new ConversionException(new FormatDiagnostic(Codes.Surrogate, "A string holds an unpaired surrogate."));
                     }
                     else
                     {
-                        builder.Append(c);
+                        _ = char.IsSurrogate(c)
+                            ? throw new ConversionException(new FormatDiagnostic(Codes.Surrogate, "A string holds an unpaired surrogate."))
+                            : builder.Append(c);
                     }
 
                     break;
             }
         }
-        builder.Append('"');
+        _ = builder.Append('"');
     }
 }
