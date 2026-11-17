@@ -63,7 +63,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         if (Environment.GetEnvironmentVariable("AOW_RECORD_IMAGE_DECODE") is { Length: > 0 } record)
         {
-            Directory.CreateDirectory(record);
+            _ = Directory.CreateDirectory(record);
             File.WriteAllText(Path.Combine(record, section + ".json"),
                 JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n") + "\n");
             return;
@@ -138,10 +138,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         try
         {
             LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
-            s555.Lock(ref d555);
-            s565.Lock(ref d565);
-            s8.Lock(ref d8);
-            s24.Lock(ref d24);
+            _ = s555.Lock(ref d555);
+            _ = s565.Lock(ref d565);
+            _ = s8.Lock(ref d8);
+            _ = s24.Lock(ref d24);
             Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
             words.Fill(Magenta555);
             try { source.Show(0, 0, d555); }
@@ -215,10 +215,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             }
 
             entries.Add(new Entry(label, grabs, hash.Value.ToString("X16")));
-            s24.Unlock();
-            s8.Unlock();
-            s565.Unlock();
-            s555.Unlock();
+            _ = s24.Unlock();
+            _ = s8.Unlock();
+            _ = s565.Unlock();
+            _ = s555.Unlock();
         }
         finally
         {
@@ -274,7 +274,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     try
                     {
                         LockedSurface lockedSurface = default;
-                        surface.Lock(ref lockedSurface);
+                        _ = surface.Lock(ref lockedSurface);
                         Span<byte> bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++)
                         {
@@ -328,7 +328,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 list?.Dispose();
                             }
                         }
-                        surface.Unlock();
+                        _ = surface.Unlock();
                     }
                     finally { surface.Dispose(); }
                     entries.Add(new Entry($"{format:X8} {w}", h, hash.Value.ToString("X16")));
@@ -530,7 +530,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             try { draw(lockedSurface); }
             catch (Exception error) { hash.Add(error.GetType().Name); }
             hash.Add(pixels);
-            surface.Unlock();
+            _ = surface.Unlock();
         }
         finally
         {

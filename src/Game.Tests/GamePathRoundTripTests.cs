@@ -32,8 +32,8 @@ public sealed class GamePathRoundTripTests : IDisposable
 
     public GamePathRoundTripTests()
     {
-        Directory.CreateDirectory(Path.Combine(_root, "root", "RoundTrip"));
-        Directory.CreateDirectory(Path.Combine(_root, "user"));
+        _ = Directory.CreateDirectory(Path.Combine(_root, "root", "RoundTrip"));
+        _ = Directory.CreateDirectory(Path.Combine(_root, "user"));
     }
 
     // The engine state of each case installs the fixture's services first, so a case installs the
@@ -119,10 +119,10 @@ public sealed class GamePathRoundTripTests : IDisposable
             JsonArray row = new();
             for (int x = 0; x < 3; x++)
             {
-                row.Add(new JsonObject().Add("FieldFlags", new JsonInteger((x * 10) + y + 1)));
+                _ = row.Add(new JsonObject().Add("FieldFlags", new JsonInteger((x * 10) + y + 1)));
             }
 
-            rows.Add(row);
+            _ = rows.Add(row);
         }
         JsonObject level = new JsonObject()
             .Add("$class", new JsonString("CombatMapLevel")).Add("$slot", new JsonInteger(0))

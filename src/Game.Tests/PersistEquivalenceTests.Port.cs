@@ -15,7 +15,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void PrisonersArmyItemsRoundTripThroughTheOwnDocumentAndTheOriginalImageRefusesThem()
     {
-        WithDestroyingMap(_ =>
+        WithDestroyingMap(destroyingMap =>
         {
             using PrisonersArmy army = new(null!) { Holder = EngineFixture.Engine };
             PlainItem(itemId: 7, name: "Blade").SetOwner(army.Items);
@@ -45,8 +45,8 @@ public sealed partial class PersistEquivalenceTests
             ObjectNode emptyTree = TreeWriter.Write(empty, factory: Factory);
             JsonObject emptyDocument = DocumentBackend.Write(emptyTree, classValue: classValue, schema: s_schema, engine: "game");
             Assert.Null(emptyDocument.Find("Items"));
-            OriginalBackend.Write(emptyTree, classValue: classValue, schema: s_schema, engine: "game");
-            GameBoundary.WritePacket(emptyTree, classId: 131606, className: "PrisonersArmy");
+            _ = OriginalBackend.Write(emptyTree, classValue: classValue, schema: s_schema, engine: "game");
+            _ = GameBoundary.WritePacket(emptyTree, classId: 131606, className: "PrisonersArmy");
 
             using PrisonersArmy fromAbsence = new(null!) { Holder = EngineFixture.Engine };
             TreeReader.Read(DocumentBackend.Read(emptyDocument, classValue: classValue, schema: s_schema, engine: "game"), objectValue: fromAbsence, factory: Factory);

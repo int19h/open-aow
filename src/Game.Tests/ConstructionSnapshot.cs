@@ -56,7 +56,7 @@ internal static class ConstructionSnapshot
                 recording[key] = Entry(recording, key)?.DeepClone();
                 recording[key]![member] = value?.DeepClone();
             }
-            Directory.CreateDirectory(target);
+            _ = Directory.CreateDirectory(target);
             JsonObject sorted = [];
             Dictionary<string, string> shared = [with(StringComparer.Ordinal)];
             foreach (string entryKey in Keys(name))
@@ -65,7 +65,7 @@ internal static class ConstructionSnapshot
                 string text = entryValue?.ToJsonString() ?? "null";
                 sorted[entryKey] = shared.TryGetValue(text, out string? first)
                     ? new JsonObject { ["$sameAs"] = first } : entryValue?.DeepClone();
-                shared.TryAdd(text, entryKey);
+                _ = shared.TryAdd(text, entryKey);
             }
             File.WriteAllText(Path.Combine(target, name + "Snapshot.json"),
                 sorted.ToJsonString(s_format).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));

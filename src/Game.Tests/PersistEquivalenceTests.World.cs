@@ -31,7 +31,7 @@ public sealed partial class PersistEquivalenceTests
         ProductionOrder order = ProductionOrder.FromFields(kind, parameter, groupId);
         ProductionItem item = new(null!) { Holder = EngineFixture.Engine, Order = order };
         JsonObject document = DocumentBackend.Write(TreeWriter.Write(item, Factory), s_schema.Get("ProductionItem"), s_schema, "game");
-        Assert.IsType<JsonString>(document["$case"]);
+        _ = Assert.IsType<JsonString>(document["$case"]);
         Check("ProductionItem", item);
         using ProductionItem loaded = new(null!) { Holder = EngineFixture.Engine };
         TreeReader.Read(DocumentBackend.Read(document, s_schema.Get("ProductionItem"), s_schema, "game"), loaded, Factory);
@@ -107,7 +107,7 @@ public sealed partial class PersistEquivalenceTests
         using GameMap loaded = new(null) { Holder = EngineFixture.Engine };
         TreeReader.Read(read, loaded, Factory);
         Assert.Equal(6, loaded.Count);
-        Assert.IsType<MapContainer>(loaded.GetChild(5));
+        _ = Assert.IsType<MapContainer>(loaded.GetChild(5));
         Assert.Same(loaded.GetChild(5), loaded.MapContainer);
         Assert.True(tree.ValueEquals(TreeWriter.Write(loaded, Factory)));
     }
@@ -124,7 +124,7 @@ public sealed partial class PersistEquivalenceTests
         {
             SchemaClass classValue = s_schema.Get("Sign");
             using Sign source = new(null) { Holder = EngineFixture.Engine };
-            source.Text.Add("Welcome");
+            _ = source.Text.Add("Welcome");
             source.TextSeen[2] = true;
             byte[] local = Image(source);
             Assert.NotNull(DocumentBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game").Find("TextSeen"));
@@ -135,7 +135,7 @@ public sealed partial class PersistEquivalenceTests
             EqualBytes(network, OriginalBackend.Write(tree, classValue, s_schema, "game"), "Sign network write");
             using Sign viaReadWrite = new(null) { Holder = EngineFixture.Engine };
             using Sign viaPersist = new(null) { Holder = EngineFixture.Engine };
-            AlikeOutcome(() => Load(viaReadWrite, local), () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, "game"), viaPersist, Factory), "Sign network load");
+            _ = AlikeOutcome(() => Load(viaReadWrite, local), () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, "game"), viaPersist, Factory), "Sign network load");
             Assert.False(viaPersist.TextSeen[2]);
             Assert.Equal(viaReadWrite.TextSeen[2], viaPersist.TextSeen[2]);
         });
@@ -163,7 +163,7 @@ public sealed partial class PersistEquivalenceTests
             };
             using TextControl texts = new(null!) { Holder = EngineFixture.Engine };
             TextControlItem item = new(null!) { Holder = EngineFixture.Engine, Id = 3, Name = "Intro" };
-            item.Text.Add("Welcome");
+            _ = item.Text.Add("Welcome");
             item.SetOwner(texts);
             using (DictionaryStream stream = new(dictionary))
             {
@@ -175,7 +175,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal("Intro", item.Name);
 
             using Sign sign = new(null!) { Holder = EngineFixture.Engine };
-            sign.Text.Add("Beware");
+            _ = sign.Text.Add("Beware");
             using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(sign, 0);
@@ -184,7 +184,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal("Vorsicht", sign.Text[0]);
 
             using StructureResource resource = new(null!) { Holder = EngineFixture.Engine };
-            resource.Description.Add("A tall tower");
+            _ = resource.Description.Add("A tall tower");
             typeof(StructureResource).GetProperty(nameof(StructureResource.SelectSfx))!.SetValue(resource, "bell.wav");
             using (DictionaryStream stream = new(dictionary))
             {
@@ -199,7 +199,7 @@ public sealed partial class PersistEquivalenceTests
             level.CreateMapFieldList(width: 1, height: 1);
             MapField field = level.GetField(0, 0);
             Sign post = new(null!) { Holder = EngineFixture.Engine };
-            post.Text.Add("Beware");
+            _ = post.Text.Add("Beware");
             // A sign's show priority reads its resource, which the fixture does not load, so the
             // sprite goes into the field's list directly.
             post.SetOwnerWithoutNotify(field);
@@ -214,7 +214,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal("Vorsicht", post.Text[0]);
 
             map.MapName = "Tower";
-            map.Description.Add("Welcome");
+            _ = map.Description.Add("Welcome");
             map.SetModified();
             using (DictionaryStream stream = new(dictionary))
             {
@@ -239,7 +239,7 @@ public sealed partial class PersistEquivalenceTests
     [MemberData(nameof(WorldClasses))]
     public void AWorldClassWritesAndLoadsAlikeOnBothPaths(string className)
     {
-        WithDestroyingMap(_ =>
+        WithDestroyingMap(destroyingMap =>
         {
             SchemaClass classValue = s_schema.Get(className);
             EngineObject source = Blank(className);
@@ -254,7 +254,7 @@ public sealed partial class PersistEquivalenceTests
 
                 byte[]? image = null;
                 ObjectNode? tree = null;
-                AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), className + " write");
+                _ = AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), className + " write");
                 if (image is null || tree is null)
                 {
                     return;
@@ -325,7 +325,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            names.Add(engineClass.StorageKey);
+            _ = names.Add(engineClass.StorageKey);
         }
         TheoryData<string> data = [.. names];
 

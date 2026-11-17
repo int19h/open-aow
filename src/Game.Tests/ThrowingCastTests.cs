@@ -206,7 +206,7 @@ public sealed class ThrowingCastTests
             container.Map = scope.Map;
             scope.Map.MapContainer = container;
             MapField field = container.MapLevels[0].Field[3, 3];
-            field.AddHexSprite(new ItemSite(), 0);
+            _ = field.AddHexSprite(new ItemSite(), 0);
 
             TacticalBattle combat = new(null) { Holder = EngineFixture.Engine, ExplorationSite = 1 };
             combat.Items = new PrisonersArmy(null) { Holder = EngineFixture.Engine };
@@ -223,7 +223,7 @@ public sealed class ThrowingCastTests
             ItemList items = new(null) { Holder = EngineFixture.Engine };
             combat.Items = items;
             RandomBattleMapGenerator laidOut = new(EngineFixture.Engine);
-            Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
+            _ = Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
             Assert.Same(items, laidOut.Items);
         }
         finally
@@ -378,8 +378,8 @@ public sealed class ThrowingCastTests
         UnitList units = new(null) { Holder = EngineFixture.Engine };
         Troop source = new(null) { Holder = EngineFixture.Engine, UnitId = 6, Player = 1 };
         Troop target = new(null) { Holder = EngineFixture.Engine, UnitId = 9, Player = 1 };
-        units.Units.AddUnit(source);
-        units.Units.AddUnit(target);
+        _ = units.Units.AddUnit(source);
+        _ = units.Units.AddUnit(target);
         UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
         UnitSpellCaster caster = new(null) { Holder = EngineFixture.Engine };
         Exception error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, source.OwnerUnits));
@@ -388,8 +388,8 @@ public sealed class ThrowingCastTests
 
         Army army = new(null) { Holder = EngineFixture.Engine };
         army.Player = 1;
-        army.Units.AddUnit(source);
-        army.Units.AddUnit(target);
+        _ = army.Units.AddUnit(source);
+        _ = army.Units.AddUnit(target);
         UnitSpellCaster listed = new(null) { Holder = EngineFixture.Engine };
         error = Record.Exception(() => spell.SetupUnitSelectionControl(listed, source, source.OwnerUnits));
         Assert.Null(error);

@@ -193,7 +193,7 @@ public sealed class GraphicsConstructionTests
             Assert.Equal((byte)29, copy[0].Red);
             copy[0] = copy[0] with { Red = 63 };
         }
-        surface.Unlock();
+        _ = surface.Unlock();
         surface.Dispose();
         Assert.Equal((byte)29, palette[0].Red);
     }
@@ -211,7 +211,7 @@ public sealed class GraphicsConstructionTests
         LockedSurface descriptor = default;
         Assert.Equal(0, surface.Lock(ref descriptor));
         Assert.NotNull(descriptor.Data);
-        surface.Unlock();
+        _ = surface.Unlock();
         surface.Dispose();
         Assert.Equal((byte)29, palette[0].Red);
     }
@@ -234,8 +234,8 @@ public sealed class GraphicsConstructionTests
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
-        Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
+        _ = Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
         Assert.Equal((byte)29, palette[0].Red);
     }
 
@@ -273,28 +273,28 @@ public sealed class GraphicsConstructionTests
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
         Assert.Equal(0L, stream.Seek(0, SeekOrigin.Begin));
         stream.Dispose();
-        Assert.Throws<FileNotFoundException>(() => new FastLoadFileStream(path + ".absent"));
+        _ = Assert.Throws<FileNotFoundException>(() => new FastLoadFileStream(path + ".absent"));
     }
 
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
         using Dib16Surface source = new(7, 4, PixelFormats.pfRGB555);
-        source.Clear(255);
+        _ = source.Clear(255);
         using DataSurface copy = new(source, default);
         LockedSurface lockedSurface = default;
-        copy.Lock(ref lockedSurface);
+        _ = copy.Lock(ref lockedSurface);
         Assert.Equal(7, lockedSurface.Width);
         Assert.Equal(4, lockedSurface.Height);
         Assert.Equal(PixelFormats.pfRGB555, lockedSurface.PixelFormatId);
         Assert.Equal((ushort)0x7C00, lockedSurface.View().UInt16(0));
-        copy.Unlock();
+        _ = copy.Unlock();
     }
 
     [Fact]
     public void VirtualOwnerCallSeesBaseDefaultsBeforeDerivedBody()
     {
-        LibraryImageClass.Register<ObservedImage>();
+        _ = LibraryImageClass.Register<ObservedImage>();
         using ObservedImage image = new(null!);
         Assert.Equal(0, image.SeenDerivedValue);
         Assert.Equal(-1, image.SeenPosition);

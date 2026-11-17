@@ -21,7 +21,7 @@ public sealed class ArmySpriteConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            base.AddChild(child);
+            _ = base.AddChild(child);
             Events.Add(OrderingRecording.Snapshot(child));
             return Members.Count - 1;
         }
@@ -89,7 +89,7 @@ public sealed class ArmySpriteConstructionTests
             byte[] image = OriginalBackend.Write(TreeWriter.Write(source, factory: factory), classValue: classValue, schema: schema, engine: "game");
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
             TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: "game"), objectValue: loaded, factory: factory);
-            Assert.IsType<ArmyHexSprite>(loaded);
+            _ = Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(WithoutSetBounds(OrderingRecording.Snapshot(source)), WithoutSetBounds(OrderingRecording.Snapshot(loaded)));
         }
         finally

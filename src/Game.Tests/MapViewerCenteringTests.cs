@@ -28,9 +28,9 @@ public sealed class MapViewerCenteringTests
 
         public override void DrawStaticScene(ref LockedSurface lockedSurface)
         {
-            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0xFFFFFF, lockedSurface);
-            PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
-            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), 0x0000FF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0xFFFFFF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), 0x0000FF, lockedSurface);
         }
     }
 
@@ -50,19 +50,19 @@ public sealed class MapViewerCenteringTests
             Viewer.ChangeScene(100, 30, 0);
             LockedSurface lockedSurface = default;
             Assert.Equal(PixelFormats.GFXE_OK, _target.Lock(ref lockedSurface));
-            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
-            _target.Unlock();
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
+            _ = _target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, _target);
         }
 
         public int Pixel(int x, int y)
         {
             LockedSurface lockedSurface = default;
-            _target.Lock(ref lockedSurface);
+            _ = _target.Lock(ref lockedSurface);
             byte[] data = lockedSurface.Data;
             int at = lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (x * 2);
             int value = data[at] | (data[at + 1] << 8);
-            _target.Unlock();
+            _ = _target.Unlock();
             return value;
         }
 

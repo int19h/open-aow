@@ -32,7 +32,7 @@ public sealed class ObjectLifetimeTests
     {
         CombatPredictorUnit attacker = new() { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
         CombatPredictorUnit target = new() { Enabled = 1, HitPoints = 10, CpuId = 7 };
-        attacker.Targets.AddABCD(target, 4, target.CpuId, 0);
+        _ = attacker.Targets.AddABCD(target, 4, target.CpuId, 0);
         attacker.SetupRoundTargets(0);
         attacker.SortRoundTargets();
         Assert.Same(target, attacker.RoundTargets[0].First);

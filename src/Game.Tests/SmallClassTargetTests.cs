@@ -53,7 +53,7 @@ public sealed class SmallClassTargetTests
         Assert.Same(executor, executor.Control.Executor);
         Assert.Equal(0, executor.Control.State);
         log.Clear();
-        Assert.Throws<InvalidDataException>(() => executor.ActivateMoveExecutorControl(() => throw new InvalidDataException("control")));
+        _ = Assert.Throws<InvalidDataException>(() => executor.ActivateMoveExecutorControl(() => throw new InvalidDataException("control")));
         Assert.Equal(["deactivate", "destroy"], log);
         Assert.Null(executor.Control);
         executor.ActivateMoveExecutorControl(null);

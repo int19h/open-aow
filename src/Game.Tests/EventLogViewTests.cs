@@ -346,12 +346,12 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             request.Hex = new MapCoordinate(0, 0, 0);
             while (_field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
             {
-                _field.RemoveHexSprite(standing);
+                _ = _field.RemoveHexSprite(standing);
             }
             if (joins is bool joinsLocal)
             {
                 ArmyHexSprite army = new(_field);
-                army.Army.AddChild(new JoiningHero(joinsLocal));
+                _ = army.Army.AddChild(new JoiningHero(joinsLocal));
                 Assert.Same(army, _field.FindOwnedChild(ArmyHexSprite.ClassId));
             }
         }
@@ -361,15 +361,15 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             ArmyInfoEventLog info = (ArmyInfoEventLog)log;
             if (info.ArmyView.Units.Count == 0)
             {
-                info.ArmyView.AddChild(new Unit(null) { Holder = EngineFixture.Engine });
-                info.ArmyView.AddChild(new JoiningHero(false));
+                _ = info.ArmyView.AddChild(new Unit(null) { Holder = EngineFixture.Engine });
+                _ = info.ArmyView.AddChild(new JoiningHero(false));
             }
             info.Selection = selection;
         }
 
         internal void Prisoner(EventLog log, Troop? troop)
         {
-            _units.Remove(PrisonerId);
+            _ = _units.Remove(PrisonerId);
             if (troop != null)
             {
                 _units.Add(key: PrisonerId, value: troop);
@@ -430,7 +430,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 mismatches.Add($"{type.Name}: {line}, recorded {s_expected[type.Name]}");
             }
 
-            table.AppendLine($"{type.Name}: {line}");
+            _ = table.AppendLine($"{type.Name}: {line}");
         }
         output.WriteLine(table.ToString());
         Assert.Empty(mismatches);
@@ -464,7 +464,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
 
             Assert.Equal(arm ?? typeof(EventLog), declaring);
-            resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!.Name}");
+            _ = resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!.Name}");
         }
         output.WriteLine(resolved.ToString());
     }

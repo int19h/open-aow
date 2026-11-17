@@ -33,7 +33,7 @@ public sealed partial class RuleConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            base.AddChild(child);
+            _ = base.AddChild(child);
             _observations.Add(Snapshot(child));
             return _reject ? throw new InvalidOperationException("owner rejects after insertion") : Members.Count - 1;
         }
@@ -391,7 +391,7 @@ public sealed partial class RuleConstructionTests
         CombatUnitSelectionControl value = new(EngineFixture.Engine);
         try
         {
-            Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
+            _ = Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
             Assert.NotNull(value.MoveControlSettings.Path);
             Assert.NotNull(value.MoveControlSettings.SubMoves);
             Assert.NotNull(value.MoveControlSettings.Units);

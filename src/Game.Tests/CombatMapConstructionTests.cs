@@ -22,7 +22,7 @@ public sealed class CombatMapConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            base.AddChild(child);
+            _ = base.AddChild(child);
             PublishedAtInsertion.Add(ReferenceEquals(CombatMap.Current, child));
             return reject ? throw new InvalidDataException("owner rejects after insertion") : Members.Count - 1;
         }

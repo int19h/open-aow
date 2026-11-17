@@ -138,13 +138,13 @@ public sealed class EngineClassTests
     public void CreationThroughTheDescriptorKeepsTheExactTypeAndThrowsWhenUnregistered()
     {
         EngineObject created = EngineClass.Of<ControlStyleObject>().CreateInstance(null, holder: EngineFixture.Engine);
-        try { Assert.IsType<ControlStyleObject>(created); }
+        try { _ = Assert.IsType<ControlStyleObject>(created); }
         finally { created?.Dispose(); }
         EngineObject split = EngineClass.Of<ResourceCollection>().CreateInstance(null, holder: EngineFixture.Engine);
-        try { Assert.IsType<ResourceCollection>(split); }
+        try { _ = Assert.IsType<ResourceCollection>(split); }
         finally { split?.Dispose(); }
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null) { Holder = EngineFixture.Engine }));
+        _ = Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
+        _ = Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null) { Holder = EngineFixture.Engine }));
     }
 
     [Fact]
@@ -176,8 +176,8 @@ public sealed class EngineClassTests
         Assert.Same(descriptor, EngineClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);
         EngineObject instance = descriptor.CreateInstance(null, holder: EngineFixture.Engine);
-        try { Assert.IsType<Registered>(instance); }
+        try { _ = Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));
+        _ = Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));
     }
 }

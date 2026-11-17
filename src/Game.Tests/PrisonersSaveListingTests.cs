@@ -34,7 +34,7 @@ public sealed class PrisonersSaveListingTests
         // LoadHsm disposes the engine's current map. Park it so this case can put it back.
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-source.oasg");
         string saved = Path.Combine(directory, "prisoners.oasg");
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
@@ -54,11 +54,11 @@ public sealed class PrisonersSaveListingTests
         // service does, and it reads the same paths this case writes.
         IFileSystem recordedFiles = Runtime.Files;
         PhysicalFileSystem physical = new();
-        physical.SetCurrentDirectory(EngineFixture.Root);
+        _ = physical.SetCurrentDirectory(EngineFixture.Root);
         Runtime.Files = physical;
         try
         {
-            resources.AddChild(resource);
+            _ = resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
@@ -140,7 +140,7 @@ public sealed class PrisonersSaveListingTests
                 engine.UnregisterEngineClasses([dungeonClass]);
             }
 
-            resources.RemoveChild(resource);
+            _ = resources.RemoveChild(resource);
             resource.Dispose();
             if (File.Exists(source))
             {
@@ -161,7 +161,7 @@ public sealed class PrisonersSaveListingTests
         GameMap previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
-        Directory.CreateDirectory(directory);
+        _ = Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
         string saved = Path.Combine(directory, "prisoners" + FileBoundary.WriteExtension(DocumentKind.CampaignSave));
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
@@ -184,11 +184,11 @@ public sealed class PrisonersSaveListingTests
 
         IFileSystem recordedFiles = Runtime.Files;
         PhysicalFileSystem physical = new();
-        physical.SetCurrentDirectory(EngineFixture.Root);
+        _ = physical.SetCurrentDirectory(EngineFixture.Root);
         Runtime.Files = physical;
         try
         {
-            resources.AddChild(resource);
+            _ = resources.AddChild(resource);
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
@@ -253,7 +253,7 @@ public sealed class PrisonersSaveListingTests
                 engine.UnregisterEngineClasses([dungeonClass]);
             }
 
-            resources.RemoveChild(resource);
+            _ = resources.RemoveChild(resource);
             resource.Dispose();
             if (File.Exists(source))
             {

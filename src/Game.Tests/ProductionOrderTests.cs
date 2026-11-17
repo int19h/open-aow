@@ -135,7 +135,7 @@ public sealed class ProductionOrderTests
         foreach (int id in new[] { 1, 2, 10, 11, 12, 13, 14 })
         {
             Assert.True(ProductionOrder.IsRegistered(id), "production id " + id);
-            Assert.Throws<InvalidOperationException>(() => ProductionOrder.Register(id, static (id, parameter, groupId) => new UnknownOrder(id, parameter, groupId)));
+            _ = Assert.Throws<InvalidOperationException>(() => ProductionOrder.Register(id, static (id, parameter, groupId) => new UnknownOrder(id, parameter, groupId)));
         }
         foreach (int id in new[] { 0, 3, 9, 15 })
         {

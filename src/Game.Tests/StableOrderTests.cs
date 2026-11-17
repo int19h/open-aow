@@ -55,9 +55,9 @@ public sealed class StableOrderTests
         ReflectingPool first = new(null) { Holder = EngineFixture.Engine };
         ReflectingPool second = new(null) { Holder = EngineFixture.Engine };
         ReflectingPool third = new(null) { Holder = EngineFixture.Engine };
-        pools.AddChild(first);
-        pools.AddChild(second);
-        pools.AddChild(third);
+        _ = pools.AddChild(first);
+        _ = pools.AddChild(second);
+        _ = pools.AddChild(third);
         Assert.Equal(0, ReflectingPool.ComparePools(first, third));
         pools.SortStable(ReflectingPool.ComparePools);
         Assert.Same(first, pools.GetChildInRange(0));
@@ -68,7 +68,7 @@ public sealed class StableOrderTests
     private static TextControlItem Item(TextControl control, int id, string name)
     {
         TextControlItem item = new(control) { Id = id, Name = name };
-        item.Text.Add("line");
+        _ = item.Text.Add("line");
         return item;
     }
 }

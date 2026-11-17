@@ -45,8 +45,8 @@ public sealed partial class PersistEquivalenceTests
         {
             blank = Blank(className);
             JsonObject document = PilotImage.Decode(Image(blank), className);
-            document.Remove(property.Name);
-            document.Add(property.Name, new JsonInteger(PackedWithFourthByte));
+            _ = document.Remove(property.Name);
+            _ = document.Add(property.Name, new JsonInteger(PackedWithFourthByte));
             byte[] image = PilotImage.Encode(document, className);
             loaded = Blank(className);
             Load(loaded, image);

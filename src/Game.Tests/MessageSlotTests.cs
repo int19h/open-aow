@@ -39,7 +39,7 @@ public sealed class MessageSlotTests
         Handler[] handlers = procs.Select(p => new Handler(p)).ToArray();
         foreach (Handler? handler in handlers)
         {
-            field.AddHexSprite(handler, 0);
+            _ = field.AddHexSprite(handler, 0);
         }
 
         return (field, handlers);
@@ -117,7 +117,7 @@ public sealed class MessageSlotTests
         EngineMessage.InitializeMessage(out EngineMessage message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
-        Assert.Throws<InvalidCastException>(() => message.Payload.Int);
+        _ = Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
         EngineMessage.InitializeMessage(out message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
@@ -133,7 +133,7 @@ public sealed class MessageSlotTests
         ArmyHexSprite army = new(null) { Holder = EngineFixture.Engine };
         ArmyHexSprite? placed = null;
         int distance = -1;
-        (MapField? field, Handler[] _) = Field((ref m) =>
+        (MapField? field, _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1102)
             {
@@ -151,7 +151,7 @@ public sealed class MessageSlotTests
         message.Param = param;
         field.SendMapFieldMessage(ref message);
         Assert.Same(army, placed);
-        Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
+        _ = Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
         message = default;
         message.MessageId = 0x110a;
         MapFieldMessageParameters param2 = message.Param;
@@ -167,7 +167,7 @@ public sealed class MessageSlotTests
     public void TheSecondParameterCarriesAQueryOrAMoveAction()
     {
         DefenseRequirementsQuery query = new();
-        (MapField? field, Handler[] _) = Field((ref m) =>
+        (MapField? field, _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1127)
             {
@@ -192,7 +192,7 @@ public sealed class MessageSlotTests
         message.Param = param3;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(9, query.Requirements.Strength);
-        Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
+        _ = Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
         message = default;
         message.MessageId = 0x1101;
         MapFieldMessageParameters param4 = message.Param;
@@ -208,7 +208,7 @@ public sealed class MessageSlotTests
     {
         StormDamageQuery query = new();
         sbyte player = 0;
-        (MapField? field, Handler[] _) = Field((ref m) =>
+        (MapField? field, _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1151)
             {
@@ -228,7 +228,7 @@ public sealed class MessageSlotTests
         message.Param = param;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(7, query.Info.Player);
-        Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
+        _ = Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
         message.MessageId = 0x1150;
         MapFieldMessageParameters param2 = message.Param;
@@ -260,7 +260,7 @@ public sealed class MessageSlotTests
         message.Result = 0;
         field.SendMapFieldMessage(ref message);
         Assert.Same(control, message.Result.As<ProductionControl>());
-        Assert.Throws<InvalidCastException>(() => message.Result.Int);
+        _ = Assert.Throws<InvalidCastException>(() => message.Result.Int);
         Assert.Equal([1, 0], Calls(handlers));
         message = default;
         message.MessageId = 0x1100;

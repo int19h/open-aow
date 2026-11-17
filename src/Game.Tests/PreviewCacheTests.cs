@@ -22,8 +22,8 @@ public sealed class PreviewCacheTests : IDisposable
 
     public PreviewCacheTests()
     {
-        Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
-        Directory.CreateDirectory(Path.Combine(_directory, "user"));
+        _ = Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
+        _ = Directory.CreateDirectory(Path.Combine(_directory, "user"));
         FileBoundary.Log = _log.Add;
         FileBoundary.Previews.Clear();
     }
@@ -65,8 +65,8 @@ public sealed class PreviewCacheTests : IDisposable
     {
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alpha"));
         Install();
-        FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
-        FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList);
+        _ = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
+        _ = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList);
         Assert.Equal([false, false], _log.Select(r => r.Cached));
         Assert.Equal("open", _log[1].Report.Operation);
     }
@@ -90,7 +90,7 @@ public sealed class PreviewCacheTests : IDisposable
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alpha"));
         Install();
         Assert.Equal("Alpha", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
-        Directory.CreateDirectory(Path.GetDirectoryName(UserCopy("a.ahl"))!);
+        _ = Directory.CreateDirectory(Path.GetDirectoryName(UserCopy("a.ahl"))!);
         File.WriteAllBytes(UserCopy("a.ahl"), HeroList("Alpha"));
         Install();
         Assert.Equal("Alpha", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
@@ -147,8 +147,8 @@ public sealed class PreviewCacheTests : IDisposable
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alpha"));
         File.WriteAllBytes(Shipped("b.ahl"), HeroList("Bravo"));
         Install();
-        FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
-        FileBoundary.Load(Shipped("b.ahl"), GameProfile.HeroList, "preview");
+        _ = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
+        _ = FileBoundary.Load(Shipped("b.ahl"), GameProfile.HeroList, "preview");
         File.WriteAllBytes(Shipped("b.ahl"), "{\"$format\": \"OpenAoW\""u8.ToArray());
         Assert.Null(FileBoundary.Load(Shipped("b.ahl"), GameProfile.HeroList, "preview"));
         Assert.Equal(Shipped("b.ahl"), FileBoundary.LastFailure!.Path);

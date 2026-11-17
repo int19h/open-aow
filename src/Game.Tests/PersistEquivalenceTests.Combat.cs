@@ -45,7 +45,7 @@ public sealed partial class PersistEquivalenceTests
         Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
         CombatUnit source = new(null) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
         source.SetUnit(hero);
-        hero.Release();
+        _ = hero.Release();
         byte[] image = Image(source);
         Check("CombatUnit", objectValue: source);
         using CombatUnit viaReadWrite = new(null) { Holder = EngineFixture.Engine };
@@ -78,7 +78,7 @@ public sealed partial class PersistEquivalenceTests
         Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
         using CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3 };
         unit.SetUnit(hero);
-        hero.Release();
+        _ = hero.Release();
         unit.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
         using (DictionaryStream stream = new(dictionary))
         {
@@ -99,12 +99,12 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(["Siege", "Ambush"], stream.Visited);
         }
         Assert.Equal(("Belagerung", 4, "Hinterhalt"), (data.Header, data.Round, action.Header));
-        action.Release();
+        _ = action.Release();
 
         using ResourceEditSettings settings = new(null) { Holder = EngineFixture.Engine };
         Assert.Equal(1, settings.GetEditId("Painter"));
         using PluginControl plugins = new(null) { Holder = EngineFixture.Engine };
-        plugins.UsedPlugins.Add("Abilities");
+        _ = plugins.UsedPlugins.Add("Abilities");
         using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(settings, 0);
@@ -132,15 +132,15 @@ public sealed partial class PersistEquivalenceTests
             data.Header = "Siege";
             data.Round = 3;
             data.Location = data.Location with { X = 7 };
-            data.TurnOrder.Add(1);
+            _ = data.TurnOrder.Add(1);
             _ = new CombatPlayer(data.Players) { Holder = EngineFixture.Engine, Player = 2, IndependentRelation = 1 };
             Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
             CombatUnit unit = new(data.CombatObjects) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
             unit.SetUnit(hero);
-            hero.Release();
+            _ = hero.Release();
             UpdateHeaderCombatAction action = new(null) { Holder = EngineFixture.Engine, Header = "Ambush" };
-            logbook.Actions.AddChild(action);
-            action.Release();
+            _ = logbook.Actions.AddChild(action);
+            _ = action.Release();
             using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: logbook, progress: null);
             byte[] sent = memory.ToArray();
@@ -162,7 +162,7 @@ public sealed partial class PersistEquivalenceTests
             }
             finally
             {
-                received.Release();
+                _ = received.Release();
             }
         }
         finally
@@ -173,7 +173,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static int References(Troop troop)
     {
-        troop.AddRef();
+        _ = troop.AddRef();
         return troop.Release();
     }
 
@@ -221,7 +221,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            names.Add(engineClass.StorageKey);
+            _ = names.Add(engineClass.StorageKey);
         }
         TheoryData<string> data = [.. names];
 

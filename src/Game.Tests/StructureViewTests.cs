@@ -101,13 +101,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         switch (structure)
         {
-            case City city: city.Mode = city.Mode + Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
-            case Farm farm: farm.Mode = farm.Mode + Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
+            case City city: city.Mode += Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
+            case Farm farm: farm.Mode += Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
             case Mine mine: mine.State |= 1; break;
-            case PowerNode node: node.State = node.State + Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
+            case PowerNode node: node.State += Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
             case ProductionPlace place: place.RazedState = 1; break;
-            case Teleport teleport: teleport.State = teleport.State + Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
-            case Tower tower: tower.State = tower.State + Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
+            case Teleport teleport: teleport.State += Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
+            case Tower tower: tower.State += Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
             case Altar altar: altar.Mode = AltarMode.Razed; break;
             default: throw new InvalidOperationException("no razed state for " + structure.GetType().Name);
         }
@@ -200,47 +200,47 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         switch (classId)
         {
             case 131336:
-                fileName = fileName + "0";
+                fileName += "0";
                 for (int i = 1; i <= 6; i++)
                 {
                     if (neighborHoldsCity(i))
                     {
-                        fileName = fileName + Runtime.IntToStr(i);
+                        fileName += Runtime.IntToStr(i);
                         fixedTags |= 1 << i;
                     }
                 }
                 while (fileName.Length < 11)
                 {
-                    fileName = fileName + "x";
+                    fileName += "x";
                 }
 
-                fileName = fileName + "C000";
+                fileName += "C000";
                 break;
-            case 131950: fileName = fileName + "Farmx000"; break;
-            case 131962: fileName = fileName + "Minex000"; break;
-            case 131328: fileName = fileName + "SLife000"; break;
-            case 133454: fileName = fileName + "NodeA000"; break;
-            case 132270: fileName = fileName + "NodeD000"; break;
-            case 131482: fileName = fileName + "NodeC000"; break;
-            case 132302: fileName = fileName + "NodeE000"; break;
-            case 132062: fileName = fileName + "NodeF000"; break;
-            case 131953: fileName = fileName + "NodeL000"; break;
-            case 132275: fileName = fileName + "NodeW000"; break;
-            case 132670: fileName = fileName + "RPool000"; break;
-            case 133422: fileName = fileName + "BGuil000"; break;
-            case 132286: fileName = fileName + "SYard000"; break;
-            case 132158: fileName = fileName + "TFort000"; break;
-            case 131966: fileName = fileName + (randomTerrain ? "CaveN000" : "CaveE000"); break;
+            case 131950: fileName += "Farmx000"; break;
+            case 131962: fileName += "Minex000"; break;
+            case 131328: fileName += "SLife000"; break;
+            case 133454: fileName += "NodeA000"; break;
+            case 132270: fileName += "NodeD000"; break;
+            case 131482: fileName += "NodeC000"; break;
+            case 132302: fileName += "NodeE000"; break;
+            case 132062: fileName += "NodeF000"; break;
+            case 131953: fileName += "NodeL000"; break;
+            case 132275: fileName += "NodeW000"; break;
+            case 132670: fileName += "RPool000"; break;
+            case 133422: fileName += "BGuil000"; break;
+            case 132286: fileName += "SYard000"; break;
+            case 132158: fileName += "TFort000"; break;
+            case 131966: fileName += randomTerrain ? "CaveN000" : "CaveE000"; break;
             case 131332:
-                fileName = fileName + (fRandomTerrain ? "TeleN000" : "Telep000");
+                fileName += fRandomTerrain ? "TeleN000" : "Telep000";
                 randomTerrain = true;
                 break;
-            case 131886: fileName = fileName + Site("eMrLr00", 4, true, out takesItems, ref fixedTags); break;
-            case 131982: fileName = fileName + Site("eZigg00", 2, true, out takesItems, ref fixedTags); break;
-            case 131850: fileName = fileName + Site("eCrpt00", 2, true, out takesItems, ref fixedTags); break;
-            case 131994: fileName = fileName + Site("eRuin00", 2, true, out takesItems, ref fixedTags); break;
-            case 131882: fileName = fileName + Site("eDung00", 2, false, out takesItems, ref fixedTags); break;
-            default: fileName = fileName + "Blank000"; break;
+            case 131886: fileName += Site("eMrLr00", 4, true, out takesItems, ref fixedTags); break;
+            case 131982: fileName += Site("eZigg00", 2, true, out takesItems, ref fixedTags); break;
+            case 131850: fileName += Site("eCrpt00", 2, true, out takesItems, ref fixedTags); break;
+            case 131994: fileName += Site("eRuin00", 2, true, out takesItems, ref fixedTags); break;
+            case 131882: fileName += Site("eDung00", 2, false, out takesItems, ref fixedTags); break;
+            default: fileName += "Blank000"; break;
         }
         return fileName["TCMaps\\".Length..];
     }
@@ -305,7 +305,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         using Scene scene = new();
         foreach (Type type in StructureTypes())
         {
-            (Structure structure, ArmyOwner _) = scene.Create(type);
+            (Structure structure, _) = scene.Create(type);
             List<string> row = [];
             foreach (State state in States(type))
             {
@@ -325,7 +325,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                     structure = scene.Create(type).Structure;
                 }
             }
-            table.AppendLine($"{type.Name}: {string.Join(" ", row.Distinct())}");
+            _ = table.AppendLine($"{type.Name}: {string.Join(" ", row.Distinct())}");
         }
         output.WriteLine(table.ToString());
         Assert.Empty(mismatches);
@@ -420,7 +420,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             foreach (Type type in StructureTypes())
             {
-                (Structure structure, ArmyOwner _) = scene.Create(type);
+                (Structure structure, _) = scene.Create(type);
                 SortedSet<string> names = [with(StringComparer.Ordinal)];
                 foreach (bool siteCombat in new[] { false, true })
                 {
@@ -466,7 +466,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                                 mismatches.Add($"{state}: random draws differ");
                             }
 
-                            names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
+                            _ = names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
                         }
                     }
                 }
@@ -489,7 +489,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             Type declaring = type.GetMethod(nameof(Structure.CombatMapName)).DeclaringType;
             Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
             MethodInfo owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
-            resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
+            _ = resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType.Name})") + ", " +
                 $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +
                 $"CombatMapName {declaring.Name}");

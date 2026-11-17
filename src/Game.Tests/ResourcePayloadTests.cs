@@ -171,14 +171,14 @@ public sealed class ResourcePayloadTests
         foreach (ObjectNode tree in Backends("Player", Stored("Player", "AIValidAttackPlayers", payload)))
         {
             BitList loaded = new();
-            loaded.Add(true);
+            _ = loaded.Add(true);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: loaded)), factory: Factory);
             Assert.Equal(payload, BitImage(loaded));
             Assert.True(loaded[31]);
             Assert.False(loaded[30]);
         }
         BitList untouched = new();
-        untouched.Add(true);
+        _ = untouched.Add(true);
         byte[] before = BitImage(untouched);
         TreeReader.Read(new ObjectNode(null, null), objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: untouched)), factory: Factory);
         Assert.Equal(before, BitImage(untouched));
@@ -209,12 +209,12 @@ public sealed class ResourcePayloadTests
         {
             if (reader.ReadBoolean())
             {
-                list.Add(null);
+                _ = list.Add(null);
                 continue;
             }
             ImageSequence sequence = new(list);
             sequence.LoadFromStream(stream);
-            list.Add(sequence);
+            _ = list.Add(sequence);
         }
     }
 
@@ -223,7 +223,7 @@ public sealed class ResourcePayloadTests
     private static byte[] StreamSaved(ImageSequenceList list)
     {
         using MemoryStream stream = new();
-        list.ReduceCount();
+        _ = list.ReduceCount();
         stream.Write(BitConverter.GetBytes(list.Count));
         for (int i = 0; i < list.Count; i++)
         {

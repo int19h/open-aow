@@ -87,7 +87,7 @@ public sealed partial class EngineFixture : IDisposable
         {
             Removals++;
             int index = Members.IndexOf(child);
-            Members.Remove(child);
+            _ = Members.Remove(child);
             return index;
         }
     }
@@ -106,7 +106,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child)
         {
             int index = Members.IndexOf(child);
-            Members.Remove(child);
+            _ = Members.Remove(child);
             return index;
         }
     }

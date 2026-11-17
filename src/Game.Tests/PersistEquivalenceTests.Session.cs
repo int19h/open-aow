@@ -42,7 +42,7 @@ public sealed partial class PersistEquivalenceTests
         SchemaClass classValue = s_schema.Get("DiplomaticAction");
         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
         JsonObject document = DocumentBackend.Write(TreeWriter.Write(action, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
-        Assert.IsType<JsonString>(document["$case"]);
+        _ = Assert.IsType<JsonString>(document["$case"]);
         Check("DiplomaticAction", objectValue: action);
         using DiplomaticAction loaded = new(null) { Holder = EngineFixture.Engine };
         TreeReader.Read(DocumentBackend.Read(document, classValue: classValue, schema: s_schema, engine: "game"), objectValue: loaded, factory: Factory);
@@ -81,13 +81,13 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void PlayerZeroLeavesAStoredLeaderSetupUnreadOnBothLoads()
     {
-        WithDestroyingMap(_ =>
+        WithDestroyingMap(destroyingMap =>
         {
             using Player source = NewPlayer(index: 1);
             source.LeaderSetup.HeroName = "Setup";
             JsonObject document = PilotImage.Decode(Image(source), className: "Player");
             Assert.NotNull(document["LeaderSetup"]);
-            document.Members.RemoveAll(member => member.Name == "PlayerIndex");
+            _ = document.Members.RemoveAll(member => member.Name == "PlayerIndex");
             byte[] image = PilotImage.Encode(document, className: "Player");
             using Player viaReadWrite = NewPlayer(index: -1);
             using Player viaPersist = NewPlayer(index: -1);
@@ -182,7 +182,7 @@ public sealed partial class PersistEquivalenceTests
         CampaignTransferSettings settings = new(null) { Holder = EngineFixture.Engine };
         Leader leader = new(null) { Holder = EngineFixture.Engine, HeroName = "Carried" };
         settings.SetLeader(leader);
-        leader.Release();
+        _ = leader.Release();
         Check("CampaignTransferSettings", objectValue: settings);
     }
 
@@ -204,7 +204,7 @@ public sealed partial class PersistEquivalenceTests
     public void ACampaignMatchesTheConverter()
     {
         Campaign campaign = new(null) { Holder = EngineFixture.Engine, CurrentScenarioId = 2, ScenarioStarted = true };
-        campaign.CompletedScenarios.Add(1);
+        _ = campaign.CompletedScenarios.Add(1);
         Check("Campaign", objectValue: campaign);
     }
 
@@ -238,7 +238,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static void WriteAndLoadAlike(string className)
     {
-        WithDestroyingMap(_ =>
+        WithDestroyingMap(destroyingMap =>
         {
             SchemaClass classValue = s_schema.Get(className);
             // The campaign classes belong to the campaign engine's table only.
@@ -250,7 +250,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 byte[]? image = null;
                 ObjectNode? tree = null;
-                AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, factory: Factory), label: className + " write");
+                _ = AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, factory: Factory), label: className + " write");
                 if (image is null || tree is null)
                 {
                     return;
@@ -314,7 +314,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            names.Add(engineClass.StorageKey);
+            _ = names.Add(engineClass.StorageKey);
         }
         TheoryData<string> data = [.. names];
 
@@ -413,7 +413,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Heil"] }, action.Proposal);
 
             using CampaignScenarioPage page = new(null) { Holder = EngineFixture.Engine };
-            page.Text.Add("Once upon a time");
+            _ = page.Text.Add("Once upon a time");
             typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.Heading)).SetValue(page, value: "Intro");
             typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.ImageLibrary)).SetValue(page, value: "pages.ilb");
             using (DictionaryStream stream = new(dictionary))

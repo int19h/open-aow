@@ -98,14 +98,14 @@ public sealed class GlyphIndexTests
     private static byte[] Draw(int width, int height, Action<LockedSurface> draw)
     {
         using Dib16Surface surface = new(width, height, PixelFormats.pfRGB555);
-        surface.Clear(0);
+        _ = surface.Clear(0);
         LockedSurface lockedSurface = default;
-        surface.Lock(ref lockedSurface);
+        _ = surface.Lock(ref lockedSurface);
         try
         {
             draw(lockedSurface);
             return lockedSurface.Data.AsSpan(lockedSurface.DataIndex, Math.Abs(lockedSurface.Pitch) * height).ToArray();
         }
-        finally { surface.Unlock(); }
+        finally { _ = surface.Unlock(); }
     }
 }

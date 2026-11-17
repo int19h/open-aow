@@ -187,12 +187,12 @@ public sealed class DiplomaticProposalTests
 
             DiplomaticAction action = Action(c);
             Assert.Equal(c.Alone, Write(engine, action));
-            action.Release();
+            _ = action.Release();
 
             DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = EngineFixture.Engine, Operation = 1 };
             action = Action(c);
             tokenEvent.SetDiplomaticAction(action);
-            action.Release();
+            _ = action.Release();
             Assert.Equal(c.Token, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
@@ -203,7 +203,7 @@ public sealed class DiplomaticProposalTests
             DiplomaticAction loaded = Read<DiplomaticAction>(engine, c.Alone);
             AssertCase(c, loaded);
             Assert.Equal(c.Alone, Write(engine, loaded));
-            loaded.Release();
+            _ = loaded.Release();
 
             DiplomaticActionTokenEvent loadedEvent = Read<DiplomaticActionTokenEvent>(engine, c.Token);
             AssertCase(c, loadedEvent.Action);
@@ -287,7 +287,7 @@ public sealed class DiplomaticProposalTests
         for (int kind = 0; kind <= 9; kind++)
         {
             Assert.True(DiplomaticProposal.IsRegistered((byte)kind), "kind " + kind);
-            Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
+            _ = Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
         }
         foreach (byte kind in new byte[] { 10, 11, 200, 255 })
         {
@@ -307,8 +307,8 @@ public sealed class DiplomaticProposalTests
         DiplomaticAction message = new(null) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
         message.Proposal = message.Proposal.WithOffer(120, 30);
         Assert.Equal(new SendMessage(), message.Proposal);
-        action.Release();
-        message.Release();
+        _ = action.Release();
+        _ = message.Release();
     }
 
     // AoWRelations.pas:811 ASelectClick and E3EventDialogs.pas:194 ShowDiplomaticEvent: the arm each kind took.
