@@ -105,7 +105,7 @@ public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWPOP3Dlg.pas:166
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

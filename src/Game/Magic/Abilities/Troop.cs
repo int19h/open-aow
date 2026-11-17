@@ -682,7 +682,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1890
-    public virtual bool CanDisband(ref string reason)
+    public virtual bool CanDisband(string reason)
     {
         bool result = StrategicMap.Current.SeatedPlayer == Player;
         if (result && GetTransporter() && Owner is Army)
@@ -1442,7 +1442,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1038
-    public void PathOfLifeTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void PathOfLifeTerrainChange(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         if (terrainType != (int)TerrainType.Ice && terrainType != (int)TerrainType.Water && mapField.HexLevel == 0)
         {
@@ -1451,7 +1451,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1043
-    public void PathOfDecayTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void PathOfDecayTerrainChange(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         if (terrainType != (int)TerrainType.Ice && terrainType != (int)TerrainType.Water && mapField.HexLevel == 0)
         {
@@ -1460,7 +1460,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1048
-    public void PathOfFrostTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void PathOfFrostTerrainChange(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
         if (terrainType is ((int)TerrainType.Water) or ((int)TerrainType.UndergroundWater))
@@ -2164,7 +2164,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         bool result;
         string reason = "";
         DisbandUnitTokenEvent eventValue;
-        if (CanDisband(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanDisband(reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             eventValue = new DisbandUnitTokenEvent(null)
             {

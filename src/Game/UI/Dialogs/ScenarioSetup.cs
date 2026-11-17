@@ -269,7 +269,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         throw new NotImplementedException();
 
     // AoWScenSetup.pas:295
-    public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         int i;
         if (drawItem < PlayerList.Items.Count)

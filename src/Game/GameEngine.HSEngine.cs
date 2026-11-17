@@ -534,7 +534,7 @@ public partial class GameEngine : OwningNode
 
     internal void SetHexSpriteMapWithoutCurrentMap(GameMap value) => _hexSpriteMap = value;
 
-    public string HexSpriteSetSearchPath { get; set; } = "";
+    public string HexSpriteSetSearchPath { get; } = "";
     public string HssFileName { get; private set; } = "";
 
     public event NotifyEvent<GameMap> OnHsmLoaded

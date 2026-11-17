@@ -73,13 +73,13 @@ public class LayoutDirectPlay(Component owner) : GDPlay(owner)
     public bool UseCodes { get; set; }
     public bool UseSetupDialogs { get; set; }
 
-    public delegate void GDChatMessageEvent(ref string ChatMsg, ref int ToID, ref int FromID);
+    public delegate void GDChatMessageEvent(string ChatMsg, in int ToID, in int FromID);
     public delegate void GDDestroyPlayerEvent(int ID, int NumPlayers);
     public delegate void GDFileDoneMessageEvent(int ID, GDFile gdFile);
     public delegate void GDFileProgressMessageEvent(int ID, int Position, int Size);
-    public delegate void GDFileStartMessageEvent(int ID, ref string Name, int Size, ref byte Response);
+    public delegate void GDFileStartMessageEvent(int ID, string Name, int Size, in byte Response);
     public delegate void GDMessageErrorEvent(int ID, int Result);
-    public delegate void GDMessageEvent(ref object Data, ref int Size, ref int ToID, ref int FromID);
+    public delegate void GDMessageEvent(object Data, in int Size, in int ToID, in int FromID);
     public delegate void GDPingMessageEvent(int PingMS, int PingPlayer);
     public delegate void GDSessionLostEvent();
 }

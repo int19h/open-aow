@@ -512,7 +512,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWFileDialog.pas:586
-    public void FileLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void FileLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         if (Directories.Count > drawItem)
         {
@@ -718,7 +718,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void FileDialogHide() => FinishDialog();
 
     // AoWFileDialog.pas:580
-    public void FileDialogKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void FileDialogKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

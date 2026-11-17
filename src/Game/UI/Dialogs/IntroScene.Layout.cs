@@ -19,7 +19,7 @@ public partial class IntroScene : ILayoutModule
         session.BeginRead(Window);
         Window.Name = "Window";
         Window.OnMouseDown += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
-        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(key, shift);
         Window.OnUpdate += _ => WindowUpdate();
         Window.Visible = false;
         Window.Priority = 0;

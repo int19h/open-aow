@@ -243,7 +243,7 @@ public partial class HexSpriteMapViewer : Component
                     m.UpdateDynamicScene();
                     if (surface.Lock(ref lockedSurface, r) >= 0)
                     {
-                        m.DrawStaticScene(ref lockedSurface);
+                        m.DrawStaticScene(in lockedSurface);
                         m.DrawDynamicScene(ref lockedSurface);
                         _ = surface.Unlock(lockedSurface);
                     }
@@ -267,7 +267,7 @@ public partial class HexSpriteMapViewer : Component
                         m.UpdateStaticScene();
                         if (StaticSurface.Lock(ref lockedSurface) >= 0)
                         {
-                            m.DrawStaticScene(ref lockedSurface);
+                            m.DrawStaticScene(in lockedSurface);
                             _ = StaticSurface.Unlock();
                             StaticSurfaceValid = true;
                         }

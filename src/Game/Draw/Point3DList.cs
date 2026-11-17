@@ -55,7 +55,7 @@ public partial class Point3DList : IDisposable
 
     public Point3D this[int index] => GetXYZ(index);
 
-    internal static void ScatterPath(ref Point3DList list)
+    internal static void ScatterPath(Point3DList list)
     {
         int rx;
         int ry;

@@ -175,7 +175,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
         ushort k;
         if (StrategicMap.Current != null && CombatMap.Current == null)
         {
-            StrategicMap.Current.Keyboard.KeyDown(ref key, shift);
+            StrategicMap.Current.Keyboard.KeyDown(key, shift);
             PressEndTurnShortcut(key, shift);
         }
 

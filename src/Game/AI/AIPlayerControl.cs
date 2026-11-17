@@ -31,7 +31,7 @@ public partial class AIPlayerControl : EngineObject
         _processCyclesMax = 10;
     }
 
-    public Player Player { get; set; }
+    public Player Player { get; init; }
     public AIPlayerActionList Actions { get; private set; }
 
     private AIPlayerAction _action;

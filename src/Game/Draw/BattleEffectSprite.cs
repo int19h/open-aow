@@ -81,9 +81,9 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
         Point3DList newPath;
         int k = default;
         float z = default;
-        float speed = default;
+        float speed;
         float vz = default;
-        float gravity = default;
+        float gravity;
         BattleEffectSprite effect2;
         TacticalBattleUnitHexSprite unitHexSprite;
         MapFieldMessage message = default;
@@ -413,7 +413,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path18 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref path18);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, path18);
                                         effect.Path = path18;
                                     }
                                 }
@@ -432,7 +432,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)Random(10) / 10);
                                         z = 100;
                                         Point3DList path19 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path19);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path19);
                                         effect.Path = path19;
                                     }
                                 }
@@ -453,7 +453,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path20 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, ref path20);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, path20);
                                         effect.Path = path20;
                                     }
                                 }
@@ -472,7 +472,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)Random(10) / 10);
                                         z = 100;
                                         Point3DList path21 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path21);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k - 200, y: x - 100, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path21);
                                         effect.Path = path21;
                                     }
                                 }
@@ -497,7 +497,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int count10 = Path.Count;
                                         Point3D pathX = Path[count10 - 1];
                                         Point3DList path22 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path22);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path22);
                                         effect.Path = path22;
                                     }
                                 }
@@ -534,7 +534,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int count10 = Path.Count;
                                         Point3D pathX = Path[count10 - 1];
                                         Point3DList path23 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path23);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path23);
                                         effect.Path = path23;
                                     }
                                 }
@@ -563,7 +563,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         Point3D pathY = Path[i];
                                         Point3D pathZ = Path[i];
                                         Point3DList path24 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path24);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path24);
                                         effect.Path = path24;
                                     }
                                 }
@@ -588,7 +588,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int count10 = Path.Count;
                                         Point3D pathX = Path[count10 - 1];
                                         Point3DList path25 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path25);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path25);
                                         effect.Path = path25;
                                     }
                                 }
@@ -625,7 +625,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path26 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path26);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path26);
                                         effect.Path = path26;
                                     }
                                 }
@@ -645,7 +645,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path27 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((60 - Frame) / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path27);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((60 - Frame) / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path27);
                                         effect.Path = path27;
                                     }
                                 }
@@ -665,7 +665,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path28 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((Frame - 60) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path28);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((Frame - 60) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path28);
                                         effect.Path = path28;
                                     }
                                 }
@@ -685,7 +685,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path29 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((120 - Frame) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref path29);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((120 - Frame) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path29);
                                         effect.Path = path29;
                                     }
                                 }
@@ -720,7 +720,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         Point3D pathX = Path[0];
                                         Point3D path = Path[0];
                                         Point3DList path30 = effect.Path;
-                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + (Round((double)sin * (random + y)) / 2), 75, ref path30);
+                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + (Round((double)sin * (random + y)) / 2), 75, path30);
                                         effect.Path = path30;
                                         if (i % 10 == 0)
                                         {
@@ -736,7 +736,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 Point3D path3 = effect.Path[count8 - 1];
                                                 Point3D path4 = Path[0];
                                                 Point3DList path31 = effect2.Path;
-                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, (k * 5) + 75, ref path31);
+                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, (k * 5) + 75, path31);
                                                 effect2.Path = path31;
                                             }
                                         }
@@ -906,7 +906,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             int random4 = Random(2);
                                             int count8 = Path.Count;
                                             Point3DList path32 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref path32);
+                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, path32);
                                             effect.Path = path32;
                                         }
                                     }
@@ -945,7 +945,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)(Random(50) + Frame) / 10);
                                         z = 0;
                                         Point3DList path33 = effect.Path;
-                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path33);
+                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, speed, ref vz, gravity, path33);
                                         effect.Path = path33;
                                     }
                                 }
@@ -983,7 +983,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                                 vz = (float)((double)(Random(5) + 5) / 10);
                                                 z = 0;
                                                 Point3DList path34 = effect.Path;
-                                                EffectPaths.MakeArcPath(angle: Random(360), x: k + 16, y: x + 16, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path34);
+                                                EffectPaths.MakeArcPath(angle: Random(360), x: k + 16, y: x + 16, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path34);
                                                 effect.Path = path34;
                                             }
                                         }
@@ -1029,7 +1029,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)(Random(50) + 100) / 10);
                                         z = 0;
                                         Point3DList path35 = effect.Path;
-                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path35);
+                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, speed, ref vz, gravity, path35);
                                         effect.Path = path35;
                                     }
                                 }
@@ -1048,7 +1048,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         vz = (float)((double)(Random(5) + 5) / 10);
                                         z = 0;
                                         Point3DList path36 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: k, y: x, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path36);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: k, y: x, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path36);
                                         effect.Path = path36;
                                     }
                                 }
@@ -1084,7 +1084,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             Point3D pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path37 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref path37);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, path37);
                                             effect.Path = path37;
                                         }
                                     }
@@ -1109,7 +1109,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             Point3D pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path38 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, ref path38);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, path38);
                                             effect.Path = path38;
                                         }
                                     }
@@ -1130,7 +1130,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     Point3D path2 = Path[0];
                                     int random5 = Random(50);
                                     Point3DList path39 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, ref path39);
+                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, path39);
                                     effect.Path = path39;
                                     i = 0;
                                     for (; i <= 10; i += 1)
@@ -1146,7 +1146,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         int count9 = effect.Path.Count;
                                         Point3D path4 = effect.Path[count9 - 1];
                                         Point3DList path40 = effect.Path;
-                                        EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path40);
+                                        EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path40);
                                         effect.Path = path40;
                                     }
 
@@ -1167,7 +1167,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         Point3D pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
                                         Point3DList path41 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, ref path41);
+                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, path41);
                                         effect.Path = path41;
                                         i = 0;
                                         int last = Random(3) + 5;
@@ -1185,7 +1185,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             Point3D path8 = effect.Path[count14 - 1];
                                             int count15 = effect.Path.Count;
                                             Point3DList path42 = effect.Path;
-                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, 3, ref path42);
+                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, 3, path42);
                                             effect.Path = path42;
                                             int count16 = effect.Path.Count;
                                             Point3D path9 = effect.Path[count16 - 1];
@@ -1199,7 +1199,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             Point3D path11 = effect.Path[count20 - 1];
                                             int count21 = effect.Path.Count;
                                             Point3DList path43 = effect.Path;
-                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, 3, ref path43);
+                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, 3, path43);
                                             effect.Path = path43;
                                         }
                                     }
@@ -1238,7 +1238,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 Point3D pathY = Path[i];
                                 Point3D pathX = Path[i];
                                 Point3D path = Path[j];
-                                EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, ref newPath);
+                                EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, newPath);
                                 switch (k)
                                 {
                                     case -1:
@@ -1602,7 +1602,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                             j = Random(20) + j + 6;
                                             k = Random(20) + k + 6;
                                             Point3DList path50 = effect.Path;
-                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, ref path50);
+                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, path50);
                                             effect.Path = path50;
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
@@ -1718,7 +1718,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         z = 0;
                                         Point3D path = Path[0];
                                         Point3DList path53 = effect.Path;
-                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, ref speed, ref vz, ref gravity, ref path53);
+                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, speed, ref vz, gravity, path53);
                                         effect.Path = path53;
                                     }
                                 }

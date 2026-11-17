@@ -230,7 +230,7 @@ public partial class ScenarioSetup : ILayoutModule
         PlayerList.BorderHeight = 3;
         PlayerList.OnChange += PlayerListChange;
         PlayerList.Selected = -1;
-        PlayerList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListDrawItem(drawRectangle, drawItem, ref surface);
+        PlayerList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListDrawItem(drawRectangle, drawItem, in surface);
         PlayerList.TextColor = 15134446;
         PlayerList.TextSelectedColor = 0;
         PlayerList.ImageLibraryIndexFrame = 64;
@@ -5074,7 +5074,7 @@ public partial class ScenarioSetup : ILayoutModule
         PingList.BorderHeight = 3;
         PingList.OnChange += PlayerListChange;
         PingList.Selected = -1;
-        PingList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PingListDrawItem(drawRectangle, drawItem, ref surface);
+        PingList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PingListDrawItem(drawRectangle, drawItem, in surface);
         PingList.TextColor = 15134446;
         PingList.TextSelectedColor = 0;
         PingList.ImageLibraryIndexFrame = 64;

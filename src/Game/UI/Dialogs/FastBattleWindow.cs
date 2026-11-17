@@ -232,7 +232,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     }
 
     // FastCombatWin.pas:316
-    public void DrawCombat(int X, int Y, ref LockedSurface surface)
+    public void DrawCombat(int X, int Y, ref readonly LockedSurface surface)
     {
         Battle combat;
         int pixelX = default;
@@ -393,7 +393,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 Rect clipRectangle = lockedSurface.ClipRectangle;
                 clipRectangle.Top = MainWindow.WinTop + 24;
                 lockedSurface.ClipRectangle = clipRectangle;
-                DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, ref lockedSurface);
+                DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, in lockedSurface);
                 _ = surface.Unlock();
             }
         }
@@ -594,7 +594,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void FCWinHide() => FinishDialog();
 
     // FastCombatWin.pas:544
-    public void FCWinKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void FCWinKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key is 27 or 32)
         {

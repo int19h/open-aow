@@ -12,7 +12,7 @@ namespace Aow.Game.Draw;
 internal static class EffectPaths
 {
 
-    internal static void MakeLinePath(int x1, int y1, int x2, int y2, int steps, ref Point3DList list)
+    internal static void MakeLinePath(int x1, int y1, int x2, int y2, int steps, Point3DList list)
     {
         Point3D xYZ;
         if (steps < 2)
@@ -29,7 +29,7 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int x, int y, SwarmDirection direction, ref Point3DList list)
+    internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int x, int y, SwarmDirection direction, Point3DList list)
     {
         int total;
         int b;
@@ -80,7 +80,7 @@ internal static class EffectPaths
         while (!(total >= 360));
     }
 
-    internal static void MakeLightningPath(int x1, int y1, int x2, int y2, ref Point3DList list)
+    internal static void MakeLightningPath(int x1, int y1, int x2, int y2, Point3DList list)
     {
         int hexX;
         int hexY;
@@ -108,7 +108,7 @@ internal static class EffectPaths
             double sin = Math.Sin(angle);
             double mathSin = Math.Sin(a2);
             hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
-            MakeLinePath(cx, cy, hexX, hexY, seg, ref list);
+            MakeLinePath(cx, cy, hexX, hexY, seg, list);
             cx = hexX;
             cy = hexY;
             seg = Math.Abs(Round((double)Math.Cos((double)a2 - angle) * seg));
@@ -116,12 +116,12 @@ internal static class EffectPaths
             seg = Random(15) + 5;
         }
 
-        MakeLinePath(cx, cy, x2, y2, length - dist, ref list);
+        MakeLinePath(cx, cy, x2, y2, length - dist, list);
         int count = list.Count;
         list[count - 1].Z = 1;
     }
 
-    internal static void MakeArcPath(int x, int y, int angle, ref float z, ref float speed, ref float vz, ref float gravity, ref Point3DList list)
+    internal static void MakeArcPath(int x, int y, int angle, ref float z, in float speed, ref float vz, in float gravity, Point3DList list)
     {
         float effect;
         float fy;
@@ -151,7 +151,7 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, ref Point3DList list)
+    internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, Point3DList list)
     {
         int i;
         int steps;

@@ -17,7 +17,7 @@ public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(
 
     int IChildSink<AIGroupControlTarget>.AddChild(AIGroupControlTarget child) => AddChild(child);
 
-    public AIGroupControl Control { get; set; }
+    public AIGroupControl Control { get; init; }
 
     /// <summary>The targets of this list, in their stored order.</summary>
     public AIGroupControlTargetCollection Targets => new(this);

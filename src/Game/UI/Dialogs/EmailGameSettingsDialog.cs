@@ -124,7 +124,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWEmailGameSettingsDlg.pas:167
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

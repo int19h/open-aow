@@ -15,7 +15,7 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
 
     int IChildSink<ProductionItem>.AddChild(ProductionItem child) => AddChild(child);
 
-    public ProductionControl ProductionControl { get; set; }
+    public ProductionControl ProductionControl { get; init; }
 
     // Structur.PAS:83
     public ProductionItem GetItem(int index)

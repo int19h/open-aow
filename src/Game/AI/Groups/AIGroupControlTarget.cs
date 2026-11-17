@@ -28,12 +28,12 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
 
     private int _refCount;
 
-    public AITargetInfo Info { get; set; }
+    public AITargetInfo Info { get; init; }
 
     public AITargetData Data { get; internal set; }
-    public MapCoordinate Location { get; internal set; }
+    public MapCoordinate Location { get; internal init; }
 
-    public int MovePoints { get; set; }
+    public int MovePoints { get; init; }
     public int TransporterId { get; set; }
     public Set<AIGroupTargetFlags> Status { get; set; }
     public int PathStrength { get; set; }

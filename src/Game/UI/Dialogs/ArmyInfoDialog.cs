@@ -153,7 +153,7 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearEvent();
 
     // AoWArmyInfoDlg.pas:166
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key is 27 or 32)
         {

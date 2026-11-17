@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(owner)
 {
     public int FaceIndex { get; set; }
-    public int TargetUnitId { get; set; }
+    public int TargetUnitId { get; init; }
 
     // UnitSpells.pas:870
     public override bool CanCast(ref string reason) => base.CanCast(ref reason);

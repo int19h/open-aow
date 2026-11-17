@@ -352,7 +352,7 @@ public partial class MapField
         Status -= locked;
     }
 
-    public void NeighbourTerrainChanged(ref HexSpriteTerrainInfo info)
+    public void NeighbourTerrainChanged(ref readonly HexSpriteTerrainInfo info)
     {
         for (int i = StoredCount - 1; i >= 0; i--)
         {

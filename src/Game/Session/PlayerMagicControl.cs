@@ -56,7 +56,7 @@ public partial class PlayerMagicControl : EngineObject
 
     public bool CheatEnabled { get; set; }
 
-    public Player Player { get; set; }
+    public Player Player { get; init; }
 
     private int _updateCount;
 
@@ -548,7 +548,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2199
-    public void ListResearchSpells(ref SpellList list, Set<SpellType> spellTypes)
+    public void ListResearchSpells(SpellList list, Set<SpellType> spellTypes)
     {
         Spell spell;
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
@@ -562,7 +562,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2211
-    public void ListSpells(ref SpellList list, Set<SpellType> spellTypes)
+    public void ListSpells(SpellList list, Set<SpellType> spellTypes)
     {
         Spell spell;
         if (CheatEnabled && Player.PlayerType == PlayerType.Human)

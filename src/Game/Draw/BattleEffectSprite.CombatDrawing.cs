@@ -539,7 +539,7 @@ public partial class BattleEffectSprite
                         sbyte hexY = Target.UnitHexSprite.GetHexY();
                         HexGeometry.HexToPixel(Target.UnitHexSprite.GetHexX(), hexY, out i, out j);
                         Point3DList path5 = Path;
-                        EffectPaths.MakeArcPathXY((short)((lockedSurfaceValue.Width / 2) + pixelXSurface), (short)((lockedSurfaceValue.Height / 2) + pixelYSurface), (short)i, (short)j, 25, 50, ref path5);
+                        EffectPaths.MakeArcPathXY((short)((lockedSurfaceValue.Width / 2) + pixelXSurface), (short)((lockedSurfaceValue.Height / 2) + pixelYSurface), (short)i, (short)j, 25, 50, path5);
                         Path = path5;
                         EffectType = BattleEffectType.Comet;
                         SelectSequence(0);

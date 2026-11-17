@@ -291,7 +291,7 @@ public partial class MapControl : Component
             if (OnMapChanged != null)
             {
                 MapChangedInfo info = sender.Info;
-                OnMapChanged(ref info);
+                OnMapChanged(in info);
                 sender.Info = info;
             }
         }
@@ -309,7 +309,7 @@ public partial class MapControl : Component
             if (OnScannerIconsChanged != null)
             {
                 MapChangedInfo info = sender.Info;
-                OnScannerIconsChanged(ref info);
+                OnScannerIconsChanged(in info);
                 sender.Info = info;
             }
         }
@@ -530,7 +530,7 @@ public partial class MapControl : Component
             if (OnShowMessage != null)
             {
                 ShowMessageInfo info = sender.Info;
-                OnShowMessage(ref info);
+                OnShowMessage(in info);
                 sender.Info = info;
             }
         }
@@ -832,7 +832,7 @@ public partial class MapControl : Component
     public delegate void MapPlayerEvent(sbyte Player);
     public delegate void MapDayEvent(int Day);
     public delegate void MapObjectEvent<in TSender>(TSender Obj);
-    public delegate void MapRefEvent<TInfo>(ref TInfo Info);
+    public delegate void MapRefEvent<TInfo>(ref readonly TInfo Info);
     public delegate void MapEndTurnEvent(sbyte Player, bool Automatic);
     public delegate void MapExecuteLogEvent(EventLog Log, bool Immediate, ExecuteDoneEvent Done);
     public delegate void MapTargetEvent(TargetSelectionControl Control, TargetSelectionChange Change);

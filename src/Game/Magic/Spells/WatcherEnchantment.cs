@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 // Watcher
 public partial class WatcherEnchantment : GlobalEnchantment
 {
-    public WatcherHexSprite Watcher { get; set; }
+    public WatcherHexSprite Watcher { get; init; }
 
     // GlobalTargetSpells.pas:1121
     public WatcherEnchantment(CustomNode owner) : base(owner)

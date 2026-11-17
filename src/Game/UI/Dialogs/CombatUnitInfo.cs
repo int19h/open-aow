@@ -61,7 +61,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:123
-    public void UAbilLBPreDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void UAbilLBPreDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         if (UI.General.CombatUnit != null)
         {

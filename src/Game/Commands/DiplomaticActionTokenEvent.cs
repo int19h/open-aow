@@ -49,7 +49,7 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
 
                 break;
             case 1:
-                if (Action.CanAccept(ref errorText))
+                if (Action.CanAccept(errorText))
                 {
                     Action.ExecuteAccept(this);
                     Action.UpdateAIDiplomaticActionsLog(Action.Target);
@@ -57,7 +57,7 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
 
                 break;
             case 2:
-                if (Action.CanReject(ref errorText))
+                if (Action.CanReject(errorText))
                 {
                     Action.ExecuteReject(this);
                     Action.UpdateAIDiplomaticActionsLog(Action.Target);

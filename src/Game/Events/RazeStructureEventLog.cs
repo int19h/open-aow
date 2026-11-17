@@ -11,7 +11,7 @@ namespace Aow.Game.Events;
 // structure
 public partial class RazeStructureEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public Structure Structure { get; set; }
+    public Structure Structure { get; init; }
 
     // Structur.PAS:3086
     // (Structure)

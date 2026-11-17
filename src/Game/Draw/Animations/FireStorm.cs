@@ -124,7 +124,7 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
     public override void FinalizeStorm() => base.FinalizeStorm();
 
     // Storms.pas:564
-    public void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         if (terrainType == 6)
         {

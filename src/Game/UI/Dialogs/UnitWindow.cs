@@ -377,7 +377,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilitySourceList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -390,7 +390,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilitySourceList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -403,7 +403,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilitySourceList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -642,7 +642,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         string reason = "";
         if (UI.General.SelectedUnit != null)
         {
-            if (UI.General.SelectedUnit.CanDisband(ref reason))
+            if (UI.General.SelectedUnit.CanDisband(reason))
             {
                 if (UI.General.SelectedUnit.Disband())
                 {
@@ -672,7 +672,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:937
-    public void UnitWinKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void UnitWinKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {

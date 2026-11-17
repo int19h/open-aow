@@ -7,5 +7,5 @@ namespace Aow.Game.Events;
 public partial class SendEmailGameEventLog(CustomNode owner) : EventLog(owner)
 {
     public byte Mode { get; set; }
-    public sbyte SendPlayer { get; set; }
+    public sbyte SendPlayer { get; init; }
 }

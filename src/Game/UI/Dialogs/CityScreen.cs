@@ -908,7 +908,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 switch (_action)
                 {
                     case CityAction.Trade:
-                        if (_city.CanTrade(false, ref reason))
+                        if (_city.CanTrade(false, reason))
                         {
                             _ = _city.Trade(false);
                             SetMode(0);
@@ -920,7 +920,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Loot:
-                        if (_city.CanLoot(ref reason))
+                        if (_city.CanLoot(reason))
                         {
                             _ = _city.Loot();
                             SetMode(0);
@@ -968,7 +968,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Produce:
-                        if (_city.CanProduce(_productionIndex, false, ref reason))
+                        if (_city.CanProduce(_productionIndex, false, reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(59, true, true);
                             _ = _city.Produce(_productionIndex, false);
@@ -994,7 +994,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                         break;
                     case CityAction.Migrate:
                         race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
-                        if (_city.CanMigrate(race, ref reason))
+                        if (_city.CanMigrate(race, reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(66, true, true);
                             _ = _city.Migrate(race);
@@ -1030,7 +1030,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 switch (_action)
                 {
                     case CityAction.Trade:
-                        if (_city.CanTrade(true, ref reason))
+                        if (_city.CanTrade(true, reason))
                         {
                             _ = _city.Trade(true);
                         }
@@ -1063,7 +1063,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Produce:
-                        if (_city.CanProduce(_productionIndex, true, ref reason))
+                        if (_city.CanProduce(_productionIndex, true, reason))
                         {
                             _ = _city.Produce(_productionIndex, true);
                         }
@@ -1367,13 +1367,13 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
-            _preview.DrawStaticScene(ref viewSurfaceDescription);
+            _preview.DrawStaticScene(in viewSurfaceDescription);
             _preview.DrawDynamicScene(ref viewSurfaceDescription);
         }
     }
 
     // AoWCityScreen.pas:668
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {

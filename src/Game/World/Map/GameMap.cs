@@ -304,7 +304,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:705
-    public virtual void DrawStaticHexSprite(ref LockedSurface lockedSurface)
+    public virtual void DrawStaticHexSprite(ref readonly LockedSurface lockedSurface)
     {
         if (StaticSceneInvalid)
         {
@@ -318,7 +318,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:725
-    public virtual void DrawDynamicHexSprite(ref LockedSurface lockedSurface)
+    public virtual void DrawDynamicHexSprite(ref readonly LockedSurface lockedSurface)
     {
         if (DynamicSceneInvalid)
         {
@@ -332,12 +332,12 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:715
-    public virtual void DrawStaticExtras(ref LockedSurface lockedSurface)
+    public virtual void DrawStaticExtras(ref readonly LockedSurface lockedSurface)
     {
     }
 
     // HSMAP.PAS:735
-    public virtual void DrawDynamicExtras(ref LockedSurface lockedSurface)
+    public virtual void DrawDynamicExtras(ref readonly LockedSurface lockedSurface)
     {
     }
 
@@ -556,7 +556,7 @@ public partial class GameMap : OwningNode
                     overlayType = mapField.OverlayType;
                     orgList[walk.HexNumber * 2] = terrainType;
                     orgList[(walk.HexNumber * 2) + 1] = overlayType;
-                    changeTerrainProc(mapField, ref terrainType, ref overlayType);
+                    changeTerrainProc(mapField, ref terrainType, overlayType);
                     mapField.TerrainType = terrainType;
                     mapField.OverlayType = overlayType;
                     newList[walk.HexNumber * 2] = terrainType;
@@ -783,17 +783,17 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:719
-    public virtual void DrawStaticScene(ref LockedSurface lockedSurface)
+    public virtual void DrawStaticScene(ref readonly LockedSurface lockedSurface)
     {
-        DrawStaticHexSprite(ref lockedSurface);
-        DrawStaticExtras(ref lockedSurface);
+        DrawStaticHexSprite(in lockedSurface);
+        DrawStaticExtras(in lockedSurface);
     }
 
     // HSMAP.PAS:739
     public virtual void DrawDynamicScene(ref LockedSurface lockedSurface)
     {
-        DrawDynamicHexSprite(ref lockedSurface);
-        DrawDynamicExtras(ref lockedSurface);
+        DrawDynamicHexSprite(in lockedSurface);
+        DrawDynamicExtras(in lockedSurface);
     }
 
     // HSMAP.PAS:752, then AoWHSMap.PAS:861.

@@ -94,7 +94,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
         SpellList spells;
         spells = new SpellList();
-        Control.Player.MagicControl.ListSpells(ref spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
+        Control.Player.MagicControl.ListSpells(spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
         for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
             if (hero.CastingTurns(spells.GetSpell(i)) < 8)

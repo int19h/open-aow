@@ -18,7 +18,7 @@ public partial class NewTurnDialog : ILayoutModule
         session.BeginRead(Window);
         Window.Name = "NewTDlg";
         Window.OnMouseDown += (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
-        Window.OnKeyPress += (_, ref key) => NewTDlgKeyPress(ref key);
+        Window.OnKeyPress += (_, ref key) => NewTDlgKeyPress(key);
         Window.Visible = false;
         Window.Priority = 1000;
         Window.WinLeft = 80;

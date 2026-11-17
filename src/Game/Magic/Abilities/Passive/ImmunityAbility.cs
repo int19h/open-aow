@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 // (ImmunityTypes.)
 public partial class ImmunityAbility : EnhancementAbility
 {
-    public Set<DamageType> ImmunityTypes { get; set; }
+    public Set<DamageType> ImmunityTypes { get; init; }
 
     // PassiveAb.pas:1428
     public ImmunityAbility(CustomNode owner) : base(owner)

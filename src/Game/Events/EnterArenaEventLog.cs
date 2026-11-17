@@ -14,7 +14,7 @@ public partial class EnterArenaEventLog : EventLog
 {
     public EnterArenaEventLog(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
-    public Arena Arena { get; set; }
+    public Arena Arena { get; init; }
     public byte Selection { get; private set; }
     public byte Trainable { get; set; }
     public Int32List UnitIds { get; }

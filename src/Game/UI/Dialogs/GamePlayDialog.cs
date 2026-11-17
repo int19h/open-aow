@@ -86,7 +86,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWGamePlayDlg.pas:95
-    public void WindowKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void WindowKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {
@@ -171,7 +171,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
             }
             else
             {
-                if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
+                if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, error))
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
                     _ = UI.MessageDialog.MessageMemo.Items.Add("");

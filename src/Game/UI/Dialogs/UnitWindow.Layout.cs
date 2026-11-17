@@ -20,7 +20,7 @@ public partial class UnitWindow : ILayoutModule
         session.BeginRead(MainWindow);
         MainWindow.Name = "UnitWin";
         MainWindow.OnMouseDown += (_, button, shift, x, y) => UnitWinMouseDown(button, shift, x, y);
-        MainWindow.OnKeyDown += (_, ref key, shift) => UnitWinKeyDown(ref key, shift);
+        MainWindow.OnKeyDown += (_, ref key, shift) => UnitWinKeyDown(key, shift);
         MainWindow.OnUpdate += _ => UnitWinUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 300;

@@ -67,7 +67,7 @@ public partial class EngineResource(CustomNode owner) : EngineObject(owner)
     public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
         Rect r = default;
-        LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref r);
+        LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, in r);
     }
 
     public CustomNode ResourceList { get; set; }

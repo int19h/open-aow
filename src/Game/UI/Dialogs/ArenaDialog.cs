@@ -191,7 +191,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         _ = StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);
         StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
@@ -204,7 +204,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

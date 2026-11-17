@@ -17,7 +17,7 @@ namespace Aow.Game.Events;
 // FX, FY, FL
 public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owner)
 {
-    public MapCoordinate Location { get; set; }
+    public MapCoordinate Location { get; init; }
 
     // Dungeon.pas:292
     public override bool Accept(ref string errorText)

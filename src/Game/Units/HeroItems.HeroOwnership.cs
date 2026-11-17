@@ -6,7 +6,7 @@ namespace Aow.Game.Units;
 
 public partial class HeroItems
 {
-    internal Hero Hero { get; set; }
+    internal Hero Hero { get; init; }
 
     public override GameEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
     public MapCoordinate GetLocation() => Hero.GetLocation();

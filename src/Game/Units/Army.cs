@@ -2187,7 +2187,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:1919
-    public void MakeIndependent(byte selection, ref ArmyHSList armies)
+    public void MakeIndependent(byte selection, ArmyHSList armies)
     {
         sbyte x2;
         sbyte y2;
@@ -2566,7 +2566,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
         armies = new ArmyHSList(null) { Holder = CreationHolder() };
         player = Player;
-        MakeIndependent(selection, ref armies);
+        MakeIndependent(selection, armies);
         while (units.Count != 0)
         {
             troop = units[0];

@@ -9,8 +9,8 @@ public partial class AbilityActivation : EngineObject
 
     private int _references;
 
-    public int UnitId { get; set; }
-    public int AbilityId { get; set; }
+    public int UnitId { get; init; }
+    public int AbilityId { get; init; }
 
     // Ability.PAS:926
     public override int AddRef()

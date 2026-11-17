@@ -13,7 +13,7 @@ public partial class TranslateTextStream(GameEngine engine) : TranslateVisit(eng
     public IvDictionary FDictionary { get; set; }
 
     // Army.PAS:5614
-    public override void TranslateStrings(ref StringCollection lines)
+    public override void TranslateStrings(StringCollection lines)
     {
         string text;
         int endOfLine;

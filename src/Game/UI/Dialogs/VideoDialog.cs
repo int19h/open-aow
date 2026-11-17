@@ -128,7 +128,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWVideoDlg.pas:239
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         UI.General.Manager.Aligned = false;
         if (key == 27)

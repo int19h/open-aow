@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 
 public partial class CombatTerrainShadow(CustomNode owner) : HexSprite(owner)
 {
-    public CombatTerrain Terrain { get; set; }
+    public CombatTerrain Terrain { get; init; }
 
     // CombatTerrain.pas:72
     public override int GetShowPriority() => (Terrain.GetShowPriority() & 67108863) - 134217728;

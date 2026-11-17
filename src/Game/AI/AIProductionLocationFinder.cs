@@ -113,7 +113,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
                 location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
             }
 
-            _control.ProductionLocationFoundEvent(location, ref searchDone);
+            _control.ProductionLocationFoundEvent(location, searchDone);
             _ = location.Release();
         }
     }

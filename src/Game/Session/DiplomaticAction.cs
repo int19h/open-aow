@@ -268,14 +268,14 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     }
 
     // Diplomacy.pas:920
-    public virtual bool CanAccept(ref string errorText) => true;
+    public virtual bool CanAccept(string errorText) => true;
 
     // Diplomacy.pas:923
-    public virtual bool Accept(ref string errorText)
+    public virtual bool Accept(string errorText)
     {
         bool result;
         DiplomaticActionTokenEvent tokenEvent;
-        if (CanAccept(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
+        if (CanAccept(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
@@ -293,14 +293,14 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     }
 
     // Diplomacy.pas:974
-    public virtual bool CanReject(ref string errorText) => true;
+    public virtual bool CanReject(string errorText) => true;
 
     // Diplomacy.pas:977
-    public virtual bool Reject(ref string errorText)
+    public virtual bool Reject(string errorText)
     {
         bool result;
         DiplomaticActionTokenEvent tokenEvent;
-        if (CanReject(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
+        if (CanReject(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);

@@ -25,7 +25,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // JoinEventLog already stores a packed Location, so this hex is Hex.
     public MapCoordinate Hex { get; set; }
 
-    public int MovePoints { get; set; }
+    public int MovePoints { get; init; }
 
     public ArmyId ArmyId { get; set; }
     public NegotiateObject Object { get; set; }

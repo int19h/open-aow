@@ -22,6 +22,6 @@ public partial class SaveGameEventLog : EventLog
     public string Directory { get; set; } = "";
     public string DefaultName { get; set; } = "";
     public string FileName { get; set; } = "";
-    public string Title { get; set; } = "";
+    public string Title { get; init; } = "";
 
 }

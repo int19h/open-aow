@@ -178,7 +178,7 @@ public partial class Leader : Hero
     public override void Deactivate() => base.Deactivate();
 
     // Hero.PAS:2972
-    public override bool CanDisband(ref string reason) => false;
+    public override bool CanDisband(string reason) => false;
 
     // Hero.PAS:2915
     public override void Killed()

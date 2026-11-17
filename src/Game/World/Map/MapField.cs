@@ -311,7 +311,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             if (walk.X >= 0 && walk.X < Owner.Width && walk.Y >= 0 && Owner.Height > walk.Y)
             {
                 info.HexNumber = (sbyte)OppositeHexDirectionTable[i - 1];
-                Owner.GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);
+                Owner.GetField(walk.X, walk.Y).NeighbourTerrainChanged(in info);
             }
         }
     }

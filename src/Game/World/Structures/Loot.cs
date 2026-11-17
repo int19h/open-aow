@@ -26,7 +26,7 @@ public sealed partial record Loot : ProductionOrder
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        return city != null ? city.CanLoot(ref reason) : base.CanExecute(control, ref reason);
+        return city != null ? city.CanLoot(reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)

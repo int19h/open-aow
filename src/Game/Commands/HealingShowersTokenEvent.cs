@@ -197,7 +197,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
     }
 
     // GlobalTargetSpells.pas:2181
-    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         switch (terrainType)
         {

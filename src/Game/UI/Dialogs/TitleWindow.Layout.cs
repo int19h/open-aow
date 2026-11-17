@@ -92,7 +92,7 @@ public partial class TitleWindow : ILayoutModule
         session.BeginRead(SplashPanel);
         SplashPanel.Name = "SplashPnl";
         SplashPanel.OnMouseDown += (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
-        SplashPanel.OnKeyDown += (_, ref key, shift) => SplashPnlKeyDown(ref key, shift);
+        SplashPanel.OnKeyDown += (_, ref key, shift) => SplashPnlKeyDown(key, shift);
         SplashPanel.OnUpdate += _ => SplashPnlUpdate();
         SplashPanel.Visible = false;
         SplashPanel.Priority = 10;

@@ -139,7 +139,7 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => Finish();
 
     // AoWConstructDlg.pas:169
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

@@ -172,8 +172,8 @@ public partial class PlayerInfoWindow : ILayoutModule
         EventList.BorderHeight = 4;
         EventList.OnDoubleClick += _ => EventListDoubleClick();
         EventList.Selected = -1;
-        EventList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, ref surface);
-        EventList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, ref surface);
+        EventList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, in surface);
+        EventList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, in surface);
         EventList.TextColor = 9415072;
         EventList.TextSelectedColor = 0;
         EventList.ImageLibraryIndexFrame = 113;

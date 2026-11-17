@@ -10,7 +10,7 @@ public partial class CustomDisplay
 {
     public IDisplayHost Host { get; set; }
     public IDisplayEvents EventSink { get; set; }
-    public Func<bool> Terminated { get; set; } = () => false;
+    public Func<bool> Terminated { get; init; } = () => false;
     public Set<ShiftState> MouseButtons { get; set; }
     public long PresentedFrames { get; private set; }
     public Action<long> FramePresented { get; set; }

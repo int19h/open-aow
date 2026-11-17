@@ -8,8 +8,8 @@ public partial class CombatSpellCaster : EngineObject
 {
     public CombatSpellCaster(CustomNode owner) : base(owner) => _combatCasterRefCount = 1;
 
-    public int CombatCasterSpellId { get; set; }
-    public int CombatCasterSourceId { get; set; }
+    public int CombatCasterSpellId { get; init; }
+    public int CombatCasterSourceId { get; init; }
 
     private int _combatCasterRefCount;
 

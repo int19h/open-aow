@@ -2662,7 +2662,7 @@ public partial class SpellBook : ILayoutModule
         Book = new BookWindow(this);
         session.BeginRead(Book);
         Book.Name = "Dlg";
-        Book.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Book.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Book.OnUpdate += _ => DlgUpdate();
         Book.Visible = false;
         Book.Priority = 2000;

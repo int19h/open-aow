@@ -51,7 +51,7 @@ public partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     public void RebelWinHide() => ClearEvent();
 
     // AoWCityRebelDlg.pas:77
-    public void RebelWinKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void RebelWinKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key is 27 or 32)
         {

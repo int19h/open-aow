@@ -33,13 +33,13 @@ public sealed class TacticalBattleWallCastTests
         TacticalBattleUnit unit = new(objects) { Combat = combat };
         CombatWall wall = new(objects) { Combat = combat };
         wall.Setup(1, 1, 0);
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, wall, true, true, 1));
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, wall, true, true, 1));
         Assert.Equal(0, value);
         value = 7;
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, unit, true, false, 1));
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, unit, true, false, 1));
         Assert.Equal(0, value);
         value = 7;
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, null, false, false, 1));
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, null, false, false, 1));
         Assert.Equal(0, value);
     }
 

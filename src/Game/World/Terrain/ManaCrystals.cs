@@ -66,7 +66,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
                 CrystalAIInfo info = new() { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 AITargetData data = query.Data;
                 int priority = data.Priority;
-                UpdateAITarget(ref info, ref priority);
+                UpdateAITarget(info, ref priority);
                 data.Priority = priority;
                 query.Data = data;
                 AITargetInfo info2 = query.Info;
@@ -121,7 +121,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     }
 
     // ManaCrystals.pas:100
-    public void UpdateAITarget(ref CrystalAIInfo info, ref int priority)
+    public void UpdateAITarget(in CrystalAIInfo info, ref int priority)
     {
         int p;
         switch (info.Kind)

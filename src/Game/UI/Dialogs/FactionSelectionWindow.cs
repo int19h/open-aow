@@ -202,7 +202,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void FactionPnlKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {

@@ -90,7 +90,7 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     public int Height { get; private set; }
     public MapContainer MapContainer { get; private set; }
     public GameMap Map { get; private set; }
-    public int MapFieldClassId { get; set; }
+    public int MapFieldClassId { get; }
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)

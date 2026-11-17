@@ -8,14 +8,14 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FastBattleSpellCommand : FastBattleCommand
+public partial record class FastBattleSpellCommand : FastBattleCommand
 {
     public FastBattleSpellCommand(int abilityId, EngineObject creator) : base(abilityId) => Creator = creator;
 
     // The spell that created this command. The command reaches the engine through it.
     public EngineObject Creator { get; }
 
-    public int SpellId { get; set; }
+    public int SpellId { get; init; }
 
     // Spells.PAS:1
     public override string GetName()

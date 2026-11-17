@@ -21,7 +21,7 @@ public partial class RelationWindow : ILayoutModule
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "RelWin";
-        MainWindow.OnKeyDown += (_, ref key, shift) => RelWinKeyDown(ref key, shift);
+        MainWindow.OnKeyDown += (_, ref key, shift) => RelWinKeyDown(key, shift);
         MainWindow.Visible = false;
         MainWindow.Priority = 55;
         MainWindow.WinLeft = 0;

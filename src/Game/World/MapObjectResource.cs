@@ -186,11 +186,11 @@ public partial class MapObjectResource : EngineResource
                 }
             }
 
-            BlitImageSequence(canvas, sequence, 0, rectangle, mode, scaleX, scaleY, bkColor, color, false, ref drawRectangle);
+            BlitImageSequence(canvas, sequence, 0, rectangle, mode, scaleX, scaleY, bkColor, color, false, in drawRectangle);
         }
         else
         {
-            LibraryDrawing.BlitLibraryImage(canvas, image, rectangle, mode, scaleX, scaleY, bkColor, color, false, ref drawRectangle);
+            LibraryDrawing.BlitLibraryImage(canvas, image, rectangle, mode, scaleX, scaleY, bkColor, color, false, in drawRectangle);
         }
     }
 
@@ -319,6 +319,6 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle) => throw new NotImplementedException();
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle) => throw new NotImplementedException();
 
 }

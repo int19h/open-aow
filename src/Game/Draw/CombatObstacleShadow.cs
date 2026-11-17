@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 
 public partial class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
 {
-    public CombatObstacle Obstacle { get; set; }
+    public CombatObstacle Obstacle { get; init; }
 
     // CombatObstacle.pas:74
     public override int GetShowPriority() => (Obstacle.GetShowPriority() & 67108863) - 1677721600;

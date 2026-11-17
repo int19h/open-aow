@@ -28,7 +28,7 @@ public partial class ItemExplorationSiteEventLog : EventLog
 
     public string Title { get; set; } = "";
 
-    public MapCoordinate Location { get; internal set; }
+    public MapCoordinate Location { get; internal init; }
 
     // ItemExpS.pas:194
     public override void Dispose()

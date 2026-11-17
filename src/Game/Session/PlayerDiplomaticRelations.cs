@@ -20,7 +20,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
         _history = new OwningNode(null) { Holder = CreationHolder() };
     }
 
-    public Player Player { get; set; }
+    public Player Player { get; init; }
 
     private readonly ByteList _relations;
     private readonly OwningNode _history;

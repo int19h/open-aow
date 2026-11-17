@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 // UnitHexSprite
 public partial class UnitShadowHexSprite(CustomNode owner) : HexSprite(owner)
 {
-    public UnitHexSprite UnitHexSprite { get; set; }
+    public UnitHexSprite UnitHexSprite { get; init; }
 
     // UnitHS.PAS:153
     public override int GetShowPriority() => (UnitHexSprite.GetShowPriority() & 67108863) + 1677721600;

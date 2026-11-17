@@ -20,7 +20,7 @@ public partial class FileDialogWindow : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "FileDialog";
-        Window.OnKeyDown += (_, ref key, shift) => FileDialogKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => FileDialogKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 130;
@@ -202,7 +202,7 @@ public partial class FileDialogWindow : ILayoutModule
         FileList.OnChange += FileLBChange;
         FileList.OnDoubleClick += _ => OpenbutClick();
         FileList.Selected = -1;
-        FileList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, ref surface);
+        FileList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, in surface);
         FileList.TextColor = 9415072;
         FileList.TextSelectedColor = 0;
         FileList.ImageLibraryIndexFrame = 113;
@@ -1142,7 +1142,7 @@ public partial class FileDialogWindow : ILayoutModule
         SaveList.OnChange += FileLBChange;
         SaveList.OnDoubleClick += _ => OpenbutClick();
         SaveList.Selected = -1;
-        SaveList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, ref surface);
+        SaveList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, in surface);
         SaveList.TextColor = 9415072;
         SaveList.TextSelectedColor = 0;
         SaveList.ImageLibraryIndexFrame = 113;

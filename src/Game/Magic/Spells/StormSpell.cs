@@ -47,7 +47,6 @@ public partial class StormSpell : Spell
     {
         bool result;
         string reason = "";
-        MapCoordinate target = default;
         Storm storm;
         if (AICastSpellPriority(source) != -1)
         {
@@ -59,7 +58,7 @@ public partial class StormSpell : Spell
                 sbyte y = coordinate80.Y;
                 sbyte l = coordinate80.MapLevel;
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out _))
+                if (storm.GetBestTarget(source.Player, x, y, l, 12, out MapCoordinate target, out _))
                 {
                     _ = ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
                     result = true;
@@ -186,7 +185,6 @@ public partial class StormSpell : Spell
     public virtual int AICastSpellPriority(Troop source)
     {
         int result;
-        MapCoordinate target = default;
         string reason = "";
         Storm storm;
         int damage;
@@ -200,7 +198,7 @@ public partial class StormSpell : Spell
             if (l == 0)
             {
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out StormDamageInfo info))
+                if (storm.GetBestTarget(source.Player, x, y, l, 12, out _, out StormDamageInfo info))
                 {
                     damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)(BaseManaCost * 0.75) < damage)

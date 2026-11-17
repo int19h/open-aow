@@ -19,7 +19,7 @@ namespace Aow.Game.World.Structures;
 // City
 public partial class CityProductionControl(CustomNode owner) : ProductionControl(owner)
 {
-    public City City { get; set; }
+    public City City { get; init; }
 
     // City.pas:645
     public override MapCoordinate GetLocation() => new(

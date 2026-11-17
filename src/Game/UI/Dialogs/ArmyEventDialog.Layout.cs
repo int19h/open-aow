@@ -20,7 +20,7 @@ public partial class ArmyEventDialog : ILayoutModule
         ArmyEventWindow = new Window(this);
         session.BeginRead(ArmyEventWindow);
         ArmyEventWindow.Name = "ArmyEventWin";
-        ArmyEventWindow.OnKeyDown += (_, ref key, shift) => ArmyEventWinKeyDown(ref key, shift);
+        ArmyEventWindow.OnKeyDown += (_, ref key, shift) => ArmyEventWinKeyDown(key, shift);
         ArmyEventWindow.Visible = false;
         ArmyEventWindow.Priority = 300;
         ArmyEventWindow.WinLeft = 101;

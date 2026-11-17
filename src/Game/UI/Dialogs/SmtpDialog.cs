@@ -76,7 +76,7 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSMTPDlg.pas:185
-    public void SmtpSenderError(ref string error) => _event?.Error = error;
+    public void SmtpSenderError(string error) => _event?.Error = error;
 
     // AoWSMTPDlg.pas:190
     public void DlgUpdate()

@@ -123,10 +123,10 @@ public partial class AIGroupControl : EngineObject
     public virtual void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone) => Targets.Add(target);
 
     // AIGroup.pas:1155
-    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup group, ref bool searchDone) => RecruitmentGroups.Add(group);
+    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup group, in bool searchDone) => RecruitmentGroups.Add(group);
 
     // AIGroup.pas:1160
-    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation location, ref bool searchDone) => ProductionLocations.Add(location);
+    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation location, in bool searchDone) => ProductionLocations.Add(location);
 
     // AIGroup.pas:1266
     public virtual bool Validate()

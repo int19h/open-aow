@@ -10,8 +10,8 @@ namespace Aow.Game.AI.Groups;
 
 public partial class AIGroupProduction(CustomNode owner) : EngineObject(owner)
 {
-    public Troop Troop { get; set; }
-    public ProductionControl Control { get; set; }
+    public Troop Troop { get; init; }
+    public ProductionControl Control { get; init; }
     // Engine.pas:524
 
 }

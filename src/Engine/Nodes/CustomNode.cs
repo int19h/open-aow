@@ -79,7 +79,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (SendToChild(ref message))
+        if (SendToChild(in message))
         {
             SendMessage(ref message, sender);
         }
@@ -98,7 +98,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
     public virtual void PersistChildren(IPersister persister) => persister.Children("Children", children: new NodeChildren(this));
 
     // Engine.pas:2715
-    public virtual bool SendToChild(ref EngineMessage message) => (message.MessageId & 1073741824) == 0;
+    public virtual bool SendToChild(ref readonly EngineMessage message) => (message.MessageId & 1073741824) == 0;
 
     // Engine.pas:2608
     public virtual void DestroyAllChildren()
