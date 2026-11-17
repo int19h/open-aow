@@ -133,14 +133,14 @@ public partial class Hex : AbstractHexagon
             {
                 if (ownTerrain == 9)
                 {
-                    if (neighbourTerrain == 10 || neighbourTerrain == 13)
+                    if (neighbourTerrain is 10 or 13)
                     {
                         int random = Random(3);
                         Transitions[side] = (byte)((random * 3) + side + 182);
                     }
                     else
                     {
-                        if (neighbourTerrain != 8 && neighbourTerrain != 7)
+                        if (neighbourTerrain is not 8 and not 7)
                         {
                             Transitions[side] = (byte)(side + 147);
                             shifted = true;
@@ -151,14 +151,14 @@ public partial class Hex : AbstractHexagon
                 {
                     if (neighbourTerrain == 9)
                     {
-                        if (ownTerrain == 10 || ownTerrain == 13)
+                        if (ownTerrain is 10 or 13)
                         {
                             int random = Random(3);
                             Transitions[side] = (byte)((random * 3) + side + 182);
                         }
                         else
                         {
-                            if (ownTerrain != 8 && ownTerrain != 7)
+                            if (ownTerrain is not 8 and not 7)
                             {
                                 Transitions[side] = (byte)(side + 144);
                             }
@@ -207,7 +207,7 @@ public partial class Hex : AbstractHexagon
                                     }
                                     else
                                     {
-                                        if (neighbourTerrain != 0 && neighbourTerrain != 6)
+                                        if (neighbourTerrain is not 0 and not 6)
                                         {
                                             if (ownTerrain == 6)
                                             {

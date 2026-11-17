@@ -50,9 +50,9 @@ public partial class Memo
                 if (((Lines.Count - _topItem) * _itemHeight) + top < y)
                 {
                     _currentLine = Lines.Count - 1;
-                    _currentColumn = Lines[Lines.Count - 1].Length;
+                    _currentColumn = Lines[^1].Length;
                     _realLine = _items.Count - 1;
-                    _realColumn = _items[_items.Count - 1].Length;
+                    _realColumn = _items[^1].Length;
                 }
                 else
                 {

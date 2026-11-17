@@ -275,7 +275,7 @@ public partial class TokenExecutor : IDisposable
             }
 
             r = ExecuteTokenEvent(SystemEvents[0]);
-            if (r == ExecuteResult.Done || r == ExecuteResult.DoneHalt)
+            if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
             {
                 SystemEvents.Delete(0);
                 _tokenCounter += 1;
@@ -329,7 +329,7 @@ public partial class TokenExecutor : IDisposable
                     while (r == ExecuteResult.Done && Events.Count != 0)
                     {
                         r = ExecuteTokenEvent(Events[0]);
-                        if (r == ExecuteResult.Done || r == ExecuteResult.DoneHalt)
+                        if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
                         {
                             Events.Delete(0);
                             _tokenCounter += 1;

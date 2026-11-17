@@ -171,7 +171,7 @@ public partial class FloodEnchantment : GlobalEnchantment
             TurnsActive += 1;
             if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
             {
-                if (TurnsActive > 1 && TurnsActive < 4)
+                if (TurnsActive is > 1 and < 4)
                 {
                     FloodControl.Flood();
                 }

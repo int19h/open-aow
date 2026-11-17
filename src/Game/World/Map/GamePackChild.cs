@@ -7,7 +7,7 @@ namespace Aow.Game.World.Map;
 /// object (the resource edit settings, the pad and flag controls). The set takes no other child,
 /// so a read of a child slot is one of these or empty.
 /// </summary>
-public union GamePackChild(ResourceCollection, MapObjectResourceTerrainControl, ControlStyleObject)
+public readonly union GamePackChild(ResourceCollection, MapObjectResourceTerrainControl, ControlStyleObject)
 {
     /// <summary>
     /// The child a set slot holds, read from the untyped storage. The set admits only these
@@ -23,5 +23,5 @@ public union GamePackChild(ResourceCollection, MapObjectResourceTerrainControl, 
     };
 
     /// <summary>The child as the engine object the untyped child list stores.</summary>
-    public EngineObject Node => (EngineObject)Value;
+    public readonly EngineObject Node => (EngineObject)Value;
 }

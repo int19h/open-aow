@@ -549,10 +549,10 @@ public static class AbilityRules
             if (step > 0)
             {
                 units = new UnitUserList(null) { Holder = engine };
-                PathStep item = movePath[movePath.Count - 1];
+                PathStep item = movePath[^1];
                 level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
-                PathStep movePathItem = movePath[movePath.Count - 1];
-                PathStep item2 = movePath[movePath.Count - 1];
+                PathStep movePathItem = movePath[^1];
+                PathStep item2 = movePath[^1];
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.Location.X, movePathItem.Location.Y, 0);
                 while (walk.Radius <= step)
                 {

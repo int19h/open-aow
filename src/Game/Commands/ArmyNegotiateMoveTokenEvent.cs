@@ -92,7 +92,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                     direction = GetHexDirection(1);
                 }
 
-                if (direction > 0 && direction <= 6)
+                if (direction is > 0 and <= 6)
                 {
                     ArmyHexSprite.SetDirection((byte)direction);
                 }

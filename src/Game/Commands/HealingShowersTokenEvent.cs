@@ -185,7 +185,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 speed = Random(5) + 5;
                 int random = Random(30);
                 frame = animation.FrameCounter - random;
-                if (frame >= 0 && frame < 50)
+                if (frame is >= 0 and < 50)
                 {
                     frame = frame % 30;
                     x -= Round(frame * 4 * (speed * 0.2));

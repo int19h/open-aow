@@ -174,7 +174,7 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:238
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (info.HexNumber > 18 && info.HexNumber < 37)
+        if (info.HexNumber is > 18 and < 37)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.PlayerChangeListenerFlag;
         }

@@ -106,9 +106,9 @@ public partial class PlayerCommunicator : EngineObject
             try
             {
                 objectValue = _engine.RetrieveEngineObject(ReceiveStream, null);
-                if (objectValue is DataPackage)
+                if (objectValue is DataPackage received)
                 {
-                    _receivedPackage = (DataPackage)objectValue;
+                    _receivedPackage = received;
                     OnReceiveStore.Raise(this);
                     _receivedPackage.Release();
                 }

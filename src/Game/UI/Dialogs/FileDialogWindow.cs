@@ -204,7 +204,7 @@ public partial class FileDialogWindow : UIModule
 
         foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(directory + "\\**", attributes: 16))
         {
-            if (entry.Name != "." && entry.Name != "..")
+            if (entry.Name is not "." and not "..")
             {
                 if ((entry.Attribute & 16) == 16)
                 {
@@ -306,7 +306,7 @@ public partial class FileDialogWindow : UIModule
         else
         {
             path = GetCurrentDir();
-            if (path.Length > 0 && path[path.Length - 1] != 92)
+            if (path.Length > 0 && path[^1] != 92)
             {
                 path = path + "\\";
             }
@@ -631,7 +631,7 @@ public partial class FileDialogWindow : UIModule
             DateList.Items.Delete(0);
         }
 
-        if (Mode == 1 || Mode == 0)
+        if (Mode is 1 or 0)
         {
             StringSorting.SortStringsAscending(SaveList.Items, [DateList.Items, FileList.Items]);
             FileList.Items.Assign(SaveList.Items);
@@ -676,7 +676,7 @@ public partial class FileDialogWindow : UIModule
             selected = FileList.Items[FileList.Selected];
         }
 
-        if (Mode == 1 || Mode == 0)
+        if (Mode is 1 or 0)
         {
             for (int i = 0, last = SaveList.Items.Count - 1; i <= last; i++)
             {

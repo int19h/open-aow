@@ -82,9 +82,9 @@ public partial class Control : UIComponent
                                 }
 
                                 w = _window;
-                                while (w.OwnerComponent is BaseWindow)
+                                while (w.OwnerComponent is BaseWindow owner)
                                 {
-                                    w = (BaseWindow)w.OwnerComponent;
+                                    w = owner;
                                 }
 
                                 if (_window != w)

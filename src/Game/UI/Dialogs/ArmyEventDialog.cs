@@ -176,7 +176,7 @@ public partial class ArmyEventDialog : UIModule
     // AoWArmyEventDlg.pas:203
     public void ArmyEventWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             ArmyEventWindow.Visible = false;
         }

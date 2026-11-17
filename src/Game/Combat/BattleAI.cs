@@ -203,7 +203,7 @@ public partial class BattleAI : IDisposable
     {
         int result;
         int distance;
-        if (!(unit.Troop is Hero) || (_units.Count == 1 && _side == CombatSideIndex.Defender))
+        if (unit.Troop is not Hero || (_units.Count == 1 && _side == CombatSideIndex.Defender))
         {
             result = 0;
         }
@@ -400,7 +400,7 @@ public partial class BattleAI : IDisposable
                     result = result * multiplier;
                 }
 
-                if (divider != 1 && divider != 0)
+                if (divider is not 1 and not 0)
                 {
                     result = result / divider;
                 }
@@ -409,7 +409,7 @@ public partial class BattleAI : IDisposable
             {
                 try
                 {
-                    if (divider != 1 && divider != 0)
+                    if (divider is not 1 and not 0)
                     {
                         result = result / divider;
                     }
@@ -434,7 +434,7 @@ public partial class BattleAI : IDisposable
                     result = result * divider;
                 }
 
-                if (multiplier != 1 && multiplier != 0)
+                if (multiplier is not 1 and not 0)
                 {
                     result = result / multiplier;
                 }
@@ -443,7 +443,7 @@ public partial class BattleAI : IDisposable
             {
                 try
                 {
-                    if (multiplier != 1 && multiplier != 0)
+                    if (multiplier is not 1 and not 0)
                     {
                         result = result / multiplier;
                     }
@@ -618,7 +618,7 @@ public partial class BattleAI : IDisposable
         if (hitWalls && CombatMap.Current.Combat.CombatData.WallType != 0)
         {
             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
-            if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall != null && wall != null && (ignore == null || !(ignore is CombatWall) || (ignore is CombatWall && ignoreWall != wall)))
+            if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall != null && wall != null && (ignore == null || ignore is not CombatWall || (ignore is CombatWall && ignoreWall != wall)))
             {
                 if (ability == 52)
                 {
@@ -877,7 +877,7 @@ public partial class BattleAI : IDisposable
                             cost = 1;
                         }
 
-                        if (!(unit.Troop is Hero))
+                        if (unit.Troop is not Hero)
                         {
                             safeValue = 0;
                         }
@@ -913,7 +913,7 @@ public partial class BattleAI : IDisposable
                         {
                             if ((safeValue >= 0 || _normalUnits == 0) && adjacent)
                             {
-                                if (value > 0 || _normalUnits == 0 || !(unit.Troop is Hero) || _units.Count <= 1)
+                                if (value > 0 || _normalUnits == 0 || unit.Troop is not Hero || _units.Count <= 1)
                                 {
                                     _heroMoves += 1;
                                     i = unit.Troop is Hero ? 50 : 100;
@@ -969,7 +969,7 @@ public partial class BattleAI : IDisposable
                     case 52:
                         try
                         {
-                            if (!(target is CombatWall) || !CombatMap.Current.Combat.CombatData.WallBreached)
+                            if (target is not CombatWall || !CombatMap.Current.Combat.CombatData.WallBreached)
                             {
                                 spell = abilities[abilityIndex].Spell;
                                 switch (TacticalTables.SpellTypes[spell])
@@ -1383,7 +1383,7 @@ public partial class BattleAI : IDisposable
                                                     cost = 1;
                                                 }
 
-                                                if (!(unit.Troop is Hero))
+                                                if (unit.Troop is not Hero)
                                                 {
                                                     safeValue = 0;
                                                 }
@@ -1533,7 +1533,7 @@ public partial class BattleAI : IDisposable
                                                 cost = 1;
                                             }
 
-                                            if (!(unit.Troop is Hero))
+                                            if (unit.Troop is not Hero)
                                             {
                                                 safeValue = 0;
                                             }
@@ -1723,7 +1723,7 @@ public partial class BattleAI : IDisposable
                                                             {
                                                                 PathStep path5 = pathStepList[i];
                                                                 PathStep path6 = pathStepList[i];
-                                                                v = EvalPath(ref cost, target, ability, spell, path5.Location.X, path6.Location.Y, x2, y2, ability == 24 || ability == 44, unit, wall);
+                                                                v = EvalPath(ref cost, target, ability, spell, path5.Location.X, path6.Location.Y, x2, y2, ability is 24 or 44, unit, wall);
                                                                 cost = d;
                                                                 if (v < pathValue)
                                                                 {
@@ -1792,7 +1792,7 @@ public partial class BattleAI : IDisposable
                                                 cost = 1;
                                             }
 
-                                            if (!(unit.Troop is Hero))
+                                            if (unit.Troop is not Hero)
                                             {
                                                 safeValue = 0;
                                             }
@@ -2068,7 +2068,7 @@ public partial class BattleAI : IDisposable
                                             }
                                             else
                                             {
-                                                if (TacticalTables.AbilityTypes[l] != BattleEffectType.None && TacticalTables.AbilityTypes[l] != BattleEffectType.Touch)
+                                                if (TacticalTables.AbilityTypes[l] is not BattleEffectType.None and not BattleEffectType.Touch)
                                                 {
                                                     GamePack.Current.AbilityControl.GetAbility(l).GetCombatInfo(target.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
@@ -2165,8 +2165,8 @@ public partial class BattleAI : IDisposable
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
-                                                            abilities[abilities.Count - 1].Ability = j;
-                                                            abilities[abilities.Count - 1].Spell = k;
+                                                            abilities[^1].Ability = j;
+                                                            abilities[^1].Spell = k;
                                                         }
                                                     }
                                                 }
@@ -2179,7 +2179,7 @@ public partial class BattleAI : IDisposable
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
-                                                        abilities[abilities.Count - 1].Ability = j;
+                                                        abilities[^1].Ability = j;
                                                     }
                                                 }
                                             }
@@ -2213,7 +2213,7 @@ public partial class BattleAI : IDisposable
                                     for (; j <= last; j += 1)
                                     {
                                         target = _enemies[j];
-                                        if (!(u.Troop is Hero) || _heroMoves == 0)
+                                        if (u.Troop is not Hero || _heroMoves == 0)
                                         {
                                             sbyte hits = target.GetHits();
                                             sbyte hitPoints = target.GetHitPoints();
@@ -2256,8 +2256,8 @@ public partial class BattleAI : IDisposable
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
-                                                            abilities[abilities.Count - 1].Ability = j;
-                                                            abilities[abilities.Count - 1].Spell = k;
+                                                            abilities[^1].Ability = j;
+                                                            abilities[^1].Spell = k;
                                                         }
                                                     }
                                                 }
@@ -2270,7 +2270,7 @@ public partial class BattleAI : IDisposable
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
-                                                        abilities[abilities.Count - 1].Ability = j;
+                                                        abilities[^1].Ability = j;
                                                     }
                                                 }
                                             }
@@ -2289,7 +2289,7 @@ public partial class BattleAI : IDisposable
                                     for (; j <= last; j += 1)
                                     {
                                         target = _units[j];
-                                        if (!(u.Troop is Hero) || _heroMoves == 0)
+                                        if (u.Troop is not Hero || _heroMoves == 0)
                                         {
                                             sbyte hits = target.GetHits();
                                             sbyte hitPoints = target.GetHitPoints();
@@ -2426,8 +2426,8 @@ public partial class BattleAI : IDisposable
                                                         {
                                                             _flee = false;
                                                             abilities.Add(new CombatAbilityRef());
-                                                            abilities[abilities.Count - 1].Ability = j;
-                                                            abilities[abilities.Count - 1].Spell = k;
+                                                            abilities[^1].Ability = j;
+                                                            abilities[^1].Spell = k;
                                                         }
                                                     }
                                                 }
@@ -2442,7 +2442,7 @@ public partial class BattleAI : IDisposable
                                                 {
                                                     _flee = false;
                                                     abilities.Add(new CombatAbilityRef());
-                                                    abilities[abilities.Count - 1].Ability = j;
+                                                    abilities[^1].Ability = j;
                                                 }
                                             }
                                         }
@@ -2476,7 +2476,7 @@ public partial class BattleAI : IDisposable
                                     for (; j <= last; j += 1)
                                     {
                                         cityWall = _walls[j];
-                                        if (!(u.Troop is Hero) || _heroMoves == 0)
+                                        if (u.Troop is not Hero || _heroMoves == 0)
                                         {
                                             sbyte hexY = cityWall.GetHexY();
                                             CheckUnit(cityWall.GetHexX(), hexY, cityWall.HitPoints, TacticalTables.WallMaxHitPoints[cityWall.WallType - 1] * 2, settings, u, CombatMap.Current.Combat.CombatData.Wall, abilities, cityWall);
@@ -2590,7 +2590,7 @@ public partial class BattleAI : IDisposable
                                 int last3 = _units.Count - 1;
                                 for (; j <= last3; j += 1)
                                 {
-                                    if (move.GroupValue > -1000000 && move.GroupValue < 1000000)
+                                    if (move.GroupValue is > -1000000 and < 1000000)
                                     {
                                         int bonus = bonuses[j];
                                         move.GroupValue += bonus;
@@ -2687,7 +2687,7 @@ public partial class BattleAI : IDisposable
                             for (; i <= limit; i += 1)
                             {
                                 u = _units[i];
-                                if ((!(u.Troop is Hero) || _heroMoves == 0 || (u.Troop is Hero && _units.Count == 1)) && u.GetEnabled() && !u.GetLocked() && u.MovePoints > 0 && (_flee || u.CanFlee))
+                                if ((u.Troop is not Hero || _heroMoves == 0 || (u.Troop is Hero && _units.Count == 1)) && u.GetEnabled() && !u.GetLocked() && u.MovePoints > 0 && (_flee || u.CanFlee))
                                 {
                                     j = 0;
                                     int last2 = CombatMap.Current.FleeLocations.Count - 1;
@@ -2714,7 +2714,7 @@ public partial class BattleAI : IDisposable
                                     break;
                                 default:
                                     {
-                                        if (move.Value > -100000000 && move.Value < 100000000)
+                                        if (move.Value is > -100000000 and < 100000000)
                                         {
                                             move.Value += move.GroupValue / 4;
                                         }
@@ -2829,7 +2829,7 @@ public partial class BattleAI : IDisposable
                                                 pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 0);
                                                 if (pathStepList.Count > 1 && pathCost > -1)
                                                 {
-                                                    if (pathStepList[pathStepList.Count - 2].MoveCost > 0 && pathStepList[pathStepList.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
+                                                    if (pathStepList[^2].MoveCost > 0 && pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                                     {
                                                         if (move.MoveType == BattleAIMoveType.MoveRanged)
                                                         {
@@ -2887,7 +2887,7 @@ public partial class BattleAI : IDisposable
                                         pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (pathStepList.Count > 1 && pathCost > -1)
                                         {
-                                            if (pathStepList[pathStepList.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
+                                            if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
@@ -2929,7 +2929,7 @@ public partial class BattleAI : IDisposable
                                         pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (pathStepList.Count > 1 && pathCost > -1)
                                         {
-                                            if (pathStepList[pathStepList.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
+                                            if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }

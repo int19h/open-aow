@@ -20,10 +20,10 @@ public struct HssHeader
     [FieldOffset(4)]
     public Array5<byte> IdImage;
 
-    public string Id { get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
+    public string Id { readonly get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
 
     [FieldOffset(9)]
     public Array41<byte> NameImage;
 
-    public string Name { get => ReadShortString(NameImage); set => WriteShortString(NameImage, value); }
+    public string Name { readonly get => ReadShortString(NameImage); set => WriteShortString(NameImage, value); }
 }

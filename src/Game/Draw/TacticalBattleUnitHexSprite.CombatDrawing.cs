@@ -501,7 +501,7 @@ public partial class TacticalBattleUnitHexSprite
                     {
                         if (SelectedAbility == 52)
                         {
-                            if (SelectedSpell != 112 && SelectedSpell != 122 && SelectedSpell != 119)
+                            if (SelectedSpell is not 112 and not 122 and not 119)
                             {
                                 GamePack.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
                             }

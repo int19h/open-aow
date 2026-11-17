@@ -961,7 +961,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         Troop troop;
         player = Player;
         value = GetUnitMoraleValue((sbyte)player, GetIndependentRelation());
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && GetUnitType() != UnitType.Machine && !(this is Leader) && Owner is Army)
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && GetUnitType() != UnitType.Machine && this is not Leader && Owner is Army)
         {
             if (GetUpkeep() != 0 && player > 0 && !GetAbilityEnabled(155))
             {
@@ -1467,7 +1467,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void PathOfFrostTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
-        if (terrainType == (int)TerrainType.Water || terrainType == (int)TerrainType.UndergroundWater)
+        if (terrainType is ((int)TerrainType.Water) or ((int)TerrainType.UndergroundWater))
         {
             terrainType = terrainType == (int)TerrainType.Water ? (sbyte)(int)TerrainType.Ice : (sbyte)(int)TerrainType.UndergroundIce;
         }

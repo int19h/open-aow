@@ -180,7 +180,7 @@ public partial class Memo : Control
             length = text.Length;
             if (length > 6 && text[0] == _colorChangeChar)
             {
-                cc = ColorList[ColorList.Count - 1];
+                cc = ColorList[^1];
                 cc.HasColor = true;
                 try
                 {

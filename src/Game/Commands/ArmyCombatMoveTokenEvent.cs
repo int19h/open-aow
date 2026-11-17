@@ -148,7 +148,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     direction = GetHexDirection(MoveIndex + 1);
                 }
 
-                if (direction > 0 && direction <= 6)
+                if (direction is > 0 and <= 6)
                 {
                     ArmyHexSprite.SetDirection((byte)direction);
                 }
@@ -693,7 +693,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         byte selection;
         MoveArmyTokenEvent move;
         MapField field;
-        if (!(combat is FastBattle))
+        if (combat is not FastBattle)
         {
             if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
             {

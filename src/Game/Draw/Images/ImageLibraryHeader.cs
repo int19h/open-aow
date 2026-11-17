@@ -17,7 +17,7 @@ public struct ImageLibraryHeader
     [FieldOffset(0)]
     public Array5<byte> IdImage;
 
-    public string Id { get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
+    public string Id { readonly get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
 
     [FieldOffset(8)]
     public float Version;

@@ -141,7 +141,7 @@ public partial class WallCrushingAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = base.CanTouch(source, target);
-        return result && !(target is CombatUnit);
+        return result && target is not CombatUnit;
     }
 
     private static readonly string s_wallCrushingText = "Wall Crushing";

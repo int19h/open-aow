@@ -106,7 +106,7 @@ public partial class AbstractHexagon : MapObject
                     test = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
                 }
 
-                condition = test && !(hexSprite is AbstractBorderHexagon);
+                condition = test && hexSprite is not AbstractBorderHexagon;
             }
 
             result = condition;

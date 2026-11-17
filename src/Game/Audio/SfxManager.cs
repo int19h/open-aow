@@ -57,7 +57,7 @@ public partial class SfxManager : Component
 
         _sfx.Clear();
         _searchPath = UpperCase(path);
-        if (_searchPath[_searchPath.Length - 1] != 92)
+        if (_searchPath[^1] != 92)
         {
             _searchPath = _searchPath + "\\";
         }

@@ -27,7 +27,7 @@ public partial class IntroScene : UIModule
     // AoWIntroScene.pas:197
     public void WindowKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             Finish();
         }

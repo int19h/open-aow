@@ -213,7 +213,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
             {
                 troop = StrategicMap.Current.UnitControl.GetUnit(i);
-                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(troop is Leader) && !troop.GetAbilityEnabled(155))
+                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
                     {

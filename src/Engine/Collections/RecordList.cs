@@ -45,7 +45,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
 
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }

@@ -378,7 +378,7 @@ public partial class HorizontalScrollBar : ScrollBar
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (HeldPart == 1 || HeldPart == 4)
+        if (HeldPart is 1 or 4)
         {
             Drawn = false;
         }

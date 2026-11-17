@@ -253,7 +253,7 @@ public partial class FastBattleWindow : UIModule
         }
 
         _viewer.ShowFightingObjects(_animationFrame, X + 234, Y + 15, surface);
-        if (_phase == 2 || _phase == 3)
+        if (_phase is 2 or 3)
         {
             for (int i = 0; i <= 7; i++)
             {
@@ -595,7 +595,7 @@ public partial class FastBattleWindow : UIModule
     // FastCombatWin.pas:544
     public void FCWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             MainWindow.Visible = false;
         }

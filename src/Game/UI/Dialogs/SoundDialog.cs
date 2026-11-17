@@ -148,7 +148,7 @@ public partial class SoundDialog : UIModule
 
         foreach (RtlFileEntry entry in Files.FindEntries(directory + "\\*.*", attributes: 16))
         {
-            if (entry.Name != "." && entry.Name != "..")
+            if (entry.Name is not "." and not "..")
             {
                 if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
                 {

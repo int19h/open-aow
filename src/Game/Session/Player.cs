@@ -1648,7 +1648,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 }
             }
 
-            if (relation != DiplomaticRelation.War && relation != DiplomaticRelation.Alliance)
+            if (relation is not DiplomaticRelation.War and not DiplomaticRelation.Alliance)
             {
                 action = CreateDiplomaticAction(new DeclareWar(), player, -1);
                 if (action != null)

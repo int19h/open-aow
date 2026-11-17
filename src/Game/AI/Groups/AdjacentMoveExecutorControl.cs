@@ -245,7 +245,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         }
                         else
                         {
-                            if (moveResult == 1 || moveResult == 2)
+                            if (moveResult is 1 or 2)
                             {
                                 aiMoveExecutorArmyList.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
@@ -394,7 +394,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 if (army.Location.MapLevel == Executor.Destination.MapLevel && HexGeometry.DeltaHexToRadius(army.Location.X, army.Location.Y, Executor.Destination.X, Executor.Destination.Y) > 1)
                 {
                     CreateMove(army, 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.SurroundNearest), out moveResult);
-                    result = moveResult != 0 && moveResult != 3;
+                    result = moveResult is not 0 and not 3;
                 }
             }
 

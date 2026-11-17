@@ -31,7 +31,7 @@ public partial class PackageDataList : IDisposable
         l = _list;
         while (l.Count != 0)
         {
-            (l[l.Count - 1] as IDisposable)?.Dispose();
+            (l[^1] as IDisposable)?.Dispose();
             l.RemoveAt(l.Count - 1);
         }
     }

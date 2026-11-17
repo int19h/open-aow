@@ -15,7 +15,7 @@ public partial class TokenManager : IDisposable
         _tokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    private TokenExecutor _tokenExecutor;
+    private readonly TokenExecutor _tokenExecutor;
     private readonly TokenPackageDistributor _tokenPackageDistributor;
     private readonly GameEngine _owner;
     private readonly List<TokenControl> _tokenControls;
@@ -104,9 +104,9 @@ public partial class TokenManager : IDisposable
     {
         while (_tokenControls.Count != 0)
         {
-            if (_tokenControls[_tokenControls.Count - 1] != null)
+            if (_tokenControls[^1] != null)
             {
-                (_tokenControls[_tokenControls.Count - 1] as IDisposable)?.Dispose();
+                (_tokenControls[^1] as IDisposable)?.Dispose();
             }
 
             _tokenControls.RemoveAt(_tokenControls.Count - 1);

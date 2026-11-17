@@ -40,7 +40,7 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
 
             for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
             {
-                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit;
+                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(i) is not null and CombatUnit;
                 if (condition)
                 {
                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);

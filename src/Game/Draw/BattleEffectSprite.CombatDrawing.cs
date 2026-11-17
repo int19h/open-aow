@@ -612,7 +612,7 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.GeyserWater:
                         SelectSequence(0);
-                        ShowParticle(SpellIndex == 130 || SpellIndex == 106);
+                        ShowParticle(SpellIndex is 130 or 106);
                         FinishPath();
                         break;
                     case BattleEffectType.Frost:

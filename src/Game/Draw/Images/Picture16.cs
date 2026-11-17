@@ -119,7 +119,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2253
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
 
     // ImageLib.pas:2259
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)

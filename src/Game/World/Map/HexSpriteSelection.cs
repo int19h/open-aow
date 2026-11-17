@@ -170,7 +170,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     {
         while (_locationHexSprite.Count != 0)
         {
-            Unselect(_locationHexSprite[_locationHexSprite.Count - 1]);
+            Unselect(_locationHexSprite[^1]);
         }
     }
 

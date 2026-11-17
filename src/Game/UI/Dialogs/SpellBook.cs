@@ -639,7 +639,7 @@ public partial class SpellBook : UIModule
             }
             else
             {
-                if (Mode == 2 || Mode == 3)
+                if (Mode is 2 or 3)
                 {
                     control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
                     turns = control.ResearchTurns(control.GetNetPowerToResearch(), spell.ResearchCost);

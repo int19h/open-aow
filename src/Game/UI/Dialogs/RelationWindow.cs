@@ -142,7 +142,7 @@ public partial class RelationWindow : UIModule
 
     // Slots 0..23 are images and slots 24..47 are check boxes, in RelWindowCreate order.
     // An index outside 0..47 throws.
-    private UIComponent ControlAt(int Index) => Index >= 0 && Index < 24 ? FImages[Index] : FChecks[Index - 24];
+    private UIComponent ControlAt(int Index) => Index is >= 0 and < 24 ? FImages[Index] : FChecks[Index - 24];
 
     // AoWRelations.pas:221
     public void FillPlayers()

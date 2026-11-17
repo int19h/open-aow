@@ -52,7 +52,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
                 hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
-                if ((hexSprite != null && hexSprite.GetLevel() > GetLevel() && !(hexSprite is AbstractRoad)) || (info.OverlayType >= 0 && info.OverlayType != 4))
+                if ((hexSprite != null && hexSprite.GetLevel() > GetLevel() && hexSprite is not AbstractRoad) || (info.OverlayType >= 0 && info.OverlayType != 4))
                 {
                     Dispose();
                 }

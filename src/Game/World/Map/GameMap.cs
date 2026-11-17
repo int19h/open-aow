@@ -1786,7 +1786,7 @@ public partial class GameMap : OwningNode
     {
         int pixelFormatId = lockedSurface.PixelFormatId;
         int number = pixelFormatId;
-        if (number == 1431343888 || number == 1431409424 || number == 1448121104)
+        if (number is 1431343888 or 1431409424 or 1448121104)
         {
             int number2 = PixelFormats.Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
             DrawLine16(x1, y1, x2, y2, 0, (ushort)number2, in lockedSurface);

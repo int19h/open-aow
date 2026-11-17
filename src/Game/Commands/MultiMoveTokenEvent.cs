@@ -70,7 +70,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
                 for (; i >= 0; i -= 1)
                 {
                     moveResult = events[i].Execute(tokenEvent);
-                    if (moveResult == ExecuteResult.Done || moveResult == ExecuteResult.DoneHalt)
+                    if (moveResult is ExecuteResult.Done or ExecuteResult.DoneHalt)
                     {
                         events.Delete(i);
                     }
@@ -82,7 +82,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
                 while (Set<ExecuteResult>.Of(ExecuteResult.Done, ExecuteResult.DoneHalt).Contains(moveResult) && Events.Count > 0)
                 {
                     moveResult = events[0].Execute(tokenEvent);
-                    if (moveResult == ExecuteResult.Done || moveResult == ExecuteResult.DoneHalt)
+                    if (moveResult is ExecuteResult.Done or ExecuteResult.DoneHalt)
                     {
                         events.Delete(0);
                     }

@@ -544,7 +544,7 @@ public partial class CombatObject : EngineObject
     {
         int result;
         int hits;
-        Assert(damage >= 0 && damage < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
+        Assert(damage is >= 0 and < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
         hits = GetHitPoints();
         result = hits < damage ? hits : damage;
 

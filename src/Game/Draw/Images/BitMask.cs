@@ -139,7 +139,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:4740
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
 
     // ImageLib.pas:4746
     public override Images.GrabInfo CreateGrabInfo() => new GrabInfo();

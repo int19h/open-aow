@@ -377,7 +377,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6026
     public bool RequestAccess(string name, string code)
     {
-        string RegistrationCode(string text)
+        static string RegistrationCode(string text)
         {
             int value;
             string hex;
@@ -393,8 +393,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 for (int i = 1; i <= 4; i++)
                 {
                     hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
-                    result = result + hex[hex.Length - 1].ToString();
-                    value += Cp1252.Byte(hex[hex.Length - 1]) + Cp1252.Byte(hex[0]);
+                    result = result + hex[^1].ToString();
+                    value += Cp1252.Byte(hex[^1]) + Cp1252.Byte(hex[0]);
                 }
             }
 

@@ -49,7 +49,7 @@ public partial class PageTurnControl
     public float GetInverseCos(float value)
     {
         float result;
-        Assert((double)value >= -1 && (double)value <= 1, "", "PageTurnCtrl.pas", 85);
+        Assert((double)value is >= -1 and <= 1, "", "PageTurnCtrl.pas", 85);
         if ((double)value >= 0)
         {
             result = _inverseCos[Round((double)value * 511)];

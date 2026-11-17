@@ -649,7 +649,7 @@ public partial class GameSettings : Registry
     // AoWReg.pas:740
     public void SetAttachmentDirectory(string value)
     {
-        if (value.Length > 0 && value[value.Length - 1] != 92)
+        if (value.Length > 0 && value[^1] != 92)
         {
             value = value + "\\";
         }

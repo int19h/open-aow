@@ -98,7 +98,7 @@ public static class PersistSupport
             list.Add(values[i]);
         }
 
-        persister.List(name, list, static (IItemSlot slot, int item) => slot.Int32(item));
+        persister.List(name, list, static (slot, item) => slot.Int32(item));
         if (!persister.Loading)
         {
             return;
@@ -123,7 +123,7 @@ public static class PersistSupport
             list.Add(values[i]);
         }
 
-        persister.List(name, list, static (IItemSlot slot, ushort item) => slot.UInt16(item));
+        persister.List(name, list, static (slot, item) => slot.UInt16(item));
         if (!persister.Loading)
         {
             return;

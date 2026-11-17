@@ -67,7 +67,8 @@ public partial class UnitIndexList : Int32List
 
     private static int CompareUnitIndexes(int item1, int item2)
     {
-        Assert(GamePack.Current.UnitResources.GetUnitResource(item1) != null && GamePack.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
+        // UnitRes.PAS:256 tests the first item twice.
+        Assert(GamePack.Current.UnitResources.GetUnitResource(item1) is not null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(item2);
         UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;

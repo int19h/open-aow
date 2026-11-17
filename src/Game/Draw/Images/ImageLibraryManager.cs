@@ -84,7 +84,7 @@ public partial class ImageLibraryManager : Component
 
         _diskList.Clear();
         _searchPath = UpperCase(path);
-        if (_searchPath[_searchPath.Length - 1] != 92)
+        if (_searchPath[^1] != 92)
         {
             _searchPath = _searchPath + "\\";
         }

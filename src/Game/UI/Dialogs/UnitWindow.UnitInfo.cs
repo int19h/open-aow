@@ -70,7 +70,7 @@ public partial class UnitWindow
                 UI.UnitWindow.RelationValueLabel.Text = none;
             }
 
-            if (StrategicMap.Current.SeatedPlayer == u.Player && !(u is Leader) && StrategicMap.Current.CombatMap == null)
+            if (StrategicMap.Current.SeatedPlayer == u.Player && u is not Leader && StrategicMap.Current.CombatMap == null)
             {
                 UI.UnitWindow.DisbandButton.Visible = true;
                 UI.UnitWindow.BottomCloseButton.Alignment.AlignWidth = AlignWidth.Left;

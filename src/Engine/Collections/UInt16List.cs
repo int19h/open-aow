@@ -58,7 +58,7 @@ public partial class UInt16List : Persistent
     // Engine.pas:4421
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -89,9 +89,8 @@ public partial class UInt16List : Persistent
     // Engine.pas:4266
     public override void Assign(Persistent source)
     {
-        if (source is UInt16List)
+        if (source is UInt16List uInt16List)
         {
-            UInt16List uInt16List = (UInt16List)source;
             _count = uInt16List._count;
             SetCapacity(uInt16List._count);
             Array.Copy(uInt16List._list, 0, _list, 0, _count);

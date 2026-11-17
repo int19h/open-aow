@@ -8,7 +8,7 @@ namespace Aow.Game.Units;
 /// a hero wears, or an item library. An item takes no other owner, so a read of its owner is one
 /// of these or empty.
 /// </summary>
-public union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
+public readonly union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
 {
     /// <summary>
     /// The owner an item stores, read from the untyped owner. An item admits only these kinds, so
@@ -25,5 +25,5 @@ public union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>
-    public CustomNode Node => (CustomNode)Value;
+    public readonly CustomNode Node => (CustomNode)Value;
 }

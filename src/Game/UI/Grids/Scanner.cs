@@ -668,7 +668,7 @@ public partial class Scanner : Control
                             {
                                 terrain = GetTerrain(mapX, mapY);
                                 overlay = GetOverlay(mapX, mapY);
-                                overlayIndex = overlay > 11 || overlay == 7 ? 0 : overlay + 1;
+                                overlayIndex = overlay is > 11 or 7 ? 0 : overlay + 1;
 
                                 imageIndex = (overlayIndex * 16) + terrain;
                                 if (terrain == 15)

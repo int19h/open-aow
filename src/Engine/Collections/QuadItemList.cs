@@ -56,7 +56,7 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5654
     internal void SetCount(int newCount)
     {
-        if (newCount < 0 || newCount > EngineServices.MaxListSize)
+        if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
         }
@@ -87,9 +87,8 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5457
     public override void Assign(Persistent source)
     {
-        if (source is QuadItemList)
+        if (source is QuadItemList quadItemList)
         {
-            QuadItemList quadItemList = (QuadItemList)source;
             _count = quadItemList._count;
             SetCapacity(quadItemList._count);
             Array.Copy(quadItemList._list, 0, _list, 0, _count);

@@ -158,7 +158,7 @@ public partial class HeroInfoDialog : UIModule
     // AoWHeroInfoDlg.pas:208
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (key == 27 || key == 32)
+        if (key is 27 or 32)
         {
             Window.Visible = false;
         }
